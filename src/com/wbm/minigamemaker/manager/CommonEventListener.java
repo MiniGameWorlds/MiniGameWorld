@@ -53,13 +53,15 @@ public class CommonEventListener implements Listener {
 		if (block != null) {
 			if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
 				if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-					e.getPlayer().sendMessage("click minigame");
 					Sign sign = (Sign) block.getState();
 					String minigame = sign.getLines()[0];
 					String title = sign.getLines()[1];
 					if (minigame.equalsIgnoreCase("[MiniGame]")) {
-						Player p = e.getPlayer();
-						this.minigameManager.joinGame(p, title);
+						boolean usingSign = (boolean) this.minigameManager.getGameSetting().get("signJoin");
+						if (usingSign) {
+							Player p = e.getPlayer();
+							this.minigameManager.joinGame(p, title);
+						}
 					}
 				}
 			}

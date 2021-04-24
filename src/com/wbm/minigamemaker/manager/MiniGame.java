@@ -29,9 +29,6 @@ public abstract class MiniGame {
 	private int waitingTime;
 	private int timeLimit;
 
-	// 게임 끝나고 돌아갈 서버 스폰
-	private static Location serverSpawn;
-
 	// 게임이 카운트 다운이 끝나고 실제로 시작한지 여부
 	private boolean started;
 
@@ -65,7 +62,6 @@ public abstract class MiniGame {
 	}
 
 	private void initSetting() {
-		serverSpawn = new Location(Bukkit.getWorld("world"), 0, 4, 0);
 		this.started = false;
 		this.stopAllTask();
 		this.players = new HashMap<>();
@@ -155,14 +151,6 @@ public abstract class MiniGame {
 		for (String msg : this.getGameTutorialStrings()) {
 			p.sendMessage(msg);
 		}
-	}
-
-	private void makePlayerPureState(Player p) {
-		// 플레이어 상태 초기화
-		// 상태 초기화
-		PlayerTool.removeAllState(p);
-		// 힐, 배고픔 충전
-		PlayerTool.heal(p);
 	}
 
 	private void startWaitingTimerTask() {
@@ -348,18 +336,20 @@ public abstract class MiniGame {
 		p.getInventory().clear();
 
 		// 플레이어 상태 초기화
-		this.makePlayerPureState(p);
+		PlayerTool.makePureState(p);
 	}
 
 	private void setupPlayerWhenExit(Player p) {
 		// player tp
+		MiniGameManager minigameM = MiniGameManager.getInstance();
+		Location serverSpawn = minigameM.getServerSpawn();
 		p.teleport(serverSpawn);
 
 		// player inventory clear
 		p.getInventory().clear();
 
 		// 플레이어 상태 초기화
-		this.makePlayerPureState(p);
+		PlayerTool.makePureState(p);
 	}
 
 	public String getTitle() {

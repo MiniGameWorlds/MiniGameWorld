@@ -1,7 +1,5 @@
 package com.wbm.minigamemaker;
 
-import java.io.File;
-
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,12 +11,7 @@ import com.wbm.plugin.util.data.json.JsonDataManager;
 public class Main extends JavaPlugin {
 	private static Main main;
 	MiniGameManager minigameManager;
-
-	public static void main(String[] args) {
-		System.out.println("start");
-		JsonDataManager jsonDataM = new JsonDataManager(new File("MiniGameMaker"));
-		System.out.println("end");
-	}
+	JsonDataManager jsonDataM;
 
 	public static Main getInstance() {
 		return main;
@@ -31,11 +24,23 @@ public class Main extends JavaPlugin {
 
 		this.minigameManager = MiniGameManager.getInstance();
 
+		// setup data
+		this.setupData();
+
 		getServer().getPluginManager().registerEvents(new CommonEventListener(this.minigameManager), this);
+	}
+
+	void setupData() {
+		this.jsonDataM = new JsonDataManager(this.getDataFolder());
+		this.jsonDataM.registerMember(this.minigameManager);
+
+		this.jsonDataM.distributeAllData();
 	}
 
 	@Override
 	public void onDisable() {
+
+		this.jsonDataM.saveAllData();
 		BroadcastTool.warn(ChatColor.RED + "MiniGameMaker OFF");
 	}
 }

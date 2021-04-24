@@ -1,8 +1,12 @@
 package com.wbm.minigamemaker.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -10,10 +14,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.plugin.util.data.json.JsonDataMember;
 
-public class MiniGameManager {
+public class MiniGameManager implements JsonDataMember {
 	// API 용 클래스
 	// Singleton 사용
 
@@ -25,10 +32,18 @@ public class MiniGameManager {
 
 	List<Class<? extends Event>> possibleEventList;
 
+	private Map<String, Object> gameSetting;
+
+	// 게임 끝나고 돌아갈 서버 스폰
+	private Location serverSpawn;
+
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
 		// 미니게임 리스트 초기화
 		this.minigames = new ArrayList<>();
+
+		this.gameSetting = new HashMap<String, Object>();
+		this.initGameSettingData();
 
 		// 처리 가능한 이벤트 목록 초기화
 		this.possibleEventList = new ArrayList<>();
@@ -45,6 +60,37 @@ public class MiniGameManager {
 
 	public static MiniGameManager getInstance() {
 		return instance;
+	}
+
+	private void initGameSettingData() {
+		// spawnLocation
+		if (!this.gameSetting.containsKey("spawnLocation")) {
+			Map<String, String> location = new HashMap<String, String>();
+			this.gameSetting.put("spawnLocation", location);
+			location.put("world", "world");
+			location.put("x", "0");
+			location.put("y", "4");
+			location.put("z", "0");
+			location.put("pitch", "90");
+			location.put("yaw", "0");
+		}
+
+		// serverSpawn 설정
+		@SuppressWarnings("unchecked")
+		Map<String, String> location = (Map<String, String>) this.gameSetting.get("spawnLocation");
+		String world = location.get("world");
+		double x = Double.parseDouble(location.get("x"));
+		double y = Double.parseDouble(location.get("y"));
+		double z = Double.parseDouble(location.get("z"));
+		float pitch = Float.parseFloat(location.get("pitch"));
+		float yaw = Float.parseFloat(location.get("yaw"));
+		this.serverSpawn = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
+
+		// signJoin
+		if (!this.gameSetting.containsKey("signJoin")) {
+			this.gameSetting.put("signJoin", true);
+		}
+
 	}
 
 	public void joinGame(Player p, String title) {
@@ -148,6 +194,39 @@ public class MiniGameManager {
 			}
 		}
 		return false;
+	}
+
+	public Map<String, Object> getGameSetting() {
+		return this.gameSetting;
+	}
+	
+	public Location getServerSpawn() {
+		return this.serverSpawn;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void distributeData(String jsonString) {
+		if (jsonString == null) {
+			return;
+		}
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		this.gameSetting = gson.fromJson(jsonString, Map.class);
+		// update gameSetting
+		this.initGameSettingData();
+
+		BroadcastTool.warn("World Name: " + this.gameSetting.get("world"));
+	}
+
+	@Override
+	public Object getData() {
+		return this.gameSetting;
+	}
+
+	@Override
+	public String getFileName() {
+		return "gameSetting.json";
 	}
 }
 //
