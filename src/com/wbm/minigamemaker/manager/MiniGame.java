@@ -12,8 +12,8 @@ import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.wbm.minigamemaker.Main;
-import com.wbm.minigamemaker.util.Counter;
-import com.wbm.minigamemaker.util.PlayerTool;
+import com.wbm.plugin.util.Counter;
+import com.wbm.plugin.util.PlayerTool;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -22,14 +22,18 @@ public abstract class MiniGame {
 	 * 플레이어 서버 나갈 때 예외처리
 	 */
 
+	// 미니게임 정보
+	private String title;
+	private Location location;
+	private int maxPlayerCount;
+	private int waitingTime;
+	private int timeLimit;
+
 	// 게임 끝나고 돌아갈 서버 스폰
 	private static Location serverSpawn;
 
-	// 게임이 카운트 다운이 끝나고 실제로 시작한 여부
+	// 게임이 카운트 다운이 끝나고 실제로 시작한지 여부
 	private boolean started;
-
-	// 미니게임 타입
-	private MiniGameType gameType;
 
 	// 각종 타이머 태스크
 	private BukkitTask waitingTimerTask, finishTimerTask;
@@ -51,8 +55,12 @@ public abstract class MiniGame {
 	protected abstract void handleGameExeption(Player p);
 
 	// 생성자
-	public MiniGame(MiniGameType gameType) {
-		this.gameType = gameType;
+	public MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+		this.title = title;
+		this.location = location;
+		this.maxPlayerCount = maxPlayerCount;
+		this.timeLimit = timeLimit;
+		this.waitingTime = waitingTime;
 		this.initSetting();
 	}
 
@@ -137,13 +145,13 @@ public abstract class MiniGame {
 		 * 튜토리얼
 		 */
 		p.sendMessage("=================================");
-		p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.gameType.name() + ChatColor.WHITE);
+		p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.title + ChatColor.WHITE);
 		p.sendMessage("=================================");
 
 		// print rule
 		p.sendMessage("");
 		p.sendMessage(ChatColor.BOLD + "[Rule]");
-		p.sendMessage("Time Limit: " + this.gameType.getTimeLimit() + " sec");
+		p.sendMessage("Time Limit: " + this.timeLimit + " sec");
 		for (String msg : this.getGameTutorialStrings()) {
 			p.sendMessage(msg);
 		}
@@ -161,7 +169,7 @@ public abstract class MiniGame {
 		/*
 		 * waitingTime동안 기다린 후에 게임 시작
 		 */
-		Counter timer = new Counter(this.gameType.getWaitingTime());
+		Counter timer = new Counter(this.waitingTime);
 
 		this.waitingTimerTask = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
@@ -195,7 +203,7 @@ public abstract class MiniGame {
 	}
 
 	private void startFinishTimerTask() {
-		Counter timer = new Counter(this.gameType.getTimeLimit());
+		Counter timer = new Counter(this.timeLimit);
 		this.finishTimerTask = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
 			@Override
@@ -211,13 +219,13 @@ public abstract class MiniGame {
 					// print score
 					printScore();
 
-					// initSeting
-					initSetting();
-
 					// setup player
 					for (Player p : getPlayers()) {
 						setupPlayerWhenExit(p);
 					}
+
+					// initSeting
+					initSetting();
 
 					// 태스크 종료
 					finishTimerTask.cancel();
@@ -263,7 +271,7 @@ public abstract class MiniGame {
 	}
 
 	private int getMaxPlayerCount() {
-		return this.gameType.getMaxPlayerCount();
+		return this.maxPlayerCount;
 	}
 
 	private void addPlayer(Player p) {
@@ -325,7 +333,7 @@ public abstract class MiniGame {
 			this.initSetting();
 		} else {
 			// 미니게임에 남은 사람이 있으면 남은 인원에게 알리기
-			this.sendMessageToEveryone(p.getName() + " quit " + this.gameType.name());
+			this.sendMessageToEveryone(p.getName() + " quit " + this.title);
 		}
 
 		// 각 게임에게 예외 발생 매소드로 알림
@@ -334,7 +342,7 @@ public abstract class MiniGame {
 
 	private void setupPlayerWhenJoin(Player p) {
 		// 게임룸 위치로 tp
-		p.teleport(this.gameType.getSpawnLocation());
+		p.teleport(this.location);
 
 		// player inventory clear
 		p.getInventory().clear();
@@ -352,6 +360,22 @@ public abstract class MiniGame {
 
 		// 플레이어 상태 초기화
 		this.makePlayerPureState(p);
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public int getWaitingTime() {
+		return waitingTime;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
 	}
 
 }
