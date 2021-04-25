@@ -45,7 +45,9 @@ public class FitTool extends MiniGame {
 
 	@Override
 	public void processEvent(Event event) {
+		System.out.println("FitTool event: " + event.getClass().getName());
 		if (event instanceof BlockBreakEvent) {
+			System.out.println("FitTool BlockBreakEvent");
 			BlockBreakEvent e = (BlockBreakEvent) event;
 			Player p = e.getPlayer();
 

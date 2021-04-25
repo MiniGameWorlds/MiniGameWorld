@@ -258,7 +258,7 @@ public abstract class MiniGame {
 		return allPlayer;
 	}
 
-	private int getMaxPlayerCount() {
+	public int getMaxPlayerCount() {
 		return this.maxPlayerCount;
 	}
 
@@ -366,6 +366,14 @@ public abstract class MiniGame {
 
 	public int getTimeLimit() {
 		return timeLimit;
+	}
+
+	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit) {
+		this.title = title;
+		this.location = location;
+		this.maxPlayerCount = maxPlayerCount;
+		this.waitingTime = waitingTime;
+		this.timeLimit = timeLimit;
 	}
 
 }

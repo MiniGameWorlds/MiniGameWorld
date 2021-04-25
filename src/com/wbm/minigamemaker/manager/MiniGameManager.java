@@ -2,8 +2,10 @@ package com.wbm.minigamemaker.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,13 +18,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class MiniGameManager implements JsonDataMember {
 	// API 용 클래스
 	// Singleton 사용
+	// TODO: 명령어로 gameSetting값 조절할 수 있게 기능 추가
+	// TODO: MiniGameManager 시작하고, registerMiniGame메소드에서 등록될 때마다, minigames.json파일에
+	// 미니게임 요소5개 map으로 값 넣기, or 이미 있으면 해당 미니게임 요소5개 수정 메소드로 파일의 값으로 적용(서버마다 미니게임
+	// 플레이 시간, 위치 등이 다를 수 있기 때문에
+	// MiniGame에서 5개 요소를 파일(minigames.json)에서 수정할 수 있게 하기
 
 	// Singleton 객체
 	private static MiniGameManager instance = new MiniGameManager();
@@ -30,65 +38,66 @@ public class MiniGameManager implements JsonDataMember {
 	// 미니게임 관리 리스트
 	private List<MiniGame> minigames;
 
-	List<Class<? extends Event>> possibleEventList;
+	Set<Class<? extends Event>> possibleEventList;
 
-	private Map<String, Object> gameSetting;
+	private Map<String, Object> setting;
 
 	// 게임 끝나고 돌아갈 서버 스폰
 	private Location serverSpawn;
+
+	// 미니게임 파일 데이터
+	MiniGameDataManager minigameDataM;
 
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
 		// 미니게임 리스트 초기화
 		this.minigames = new ArrayList<>();
 
-		this.gameSetting = new HashMap<String, Object>();
-		this.initGameSettingData();
+		this.setting = new HashMap<String, Object>();
+		this.initSettingData();
 
 		// 처리 가능한 이벤트 목록 초기화
-		this.possibleEventList = new ArrayList<>();
+		this.possibleEventList = new HashSet<>();
 		// 처리가능한 이벤트 목록들 (Player 확인가능한 이벤트)
 		// PlayerEvent 서브 클래스들은 대부분 가능(Chat, OpenChest, CommandSend 등등)
-		this.possibleEventList.add(PlayerInteractEvent.class);
 		this.possibleEventList.add(BlockBreakEvent.class);
 		this.possibleEventList.add(BlockPlaceEvent.class);
+		this.possibleEventList.add(PlayerInteractEvent.class);
 		this.possibleEventList.add(EntityDamageEvent.class);
 
-		// 예시 미니게임
-		this.registerMiniGame(new FitTool());
 	}
 
 	public static MiniGameManager getInstance() {
 		return instance;
 	}
 
-	private void initGameSettingData() {
+	private void initSettingData() {
 		// spawnLocation
-		if (!this.gameSetting.containsKey("spawnLocation")) {
-			Map<String, String> location = new HashMap<String, String>();
-			this.gameSetting.put("spawnLocation", location);
+		if (!this.setting.containsKey("spawnLocation")) {
+			Map<String, Object> location = new HashMap<String, Object>();
+			this.setting.put("spawnLocation", location);
 			location.put("world", "world");
-			location.put("x", "0");
-			location.put("y", "4");
-			location.put("z", "0");
-			location.put("pitch", "90");
-			location.put("yaw", "0");
+			location.put("x", 0.0);
+			location.put("y", 4.0);
+			location.put("z", 0.0);
+			location.put("pitch", 90.0);
+			location.put("yaw", 0.0);
 		}
 
 		// serverSpawn 설정
 		@SuppressWarnings("unchecked")
-		Map<String, String> location = (Map<String, String>) this.gameSetting.get("spawnLocation");
-		String world = location.get("world");
-		double x = Double.parseDouble(location.get("x"));
-		double y = Double.parseDouble(location.get("y"));
-		double z = Double.parseDouble(location.get("z"));
-		float pitch = Float.parseFloat(location.get("pitch"));
-		float yaw = Float.parseFloat(location.get("yaw"));
-		this.serverSpawn = new Location(Bukkit.getWorld(world), x, y, z, pitch, yaw);
+		Map<String, Object> locationData = (Map<String, Object>) this.setting.get("spawnLocation");
+		String world = (String) locationData.get("world");
+		double x = (double) locationData.get("x");
+		double y = (double) locationData.get("y");
+		double z = (double) locationData.get("z");
+		double pitch = (double) locationData.get("pitch");
+		double yaw = (double) locationData.get("yaw");
+		this.serverSpawn = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
 
 		// signJoin
-		if (!this.gameSetting.containsKey("signJoin")) {
-			this.gameSetting.put("signJoin", true);
+		if (!this.setting.containsKey("signJoin")) {
+			this.setting.put("signJoin", true);
 		}
 
 	}
@@ -109,15 +118,18 @@ public class MiniGameManager implements JsonDataMember {
 	public boolean processEvent(Event e) {
 		// 허용되는 이벤트만 처리
 		if (this.possibleEventList.contains(e.getClass())) {
+			System.out.println("possible event");
 			// 이벤트에서 플레이어 가져와서 플레이중인 미니게임에 이벤트 넘기기
 			Player player = this.getPlayerFromEvent(e);
 			if (player == null) {
+				System.out.println("can not get player from event");
 				return false;
 			}
 
 			MiniGame playingGame = this.getPlayingGame(player);
 			// 미니게임 플레이 중인 플레이어 일때
 			if (playingGame == null) {
+				System.out.println("player is not playing game");
 				return false;
 			}
 			playingGame.passEvent(e);
@@ -179,9 +191,18 @@ public class MiniGameManager implements JsonDataMember {
 			}
 		}
 
+		// 게임 파일 데이터 적용
+		if (this.minigameDataM.minigameDataExists(newGame.getTitle())) {
+			this.minigameDataM.applyMiniGameData(newGame);
+		} else {
+			this.minigameDataM.addMiniGameData(newGame);
+		}
+
 		// 게임 등록
 		this.minigames.add(newGame);
-		BroadcastTool.info(newGame.getTitle() + " minigame is registered");
+
+		BroadcastTool.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitle() + ChatColor.WHITE
+				+ " minigame is registered");
 		return true;
 	}
 
@@ -197,11 +218,15 @@ public class MiniGameManager implements JsonDataMember {
 	}
 
 	public Map<String, Object> getGameSetting() {
-		return this.gameSetting;
+		return this.setting;
 	}
-	
+
 	public Location getServerSpawn() {
 		return this.serverSpawn;
+	}
+
+	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {
+		this.minigameDataM = minigameDataM;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -212,21 +237,20 @@ public class MiniGameManager implements JsonDataMember {
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		this.gameSetting = gson.fromJson(jsonString, Map.class);
+		this.setting = gson.fromJson(jsonString, Map.class);
 		// update gameSetting
-		this.initGameSettingData();
+		this.initSettingData();
 
-		BroadcastTool.warn("World Name: " + this.gameSetting.get("world"));
 	}
 
 	@Override
 	public Object getData() {
-		return this.gameSetting;
+		return this.setting;
 	}
 
 	@Override
 	public String getFileName() {
-		return "gameSetting.json";
+		return "setting.json";
 	}
 }
 //

@@ -26,11 +26,13 @@ public class CommonEventListener implements Listener {
 		this.registerAllEventHandler();
 	}
 
-	private void registerAllEventHandler() {
+	public void registerAllEventHandler() {
+		// TODO: 버그가 있음 -> 처음에 버킷 실행하면 이벤트가 잘 전달이 안되는데, reload 하면 잘됨........
 		RegisteredListener registeredListener = new RegisteredListener(this, (listener, event) -> onEvent(event),
 				EventPriority.NORMAL, Main.getInstance(), false);
-		for (HandlerList handler : HandlerList.getHandlerLists())
+		for (HandlerList handler : HandlerList.getHandlerLists()) {
 			handler.register(registeredListener);
+		}
 	}
 
 	private Object onEvent(Event event) {
