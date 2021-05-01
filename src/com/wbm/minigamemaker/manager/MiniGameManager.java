@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -169,9 +170,13 @@ public class MiniGameManager implements JsonDataMember {
 			return ((BlockBreakEvent) e).getPlayer();
 		} else if (e instanceof BlockPlaceEvent) {
 			return ((BlockPlaceEvent) e).getPlayer();
-		}
-//		else if(e instanceof EntityDamageEvent) {
-//			return (Player)((EntityDamageEvent) e).getEntity();
+		} 
+//		else if (e instanceof EntityDamageEvent) {
+//			Entity entity = ((EntityDamageEvent) e).getEntity();
+//			// entity가 Player 일때만
+//			if (entity instanceof Player) {
+//				return (Player) entity;
+//			}
 //		}
 		return null;
 	}

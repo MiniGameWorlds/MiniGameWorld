@@ -4,19 +4,19 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.RegisteredListener;
-
-import com.wbm.minigamemaker.Main;
 
 public class CommonEventListener implements Listener {
+	/*
+	 * BUG: 서버에 이벤트 리스너가 등록이 잘 안됨(reload 하면 등록이 또 잘됨)
+	 */
 
 	MiniGameManager minigameManager;
 
@@ -27,24 +27,56 @@ public class CommonEventListener implements Listener {
 	}
 
 	public void registerAllEventHandler() {
-		// TODO: 버그가 있음 -> 처음에 버킷 실행하면 이벤트가 잘 전달이 안되는데, reload 하면 잘됨........
-		RegisteredListener registeredListener = new RegisteredListener(this, (listener, event) -> onEvent(event),
-				EventPriority.NORMAL, Main.getInstance(), false);
-		for (HandlerList handler : HandlerList.getHandlerLists()) {
-			handler.register(registeredListener);
-		}
+//		ClassInfoList events = new ClassGraph()
+//		        .enableClassInfo()
+//		        .scan() //you should use try-catch-resources instead
+//		        .getClassInfo(Event.class.getName())
+//		        .getSubclasses()
+//		        .filter(info -> !info.isAbstract());
+//
+//		Listener listener = new Listener() {};
+//		EventExecutor executor = (ignored, event) -> Bukkit.getLogger().info("Event got fired: " + event.getEventName());
+//
+//		try {
+//		    for (ClassInfo event : events) {
+//		        //noinspection unchecked
+//		        @SuppressWarnings("unchecked")
+//				Class<? extends Event> eventClass = (Class<? extends Event>) Class.forName(event.getName());
+//		 
+//		        if (Arrays.stream(eventClass.getDeclaredMethods()).anyMatch(method ->
+//		                method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
+//		            //We could do this further filtering on the ClassInfoList instance instead,
+//		            //but that would mean that we have to enable method info scanning.
+//		            //I believe the overhead of initializing ~20 more classes
+//		            //is better than that alternative.
+//		     
+//		            Bukkit.getPluginManager().registerEvent(eventClass, listener,
+//		                    EventPriority.NORMAL, executor, Main.getInstance());
+//		        }
+//		    }
+//		} catch (ClassNotFoundException e) {
+//		    throw new AssertionError("Scanned class wasn't found", e);
+//		}
+//
+//		String[] eventNames = events.stream()
+//		        .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
+//		        .toArray(String[]::new);
+//
+//		Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
+//		Bukkit.getLogger().info("Events found: " + events.size());
+//		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
 	}
 
-	private Object onEvent(Event event) {
-		/*
-		 * 모든 이벤트 발생 캐치하는 메소드
-		 */
-		if (this.minigameManager.isPossibleEvent(event)) {
-			this.minigameManager.processEvent(event);
-		}
-
-		return null;
-	}
+//	private Object onEvent(Event event) {
+//		/*
+//		 * 모든 이벤트 발생 캐치하는 메소드
+//		 */
+//		if (this.minigameManager.isPossibleEvent(event)) {
+//			this.minigameManager.processEvent(event);
+//		}
+//
+//		return null;
+//	}
 
 	@EventHandler
 	public void onPlayerTouchMiniGameSign(PlayerInteractEvent e) {
@@ -71,33 +103,33 @@ public class CommonEventListener implements Listener {
 	}
 
 //	@EventHandler
-//	public void onMiniGamePlayerInteractEvent(PlayerInteractEvent e) {
-//		/*
-//		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
-//		 */
-//		this.minigameManager.processEvent(e);
-//	}
-//
-//	@EventHandler
-//	public void onMiniGameBlockBreakEvent(BlockBreakEvent e) {
-//		/*
-//		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
-//		 */
-//		this.minigameManager.processEvent(e);
-//	}
-//
-//	@EventHandler
-//	public void onMiniGameBlockPlaceEvent(BlockPlaceEvent e) {
-//		/*
-//		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
-//		 */
-//		this.minigameManager.processEvent(e);
-//	}
-//
-//	@EventHandler
-//	public void onPlayerExitServerWhenMiniGamePlaying(EntityDamageEvent e) {
-//		this.minigameManager.processEvent(e);
-//	}
+	public void onMiniGamePlayerInteractEvent(PlayerInteractEvent e) {
+		/*
+		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
+		 */
+		this.minigameManager.processEvent(e);
+	}
+
+	@EventHandler
+	public void onMiniGameBlockBreakEvent(BlockBreakEvent e) {
+		/*
+		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
+		 */
+		this.minigameManager.processEvent(e);
+	}
+
+	@EventHandler
+	public void onMiniGameBlockPlaceEvent(BlockPlaceEvent e) {
+		/*
+		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
+		 */
+		this.minigameManager.processEvent(e);
+	}
+
+	@EventHandler
+	public void onPlayerExitServerWhenMiniGamePlaying(EntityDamageEvent e) {
+		this.minigameManager.processEvent(e);
+	}
 
 	@EventHandler
 	public void onPlayerExitServerWhenMiniGamePlaying(PlayerQuitEvent e) {
