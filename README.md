@@ -20,11 +20,11 @@
 
 # 사용가능한 이벤트 목록
 ※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event들까지 호출되서 사용가능([paper API](https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html) 참조)  
-※ 모든 이벤트는 Player를 참조해서 플레이어가  미니게임 플레이중인것이 확인되면 미니게임 이벤트 처리로 넘어감 (EntityEvent 제외)
+※ 모든 이벤트는 해당 이벤트의 Player가 미니게임 플레이중인것이 확인되면 해당 미니게임 이벤트 처리 메소드로 넘어감
 - BlockBreakEvent
 - BlockPlaceEvent
 - PlayerEvent
-- EntityEvent (미니게임 Player 검사X) (ex.화살 데미지 받은 엔티티의 화살 쏜 플레이어가 필요할 수도 있음)
+- EntityEvent
 - HangingEvent
 - InventoryEvent
 - InventoryMoveItemEvent
