@@ -10,12 +10,19 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.hanging.HangingEvent;
+import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.inventory.Inventory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,10 +56,15 @@ public class MiniGameManager implements JsonDataMember {
 	// 미니게임 파일 데이터
 	MiniGameDataManager minigameDataM;
 
+	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
+	List<Player> eventPlayers;
+
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
 		// 미니게임 리스트 초기화
 		this.minigames = new ArrayList<>();
+
+		this.eventPlayers = new ArrayList<Player>();
 
 		this.setting = new HashMap<String, Object>();
 		this.initSettingData();
@@ -63,8 +75,13 @@ public class MiniGameManager implements JsonDataMember {
 		// PlayerEvent 서브 클래스들은 대부분 가능(Chat, OpenChest, CommandSend 등등)
 		this.possibleEventList.add(BlockBreakEvent.class);
 		this.possibleEventList.add(BlockPlaceEvent.class);
-		this.possibleEventList.add(PlayerInteractEvent.class);
-		this.possibleEventList.add(EntityDamageEvent.class);
+		this.possibleEventList.add(PlayerEvent.class);
+		this.possibleEventList.add(EntityEvent.class);
+		this.possibleEventList.add(HangingEvent.class);
+		this.possibleEventList.add(InventoryEvent.class);
+		this.possibleEventList.add(InventoryMoveItemEvent.class);
+		this.possibleEventList.add(InventoryPickupItemEvent.class);
+		this.possibleEventList.add(PlayerLeashEntityEvent.class);
 
 	}
 
@@ -121,19 +138,21 @@ public class MiniGameManager implements JsonDataMember {
 		if (this.possibleEventList.contains(e.getClass())) {
 			System.out.println("possible event");
 			// 이벤트에서 플레이어 가져와서 플레이중인 미니게임에 이벤트 넘기기
-			Player player = this.getPlayerFromEvent(e);
-			if (player == null) {
+			List<Player> players = this.getPlayersFromEvent(e);
+			if (players.size() == 0) {
 				System.out.println("can not get player from event");
 				return false;
 			}
 
-			MiniGame playingGame = this.getPlayingGame(player);
-			// 미니게임 플레이 중인 플레이어 일때
-			if (playingGame == null) {
-				System.out.println("player is not playing game");
-				return false;
+			for (Player p : players) {
+				MiniGame playingGame = this.getPlayingGame(p);
+				// 미니게임 플레이 중인 플레이어 일때
+				if (playingGame == null) {
+					System.out.println("player is not playing game");
+					return false;
+				}
+				playingGame.passEvent(e);
 			}
-			playingGame.passEvent(e);
 		}
 		return true;
 	}
@@ -163,22 +182,45 @@ public class MiniGameManager implements JsonDataMember {
 		return null;
 	}
 
-	private Player getPlayerFromEvent(Event e) {
-		if (e instanceof PlayerInteractEvent) {
-			return ((PlayerInteractEvent) e).getPlayer();
-		} else if (e instanceof BlockBreakEvent) {
-			return ((BlockBreakEvent) e).getPlayer();
+	private List<Player> getPlayersFromEvent(Event e) {
+		// 플레이어 변수 clear
+		this.eventPlayers.clear();
+
+		// Event마다 Player 얻는 작업
+		if (e instanceof BlockBreakEvent) {
+			eventPlayers.add(((BlockBreakEvent) e).getPlayer());
 		} else if (e instanceof BlockPlaceEvent) {
-			return ((BlockPlaceEvent) e).getPlayer();
-		} 
-//		else if (e instanceof EntityDamageEvent) {
-//			Entity entity = ((EntityDamageEvent) e).getEntity();
-//			// entity가 Player 일때만
-//			if (entity instanceof Player) {
-//				return (Player) entity;
-//			}
-//		}
-		return null;
+			eventPlayers.add(((BlockPlaceEvent) e).getPlayer());
+		} else if (e instanceof PlayerEvent) {
+			eventPlayers.add(((PlayerEvent) e).getPlayer());
+		} else if (e instanceof EntityEvent) {
+			Entity entity = ((EntityEvent) e).getEntity();
+			if (entity instanceof Player) {
+				eventPlayers.add((Player) entity);
+			}
+		} else if (e instanceof HangingEvent) {
+			Entity entity = ((HangingEvent) e).getEntity();
+			if (entity instanceof Player) {
+				eventPlayers.add((Player) entity);
+			}
+		} else if (e instanceof InventoryEvent) {
+			HumanEntity entity = (((InventoryEvent) e).getView()).getPlayer();
+			if (entity instanceof Player) {
+				eventPlayers.add((Player) entity);
+			}
+		} else if (e instanceof InventoryMoveItemEvent) {
+			Inventory inv = ((InventoryMoveItemEvent) e).getInitiator();
+			List<HumanEntity> viewers = inv.getViewers();
+			for (HumanEntity humanEntity : viewers) {
+				if (humanEntity instanceof Player) {
+					eventPlayers.add((Player) humanEntity);
+				}
+			}
+		} else if (e instanceof PlayerLeashEntityEvent) {
+			eventPlayers.add(((PlayerLeashEntityEvent) e).getPlayer());
+		}
+
+		return eventPlayers;
 	}
 
 	public List<MiniGame> getMiniGameList() {

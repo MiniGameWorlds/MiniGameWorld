@@ -1,17 +1,32 @@
 package com.wbm.minigamemaker.manager;
 
+import java.util.Arrays;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.EventExecutor;
+
+import com.wbm.minigamemaker.Main;
+
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
 
 public class CommonEventListener implements Listener {
 	/*
@@ -23,60 +38,69 @@ public class CommonEventListener implements Listener {
 	public CommonEventListener(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;
 
-		this.registerAllEventHandler();
+		this.registerAllEventListener();
 	}
 
-	public void registerAllEventHandler() {
-//		ClassInfoList events = new ClassGraph()
-//		        .enableClassInfo()
-//		        .scan() //you should use try-catch-resources instead
-//		        .getClassInfo(Event.class.getName())
-//		        .getSubclasses()
-//		        .filter(info -> !info.isAbstract());
-//
-//		Listener listener = new Listener() {};
-//		EventExecutor executor = (ignored, event) -> Bukkit.getLogger().info("Event got fired: " + event.getEventName());
-//
-//		try {
-//		    for (ClassInfo event : events) {
-//		        //noinspection unchecked
-//		        @SuppressWarnings("unchecked")
-//				Class<? extends Event> eventClass = (Class<? extends Event>) Class.forName(event.getName());
-//		 
-//		        if (Arrays.stream(eventClass.getDeclaredMethods()).anyMatch(method ->
-//		                method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
-//		            //We could do this further filtering on the ClassInfoList instance instead,
-//		            //but that would mean that we have to enable method info scanning.
-//		            //I believe the overhead of initializing ~20 more classes
-//		            //is better than that alternative.
-//		     
-//		            Bukkit.getPluginManager().registerEvent(eventClass, listener,
-//		                    EventPriority.NORMAL, executor, Main.getInstance());
-//		        }
-//		    }
-//		} catch (ClassNotFoundException e) {
-//		    throw new AssertionError("Scanned class wasn't found", e);
-//		}
-//
-//		String[] eventNames = events.stream()
-//		        .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
-//		        .toArray(String[]::new);
-//
+	public void registerAllEventListener() {
+		System.out.println("registerAllEventHandler");
+		ClassInfoList events = new ClassGraph()
+		        .enableClassInfo()
+		        .scan() //you should use try-catch-resources instead
+		        .getClassInfo(Event.class.getName())
+		        .getSubclasses()
+		        .filter(info -> !info.isAbstract());
+
+		Listener listener = new Listener() {};
+		EventExecutor executor = (ignored, event) -> onEvent(event);
+
+		try {
+		    for (ClassInfo event : events) {
+		        //noinspection unchecked
+		        @SuppressWarnings("unchecked")
+				Class<? extends Event> eventClass = (Class<? extends Event>) Class.forName(event.getName());
+		 
+		        if (Arrays.stream(eventClass.getDeclaredMethods()).anyMatch(method ->
+		                method.getParameterCount() == 0 && method.getName().equals("getHandlers"))) {
+		            //We could do this further filtering on the ClassInfoList instance instead,
+		            //but that would mean that we have to enable method info scanning.
+		            //I believe the overhead of initializing ~20 more classes
+		            //is better than that alternative.
+		     
+		            Bukkit.getPluginManager().registerEvent(eventClass, listener,
+		                    EventPriority.NORMAL, executor, Main.getInstance());
+		        }
+		    }
+		} catch (ClassNotFoundException e) {
+		    throw new AssertionError("Scanned class wasn't found", e);
+		}
+
+		String[] eventNames = events.stream()
+		        .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
+		        .toArray(String[]::new);
+
 //		Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-//		Bukkit.getLogger().info("Events found: " + events.size());
-//		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
+		Bukkit.getLogger().info("Events found: " + events.size());
+		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
 	}
 
-//	private Object onEvent(Event event) {
-//		/*
-//		 * 모든 이벤트 발생 캐치하는 메소드
-//		 */
-//		if (this.minigameManager.isPossibleEvent(event)) {
-//			this.minigameManager.processEvent(event);
+	private Object onEvent(Event event) {
+		/*
+		 * 모든 이벤트 발생 캐치하는 메소드
+		 */
+		if (event instanceof BlockBreakEvent) {
+			System.out.println("BlockBreakEvent event is called");
+		} 
+//		else if (event instanceof AsyncPlayerChatEvent) {
+//			System.out.println("AsyncPlayerChatEvent event is called");
+//		} else if (event instanceof PlayerEvent) {
+//			System.out.println(event.getClass().getName() + " event is called");
 //		}
-//
-//		return null;
-//	}
+		if (this.minigameManager.isPossibleEvent(event)) {
+			this.minigameManager.processEvent(event);
+		}
+
+		return null;
+	}
 
 	@EventHandler
 	public void onPlayerTouchMiniGameSign(PlayerInteractEvent e) {
@@ -102,34 +126,34 @@ public class CommonEventListener implements Listener {
 		}
 	}
 
-//	@EventHandler
-	public void onMiniGamePlayerInteractEvent(PlayerInteractEvent e) {
-		/*
-		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
-		 */
-		this.minigameManager.processEvent(e);
-	}
-
+////	@EventHandler
+//	public void onMiniGamePlayerInteractEvent(PlayerInteractEvent e) {
+//		/*
+//		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
+//		 */
+//		this.minigameManager.processEvent(e);
+//	}
+//
 	@EventHandler
 	public void onMiniGameBlockBreakEvent(BlockBreakEvent e) {
 		/*
 		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
 		 */
-		this.minigameManager.processEvent(e);
+		System.out.println("BlockBreakEvent second!");
 	}
-
-	@EventHandler
-	public void onMiniGameBlockPlaceEvent(BlockPlaceEvent e) {
-		/*
-		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
-		 */
-		this.minigameManager.processEvent(e);
-	}
-
-	@EventHandler
-	public void onPlayerExitServerWhenMiniGamePlaying(EntityDamageEvent e) {
-		this.minigameManager.processEvent(e);
-	}
+//
+//	@EventHandler
+//	public void onMiniGameBlockPlaceEvent(BlockPlaceEvent e) {
+//		/*
+//		 * 이벤트 매니저에서 이벤트 형에 따라서 구분해서 처리하게 전달
+//		 */
+//		System.out.println("BlockPlaceEvent second!");
+//	}
+//
+//	@EventHandler
+//	public void onPlayerExitServerWhenMiniGamePlaying(EntityDamageEvent e) {
+//		this.minigameManager.processEvent(e);
+//	}
 
 	@EventHandler
 	public void onPlayerExitServerWhenMiniGamePlaying(PlayerQuitEvent e) {
