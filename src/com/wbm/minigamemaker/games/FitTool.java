@@ -3,8 +3,6 @@ package com.wbm.minigamemaker.games;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -22,7 +20,7 @@ public class FitTool extends MiniGame {
 	List<Material> blocks;
 
 	public FitTool() {
-		super("FitTool", new Location(Bukkit.getWorld("world"), 10, 4, 0), 1, 30, 10);
+		super("FitTool", 1, 30, 10);
 	}
 
 	@Override
@@ -45,9 +43,7 @@ public class FitTool extends MiniGame {
 
 	@Override
 	public void processEvent(Event event) {
-		System.out.println("FitTool event: " + event.getClass().getName());
 		if (event instanceof BlockBreakEvent) {
-			System.out.println("FitTool BlockBreakEvent");
 			BlockBreakEvent e = (BlockBreakEvent) event;
 			Player p = e.getPlayer();
 
@@ -59,7 +55,7 @@ public class FitTool extends MiniGame {
 				this.plusScore(p, 1);
 				p.sendMessage("+1");
 			}
-			
+
 			// 랜덤블럭으로 설정
 			b.setType(this.getRandomBlock());
 		}

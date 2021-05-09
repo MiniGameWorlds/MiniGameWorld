@@ -1,17 +1,22 @@
 package com.wbm.minigamemaker.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.wbm.minigamemaker.Main;
+import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 
@@ -39,6 +44,8 @@ public abstract class MiniGame {
 	private Map<Player, Integer> players;
 
 	// abstract
+	protected abstract void initGameSetting();
+
 	protected abstract void processEvent(Event event);
 
 	protected abstract void runTaskAfterStart();
@@ -47,14 +54,22 @@ public abstract class MiniGame {
 
 	protected abstract List<String> getGameTutorialStrings();
 
-	protected abstract void initGameSetting();
-
 	protected abstract void handleGameExeption(Player p);
 
 	// 생성자
 	public MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.title = title;
 		this.location = location;
+		this.maxPlayerCount = maxPlayerCount;
+		this.timeLimit = timeLimit;
+		this.waitingTime = waitingTime;
+		this.initSetting();
+	}
+
+	// location 기본 설정갑 생성자
+	public MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
+		this.title = title;
+		this.location = new Location(Bukkit.getWorld("world"), 0, 4, 0);
 		this.maxPlayerCount = maxPlayerCount;
 		this.timeLimit = timeLimit;
 		this.waitingTime = waitingTime;
@@ -72,9 +87,15 @@ public abstract class MiniGame {
 
 	public void passEvent(Event event) {
 		/*
-		 * 게임이 시작됬을 때만 이벤트 처리
+		 * 넘겨받은 이벤트 처리
 		 */
-		if (this.started) {
+
+		// 미니게임 탈주 이벤트인지 검사
+		if (event instanceof PlayerQuitEvent) {
+			this.handleException((PlayerQuitEvent) event);
+		}
+		// 게임이 시작됬을 때 미니게임에 이벤트 전달
+		else if (this.started) {
 			this.processEvent(event);
 		}
 	}
@@ -169,7 +190,7 @@ public abstract class MiniGame {
 					started = true;
 
 					// 시작 타이틀
-					sendTitleToEveryone("START", "", 4, 20 * 2, 4);
+					sendTitleToPlayers("START", "", 4, 20 * 2, 4);
 
 					// runTaskAfterStart
 					runTaskAfterStart();
@@ -184,7 +205,7 @@ public abstract class MiniGame {
 				}
 
 				// 플레이어들에게 카운트 다운 타이틀
-				sendTitleToEveryone("" + timer.getCount(), "", 4, 12, 4);
+				sendTitleToPlayers("" + timer.getCount(), "", 4, 12, 4);
 				timer.removeCount(1);
 			}
 		}, 0, 20);
@@ -199,7 +220,7 @@ public abstract class MiniGame {
 				int leftTime = timer.getCount();
 				if (leftTime <= 0) {
 					// 종료 알리기
-					sendTitleToEveryone("FINISH", "", 4, 20 * 2, 4);
+					sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
 
 					// runTaskAfterFinish 시작
 					runTaskAfterFinish();
@@ -221,7 +242,7 @@ public abstract class MiniGame {
 					return;
 				} else if (leftTime <= 10) {
 					// 10초 이하 남았을 때 알리기
-					sendTitleToEveryone("" + leftTime, "", 4, 12, 4);
+					sendTitleToPlayers("" + leftTime, "", 4, 12, 4);
 				}
 
 				timer.removeCount(1);
@@ -230,14 +251,35 @@ public abstract class MiniGame {
 	}
 
 	private void printScore() {
-		this.sendMessageToEveryone("[Score]");
-		for (Player p : this.getPlayers()) {
-			this.sendMessageToEveryone(p.getName() + ": " + this.getScore(p));
+		// 스코어 결과 score기준 내림차순으로 출력
+		this.sendMessageToAllPlayers("[Score]");
+		List<Entry<Player, Integer>> entries = this.getDescendingSortedMapEntrys(this.players);
+		for (Entry<Player, Integer> entry : entries) {
+			Player p = entry.getKey();
+			int score = entry.getValue();
+			this.sendMessageToAllPlayers(p.getName() + ": " + score);
 		}
+
+	}
+
+	// Map의 value(Integer제한)기준 내림차순 entry 반환
+	public <T1> List<Entry<T1, Integer>> getDescendingSortedMapEntrys(Map<T1, Integer> rankData) {
+		List<Entry<T1, Integer>> list = new ArrayList<>(rankData.entrySet());
+
+		Collections.sort(list, new Comparator<Entry<T1, Integer>>() {
+
+			@Override
+			public int compare(Entry<T1, Integer> o1, Entry<T1, Integer> o2) {
+				return o2.getValue() - o1.getValue();
+			}
+
+		});
+
+		return list;
 	}
 
 	private boolean isEmpty() {
-		return (this.getPlayers().size() == 0);
+		return this.getPlayers().isEmpty();
 	}
 
 	private boolean isFullPlayer() {
@@ -271,19 +313,19 @@ public abstract class MiniGame {
 		this.players.remove(p);
 	}
 
-	private void sendMessageToEveryone(String msg) {
+	private void sendMessageToAllPlayers(String msg) {
 		for (Player p : getPlayers()) {
 			p.sendMessage(msg);
 		}
 	}
 
-	private void sendTitleToEveryone(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	private void sendTitleToPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		for (Player p : getPlayers()) {
 			p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 		}
 	}
 
-	private int getScore(Player p) {
+	protected int getScore(Player p) {
 		return this.players.get(p);
 	}
 
@@ -297,18 +339,24 @@ public abstract class MiniGame {
 		this.players.put(p, previousScore - score);
 	}
 
-	public void handleException(Player p) {
+	public void handleException(PlayerQuitEvent event) {
 		/*
 		 * [예외 관리]
 		 * 
-		 * 나중에 MiniGame.Exception enum으로 세분화해서 관리 예정
+		 * - 나중에 MiniGame.Exception enum으로 세분화해서 관리 예정
+		 * 
+		 * - PlayerQuitEvent에서 Reason 체크
 		 * 
 		 * 현재: 게임도중 서버 나가는 예외 처리
 		 * 
 		 * 마지막에 각 게임에게 예외 발생 매소드로 알림
 		 */
 
-		System.out.println("handle exception");
+		// player
+		Player p = event.getPlayer();
+
+		// log
+		BroadcastTool.info("[" + p.getName() + "] handle exception: " + event.getReason().name());
 
 		// player 삭제
 		this.removePlayer(p);
@@ -321,10 +369,10 @@ public abstract class MiniGame {
 			this.initSetting();
 		} else {
 			// 미니게임에 남은 사람이 있으면 남은 인원에게 알리기
-			this.sendMessageToEveryone(p.getName() + " quit " + this.title);
+			this.sendMessageToAllPlayers(p.getName() + " quit " + this.title);
 		}
 
-		// 각 게임에게 예외 발생 매소드로 알림
+		// 각 게임에게 예외 발생 매소드로 처리 알림 (예. task 중지)
 		this.handleGameExeption(p);
 	}
 
@@ -376,6 +424,13 @@ public abstract class MiniGame {
 		this.timeLimit = timeLimit;
 	}
 
+	public String getTitleWithClassName() {
+		return this.title + "(ClassName: " + this.getClassName() + ")";
+	}
+
+	public String getClassName() {
+		return this.getClass().getSimpleName();
+	}
 }
 
 //

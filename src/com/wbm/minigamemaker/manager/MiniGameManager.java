@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -28,8 +29,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class MiniGameManager implements JsonDataMember {
 	// API 용 클래스
@@ -120,49 +119,68 @@ public class MiniGameManager implements JsonDataMember {
 
 	}
 
-	public void joinGame(Player p, String title) {
+	public boolean joinGame(Player p, String title) {
 		/*
 		 * 플레이어가 미니게임에 참여하는 메소드
 		 */
 		MiniGame game = this.getMiniGame(title);
-		game.joinGame(p);
+		if (game == null) {
+			return false;
+		} else {
+			game.joinGame(p);
+			return true;
+		}
 	}
 
 	public boolean isPossibleEvent(Event event) {
-		// 미니게임에서 처리가능한 이벤트인지 체크
-		return this.possibleEventList.contains(event.getClass());
-	}
-
-	public boolean processEvent(Event e) {
-		// 허용되는 이벤트만 처리
-		if (this.possibleEventList.contains(e.getClass())) {
-			System.out.println("possible event");
-			// 이벤트에서 플레이어 가져와서 플레이중인 미니게임에 이벤트 넘기기
-			List<Player> players = this.getPlayersFromEvent(e);
-			if (players.size() == 0) {
-				System.out.println("can not get player from event");
-				return false;
-			}
-
-			for (Player p : players) {
-				MiniGame playingGame = this.getPlayingGame(p);
-				// 미니게임 플레이 중인 플레이어 일때
-				if (playingGame == null) {
-					System.out.println("player is not playing game");
-					return false;
-				}
-				playingGame.passEvent(e);
+		// 미니게임에서 처리가능한 이벤트인지 체크 (possibleEvent 클래스 구현 클래스인지 확인)
+		for (Class<? extends Event> c : this.possibleEventList) {
+			if (c.isAssignableFrom(event.getClass())) {
+				return true;
 			}
 		}
+		return false;
+	}
+
+	boolean processEvent(Event e) {
+		/*
+		 * 이벤트에서 플레이어 가져와서 플레이어가 참여중인 미니게임으로 이벤트 넘기기
+		 */
+		// 허용되는 이벤트만 아닐 시 false 반환
+		if (!this.isPossibleEvent(e)) {
+			return false;
+		}
+
+		// 이벤트에서 플레이어 추출
+		List<Player> players = this.getPlayersFromEvent(e);
+
+		// 미니게임과 관련된 이벤트가 아닐 경우 처리 안함
+		if (players.isEmpty()) {
+//			BroadcastTool.warn("can not get player from event: " + e.getEventName());
+			return false;
+		}
+
+		// 이벤트에서 얻은 플레이어들에 대한 미니게임 이벤트 처리
+		for (Player p : players) {
+			MiniGame playingGame = this.getPlayingGame(p);
+			// 플레이어가 플레이중인 미니게임이 없으면 반환
+			if (playingGame == null) {
+//				BroadcastTool.warn("player is not playing game: ");
+				return false;
+			}
+			playingGame.passEvent(e);
+		}
+
+		// 성공 반환
 		return true;
 	}
 
-	public void processException(Player p) {
-		MiniGame playingGame = this.getPlayingGame(p);
-		if (playingGame != null) {
-			playingGame.handleException(p);
-		}
-	}
+//	public void processException(Player p) {
+//		MiniGame playingGame = this.getPlayingGame(p);
+//		if (playingGame != null) {
+//			playingGame.handleException(p);
+//		}
+//	}
 
 	private MiniGame getMiniGame(String title) {
 		for (MiniGame game : this.minigames) {
@@ -228,19 +246,23 @@ public class MiniGameManager implements JsonDataMember {
 	}
 
 	public boolean registerMiniGame(MiniGame newGame) {
-		// 같은 title이 있으면 등록 실패
+		// 이미 같은 미니게임이 있으면 등록 실패
+		// 주의: 미니게임.title로 비교하면 안됨 -> 클래스 이름으로 비교해야 함,
+		// 왜냐면 minigames.json파일에서 클래스 이름으로 구분하기 때문
+		String newGameClassName = newGame.getClassName();
 		for (MiniGame game : this.minigames) {
-			String newGameTitle = newGame.getTitle();
-			if (game.getTitle().equalsIgnoreCase(newGameTitle)) {
-				BroadcastTool.warn(newGameTitle + " minigame is not registered");
-				BroadcastTool.warn("Cause: " + newGameTitle + " title is already exists");
+			String existGameClassName = game.getClassName();
+			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
+				BroadcastTool.warn(newGame.getTitleWithClassName() + " minigame is not registered");
+				BroadcastTool.warn("Cause: the same class " + game.getTitleWithClassName() + " minigame is already registered");
 				return false;
 			}
 		}
 
-		// 게임 파일 데이터 적용
-		if (this.minigameDataM.minigameDataExists(newGame.getTitle())) {
-			this.minigameDataM.applyMiniGameData(newGame);
+		// 게임 파일 데이터 적용 (이미 minigames.json 파일에 newGame의 데이터가 있으면,
+		// 등록하는 newGame미니게임 인스턴스에 데이터 적용
+		if (this.minigameDataM.isMinigameDataExists(newGame)) {
+			this.minigameDataM.applyMiniGameDataToInstance(newGame);
 		} else {
 			this.minigameDataM.addMiniGameData(newGame);
 		}
@@ -248,7 +270,7 @@ public class MiniGameManager implements JsonDataMember {
 		// 게임 등록
 		this.minigames.add(newGame);
 
-		BroadcastTool.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitle() + ChatColor.WHITE
+		BroadcastTool.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
 				+ " minigame is registered");
 		return true;
 	}

@@ -1,6 +1,8 @@
 package com.wbm.minigamemaker.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -8,6 +10,7 @@ import org.bukkit.Location;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
 
 public class MiniGameDataManager implements JsonDataMember {
@@ -43,20 +46,27 @@ public class MiniGameDataManager implements JsonDataMember {
 		// timeLimit
 		data.put("timeLimit", minigame.getTimeLimit());
 
-		// data 추가
-		this.minigameData.put(minigame.getTitle(), data);
+		// data 추가 (className, data)
+		this.minigameData.put(minigame.getClassName(), data);
 	}
 
 	public void removeMiniGame(String title) {
 		this.minigameData.remove(title);
 	}
 
-	public boolean minigameDataExists(String title) {
-		return this.minigameData.containsKey(title);
+	public boolean isMinigameDataExists(MiniGame minigame) {
+		return this.getMiniGameData(minigame) != null;
 	}
 
-	public void applyMiniGameData(MiniGame minigame) {
-		Map<String, Object> data = this.minigameData.get(minigame.getTitle());
+	public Map<String, Object> getMiniGameData(MiniGame minigame) {
+		/*
+		 * ClassName으로 미니게임 구분
+		 */
+		return this.minigameData.get(minigame.getClassName());
+	}
+
+	public void applyMiniGameDataToInstance(MiniGame minigame) {
+		Map<String, Object> data = this.getMiniGameData(minigame);
 
 		// title
 		String title = (String) data.get("title");
@@ -73,13 +83,13 @@ public class MiniGameDataManager implements JsonDataMember {
 		Location location = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
 
 		// maxPlayerCount
-		int maxPlayerCount = (int)((double) data.get("maxPlayerCount"));
+		int maxPlayerCount = (int) ((double) data.get("maxPlayerCount"));
 
 		// waitingTime
-		int waitingTime = (int)((double) data.get("waitingTime"));
+		int waitingTime = (int) ((double) data.get("waitingTime"));
 
 		// timeLimit
-		int timeLimit = (int)((double) data.get("timeLimit"));
+		int timeLimit = (int) ((double) data.get("timeLimit"));
 
 		// apply data
 		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit);
@@ -93,11 +103,37 @@ public class MiniGameDataManager implements JsonDataMember {
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		this.minigameData =gson.fromJson(jsonString, Map.class);
+		this.minigameData = gson.fromJson(jsonString, Map.class);
+	}
+
+	private void removeNotExistMiniGameData() {
+		MiniGameManager miniGameM = MiniGameManager.getInstance();
+		List<MiniGame> gameList = miniGameM.getMiniGameList();
+		List<String> removedGames = new ArrayList<String>();
+		OUT: for (String gameClassName : this.minigameData.keySet()) {
+			for (MiniGame game : gameList) {
+				// gameClassName이 있으면 통과
+				if (gameClassName.equalsIgnoreCase(game.getTitle())) {
+					continue OUT;
+				}
+			}
+			// gameClassName이 없으면 minigameData에서 삭제 (= 파일에서 삭제)
+//			this.minigameData.remove(gameClassName);
+			removedGames.add(gameClassName);
+		}
+
+		for (String removedGameTitle : removedGames) {
+			this.minigameData.remove(removedGameTitle);
+			BroadcastTool.info(removedGameTitle + " minigame removed from minigames.json");
+		}
 	}
 
 	@Override
 	public Object getData() {
+		// 데이터 반환하기 전에 minigames.json에서 없는 미니게임 제거하기
+		this.removeNotExistMiniGameData();
+
+		// 데이터 반환
 		return this.minigameData;
 	}
 
