@@ -1,13 +1,16 @@
 # 설명
-- 미니게임 메이커를 기반으로 미니게임을 만들 제작자를 위한 글
+- 미니게임 메이커를 기반의 미니게임을 만들 제작자를 위한 글
 - [유저 위키] 참고
 
 # 동작원리
+![MiniGameMakerDesign](../img/MiniGameMakerDesign.JPG)
+- 미니게임메이커 플러그인을 기반으로 만든 미니게임 플러그인들은 서버가 시작되면 미니게임메이커에 게임이 등록되고, 관리됨 
 
 # 환경 세팅 방법
-- [Paper] 다운로드 후 build path 추가
-- [MiniGameMaker] 다운로드 후 build path 추가
-- [wbmMC] 다운로드 후 build path 추가
+- [Paper]
+- [MiniGameMaker]
+- [wbmMC] 
+- 다운로드 후 build path 추가
 
 ## `plugin.yml`
 - depend: `[MiniGameMaker]` 추가
@@ -16,7 +19,7 @@
 
 # 처리 이벤트 목록
 ※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event도 사용가능(참고: [Paper API])  
-※ 미니게임 이벤트는 해당 이벤트의 Player가 미니게임 플레이중인것이 확인되면 해당 미니게임 이벤트 처리 메소드로 넘어감
+※ 미니게임 이벤트는 해당 이벤트의 Player가 미니게임 플레이중인것이 확인되면 해당 미니게임 이벤트 처리 메소드로 넘어감  
 ※ 처리 이벤트의 하위 이벤트까지 모두 사용가능 (예. PlayerEvent의 PlayerJumpEvent)
 - BlockBreakEvent
 - BlockPlaceEvent
@@ -37,6 +40,12 @@
 ```
 
 ```
+
+# 미니게임 참여 방법 변경
+
+
+# API
+
 
 # minigames.json
 - class 이름이 기준으로 등록됨
