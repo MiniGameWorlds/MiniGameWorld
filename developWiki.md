@@ -1,19 +1,32 @@
 # 설명
 - 미니게임 메이커를 기반으로 미니게임을 만들 제작자를 위한 글
+- [유저 위키] 참고
 
 # 동작원리
 
 # 환경 세팅 방법
-- [paper] 다운로드 후 build path 추가
-- [미니게임 메이커] 다운로드 후 build path 추가
+- [Paper] 다운로드 후 build path 추가
+- [MiniGameMaker] 다운로드 후 build path 추가
 - [wbmMC] 다운로드 후 build path 추가
 
 ## `plugin.yml`
-- depend: [MiniGameMaker] 추가
+- depend: `[MiniGameMaker]` 추가
 
 # 주의사항
 
 # 처리 이벤트 목록
+※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event도 사용가능(참고: [Paper API])  
+※ 미니게임 이벤트는 해당 이벤트의 Player가 미니게임 플레이중인것이 확인되면 해당 미니게임 이벤트 처리 메소드로 넘어감
+※ 처리 이벤트의 하위 이벤트까지 모두 사용가능 (예. PlayerEvent의 PlayerJumpEvent)
+- BlockBreakEvent
+- BlockPlaceEvent
+- PlayerEvent
+- EntityEvent
+- HangingEvent
+- InventoryEvent
+- InventoryMoveItemEvent
+- InventoryPickupItemEvent
+- PlayerLeashEntityEvent
 
 # 코드 제작 방법
 1. 미니게임 클래스 제작
@@ -38,7 +51,9 @@
 # 연락
 - [디스코드]
 
-[paper]: https://papermc.io/
-[미니게임 메이커]: https://github.com/worldbiomusic/MiniGameMaker/releases
+[유저 위키]: https://github.com/worldbiomusic/MiniGameMaker/blob/main/userWiki.md
+[Paper]: https://papermc.io/
+[MiniGameMaker]: https://github.com/worldbiomusic/MiniGameMaker/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
 [디스코드]: https://discord.com/invite/fJbxSy2EjA
+[Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
