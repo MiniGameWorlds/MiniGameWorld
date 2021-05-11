@@ -11,8 +11,8 @@
 2. 추가로 사용할 미니게임 플러그인 다운
 3. 서버 plugins 폴더에 적용
 4. 서버 실행 후 종료 후에 plugins 폴더에 생기는 MiniGameMaker 폴더로 이동
-5. 미니게임 메이커에 대한 설정파일: setting.json 값 수정 또는
-6. 추가된 미니게임의 속성값대 대한 설정파일: minigames.json 값 수정
+5. 미니게임 메이커에 대한 설정파일: `setting.json` 값 수정 또는
+6. 추가된 미니게임의 속성값대 대한 설정파일: `minigames.json` 값 수정
 7. 다시 실행
 
 # 사용법
@@ -51,22 +51,24 @@
 > 표지판 2줄: 미니게임 제목  
 
 ## `minigames.json`
-- 미니게임 설정 파일
+- 미니게임 설정 파일(예시)
 ```
 {
-  "FitTool(미니게임 클래스 이름)": {
-    "timeLimit": 10.0,
+  "FitTool": {
+    "timeLimit": 30.0,
     "maxPlayerCount": 1.0,
-    "waitingTime": 3.0,
+    "waitingTime": 10.0,
     "location": {
       "world": "world",
-      "x": 10.0,
+      "x": 0.0,
       "y": 4.0,
       "z": 0.0,
       "pitch": 0.0,
       "yaw": 0.0
     },
-    "title": "FitTool"
+    "title": "도구게임",
+    "settingFixed": false,
+    "actived": true
   }
 }
 ```
@@ -75,8 +77,10 @@
 - waitingTime: 대기시간
 - maxPlayerCount: 최대 인원수
 - timeLimit: 플레이 제한 시간
-- 플러그인으로 넣은 미니게임이 자동으로 minigames.json에 등록됨 
-- 없는 미니게임은 서버가 종료된 후 minigames.json에서 삭제됨
+- actived: 게임 활성화 여부 (true/false)
+- settingFixed: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (수정 불가능)
+- 플러그인으로 넣은 미니게임이 자동으로 `minigames.json`에 등록됨 
+- 없는 미니게임은 서버가 종료된 후 `minigames.json`에서 삭제됨
 - 각 미니게임에 맞게 기본값이 설정되어 있음 (기본값 변경시 작동 안할 가능성 있음)
 
 
