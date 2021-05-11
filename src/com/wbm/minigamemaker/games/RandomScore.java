@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.wbm.minigamemaker.manager.MiniGame;
+import com.wbm.minigamemaker.games.frame.MiniGame;
 
 public class RandomScore extends MiniGame {
 
@@ -15,11 +15,12 @@ public class RandomScore extends MiniGame {
 
 	public RandomScore() {
 		super("RandomScore", 2, 10, 10);
+		this.scores = new ArrayList<Integer>();
+		this.setSettingFixed(true);
 	}
 
 	@Override
 	protected void initGameSetting() {
-		this.scores = new ArrayList<Integer>();
 		this.scores.clear();
 		for (int i = 1; i <= 10; i++) {
 			this.scores.add(i);

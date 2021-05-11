@@ -27,6 +27,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
 
@@ -127,8 +128,7 @@ public class MiniGameManager implements JsonDataMember {
 		if (game == null) {
 			return false;
 		} else {
-			game.joinGame(p);
-			return true;
+			return game.joinGame(p);
 		}
 	}
 

@@ -10,6 +10,7 @@ import org.bukkit.Location;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
 
@@ -45,6 +46,12 @@ public class MiniGameDataManager implements JsonDataMember {
 
 		// timeLimit
 		data.put("timeLimit", minigame.getTimeLimit());
+
+		// actived
+		data.put("actived", minigame.getActived());
+
+		// settingFixed
+		data.put("settingFixed", minigame.getSettingFixed());
 
 		// data 추가 (className, data)
 		this.minigameData.put(minigame.getClassName(), data);
@@ -91,8 +98,31 @@ public class MiniGameDataManager implements JsonDataMember {
 		// timeLimit
 		int timeLimit = (int) ((double) data.get("timeLimit"));
 
+		// actived
+		boolean actived = (boolean) data.get("actived");
+
+		// settingFixed: 예외적으로 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
+		boolean settingFixed = minigame.getSettingFixed();
+		// settingFixed값을 임의로 바꿨을 떄 미니게임의 기본값으로 다시 설정
+		data.put("settingFixed", settingFixed);
+
+		// 세팅값 고정일때: maxPlayerCount, timeLimit, waitingTime 미니게임의 기본값으로 고정
+		if (settingFixed) {
+			// maxPlayerCount
+			maxPlayerCount = minigame.getMaxPlayerCount();
+			data.put("maxPlayerCount", maxPlayerCount);
+
+			// waitingTime
+			waitingTime = minigame.getWaitingTime();
+			data.put("waitingTime", waitingTime);
+
+			// timeLimit
+			timeLimit = minigame.getTimeLimit();
+			data.put("timeLimit", timeLimit);
+		}
+
 		// apply data
-		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit);
+		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, actived, settingFixed);
 	}
 
 	@SuppressWarnings("unchecked")

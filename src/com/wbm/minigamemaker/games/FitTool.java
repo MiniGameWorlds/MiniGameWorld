@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.wbm.minigamemaker.manager.MiniGame;
+import com.wbm.minigamemaker.games.frame.MiniGame;
 
 public class FitTool extends MiniGame {
 	/*

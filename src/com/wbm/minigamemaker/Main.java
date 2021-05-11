@@ -40,6 +40,8 @@ public class Main extends JavaPlugin {
 
 		// 예시 미니게임
 		this.minigameManager.registerMiniGame(new FitTool());
+		this.minigameManager.registerMiniGame(new RandomScore());
+
 	}
 
 	void setupData() {

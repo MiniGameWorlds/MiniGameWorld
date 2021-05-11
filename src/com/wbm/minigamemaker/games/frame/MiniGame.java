@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.manager;
+package com.wbm.minigamemaker.games.frame;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.wbm.minigamemaker.Main;
+import com.wbm.minigamemaker.manager.MiniGameManager;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
@@ -29,10 +30,12 @@ public abstract class MiniGame {
 
 	// 미니게임 정보
 	private String title;
-	private Location location;
+	private Location location; // 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
 	private int maxPlayerCount;
 	private int waitingTime;
 	private int timeLimit;
+	private boolean actived; // 기본값: true
+	private boolean settingFixed; // 기본값: false
 
 	// 게임이 카운트 다운이 끝나고 실제로 시작한지 여부
 	private boolean started;
@@ -42,6 +45,9 @@ public abstract class MiniGame {
 
 	// <참여중인 플레이어들, 플레이어 점수>
 	private Map<Player, Integer> players;
+
+	// 랭크 매니저
+	RankManager rankM;
 
 	// abstract
 	protected abstract void initGameSetting();
@@ -56,30 +62,25 @@ public abstract class MiniGame {
 
 	protected abstract void handleGameExeption(Player p);
 
-	// 생성자
+	// 기본 생성자
 	public MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this.title = title;
-		this.location = location;
-		this.maxPlayerCount = maxPlayerCount;
-		this.timeLimit = timeLimit;
-		this.waitingTime = waitingTime;
-		this.initSetting();
+		this.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, true, false);
+		this.rankM = new RankManager();
 	}
 
-	// location 기본 설정갑 생성자
+	// location 기본값 생성자
 	public MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this.title = title;
-		this.location = new Location(Bukkit.getWorld("world"), 0, 4, 0);
-		this.maxPlayerCount = maxPlayerCount;
-		this.timeLimit = timeLimit;
-		this.waitingTime = waitingTime;
-		this.initSetting();
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
 	}
 
 	private void initSetting() {
 		this.started = false;
 		this.stopAllTask();
-		this.players = new HashMap<>();
+		if (this.players == null) {
+			this.players = new HashMap<>();
+		} else {
+			this.players.clear();
+		}
 
 		// 하위 미니게임 세팅 값 설정
 		this.initGameSetting();
@@ -113,19 +114,25 @@ public abstract class MiniGame {
 		}
 	}
 
-	public void joinGame(Player p) {
+	public boolean joinGame(Player p) {
 		// 처리 순서
-		// 1.이미 게임이 시작전인가
-		// 2.게임 인원이 풀이 아닌가
+		// 1.actived가 true인가
+		// 2.이미 게임이 시작전인가
+		// 3.게임 인원이 풀이 아닌가
 		// -> 게임 참여 로직 처리
+		if (!this.actived) {
+			p.sendMessage(this.title + " is not active");
+			return false;
+		}
+
 		if (this.started) {
-			p.sendMessage("Game already started");
-			return;
+			p.sendMessage(this.title + " already started");
+			return false;
 		}
 
 		if (this.isFullPlayer()) {
 			p.sendMessage("Player is full");
-			return;
+			return false;
 		}
 
 		// 처음 들어온 사람일 경우 세팅초기화후에 타이머 시작
@@ -136,6 +143,9 @@ public abstract class MiniGame {
 
 		// player 세팅
 		setupPlayerSettings(p);
+
+		// 성공적으로 joinGame
+		return true;
 	}
 
 	protected void setupPlayerSettings(Player p) {
@@ -250,32 +260,17 @@ public abstract class MiniGame {
 		}, 0, 20);
 	}
 
-	private void printScore() {
+	// 게임 유형에 따라 다르게 출력되야 할 필요 있음
+	protected void printScore() {
 		// 스코어 결과 score기준 내림차순으로 출력
 		this.sendMessageToAllPlayers("[Score]");
-		List<Entry<Player, Integer>> entries = this.getDescendingSortedMapEntrys(this.players);
+		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(this.players);
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
 			int score = entry.getValue();
 			this.sendMessageToAllPlayers(p.getName() + ": " + score);
 		}
 
-	}
-
-	// Map의 value(Integer제한)기준 내림차순 entry 반환
-	public <T1> List<Entry<T1, Integer>> getDescendingSortedMapEntrys(Map<T1, Integer> rankData) {
-		List<Entry<T1, Integer>> list = new ArrayList<>(rankData.entrySet());
-
-		Collections.sort(list, new Comparator<Entry<T1, Integer>>() {
-
-			@Override
-			public int compare(Entry<T1, Integer> o1, Entry<T1, Integer> o2) {
-				return o2.getValue() - o1.getValue();
-			}
-
-		});
-
-		return list;
 	}
 
 	private boolean isEmpty() {
@@ -313,13 +308,13 @@ public abstract class MiniGame {
 		this.players.remove(p);
 	}
 
-	private void sendMessageToAllPlayers(String msg) {
+	protected void sendMessageToAllPlayers(String msg) {
 		for (Player p : getPlayers()) {
 			p.sendMessage(msg);
 		}
 	}
 
-	private void sendTitleToPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	protected void sendTitleToPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		for (Player p : getPlayers()) {
 			p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 		}
@@ -416,12 +411,28 @@ public abstract class MiniGame {
 		return timeLimit;
 	}
 
-	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit) {
+	public boolean getActived() {
+		return this.actived;
+	}
+
+	public boolean getSettingFixed() {
+		return this.settingFixed;
+	}
+
+	// 구현한 미니게임 클래스에서 사용가능
+	protected void setSettingFixed(boolean settingFixed) {
+		this.settingFixed = settingFixed;
+	}
+
+	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
+			boolean actived, boolean settingFixed) {
 		this.title = title;
 		this.location = location;
 		this.maxPlayerCount = maxPlayerCount;
 		this.waitingTime = waitingTime;
 		this.timeLimit = timeLimit;
+		this.actived = actived;
+		this.settingFixed = settingFixed;
 	}
 
 	public String getTitleWithClassName() {
