@@ -15,11 +15,20 @@
 - setting.json 값 수정 명령어
 
 ## 테스트 할 것
-- 미니게임 유형 프레임 클래스
+> - 미니게임 유형 프레임 클래스
 
 # 추가할 기능
 - task 관리 기능
 - 일반 사용법 위키 추가
 - 개발 사용법 위키 추가
 - 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
-- 솔로, 협동, 개인배틀, 팀배틀 abstract 클래스 만들기
+> - 솔로, 협동, 개인배틀, 팀배틀 abstract 클래스 만들기(프레임 미니게임 클래스)
+- 미니게임 프레임 각각 테스트
+> - runTaskBeforeStart, runTaskBeforeEnd 추가하기
+> - 플레이어가 join할 때 이미 다른 미니게임에 참여중인지 검사
+- MiniGame 변수들 클래스로 리팩토링
+- setting.json에 한글, 영어 기능 language변수 
+- setting.json에 message prefix 설정값 messagePrefix변수
+> - 각 프레임 미니게임 인원수 검사 
+> - 미니게임 예외처리 프레임 클래스에서 처리(인원수 관련 게임종료)
+- api 접근제어자 설정(생각 많이, 경험도 많이)

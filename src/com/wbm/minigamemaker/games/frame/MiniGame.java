@@ -39,7 +39,7 @@ public abstract class MiniGame {
 	private boolean started;
 
 	// 각종 타이머 태스크
-	private BukkitTask waitingTimerTask, finishTimerTask;
+	private BukkitTask waitingTimer, finishTimer;
 
 	// <참여중인 플레이어들, 플레이어 점수>
 	private Map<Player, Integer> players;
@@ -58,11 +58,11 @@ public abstract class MiniGame {
 	protected abstract List<String> getGameTutorialStrings();
 
 	// 기본 생성자
-	public MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, true, false);
 		this.setupMiniGame();
 
-		// 한번만 초기화 되야하는 것들
+		// [한번만 초기화 되야하는 것들]
 
 		// 랭크 매니저
 		this.rankM = new RankManager();
@@ -72,12 +72,18 @@ public abstract class MiniGame {
 	}
 
 	// location 기본값 생성자
-	public MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
+	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
 	}
 
 	// 구현 선택사항 메소드들
+//	protected void runTaskBeforeStart() {
+//	};
+
 	protected void runTaskAfterStart() {
+	};
+
+	protected void runTaskBeforeFinish() {
 	};
 
 	protected void runTaskAfterFinish() {
@@ -111,7 +117,7 @@ public abstract class MiniGame {
 
 		// 미니게임 탈주 이벤트인지 검사
 		if (event instanceof PlayerQuitEvent) {
-			this.handleException((PlayerQuitEvent) event);
+			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PlayerQuitServer, event);
 		}
 		// 게임이 시작됬을 때 미니게임에 이벤트 전달
 		else if (this.started) {
@@ -123,21 +129,30 @@ public abstract class MiniGame {
 		/*
 		 * 모든 태스크 중지
 		 */
-		if (this.waitingTimerTask != null) {
-			this.waitingTimerTask.cancel();
+		if (this.waitingTimer != null) {
+			this.waitingTimer.cancel();
 		}
 
-		if (this.finishTimerTask != null) {
-			this.finishTimerTask.cancel();
+		if (this.finishTimer != null) {
+			this.finishTimer.cancel();
 		}
 	}
 
 	public boolean joinGame(Player p) {
 		// 처리 순서
-		// 1.actived가 true인가
-		// 2.이미 게임이 시작전인가
-		// 3.게임 인원이 풀이 아닌가
+		// 1.이미 다른 미니게임에 참여중이 아닌지
+		// 2.actived가 true인지
+		// 3.이미 게임이 시작전인지
+		// 4.게임 인원이 풀이 아닌지
 		// -> 게임 참여 로직 처리
+
+		MiniGameManager minigameM = MiniGameManager.getInstance();
+		boolean isPlayingOtherMiniGame = minigameM.getPlayingGame(p) != null;
+		if (isPlayingOtherMiniGame) {
+			p.sendMessage("You already joined other minigame");
+			return false;
+		}
+
 		if (!this.actived) {
 			p.sendMessage(this.title + " is not active");
 			return false;
@@ -156,7 +171,7 @@ public abstract class MiniGame {
 		// 처음 들어온 사람일 경우 세팅초기화후에 타이머 시작
 		if (this.isEmpty()) {
 			this.initSetting();
-			this.startWaitingTimerTask();
+			this.startWaitingTimer();
 		}
 
 		// player 세팅
@@ -202,33 +217,19 @@ public abstract class MiniGame {
 		}
 	}
 
-	private void startWaitingTimerTask() {
+	private void startWaitingTimer() {
 		/*
 		 * waitingTime동안 기다린 후에 게임 시작
 		 */
 		Counter timer = new Counter(this.waitingTime);
 
-		this.waitingTimerTask = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
+		this.waitingTimer = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
 				// 카운트다운 끝
 				if (timer.getCount() <= 0) {
-					// 활성화
-					started = true;
-
-					// 시작 타이틀
-					sendTitleToPlayers("START", "", 4, 20 * 2, 4);
-
-					// runTaskAfterStart
-					runTaskAfterStart();
-
-					// finishTask 시작
-					startFinishTimerTask();
-
-					// 태스크 종료
-					waitingTimerTask.cancel();
-
+					runStartTasks();
 					return;
 				}
 
@@ -239,34 +240,32 @@ public abstract class MiniGame {
 		}, 0, 20);
 	}
 
-	private void startFinishTimerTask() {
+	private void runStartTasks() {
+		// 활성화
+		started = true;
+
+		// 시작 타이틀
+		sendTitleToPlayers("START", "", 4, 20 * 2, 4);
+
+		// finishTimer 시작
+		startFinishTimer();
+
+		// runTaskAfterStart
+		runTaskAfterStart();
+
+		// 태스크 종료
+		waitingTimer.cancel();
+	}
+
+	private void startFinishTimer() {
 		Counter timer = new Counter(this.timeLimit);
-		this.finishTimerTask = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
+		this.finishTimer = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
 				int leftTime = timer.getCount();
 				if (leftTime <= 0) {
-					// 종료 알리기
-					sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
-
-					// runTaskAfterFinish 시작
-					runTaskAfterFinish();
-
-					// print score
-					printScore();
-
-					// setup player
-					for (Player p : getPlayers()) {
-						setupPlayerWhenExit(p);
-					}
-
-					// initSeting
-					initSetting();
-
-					// 태스크 종료
-					finishTimerTask.cancel();
-
+					runFinishTasks();
 					return;
 				} else if (leftTime <= 10) {
 					// 10초 이하 남았을 때 알리기
@@ -276,6 +275,35 @@ public abstract class MiniGame {
 				timer.removeCount(1);
 			}
 		}, 0, 20);
+	}
+
+	private void runFinishTasks() {
+		// runTaskBeforeFinish
+		runTaskBeforeFinish();
+
+		// 종료 알리기
+		sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
+
+		// print score
+		printScore();
+
+		// setup player
+		for (Player p : getPlayers()) {
+			setupPlayerWhenExit(p);
+		}
+
+		// runTaskAfterFinish
+		runTaskAfterFinish();
+
+		// initSeting
+		initSetting();
+
+		// 태스크 종료
+		finishTimer.cancel();
+	}
+
+	protected final void endGame() {
+		this.runFinishTasks();
 	}
 
 	// 게임 유형에 따라 다르게 출력되야 할 필요 있음
@@ -313,10 +341,18 @@ public abstract class MiniGame {
 		return allPlayer;
 	}
 
+	public int getPlayerCount() {
+		return this.getPlayers().size();
+	}
+
 	public int getMaxPlayerCount() {
 		return this.maxPlayerCount;
 	}
 
+	/*
+	 * MiniGame의 players는 미니게임이 시작한 후부터 끝나기 전까지 모든 플레이어를 변하지 않고 끝까지 가지고 있는 변수여야 하기
+	 * 때문에 addPlayer()와 removePlayer()를 private으로 선언한다
+	 */
 	private void addPlayer(Player p) {
 		// 0점 으로 플레이어 등록
 		this.players.put(p, 0);
@@ -360,9 +396,13 @@ public abstract class MiniGame {
 		}
 	}
 
-	public void handleException(PlayerQuitEvent event) {
+	enum Exception {
+		PlayerQuitServer, ServerDown;
+	}
+
+	public final void handleException(Player p, MiniGame.Exception exception, Object arg) {
 		/*
-		 * [예외 관리]
+		 * [예외 상황 관리]
 		 * 
 		 * - 나중에 MiniGame.Exception enum으로 세분화해서 관리 예정
 		 * 
@@ -373,11 +413,14 @@ public abstract class MiniGame {
 		 * 마지막에 각 게임에게 예외 발생 매소드로 알림
 		 */
 
-		// player
-		Player p = event.getPlayer();
-
 		// log
-		BroadcastTool.info("[" + p.getName() + "] handle exception: " + event.getReason().name());
+		BroadcastTool.info("[" + p.getName() + "] handle exception: " + exception.name());
+
+		// PlayerQuitServer일 때 이유 출력
+		if (exception == Exception.PlayerQuitServer) {
+			PlayerQuitEvent event = (PlayerQuitEvent) arg;
+			BroadcastTool.info("Quit reason: " + event.getReason().name());
+		}
 
 		// player 삭제
 		this.removePlayer(p);
@@ -389,7 +432,7 @@ public abstract class MiniGame {
 			// 미니게임에 남은 사람이 없으면 미니게임 세팅 초기화
 			this.initSetting();
 		} else {
-			// 미니게임에 남은 사람이 있으면 남은 인원에게 알리기
+			// 미니게임에 퇴장한 플레이어를 남은 인원에게 알리기
 			this.sendMessageToAllPlayers(p.getName() + " quit " + this.title);
 		}
 
@@ -465,8 +508,23 @@ public abstract class MiniGame {
 		this.maxPlayerCount = maxPlayerCount;
 		this.waitingTime = waitingTime;
 		this.timeLimit = timeLimit;
+
 		this.actived = actived;
 		this.settingFixed = settingFixed;
+	}
+
+	protected void checkAttributes() {
+		/*
+		 * frame MiniGame class에서 조건 추가적으로 검사, final로 선언
+		 */
+		// title
+		if (this.title.length() <= 0) {
+			BroadcastTool.warn(this.getTitleWithClassName() + ": title must be at least 1 character");
+		}
+		// timeLimit
+		if (this.timeLimit <= 0) {
+			BroadcastTool.warn(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
+		}
 	}
 
 	public String getTitleWithClassName() {

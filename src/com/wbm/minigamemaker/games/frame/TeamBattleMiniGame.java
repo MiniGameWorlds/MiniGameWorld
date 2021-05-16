@@ -7,10 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import com.wbm.plugin.util.BroadcastTool;
+
 public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/*
-	 * [팀 배틀]
+	 * [팀 배틀 미니게임]
 	 * 
 	 * - team끼리 배틀하는 미니게임 프레임
 	 * 
@@ -154,6 +156,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.teamSize;
 	}
 
+	protected int getValidTeamCount() {
+		// player가 1명 이상 들어있는 팀의 개수
+		int count = 0;
+		for (Team team : this.allTeams) {
+			if (!team.isEmpty()) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	@Override
 	protected final void plusScore(Player p, int score) {
 		// 개인 플레이어 점수 관리 금지: final로 선언, 대신 plusScoreToTeam() 사용
@@ -209,6 +222,24 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		} else {
 			this.registerAllPlayersToTeam();
 		}
+
+		this.checkOnlyOneTeamRemains();
+	}
+
+	protected boolean checkOnlyOneTeamRemains() {
+		// 1개의 팀에만 플레이어가 존재하는지 검사후 맞으면 게임 종료
+		if (this.getValidTeamCount() <= 1) {
+			this.sendMessageToAllPlayers("Game End: only 1 team remains");
+			this.endGame();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected void handleGameExeption(Player p) {
+		super.handleGameExeption(p);
+		this.checkOnlyOneTeamRemains();
 	}
 
 	@Override
@@ -234,6 +265,20 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	@Override
+	protected final void checkAttributes() {
+		super.checkAttributes();
+		// waitingTime
+		if (this.getWaitingTime() <= 0) {
+			BroadcastTool.warn(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
+		}
+		// maxPlayerCount
+		if (this.getMaxPlayerCount() <= 1) {
+			BroadcastTool.warn(this.getTitleWithClassName()
+					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
+		}
+	}
+
 	public class Team {
 		/*
 		 * 변수 값에 대한 접근은 Team메소드는 public
@@ -248,6 +293,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 		public int size() {
 			return this.members.size();
+		}
+
+		public boolean isEmpty() {
+			return this.size() == 0;
 		}
 
 		public List<Player> getMembers() {

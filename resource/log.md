@@ -12,3 +12,13 @@
 - MiniGame에 scoreNotifying 기능 추가(+1, -1 표시 기능)
 - MiniGame 프레임 공사
 - MiniGame에서 설정값을 set메소드로 설정 기능 추가 
+
+# 2021/5/16
+- handleException 더 범용적으로 변경, Exeption enum 추가
+- MiniGame attributes 값 유효성 검사 처리 추가(checkAttributes())
+- 프레임 미니게임 클래스 이름 변경: SoloMiniGame, TeamMiniGame, SoloBattleMiniGame, TeamBattleMiniGame
+- SoloBattleMiniGame, TeamBattleMiniGame은 플레이어/팀 이 1개만 남았을 때 게임 종료('배틀'주제 미니게임이므로 상대가 없으면 게임 종료)
+> - runTaskBeforeStart, runTaskBeforeEnd 추가하기
+> - 플레이어가 join할 때 이미 다른 미니게임에 참여중인지 검사
+> - 각 프레임 미니게임 인원수 검사 
+> - 미니게임 예외처리 프레임 클래스에서 처리(인원수 관련 게임종료)

@@ -156,7 +156,6 @@ public class MiniGameManager implements JsonDataMember {
 
 		// 미니게임과 관련된 이벤트가 아닐 경우 처리 안함
 		if (players.isEmpty()) {
-//			BroadcastTool.warn("can not get player from event: " + e.getEventName());
 			return false;
 		}
 
@@ -165,7 +164,6 @@ public class MiniGameManager implements JsonDataMember {
 			MiniGame playingGame = this.getPlayingGame(p);
 			// 플레이어가 플레이중인 미니게임이 없으면 반환
 			if (playingGame == null) {
-//				BroadcastTool.warn("player is not playing game: ");
 				return false;
 			}
 			playingGame.passEvent(e);
@@ -191,7 +189,7 @@ public class MiniGameManager implements JsonDataMember {
 		return null;
 	}
 
-	private MiniGame getPlayingGame(Player p) {
+	public MiniGame getPlayingGame(Player p) {
 		for (MiniGame game : this.minigames) {
 			if (game.containsPlayer(p)) {
 				return game;
@@ -254,7 +252,8 @@ public class MiniGameManager implements JsonDataMember {
 			String existGameClassName = game.getClassName();
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
 				BroadcastTool.warn(newGame.getTitleWithClassName() + " minigame is not registered");
-				BroadcastTool.warn("Cause: the same class " + game.getTitleWithClassName() + " minigame is already registered");
+				BroadcastTool.warn(
+						"Cause: the same class " + game.getTitleWithClassName() + " minigame is already registered");
 				return false;
 			}
 		}
@@ -275,15 +274,14 @@ public class MiniGameManager implements JsonDataMember {
 		return true;
 	}
 
-	public boolean removeMiniGame(String title) {
+	public boolean unregisterMiniGame(MiniGame minigame) {
 		// 등록된 미니게임 삭제
-		for (MiniGame game : this.minigames) {
-			if (game.getTitle().equalsIgnoreCase(title)) {
-				BroadcastTool.info(title + " minigame is removed");
-				return this.minigames.remove(game);
-			}
+		if (this.minigames.remove(minigame)) {
+			BroadcastTool.info(minigame.getTitleWithClassName() + " minigame is removed");
+			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	public Map<String, Object> getGameSetting() {

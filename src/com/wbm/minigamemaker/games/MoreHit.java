@@ -7,33 +7,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.wbm.minigamemaker.games.frame.TeamBattleMiniGame;
 
-//class A {
-//	void a() {
-//		System.out.println("a");
-//	}
-//}
-//
-//class B extends A {
-//	final void a() {
-//		System.out.println("b");
-//	}
-//	
-//	void b() {
-//		this.a();
-//	}
-//}
 public class MoreHit extends TeamBattleMiniGame {
-
-//	public static void main(String[] args) {
-//		B a = new B();
-//		a.b();
-//	}
-
 	/*
-	 * 더 많이 때리는 게임
+	 * 설명: 더 많이 때리는 게임
+	 * 타입: TeamBattle
 	 */
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10, 2, 1);
@@ -70,6 +51,10 @@ public class MoreHit extends TeamBattleMiniGame {
 					this.plusScoreToTeam(team, 1);
 				}
 			}
+		} else if (event instanceof PlayerRespawnEvent) {
+			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
+			e.setRespawnLocation(this.getLocation());
+			e.getPlayer().sendMessage("respawn!");
 		}
 	}
 

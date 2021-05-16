@@ -2,9 +2,11 @@ package com.wbm.minigamemaker.games.frame;
 
 import org.bukkit.entity.Player;
 
-public abstract class CooperativeMiniGame extends MiniGame {
+import com.wbm.plugin.util.BroadcastTool;
+
+public abstract class TeamMiniGame extends MiniGame {
 	/*
-	 * [협동 미니게임]
+	 * [팀 미니게임]
 	 * 
 	 * - 점수 공동 관리: 기존 plusScore, minusScore final로 막고,
 	 * plusScoreToTeam/minusScoreToTeam으로 팀 점수 관리
@@ -12,7 +14,7 @@ public abstract class CooperativeMiniGame extends MiniGame {
 	 * - 점수 출력: 공동의 점수 출력됨
 	 */
 
-	public CooperativeMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
+	public TeamMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, maxPlayerCount, timeLimit, waitingTime);
 	}
 
@@ -33,7 +35,7 @@ public abstract class CooperativeMiniGame extends MiniGame {
 	protected void minusScoreToTeam(int score) {
 		this.getPlayers().forEach(p -> this.minusScoreMiniGameOriginal(p, score));
 	}
-	
+
 	private void plusScoreMiniGameOriginal(Player p, int score) {
 		// final로 선언한 메소드 말고, 원래 MiniGame의 메소드 사용
 		super.plusScore(p, score);
@@ -49,6 +51,21 @@ public abstract class CooperativeMiniGame extends MiniGame {
 		this.sendMessageToAllPlayers("[Score]");
 		Player p = this.getPlayers().get(0);
 		this.sendMessageToAllPlayers("Team Score: " + this.getScore(p));
+	}
+
+	@Override
+	protected final void checkAttributes() {
+		super.checkAttributes();
+		// waitingTime
+		if (this.getWaitingTime() <= 0) {
+			BroadcastTool.warn(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
+		}
+		// maxPlayerCount
+		if (this.getMaxPlayerCount() <= 1) {
+			BroadcastTool.warn(this.getTitleWithClassName()
+					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
+		}
+
 	}
 }
 
