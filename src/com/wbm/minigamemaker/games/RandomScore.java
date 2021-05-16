@@ -7,16 +7,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
+import com.wbm.minigamemaker.games.frame.CooperativeMiniGame;
 
-public class RandomScore extends MiniGame {
+public class RandomScore extends CooperativeMiniGame {
 
-	List<Integer> scores;
+	private List<Integer> scores;
 
 	public RandomScore() {
 		super("RandomScore", 2, 10, 10);
 		this.scores = new ArrayList<Integer>();
 		this.setSettingFixed(true);
+		this.setScoreNotifying(true);
 	}
 
 	@Override
@@ -37,19 +38,8 @@ public class RandomScore extends MiniGame {
 				int randomIndex = (int) (Math.random() * this.scores.size());
 				int randomScore = this.scores.remove(randomIndex);
 				this.plusScore(p, randomScore);
-				p.sendMessage("+" + randomScore);
 			}
 		}
-	}
-
-	@Override
-	protected void runTaskAfterStart() {
-
-	}
-
-	@Override
-	protected void runTaskAfterFinish() {
-
 	}
 
 	@Override
@@ -57,11 +47,6 @@ public class RandomScore extends MiniGame {
 		List<String> list = new ArrayList<String>();
 		list.add("Sneak: get random score");
 		return list;
-	}
-
-	@Override
-	protected void handleGameExeption(Player p) {
-
 	}
 
 }

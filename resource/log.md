@@ -1,4 +1,4 @@
-# 20210510
+# 2021/5/10
 - 스코어 출력을 스코어 기준 내림차순으로 변경
 - MiniGame 생성자 Location 설정없으면 기본 world, 0, 4, 0으로 설정
 - 미니게임 클래스 1개당 1미니게임 생성만 가능하게 디자인
@@ -6,4 +6,9 @@
 - 미니게임 활성화 여부 actived 추가
 - 미니게임 세팅값(maxPlayerCount, timeLimit, waitingTime)고정 여부 settingFixed 추가
 - MiniGame 생성자에서 initSetting() 호출 제거
-- SoloMiniGame, CooperativeMiniGame, TeamMiniGame 프레임워크 추가
+- SoloMiniGame, CooperativeMiniGame, TeamBattleMiniGame 프레임워크 추가
+
+# 2021/5/15
+- MiniGame에 scoreNotifying 기능 추가(+1, -1 표시 기능)
+- MiniGame 프레임 공사
+- MiniGame에서 설정값을 set메소드로 설정 기능 추가 

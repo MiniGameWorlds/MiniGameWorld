@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wbm.minigamemaker.games.FitTool;
+import com.wbm.minigamemaker.games.MoreHit;
 import com.wbm.minigamemaker.games.RandomScore;
 import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
@@ -23,6 +24,14 @@ public class Main extends JavaPlugin {
 		return main;
 	}
 
+//	public static void main(String[] args) {
+//		Logger logger = Logger.getLogger(Main.class.getName());
+//		logger.setLevel(Level.INFO); // INFO 이하의 로그 호출은 무시됨
+//		logger.severe("severe log");
+//		logger.warning("warning log");
+//		logger.info("info log");
+//	}
+
 	@Override
 	public void onEnable() {
 		main = this;
@@ -41,6 +50,7 @@ public class Main extends JavaPlugin {
 		// 예시 미니게임
 		this.minigameManager.registerMiniGame(new FitTool());
 		this.minigameManager.registerMiniGame(new RandomScore());
+		this.minigameManager.registerMiniGame(new MoreHit());
 
 	}
 

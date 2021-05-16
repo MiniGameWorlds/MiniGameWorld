@@ -10,9 +10,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
+import com.wbm.minigamemaker.games.frame.SoloMiniGame;
 
-public class FitTool extends MiniGame {
+public class FitTool extends SoloMiniGame {
 	/*
 	 * 제한 시간내에 알맞는 도구를 이용해서 많은 블럭을 캐는 미니게임
 	 */
@@ -20,7 +20,8 @@ public class FitTool extends MiniGame {
 	List<Material> blocks;
 
 	public FitTool() {
-		super("FitTool", 1, 30, 10);
+		super("FitTool", 30, 10);
+		this.setScoreNotifying(true);
 	}
 
 	@Override
@@ -53,7 +54,6 @@ public class FitTool extends MiniGame {
 			if (this.blocks.contains(b.getType())) {
 				e.setCancelled(true);
 				this.plusScore(p, 1);
-				p.sendMessage("+1");
 			}
 
 			// 랜덤블럭으로 설정
@@ -73,21 +73,10 @@ public class FitTool extends MiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterFinish() {
-
-	}
-
-	@Override
 	protected List<String> getGameTutorialStrings() {
 		List<String> str = new ArrayList<String>();
 		str.add("Break block: +1");
 		return str;
-	}
-
-	@Override
-	protected void handleGameExeption(Player p) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

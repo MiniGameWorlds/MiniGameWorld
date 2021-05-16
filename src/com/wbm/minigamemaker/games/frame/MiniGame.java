@@ -1,8 +1,6 @@
 package com.wbm.minigamemaker.games.frame;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +26,7 @@ public abstract class MiniGame {
 	 * 플레이어 서버 나갈 때 예외처리
 	 */
 
-	// 미니게임 정보
+	// 미니게임 정보 (TODO: Info class만들어서 관리하기)
 	private String title;
 	private Location location; // 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
 	private int maxPlayerCount;
@@ -49,23 +47,28 @@ public abstract class MiniGame {
 	// 랭크 매니저
 	RankManager rankM;
 
+	// 미니게임 설정값 (TODO: Setting class만들어서 관리하기)
+	private boolean scoreNotifying;
+
 	// abstract
 	protected abstract void initGameSetting();
 
 	protected abstract void processEvent(Event event);
 
-	protected abstract void runTaskAfterStart();
-
-	protected abstract void runTaskAfterFinish();
-
 	protected abstract List<String> getGameTutorialStrings();
-
-	protected abstract void handleGameExeption(Player p);
 
 	// 기본 생성자
 	public MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, true, false);
+		this.setupMiniGame();
+
+		// 한번만 초기화 되야하는 것들
+
+		// 랭크 매니저
 		this.rankM = new RankManager();
+
+		// 미니게임 설정값
+		this.scoreNotifying = false;
 	}
 
 	// location 기본값 생성자
@@ -73,7 +76,17 @@ public abstract class MiniGame {
 		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
 	}
 
-	private void initSetting() {
+	// 구현 선택사항 메소드들
+	protected void runTaskAfterStart() {
+	};
+
+	protected void runTaskAfterFinish() {
+	};
+
+	protected void handleGameExeption(Player p) {
+	};
+
+	private void setupMiniGame() {
 		this.started = false;
 		this.stopAllTask();
 		if (this.players == null) {
@@ -81,6 +94,11 @@ public abstract class MiniGame {
 		} else {
 			this.players.clear();
 		}
+
+	}
+
+	private void initSetting() {
+		this.setupMiniGame();
 
 		// 하위 미니게임 세팅 값 설정
 		this.initGameSetting();
@@ -327,11 +345,19 @@ public abstract class MiniGame {
 	protected void plusScore(Player p, int score) {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore + score);
+		// scoreNotifying 메세지 전송
+		if (this.scoreNotifying) {
+			p.sendMessage("[" + this.title + "] +" + score);
+		}
 	}
 
 	protected void minusScore(Player p, int score) {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore - score);
+		// scoreNotifying 메세지 전송
+		if (this.scoreNotifying) {
+			p.sendMessage("[" + this.title + "] -" + score);
+		}
 	}
 
 	public void handleException(PlayerQuitEvent event) {
@@ -422,6 +448,14 @@ public abstract class MiniGame {
 	// 구현한 미니게임 클래스에서 사용가능
 	protected void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
+	}
+
+	protected boolean isScoreNotifying() {
+		return scoreNotifying;
+	}
+
+	protected void setScoreNotifying(boolean scoreNotifying) {
+		this.scoreNotifying = scoreNotifying;
 	}
 
 	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
