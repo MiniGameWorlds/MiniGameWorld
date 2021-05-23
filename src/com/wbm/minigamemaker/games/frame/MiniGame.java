@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -26,14 +27,113 @@ public abstract class MiniGame {
 	 * 플레이어 서버 나갈 때 예외처리
 	 */
 
-	// 미니게임 정보 (TODO: Info class만들어서 관리하기)
-	private String title;
-	private Location location; // 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
-	private int maxPlayerCount;
-	private int waitingTime;
-	private int timeLimit;
-	private boolean actived; // 기본값: true
-	private boolean settingFixed; // 기본값: false
+	protected class Setting {
+		/*
+		 * 미니게임 설정값 관리 클래스
+		 */
+		// 파일 관리 o
+		private String title;
+		// 파일 관리 o
+		// 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
+		private Location location;
+		// 파일 관리 o
+		private int maxPlayerCount;
+		// 파일 관리 o
+		private int waitingTime;
+		// 파일 관리 o
+		private int timeLimit;
+		// 파일 관리 o
+		// 기본값: true
+		private boolean actived;
+		// 파일 관리 x
+		// 기본값: false
+		private boolean settingFixed;
+		// 파일 관리 x
+		// 기본값: false
+		private boolean scoreNotifying;
+
+		public Setting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+			this.title = title;
+			this.location = location;
+			this.maxPlayerCount = maxPlayerCount;
+			this.waitingTime = waitingTime;
+			this.timeLimit = timeLimit;
+
+			this.actived = true;
+			this.settingFixed = false;
+			this.scoreNotifying = false;
+		}
+
+		public void setSettingFixed(boolean settingFixed) {
+			this.settingFixed = settingFixed;
+		}
+
+		public void setScoreNotifying(boolean scoreNotifying) {
+			this.scoreNotifying = scoreNotifying;
+		}
+
+		private void setTitle(String title) {
+			this.title = title;
+		}
+
+		private void setLocation(Location location) {
+			this.location = location;
+		}
+
+		private void setMaxPlayerCount(int maxPlayerCount) {
+			this.maxPlayerCount = maxPlayerCount;
+		}
+
+		private void setWaitingTime(int waitingTime) {
+			this.waitingTime = waitingTime;
+		}
+
+		private void setTimeLimit(int timeLimit) {
+			this.timeLimit = timeLimit;
+		}
+
+		private void setActived(boolean actived) {
+			this.actived = actived;
+		}
+
+		/*
+		 * getter는 public해도 상관없음
+		 */
+		public String getTitle() {
+			return title;
+		}
+
+		public Location getLocation() {
+			return location;
+		}
+
+		public int getMaxPlayerCount() {
+			return maxPlayerCount;
+		}
+
+		public int getWaitingTime() {
+			return waitingTime;
+		}
+
+		public int getTimeLimit() {
+			return timeLimit;
+		}
+
+		public boolean isActived() {
+			return actived;
+		}
+
+		public boolean isSettingFixed() {
+			return settingFixed;
+		}
+
+		public boolean isScoreNotifying() {
+			return scoreNotifying;
+		}
+	}
+
+	// 미니게임 정보
+	private Setting setting;
 
 	// 게임이 카운트 다운이 끝나고 실제로 시작한지 여부
 	private boolean started;
@@ -41,14 +141,14 @@ public abstract class MiniGame {
 	// 각종 타이머 태스크
 	private BukkitTask waitingTimer, finishTimer;
 
+	// 타이머 관련 시간 카운터
+	private Counter waitingCounter, finishCounter;
+
 	// <참여중인 플레이어들, 플레이어 점수>
 	private Map<Player, Integer> players;
 
 	// 랭크 매니저
-	RankManager rankM;
-
-	// 미니게임 설정값 (TODO: Setting class만들어서 관리하기)
-	private boolean scoreNotifying;
+	protected RankManager rankM;
 
 	// abstract
 	protected abstract void initGameSetting();
@@ -59,16 +159,12 @@ public abstract class MiniGame {
 
 	// 기본 생성자
 	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, true, false);
+		this.setting = new Setting(title, location, maxPlayerCount, timeLimit, waitingTime);
 		this.setupMiniGame();
 
 		// [한번만 초기화 되야하는 것들]
-
 		// 랭크 매니저
 		this.rankM = new RankManager();
-
-		// 미니게임 설정값
-		this.scoreNotifying = false;
 	}
 
 	// location 기본값 생성자
@@ -89,7 +185,7 @@ public abstract class MiniGame {
 	protected void runTaskAfterFinish() {
 	};
 
-	protected void handleGameExeption(Player p) {
+	protected void handleGameExeption(Player p, Exception exception, Object arg) {
 	};
 
 	private void setupMiniGame() {
@@ -100,7 +196,9 @@ public abstract class MiniGame {
 		} else {
 			this.players.clear();
 		}
-
+		// counter
+		this.waitingCounter = new Counter(this.getWaitingTime());
+		this.finishCounter = new Counter(this.getTimeLimit());
 	}
 
 	private void initSetting() {
@@ -153,13 +251,13 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		if (!this.actived) {
-			p.sendMessage(this.title + " is not active");
+		if (!this.getActived()) {
+			p.sendMessage(this.getTitle() + " is not active");
 			return false;
 		}
 
 		if (this.started) {
-			p.sendMessage(this.title + " already started");
+			p.sendMessage(this.getTitle() + " already started");
 			return false;
 		}
 
@@ -205,15 +303,19 @@ public abstract class MiniGame {
 		 * 튜토리얼
 		 */
 		p.sendMessage("=================================");
-		p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.title + ChatColor.WHITE);
+		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
 		p.sendMessage("=================================");
 
 		// print rule
 		p.sendMessage("");
 		p.sendMessage(ChatColor.BOLD + "[Rule]");
-		p.sendMessage("Time Limit: " + this.timeLimit + " sec");
-		for (String msg : this.getGameTutorialStrings()) {
-			p.sendMessage(msg);
+		p.sendMessage("Time Limit: " + this.getTimeLimit() + " sec");
+
+		// tutorial
+		if (this.getGameTutorialStrings() != null) {
+			for (String msg : this.getGameTutorialStrings()) {
+				p.sendMessage("- " + msg);
+			}
 		}
 	}
 
@@ -221,21 +323,34 @@ public abstract class MiniGame {
 		/*
 		 * waitingTime동안 기다린 후에 게임 시작
 		 */
-		Counter timer = new Counter(this.waitingTime);
-
 		this.waitingTimer = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
 				// 카운트다운 끝
-				if (timer.getCount() <= 0) {
+				int waitTime = waitingCounter.getCount();
+				if (waitTime <= 0) {
 					runStartTasks();
 					return;
 				}
 
 				// 플레이어들에게 카운트 다운 타이틀
-				sendTitleToPlayers("" + timer.getCount(), "", 4, 12, 4);
-				timer.removeCount(1);
+				String time = "" + waitTime;
+				if (waitTime == 3) {
+					time = ChatColor.YELLOW + time;
+				} else if (waitTime == 2) {
+					time = ChatColor.GOLD + time;
+				} else if (waitTime == 1) {
+					time = ChatColor.RED + time;
+				}
+				sendTitleToPlayers(time, "", 4, 12, 4);
+
+				// play sound
+				if (waitTime <= 3) {
+					getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
+				}
+
+				waitingCounter.removeCount(1);
 			}
 		}, 0, 20);
 	}
@@ -243,6 +358,9 @@ public abstract class MiniGame {
 	private void runStartTasks() {
 		// 활성화
 		started = true;
+
+		// play sound
+		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_END_PORTAL_SPAWN));
 
 		// 시작 타이틀
 		sendTitleToPlayers("START", "", 4, 20 * 2, 4);
@@ -254,25 +372,37 @@ public abstract class MiniGame {
 		runTaskAfterStart();
 
 		// 태스크 종료
-		waitingTimer.cancel();
+		if (this.waitingTimer != null) {
+			waitingTimer.cancel();
+		}
 	}
 
 	private void startFinishTimer() {
-		Counter timer = new Counter(this.timeLimit);
 		this.finishTimer = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
-				int leftTime = timer.getCount();
+				int leftTime = finishCounter.getCount();
 				if (leftTime <= 0) {
 					runFinishTasks();
 					return;
 				} else if (leftTime <= 10) {
 					// 10초 이하 남았을 때 알리기
-					sendTitleToPlayers("" + leftTime, "", 4, 12, 4);
+					String time = "" + leftTime;
+					if (leftTime == 3) {
+						time = ChatColor.YELLOW + time;
+					} else if (leftTime == 2) {
+						time = ChatColor.GOLD + time;
+					} else if (leftTime == 1) {
+						time = ChatColor.RED + time;
+					}
+					sendTitleToPlayers("" + time, "", 4, 12, 4);
+
+					// play sound
+					getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
 				}
 
-				timer.removeCount(1);
+				finishCounter.removeCount(1);
 			}
 		}, 0, 20);
 	}
@@ -281,11 +411,10 @@ public abstract class MiniGame {
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();
 
-		// 종료 알리기
-		sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
+		// play sound
+		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_ENDER_DRAGON_DEATH));
 
-		// print score
-		printScore();
+		printEndInfo();
 
 		// setup player
 		for (Player p : getPlayers()) {
@@ -299,7 +428,24 @@ public abstract class MiniGame {
 		initSetting();
 
 		// 태스크 종료
-		finishTimer.cancel();
+		if (this.finishTimer != null) {
+			finishTimer.cancel();
+		}
+	}
+
+	protected void printEndInfo() {
+		// title
+		for (Player p : this.getPlayers()) {
+			p.sendMessage("=================================");
+			p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
+			p.sendMessage("=================================");
+		}
+
+		// 종료 알리기
+		sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
+
+		// print score
+		printScore();
 	}
 
 	protected final void endGame() {
@@ -311,10 +457,12 @@ public abstract class MiniGame {
 		// 스코어 결과 score기준 내림차순으로 출력
 		this.sendMessageToAllPlayers("[Score]");
 		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(this.players);
+		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
 			int score = entry.getValue();
-			this.sendMessageToAllPlayers(p.getName() + ": " + score);
+			this.sendMessageToAllPlayers("[" + rank + "] " + p.getName() + ": " + score);
+			rank += 1;
 		}
 
 	}
@@ -343,10 +491,6 @@ public abstract class MiniGame {
 
 	public int getPlayerCount() {
 		return this.getPlayers().size();
-	}
-
-	public int getMaxPlayerCount() {
-		return this.maxPlayerCount;
 	}
 
 	/*
@@ -382,25 +526,33 @@ public abstract class MiniGame {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore + score);
 		// scoreNotifying 메세지 전송
-		if (this.scoreNotifying) {
-			p.sendMessage("[" + this.title + "] +" + score);
+		if (this.setting.isScoreNotifying()) {
+			p.sendMessage("[" + this.getTitle() + "] +" + score);
 		}
+	}
+
+	protected void plusEveryoneScore(int score) {
+		this.getPlayers().forEach(p -> this.plusScore(p, score));
 	}
 
 	protected void minusScore(Player p, int score) {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore - score);
 		// scoreNotifying 메세지 전송
-		if (this.scoreNotifying) {
-			p.sendMessage("[" + this.title + "] -" + score);
+		if (this.setting.isScoreNotifying()) {
+			p.sendMessage("[" + this.getTitle() + "] -" + score);
 		}
+	}
+
+	protected void minusEveryoneScore(int score) {
+		this.getPlayers().forEach(p -> this.minusScore(p, score));
 	}
 
 	enum Exception {
 		PlayerQuitServer, ServerDown;
 	}
 
-	public final void handleException(Player p, MiniGame.Exception exception, Object arg) {
+	public final void handleException(Player p, Exception exception, Object arg) {
 		/*
 		 * [예외 상황 관리]
 		 * 
@@ -433,16 +585,16 @@ public abstract class MiniGame {
 			this.initSetting();
 		} else {
 			// 미니게임에 퇴장한 플레이어를 남은 인원에게 알리기
-			this.sendMessageToAllPlayers(p.getName() + " quit " + this.title);
+			this.sendMessageToAllPlayers(p.getName() + " quit " + this.getTitle());
 		}
 
 		// 각 게임에게 예외 발생 매소드로 처리 알림 (예. task 중지)
-		this.handleGameExeption(p);
+		this.handleGameExeption(p, exception, arg);
 	}
 
 	private void setupPlayerWhenJoin(Player p) {
 		// 게임룸 위치로 tp
-		p.teleport(this.location);
+		p.teleport(this.getLocation());
 
 		// player inventory clear
 		p.getInventory().clear();
@@ -464,53 +616,46 @@ public abstract class MiniGame {
 		PlayerTool.makePureState(p);
 	}
 
+	/*
+	 * 자주 쓰이는 세팅값은 getter 추가
+	 */
 	public String getTitle() {
-		return title;
+		return this.getSetting().getTitle();
 	}
 
 	public Location getLocation() {
-		return location;
+		return this.getSetting().getLocation();
 	}
 
 	public int getWaitingTime() {
-		return waitingTime;
+		return this.getSetting().getWaitingTime();
 	}
 
 	public int getTimeLimit() {
-		return timeLimit;
+		return this.getSetting().getTimeLimit();
+	}
+
+	public int getMaxPlayerCount() {
+		return this.getSetting().getMaxPlayerCount();
 	}
 
 	public boolean getActived() {
-		return this.actived;
+		return this.getSetting().isActived();
 	}
 
-	public boolean getSettingFixed() {
-		return this.settingFixed;
-	}
-
-	// 구현한 미니게임 클래스에서 사용가능
-	protected void setSettingFixed(boolean settingFixed) {
-		this.settingFixed = settingFixed;
-	}
-
-	protected boolean isScoreNotifying() {
-		return scoreNotifying;
-	}
-
-	protected void setScoreNotifying(boolean scoreNotifying) {
-		this.scoreNotifying = scoreNotifying;
+	public boolean isSettingFixed() {
+		return this.getSetting().isSettingFixed();
 	}
 
 	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
 			boolean actived, boolean settingFixed) {
-		this.title = title;
-		this.location = location;
-		this.maxPlayerCount = maxPlayerCount;
-		this.waitingTime = waitingTime;
-		this.timeLimit = timeLimit;
-
-		this.actived = actived;
-		this.settingFixed = settingFixed;
+		this.setting.setTitle(title);
+		this.setting.setLocation(location);
+		this.setting.setMaxPlayerCount(maxPlayerCount);
+		this.setting.setWaitingTime(waitingTime);
+		this.setting.setTimeLimit(timeLimit);
+		this.setting.setActived(actived);
+		this.setting.setSettingFixed(settingFixed);
 	}
 
 	protected void checkAttributes() {
@@ -518,21 +663,45 @@ public abstract class MiniGame {
 		 * frame MiniGame class에서 조건 추가적으로 검사, final로 선언
 		 */
 		// title
-		if (this.title.length() <= 0) {
+		if (this.getTitle().length() <= 0) {
 			BroadcastTool.warn(this.getTitleWithClassName() + ": title must be at least 1 character");
 		}
 		// timeLimit
-		if (this.timeLimit <= 0) {
+		if (this.getTimeLimit() <= 0) {
 			BroadcastTool.warn(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
 		}
 	}
 
 	public String getTitleWithClassName() {
-		return this.title + "(ClassName: " + this.getClassName() + ")";
+		return this.getTitle() + "(ClassName: " + this.getClassName() + ")";
 	}
 
 	public String getClassName() {
 		return this.getClass().getSimpleName();
+	}
+
+	protected Setting getSetting() {
+		return this.setting;
+	}
+
+	public int getLeftWaitTime() {
+		// 기다리는 남은 시간 리턴 (sec)
+		return this.waitingCounter.getCount();
+	}
+
+	public int getLeftFinishTime() {
+		// 끝나기까지 남은 시간 리턴 (sec)
+		return this.finishCounter.getCount();
+	}
+
+	public String getEveryoneNameString() {
+		String members = "";
+		for (Player p : this.getPlayers()) {
+			members += p.getName() + ", ";
+		}
+		// 마지막 ", " 제거
+		members = members.substring(0, members.length() - 2);
+		return members;
 	}
 }
 

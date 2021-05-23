@@ -36,8 +36,8 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void handleGameExeption(Player p) {
-		super.handleGameExeption(p);
+	protected void handleGameExeption(Player p, Exception exception, Object arg) {
+		super.handleGameExeption(p, exception, arg);
 		this.checkOnlyOnePlayerRemains();
 	}
 

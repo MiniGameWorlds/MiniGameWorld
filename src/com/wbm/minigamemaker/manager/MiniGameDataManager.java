@@ -51,7 +51,7 @@ public class MiniGameDataManager implements JsonDataMember {
 		data.put("actived", minigame.getActived());
 
 		// settingFixed
-		data.put("settingFixed", minigame.getSettingFixed());
+		data.put("settingFixed", minigame.isSettingFixed());
 
 		// data 추가 (className, data)
 		this.minigameData.put(minigame.getClassName(), data);
@@ -102,7 +102,7 @@ public class MiniGameDataManager implements JsonDataMember {
 		boolean actived = (boolean) data.get("actived");
 
 		// settingFixed: 예외적으로 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
-		boolean settingFixed = minigame.getSettingFixed();
+		boolean settingFixed = minigame.isSettingFixed();
 		// settingFixed값을 임의로 바꿨을 떄 미니게임의 기본값으로 다시 설정
 		data.put("settingFixed", settingFixed);
 

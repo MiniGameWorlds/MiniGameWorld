@@ -8,6 +8,8 @@
 > - MiniGame의 maxPlayerCount, timeLimit, waitingTime 값 변경 금지 설정 값 (항상 기본 세팅 값으로 플레이 되어야 할 경우) -> 변수 이름: settingFixed(초기값: false), 파일 data는 저장 x
 > - MiniGame 마다 활성화 여부 값 -> 파일 데이터로 저장 o, 변수이름: actived(초기값: true)
 
+- fitPlayerCount변수(true/false) 추가: 인원수가 maxPlayer와 동일해야 진행 가능한 게임인 경우, 인원수가 maxPlayer와 맞지 않으면 게임 시작후 바로 종료(endGame()), 중간에 플레이어 나가면 handleException메소드에서 endGame()
+
 ## settings.json에 추가할 것
 
 ## 명령어

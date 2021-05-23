@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.minigamemaker.games.MoreHit;
 import com.wbm.minigamemaker.games.RandomScore;
+import com.wbm.minigamemaker.games.RelayJump;
+import com.wbm.minigamemaker.games.ScoreClimbing;
 import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
@@ -51,7 +53,8 @@ public class Main extends JavaPlugin {
 		this.minigameManager.registerMiniGame(new FitTool());
 		this.minigameManager.registerMiniGame(new RandomScore());
 		this.minigameManager.registerMiniGame(new MoreHit());
-
+		this.minigameManager.registerMiniGame(new ScoreClimbing());
+		this.minigameManager.registerMiniGame(new RelayJump());
 	}
 
 	void setupData() {

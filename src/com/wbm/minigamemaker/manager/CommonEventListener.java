@@ -36,7 +36,7 @@ public class CommonEventListener implements Listener {
 	}
 
 	public void registerAllEventListener() {
-		System.out.println("wait for register AllEventHandler");
+		System.out.println("wait for register AllEventHandler...");
 		ClassInfoList events = new ClassGraph().enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());
 

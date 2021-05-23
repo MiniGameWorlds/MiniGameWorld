@@ -46,11 +46,14 @@ public abstract class TeamMiniGame extends MiniGame {
 		super.minusScore(p, score);
 	}
 
+	protected int getTeamScore() {
+		return this.getScore(this.getPlayers().get(0));
+	}
+
 	@Override
 	protected void printScore() {
 		this.sendMessageToAllPlayers("[Score]");
-		Player p = this.getPlayers().get(0);
-		this.sendMessageToAllPlayers("Team Score: " + this.getScore(p));
+		this.sendMessageToAllPlayers("Team(" + this.getEveryoneNameString() + ")" + ": " + getTeamScore());
 	}
 
 	@Override

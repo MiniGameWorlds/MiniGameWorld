@@ -22,7 +22,7 @@ public class FitTool extends SoloMiniGame {
 
 	public FitTool() {
 		super("FitTool", 30, 10);
-		this.setScoreNotifying(true);
+		this.getSetting().setScoreNotifying(true);
 	}
 
 	@Override

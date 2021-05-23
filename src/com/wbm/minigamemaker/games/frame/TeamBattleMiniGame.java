@@ -1,7 +1,10 @@
 package com.wbm.minigamemaker.games.frame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -156,11 +159,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.teamSize;
 	}
 
+	protected boolean isValidTeam(Team team) {
+		return !team.isEmpty();
+	}
+
 	protected int getValidTeamCount() {
 		// player가 1명 이상 들어있는 팀의 개수
 		int count = 0;
 		for (Team team : this.allTeams) {
-			if (!team.isEmpty()) {
+			if (this.isValidTeam(team)) {
 				count++;
 			}
 		}
@@ -179,20 +186,25 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	protected void plusScoreToTeam(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
-		this.plusScoreToTeam(team, score);
-	}
-
-	protected void plusScoreToTeam(Team team, int score) {
 		team.plusScoreToMembers(score);
 	}
 
+//	protected void plusScoreToTeam(Team team, int score) {
+//		team.plusScoreToMembers(score);
+//	}
+
 	protected void minusScoreToTeam(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
-		this.minusScoreToTeam(team, score);
+		team.minusScoreToMembers(score);
 	}
 
-	protected void minusScoreToTeam(Team team, int score) {
-		team.minusScoreToMembers(score);
+//	protected void minusScoreToTeam(Team team, int score) {
+//		team.minusScoreToMembers(score);
+//	}
+
+	protected int getTeamScore(int teamNumber) {
+		Team team = this.getTeam(teamNumber);
+		return team.getTeamScore();
 	}
 
 	private void plusScoreMiniGameOriginal(Player p, int score) {
@@ -237,8 +249,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void handleGameExeption(Player p) {
-		super.handleGameExeption(p);
+	protected void handleGameExeption(Player p, Exception exception, Object arg) {
+		super.handleGameExeption(p, exception, arg);
 		this.checkOnlyOneTeamRemains();
 	}
 
@@ -279,6 +291,35 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	@Override
+	protected void printScore() {
+		// 스코어 결과 팀 score기준 내림차순으로 출력
+		this.sendMessageToAllPlayers("[Score]");
+
+		// team별 멤버 1명씩 삽입
+		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
+		for (Team team : this.allTeams) {
+			if (this.isValidTeam(team)) {
+				Player member = team.getMembers().get(0);
+				int teamScore = team.getTeamScore();
+				eachValidTeamPlayer.put(member, teamScore);
+			}
+		}
+
+		// 팀 점수대로 순위
+		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(eachValidTeamPlayer);
+		int rank = 1;
+		for (Entry<Player, Integer> entry : entries) {
+			Player p = entry.getKey();
+			int score = entry.getValue();
+			Team team = this.getPlayerTeam(p);
+			String memberString = team.getMemberNameString();
+			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
+			rank += 1;
+		}
+
+	}
+
 	public class Team {
 		/*
 		 * 변수 값에 대한 접근은 Team메소드는 public
@@ -307,11 +348,19 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.members.forEach(p -> p.sendMessage(msg));
 		}
 
-		private void plusScoreToMembers(int score) {
+		public int getTeamScore() {
+			return getScore(this.members.get(0));
+		}
+
+		public void sendMessageToMembers(String msg) {
+			this.members.forEach(p -> p.sendMessage(msg));
+		}
+
+		public void plusScoreToMembers(int score) {
 			this.getMembers().forEach(p -> plusScoreMiniGameOriginal(p, score));
 		}
 
-		private void minusScoreToMembers(int score) {
+		public void minusScoreToMembers(int score) {
 			this.getMembers().forEach(p -> minusScoreMiniGameOriginal(p, score));
 		}
 
@@ -334,6 +383,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return this.members.contains(p);
 		}
 
+		public String getMemberNameString() {
+			String members = "";
+			for (Player p : this.members) {
+				members += p.getName() + ", ";
+			}
+			// 마지막 ", " 제거
+			members = members.substring(0, members.length() - 2);
+			return members;
+		}
 	}
 }
 //

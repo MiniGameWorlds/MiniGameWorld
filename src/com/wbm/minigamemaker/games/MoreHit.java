@@ -10,15 +10,15 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.wbm.minigamemaker.games.frame.TeamBattleMiniGame;
+import com.wbm.plugin.util.PlayerTool;
 
 public class MoreHit extends TeamBattleMiniGame {
 	/*
-	 * 설명: 더 많이 때리는 게임
-	 * 타입: TeamBattle
+	 * 설명: 더 많이 때리는 게임 타입: TeamBattle
 	 */
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10, 2, 1);
-		this.setScoreNotifying(true);
+		this.getSetting().setScoreNotifying(true);
 		this.setAutoTeamSetup(true);
 		this.setGroupChat(true);
 	}
@@ -48,7 +48,8 @@ public class MoreHit extends TeamBattleMiniGame {
 				// 다른 팀일 때
 				if (!this.isSameTeam(victim, damager)) {
 					Team team = this.getPlayerTeam(damager);
-					this.plusScoreToTeam(team, 1);
+					team.plusScoreToMembers(1);
+					PlayerTool.heal(victim);
 				}
 			}
 		} else if (event instanceof PlayerRespawnEvent) {
