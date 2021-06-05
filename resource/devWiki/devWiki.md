@@ -54,6 +54,7 @@ this.minigameManager.registerMiniGame(new FitTool());
 - `태스크 등록`: getTaskManager().registerTask("name", new BukkitRunnable() { // code });
 - (태스크 등록은 initGameSetting() 메서드에서 작성되야 함)
 - `태스크 호출`: getTaskManager().runTask("name");
+- 예시 코드
 ```java
 @Override
 protected void initGameSetting() {
@@ -67,7 +68,7 @@ protected void initGameSetting() {
   });
 }
 ```
-- BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고])
+- BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고]) (그러므로 initSetting()메소드에 선언하는 것임)
 - MiniGame의 시스템 관련 task name(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
 
 ## 기본적인 MiniGame의 오버라이딩 메소드 설명
