@@ -18,6 +18,43 @@
 # 사용법
 - 미니게임을 위한 장소는 직접 만들고, 위치를 지정해서 사용해야 함
 
+# 플레이 
+## 미니게임 참가
+### 1. 표지판
+```
+┌────────────┐
+│ [MiniGame] │
+│  FitTool   │
+│            │
+│            │
+└─────┬──────┘
+      │
+      │
+```
+- setting.json의 minigameSign이 true로 설정되야 함
+
+### 2. 명령어
+- `/minigame join <title>`
+
+## 미니게임 퇴장
+### 1. 표지판
+```
+
+┌──────────────────┐
+│ [Leave MiniGame] │
+│                  │
+│                  │
+│                  │
+└────────┬─────────┘
+         │
+         │
+
+```
+- setting.json의 minigameCommand이 true로 설정되야 함
+
+### 2. 명령어
+- `/minigame leave`
+
 # 미니게임 종류 예시
 - 솔로
 - 협동
@@ -31,7 +68,7 @@
 # 설정 파일
 ## `setting.json`
 - 미니게임 메이커 세팅 파일
-```
+```json
 {
   "spawnLocation": {
     "world": "world(월드 폴더 이름)",
@@ -41,18 +78,18 @@
     "pitch": 90.0,
     "yaw": 0.0
   },
-  "signJoin": true
+  "minigameSign": true,
+  "minigameCommand": true
 }
 ```
 - spawnLocation: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
-- signJoin: 기본세팅인 참나무 표지판 우클릭을호 미니게임을 참여할 수 있는 여부 (true / false)
-> 사용법  
-> 표지판 1줄: [MiniGame]  
-> 표지판 2줄: 미니게임 제목  
+- minigameSign: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
+- minigameCommand: 명령어로 미니게임 참가/퇴장 (true / false)
+
 
 ## `minigames.json`
 - 미니게임 설정 파일(예시)
-```
+```json
 {
   "FitTool": {
     "timeLimit": 30.0,
@@ -78,10 +115,10 @@
 - maxPlayerCount: 최대 인원수
 - timeLimit: 플레이 제한 시간
 - actived: 게임 활성화 여부 (true/false)
-- settingFixed: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (수정 불가능)
+- settingFixed: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (=minigame.json파일에서 임의로 수정 불가능)
 - 플러그인으로 넣은 미니게임이 자동으로 `minigames.json`에 등록됨 
 - 없는 미니게임은 서버가 종료된 후 `minigames.json`에서 삭제됨
-- 각 미니게임에 맞게 기본값이 설정되어 있음 (기본값 변경시 작동 안할 가능성 있음)
+- 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미닉임의 기본값 함부로 변경시 작동 안할 수 있음)
 
 
 
