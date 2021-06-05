@@ -10,11 +10,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
-import com.wbm.plugin.util.Main;
 
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*
@@ -24,33 +22,21 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	 */
 	int randomTime;
 	Map<Player, Integer> chance;
-	BukkitTask timerTask;
 
 	public ScoreClimbing() {
 		super("ScoreClimbing", 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
+
 	}
 
 	@Override
 	protected void initGameSetting() {
 		// 상한 점수 설정
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
-		// timer초기화
-		if (this.timerTask != null) {
-			this.timerTask.cancel();
-		}
-	}
 
-	@Override
-	protected void runTaskAfterStart() {
-		super.runTaskAfterStart();
+		// register task
+		this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
 
-		// 찬스 3번씩 설정
-		this.chance.clear();
-		this.getPlayers().forEach(p -> chance.put(p, 3));
-
-		// timer task
-		this.timerTask = new BukkitRunnable() {
 			@Override
 			public void run() {
 				for (Player p : getPlayers()) {
@@ -62,8 +48,36 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 						}
 					}
 				}
+
 			}
-		}.runTaskTimer(Main.getInstance(), 0, 20 * 1);
+		});
+	}
+
+	@Override
+	protected void runTaskAfterStart() {
+		super.runTaskAfterStart();
+
+		// 찬스 3번씩 설정
+		this.chance.clear();
+		this.getPlayers().forEach(p -> chance.put(p, 3));
+
+		// timer task
+		this.getTaskManager().runTaskTimer("scoreTask", 0, 20);
+
+//		this.timerTask = new BukkitRunnable() {
+//			@Override
+//			public void run() {
+//				for (Player p : getPlayers()) {
+//					if (!hasStopped(p)) {
+//						if (getLeftFinishTime() > randomTime) {
+//							plusScore(p, 1);
+//						} else {
+//							minusScore(p, 1);
+//						}
+//					}
+//				}
+//			}
+//		}.runTaskTimer(Main.getInstance(), 0, 20 * 1);
 	}
 
 	private boolean hasStopped(Player p) {

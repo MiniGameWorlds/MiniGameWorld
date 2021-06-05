@@ -9,6 +9,7 @@ import com.wbm.minigamemaker.games.RandomScore;
 import com.wbm.minigamemaker.games.RelayJump;
 import com.wbm.minigamemaker.games.ScoreClimbing;
 import com.wbm.minigamemaker.manager.CommonEventListener;
+import com.wbm.minigamemaker.manager.MiniGameCommand;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
 import com.wbm.plugin.util.BroadcastTool;
@@ -21,18 +22,11 @@ public class Main extends JavaPlugin {
 	JsonDataManager jsonDataM;
 
 	CommonEventListener commonLis;
+	MiniGameCommand minigameCommand;
 
 	public static Main getInstance() {
 		return main;
 	}
-
-//	public static void main(String[] args) {
-//		Logger logger = Logger.getLogger(Main.class.getName());
-//		logger.setLevel(Level.INFO); // INFO 이하의 로그 호출은 무시됨
-//		logger.severe("severe log");
-//		logger.warning("warning log");
-//		logger.info("info log");
-//	}
 
 	@Override
 	public void onEnable() {
@@ -46,8 +40,13 @@ public class Main extends JavaPlugin {
 		// setup data
 		this.setupData();
 
+		// listener
 		this.commonLis = new CommonEventListener(this.minigameManager);
 		getServer().getPluginManager().registerEvents(this.commonLis, this);
+
+		// command
+		this.minigameCommand = new MiniGameCommand(this.minigameManager);
+		getCommand("minigame").setExecutor(this.minigameCommand);
 
 		// 예시 미니게임
 		this.minigameManager.registerMiniGame(new FitTool());

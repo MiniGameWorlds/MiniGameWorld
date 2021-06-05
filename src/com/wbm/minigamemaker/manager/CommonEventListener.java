@@ -88,6 +88,17 @@ public class CommonEventListener implements Listener {
 		/*
 		 * OAK_SIGN으로 미니게임에 참여하는 이벤트
 		 */
+
+		Player p = e.getPlayer();
+
+		// check minigameSign (setting.json)
+		boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
+		if (!minigameSign) {
+			p.sendMessage("minigameSign option is false");
+			return;
+		}
+
+		// process
 		Block block = e.getClickedBlock();
 		if (block != null) {
 			if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
@@ -96,12 +107,10 @@ public class CommonEventListener implements Listener {
 					String minigame = sign.getLines()[0];
 					String title = sign.getLines()[1];
 					if (minigame.equalsIgnoreCase("[MiniGame]")) {
-						boolean signJoin = (boolean) this.minigameManager.getGameSetting().get("signJoin");
 						// setting.json에서 signJoin값을 통해서 표지판 입장 유무 결정
-						if (signJoin) {
-							Player p = e.getPlayer();
-							this.minigameManager.joinGame(p, title);
-						}
+						this.minigameManager.joinGame(p, title);
+					} else if (minigame.equalsIgnoreCase("[Leave MiniGame]")) {
+						this.minigameManager.leaveGame(p);
 					}
 				}
 			}

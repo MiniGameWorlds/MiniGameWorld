@@ -33,3 +33,14 @@
 - 꾸미기(title 색, 소리)
 - ScoreClimbing 미니게임 추가
 
+# 2021/5/30
+- BukkitTaskManager 틀 작성
+
+# 2021/6/5
+- MiniGame에 BukkitTaskManager 적용
+- 미니게임 참여, 퇴장 메세지 모두에게 전송
+- 예외 MiniGameMaker를 통해 처리 메소드 추가
+- 미니게임 퇴장 기능 추가(시작 전에만 허용)
+- 명령어로 게임 참가/퇴장 기능(setting.json에 minigameCommand 추가)
+- 표지판 퇴장 기능 추가 (signJoin->minigameSign 으로 변경)
+- 커맨드 추가

@@ -4,3 +4,6 @@ version: 1.0
 description: worldbiomusic (discord -> worldbiomusic#7075)
 api-version: 1.16
 depend: [wbmMC]
+
+commands:
+  minigame:

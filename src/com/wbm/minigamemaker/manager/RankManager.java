@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games.frame;
+package com.wbm.minigamemaker.manager;
 
 import java.util.ArrayList;
 import java.util.Collections;

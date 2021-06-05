@@ -93,13 +93,13 @@ public class MiniGameManager implements JsonDataMember {
 		// spawnLocation
 		if (!this.setting.containsKey("spawnLocation")) {
 			Map<String, Object> location = new HashMap<String, Object>();
-			this.setting.put("spawnLocation", location);
 			location.put("world", "world");
 			location.put("x", 0.0);
 			location.put("y", 4.0);
 			location.put("z", 0.0);
 			location.put("pitch", 90.0);
 			location.put("yaw", 0.0);
+			this.setting.put("spawnLocation", location);
 		}
 
 		// serverSpawn 설정
@@ -113,22 +113,58 @@ public class MiniGameManager implements JsonDataMember {
 		double yaw = (double) locationData.get("yaw");
 		this.serverSpawn = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
 
-		// signJoin
-		if (!this.setting.containsKey("signJoin")) {
-			this.setting.put("signJoin", true);
+		// minigameSign
+		if (!this.setting.containsKey("minigameSign")) {
+			this.setting.put("minigameSign", true);
 		}
 
+		// minigameCommand
+		if(!this.setting.containsKey("minigameCommand")) {
+			this.setting.put("minigameCommand", true);
+		}
 	}
 
 	public boolean joinGame(Player p, String title) {
 		/*
 		 * 플레이어가 미니게임에 참여하는 메소드
+		 * 
+		 * check player is not playing minigame
 		 */
-		MiniGame game = this.getMiniGame(title);
-		if (game == null) {
-			return false;
+		if (!this.checkPlayerPlayingMiniGame(p)) {
+			MiniGame game = this.getMiniGame(title);
+			if (game == null) {
+				p.sendMessage(title + " minigame does not exist");
+				return false;
+			} else {
+				return game.joinGame(p);
+			}
 		} else {
-			return game.joinGame(p);
+			p.sendMessage("You already joined other minigame");
+			return false;
+		}
+	}
+
+	public void leaveGame(Player p) {
+		/*
+		 * check player is playing minigame
+		 */
+
+		if (this.checkPlayerPlayingMiniGame(p)) {
+			MiniGame playingGame = this.getPlayingGame(p);
+			playingGame.leaveGame(p);
+		} else {
+			p.sendMessage("You're not playing any minigame");
+		}
+
+	}
+
+	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
+		/*
+		 * check player is playing minigame
+		 */
+		if (this.checkPlayerPlayingMiniGame(p)) {
+			MiniGame playingGame = this.getPlayingGame(p);
+			playingGame.handleException(p, exception, arg);
 		}
 	}
 
@@ -179,6 +215,10 @@ public class MiniGameManager implements JsonDataMember {
 //			playingGame.handleException(p);
 //		}
 //	}
+
+	public boolean checkPlayerPlayingMiniGame(Player p) {
+		return this.getPlayingGame(p) != null;
+	}
 
 	private MiniGame getMiniGame(String title) {
 		for (MiniGame game : this.minigames) {
