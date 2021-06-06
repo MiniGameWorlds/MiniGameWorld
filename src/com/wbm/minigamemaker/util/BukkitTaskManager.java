@@ -31,11 +31,6 @@ public class BukkitTaskManager {
 	}
 
 	public void registerTask(String name, BukkitRunnable runnable) {
-//		// Exception: MiniGame's base task
-//		if (name.equals("_waitingTimer") || name.equals("_finishTimer")) {
-//			return;
-//		}
-
 		// register task with name
 		this.runnableList.put(name, runnable);
 	}
@@ -43,7 +38,6 @@ public class BukkitTaskManager {
 	public void cancelTask(String name) {
 		if (this.taskList.containsKey(name)) {
 			this.taskList.get(name).cancel();
-//			this.runnableList.get(name).cancel();
 		}
 	}
 
@@ -52,15 +46,6 @@ public class BukkitTaskManager {
 		for (BukkitTask task : this.taskList.values()) {
 			task.cancel();
 		}
-
-//		// BukkitRunnable
-//		for (BukkitRunnable runnable : this.runnableList.values()) {
-//			int taskId = runnable.getTaskId();
-//			
-//			if (!runnable.isCancelled()) {
-//				runnable.cancel();
-//			}
-//		}
 	}
 
 	public boolean isTaskCancelled(String name) {

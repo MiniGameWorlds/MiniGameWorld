@@ -211,6 +211,11 @@ public abstract class MiniGame {
 
 		// leave
 		this.setupPlayerLeavingSettings(p, "Before start");
+		
+		// check game is emtpy
+		if(this.isEmpty()) {
+			this.initSetting();
+		}
 	}
 
 	private void setupPlayerLeavingSettings(Player p, String reason) {
@@ -286,14 +291,13 @@ public abstract class MiniGame {
 		/*
 		 * 튜토리얼
 		 */
-		p.sendMessage("=================================");
+		p.sendMessage("\n=================================");
 		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
 		p.sendMessage("=================================");
 
 		// print rule
-		p.sendMessage("");
 		p.sendMessage(ChatColor.BOLD + "[Rule]");
-		p.sendMessage("Time Limit: " + this.getTimeLimit() + " sec");
+		p.sendMessage("- Time Limit: " + this.getTimeLimit() + " sec");
 
 		// tutorial
 		if (this.getGameTutorialStrings() != null) {
@@ -359,7 +363,7 @@ public abstract class MiniGame {
 	protected void printEndInfo() {
 		// title
 		for (Player p : this.getPlayers()) {
-			p.sendMessage("=================================");
+			p.sendMessage("\n=================================");
 			p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
 			p.sendMessage("=================================");
 		}
@@ -378,7 +382,7 @@ public abstract class MiniGame {
 	// 게임 유형에 따라 다르게 출력되야 할 필요 있음
 	protected void printScore() {
 		// 스코어 결과 score기준 내림차순으로 출력
-		this.sendMessageToAllPlayers("[Score]");
+		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(this.players);
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
