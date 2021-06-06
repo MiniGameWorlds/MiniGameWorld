@@ -44,3 +44,8 @@
 - 명령어로 게임 참가/퇴장 기능(setting.json에 minigameCommand 추가)
 - 표지판 퇴장 기능 추가 (signJoin->minigameSign 으로 변경)
 - 커맨드 추가
+
+# 2021/6/6
+- dev위키를 개발 관련 위키로 변경하기(미니게임 하위 플러그인 위키는 userWiki에 분할해서 작성)
+- registerTasks() 로 task등록 편의기능 추가
+

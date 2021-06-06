@@ -90,6 +90,9 @@ public abstract class MiniGame {
 	protected void handleGameExeption(Player p, Exception exception, Object arg) {
 	};
 
+	protected void registerTasks() {
+	}
+
 	private void initMiniGame() {
 		this.started = false;
 		if (this.players == null) {
@@ -102,14 +105,15 @@ public abstract class MiniGame {
 		this.taskManager.cancelAllTasks();
 
 		// register task
-		this.registerTask();
+		this.registerBasicTask();
+		this.registerTasks();
 
 		// timer counter
 		this.waitingCounter = new Counter(this.getWaitingTime());
 		this.finishCounter = new Counter(this.getTimeLimit());
 	}
 
-	private void registerTask() {
+	private void registerBasicTask() {
 		// register waitingTimer task to taskManager
 		this.taskManager.registerTask("_waitingTimer", new BukkitRunnable() {
 
@@ -211,9 +215,9 @@ public abstract class MiniGame {
 
 		// leave
 		this.setupPlayerLeavingSettings(p, "Before start");
-		
+
 		// check game is emtpy
-		if(this.isEmpty()) {
+		if (this.isEmpty()) {
 			this.initSetting();
 		}
 	}

@@ -34,6 +34,10 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		// 상한 점수 설정
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
 
+	}
+
+	@Override
+	protected void registerTasks() {
 		// register task
 		this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
 
@@ -63,21 +67,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 		// timer task
 		this.getTaskManager().runTaskTimer("scoreTask", 0, 20);
-
-//		this.timerTask = new BukkitRunnable() {
-//			@Override
-//			public void run() {
-//				for (Player p : getPlayers()) {
-//					if (!hasStopped(p)) {
-//						if (getLeftFinishTime() > randomTime) {
-//							plusScore(p, 1);
-//						} else {
-//							minusScore(p, 1);
-//						}
-//					}
-//				}
-//			}
-//		}.runTaskTimer(Main.getInstance(), 0, 20 * 1);
 	}
 
 	private boolean hasStopped(Player p) {
@@ -126,7 +115,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
 				e.setCancelled(true);
 			}
-
 		}
 	}
 

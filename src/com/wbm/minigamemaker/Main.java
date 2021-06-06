@@ -16,6 +16,9 @@ import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataManager;
 
 public class Main extends JavaPlugin {
+	public static void main(String[] args) {
+		
+	}
 	private static Main main;
 	MiniGameManager minigameManager;
 	MiniGameDataManager minigameDataM;

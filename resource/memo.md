@@ -8,7 +8,7 @@
 > - MiniGame의 maxPlayerCount, timeLimit, waitingTime 값 변경 금지 설정 값 (항상 기본 세팅 값으로 플레이 되어야 할 경우) -> 변수 이름: settingFixed(초기값: false), 파일 data는 저장 x
 > - MiniGame 마다 활성화 여부 값 -> 파일 데이터로 저장 o, 변수이름: actived(초기값: true)
 
-- fitPlayerCount변수(true/false) 추가: 인원수가 maxPlayer와 동일해야 진행 가능한 게임인 경우, 인원수가 maxPlayer와 맞지 않으면 게임 시작후 바로 종료(endGame()), 중간에 플레이어 나가면 handleException메소드에서 endGame()
+- fitPlayerCount변수(true/false) 추가: 인원수가 maxPlayer와 동일해야 진행 가능한 게임인 경우 설정(인원수가 maxPlayer와 맞지 않으면 게임 시작후 바로 endGame(), 중간에 플레이어 나가면 handleException메소드에서 endGame())
 
 ## settings.json에 추가할 것
 > - 명령어로 미니게임 참가 여부 (minigameCommand)
@@ -34,11 +34,11 @@
 > - 미니게임 예외처리 프레임 클래스에서 처리(인원수 관련 게임종료)
 > - 미니게임 프레임 각각 테스트
 > - MiniGame 변수들 클래스로 리팩토링
+> - dev위키를 개발 관련 위키로 변경하기(미니게임 하위 플러그인 위키는 userWiki에 분할해서 작성)
+> - 일반 사용법 위키 추가
+> - 개발 사용법 위키 추가
 
-- dev위키를 개발 관련 위키로 변경하기(미니게임 하위 플러그인 위키는 userWiki에 분할해서 작성)
 - 모든 주석 영어로 바꾸기
-- 일반 사용법 위키 추가
-- 개발 사용법 위키 추가
 - 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
 - setting.json에 한글, 영어 기능 language변수 
 - setting.json에 message prefix 설정값 messagePrefix변수

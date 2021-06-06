@@ -12,12 +12,6 @@
 			<version>LATEST</version>
 		</dependency>
 	</dependencies>
-	<!-- <repositories> -->
-	<!-- <repository> -->
-	<!-- <id>papermc</id> -->
-	<!-- <url>https://papermc.io/repo/repository/maven-public/</url> -->
-	<!-- </repository> -->
-	<!-- </repositories> -->
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
