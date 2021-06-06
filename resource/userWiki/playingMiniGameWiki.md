@@ -35,6 +35,7 @@
 
 ### 2. 명령어
 - `/minigame join <title>`
+- setting.json의 minigameCommand가 true로 설정되야 함
 
 ## 미니게임 퇴장
 ### 1. 표지판
@@ -54,6 +55,7 @@
 
 ### 2. 명령어
 - `/minigame leave`
+- setting.json의 minigameCommand가 true로 설정되야 함
 
 # 미니게임 종류 예시
 - 솔로
