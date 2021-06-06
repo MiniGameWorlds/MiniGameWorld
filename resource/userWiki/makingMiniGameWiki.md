@@ -52,12 +52,11 @@ this.minigameManager.registerMiniGame(new FitTool());
 ## 미니게임 Task 관리
 - getTaskManager()로 TaskManager를 가져와서 사용
 - `태스크 등록`: getTaskManager().registerTask("name", new BukkitRunnable() { // code });
-- (태스크 등록은 initGameSetting() 메서드에서 작성되야 함)
-- `태스크 호출`: getTaskManager().runTask("name");
-- 예시 코드
+- (태스크 등록은 registerTasks() 메서드에서 작성되야 함)
+- Example code
 ```java
 @Override
-protected void initGameSetting() {
+protected void registerTasks() {
   // register task
   this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
 
@@ -68,8 +67,18 @@ protected void initGameSetting() {
   });
 }
 ```
-- BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고]) (그러므로 initSetting()메소드에 선언하는 것임)
-- MiniGame의 시스템 관련 task name(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
+- `태스크 호출`: getTaskManager().runTask("name");
+- Example code
+```java
+@Override
+protected void processEvent(Event event) {
+  // code
+  this.getTaskManager().runTask("scoreTask");
+}
+```
+
+- BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고]) (registerTasks()메소드가 항상 게임시작전에 실행되서 새로운 객체로 등록됨)
+- MiniGame의 기본 시스템 관련 task(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
 
 ## 기본적인 MiniGame의 오버라이딩 메소드 설명
 - `initGameSetting()`: 미니게임 설정값 세팅메소드로 시작되기 전에 한번씩 꼭 실행되는 메소드
