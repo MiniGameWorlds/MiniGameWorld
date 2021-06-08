@@ -7,6 +7,7 @@ import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.minigamemaker.games.MoreHit;
 import com.wbm.minigamemaker.games.RandomScore;
 import com.wbm.minigamemaker.games.RelayJump;
+import com.wbm.minigamemaker.games.RockScissorPaper;
 import com.wbm.minigamemaker.games.ScoreClimbing;
 import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameCommand;
@@ -17,8 +18,9 @@ import com.wbm.plugin.util.data.json.JsonDataManager;
 
 public class Main extends JavaPlugin {
 	public static void main(String[] args) {
-		
+
 	}
+
 	private static Main main;
 	MiniGameManager minigameManager;
 	MiniGameDataManager minigameDataM;
@@ -57,6 +59,7 @@ public class Main extends JavaPlugin {
 		this.minigameManager.registerMiniGame(new MoreHit());
 		this.minigameManager.registerMiniGame(new ScoreClimbing());
 		this.minigameManager.registerMiniGame(new RelayJump());
+		this.minigameManager.registerMiniGame(new RockScissorPaper());
 	}
 
 	void setupData() {

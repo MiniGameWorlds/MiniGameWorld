@@ -56,7 +56,7 @@ public abstract class MiniGame {
 	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime);
 
-		// [한번만 초기화 되야하는 것들]
+		// [must setup once]
 		this.setupMiniGame();
 
 		// minigame setup
@@ -76,6 +76,7 @@ public abstract class MiniGame {
 
 	// 구현 선택사항 메소드들
 //	protected void runTaskBeforeStart() {
+	// 사용 필요 x
 //	};
 
 	protected void runTaskAfterStart() {
@@ -223,6 +224,10 @@ public abstract class MiniGame {
 	}
 
 	private void setupPlayerLeavingSettings(Player p, String reason) {
+		/*
+		 * TODO: After this method, must check isEmpty() and run initSetting() (except
+		 * for runFinishTask())
+		 */
 		if (reason != null) {
 			// notify other players to join the game
 			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
@@ -319,6 +324,25 @@ public abstract class MiniGame {
 	}
 
 	private void runStartTasks() {
+		/*
+		 * forcePlayerCount 검사: 현재 참여 플레이어수가 maxPlayerCount와 같지않으면 모든 플레이어 leaveGame()
+		 * 실행
+		 */
+		if (this.getSetting().isForcePlayerCount()) {
+			// check player isn't full
+			if (!this.isFullPlayer()) {
+				// send message
+				this.sendMessageToAllPlayers("Game didn't started: game needs full players");
+
+				// leave all players
+				this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
+				// init setting
+				this.initSetting();
+
+				return;
+			}
+		}
+
 		// 활성화
 		started = true;
 
@@ -352,6 +376,7 @@ public abstract class MiniGame {
 		printEndInfo();
 
 		// setup player
+		// 이 다음에 runTaskAfterFinish()가 실행되기 떄문에, initSetting()하면 안됨!
 		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
 
 		// runTaskAfterFinish
@@ -405,7 +430,7 @@ public abstract class MiniGame {
 	private boolean isFullPlayer() {
 		int currentPlayerCount = this.getPlayers().size();
 		int maxPlayerCount = this.getMaxPlayerCount();
-		return (currentPlayerCount >= maxPlayerCount);
+		return currentPlayerCount == maxPlayerCount;
 	}
 
 	public boolean containsPlayer(Player p) {
@@ -502,11 +527,20 @@ public abstract class MiniGame {
 		// PlayerQuitServer일 때 이유 출력
 		if (exception == Exception.PlayerQuitServer) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
-			BroadcastTool.info("Quit reason: " + event.getReason().name());
+			BroadcastTool.info("Quit: " + event.getReason().name());
 		}
 
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
+
+		// check forcePlayerCount
+		if (this.getSetting().isForcePlayerCount()) {
+			// send message
+			this.sendMessageToAllPlayers("Game end: game needs full players");
+
+			// 모든 사람 강퇴
+			this.getPlayers().forEach(other -> this.setupPlayerLeavingSettings(other, null));
+		}
 
 		// 미니게임에 남은 사람이 없으면 미니게임 세팅 초기화
 		if (this.isEmpty()) {
@@ -598,7 +632,7 @@ public abstract class MiniGame {
 	}
 
 	public String getTitleWithClassName() {
-		return this.getTitle() + "(ClassName: " + this.getClassName() + ")";
+		return this.getTitle() + "[Class: " + this.getClassName() + "]";
 	}
 
 	public String getClassName() {

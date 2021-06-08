@@ -73,6 +73,10 @@ public class MiniGameDataManager implements JsonDataMember {
 	}
 
 	public void applyMiniGameDataToInstance(MiniGame minigame) {
+		/*
+		 * If minigames.json file has same MiniGame, then overwrite saved minigame data
+		 * to instance
+		 */
 		Map<String, Object> data = this.getMiniGameData(minigame);
 
 		// title

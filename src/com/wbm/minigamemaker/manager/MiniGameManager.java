@@ -119,7 +119,7 @@ public class MiniGameManager implements JsonDataMember {
 		}
 
 		// minigameCommand
-		if(!this.setting.containsKey("minigameCommand")) {
+		if (!this.setting.containsKey("minigameCommand")) {
 			this.setting.put("minigameCommand", true);
 		}
 	}
@@ -284,22 +284,21 @@ public class MiniGameManager implements JsonDataMember {
 	}
 
 	public boolean registerMiniGame(MiniGame newGame) {
-		// 이미 같은 미니게임이 있으면 등록 실패
-		// 주의: 미니게임.title로 비교하면 안됨 -> 클래스 이름으로 비교해야 함,
-		// 왜냐면 minigames.json파일에서 클래스 이름으로 구분하기 때문
+		// 이미 같은 미니게임이 minigames에 있으면 등록 실패
+		// 주의: 미니게임.title로 비교하면 안됨 -> 클래스 이름으로 비교해야 함(대소문자 구별x),
+		// 왜냐면 minigames.json파일에서 클래스 이름으로 구분해서 저장하였기 때문
 		String newGameClassName = newGame.getClassName();
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
-				BroadcastTool.warn(newGame.getTitleWithClassName() + " minigame is not registered");
+				BroadcastTool.warn(newGame.getTitleWithClassName() + " minigame is already registered");
 				BroadcastTool.warn(
-						"Cause: the same class " + game.getTitleWithClassName() + " minigame is already registered");
+						"Cause: the same minigame " + game.getTitleWithClassName() + " minigame is already registered");
 				return false;
 			}
 		}
 
-		// 게임 파일 데이터 적용 (이미 minigames.json 파일에 newGame의 데이터가 있으면,
-		// 등록하는 newGame미니게임 인스턴스에 데이터 적용
+		// 등록하는 미니게임 인스턴스에 이전에 저장된 minigames.json 파일 데이터 적용
 		if (this.minigameDataM.isMinigameDataExists(newGame)) {
 			this.minigameDataM.applyMiniGameDataToInstance(newGame);
 		} else {

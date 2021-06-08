@@ -48,4 +48,11 @@
 # 2021/6/6
 - dev위키를 개발 관련 위키로 변경하기(미니게임 하위 플러그인 위키는 userWiki에 분할해서 작성)
 - registerTasks() 로 task등록 편의기능 추가
+- forcePlayerCount 설정 기능 추가
+- RockScissorPaper 미니게임 추가(forcePlayerCount사용)
+
+
+
+
+
 
