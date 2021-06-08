@@ -1,6 +1,7 @@
 # 설명
 - MiniGameMaker 기반의 미니게임 플러그인 제작에 관한 글
-- MiniGameMaker 사용법은 [유저 위키] 참고
+- MiniGameMaker 사용법은 [사용 위키] 참고
+- MiniGame의 내부 구조, 동작은 [개발 위키] 참고
 
 # 동작원리
 ![MiniGameMakerDesign](../img/MiniGameMakerDesign.JPG)
@@ -58,7 +59,7 @@ this.minigameManager.registerMiniGame(new FitTool());
 @Override
 protected void registerTasks() {
   // register task
-  this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
+  this.getTaskManager().registerTask("task1", new BukkitRunnable() {
 
     @Override
     public void run() {
@@ -73,7 +74,7 @@ protected void registerTasks() {
 @Override
 protected void processEvent(Event event) {
   // code
-  this.getTaskManager().runTask("scoreTask");
+  this.getTaskManager().runTask("task1");
 }
 ```
 
@@ -85,6 +86,10 @@ protected void processEvent(Event event) {
 - `runTaskAfterStart()`: 미니게임이 실제로 시작 된 직후 실행되는 메소드
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
 - `getGameTutorialStrings()`: 미니게임 튜토리얼 출력할 문자 반환 메소드
+
+## 설정값
+- MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
+- 일부 설정값은 minigames.json 파일에서 수정 
 
 ## 미니게임 종료
 - `endGame()` 메소드 사용
@@ -100,7 +105,9 @@ protected void processEvent(Event event) {
 - class 이름이 기준으로 등록됨
 - 미니게임 생성자에서 설정한 기본값으로 설정됨
 
-
+# 예외
+- handleException()를 오버라이딩 해서 사용한다
+- 게임 내 버그, 예외처리는 구현하는 미니게임에서 처리해야 
 
 # 사용법 유튜브
 [사용법]
@@ -109,7 +116,8 @@ protected void processEvent(Event event) {
 # 연락
 - [디스코드]
 
-[유저 위키]: https://github.com/worldbiomusic/MiniGameMaker/blob/main/userWiki.md
+[사용 위키]: playingMiniGameWiki.md
+[개발 위키]: ../devWiki/home.md
 [Paper]: https://papermc.io/
 [MiniGameMaker]: https://github.com/worldbiomusic/MiniGameMaker/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
