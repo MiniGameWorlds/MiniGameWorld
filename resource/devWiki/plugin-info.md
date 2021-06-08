@@ -18,10 +18,10 @@
 - [wbmMC]: worldbiomusic 마인크래프트 라이브러리
 - [classgraph]: 마인크래프트의 모든 이벤트 핸들러 등록할 떄 사용됨
 
-※ wbmMC는 plugins디렉토리에 넣어놓고, eclipse의 build path추가로 사용
-※ plugin.yml파일에 `depend: [wbmMC]` 추가해야 함
-※ Maven으로 관리중인 lib(Paper, classgraph)은 따로 Jar 파일을 다운로드 받아서 MANIFEST.MD 파일의 Class-Path설정으로 외부lib을 직접참조로 빌드해도 됨
-※ Maven의 shade 플러그인 사용해서 빌드 (명령어: `mvn package`)
+※ wbmMC는 plugins디렉토리에 넣어놓고, eclipse의 build path추가로 사용  
+※ plugin.yml파일에 `depend: [wbmMC]` 추가해야 함  
+※ Maven으로 관리중인 lib(Paper, classgraph)은 따로 Jar 파일을 다운로드 받아서 MANIFEST.MD 파일의 Class-Path설정으로 외부lib을 직접참조로 빌드해도 됨  
+※ Maven의 shade 플러그인 사용해서 빌드 (명령어: `mvn package`)  
 
 # Maven
 ## `classgraph`
