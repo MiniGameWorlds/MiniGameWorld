@@ -69,14 +69,15 @@ public abstract class MiniGame {
 	}
 
 	private void setupMiniGame() {
-		// 랭크 매니저
 		this.rankM = new RankManager();
 		this.taskManager = new BukkitTaskManager();
 	}
 
-	// 구현 선택사항 메소드들
+	/*
+	 * overriding methods
+	 */
 //	protected void runTaskBeforeStart() {
-	// 사용 필요 x
+	// not necessary
 //	};
 
 	protected void runTaskAfterStart() {
@@ -102,7 +103,7 @@ public abstract class MiniGame {
 			this.players.clear();
 		}
 
-		// taskManager의 모든 task stop
+		// stop all tasks
 		this.taskManager.cancelAllTasks();
 
 		// register task
@@ -120,8 +121,9 @@ public abstract class MiniGame {
 
 			@Override
 			public void run() {
-				// 카운트다운 끝
 				int waitTime = waitingCounter.getCount();
+
+				// end count down
 				if (waitTime <= 0) {
 					runStartTasks();
 					return;

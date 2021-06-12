@@ -17,17 +17,13 @@ import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataManager;
 
 public class Main extends JavaPlugin {
-	public static void main(String[] args) {
-
-	}
-
 	private static Main main;
-	MiniGameManager minigameManager;
-	MiniGameDataManager minigameDataM;
-	JsonDataManager jsonDataM;
+	private MiniGameManager minigameManager;
+	private MiniGameDataManager minigameDataM;
+	private JsonDataManager jsonDataM;
 
-	CommonEventListener commonLis;
-	MiniGameCommand minigameCommand;
+	private CommonEventListener commonLis;
+	private MiniGameCommand minigameCommand;
 
 	public static Main getInstance() {
 		return main;
@@ -38,36 +34,57 @@ public class Main extends JavaPlugin {
 		main = this;
 		BroadcastTool.info(ChatColor.GREEN + "MiniGameMaker ON");
 
-		this.minigameDataM = new MiniGameDataManager();
-		this.minigameManager = MiniGameManager.getInstance();
-		this.minigameManager.setMiniGameDataManager(this.minigameDataM);
+		// setup settings
+		this.setupSettings();
 
 		// setup data
 		this.setupData();
 
-		// listener
+		// register listener
+		this.registerEventListeners();
+
+		// set command
+		this.setCommandExecutors();
+
+		// register minigames
+		this.registerMiniGames();
+	}
+
+	private void setupSettings() {
+		this.minigameDataM = new MiniGameDataManager();
+		this.minigameManager = MiniGameManager.getInstance();
+		this.minigameManager.setMiniGameDataManager(this.minigameDataM);
+	}
+
+	private void setupData() {
+		// json data
+		this.jsonDataM = new JsonDataManager(this.getDataFolder());
+		this.jsonDataM.registerMember(this.minigameDataM);
+		this.jsonDataM.registerMember(this.minigameManager);
+
+		// distribute data to all members
+		this.jsonDataM.distributeAllData();
+	}
+
+	private void registerEventListeners() {
 		this.commonLis = new CommonEventListener(this.minigameManager);
 		getServer().getPluginManager().registerEvents(this.commonLis, this);
+	}
 
-		// command
+	private void setCommandExecutors() {
 		this.minigameCommand = new MiniGameCommand(this.minigameManager);
 		getCommand("minigame").setExecutor(this.minigameCommand);
 
-		// 예시 미니게임
+	}
+
+	private void registerMiniGames() {
+		// register minigames
 		this.minigameManager.registerMiniGame(new FitTool());
 		this.minigameManager.registerMiniGame(new RandomScore());
 		this.minigameManager.registerMiniGame(new MoreHit());
 		this.minigameManager.registerMiniGame(new ScoreClimbing());
 		this.minigameManager.registerMiniGame(new RelayJump());
 		this.minigameManager.registerMiniGame(new RockScissorPaper());
-	}
-
-	void setupData() {
-		this.jsonDataM = new JsonDataManager(this.getDataFolder());
-		this.jsonDataM.registerMember(this.minigameDataM);
-		this.jsonDataM.registerMember(this.minigameManager);
-
-		this.jsonDataM.distributeAllData();
 	}
 
 	@Override
