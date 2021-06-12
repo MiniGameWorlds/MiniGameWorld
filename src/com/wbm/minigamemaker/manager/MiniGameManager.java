@@ -10,10 +10,14 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -23,6 +27,7 @@ import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.google.gson.Gson;
@@ -46,7 +51,7 @@ public class MiniGameManager implements JsonDataMember {
 	// 미니게임 관리 리스트
 	private List<MiniGame> minigames;
 
-	Set<Class<? extends Event>> possibleEventList;
+	private Set<Class<? extends Event>> possibleEventList;
 
 	private Map<String, Object> setting;
 
@@ -54,10 +59,10 @@ public class MiniGameManager implements JsonDataMember {
 	private Location serverSpawn;
 
 	// 미니게임 파일 데이터
-	MiniGameDataManager minigameDataM;
+	private MiniGameDataManager minigameDataM;
 
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
-	List<Player> eventPlayers;
+	private List<Player> eventPlayers;
 
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
@@ -144,16 +149,17 @@ public class MiniGameManager implements JsonDataMember {
 		}
 	}
 
-	public void leaveGame(Player p) {
+	public boolean leaveGame(Player p) {
 		/*
 		 * check player is playing minigame
 		 */
 
 		if (this.checkPlayerPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingGame(p);
-			playingGame.leaveGame(p);
+			return playingGame.leaveGame(p);
 		} else {
 			p.sendMessage("You're not playing any minigame");
+			return false;
 		}
 
 	}
@@ -177,6 +183,16 @@ public class MiniGameManager implements JsonDataMember {
 		}
 		return false;
 	}
+	
+	public boolean isPossibleEvent(Class<? extends Event> event) {
+		// 미니게임에서 처리가능한 이벤트인지 체크 (possibleEvent 클래스 구현 클래스인지 확인)
+		for (Class<? extends Event> c : this.possibleEventList) {
+			if (c.isAssignableFrom(event)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	boolean processEvent(Event e) {
 		/*
@@ -185,6 +201,11 @@ public class MiniGameManager implements JsonDataMember {
 		// 허용되는 이벤트만 아닐 시 false 반환
 		if (!this.isPossibleEvent(e)) {
 			return false;
+		}
+
+		// check player is trying to join or leave game with Sign
+		if (this.checkPlayerTryingMiniGameSign(e)) {
+			return true;
 		}
 
 		// 이벤트에서 플레이어 추출
@@ -199,14 +220,53 @@ public class MiniGameManager implements JsonDataMember {
 		for (Player p : players) {
 			MiniGame playingGame = this.getPlayingGame(p);
 			// 플레이어가 플레이중인 미니게임이 없으면 반환
-			if (playingGame == null) {
-				return false;
+			if (this.checkPlayerPlayingMiniGame(p)) {
+				playingGame.passEvent(e);
 			}
-			playingGame.passEvent(e);
 		}
 
-		// 성공 반환
 		return true;
+	}
+
+	private boolean checkPlayerTryingMiniGameSign(Event event) {
+		// check player is trying to join or leaving with sign
+		if (event instanceof PlayerInteractEvent) {
+			PlayerInteractEvent e = (PlayerInteractEvent) event;
+			Player p = e.getPlayer();
+
+			// process
+			Block block = e.getClickedBlock();
+			if (block != null) {
+				if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
+					if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						Sign sign = (Sign) block.getState();
+						String minigame = sign.getLines()[0];
+						String title = sign.getLines()[1];
+
+						// check minigameSign option
+						boolean minigameSign = (boolean) this.getGameSetting().get("minigameSign");
+						if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
+							if (!minigameSign) {
+								p.sendMessage("minigameSign option is false");
+								return true;
+							}
+
+							// check sign
+							if (minigame.equals("[MiniGame]")) {
+								// join
+								this.joinGame(p, title);
+							} else if (minigame.equals("[Leave MiniGame]")) {
+								// leave
+								this.leaveGame(p);
+							}
+							
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 //	public void processException(Player p) {

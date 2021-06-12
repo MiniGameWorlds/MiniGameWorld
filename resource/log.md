@@ -51,7 +51,9 @@
 - forcePlayerCount 설정 기능 추가
 - RockScissorPaper 미니게임 추가(forcePlayerCount사용)
 
-
+# 2021/6/12
+- MiniGameManager에서 사용하는 Event만 처음에 등록하는 EventHandler에 등록 (전체:321개, 사용하는것: 177개)
+- 표지판으로 미니게임 관리하는 이벤트 processEvent()에 결합
 
 
 

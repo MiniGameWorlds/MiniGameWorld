@@ -201,20 +201,21 @@ public abstract class MiniGame {
 		}
 	}
 
-	public void leaveGame(Player p) {
+	public boolean leaveGame(Player p) {
 		// check
-		// 1. game waitingTime counter must be upper than 10
-		// 2. game must not be started
-
-		if (this.waitingCounter.getCount() <= 10) {
-			p.sendMessage("You can't leave game(Reason: game will start soon)");
-			return;
-		}
+		// 1. game must not be started
+		// 2. game waitingTime counter must be upper than 10
 
 		if (this.started) {
 			p.sendMessage("You can't leave game(Reason: game already has started)");
-			return;
+			return false;
 		}
+
+		if (this.waitingCounter.getCount() <= 10) {
+			p.sendMessage("You can't leave game(Reason: game will start soon)");
+			return false;
+		}
+
 
 		// leave
 		this.setupPlayerLeavingSettings(p, "Before start");
@@ -223,6 +224,8 @@ public abstract class MiniGame {
 		if (this.isEmpty()) {
 			this.initSetting();
 		}
+		
+		return true;
 	}
 
 	private void setupPlayerLeavingSettings(Player p, String reason) {
