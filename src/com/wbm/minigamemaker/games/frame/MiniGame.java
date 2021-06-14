@@ -45,6 +45,8 @@ public abstract class MiniGame {
 	// task manager
 	private BukkitTaskManager taskManager;
 
+	private Map<String, Object> customData;
+
 	// abstract methods
 	protected abstract void initGameSetting();
 
@@ -71,6 +73,8 @@ public abstract class MiniGame {
 	private void setupMiniGame() {
 		this.rankM = new RankManager();
 		this.taskManager = new BukkitTaskManager();
+		this.customData = new HashMap<String, Object>();
+		this.registerCustomData();
 	}
 
 	/*
@@ -81,18 +85,21 @@ public abstract class MiniGame {
 //	};
 
 	protected void runTaskAfterStart() {
-	};
+	}
 
 	protected void runTaskBeforeFinish() {
-	};
+	}
 
 	protected void runTaskAfterFinish() {
-	};
+	}
 
 	protected void handleGameExeption(Player p, Exception exception, Object arg) {
-	};
+	}
 
 	protected void registerTasks() {
+	}
+
+	protected void registerCustomData() {
 	}
 
 	private void initMiniGame() {
@@ -107,8 +114,8 @@ public abstract class MiniGame {
 		this.taskManager.cancelAllTasks();
 
 		// register task
-		this.registerBasicTask();
 		this.registerTasks();
+		this.registerBasicTask();
 
 		// timer counter
 		this.waitingCounter = new Counter(this.getWaitingTime());
@@ -191,12 +198,12 @@ public abstract class MiniGame {
 		 * 넘겨받은 이벤트 처리
 		 */
 
-		// 미니게임 탈주 이벤트인지 검사
+		// 미니게임 예외 이벤트인지 검사
 		if (event instanceof PlayerQuitEvent) {
 			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PlayerQuitServer, event);
 		}
 		// 게임이 시작됬을 때 미니게임에 이벤트 전달
-		else if (this.started) {
+		if (this.started) {
 			this.processEvent(event);
 		}
 	}
@@ -216,7 +223,6 @@ public abstract class MiniGame {
 			return false;
 		}
 
-
 		// leave
 		this.setupPlayerLeavingSettings(p, "Before start");
 
@@ -224,7 +230,7 @@ public abstract class MiniGame {
 		if (this.isEmpty()) {
 			this.initSetting();
 		}
-		
+
 		return true;
 	}
 
@@ -357,14 +363,14 @@ public abstract class MiniGame {
 		// 시작 타이틀
 		sendTitleToPlayers("START", "", 4, 20 * 2, 4);
 
-		// finishTimer 시작
-		startFinishTimer();
-
 		// runTaskAfterStart
 		runTaskAfterStart();
 
 		// 태스크 종료
 		this.taskManager.cancelTask("_waitingTimer");
+
+		// finishTimer 시작
+		startFinishTimer();
 	}
 
 	private void startFinishTimer() {
@@ -670,6 +676,14 @@ public abstract class MiniGame {
 
 	protected BukkitTaskManager getTaskManager() {
 		return this.taskManager;
+	}
+
+	public void setCustomData(Map<String, Object> customData) {
+		this.customData = customData;
+	}
+
+	public Map<String, Object> getCustomData() {
+		return this.customData;
 	}
 }
 

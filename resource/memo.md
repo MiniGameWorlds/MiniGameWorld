@@ -15,8 +15,9 @@
 
 ## 명령어
 > - 미니게임 참여 / 퇴장 명령어
-- 미니게임 세팅값 수정 명령어
-- setting.json 값 수정 명령어
+
+- minigames.json 설정값 수정 명령어
+- setting.json 설정값 수정 명령어
 
 ## 테스트 할 것
 > - 미니게임 유형 프레임 클래스
@@ -36,7 +37,11 @@
 > - dev위키를 개발 관련 위키로 변경하기(미니게임 하위 플러그인 위키는 userWiki에 분할해서 작성)
 > - 일반 사용법 위키 추가
 > - 개발 사용법 위키 추가
+> - 미니게임 삭제 조건 수정(title로 검사하지 말고 ClassName으로 검사하기)
+> - 구현 미니게임 클래스에서 minigames.json 파일에 설정값 등록하고 사용할 수 있게 customData 기능 추가 
 
+- JSON에 숫자가 무조건 double로 읽히는 것 고치기(https://stackoverflow.com/questions/36508323/how-can-i-prevent-gson-from-converting-integers-to-doubles)
+- 1.17 update 준비(JDK 16으로 변경, wbm도 변경, paper api 도 변경)
 - 모든 주석 영어로 바꾸기
 - 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
 - setting.json에 한글, 영어 기능 language변수 

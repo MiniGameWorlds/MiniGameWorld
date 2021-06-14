@@ -135,7 +135,7 @@ public class MiniGameManager implements JsonDataMember {
 		 * 
 		 * check player is not playing minigame
 		 */
-		if (!this.checkPlayerPlayingMiniGame(p)) {
+		if (!this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame game = this.getMiniGame(title);
 			if (game == null) {
 				p.sendMessage(title + " minigame does not exist");
@@ -154,7 +154,7 @@ public class MiniGameManager implements JsonDataMember {
 		 * check player is playing minigame
 		 */
 
-		if (this.checkPlayerPlayingMiniGame(p)) {
+		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingGame(p);
 			return playingGame.leaveGame(p);
 		} else {
@@ -168,7 +168,7 @@ public class MiniGameManager implements JsonDataMember {
 		/*
 		 * check player is playing minigame
 		 */
-		if (this.checkPlayerPlayingMiniGame(p)) {
+		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingGame(p);
 			playingGame.handleException(p, exception, arg);
 		}
@@ -183,7 +183,7 @@ public class MiniGameManager implements JsonDataMember {
 		}
 		return false;
 	}
-	
+
 	public boolean isPossibleEvent(Class<? extends Event> event) {
 		// 미니게임에서 처리가능한 이벤트인지 체크 (possibleEvent 클래스 구현 클래스인지 확인)
 		for (Class<? extends Event> c : this.possibleEventList) {
@@ -204,9 +204,7 @@ public class MiniGameManager implements JsonDataMember {
 		}
 
 		// check player is trying to join or leave game with Sign
-		if (this.checkPlayerTryingMiniGameSign(e)) {
-			return true;
-		}
+		this.checkPlayerTryingMiniGameSign(e);
 
 		// 이벤트에서 플레이어 추출
 		List<Player> players = this.getPlayersFromEvent(e);
@@ -218,9 +216,9 @@ public class MiniGameManager implements JsonDataMember {
 
 		// 이벤트에서 얻은 플레이어들에 대한 미니게임 이벤트 처리
 		for (Player p : players) {
-			MiniGame playingGame = this.getPlayingGame(p);
 			// 플레이어가 플레이중인 미니게임이 없으면 반환
-			if (this.checkPlayerPlayingMiniGame(p)) {
+			if (this.checkPlayerIsPlayingMiniGame(p)) {
+				MiniGame playingGame = this.getPlayingGame(p);
 				playingGame.passEvent(e);
 			}
 		}
@@ -259,7 +257,7 @@ public class MiniGameManager implements JsonDataMember {
 								// leave
 								this.leaveGame(p);
 							}
-							
+
 							return true;
 						}
 					}
@@ -269,14 +267,7 @@ public class MiniGameManager implements JsonDataMember {
 		return false;
 	}
 
-//	public void processException(Player p) {
-//		MiniGame playingGame = this.getPlayingGame(p);
-//		if (playingGame != null) {
-//			playingGame.handleException(p);
-//		}
-//	}
-
-	public boolean checkPlayerPlayingMiniGame(Player p) {
+	public boolean checkPlayerIsPlayingMiniGame(Player p) {
 		return this.getPlayingGame(p) != null;
 	}
 

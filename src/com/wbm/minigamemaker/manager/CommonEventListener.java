@@ -37,7 +37,7 @@ public class CommonEventListener implements Listener {
 		};
 		EventExecutor executor = (ignored, event) -> onEvent(event);
 
-		int eventCount = 0;
+//		int eventCount = 0;
 		try {
 			for (ClassInfo event : events) {
 				// noinspection unchecked
@@ -52,13 +52,13 @@ public class CommonEventListener implements Listener {
 					// is better than that alternative.
 
 					// register Event Class MiniGameManager ONLY can process
-					if (this.minigameManager.isPossibleEvent(eventClass)) {
+//					if (this.minigameManager.isPossibleEvent(eventClass)) {
 						Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.NORMAL, executor,
 								Main.getInstance());
 						
-						// count
-						eventCount += 1;
-					}
+//						// count
+//						eventCount += 1;
+//					}
 				}
 			}
 		} catch (ClassNotFoundException e) {
@@ -70,9 +70,9 @@ public class CommonEventListener implements Listener {
 //		        .toArray(String[]::new);
 //
 //		Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-//		Bukkit.getLogger().info("Events found: " + events.size());
-//		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
-		Bukkit.getLogger().info("registered EventHandler: " + eventCount);
+		Bukkit.getLogger().info("Events found: " + events.size());
+		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
+//		Bukkit.getLogger().info("registered EventHandler: " + eventCount);
 	}
 
 	private Object onEvent(Event event) {

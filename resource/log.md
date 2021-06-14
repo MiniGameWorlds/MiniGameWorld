@@ -55,6 +55,8 @@
 - MiniGameManager에서 사용하는 Event만 처음에 등록하는 EventHandler에 등록 (전체:321개, 사용하는것: 177개)
 - 표지판으로 미니게임 관리하는 이벤트 processEvent()에 결합
 
-
-
-
+# 2021/6/13
+- 구현 미니게임 클래스에서 minigames.json 파일에 설정값 등록하고 사용할 수 있게 customData 기능 추가 
+- EventHandler 모든 이벤트 등록으로 다시 변경
+- 미니게임 삭제 조건 수정(title로 검사하지 말고 ClassName으로 검사하기)
+- PVP 미니게임 추가

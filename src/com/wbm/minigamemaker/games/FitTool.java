@@ -14,8 +14,7 @@ import com.wbm.minigamemaker.games.frame.SoloMiniGame;
 
 public class FitTool extends SoloMiniGame {
 	/*
-	 * 설명: 제한 시간내에 알맞는 도구를 이용해서 많은 블럭을 캐는 미니게임
-	 * 타입: Solo
+	 * 설명: 제한 시간내에 알맞는 도구를 이용해서 많은 블럭을 캐는 미니게임 타입: Solo
 	 */
 
 	List<Material> blocks;

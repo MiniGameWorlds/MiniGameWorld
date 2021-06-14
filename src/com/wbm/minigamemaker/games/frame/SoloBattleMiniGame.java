@@ -25,14 +25,12 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 		checkOnlyOnePlayerRemains();
 	}
 
-	protected boolean checkOnlyOnePlayerRemains() {
+	protected void checkOnlyOnePlayerRemains() {
 		// 게임시작후 1 명일 떄 게임 종료
 		if (this.getPlayerCount() <= 1) {
 			this.sendMessageToAllPlayers("Game End: only 1 player remains");
 			this.endGame();
-			return true;
 		}
-		return false;
 	}
 
 	@Override

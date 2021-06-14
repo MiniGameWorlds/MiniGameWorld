@@ -53,6 +53,10 @@ public class MiniGameDataManager implements JsonDataMember {
 		// settingFixed
 		data.put("settingFixed", minigame.isSettingFixed());
 
+		// customData
+		Map<String, Object> customData = minigame.getCustomData();
+		data.put("customData", customData);
+
 		// data 추가 (className, data)
 		this.minigameData.put(minigame.getClassName(), data);
 	}
@@ -125,8 +129,13 @@ public class MiniGameDataManager implements JsonDataMember {
 			data.put("timeLimit", timeLimit);
 		}
 
-		// apply data
+		// apply basic data
 		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, actived, settingFixed);
+
+		// apply customData
+		@SuppressWarnings("unchecked")
+		Map<String, Object> customData = (Map<String, Object>) data.get("customData");
+		minigame.setCustomData(customData);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -141,13 +150,14 @@ public class MiniGameDataManager implements JsonDataMember {
 	}
 
 	private void removeNotExistMiniGameData() {
+		// remove deleted minigame before save minigames.json file
 		MiniGameManager miniGameM = MiniGameManager.getInstance();
 		List<MiniGame> gameList = miniGameM.getMiniGameList();
 		List<String> removedGames = new ArrayList<String>();
 		OUT: for (String gameClassName : this.minigameData.keySet()) {
 			for (MiniGame game : gameList) {
 				// gameClassName이 있으면 통과
-				if (gameClassName.equalsIgnoreCase(game.getTitle())) {
+				if (gameClassName.equalsIgnoreCase(game.getClassName())) {
 					continue OUT;
 				}
 			}

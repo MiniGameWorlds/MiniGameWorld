@@ -61,7 +61,11 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	@Override
 	protected void initGameSetting() {
 		this.selections.clear();
+	}
 
+	@Override
+	protected void runTaskAfterStart() {
+		super.runTaskAfterStart();
 		// input random selection
 		for (Player p : this.getPlayers()) {
 			this.selections.put(p, Selection.random());
@@ -80,7 +84,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 			if (selection != null) {
 				this.selections.put(p, selection);
 				e.setCancelled(true);
-
+				p.sendMessage("your choice: " + ChatColor.GREEN + selection.name());
 			}
 		}
 	}
