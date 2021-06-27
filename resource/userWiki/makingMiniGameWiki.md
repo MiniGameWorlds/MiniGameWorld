@@ -87,6 +87,41 @@ protected void processEvent(Event event) {
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
 - `getGameTutorialStrings()`: 미니게임 튜토리얼 출력할 문자 반환 메소드
 
+# CustomData
+- 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구
+- 주의사항: 아직 Json포맷의 정수, 소수 구분문제가 있어서 숫자는 무조건 (double)로 로드해야 함
+1. MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
+```java
+@Override
+protected void registerCustomData() {
+  Map<String, Object> customData = this.getCustomData();
+  customData.put("health", 30.0);
+  List<ItemStack> items = new ArrayList<>();
+  items.add(new ItemStack(Material.STONE_SWORD));
+  items.add(new ItemStack(Material.GOLDEN_APPLE));
+  customData.put("items", items);
+}
+```
+2. 커스템 데이터 사용은 `getCustomData()`로 접근해서 어디에서나 사용 가능
+```java
+@SuppressWarnings("unchecked")
+@Override
+protected void initGameSetting() {
+  this.health = (double) this.getCustomData().get("health");
+  this.items = (List<ItemStack>) this.getCustomData().get("items");
+}
+```
+or
+```java
+@Override
+protected void processEvent(Event event) {
+  // ~~~
+  player.setHealthScale((double) this.getCustomData().get("health"));
+  }
+}
+```
+
+
 ## 설정값
 - MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
 - 일부 설정값은 minigames.json 파일에서 수정 
