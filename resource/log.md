@@ -60,3 +60,26 @@
 - EventHandler 모든 이벤트 등록으로 다시 변경
 - 미니게임 삭제 조건 수정(title로 검사하지 말고 ClassName으로 검사하기)
 - PVP 미니게임 추가
+
+# 2021/6/27
+- json포맷의 double과 long구분 해결 방법 못 찾아서, 일단 숫자값은 무조건 double로 불러오기
+- minigames.json 파일에서 settingFixed 설정값 안보이게 설정 (미니게임 개발자들이 사용자들에게 settingFixed를 알려줘야 함)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

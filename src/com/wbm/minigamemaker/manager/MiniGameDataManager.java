@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
@@ -49,9 +49,6 @@ public class MiniGameDataManager implements JsonDataMember {
 
 		// actived
 		data.put("actived", minigame.getActived());
-
-		// settingFixed
-		data.put("settingFixed", minigame.isSettingFixed());
 
 		// customData
 		Map<String, Object> customData = minigame.getCustomData();
@@ -98,21 +95,19 @@ public class MiniGameDataManager implements JsonDataMember {
 		Location location = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
 
 		// maxPlayerCount
-		int maxPlayerCount = (int) ((double) data.get("maxPlayerCount"));
+		int maxPlayerCount = Double.valueOf((double) data.get("maxPlayerCount")).intValue();
 
 		// waitingTime
-		int waitingTime = (int) ((double) data.get("waitingTime"));
+		int waitingTime = (int) Math.round((double) data.get("waitingTime"));
 
 		// timeLimit
-		int timeLimit = (int) ((double) data.get("timeLimit"));
+		int timeLimit = (int) Math.round((double) data.get("timeLimit"));
 
 		// actived
 		boolean actived = (boolean) data.get("actived");
 
-		// settingFixed: 예외적으로 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
+		// settingFixed: 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
 		boolean settingFixed = minigame.isSettingFixed();
-		// settingFixed값을 임의로 바꿨을 떄 미니게임의 기본값으로 다시 설정
-		data.put("settingFixed", settingFixed);
 
 		// 세팅값 고정일때: maxPlayerCount, timeLimit, waitingTime 미니게임의 기본값으로 고정
 		if (settingFixed) {
@@ -138,17 +133,6 @@ public class MiniGameDataManager implements JsonDataMember {
 		minigame.setCustomData(customData);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void distributeData(String jsonString) {
-		if (jsonString == null) {
-			return;
-		}
-
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		this.minigameData = gson.fromJson(jsonString, Map.class);
-	}
-
 	private void removeNotExistMiniGameData() {
 		// remove deleted minigame before save minigames.json file
 		MiniGameManager miniGameM = MiniGameManager.getInstance();
@@ -170,6 +154,16 @@ public class MiniGameDataManager implements JsonDataMember {
 			this.minigameData.remove(removedGameTitle);
 			BroadcastTool.info(removedGameTitle + " minigame removed from minigames.json");
 		}
+	}
+
+	@Override
+	public void distributeData(Gson gson, String jsonString) {
+		if (jsonString == null) {
+			return;
+		}
+
+		this.minigameData = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
+		}.getType());
 	}
 
 	@Override

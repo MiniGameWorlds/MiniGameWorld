@@ -31,7 +31,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.json.JsonDataMember;
@@ -386,15 +386,14 @@ public class MiniGameManager implements JsonDataMember {
 		this.minigameDataM = minigameDataM;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void distributeData(String jsonString) {
+	public void distributeData(Gson gson,String jsonString) {
 		if (jsonString == null) {
 			return;
 		}
-
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		this.setting = gson.fromJson(jsonString, Map.class);
+		
+		this.setting = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
+		}.getType());
 		// update gameSetting
 		this.initSettingData();
 
