@@ -99,7 +99,6 @@ protected void registerCustomData() {
   customData.put("health", 30.0);
   List<ItemStack> items = new ArrayList<>();
   items.add(new ItemStack(Material.STONE_SWORD));
-  items.add(new ItemStack(Material.GOLDEN_APPLE));
   customData.put("items", items);
 }
 ```
@@ -109,7 +108,6 @@ protected void registerCustomData() {
 @Override
 protected void initGameSetting() {
   this.health = (double) this.getCustomData().get("health");
-  this.items = (List<ItemStack>) this.getCustomData().get("items");
 }
 ```
 or
