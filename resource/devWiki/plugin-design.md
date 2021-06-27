@@ -14,8 +14,8 @@
 > - double형으로 값 불러오는 코드
 > > `double a = (double) json.get("A");`
 > - int형으로 값 불러오는 코드
-> > 1. `int a = Double.valueOf((double))data.get("A");;`
-> > 2. `int a = (int) Math.round((double)json.get("A"));`
+> > 1. `int a = Double.valueOf((double))data.get("A").intValue();`
+> > 2. `int a = (int) Math.round((double)json.get("A")).intValue();`
 
 
 
