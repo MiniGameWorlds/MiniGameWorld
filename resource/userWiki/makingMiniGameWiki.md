@@ -89,7 +89,8 @@ protected void processEvent(Event event) {
 
 # CustomData
 - 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구
-- 주의사항: 아직 Json포맷의 정수, 소수 구분문제가 있어서 숫자는 무조건 (double)로 로드해야 함
+- ❗주의사항: 아직 Json포맷의 정수, 소수 구분문제가 있어서 숫자는 무조건 (double)로 로드해야 함
+- ❗주의사항: 아직 데이터관리를 Json으로 하는중이라(yml으로 바꿀 예정) 기본 타입밖에 저장이 안됨(마크 class serialize, deserialize 안되있어서)
 1. MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
 ```java
 @Override
