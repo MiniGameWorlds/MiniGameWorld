@@ -59,6 +59,13 @@
 4. 서버 버킷 디렉토리의 plugins 디렉토리에 붙여넣기
 5. 서버 버킷 시작
 
+# wbmMC 개발 순서
+1. wbmMC 소스코드 수정
+2. 특정 폴더(마인크래프트 라이브러리 or 자바 라이브러리)에 jar 파일 추출
+3. MiniGameMaker프로젝트를 F5 연타해서 새로고침하거나, `Project > Clean > MiniGameMaker` 로 업데이트하기 (참조중인 라이브러리가 업데이트 됨)
+4. wbmMC 사용하는 서버가 있다면 plugins폴더에 새로 추출한 jar 파일 붙여넣기
+
+
 # 커뮤니티
 - [Discord]
 
