@@ -13,7 +13,10 @@
 
 
 # 주의사항
-- `onDisable()`에서 YamlManager의 `saveAllData()` 호출해야 함
+## `onDisable()`에서
+1. MiniGameDataManager의 `removeNotExistMiniGameData()` 호출
+2. YamlManager의 `saveAllData()` 호출해야 함
+
 
 # 개선할 것
 
