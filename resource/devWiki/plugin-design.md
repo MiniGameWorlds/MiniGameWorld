@@ -23,6 +23,37 @@
 ![MiniGameMaker_plugin_design](../img/MiniGameMaker_plugin_design.JPG)
 
 
+# 클래스
+## com.wbm.minigamemaker
+- Main: 
+## com.wbm.minigamemaker.games
+- FitTool: 
+- RandomScore: 
+- MoreHit:
+- ScoreClimbing: 
+- RelayJump: 
+- RSP: 
+- PVP: 
+
+
+## com.wbm.minigamemaker.games.frame
+- MiniGame: 
+
+## com.wbm.minigamemaker.manager
+
+## com.wbm.minigamemaker.util
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
