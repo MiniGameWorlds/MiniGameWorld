@@ -5,7 +5,7 @@
 
 # 구조
 - 모든 미니게임은 MiniGameManager 클래스에 등록되어서 관리됨
-- 파일은 json 포맷으로 관리됨
+- 파일은 yaml 포맷으로 관리됨 [Yaml정리](https://github.com/worldbiomusic/Blog/blob/main/Minecraft/plugin/making/YAML.md)
 - 
 
 # 중요한 점
