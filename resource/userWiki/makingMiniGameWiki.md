@@ -10,13 +10,15 @@
 # 환경 세팅 방법
 - [Paper]
 - [MiniGameMaker]
-- [wbmMC] 
+- [wbmMC]: 마인크래프트 플러그인 개발시 여러 기능을 작성해놓은 도와주는 라이브러리
 - 다운로드 후 build path 추가
 
 ## `plugin.yml`
 - depend: `[MiniGameMaker]` 추가
 
 # 주의사항
+- 미니게임에서 설정값(ex. 플레이어 체력)을 바꿔서 플레이 한것이 있다면, 미니게임 종료 전(runTaskBeforeFinish()) 원래 상태로 설정값을 복구시켜야 함
+
 
 # 처리 이벤트 목록
 ※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event도 사용가능(참고: [Paper API])  
@@ -50,7 +52,7 @@ MiniGameManager minigameManager = MiniGameManager.getInstance();
 this.minigameManager.registerMiniGame(new FitTool());
 ```
 
-## 미니게임 Task 관리
+# 미니게임 Task 관리
 - getTaskManager()로 TaskManager를 가져와서 사용
 - `태스크 등록`: getTaskManager().registerTask("name", new BukkitRunnable() { // code });
 - (태스크 등록은 registerTasks() 메서드에서 작성되야 함)
@@ -81,7 +83,7 @@ protected void processEvent(Event event) {
 - BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고]) (registerTasks()메소드가 항상 게임시작전에 실행되서 새로운 객체로 등록됨)
 - MiniGame의 기본 시스템 관련 task(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
 
-## 기본적인 MiniGame의 오버라이딩 메소드 설명
+# 기본적인 MiniGame의 오버라이딩 메소드 설명
 - `initGameSetting()`: 미니게임 설정값 세팅메소드로 시작되기 전에 한번씩 꼭 실행되는 메소드
 - `runTaskAfterStart()`: 미니게임이 실제로 시작 된 직후 실행되는 메소드
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
@@ -89,14 +91,12 @@ protected void processEvent(Event event) {
 
 # CustomData
 - 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구
-- ❗주의사항: 아직 Json포맷의 정수, 소수 구분문제가 있어서 숫자는 무조건 (double)로 로드해야 함
-- ❗주의사항: 아직 데이터관리를 Json으로 하는중이라(yml으로 바꿀 예정) 기본 타입밖에 저장이 안됨(마크 class serialize, deserialize 안되있어서)
 1. MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
 ```java
 @Override
 protected void registerCustomData() {
   Map<String, Object> customData = this.getCustomData();
-  customData.put("health", 30.0);
+  customData.put("health", 30);
   List<ItemStack> items = new ArrayList<>();
   items.add(new ItemStack(Material.STONE_SWORD));
   customData.put("items", items);
@@ -107,15 +107,19 @@ protected void registerCustomData() {
 @SuppressWarnings("unchecked")
 @Override
 protected void initGameSetting() {
-  this.health = (double) this.getCustomData().get("health");
+  // set health scale
+  this.health = (int) this.getCustomData().get("health");
+  // give kit tool
+  List<ItemStack> items = (List<ItemStack>) this.getCustomData().get("items");
+	items.forEach(item -> p.getInventory().addItem(item));
 }
 ```
-or
+or (in processEvent() method)
 ```java
 @Override
 protected void processEvent(Event event) {
-  // ~~~
-  player.setHealthScale((double) this.getCustomData().get("health"));
+  // 
+  player.setHealthScale((int) this.getCustomData().get("health"));
   }
 }
 ```
