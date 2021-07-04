@@ -25,7 +25,7 @@
 
 # 클래스
 ## com.wbm.minigamemaker
-- Main: 
+- [Main](Main.md): 
 ## com.wbm.minigamemaker.games
 - FitTool: 
 - RandomScore: 
@@ -38,15 +38,26 @@
 
 ## com.wbm.minigamemaker.games.frame
 - MiniGame: 
+- MiniGameSetting: 
+- SoloMiniGame: 
+- SoloBattleMiniGame: 
+- TeamMiniGame: 
+- TeamBattleMiniGame: 
 
 ## com.wbm.minigamemaker.manager
+- CommonEventListener: 
+- MiniGameCommand: 
+- [MiniGameDataManager](MiniGameDataManager.md): 
+- [MiniGameManager](MiniGameManager.md): 
+- RankManager: 
 
 ## com.wbm.minigamemaker.util
+- BukkitTaskManager: 
+- Setting: 
 
 
-
-
-
+# plugin.yml
+- [plugin.yml]()
 
 
 
