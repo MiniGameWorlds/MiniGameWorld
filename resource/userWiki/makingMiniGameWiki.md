@@ -127,7 +127,8 @@ protected void processEvent(Event event) {
 
 ## 설정값
 - MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
-- 일부 설정값은 minigames.json 파일에서 수정 
+- 일부 설정값제외한 값들은 minigames.yml 파일에서 수정가능
+- `settingFixed`: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (minigame.yml파일에서 유저가 임의 수정 불가능)
 
 ## 미니게임 종료
 - `endGame()` 메소드 사용
@@ -139,7 +140,7 @@ protected void processEvent(Event event) {
 # API DOC
 
 
-# minigames.json
+# minigames.yml
 - class 이름이 기준으로 등록됨
 - 미니게임 생성자에서 설정한 기본값으로 설정됨
 
