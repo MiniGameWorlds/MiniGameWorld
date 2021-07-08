@@ -45,19 +45,17 @@
 - TeamBattleMiniGame: 
 
 ## com.wbm.minigamemaker.manager
-- CommonEventListener: 
-- MiniGameCommand: 
+- [CommonEventListener](CommonEventListener.md): 
+- [MiniGameCommand](MiniGameCommand.md): 
 - [MiniGameDataManager](MiniGameDataManager.md): 
 - [MiniGameManager](MiniGameManager.md): 
-- RankManager: 
 
 ## com.wbm.minigamemaker.util
-- BukkitTaskManager: 
-- Setting: 
+- [Setting](Setting.md): 
 
 
 # plugin.yml
-- [plugin.yml]()
+- [plugin.yml](plugin.yml.md)
 
 
 
