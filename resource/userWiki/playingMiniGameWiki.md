@@ -123,6 +123,7 @@ minigames:
 - `maxPlayerCount`: 최대 인원수 
 - `timeLimit`: 플레이 제한 시간 (초)
 - `active`: 게임 활성화 여부 (true/false)
+- `customData`: 미니게임의 커스텀 설정 값
 - 플러그인으로 넣은 미니게임이 자동으로 `minigames.yml`에 등록됨 
 - 없는 미니게임은 서버가 종료된 후 `minigames.yml`에서 삭제됨
 - 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미닉임의 기본값 함부로 변경시 작동 안할 수 있음)
