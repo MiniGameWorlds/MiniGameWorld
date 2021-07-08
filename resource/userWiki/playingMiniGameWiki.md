@@ -11,8 +11,8 @@
 2. 추가로 사용할 미니게임 플러그인 다운
 3. 서버 plugins 폴더에 적용
 4. 서버 실행 후 종료 후에 plugins 폴더에 생기는 MiniGameMaker 폴더로 이동
-5. 미니게임 메이커에 대한 설정파일: `setting.json` 값 수정 또는
-6. 추가된 미니게임의 속성값대 대한 설정파일: `minigames.json` 값 수정
+5. 미니게임 메이커에 대한 설정파일: `setting.yml` 값 수정 또는
+6. 추가된 미니게임의 속성값대 대한 설정파일: `minigames.yml` 값 수정
 7. 다시 실행
 
 # 사용법
@@ -31,11 +31,11 @@
       │
       │
 ```
-- setting.json의 minigameSign이 true로 설정되야 함
+- setting.yml의 minigameSign이 true로 설정되야 함
 
 ### 2. 명령어
 - `/minigame join <title>`
-- setting.json의 minigameCommand가 true로 설정되야 함
+- setting.yml의 minigameCommand가 true로 설정되야 함
 
 ## 미니게임 퇴장
 ### 1. 표지판
@@ -51,11 +51,11 @@
          │
 
 ```
-- setting.json의 minigameCommand이 true로 설정되야 함
+- setting.yml의 minigameCommand이 true로 설정되야 함
 
 ### 2. 명령어
 - `/minigame leave`
-- setting.json의 minigameCommand가 true로 설정되야 함
+- setting.yml의 minigameCommand가 true로 설정되야 함
 
 # 미니게임 종류 예시
 - 솔로
@@ -71,58 +71,60 @@
 - 플러그인을 새로 추가했다면, 서버를 reload하지 말고 stop후에 다시 시작해애 함 (Task가 겹치기 떄문)
 
 # 설정 파일
-## `setting.json`
+## `setting.yml`
 - 미니게임 메이커 세팅 파일
-```json
-{
-  "spawnLocation": {
-    "world": "world(월드 폴더 이름)",
-    "x": 0.0,
-    "y": 4.0,
-    "z": 0.0,
-    "pitch": 90.0,
-    "yaw": 0.0
-  },
-  "minigameSign": true,
-  "minigameCommand": true
-}
+```yml
+setting:
+  spawnLocation:
+    ==: org.bukkit.Location
+    world: world
+    x: 0.0
+    y: 8.0
+    z: 0.0
+    pitch: 0.0
+    yaw: 90.0
+  minigameSign: true
+  minigameCommand: true
+
 ```
-- spawnLocation: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
-- minigameSign: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
-- minigameCommand: 명령어로 미니게임 참가/퇴장 (true / false)
+- `spawnLocation`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
+- `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
+- `minigameCommand`: 명령어로 미니게임 참가/퇴장 (true / false)
 
 
-## `minigames.json`
+## `minigames.yml`
 - 미니게임 설정 파일(예시)
-```json
-{
-  "FitTool": {
-    "timeLimit": 30.0,
-    "maxPlayerCount": 1.0,
-    "waitingTime": 10.0,
-    "location": {
-      "world": "world",
-      "x": 0.0,
-      "y": 4.0,
-      "z": 0.0,
-      "pitch": 0.0,
-      "yaw": 0.0
-    },
-    "title": "도구게임",
-    "settingFixed": false,
-    "actived": true
-  }
-}
+```yml
+minigames:
+  PVP:
+    timeLimit: 300
+    maxPlayerCount: 5
+    waitingTime: 10
+    location:
+      ==: org.bukkit.Location
+      world: world
+      x: 0.0
+      y: 4.0
+      z: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    customData:
+      health: 30
+      items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 2584
+        type: STONE_SWORD
+    title: PVP
+    actived: true
 ```
-- title: 게임 제목
-- location: 입장 스폰 위치
-- waitingTime: 대기시간
-- maxPlayerCount: 최대 인원수
-- timeLimit: 플레이 제한 시간
-- actived: 게임 활성화 여부 (true/false)
-- settingFixed: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (=minigame.json파일에서 임의로 수정 불가능)
-- 플러그인으로 넣은 미니게임이 자동으로 `minigames.json`에 등록됨 
-- 없는 미니게임은 서버가 종료된 후 `minigames.json`에서 삭제됨
+- `title`: 게임 제목
+- `location`: 입장 스폰 위치
+- `waitingTime`: 대기시간 (초)
+- `maxPlayerCount`: 최대 인원수 
+- `timeLimit`: 플레이 제한 시간 (초)
+- `active`: 게임 활성화 여부 (true/false)
+- 플러그인으로 넣은 미니게임이 자동으로 `minigames.yml`에 등록됨 
+- 없는 미니게임은 서버가 종료된 후 `minigames.yml`에서 삭제됨
 - 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미닉임의 기본값 함부로 변경시 작동 안할 수 있음)
 
 
