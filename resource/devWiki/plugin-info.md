@@ -1,7 +1,6 @@
 # 설명
 - 마인크래프트의 다양한 서버환경에서 사용할 수 있는 독립적인 마인크래프트 미니게임 프레임워크
-- 
-- Json를 이용하여 데이터 관리함
+- yml을 이용하여 데이터 관리함
 
 # 주의
 - 버킷 reload 대신 stop 이용
@@ -54,16 +53,16 @@
 
 # 개발 순서
 1. 코드 작성
-2. shade플러그인으로 메이븐 빌드 (명령어 `mvn package`)
-3. target 디렉토리의 `MiniGameMaker-x.x.x-SNAPSHOT-shaded.jar` 플러그인 복사
+2. 프로젝트 폴더에서 shade플러그인으로 메이븐 빌드 (명령어 `mvn package`)
+3. target 디렉토리의 `MiniGameMaker-x.x.x-SNAPSHOT-shaded.jar` 추출된 플러그인 복사
 4. 서버 버킷 디렉토리의 plugins 디렉토리에 붙여넣기
 5. 서버 버킷 시작
 
 # wbmMC 개발 순서
 1. wbmMC 소스코드 수정
-2. 특정 폴더(마인크래프트 라이브러리 or 자바 라이브러리)에 jar 파일 추출
-3. MiniGameMaker프로젝트를 F5 연타해서 새로고침하거나, `Project > Clean > MiniGameMaker` 로 업데이트하기 (참조중인 라이브러리가 업데이트 됨)
-4. wbmMC 사용하는 서버가 있다면 plugins폴더에 새로 추출한 jar 파일 붙여넣기
+2. 라이브러리로 사용하는 폴더(마인크래프트 라이브러리 or 자바 라이브러리)에 jar 파일 추출
+3. MiniGameMaker프로젝트를 F5 연타해서 새로고침하거나, `Project > Clean > MiniGameMaker` 로 업데이트된 wbmMC 재 참조 (참조중인 라이브러리가 업데이트 됨)
+4. 서버의 plugins폴더에 새로 추출한 wbmMC.jar 파일 붙여넣기
 
 
 # 커뮤니티
