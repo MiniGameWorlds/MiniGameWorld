@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -30,23 +31,20 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
-import com.wbm.plugin.util.data.json.JsonDataMember;
+import com.wbm.plugin.util.data.yaml.YamlHelper;
+import com.wbm.plugin.util.data.yaml.YamlManager;
+import com.wbm.plugin.util.data.yaml.YamlMember;
 
-public class MiniGameManager implements JsonDataMember {
+public class MiniGameManager implements YamlMember {
 	// API 용 클래스
 	// Singleton 사용
 	// TODO: 명령어로 gameSetting값 조절할 수 있게 기능 추가
-	// TODO: MiniGameManager 시작하고, registerMiniGame메소드에서 등록될 때마다, minigames.json파일에
-	// 미니게임 요소5개 map으로 값 넣기, or 이미 있으면 해당 미니게임 요소5개 수정 메소드로 파일의 값으로 적용(서버마다 미니게임
-	// 플레이 시간, 위치 등이 다를 수 있기 때문에
-	// MiniGame에서 5개 요소를 파일(minigames.json)에서 수정할 수 있게 하기
 
 	// Singleton 객체
 	private static MiniGameManager instance = new MiniGameManager();
+//	private static boolean instanceCreated = false;
 
 	// 미니게임 관리 리스트
 	private List<MiniGame> minigames;
@@ -63,6 +61,9 @@ public class MiniGameManager implements JsonDataMember {
 
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
 	private List<Player> eventPlayers;
+
+//	// yaml config
+//	private FileConfiguration config;
 
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
@@ -95,28 +96,15 @@ public class MiniGameManager implements JsonDataMember {
 	}
 
 	private void initSettingData() {
-		// spawnLocation
+		/*
+		 * set basic setting.yml
+		 */
+		// serverSpawn 설정
 		if (!this.setting.containsKey("spawnLocation")) {
-			Map<String, Object> location = new HashMap<String, Object>();
-			location.put("world", "world");
-			location.put("x", 0.0);
-			location.put("y", 4.0);
-			location.put("z", 0.0);
-			location.put("pitch", 90.0);
-			location.put("yaw", 0.0);
-			this.setting.put("spawnLocation", location);
+			this.setting.put("spawnLocation", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
 
-		// serverSpawn 설정
-		@SuppressWarnings("unchecked")
-		Map<String, Object> locationData = (Map<String, Object>) this.setting.get("spawnLocation");
-		String world = (String) locationData.get("world");
-		double x = (double) locationData.get("x");
-		double y = (double) locationData.get("y");
-		double z = (double) locationData.get("z");
-		double pitch = (double) locationData.get("pitch");
-		double yaw = (double) locationData.get("yaw");
-		this.serverSpawn = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
+		this.serverSpawn = (Location) this.setting.get("spawnLocation");
 
 		// minigameSign
 		if (!this.setting.containsKey("minigameSign")) {
@@ -386,27 +374,41 @@ public class MiniGameManager implements JsonDataMember {
 		this.minigameDataM = minigameDataM;
 	}
 
+//	@Override
+//	public void distributeData(Gson gson,String jsonString) {
+//		if (jsonString == null) {
+//			return;
+//		}
+//		
+//		this.setting = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
+//		}.getType());
+//		// update gameSetting
+//		this.initSettingData();
+//
+//	}
+//
+//	@Override
+//	public Object getData() {
+//		return this.setting;
+//	}
+
 	@Override
-	public void distributeData(Gson gson,String jsonString) {
-		if (jsonString == null) {
-			return;
+	public void setData(YamlManager yamlM, FileConfiguration config) {
+//		this.config = config;
+
+		// sync config setting with variable setting
+		if (config.isSet("setting")) {
+			this.setting = YamlHelper.ObjectToMap(config.getConfigurationSection("setting"));
 		}
-		
-		this.setting = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
-		}.getType());
-		// update gameSetting
+		config.set("setting", this.setting);
+
+		// check setting has basic values
 		this.initSettingData();
-
-	}
-
-	@Override
-	public Object getData() {
-		return this.setting;
 	}
 
 	@Override
 	public String getFileName() {
-		return "setting.json";
+		return "setting.yml";
 	}
 }
 //

@@ -15,16 +15,16 @@ import com.wbm.minigamemaker.manager.MiniGameCommand;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
 import com.wbm.plugin.util.BroadcastTool;
-import com.wbm.plugin.util.data.json.JsonDataManager;
+import com.wbm.plugin.util.data.yaml.YamlManager;
 
 public class Main extends JavaPlugin {
 	private static Main main;
 	private MiniGameManager minigameManager;
 	private MiniGameDataManager minigameDataM;
-	private JsonDataManager jsonDataM;
 
 	private CommonEventListener commonLis;
 	private MiniGameCommand minigameCommand;
+	private YamlManager yamlM;
 
 	public static Main getInstance() {
 		return main;
@@ -58,13 +58,10 @@ public class Main extends JavaPlugin {
 	}
 
 	private void setupData() {
-		// json data
-		this.jsonDataM = new JsonDataManager(this.getDataFolder());
-		this.jsonDataM.registerMember(this.minigameDataM);
-		this.jsonDataM.registerMember(this.minigameManager);
-
-		// distribute data to all members
-		this.jsonDataM.distributeAllData();
+		// yaml data manager
+		this.yamlM = new YamlManager(this.getDataFolder());
+		this.yamlM.registerMember(this.minigameDataM);
+		this.yamlM.registerMember(this.minigameManager);
 	}
 
 	private void registerEventListeners() {
@@ -92,7 +89,11 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
-		this.jsonDataM.saveAllData();
+		// remove not registered minigames setting data in minigames.yml 
+		this.minigameDataM.removeNotExistMiniGameData();
+		
+		// save all data
+		this.yamlM.saveAllData();
 		BroadcastTool.warn(ChatColor.RED + "MiniGameMaker OFF");
 	}
 }

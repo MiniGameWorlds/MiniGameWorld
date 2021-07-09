@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
+import com.wbm.plugin.util.InventoryTool;
 
 public class PVP extends SoloBattleMiniGame {
 	/*
@@ -25,7 +28,7 @@ public class PVP extends SoloBattleMiniGame {
 	 */
 
 	private double health;
-//	private List<ItemStack> items;
+	private List<ItemStack> items;
 
 	public PVP() {
 		super("PVP", 5, 60 * 5, 10);
@@ -34,21 +37,21 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void registerCustomData() {
 		Map<String, Object> customData = this.getCustomData();
-		customData.put("health", 30.0);
-//		List<ItemStack> items = new ArrayList<>();
-//		items.add(new ItemStack(Material.STONE_SWORD));
-//		items.add(new ItemStack(Material.BOW));
-//		items.add(new ItemStack(Material.ARROW, 32));
-//		items.add(new ItemStack(Material.COOKED_PORKCHOP, 10));
-//		items.add(new ItemStack(Material.GOLDEN_APPLE));
-//		customData.put("items", items);
+		customData.put("health", 30);
+		List<ItemStack> items = new ArrayList<>();
+		items.add(new ItemStack(Material.STONE_SWORD));
+		items.add(new ItemStack(Material.BOW));
+		items.add(new ItemStack(Material.ARROW, 32));
+		items.add(new ItemStack(Material.COOKED_PORKCHOP, 10));
+		items.add(new ItemStack(Material.GOLDEN_APPLE));
+		customData.put("items", items);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initGameSetting() {
-		this.health = (double) this.getCustomData().get("health");
-//		this.items = (List<ItemStack>) this.getCustomData().get("items");
+		this.health = (int) this.getCustomData().get("health");
+		this.items = (List<ItemStack>) this.getCustomData().get("items");
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class PVP extends SoloBattleMiniGame {
 		// give kit items
 		for (Player p : this.getPlayers()) {
 			p.setHealthScale(this.health);
-//			InventoryTool.addItemsToPlayer(p, this.items);
+			InventoryTool.addItemsToPlayer(p, this.items);
 		}
 	}
 
@@ -98,7 +101,10 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void runTaskBeforeFinish() {
 		super.runTaskBeforeFinish();
-		this.getPlayers().forEach(p -> p.setGameMode(GameMode.SURVIVAL));
+		for(Player p : this.getPlayers()) {
+			p.setGameMode(GameMode.SURVIVAL);
+			p.setHealthScale(20);
+		}
 	}
 
 	@Override

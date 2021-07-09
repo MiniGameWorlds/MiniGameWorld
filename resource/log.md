@@ -65,10 +65,18 @@
 - json포맷의 double과 long구분 해결 방법 못 찾아서, 일단 숫자값은 무조건 double로 불러오기
 - minigames.json 파일에서 settingFixed 설정값 안보이게 설정 (미니게임 개발자들이 사용자들에게 settingFixed를 알려줘야 함)
 
+# 2021/7/3
+- wbmMC에 YamlManager 추가
+- Yaml 정리(https://github.com/worldbiomusic/Blog/blob/main/Minecraft/plugin/making/YAML.md)
 
-
-
-
+# 2021/7/4
+- 데이터 관리 포맷 Json -> Yaml로 변경
+ 
+# 2021/7/8
+- RankManager를 wbmMC로 옮김
+- BukkitTaskManager를 wbmMC로 옮김
+- BukkitTaskManager에서 runTask~() 로 task를 사용하기 시작하면, 등록한 runnable 재사용못하게 삭제 기능 추가(에러 방지)
+- 위키 문서작성
 
 
 

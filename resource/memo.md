@@ -39,12 +39,16 @@
 > - 개발 사용법 위키 추가
 > - 미니게임 삭제 조건 수정(title로 검사하지 말고 ClassName으로 검사하기)
 > - 구현 미니게임 클래스에서 minigames.json 파일에 설정값 등록하고 사용할 수 있게 customData 기능 추가 
+> - 실패: JSON에 숫자가 무조건 double로 read 되는것 정수로도 read되게 고치기 (wbmMC 라이브러리의 JsonManager를 고쳐야 함)(https://stackoverflow.com/questions/36508323/how-can-i-prevent-gson-from-converting-integers-to-doubles) -> 아마 MiniGameMaker프로젝트에서 Gson을 새로 만들어서 wbmMC에 등록한 Long, Double 구분자가 적용이 안된듯
+> - 데이터 관리 yaml로 바꾸기(Json을 계속 사용하면 마인크래프트의 여러 클래스(예. Location, ItemStack 등)들이 자동으로 serialize, deserialize가 안됨) (map으로 2중 계층 이상 가능한지 보기 -> 가능)
 
-- 데이터 관리 yaml로 바꾸기(Json을 계속 사용하면 마인크래프트의 여러 클래스(예. Location, ItemStack 등)들이 자동으로 serialize, deserialize가 안됨) (map으로 2중 계층 이상 가능한지 보기)
-- wbmMC의 JsonDataManager에 백업 기능 추가하기
-- JSON에 숫자가 무조건 double로 read 되는것 정수로도 read되게 고치기 (wbmMC 라이브러리의 JsonManager를 고쳐야 함)(https://stackoverflow.com/questions/36508323/how-can-i-prevent-gson-from-converting-integers-to-doubles) -> 아마 MiniGameMaker프로젝트에서 Gson을 새로 만들어서 wbmMC에 등록한 Long, Double 구분자가 적용이 안된듯 
+- minigames.yml에서 `actived`를 `active` 로 바꾸기 
+- 접근 제한 wrapper 클래스 구조 만들기, observing 시스템도 만들기
+- 미니게임 시작/종료 에 플레이어 pure상태 만드는 목록 설정값 setting.yml에 추가하기
+- wbmMC에 데이터 백업 기능 추가하기
 - 1.17 update 준비(JDK 16으로 변경, wbmMC도 변경, paper api 도 변경)
-- 모든 주석 영어로 바꾸기
+- 주석 영어로 바꾸기
+- 위키 한글/영어 두버전으로 만들기
 - 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
 - setting.json에 한글, 영어 기능 language변수 
 - setting.json에 message prefix 설정값 messagePrefix변수

@@ -5,20 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.plugin.util.BroadcastTool;
-import com.wbm.plugin.util.data.json.JsonDataMember;
+import com.wbm.plugin.util.data.yaml.YamlHelper;
+import com.wbm.plugin.util.data.yaml.YamlManager;
+import com.wbm.plugin.util.data.yaml.YamlMember;
 
-public class MiniGameDataManager implements JsonDataMember {
-	Map<String, Map<String, Object>> minigameData;
+import net.md_5.bungee.api.ChatColor;
+
+public class MiniGameDataManager implements YamlMember {
+	private Map<String, Object> minigameData;
+//	private FileConfiguration config;
 
 	public MiniGameDataManager() {
-		this.minigameData = new HashMap<String, Map<String, Object>>();
+		this.minigameData = new HashMap<String, Object>();
 	}
 
 	public void addMiniGameData(MiniGame minigame) {
@@ -28,15 +31,7 @@ public class MiniGameDataManager implements JsonDataMember {
 		data.put("title", minigame.getTitle());
 
 		// location
-		Map<String, Object> locationData = new HashMap<String, Object>();
-		Location gameLoc = minigame.getLocation();
-		locationData.put("world", gameLoc.getWorld().getName());
-		locationData.put("x", gameLoc.getX());
-		locationData.put("y", gameLoc.getY());
-		locationData.put("z", gameLoc.getZ());
-		locationData.put("pitch", gameLoc.getPitch());
-		locationData.put("yaw", gameLoc.getYaw());
-		data.put("location", locationData);
+		data.put("location", minigame.getLocation());
 
 		// maxPlayerCount
 		data.put("maxPlayerCount", minigame.getMaxPlayerCount());
@@ -66,13 +61,17 @@ public class MiniGameDataManager implements JsonDataMember {
 		return this.getMiniGameData(minigame) != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> getMiniGameData(MiniGame minigame) {
 		/*
 		 * ClassName으로 미니게임 구분
 		 */
-		return this.minigameData.get(minigame.getClassName());
+//		Object obj = this.minigameData.get(minigame.getClassName());
+//		return YamlHelper.ObjectToMap(obj);
+		return (Map<String, Object>) this.minigameData.get(minigame.getClassName());
 	}
 
+	@SuppressWarnings("unchecked")
 	public void applyMiniGameDataToInstance(MiniGame minigame) {
 		/*
 		 * If minigames.json file has same MiniGame, then overwrite saved minigame data
@@ -84,24 +83,16 @@ public class MiniGameDataManager implements JsonDataMember {
 		String title = (String) data.get("title");
 
 		// location
-		@SuppressWarnings("unchecked")
-		Map<String, Object> locationData = (Map<String, Object>) data.get("location");
-		String world = (String) locationData.get("world");
-		double x = (double) locationData.get("x");
-		double y = (double) locationData.get("y");
-		double z = (double) locationData.get("z");
-		double pitch = (double) locationData.get("pitch");
-		double yaw = (double) locationData.get("yaw");
-		Location location = new Location(Bukkit.getWorld(world), x, y, z, (float) pitch, (float) yaw);
+		Location location = (Location) data.get("location");
 
 		// maxPlayerCount
-		int maxPlayerCount = Double.valueOf((double) data.get("maxPlayerCount")).intValue();
+		int maxPlayerCount = (int) data.get("maxPlayerCount");
 
 		// waitingTime
-		int waitingTime = (int) Math.round((double) data.get("waitingTime"));
+		int waitingTime = (int) data.get("waitingTime");
 
 		// timeLimit
-		int timeLimit = (int) Math.round((double) data.get("timeLimit"));
+		int timeLimit = (int) data.get("timeLimit");
 
 		// actived
 		boolean actived = (boolean) data.get("actived");
@@ -128,12 +119,12 @@ public class MiniGameDataManager implements JsonDataMember {
 		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, actived, settingFixed);
 
 		// apply customData
-		@SuppressWarnings("unchecked")
+//		Map<String, Object> customData = YamlHelper.ObjectToMap(data.get("customData"));
 		Map<String, Object> customData = (Map<String, Object>) data.get("customData");
 		minigame.setCustomData(customData);
 	}
 
-	private void removeNotExistMiniGameData() {
+	public void removeNotExistMiniGameData() {
 		// remove deleted minigame before save minigames.json file
 		MiniGameManager miniGameM = MiniGameManager.getInstance();
 		List<MiniGame> gameList = miniGameM.getMiniGameList();
@@ -146,38 +137,47 @@ public class MiniGameDataManager implements JsonDataMember {
 				}
 			}
 			// gameClassName이 없으면 minigameData에서 삭제 (= 파일에서 삭제)
-//			this.minigameData.remove(gameClassName);
 			removedGames.add(gameClassName);
 		}
 
+		BroadcastTool.info("" +ChatColor.RED + ChatColor.BOLD + "[Removed MiniGame List in minigames.yml]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
-			BroadcastTool.info(removedGameTitle + " minigame removed from minigames.json");
+			BroadcastTool.info(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
 		}
 	}
 
+//	@Override
+//	public void distributeData(Gson gson, String jsonString) {
+//		if (jsonString == null) {
+//			return;
+//		}
+//
+//		this.minigameData = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
+//		}.getType());
+//	}
+//
+//	@Override
+//	public Object getData() {
+//		// 데이터 반환하기 전에 minigames.json에서 없는 미니게임 제거하기
+//		this.removeNotExistMiniGameData();
+//
+//		// 데이터 반환
+//		return this.minigameData;
+//	}
+
 	@Override
-	public void distributeData(Gson gson, String jsonString) {
-		if (jsonString == null) {
-			return;
+	public void setData(YamlManager yamlM, FileConfiguration config) {
+		// sync config minigames with variable minigames
+		if (config.isSet("minigames")) {
+			this.minigameData = YamlHelper.ObjectToMap(config.getConfigurationSection("minigames"));
 		}
-
-		this.minigameData = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
-		}.getType());
-	}
-
-	@Override
-	public Object getData() {
-		// 데이터 반환하기 전에 minigames.json에서 없는 미니게임 제거하기
-		this.removeNotExistMiniGameData();
-
-		// 데이터 반환
-		return this.minigameData;
+		config.set("minigames", this.minigameData);
 	}
 
 	@Override
 	public String getFileName() {
-		return "minigames.json";
+		return "minigames.yml";
 	}
 
 }

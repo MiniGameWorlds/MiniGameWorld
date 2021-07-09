@@ -16,11 +16,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.minigamemaker.manager.MiniGameManager;
-import com.wbm.minigamemaker.manager.RankManager;
-import com.wbm.minigamemaker.util.BukkitTaskManager;
 import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.plugin.util.BukkitTaskManager;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SortTool;
 
 public abstract class MiniGame {
 	/*
@@ -38,9 +38,6 @@ public abstract class MiniGame {
 
 	// <player, score>
 	private Map<Player, Integer> players;
-
-	// rank manager
-	protected RankManager rankM;
 
 	// task manager
 	private BukkitTaskManager taskManager;
@@ -71,7 +68,6 @@ public abstract class MiniGame {
 	}
 
 	private void setupMiniGame() {
-		this.rankM = new RankManager();
 		this.taskManager = new BukkitTaskManager();
 		this.customData = new HashMap<String, Object>();
 		this.registerCustomData();
@@ -423,7 +419,7 @@ public abstract class MiniGame {
 	protected void printScore() {
 		// 스코어 결과 score기준 내림차순으로 출력
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
-		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(this.players);
+		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(this.players);
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();

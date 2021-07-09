@@ -11,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.plugin.util.SortTool;
 
 public abstract class TeamBattleMiniGame extends MiniGame {
 
@@ -307,7 +308,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		// 팀 점수대로 순위
-		List<Entry<Player, Integer>> entries = this.rankM.getDescendingSortedList(eachValidTeamPlayer);
+		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(eachValidTeamPlayer);
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
