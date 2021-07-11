@@ -25,7 +25,7 @@ public class MiniGameSetting {
 	private int timeLimit;
 	// 파일 관리 o
 	// 기본값: true
-	private boolean actived;
+	private boolean active;
 	// 파일 관리 x
 	// 기본값: false
 	private boolean settingFixed;
@@ -44,7 +44,7 @@ public class MiniGameSetting {
 		this.waitingTime = waitingTime;
 		this.timeLimit = timeLimit;
 
-		this.actived = true;
+		this.active = true;
 		this.settingFixed = false;
 		this.scoreNotifying = false;
 		this.forcePlayerCount = false;
@@ -78,8 +78,8 @@ public class MiniGameSetting {
 		this.timeLimit = timeLimit;
 	}
 
-	public void setActived(boolean actived) {
-		this.actived = actived;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public void setForcePlayerCount(boolean forcePlayerCount) {
@@ -107,8 +107,8 @@ public class MiniGameSetting {
 		return timeLimit;
 	}
 
-	public boolean isActived() {
-		return actived;
+	public boolean isActive() {
+		return active;
 	}
 
 	public boolean isSettingFixed() {

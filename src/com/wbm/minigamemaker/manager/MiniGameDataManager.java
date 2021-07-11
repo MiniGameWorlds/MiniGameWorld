@@ -18,10 +18,12 @@ import net.md_5.bungee.api.ChatColor;
 
 public class MiniGameDataManager implements YamlMember {
 	private Map<String, Object> minigameData;
+	private MiniGameManager minigameM;
 //	private FileConfiguration config;
 
-	public MiniGameDataManager() {
+	public MiniGameDataManager(MiniGameManager minigameM) {
 		this.minigameData = new HashMap<String, Object>();
+		this.minigameM = minigameM;
 	}
 
 	public void addMiniGameData(MiniGame minigame) {
@@ -42,8 +44,8 @@ public class MiniGameDataManager implements YamlMember {
 		// timeLimit
 		data.put("timeLimit", minigame.getTimeLimit());
 
-		// actived
-		data.put("actived", minigame.getActived());
+		// active
+		data.put("active", minigame.isActive());
 
 		// customData
 		Map<String, Object> customData = minigame.getCustomData();
@@ -94,8 +96,8 @@ public class MiniGameDataManager implements YamlMember {
 		// timeLimit
 		int timeLimit = (int) data.get("timeLimit");
 
-		// actived
-		boolean actived = (boolean) data.get("actived");
+		// active
+		boolean active = (boolean) data.get("active");
 
 		// settingFixed: 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
 		boolean settingFixed = minigame.isSettingFixed();
@@ -116,7 +118,7 @@ public class MiniGameDataManager implements YamlMember {
 		}
 
 		// apply basic data
-		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, actived, settingFixed);
+		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, active, settingFixed);
 
 		// apply customData
 //		Map<String, Object> customData = YamlHelper.ObjectToMap(data.get("customData"));
@@ -125,9 +127,8 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	public void removeNotExistMiniGameData() {
-		// remove deleted minigame before save minigames.json file
-		MiniGameManager miniGameM = MiniGameManager.getInstance();
-		List<MiniGame> gameList = miniGameM.getMiniGameList();
+		// remove deleted minigame before save minigames.yml file
+		List<MiniGame> gameList = this.minigameM.getMiniGameList();
 		List<String> removedGames = new ArrayList<String>();
 		OUT: for (String gameClassName : this.minigameData.keySet()) {
 			for (MiniGame game : gameList) {
@@ -140,7 +141,7 @@ public class MiniGameDataManager implements YamlMember {
 			removedGames.add(gameClassName);
 		}
 
-		BroadcastTool.info("" +ChatColor.RED + ChatColor.BOLD + "[Removed MiniGame List in minigames.yml]");
+		BroadcastTool.info("" + ChatColor.RED + ChatColor.BOLD + "[Removed MiniGame List in minigames.yml]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
 			BroadcastTool.info(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");

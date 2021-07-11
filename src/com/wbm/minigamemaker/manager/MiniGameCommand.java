@@ -13,7 +13,7 @@ public class MiniGameCommand implements CommandExecutor {
 	 * minigame leave
 	 */
 
-	MiniGameManager minigameManager;
+	private MiniGameManager minigameManager;
 
 	public MiniGameCommand(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;

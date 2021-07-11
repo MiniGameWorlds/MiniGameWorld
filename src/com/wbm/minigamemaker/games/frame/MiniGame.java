@@ -15,7 +15,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.BukkitTaskManager;
 import com.wbm.plugin.util.Counter;
@@ -76,9 +76,9 @@ public abstract class MiniGame {
 	/*
 	 * overriding methods
 	 */
-//	protected void runTaskBeforeStart() {
+	//	protected void runTaskBeforeStart() {
 	// not necessary
-//	};
+	//	};
 
 	protected void runTaskAfterStart() {
 	}
@@ -248,12 +248,12 @@ public abstract class MiniGame {
 
 	public boolean joinGame(Player p) {
 		// 처리 순서
-		// 1.minigames.json에서 actived가 true인지
+		// 1.minigames.json에서 active가 true인지
 		// 2.이미 게임이 시작전인지
 		// 3.게임 인원이 풀이 아닌지
 		// -> 게임 참여 로직 처리
 
-		if (!this.getActived()) {
+		if (!this.isActive()) {
 			p.sendMessage(this.getTitle() + " is not active");
 			return false;
 		}
@@ -263,7 +263,7 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		if (this.isFullPlayer()) {
+		if (this.isFull()) {
 			p.sendMessage("Player is full");
 			return false;
 		}
@@ -337,7 +337,7 @@ public abstract class MiniGame {
 		 */
 		if (this.getSetting().isForcePlayerCount()) {
 			// check player isn't full
-			if (!this.isFullPlayer()) {
+			if (!this.isFull()) {
 				// send message
 				this.sendMessageToAllPlayers("Game didn't started: game needs full players");
 
@@ -430,11 +430,11 @@ public abstract class MiniGame {
 
 	}
 
-	private boolean isEmpty() {
+	public boolean isEmpty() {
 		return this.getPlayers().isEmpty();
 	}
 
-	private boolean isFullPlayer() {
+	public boolean isFull() {
 		int currentPlayerCount = this.getPlayers().size();
 		int maxPlayerCount = this.getMaxPlayerCount();
 		return currentPlayerCount == maxPlayerCount;
@@ -445,11 +445,8 @@ public abstract class MiniGame {
 	}
 
 	public List<Player> getPlayers() {
-		List<Player> allPlayer = new ArrayList<Player>();
-		for (Player p : this.players.keySet()) {
-			allPlayer.add(p);
-		}
-		return allPlayer;
+		// copy
+		return new ArrayList<Player>(this.players.keySet());
 	}
 
 	public int getPlayerCount() {
@@ -481,7 +478,7 @@ public abstract class MiniGame {
 		}
 	}
 
-	protected int getScore(Player p) {
+	public int getScore(Player p) {
 		return this.players.get(p);
 	}
 
@@ -571,8 +568,7 @@ public abstract class MiniGame {
 
 	private void setupPlayerWhenLeave(Player p) {
 		// player tp
-		MiniGameManager minigameM = MiniGameManager.getInstance();
-		Location serverSpawn = minigameM.getServerSpawn();
+		Location serverSpawn = MiniGameMaker.create().getServerSpawn();
 		p.teleport(serverSpawn);
 
 		// player inventory clear
@@ -590,7 +586,7 @@ public abstract class MiniGame {
 	}
 
 	public Location getLocation() {
-		return this.getSetting().getLocation();
+		return this.getSetting().getLocation().clone();
 	}
 
 	public int getWaitingTime() {
@@ -605,8 +601,8 @@ public abstract class MiniGame {
 		return this.getSetting().getMaxPlayerCount();
 	}
 
-	public boolean getActived() {
-		return this.getSetting().isActived();
+	public boolean isActive() {
+		return this.getSetting().isActive();
 	}
 
 	public boolean isSettingFixed() {
@@ -614,13 +610,13 @@ public abstract class MiniGame {
 	}
 
 	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
-			boolean actived, boolean settingFixed) {
+			boolean active, boolean settingFixed) {
 		this.setting.setTitle(title);
 		this.setting.setLocation(location);
 		this.setting.setMaxPlayerCount(maxPlayerCount);
 		this.setting.setWaitingTime(waitingTime);
 		this.setting.setTimeLimit(timeLimit);
-		this.setting.setActived(actived);
+		this.setting.setActive(active);
 		this.setting.setSettingFixed(settingFixed);
 	}
 
@@ -660,7 +656,7 @@ public abstract class MiniGame {
 		return this.finishCounter.getCount();
 	}
 
-	public String getEveryoneNameString() {
+	public String getEveryoneName() {
 		String members = "";
 		for (Player p : this.getPlayers()) {
 			members += p.getName() + ", ";
@@ -668,6 +664,10 @@ public abstract class MiniGame {
 		// 마지막 ", " 제거
 		members = members.substring(0, members.length() - 2);
 		return members;
+	}
+
+	public List<Entry<Player, Integer>> getScoreRanking() {
+		return SortTool.getDescendingSortedList(this.players);
 	}
 
 	protected BukkitTaskManager getTaskManager() {

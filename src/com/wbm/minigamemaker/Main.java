@@ -14,6 +14,7 @@ import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameCommand;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -52,9 +53,12 @@ public class Main extends JavaPlugin {
 	}
 
 	private void setupSettings() {
-		this.minigameDataM = new MiniGameDataManager();
 		this.minigameManager = MiniGameManager.getInstance();
+		this.minigameDataM = new MiniGameDataManager(this.minigameManager);
 		this.minigameManager.setMiniGameDataManager(this.minigameDataM);
+		// MiniGameMaker wrapper class: set MiniGameManager
+		MiniGameMaker minigameMaker = MiniGameMaker.create();
+		minigameMaker.setMiniGameManager(this.minigameManager);
 	}
 
 	private void setupData() {
@@ -89,9 +93,9 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
-		// remove not registered minigames setting data in minigames.yml 
+		// remove not registered minigames setting data in minigames.yml
 		this.minigameDataM.removeNotExistMiniGameData();
-		
+
 		// save all data
 		this.yamlM.saveAllData();
 		BroadcastTool.warn(ChatColor.RED + "MiniGameMaker OFF");

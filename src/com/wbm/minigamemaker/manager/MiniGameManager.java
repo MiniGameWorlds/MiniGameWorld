@@ -44,7 +44,7 @@ public class MiniGameManager implements YamlMember {
 
 	// Singleton 객체
 	private static MiniGameManager instance = new MiniGameManager();
-//	private static boolean instanceCreated = false;
+	private static boolean instanceCreated = false;
 
 	// 미니게임 관리 리스트
 	private List<MiniGame> minigames;
@@ -92,7 +92,11 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public static MiniGameManager getInstance() {
-		return instance;
+		if (instanceCreated == false) {
+			instanceCreated = true;
+			return instance;
+		}
+		return null;
 	}
 
 	private void initSettingData() {
@@ -143,7 +147,7 @@ public class MiniGameManager implements YamlMember {
 		 */
 
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
-			MiniGame playingGame = this.getPlayingGame(p);
+			MiniGame playingGame = this.getPlayingMiniGame(p);
 			return playingGame.leaveGame(p);
 		} else {
 			p.sendMessage("You're not playing any minigame");
@@ -154,10 +158,10 @@ public class MiniGameManager implements YamlMember {
 
 	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
 		/*
-		 * check player is playing minigame
+		 * check player is playing minigame (API)
 		 */
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
-			MiniGame playingGame = this.getPlayingGame(p);
+			MiniGame playingGame = this.getPlayingMiniGame(p);
 			playingGame.handleException(p, exception, arg);
 		}
 	}
@@ -206,7 +210,7 @@ public class MiniGameManager implements YamlMember {
 		for (Player p : players) {
 			// 플레이어가 플레이중인 미니게임이 없으면 반환
 			if (this.checkPlayerIsPlayingMiniGame(p)) {
-				MiniGame playingGame = this.getPlayingGame(p);
+				MiniGame playingGame = this.getPlayingMiniGame(p);
 				playingGame.passEvent(e);
 			}
 		}
@@ -256,10 +260,10 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {
-		return this.getPlayingGame(p) != null;
+		return this.getPlayingMiniGame(p) != null;
 	}
 
-	private MiniGame getMiniGame(String title) {
+	public MiniGame getMiniGame(String title) {
 		for (MiniGame game : this.minigames) {
 			if (game.getTitle().equalsIgnoreCase(title)) {
 				return game;
@@ -268,7 +272,7 @@ public class MiniGameManager implements YamlMember {
 		return null;
 	}
 
-	public MiniGame getPlayingGame(Player p) {
+	public MiniGame getPlayingMiniGame(Player p) {
 		for (MiniGame game : this.minigames) {
 			if (game.containsPlayer(p)) {
 				return game;

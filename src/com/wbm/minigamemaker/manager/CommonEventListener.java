@@ -20,7 +20,7 @@ public class CommonEventListener implements Listener {
 	 * BUG: 서버에 이벤트 리스너가 등록이 잘 안됨(reload 하면 등록이 또 잘됨)
 	 */
 
-	MiniGameManager minigameManager;
+	private MiniGameManager minigameManager;
 
 	public CommonEventListener(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;
@@ -28,7 +28,7 @@ public class CommonEventListener implements Listener {
 		this.registerAllEventListener();
 	}
 
-	public void registerAllEventListener() {
+	private void registerAllEventListener() {
 		System.out.println("wait for all EventHandler registeration...");
 		ClassInfoList events = new ClassGraph().enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());

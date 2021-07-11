@@ -78,10 +78,12 @@
 - BukkitTaskManager에서 runTask~() 로 task를 사용하기 시작하면, 등록한 runnable 재사용못하게 삭제 기능 추가(에러 방지)
 - 위키 문서작성
 
+# 2021/7/10
+- MiniGameMaker wrapper class 작성 
+- MiniGameSetting의 `actived`를 `active` 로 이름 바꿈
 
-
-
-
+# 2021/7/11
+- MiniGameAcessor wrapper class 작성
 
 
 

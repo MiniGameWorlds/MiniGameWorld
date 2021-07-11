@@ -53,7 +53,7 @@ public abstract class TeamMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		this.sendMessageToAllPlayers("[Score]");
-		this.sendMessageToAllPlayers("Team(" + this.getEveryoneNameString() + ")" + ": " + getTeamScore());
+		this.sendMessageToAllPlayers("Team(" + this.getEveryoneName() + ")" + ": " + getTeamScore());
 	}
 
 	@Override
