@@ -46,10 +46,10 @@
 
 ```
 2. 미니게임 메이커에 등록
-- MiniGameManager.getInstace()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
+- MiniGameMaker.create()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
 ```java
-MiniGameManager minigameManager = MiniGameManager.getInstance();
-this.minigameManager.registerMiniGame(new FitTool());
+MiniGameMaker maker = MiniGameMaker.create();
+maker.registerMiniGame(new FitTool());
 ```
 
 # 미니게임 Task 관리
@@ -116,7 +116,7 @@ protected void initGameSetting() {
 	items.forEach(item -> p.getInventory().addItem(item));
 }
 ```
-or (in processEvent() method)
+or
 ```java
 @Override
 protected void processEvent(Event event) {
@@ -127,19 +127,25 @@ protected void processEvent(Event event) {
 ```
 
 
-## 설정값
+# 설정값
 - MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
 - 일부 설정값제외한 값들은 minigames.yml 파일에서 수정가능
-- `settingFixed`: `waitingTime`, `maxPlayerCount`, `timeLimit` 값 고정 여부 (minigame.yml파일에서 유저가 임의 수정 불가능)
+- `settingFixed` 설정값: `waitingTime`, `maxPlayerCount`, `timeLimit` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
 
-## 미니게임 종료
+# 미니게임 종료
 - `endGame()` 메소드 사용
 
 # 미니게임 참여/퇴장 방법 변경
-- `참여`: MiniGameManager의 joinGame() 메소드 사용
-- `퇴장`: MiniGameManager의 leaveGame() 메소드 사용
+- [참고 링크](../devWiki/MiniGameMaker.md)
+- `참여`: MiniGameMaker의 joinGame() 메소드 사용
+- `퇴장`: MiniGameMaker의 leaveGame() 메소드 사용
 
-# API DOC
+# API class
+- `MiniGameMaker`: `MiniGameMaker.create()`로 객체를 생성해서 미니게임의 여러 요소를 사용
+
+# 미니게임 옵저버 시스템
+- 미니게임의 여러 이벤트(게임 시작, 게임 종료 등)에 맞춰서 여러 동작을 할 수 있는 시스템 (예. 게임 끝날 때 랭킹에 따른 보상 지급 시스템)
+- [참고 링크](../devWiki/MiniGameObserver.md)
 
 
 # minigames.yml
