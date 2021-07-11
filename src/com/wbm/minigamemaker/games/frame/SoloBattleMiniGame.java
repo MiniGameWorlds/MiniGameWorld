@@ -13,7 +13,7 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	 * 
 	 * [필수]
 	 * 
-	 * - runTaskAfterStart() super 사용해야 함
+	 * - runTaskAfterStart() 사용할 때는 super 사용해야 함
 	 */
 	public SoloBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, maxPlayerCount, timeLimit, waitingTime);

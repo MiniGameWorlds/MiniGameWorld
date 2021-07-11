@@ -6,9 +6,13 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.observer.MiniGameObserver;
 
 public class MiniGameMaker {
 	/*
@@ -39,7 +43,7 @@ public class MiniGameMaker {
 	 * - handleException
 	 * - isPossibleEvent
 	 * - checkPlayerIsPlayingMiniGame
-	 * - getMiniGame
+	 * - getMiniGameWithClassName
 	 * - getPlayingGame
 	 * - getMiniGameList
 	 * - registerMiniGame
@@ -71,8 +75,8 @@ public class MiniGameMaker {
 		return this.minigameM.checkPlayerIsPlayingMiniGame(p);
 	}
 
-	public MiniGameAccessor getMiniGame(String title) {
-		MiniGame minigame = this.minigameM.getMiniGame(title);
+	public MiniGameAccessor getMiniGameWithClassName(String className) {
+		MiniGame minigame = this.minigameM.getMiniGameWithClassName(className);
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -99,6 +103,18 @@ public class MiniGameMaker {
 	public Location getServerSpawn() {
 		return this.minigameM.getServerSpawn().clone();
 	}
+
+	public void registerMiniGameObserver(MiniGameObserver observer) {
+		// register observer on All MiniGames
+		// ex. give reward with each minigames
+		this.minigameM.getMiniGameList().forEach(minigame -> minigame.registerObserver(observer));
+	}
+
+	public void unregisterMiniGameObserver(MiniGameObserver observer) {
+		// unregister observer from All MiniGames
+		this.minigameM.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
+	}
+
 }
 //
 //

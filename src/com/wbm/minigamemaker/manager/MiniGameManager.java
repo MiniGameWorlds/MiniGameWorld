@@ -62,8 +62,8 @@ public class MiniGameManager implements YamlMember {
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
 	private List<Player> eventPlayers;
 
-//	// yaml config
-//	private FileConfiguration config;
+	//	// yaml config
+	//	private FileConfiguration config;
 
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
@@ -128,7 +128,7 @@ public class MiniGameManager implements YamlMember {
 		 * check player is not playing minigame
 		 */
 		if (!this.checkPlayerIsPlayingMiniGame(p)) {
-			MiniGame game = this.getMiniGame(title);
+			MiniGame game = this.getMiniGameWithTitle(title);
 			if (game == null) {
 				p.sendMessage(title + " minigame does not exist");
 				return false;
@@ -263,9 +263,18 @@ public class MiniGameManager implements YamlMember {
 		return this.getPlayingMiniGame(p) != null;
 	}
 
-	public MiniGame getMiniGame(String title) {
+	public MiniGame getMiniGameWithTitle(String title) {
 		for (MiniGame game : this.minigames) {
 			if (game.getTitle().equalsIgnoreCase(title)) {
+				return game;
+			}
+		}
+		return null;
+	}
+
+	public MiniGame getMiniGameWithClassName(String className) {
+		for (MiniGame game : this.minigames) {
+			if (game.getClassName().equalsIgnoreCase(className)) {
 				return game;
 			}
 		}
@@ -329,7 +338,7 @@ public class MiniGameManager implements YamlMember {
 	public boolean registerMiniGame(MiniGame newGame) {
 		// 이미 같은 미니게임이 minigames에 있으면 등록 실패
 		// 주의: 미니게임.title로 비교하면 안됨 -> 클래스 이름으로 비교해야 함(대소문자 구별x),
-		// 왜냐면 minigames.json파일에서 클래스 이름으로 구분해서 저장하였기 때문
+		// 왜냐면 minigames.yml파일에서 클래스 이름으로 구분해서 저장하였기 때문
 		String newGameClassName = newGame.getClassName();
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
@@ -341,7 +350,7 @@ public class MiniGameManager implements YamlMember {
 			}
 		}
 
-		// 등록하는 미니게임 인스턴스에 이전에 저장된 minigames.json 파일 데이터 적용
+		// 등록하는 미니게임 인스턴스에 이전에 저장된 minigames.yml 파일 데이터 적용
 		if (this.minigameDataM.isMinigameDataExists(newGame)) {
 			this.minigameDataM.applyMiniGameDataToInstance(newGame);
 		} else {
@@ -378,27 +387,10 @@ public class MiniGameManager implements YamlMember {
 		this.minigameDataM = minigameDataM;
 	}
 
-//	@Override
-//	public void distributeData(Gson gson,String jsonString) {
-//		if (jsonString == null) {
-//			return;
-//		}
-//		
-//		this.setting = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
-//		}.getType());
-//		// update gameSetting
-//		this.initSettingData();
-//
-//	}
-//
-//	@Override
-//	public Object getData() {
-//		return this.setting;
-//	}
 
 	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {
-//		this.config = config;
+		//		this.config = config;
 
 		// sync config setting with variable setting
 		if (config.isSet("setting")) {

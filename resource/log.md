@@ -83,11 +83,12 @@
 - MiniGameSetting의 `actived`를 `active` 로 이름 바꿈
 
 # 2021/7/11
-- MiniGameAcessor wrapper class 작성
-
-
-
-
+- MiniGameAcessor wrapper class 작성 
+- MiniGame Observer 패턴 기능 추가(외부 플러그인에서 MiniGameMaker를 통해 MiniGameObserver를 등록해서 미니게임의 Event를 감지해 여러가지(ex.보상) 작업 가능)
+- Player.sendMessage() 대신 MiniGame의 sendMessage() 기능 추가(prefix로 미니게임 [title] 이 쓰여짐) 
+- MathGame 미니게임 외부 플러그인으로 만들어서 MiniGameMaker, MiniGameObserver 적용 테스트
+- wrapper class 문서작업
+- observer 시스템 문서작업
 
 
 

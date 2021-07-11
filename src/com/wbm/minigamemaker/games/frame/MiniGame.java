@@ -15,6 +15,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.wbm.minigamemaker.observer.MiniGameEventNotifier;
+import com.wbm.minigamemaker.observer.MiniGameObserver;
+import com.wbm.minigamemaker.wrapper.MiniGameAccessor;
 import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.BukkitTaskManager;
@@ -22,7 +25,7 @@ import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
 
-public abstract class MiniGame {
+public abstract class MiniGame implements MiniGameEventNotifier {
 	/*
 	 * MiniGame Class
 	 */
@@ -43,6 +46,9 @@ public abstract class MiniGame {
 	private BukkitTaskManager taskManager;
 
 	private Map<String, Object> customData;
+
+	// observer list
+	private List<MiniGameObserver> observerList;
 
 	// abstract methods
 	protected abstract void initGameSetting();
@@ -70,6 +76,7 @@ public abstract class MiniGame {
 	private void setupMiniGame() {
 		this.taskManager = new BukkitTaskManager();
 		this.customData = new HashMap<String, Object>();
+		this.observerList = new ArrayList<MiniGameObserver>();
 		this.registerCustomData();
 	}
 
@@ -141,7 +148,7 @@ public abstract class MiniGame {
 				} else if (waitTime == 1) {
 					time = ChatColor.RED + time;
 				}
-				sendTitleToPlayers(time, "", 4, 12, 4);
+				sendTitleToAllPlayers(time, "", 4, 12, 4);
 
 				// play sound
 				if (waitTime <= 3) {
@@ -171,7 +178,7 @@ public abstract class MiniGame {
 					} else if (leftTime == 1) {
 						time = ChatColor.RED + time;
 					}
-					sendTitleToPlayers("" + time, "", 4, 12, 4);
+					sendTitleToAllPlayers("" + time, "", 4, 12, 4);
 
 					// play sound
 					getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
@@ -210,12 +217,12 @@ public abstract class MiniGame {
 		// 2. game waitingTime counter must be upper than 10
 
 		if (this.started) {
-			p.sendMessage("You can't leave game(Reason: game already has started)");
+			this.sendMessage(p, "You can't leave game(Reason: game already has started)");
 			return false;
 		}
 
 		if (this.waitingCounter.getCount() <= 10) {
-			p.sendMessage("You can't leave game(Reason: game will start soon)");
+			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
 			return false;
 		}
 
@@ -232,39 +239,40 @@ public abstract class MiniGame {
 
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		/*
-		 * TODO: After this method, must check isEmpty() and run initSetting() (except
+		 * TODO: After this method, isEmpty() must be checked and run initSetting() (except
 		 * for runFinishTask())
 		 */
 		if (reason != null) {
 			// notify other players to join the game
 			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
 		}
-		// remove player from minigame
-		this.removePlayer(p);
 
 		// setup player state
 		this.setupPlayerWhenLeave(p);
+
+		// remove player from minigame
+		this.removePlayer(p);
 	}
 
 	public boolean joinGame(Player p) {
 		// 처리 순서
-		// 1.minigames.json에서 active가 true인지
+		// 1.minigames.yml에서 active가 true인지
 		// 2.이미 게임이 시작전인지
 		// 3.게임 인원이 풀이 아닌지
 		// -> 게임 참여 로직 처리
 
 		if (!this.isActive()) {
-			p.sendMessage(this.getTitle() + " is not active");
+			this.sendMessage(p, " game is not active");
 			return false;
 		}
 
 		if (this.started) {
-			p.sendMessage(this.getTitle() + " already started");
+			this.sendMessage(p, " already started");
 			return false;
 		}
 
 		if (this.isFull()) {
-			p.sendMessage("Player is full");
+			this.sendMessage(p, " Player is full");
 			return false;
 		}
 
@@ -307,18 +315,19 @@ public abstract class MiniGame {
 		/*
 		 * 튜토리얼
 		 */
-		p.sendMessage("\n=================================");
-		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
-		p.sendMessage("=================================");
+		p.sendMessage("");
+		this.sendMessage(p, "=================================");
+		this.sendMessage(p, "" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
+		this.sendMessage(p, "=================================");
 
 		// print rule
-		p.sendMessage(ChatColor.BOLD + "[Rule]");
-		p.sendMessage("- Time Limit: " + this.getTimeLimit() + " sec");
+		this.sendMessage(p, ChatColor.BOLD + "[Rule]");
+		this.sendMessage(p, "- Time Limit: " + this.getTimeLimit() + " sec");
 
 		// tutorial
 		if (this.getGameTutorialStrings() != null) {
 			for (String msg : this.getGameTutorialStrings()) {
-				p.sendMessage("- " + msg);
+				this.sendMessage(p, "- " + msg);
 			}
 		}
 	}
@@ -339,7 +348,7 @@ public abstract class MiniGame {
 			// check player isn't full
 			if (!this.isFull()) {
 				// send message
-				this.sendMessageToAllPlayers("Game didn't started: game needs full players");
+				this.sendMessageToAllPlayers("Game cancelled: needs full players");
 
 				// leave all players
 				this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
@@ -357,10 +366,13 @@ public abstract class MiniGame {
 		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_END_PORTAL_SPAWN));
 
 		// 시작 타이틀
-		sendTitleToPlayers("START", "", 4, 20 * 2, 4);
+		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
 
 		// runTaskAfterStart
 		runTaskAfterStart();
+
+		// notify start event to observers
+		this.notifyObservers(MiniGameEvent.START);
 
 		// 태스크 종료
 		this.taskManager.cancelTask("_waitingTimer");
@@ -382,6 +394,9 @@ public abstract class MiniGame {
 
 		printEndInfo();
 
+		// nofity finish event to observers (before remove players)
+		this.notifyObservers(MiniGameEvent.FINISH);
+
 		// setup player
 		// 이 다음에 runTaskAfterFinish()가 실행되기 떄문에, initSetting()하면 안됨!
 		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
@@ -399,13 +414,15 @@ public abstract class MiniGame {
 	protected void printEndInfo() {
 		// title
 		for (Player p : this.getPlayers()) {
-			p.sendMessage("\n=================================");
-			p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
-			p.sendMessage("=================================");
+			// break line
+			p.sendMessage("");
+			this.sendMessage(p, "=================================");
+			this.sendMessage(p, "" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
+			this.sendMessage(p, "=================================");
 		}
 
 		// 종료 알리기
-		sendTitleToPlayers("FINISH", "", 4, 20 * 2, 4);
+		sendTitleToAllPlayers("FINISH", "", 4, 20 * 2, 4);
 
 		// print score
 		printScore();
@@ -466,13 +483,15 @@ public abstract class MiniGame {
 		this.players.remove(p);
 	}
 
-	protected void sendMessageToAllPlayers(String msg) {
-		for (Player p : getPlayers()) {
-			p.sendMessage(msg);
-		}
+	protected void sendMessage(Player p, String msg) {
+		p.sendMessage("[" + this.getTitle() + "] " + msg);
 	}
 
-	protected void sendTitleToPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	protected void sendMessageToAllPlayers(String msg) {
+		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
+	}
+
+	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		for (Player p : getPlayers()) {
 			p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 		}
@@ -487,7 +506,7 @@ public abstract class MiniGame {
 		this.players.put(p, previousScore + score);
 		// scoreNotifying 메세지 전송
 		if (this.setting.isScoreNotifying()) {
-			p.sendMessage("[" + this.getTitle() + "] +" + score);
+			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + score);
 		}
 	}
 
@@ -500,7 +519,7 @@ public abstract class MiniGame {
 		this.players.put(p, previousScore - score);
 		// scoreNotifying 메세지 전송
 		if (this.setting.isScoreNotifying()) {
-			p.sendMessage("[" + this.getTitle() + "] -" + score);
+			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + score);
 		}
 	}
 
@@ -672,6 +691,23 @@ public abstract class MiniGame {
 
 	protected BukkitTaskManager getTaskManager() {
 		return this.taskManager;
+	}
+
+	@Override
+	public void registerObserver(MiniGameObserver observer) {
+		if (!this.observerList.contains(observer)) {
+			this.observerList.add(observer);
+		}
+	}
+
+	@Override
+	public void unregisterObserver(MiniGameObserver observer) {
+		this.observerList.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers(MiniGameEvent event) {
+		this.observerList.forEach(obs -> obs.update(event, new MiniGameAccessor(this)));
 	}
 
 	public void setCustomData(Map<String, Object> customData) {

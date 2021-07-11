@@ -55,7 +55,7 @@ public class MoreHit extends TeamBattleMiniGame {
 		} else if (event instanceof PlayerRespawnEvent) {
 			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
 			e.setRespawnLocation(this.getLocation());
-			e.getPlayer().sendMessage("respawn!");
+			this.sendMessage(e.getPlayer(), "respawn!");
 		}
 	}
 

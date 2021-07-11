@@ -190,18 +190,18 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		team.plusScoreToMembers(score);
 	}
 
-//	protected void plusScoreToTeam(Team team, int score) {
-//		team.plusScoreToMembers(score);
-//	}
+	//	protected void plusScoreToTeam(Team team, int score) {
+	//		team.plusScoreToMembers(score);
+	//	}
 
 	protected void minusScoreToTeam(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
 		team.minusScoreToMembers(score);
 	}
 
-//	protected void minusScoreToTeam(Team team, int score) {
-//		team.minusScoreToMembers(score);
-//	}
+	//	protected void minusScoreToTeam(Team team, int score) {
+	//		team.minusScoreToMembers(score);
+	//	}
 
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
@@ -273,7 +273,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				// 팀 내 플레이어들에게만 채팅 전송
 				Team team = this.getPlayerTeam(sender);
 				// [Team: worldbiomusic] go go
-				team.sendMessageToAllMembers("[Team: " + sender.getName() + "] " + e.getMessage());
+				team.sendMessageToAllMembers(sender, e.getMessage());
 			}
 		}
 	}
@@ -345,16 +345,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return this.members;
 		}
 
-		public void sendMessageToAllMembers(String msg) {
-			this.members.forEach(p -> p.sendMessage(msg));
+		public void sendMessageToAllMembers(Player sender, String msg) {
+			this.members.forEach(p -> sendMessage(p, sender.getName() + ": " + msg));
 		}
 
 		public int getTeamScore() {
 			return getScore(this.members.get(0));
-		}
-
-		public void sendMessageToMembers(String msg) {
-			this.members.forEach(p -> p.sendMessage(msg));
 		}
 
 		public void plusScoreToMembers(int score) {

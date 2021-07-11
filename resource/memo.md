@@ -42,10 +42,12 @@
 > - 실패: JSON에 숫자가 무조건 double로 read 되는것 정수로도 read되게 고치기 (wbmMC 라이브러리의 JsonManager를 고쳐야 함)(https://stackoverflow.com/questions/36508323/how-can-i-prevent-gson-from-converting-integers-to-doubles) -> 아마 MiniGameMaker프로젝트에서 Gson을 새로 만들어서 wbmMC에 등록한 Long, Double 구분자가 적용이 안된듯
 > - 데이터 관리 yaml로 바꾸기(Json을 계속 사용하면 마인크래프트의 여러 클래스(예. Location, ItemStack 등)들이 자동으로 serialize, deserialize가 안됨) (map으로 2중 계층 이상 가능한지 보기 -> 가능)
 > - minigames.yml에서 `actived`를 `active` 로 바꾸기
+> - 접근 제한 wrapper 클래스 구조 만들기
+> - observer 패턴 시스템 만들기
+> - wrapper class 문서작업
+> - observer 시스템 문서작업
 
-- 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)
- 
-- 접근 제한 wrapper 클래스 구조 만들기, observing 시스템도 만들기
+- 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 전에 작업하기)
 - 미니게임 시작/종료 에 플레이어 pure상태 만드는 목록 설정값 setting.yml에 추가하기
 - wbmMC에 데이터 백업 기능 추가하기
 - 1.17 update 준비(JDK 16으로 변경, wbmMC도 변경, paper api 도 변경)

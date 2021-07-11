@@ -84,7 +84,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 			if (selection != null) {
 				this.selections.put(p, selection);
 				e.setCancelled(true);
-				p.sendMessage("your choice: " + ChatColor.GREEN + selection.name());
+				this.sendMessage(p, "your choice: " + ChatColor.GREEN + selection.name());
 			}
 		}
 	}

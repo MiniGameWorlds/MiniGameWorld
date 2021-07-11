@@ -82,20 +82,20 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			int leftChance = this.chance.get(p);
 			if (leftChance > 0) {
 				int score = this.getScore(p);
-				p.sendMessage("Current Score: " + score);
+				this.sendMessage(p, "Current Score: " + score);
 				// chance 기회 -1
 				this.chance.put(p, leftChance - 1);
 			} else if (leftChance == 0) {
-				p.sendMessage("You has no more score checking chance");
+				this.sendMessage(p, "You has no more score checking chance");
 			} else if (hasStopped(p)) {
-				p.sendMessage("You can't check score until game end");
+				this.sendMessage(p, "You can't check score until game end");
 			}
 		} else if (event instanceof PlayerToggleSneakEvent) {
 			// 웅크리기 event = 점수 stop
 			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
 			Player p = e.getPlayer();
 
-			p.sendMessage("Your score has been stopped");
+			this.sendMessage(p,"Your score has been stopped");
 
 			// chance를 -1로 만들기
 			this.chance.put(p, -1);

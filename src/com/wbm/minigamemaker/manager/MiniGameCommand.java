@@ -28,7 +28,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		Player p = (Player) sender;
 
-		// check minigameCommand is true(setting.json)
+		// check minigameCommand is true(setting.yml)
 		boolean minigameCommand = (boolean) this.minigameManager.getGameSetting().get("minigameCommand");
 		if (!minigameCommand) {
 			p.sendMessage("minigameCommand option is false");

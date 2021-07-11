@@ -19,7 +19,7 @@ import net.md_5.bungee.api.ChatColor;
 public class MiniGameDataManager implements YamlMember {
 	private Map<String, Object> minigameData;
 	private MiniGameManager minigameM;
-//	private FileConfiguration config;
+	//	private FileConfiguration config;
 
 	public MiniGameDataManager(MiniGameManager minigameM) {
 		this.minigameData = new HashMap<String, Object>();
@@ -68,15 +68,15 @@ public class MiniGameDataManager implements YamlMember {
 		/*
 		 * ClassName으로 미니게임 구분
 		 */
-//		Object obj = this.minigameData.get(minigame.getClassName());
-//		return YamlHelper.ObjectToMap(obj);
+		//		Object obj = this.minigameData.get(minigame.getClassName());
+		//		return YamlHelper.ObjectToMap(obj);
 		return (Map<String, Object>) this.minigameData.get(minigame.getClassName());
 	}
 
 	@SuppressWarnings("unchecked")
 	public void applyMiniGameDataToInstance(MiniGame minigame) {
 		/*
-		 * If minigames.json file has same MiniGame, then overwrite saved minigame data
+		 * If minigames.yml file has same MiniGame, then overwrite saved minigame data
 		 * to instance
 		 */
 		Map<String, Object> data = this.getMiniGameData(minigame);
@@ -121,7 +121,6 @@ public class MiniGameDataManager implements YamlMember {
 		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, active, settingFixed);
 
 		// apply customData
-//		Map<String, Object> customData = YamlHelper.ObjectToMap(data.get("customData"));
 		Map<String, Object> customData = (Map<String, Object>) data.get("customData");
 		minigame.setCustomData(customData);
 	}
@@ -147,25 +146,6 @@ public class MiniGameDataManager implements YamlMember {
 			BroadcastTool.info(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
 		}
 	}
-
-//	@Override
-//	public void distributeData(Gson gson, String jsonString) {
-//		if (jsonString == null) {
-//			return;
-//		}
-//
-//		this.minigameData = gson.fromJson(jsonString, new TypeToken<Map<String, Object>>() {
-//		}.getType());
-//	}
-//
-//	@Override
-//	public Object getData() {
-//		// 데이터 반환하기 전에 minigames.json에서 없는 미니게임 제거하기
-//		this.removeNotExistMiniGameData();
-//
-//		// 데이터 반환
-//		return this.minigameData;
-//	}
 
 	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {

@@ -29,7 +29,7 @@ public class CommonEventListener implements Listener {
 	}
 
 	private void registerAllEventListener() {
-		System.out.println("wait for all EventHandler registeration...");
+		System.out.println("wait for all EventHandler registration...");
 		ClassInfoList events = new ClassGraph().enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());
 
@@ -91,7 +91,7 @@ public class CommonEventListener implements Listener {
 //
 //		Player p = e.getPlayer();
 //
-//		// check minigameSign (setting.json)
+//		// check minigameSign (setting.yml)
 //		boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
 //		if (!minigameSign) {
 //			p.sendMessage("minigameSign option is false");
@@ -107,7 +107,7 @@ public class CommonEventListener implements Listener {
 //					String minigame = sign.getLines()[0];
 //					String title = sign.getLines()[1];
 //					if (minigame.equalsIgnoreCase("[MiniGame]")) {
-//						// setting.json에서 signJoin값을 통해서 표지판 입장 유무 결정
+//						// setting.yml에서 signJoin값을 통해서 표지판 입장 유무 결정
 //						this.minigameManager.joinGame(p, title);
 //					} else if (minigame.equalsIgnoreCase("[Leave MiniGame]")) {
 //						this.minigameManager.leaveGame(p);
