@@ -90,8 +90,9 @@ protected void processEvent(Event event) {
 - `getGameTutorialStrings()`: 미니게임 튜토리얼 출력할 문자 반환 메소드
 
 # CustomData
-- 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구
-1. MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
+- 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구 ([minigames.yml](playingMiniGameWiki.md#minigamesyml) 참고)
+## 데이터 설정하는 법
+MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
 ```java
 @Override
 protected void registerCustomData() {
@@ -102,7 +103,8 @@ protected void registerCustomData() {
   customData.put("items", items);
 }
 ```
-2. 커스템 데이터 사용은 `getCustomData()`로 접근해서 어디에서나 사용 가능
+## 데이터 사용하는 법
+커스템 데이터 사용은 `getCustomData()`로 접근해서 **생성자를 제외한** 어디에서나 사용 가능
 ```java
 @SuppressWarnings("unchecked")
 @Override
