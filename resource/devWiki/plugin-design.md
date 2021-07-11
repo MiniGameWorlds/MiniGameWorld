@@ -44,9 +44,18 @@
 - [MiniGameDataManager](MiniGameDataManager.md): 
 - [MiniGameManager](MiniGameManager.md): 
 
+
+## com.wbm.minigamemaker.observer
+- [MiniGameEventNotifier](MiniGameEventNotifier.md): 
+- [MiniGameObserver](MiniGameObserver.md): 
+
 ## com.wbm.minigamemaker.util
 - [Setting](Setting.md): 
 
+
+## com.wbm.minigamemaker.wrapper
+- [MiniGameAccessor](MiniGameAccessor.md): 
+- [MiniGameMaker](MiniGameMaker.md): 
 
 # plugin.yml
 - [plugin.yml](plugin.yml.md)
