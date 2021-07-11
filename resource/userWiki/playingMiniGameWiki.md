@@ -115,7 +115,7 @@ minigames:
         v: 2584
         type: STONE_SWORD
     title: PVP
-    actived: true
+    active: true
 ```
 - `title`: 게임 제목
 - `location`: 입장 스폰 위치
