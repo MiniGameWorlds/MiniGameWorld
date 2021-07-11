@@ -1,5 +1,5 @@
 # 설명
-- MiniGameNotifier와 함께 사용하는 옵저버 패턴 시스템
+- MiniGameEventNotifier와 함께 사용하는 옵저버 패턴 시스템
 
 
 # 기능
