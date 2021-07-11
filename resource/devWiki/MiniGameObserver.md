@@ -13,11 +13,11 @@ public class RewardManager implements MiniGameObserver {
 
 	@Override
 	public void update(MiniGameEvent event, MiniGameAccessor minigame) {
-    // 미니게임이 끝날 때
+    	// 미니게임이 끝날 때
 		if (event == MiniGameEvent.FINISH) {
-      // 1등에게 경험지 1000증정
+     		// 1등에게 경험지 1000증정
 			System.out.println(minigame.getTitle() + " Give Reward!");
-      // 랭킹 데이터 가져옴
+      		// 랭킹 데이터 가져옴
 			List<Entry<Player, Integer>> rank = minigame.getScoreRanking();
 			Player fir = rank.get(0).getKey();
 			fir.giveExp(1000);
