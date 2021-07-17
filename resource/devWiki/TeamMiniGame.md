@@ -9,7 +9,7 @@
 
 # 사용법
 ## 예시 미니게임
-- []()
+- [RemoveBlock]()
 
 # 주의사항
 - `plusScore()`, `minusScore()`는 팀 스코어로 모두에게 적용됨
