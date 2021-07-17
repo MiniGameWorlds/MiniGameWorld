@@ -1,5 +1,5 @@
 # 설명
-미니게임의 대부분을 관리하는 클래스
+- 미니게임의 대부분을 관리하는 클래스
 
 # 기능
 - Singleton pattern 사용
@@ -35,6 +35,9 @@ Map을 사용하면 데이터를 관리하기 쉽기 때문에, 밑의 코드처
 형변환으로 사용할 수 있다
 - 마지막에 `this.initSettingData()`을 하는 이유: 기본적인 세팅값이 없어졌을 때 자동 복구 기능
 - 파일 리로드하려면 YamlManager의 `reload()` 사용하면 됨
+## API 관련
+- 외부 플러그인에서 MiniGameManager클래스를 접근하면 여러 데이터를 수정할 수 있기 때문에, `MiniGameMaker` wrapper 클래스로 API용도로 사용되야 함
+
 
 # 개선할 것
-- 접근하면 위험한 것들이 많아서 wrapper class(MiniGameMaker) 제작 예정
+- 구조 리팩토링
