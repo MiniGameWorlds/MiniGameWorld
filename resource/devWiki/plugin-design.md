@@ -19,7 +19,7 @@
 
 # 클래스
 ## com.wbm.minigamemaker
-- [Main](Main.md): 
+- [Main](Main.md): 플러그인 메인
 ## com.wbm.minigamemaker.games
 - FitTool: 
 - RandomScore: 
@@ -31,31 +31,31 @@
 
 
 ## com.wbm.minigamemaker.games.frame
-- MiniGame: 
-- MiniGameSetting: 
-- SoloMiniGame: 
-- SoloBattleMiniGame: 
-- TeamMiniGame: 
-- TeamBattleMiniGame: 
+- [MiniGame](MiniGame.md): 미니게임 틀
+- [MiniGameSetting](MiniGameSetting.md): 미니게임 설정값
+- [SoloMiniGame](SoloMiniGame.md): 솔로
+- [SoloBattleMiniGame](SoloBattleMiniGame.md): 개인전
+- [TeamMiniGame](TeamMiniGame.md): 팀
+- [TeamBattleMiniGame](TeamBattleMiniGame.md): 팀 대항
 
 ## com.wbm.minigamemaker.manager
-- [CommonEventListener](CommonEventListener.md): 
-- [MiniGameCommand](MiniGameCommand.md): 
-- [MiniGameDataManager](MiniGameDataManager.md): 
-- [MiniGameManager](MiniGameManager.md): 
+- [CommonEventListener](CommonEventListener.md): 서버 공통 이벤트 리스너
+- [MiniGameCommand](MiniGameCommand.md): 미니게임 명령어 관련
+- [MiniGameDataManager](MiniGameDataManager.md): 미니게임 데이터 관련 매니저
+- [MiniGameManager](MiniGameManager.md): 미니게임 주요 동작 관련 매니저
 
 
 ## com.wbm.minigamemaker.observer
-- [MiniGameEventNotifier](MiniGameEventNotifier.md): 
-- [MiniGameObserver](MiniGameObserver.md): 
+- [MiniGameEventNotifier](MiniGameEventNotifier.md): 미니게임 이벤트 동작 관련 Subject (Observer pattern)
+- [MiniGameObserver](MiniGameObserver.md): 미니게임 이벤트 동작 관련 Observer (Observer pattern)
 
 ## com.wbm.minigamemaker.util
-- [Setting](Setting.md): 
+- [Setting](Setting.md): 플러그인 세팅 관련 클래스
 
 
 ## com.wbm.minigamemaker.wrapper
-- [MiniGameAccessor](MiniGameAccessor.md): 
-- [MiniGameMaker](MiniGameMaker.md): 
+- [MiniGameAccessor](MiniGameAccessor.md): `MiniGame` wrapper class (API)
+- [MiniGameMaker](MiniGameMaker.md): `MiniGameManager` wrapper class (API)
 
 # plugin.yml
 - [plugin.yml](plugin.yml.md)

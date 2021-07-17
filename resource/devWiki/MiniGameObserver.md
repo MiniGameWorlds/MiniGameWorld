@@ -34,7 +34,7 @@ maker.registerMiniGameObserver(new RewardManager());
 ```
 
 # 주의사항
-- MiniGameNotifier의 MiniGameEvent에 맞춰서 동작됨
+- MiniGameNotifier의 각 상황에 맞는 MiniGameEvent일 때 동작함(옵저버에게 알림)
 ```java
 public enum MiniGameEvent {
   START, FINISH, ...

@@ -27,8 +27,7 @@ public void setData(YamlManager yamlM, FileConfiguration config) {
   config.set("minigames", this.minigameData);
 }
 ```
-- 위의 코드처럼 가장 최상단 Map 데이터(this.minigameData)를 `YamlHelper.ObjectToMap()`으로 [YamlHelper](https://github.com/worldbiomusic/wbmMC/blob/main/src/com/wbm/plugin/util/data/yaml/YamlHelper.java)의 도움으로 변환해서 가져오면 하위(child)의 모든 Map은 단순한 
-형변환으로 사용할 수 있다
+- 위의 코드처럼 가장 최상단 Map 데이터(this.minigameData)를 `YamlHelper.ObjectToMap()`으로 [YamlHelper](https://github.com/worldbiomusic/wbmMC/blob/main/src/com/wbm/plugin/util/data/yaml/YamlHelper.java)의 도움으로 변환해서 가져오면 하위(child)의 모든 Map은 단순한 형변환으로 사용할 수 있다 (__파일을 불러올 때 YamlHelper.ObjedtToMap()하면 나머지 메소드에서는 YamlHelper.ObjedtToMap()사용할 필요 없음__)
 - 파일 리로드하려면 YamlManager의 `reload()` 사용하면 됨
 
 

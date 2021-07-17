@@ -1,5 +1,5 @@
 # 설명
-미니게임의 대부분을 관리하는 클래스
+- 미니게임의 대부분을 관리하는 클래스
 
 # 기능
 - Singleton pattern 사용
@@ -31,10 +31,12 @@ Map을 사용하면 데이터를 관리하기 쉽기 때문에, 밑의 코드처
 		this.initSettingData();
 	}
 ```
-- 위의 코드처럼 가장 최상단 Map 데이터(this.setting)를 `YamlHelper.ObjectToMap()`으로 [YamlHelper](https://github.com/worldbiomusic/wbmMC/blob/main/src/com/wbm/plugin/util/data/yaml/YamlHelper.java)의 도움으로 변환해서 가져오면 하위(child)의 모든 Map은 단순한 
-형변환으로 사용할 수 있다
+- 위의 코드처럼 가장 최상단 Map 데이터(this.setting)를 `YamlHelper.ObjectToMap()`으로 [YamlHelper](https://github.com/worldbiomusic/wbmMC/blob/main/src/com/wbm/plugin/util/data/yaml/YamlHelper.java)의 도움으로 변환해서 가져오면 하위(child)의 모든 Map은 단순한 형변환으로 사용할 수 있다 (__파일을 불러올 때 YamlHelper.ObjedtToMap()하면 나머지 메소드에서는 YamlHelper.ObjedtToMap()사용할 필요 없음__)
 - 마지막에 `this.initSettingData()`을 하는 이유: 기본적인 세팅값이 없어졌을 때 자동 복구 기능
 - 파일 리로드하려면 YamlManager의 `reload()` 사용하면 됨
+## API 관련
+- 외부 플러그인에서 MiniGameManager클래스를 접근하면 여러 데이터를 수정할 수 있기 때문에, `MiniGameMaker` wrapper 클래스로 API용도로 사용되야 함
+
 
 # 개선할 것
-- 접근하면 위험한 것들이 많아서 wrapper class(MiniGameMaker) 제작 예정
+- 구조 리팩토링
