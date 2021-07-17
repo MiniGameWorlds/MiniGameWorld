@@ -31,12 +31,12 @@
 
 
 ## com.wbm.minigamemaker.games.frame
-- MiniGame: 
-- MiniGameSetting: 
-- SoloMiniGame: 
-- SoloBattleMiniGame: 
-- TeamMiniGame: 
-- TeamBattleMiniGame: 
+- [MiniGame](MiniGame.md): 
+- [MiniGameSetting](MiniGameSetting.md): 
+- [SoloMiniGame](SoloMiniGame.md): 
+- [SoloBattleMiniGame](SoloBattleMiniGame.md): 
+- [TeamMiniGame](TeamMiniGame.md): 
+- [TeamBattleMiniGame](TeamBattleMiniGame.md): 
 
 ## com.wbm.minigamemaker.manager
 - [CommonEventListener](CommonEventListener.md): 
