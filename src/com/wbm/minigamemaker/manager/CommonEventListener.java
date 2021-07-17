@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 
 import com.wbm.minigamemaker.Main;
+import com.wbm.minigamemaker.util.Setting;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -29,7 +30,8 @@ public class CommonEventListener implements Listener {
 	}
 
 	private void registerAllEventListener() {
-		System.out.println("wait for all EventHandler registration...");
+		Setting.log("[ Register EventHandler ]");
+		Setting.log("wait for all EventHandler registration...");
 		ClassInfoList events = new ClassGraph().enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());
 
@@ -37,7 +39,6 @@ public class CommonEventListener implements Listener {
 		};
 		EventExecutor executor = (ignored, event) -> onEvent(event);
 
-//		int eventCount = 0;
 		try {
 			for (ClassInfo event : events) {
 				// noinspection unchecked
@@ -52,27 +53,26 @@ public class CommonEventListener implements Listener {
 					// is better than that alternative.
 
 					// register Event Class MiniGameManager ONLY can process
-//					if (this.minigameManager.isPossibleEvent(eventClass)) {
-						Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.NORMAL, executor,
-								Main.getInstance());
-						
-//						// count
-//						eventCount += 1;
-//					}
+					//					if (this.minigameManager.isPossibleEvent(eventClass)) {
+					Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.NORMAL, executor,
+							Main.getInstance());
+
+					//					}
 				}
+
 			}
 		} catch (ClassNotFoundException e) {
 			throw new AssertionError("Scanned class wasn't found", e);
 		}
 
-//		String[] eventNames = events.stream()
-//		        .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
-//		        .toArray(String[]::new);
-//
-//		Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-		Bukkit.getLogger().info("Events found: " + events.size());
-		Bukkit.getLogger().info("HandlerList size: " + HandlerList.getHandlerLists().size());
-//		Bukkit.getLogger().info("registered EventHandler: " + eventCount);
+		//		String[] eventNames = events.stream()
+		//		        .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
+		//		        .toArray(String[]::new);
+		//
+		//		Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
+		Setting.log("Events found: " + events.size());
+		Setting.log("HandlerList size: " + HandlerList.getHandlerLists().size());
+		//		Bukkit.getLogger().info("registered EventHandler: " + eventCount);
 	}
 
 	private Object onEvent(Event event) {
@@ -83,44 +83,44 @@ public class CommonEventListener implements Listener {
 		return null;
 	}
 
-//	@EventHandler
-//	public void onPlayerTouchMiniGameSign(PlayerInteractEvent e) {
-//		/*
-//		 * OAK_SIGN으로 미니게임에 참여하는 이벤트
-//		 */
-//
-//		Player p = e.getPlayer();
-//
-//		// check minigameSign (setting.yml)
-//		boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
-//		if (!minigameSign) {
-//			p.sendMessage("minigameSign option is false");
-//			return;
-//		}
-//
-//		// process
-//		Block block = e.getClickedBlock();
-//		if (block != null) {
-//			if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
-//				if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-//					Sign sign = (Sign) block.getState();
-//					String minigame = sign.getLines()[0];
-//					String title = sign.getLines()[1];
-//					if (minigame.equalsIgnoreCase("[MiniGame]")) {
-//						// setting.yml에서 signJoin값을 통해서 표지판 입장 유무 결정
-//						this.minigameManager.joinGame(p, title);
-//					} else if (minigame.equalsIgnoreCase("[Leave MiniGame]")) {
-//						this.minigameManager.leaveGame(p);
-//					}
-//				}
-//			}
-//		}
-//	}
+	//	@EventHandler
+	//	public void onPlayerTouchMiniGameSign(PlayerInteractEvent e) {
+	//		/*
+	//		 * OAK_SIGN으로 미니게임에 참여하는 이벤트
+	//		 */
+	//
+	//		Player p = e.getPlayer();
+	//
+	//		// check minigameSign (setting.yml)
+	//		boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
+	//		if (!minigameSign) {
+	//			p.sendMessage("minigameSign option is false");
+	//			return;
+	//		}
+	//
+	//		// process
+	//		Block block = e.getClickedBlock();
+	//		if (block != null) {
+	//			if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
+	//				if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+	//					Sign sign = (Sign) block.getState();
+	//					String minigame = sign.getLines()[0];
+	//					String title = sign.getLines()[1];
+	//					if (minigame.equalsIgnoreCase("[MiniGame]")) {
+	//						// setting.yml에서 signJoin값을 통해서 표지판 입장 유무 결정
+	//						this.minigameManager.joinGame(p, title);
+	//					} else if (minigame.equalsIgnoreCase("[Leave MiniGame]")) {
+	//						this.minigameManager.leaveGame(p);
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
 
-//	@EventHandler
-//	public void onPlayerExitServerWhenMiniGamePlaying(PlayerQuitEvent e) {
-//		this.minigameManager.processException(e.getPlayer());
-//	}
+	//	@EventHandler
+	//	public void onPlayerExitServerWhenMiniGamePlaying(PlayerQuitEvent e) {
+	//		this.minigameManager.processException(e.getPlayer());
+	//	}
 
 }
 //

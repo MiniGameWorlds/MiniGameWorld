@@ -90,7 +90,13 @@
 - wrapper class 문서작업
 - observer 시스템 문서작업
 
-
-
-
-
+# 2021/7/17
+- MiniGameDataManager에서 file관련 데이터 load, save 기능을 MiniGameSetting에 캡슐화
+- MiniGame 관련 클래스 문서 작업, 리팩토링
+- RemoveBlock(TeamMiniGame) 미니게임 추가
+- yml file reload 기능 추가(YamlMember 클래스에서 reload구현하고, 명령어로 등록: `minigame reload`)
+- wbmMC의 BroadcastTool의 log 관련 기능 전부 삭제 (log는 각 플러그인의 getLogger()를 이용해야 함)
+- Setting 클래스에 플러그인 prefix 제공하는 sendMsg() 기능 추가
+- Setting 클래스에 Logger관련 기능(log(), warning()) 추가
+- jardescription.jardesc 추가
+- 

@@ -48,7 +48,7 @@ public class MoreHit extends TeamBattleMiniGame {
 				// 다른 팀일 때
 				if (!this.isSameTeam(victim, damager)) {
 					Team team = this.getPlayerTeam(damager);
-					team.plusScoreToMembers(1);
+					team.plusTeamScore(1);
 					PlayerTool.heal(victim);
 				}
 			}
@@ -58,9 +58,10 @@ public class MoreHit extends TeamBattleMiniGame {
 			this.sendMessage(e.getPlayer(), "respawn!");
 		}
 	}
-
+	
 	@Override
 	protected void registerAllPlayersToTeam() {
+		
 	}
 }
 

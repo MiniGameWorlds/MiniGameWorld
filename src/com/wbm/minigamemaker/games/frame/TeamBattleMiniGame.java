@@ -10,30 +10,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.minigamemaker.util.Setting;
 import com.wbm.plugin.util.SortTool;
 
 public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/*
-	 * [팀 배틀 미니게임]
 	 * 
-	 * - team끼리 배틀하는 미니게임 프레임
+	 * [Info]
+	 * - team battle play
+	 * - each team has same score
+	 * - team util class, methods
 	 * 
-	 * - 점수도 팀끼리 관리
-	 * 
-	 * - 팀 개수, 팀 사이즈 설정 기능
-	 * 
-	 * - 팀 그룹 채팅 기능: 구현 클래스의 processEvent()에서 super.proprocessEvent()는 선택사항
-	 * 
-	 * [필수]
-	 * 
-	 * - initGameSetting() 메소드 super.initGameSetting() 필수!!!!!
-	 * 
-	 * - 팀 멤버 등록(autoTeamSetup이면 필요x): registerAllPlayersToTeam()에서 getPlayers()를
-	 * 가지고 멤버 등록을 해줘야 함
-	 * 
-	 * - runTaskAfterStart() 메소드 super.runTaskAfterStart() 필수!
+	 * [Rule]
+	 * - when use initGameSetting(), must call super.initGameSetting()
+	 * - when "autoTeamSetup" is false, register player with team using overrided registerAllPlayersToTeam() method
+	 * - when use runTaskAfterStart(), must call super.runTaskAfterStart()
+	 * - whem use processEvent(), must call super.processEvent()
 	 * 
 	 */
 
@@ -113,12 +106,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.getPlayerTeam(p1) == this.getPlayerTeam(p2);
 	}
 
-	protected boolean registerPlayerToTeam(Player p) {
+	protected boolean registerPlayerWithTeam(Player p) {
 		/*
 		 * 순서대로 팀에 플레이어 추가
 		 */
 		for (int teamNumber = 0; teamNumber < teamCount; teamNumber++) {
-			if (this.registerPlayerToTeam(p, teamNumber)) {
+			if (this.registerPlayerWithTeam(p, teamNumber)) {
 				return true;
 			}
 		}
@@ -126,7 +119,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return false;
 	}
 
-	protected boolean registerPlayerToTeam(Player p, int teamNumber) {
+	protected boolean registerPlayerWithTeam(Player p, int teamNumber) {
 		/*
 		 * teamNumber 팀에 플레이어 추가
 		 */
@@ -175,28 +168,18 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return count;
 	}
 
-	@Override
-	protected final void plusScore(Player p, int score) {
-		// 개인 플레이어 점수 관리 금지: final로 선언, 대신 plusScoreToTeam() 사용
-	}
-
-	@Override
-	protected final void minusScore(Player p, int score) {
-		// 개인 플레이어 점수 관리 금지: final로 선언, 대신 minusScoreToTeam() 사용
-	}
-
-	protected void plusScoreToTeam(int teamNumber, int score) {
+	protected void plusTeamScore(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
-		team.plusScoreToMembers(score);
+		team.plusTeamScore(score);
 	}
 
 	//	protected void plusScoreToTeam(Team team, int score) {
 	//		team.plusScoreToMembers(score);
 	//	}
 
-	protected void minusScoreToTeam(int teamNumber, int score) {
+	protected void minusTeamScore(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
-		team.minusScoreToMembers(score);
+		team.minusTeamScore(score);
 	}
 
 	//	protected void minusScoreToTeam(Team team, int score) {
@@ -206,16 +189,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
 		return team.getTeamScore();
-	}
-
-	private void plusScoreMiniGameOriginal(Player p, int score) {
-		// final로 선언한 메소드 말고, 원래 MiniGame의 메소드 사용
-		super.plusScore(p, score);
-	}
-
-	private void minusScoreMiniGameOriginal(Player p, int score) {
-		// final로 선언한 메소드 말고, 원래 MiniGame의 메소드 사용
-		super.minusScore(p, score);
 	}
 
 	@Override
@@ -229,7 +202,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		if (this.autoTeamSetup) {
 			int teamNumber = 0;
 			for (Player p : this.getPlayers()) {
-				this.registerPlayerToTeam(p, teamNumber);
+				this.registerPlayerWithTeam(p, teamNumber);
 				teamNumber = (teamNumber + 1) % this.teamCount;
 			}
 		} else {
@@ -272,8 +245,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 				// 팀 내 플레이어들에게만 채팅 전송
 				Team team = this.getPlayerTeam(sender);
-				// [Team: worldbiomusic] go go
-				team.sendMessageToAllMembers(sender, e.getMessage());
+				// ex. [GameTitle] worldbiomusic: go go
+				team.sendTeamMessage(sender, e.getMessage());
 			}
 		}
 	}
@@ -283,11 +256,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		super.checkAttributes();
 		// waitingTime
 		if (this.getWaitingTime() <= 0) {
-			BroadcastTool.warn(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
+			Setting.warning(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			BroadcastTool.warn(this.getTitleWithClassName()
+			Setting.warning(this.getTitleWithClassName()
 					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
 		}
 	}
@@ -314,7 +287,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			Player p = entry.getKey();
 			int score = entry.getValue();
 			Team team = this.getPlayerTeam(p);
-			String memberString = team.getMemberNameString();
+			String memberString = team.getAllMemberNameString();
 			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
 			rank += 1;
 		}
@@ -345,7 +318,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return this.members;
 		}
 
-		public void sendMessageToAllMembers(Player sender, String msg) {
+		public void sendTeamMessage(Player sender, String msg) {
 			this.members.forEach(p -> sendMessage(p, sender.getName() + ": " + msg));
 		}
 
@@ -353,12 +326,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return getScore(this.members.get(0));
 		}
 
-		public void plusScoreToMembers(int score) {
-			this.getMembers().forEach(p -> plusScoreMiniGameOriginal(p, score));
+		public void plusTeamScore(int score) {
+			this.getMembers().forEach(p -> plusScore(p, score));
 		}
 
-		public void minusScoreToMembers(int score) {
-			this.getMembers().forEach(p -> minusScoreMiniGameOriginal(p, score));
+		public void minusTeamScore(int score) {
+			this.getMembers().forEach(p -> minusScore(p, score));
 		}
 
 		private boolean registerMember(Player p) {
@@ -380,7 +353,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return this.members.contains(p);
 		}
 
-		public String getMemberNameString() {
+		public String getAllMemberNameString() {
 			String members = "";
 			for (Player p : this.members) {
 				members += p.getName() + ", ";

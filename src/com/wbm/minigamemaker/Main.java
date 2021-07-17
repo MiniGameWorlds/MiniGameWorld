@@ -7,15 +7,15 @@ import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.minigamemaker.games.MoreHit;
 import com.wbm.minigamemaker.games.PVP;
 import com.wbm.minigamemaker.games.RandomScore;
-import com.wbm.minigamemaker.games.RelayJump;
+import com.wbm.minigamemaker.games.RemoveBlock;
 import com.wbm.minigamemaker.games.RockScissorPaper;
 import com.wbm.minigamemaker.games.ScoreClimbing;
 import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameCommand;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.util.Setting;
 import com.wbm.minigamemaker.wrapper.MiniGameMaker;
-import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
 public class Main extends JavaPlugin {
@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		main = this;
-		BroadcastTool.info(ChatColor.GREEN + "MiniGameMaker ON");
+		Setting.log(ChatColor.GREEN + "================= MiniGameMaker =================");
 
 		// setup settings
 		this.setupSettings();
@@ -74,20 +74,21 @@ public class Main extends JavaPlugin {
 	}
 
 	private void setCommandExecutors() {
-		this.minigameCommand = new MiniGameCommand(this.minigameManager);
+		this.minigameCommand = new MiniGameCommand(this.minigameManager, this.minigameDataM);
 		getCommand("minigame").setExecutor(this.minigameCommand);
 
 	}
 
 	private void registerMiniGames() {
 		// register minigames
-		this.minigameManager.registerMiniGame(new FitTool());
-		this.minigameManager.registerMiniGame(new RandomScore());
-		this.minigameManager.registerMiniGame(new MoreHit());
-		this.minigameManager.registerMiniGame(new ScoreClimbing());
-		this.minigameManager.registerMiniGame(new RelayJump());
-		this.minigameManager.registerMiniGame(new RockScissorPaper());
-		this.minigameManager.registerMiniGame(new PVP());
+		MiniGameMaker minigameMaker = MiniGameMaker.create();
+		minigameMaker.registerMiniGame(new FitTool());
+		minigameMaker.registerMiniGame(new RandomScore());
+		minigameMaker.registerMiniGame(new MoreHit());
+		minigameMaker.registerMiniGame(new ScoreClimbing());
+		minigameMaker.registerMiniGame(new RockScissorPaper());
+		minigameMaker.registerMiniGame(new PVP());
+		minigameMaker.registerMiniGame(new RemoveBlock());
 	}
 
 	@Override
@@ -98,6 +99,6 @@ public class Main extends JavaPlugin {
 
 		// save all data
 		this.yamlM.saveAllData();
-		BroadcastTool.warn(ChatColor.RED + "MiniGameMaker OFF");
+		Setting.log(ChatColor.RED + "================= MiniGameMaker =================");
 	}
 }

@@ -17,9 +17,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier;
 import com.wbm.minigamemaker.observer.MiniGameObserver;
+import com.wbm.minigamemaker.util.Setting;
 import com.wbm.minigamemaker.wrapper.MiniGameAccessor;
 import com.wbm.minigamemaker.wrapper.MiniGameMaker;
-import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.BukkitTaskManager;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
@@ -545,12 +545,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 
 		// info
-		BroadcastTool.info("[" + p.getName() + "] handle exception: " + exception.name());
+		Setting.log("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// PlayerQuitServer일 때 이유 출력
 		if (exception == Exception.PlayerQuitServer) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
-			BroadcastTool.info("Quit: " + event.getReason().name());
+			Setting.log("Quit: " + event.getReason().name());
 		}
 
 		// setup leaving settings
@@ -628,16 +628,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().isSettingFixed();
 	}
 
-	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
-			boolean active, boolean settingFixed) {
-		this.setting.setTitle(title);
-		this.setting.setLocation(location);
-		this.setting.setMaxPlayerCount(maxPlayerCount);
-		this.setting.setWaitingTime(waitingTime);
-		this.setting.setTimeLimit(timeLimit);
-		this.setting.setActive(active);
-		this.setting.setSettingFixed(settingFixed);
-	}
+	//	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
+	//			boolean active, boolean settingFixed) {
+	//		this.setting.setTitle(title);
+	//		this.setting.setLocation(location);
+	//		this.setting.setMaxPlayerCount(maxPlayerCount);
+	//		this.setting.setWaitingTime(waitingTime);
+	//		this.setting.setTimeLimit(timeLimit);
+	//		this.setting.setActive(active);
+	//		this.setting.setSettingFixed(settingFixed);
+	//	}
 
 	protected void checkAttributes() {
 		/*
@@ -645,11 +645,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 		// title
 		if (this.getTitle().length() <= 0) {
-			BroadcastTool.warn(this.getTitleWithClassName() + ": title must be at least 1 character");
+			Setting.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
 		}
 		// timeLimit
 		if (this.getTimeLimit() <= 0) {
-			BroadcastTool.warn(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
+			Setting.warning(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
 		}
 	}
 
@@ -661,7 +661,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getClass().getSimpleName();
 	}
 
-	protected MiniGameSetting getSetting() {
+	public MiniGameSetting getSetting() {
 		return this.setting;
 	}
 
@@ -691,6 +691,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected BukkitTaskManager getTaskManager() {
 		return this.taskManager;
+	}
+
+	protected Player randomPlayer() {
+		int random = (int) (Math.random() * this.getPlayerCount());
+		return this.getPlayers().get(random);
 	}
 
 	@Override

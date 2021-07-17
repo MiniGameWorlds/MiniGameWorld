@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.minigamemaker.util.Setting;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -19,7 +18,7 @@ import net.md_5.bungee.api.ChatColor;
 public class MiniGameDataManager implements YamlMember {
 	private Map<String, Object> minigameData;
 	private MiniGameManager minigameM;
-	//	private FileConfiguration config;
+	private YamlManager yamlM;
 
 	public MiniGameDataManager(MiniGameManager minigameM) {
 		this.minigameData = new HashMap<String, Object>();
@@ -27,25 +26,7 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	public void addMiniGameData(MiniGame minigame) {
-		Map<String, Object> data = new HashMap<String, Object>();
-
-		// title
-		data.put("title", minigame.getTitle());
-
-		// location
-		data.put("location", minigame.getLocation());
-
-		// maxPlayerCount
-		data.put("maxPlayerCount", minigame.getMaxPlayerCount());
-
-		// waitingTime
-		data.put("waitingTime", minigame.getWaitingTime());
-
-		// timeLimit
-		data.put("timeLimit", minigame.getTimeLimit());
-
-		// active
-		data.put("active", minigame.isActive());
+		Map<String, Object> data = minigame.getSetting().getFileSetting();
 
 		// customData
 		Map<String, Object> customData = minigame.getCustomData();
@@ -68,8 +49,6 @@ public class MiniGameDataManager implements YamlMember {
 		/*
 		 * ClassName으로 미니게임 구분
 		 */
-		//		Object obj = this.minigameData.get(minigame.getClassName());
-		//		return YamlHelper.ObjectToMap(obj);
 		return (Map<String, Object>) this.minigameData.get(minigame.getClassName());
 	}
 
@@ -81,44 +60,19 @@ public class MiniGameDataManager implements YamlMember {
 		 */
 		Map<String, Object> data = this.getMiniGameData(minigame);
 
-		// title
-		String title = (String) data.get("title");
+		minigame.getSetting().setFileSetting(data);
 
-		// location
-		Location location = (Location) data.get("location");
-
-		// maxPlayerCount
-		int maxPlayerCount = (int) data.get("maxPlayerCount");
-
-		// waitingTime
-		int waitingTime = (int) data.get("waitingTime");
-
-		// timeLimit
-		int timeLimit = (int) data.get("timeLimit");
-
-		// active
-		boolean active = (boolean) data.get("active");
-
-		// settingFixed: 파일의 값으로 설정을 하지 않고, 미니게임의 기본값 고정
-		boolean settingFixed = minigame.isSettingFixed();
-
-		// 세팅값 고정일때: maxPlayerCount, timeLimit, waitingTime 미니게임의 기본값으로 고정
-		if (settingFixed) {
+		// when settingFixed is true: restore "maxPlayerCount", "waitingTime", "timeLimit" values to file
+		if (minigame.isSettingFixed()) {
 			// maxPlayerCount
-			maxPlayerCount = minigame.getMaxPlayerCount();
-			data.put("maxPlayerCount", maxPlayerCount);
+			data.put("maxPlayerCount", minigame.getMaxPlayerCount());
 
 			// waitingTime
-			waitingTime = minigame.getWaitingTime();
-			data.put("waitingTime", waitingTime);
+			data.put("waitingTime", minigame.getWaitingTime());
 
 			// timeLimit
-			timeLimit = minigame.getTimeLimit();
-			data.put("timeLimit", timeLimit);
+			data.put("timeLimit", minigame.getTimeLimit());
 		}
-
-		// apply basic data
-		minigame.setAttributes(title, location, maxPlayerCount, waitingTime, timeLimit, active, settingFixed);
 
 		// apply customData
 		Map<String, Object> customData = (Map<String, Object>) data.get("customData");
@@ -140,15 +94,24 @@ public class MiniGameDataManager implements YamlMember {
 			removedGames.add(gameClassName);
 		}
 
-		BroadcastTool.info("" + ChatColor.RED + ChatColor.BOLD + "[Removed MiniGame List in minigames.yml]");
+		Setting.log("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
-			BroadcastTool.info(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
+			Setting.log(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
 		}
+	}
+
+	public void reloadConfig() {
+		this.yamlM.reload(this);
+
+		// apply reloaded config file values
+		this.minigameM.getMiniGameList().forEach(minigame -> this.applyMiniGameDataToInstance(minigame));
 	}
 
 	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {
+		this.yamlM = yamlM;
+
 		// sync config minigames with variable minigames
 		if (config.isSet("minigames")) {
 			this.minigameData = YamlHelper.ObjectToMap(config.getConfigurationSection("minigames"));

@@ -64,7 +64,7 @@ public class MiniGameAccessor {
 		return this.minigame.getScore(p);
 	}
 
-	public final void handleException(Player p, Exception exception, Object arg) {
+	public void handleException(Player p, Exception exception, Object arg) {
 		this.minigame.handleException(p, exception, arg);
 	}
 

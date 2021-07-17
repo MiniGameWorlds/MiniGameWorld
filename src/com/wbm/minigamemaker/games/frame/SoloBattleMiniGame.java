@@ -2,18 +2,17 @@ package com.wbm.minigamemaker.games.frame;
 
 import org.bukkit.entity.Player;
 
-import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.minigamemaker.util.Setting;
 
 public abstract class SoloBattleMiniGame extends MiniGame {
 
 	/*
-	 * [솔로 배틀 미니게임]
+	 * [Info]
+	 * - individual play
+	 * - players must be more than 2
 	 * 
-	 * - 개인전 배틀
-	 * 
-	 * [필수]
-	 * 
-	 * - runTaskAfterStart() 사용할 때는 super 사용해야 함
+	 * [Rule]
+	 * - when use runTaskAfterStart(), must call super.runTaskAfterStart()
 	 */
 	public SoloBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, maxPlayerCount, timeLimit, waitingTime);
@@ -44,11 +43,11 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 		super.checkAttributes();
 		// waitingTime
 		if (this.getWaitingTime() <= 0) {
-			BroadcastTool.warn(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
+			Setting.warning(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			BroadcastTool.warn(this.getTitleWithClassName()
+			Setting.warning(this.getTitleWithClassName()
 					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
 		}
 	}

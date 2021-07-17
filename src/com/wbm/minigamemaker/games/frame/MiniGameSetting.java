@@ -1,5 +1,8 @@
 package com.wbm.minigamemaker.games.frame;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Location;
 
 public class MiniGameSetting {
@@ -123,4 +126,79 @@ public class MiniGameSetting {
 		return forcePlayerCount;
 	}
 
+	public Map<String, Object> getFileSetting() {
+		// return settings that exist in minigames.yml 
+		Map<String, Object> setting = new HashMap<String, Object>();
+
+		setting.put("title", this.getTitle());
+		setting.put("location", this.getLocation());
+		setting.put("maxPlayerCount", this.getMaxPlayerCount());
+		setting.put("waitingTime", this.getWaitingTime());
+		setting.put("timeLimit", this.getTimeLimit());
+		setting.put("active", this.isActive());
+
+		return setting;
+	}
+
+	public void setFileSetting(Map<String, Object> setting) {
+		/*
+		 * apply "maxPlayerCount", "waitingTime", "timeLimit" when "settingFixed" is false
+		 */
+
+		// title
+		String title = (String) setting.get("title");
+		this.setTitle(title);
+
+		// location
+		Location location = (Location) setting.get("location");
+		this.setLocation(location);
+
+		// when settingFixed is false: apply maxPlayerCount, timeLimit, waitingTime 
+		if (!isSettingFixed()) {
+			// maxPlayerCount
+			int maxPlayerCount = (int) setting.get("maxPlayerCount");
+			this.setMaxPlayerCount(maxPlayerCount);
+
+			// waitingTime
+			int waitingTime = (int) setting.get("waitingTime");
+			this.setWaitingTime(waitingTime);
+
+			// timeLimit
+			int timeLimit = (int) setting.get("timeLimit");
+			this.setTimeLimit(timeLimit);
+		}
+
+		// active
+		boolean active = (boolean) setting.get("active");
+		this.setActive(active);
+
+	}
+
 }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

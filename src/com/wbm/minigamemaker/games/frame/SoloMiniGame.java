@@ -5,9 +5,13 @@ import org.bukkit.entity.Player;
 public abstract class SoloMiniGame extends MiniGame {
 
 	/*
-	 * [솔로 미니게임]
+	 * [Info]
+	 * - solo play
+	 * - max player count: 1
+	 * - solo util methods
 	 * 
-	 * - 최대인원 1명으로 고정
+	 * [Rule]
+	 * 
 	 */
 	public SoloMiniGame(String title, int timeLimit, int waitingTime) {
 		super(title, 1, timeLimit, waitingTime);
@@ -19,22 +23,22 @@ public abstract class SoloMiniGame extends MiniGame {
 	}
 
 	/*
-	 * 솔로 1명의 관리 편의 메소드
+	 * solo util methods
 	 */
 
 	protected Player getSoloPlayer() {
 		return this.getPlayers().get(0);
 	}
 
-	protected void plusScoreToSolo(int score) {
-		this.plusScore(getSoloPlayer(), score);
+	protected void plusScore(int score) {
+		super.plusScore(getSoloPlayer(), score);
 	}
 
-	protected void minusScoreToSolo(int score) {
-		this.minusScore(getSoloPlayer(), score);
+	protected void minusScore(int score) {
+		super.minusScore(getSoloPlayer(), score);
 	}
 
-	protected int getSoloScore() {
+	protected int getScore() {
 		return this.getScore(getSoloPlayer());
 	}
 
@@ -42,7 +46,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	protected void printScore() {
 		// 스코어 결과만 출력
 		this.sendMessageToAllPlayers("[Score]");
-		int score = this.getSoloScore();
+		int score = this.getScore();
 		this.sendMessageToAllPlayers(this.getSoloPlayer().getName() + ": " + score);
 	}
 

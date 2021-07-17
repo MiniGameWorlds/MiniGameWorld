@@ -6,9 +6,6 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.minigamemaker.manager.MiniGameManager;

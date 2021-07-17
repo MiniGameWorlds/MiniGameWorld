@@ -32,7 +32,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.minigamemaker.util.Setting;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -62,8 +62,7 @@ public class MiniGameManager implements YamlMember {
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
 	private List<Player> eventPlayers;
 
-	//	// yaml config
-	//	private FileConfiguration config;
+	YamlManager yamlM;
 
 	// getInstance() 로 접근해서 사용
 	private MiniGameManager() {
@@ -343,8 +342,8 @@ public class MiniGameManager implements YamlMember {
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
-				BroadcastTool.warn(newGame.getTitleWithClassName() + " minigame is already registered");
-				BroadcastTool.warn(
+				Setting.warning(newGame.getTitleWithClassName() + " minigame is already registered");
+				Setting.warning(
 						"Cause: the same minigame " + game.getTitleWithClassName() + " minigame is already registered");
 				return false;
 			}
@@ -360,7 +359,7 @@ public class MiniGameManager implements YamlMember {
 		// 게임 등록
 		this.minigames.add(newGame);
 
-		BroadcastTool.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
+		Setting.log("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
 				+ " minigame is registered");
 		return true;
 	}
@@ -368,7 +367,7 @@ public class MiniGameManager implements YamlMember {
 	public boolean unregisterMiniGame(MiniGame minigame) {
 		// 등록된 미니게임 삭제
 		if (this.minigames.remove(minigame)) {
-			BroadcastTool.info(minigame.getTitleWithClassName() + " minigame is removed");
+			Setting.log(minigame.getTitleWithClassName() + " minigame is removed");
 			return true;
 		} else {
 			return false;
@@ -387,10 +386,13 @@ public class MiniGameManager implements YamlMember {
 		this.minigameDataM = minigameDataM;
 	}
 
+	public void reloadConfig() {
+		this.yamlM.reload(this);
+	}
 
 	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {
-		//		this.config = config;
+		this.yamlM = yamlM;
 
 		// sync config setting with variable setting
 		if (config.isSet("setting")) {

@@ -46,14 +46,16 @@
 > - observer 패턴 시스템 만들기
 > - wrapper class 문서작업
 > - observer 시스템 문서작업
+> - api 접근제어자 설정(생각 많이, 경험도 많이)
+> - yml file reload 기능 추가(YamlMember에서 reload구현하고, 명령어로 등록)
 
-- 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 전에 작업하기)
-- 미니게임 시작/종료 에 플레이어 pure상태 만드는 목록 설정값 setting.yml에 추가하기
+- CustomData를 MiniGameSetting 내부 변수로 옮기기
+- MiniGame클래스에서 오버라이딩 되서 수정되면 안되는 메소드들 final로 선언하기
+- 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - wbmMC에 데이터 백업 기능 추가하기
 - 1.17 update 준비(JDK 16으로 변경, wbmMC도 변경, paper api 도 변경)
 - 주석 영어로 바꾸기
-- 위키 한글/영어 두버전으로 만들기
+- 위키 한글/영어 두버전으로 폴더 만들기
 - 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
 - setting.json에 한글, 영어 기능 language변수 
 - setting.json에 message prefix 설정값 messagePrefix변수
-- api 접근제어자 설정(생각 많이, 경험도 많이)

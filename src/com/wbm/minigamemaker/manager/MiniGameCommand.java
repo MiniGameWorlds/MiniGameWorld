@@ -1,9 +1,12 @@
 package com.wbm.minigamemaker.manager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.wbm.minigamemaker.util.Setting;
 
 public class MiniGameCommand implements CommandExecutor {
 
@@ -13,10 +16,12 @@ public class MiniGameCommand implements CommandExecutor {
 	 * minigame leave
 	 */
 
-	private MiniGameManager minigameManager;
+	private MiniGameManager minigameM;
+	private MiniGameDataManager MiniGameDataM;
 
-	public MiniGameCommand(MiniGameManager minigameManager) {
-		this.minigameManager = minigameManager;
+	public MiniGameCommand(MiniGameManager minigameM, MiniGameDataManager MiniGameDataM) {
+		this.minigameM = minigameM;
+		this.MiniGameDataM = MiniGameDataM;
 	}
 
 	@Override
@@ -28,13 +33,6 @@ public class MiniGameCommand implements CommandExecutor {
 
 		Player p = (Player) sender;
 
-		// check minigameCommand is true(setting.yml)
-		boolean minigameCommand = (boolean) this.minigameManager.getGameSetting().get("minigameCommand");
-		if (!minigameCommand) {
-			p.sendMessage("minigameCommand option is false");
-			return true;
-		}
-
 		// menu
 		String menu = args[0];
 		switch (menu) {
@@ -43,6 +41,9 @@ public class MiniGameCommand implements CommandExecutor {
 			break;
 		case "leave":
 			this.leave(p, args);
+			break;
+		case "reload":
+			this.reloadConfig(p, args);
 			break;
 		}
 
@@ -53,15 +54,37 @@ public class MiniGameCommand implements CommandExecutor {
 		/*
 		 * minigame join <title>
 		 */
+		// check minigameCommand is true(setting.yml)
+		boolean minigameCommand = (boolean) this.minigameM.getGameSetting().get("minigameCommand");
+		if (!minigameCommand) {
+			p.sendMessage("minigameCommand option is false in \"setting.yml\" file");
+			return;
+		}
+
 		String title = args[1];
-		this.minigameManager.joinGame(p, title);
+		this.minigameM.joinGame(p, title);
 	}
 
 	private void leave(Player p, String[] args) {
 		/*
 		 * minigame leave
 		 */
-		this.minigameManager.leaveGame(p);
+		// check minigameCommand is true(setting.yml)
+		boolean minigameCommand = (boolean) this.minigameM.getGameSetting().get("minigameCommand");
+		if (!minigameCommand) {
+			p.sendMessage("minigameCommand option is false in \"setting.yml\" file");
+			return;
+		}
+
+		this.minigameM.leaveGame(p);
+	}
+
+	private void reloadConfig(Player p, String[] args) {
+		// reload "setting.yml", "minigames.yml"
+		this.minigameM.reloadConfig();
+		this.MiniGameDataM.reloadConfig();
+		Setting.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "Reload Complete" + ChatColor.WHITE + ": "
+				+ this.minigameM.getFileName() + ", " + this.MiniGameDataM.getFileName());
 	}
 }
 
