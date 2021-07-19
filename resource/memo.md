@@ -49,6 +49,7 @@
 > - api 접근제어자 설정(생각 많이, 경험도 많이)
 > - yml file reload 기능 추가(YamlMember에서 reload구현하고, 명령어로 등록)
 
+- MiniGameSetting클래스에 List<String> tutorial 변수 추가하기 (MiniGame에서 저장되야 되는 데이터는 MiniGameSetting으로 옮겨서 관리하기)
 - CustomData를 MiniGameSetting 내부 변수로 옮기기
 - MiniGame클래스에서 오버라이딩 되서 수정되면 안되는 메소드들 final로 선언하기
 - 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
