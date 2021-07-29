@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Main-Class: org.bukkit.craftbukkit.Main
+Implementation-Title: CraftBukkit
+Implementation-Version: git-Paper-124
+Implementation-Vendor: 2021-07-22 18:11:56 +0000
+Specification-Title: Bukkit
+Specification-Version: 1.17.1-R0.1-SNAPSHOT
+Specification-Vendor: Bukkit Team
+Multi-Release: true
+Git-Branch: master
+Git-Commit: 170382f
+
+Name: org/bukkit
+Sealed: true
+
+Name: net/bukkit
+Sealed: true
+
+Name: com/bukkit
+Sealed: true
+

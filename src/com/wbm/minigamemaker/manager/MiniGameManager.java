@@ -26,7 +26,6 @@ import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -85,7 +84,6 @@ public class MiniGameManager implements YamlMember {
 		this.possibleEventList.add(HangingEvent.class);
 		this.possibleEventList.add(InventoryEvent.class);
 		this.possibleEventList.add(InventoryMoveItemEvent.class);
-		this.possibleEventList.add(InventoryPickupItemEvent.class);
 		this.possibleEventList.add(PlayerLeashEntityEvent.class);
 
 	}

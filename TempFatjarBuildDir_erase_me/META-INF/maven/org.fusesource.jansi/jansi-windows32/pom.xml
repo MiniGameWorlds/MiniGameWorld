@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2009-2017 the original author(s).
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.fusesource</groupId>
+    <artifactId>fusesource-pom</artifactId>
+    <version>1.11</version>
+  </parent>
+
+  <groupId>org.fusesource.jansi</groupId>
+  <artifactId>jansi-${platform}</artifactId>
+  <version>1.8</version>
+  
+  <name>${project.artifactId}</name>
+  <description>Jansi Native implements the JNI Libraries used by the Jansi project.</description>
+  
+  <properties>
+    <forge-project-id>jansi-native</forge-project-id>
+    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <hawtjni-version>1.16</hawtjni-version>
+    <platform>native</platform>    
+  </properties>
+  
+  <url>http://fusesource.github.io/${forge-project-id}</url>
+  <inceptionYear>2009</inceptionYear>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/fusesource/${forge-project-id}/issues</url>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <scm>
+    <connection>scm:git:https://github.com/fusesource/${forge-project-id}.git</connection>
+    <developerConnection>scm:git:https://github.com/fusesource/${forge-project-id}.git</developerConnection>
+    <url>https://github.com/fusesource/${forge-project-id}/tree/${project.scm.tag}</url>
+    <tag>jansi-native-1.8</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+        <id>sonatype-nexus-staging</id>
+        <name>Sonatype Staging Repository</name>
+        <url> https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+    <snapshotRepository>
+        <id>sonatype-nexus-snapshots</id>
+        <name>Sonatype Snapshot Repository</name>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
+  <developers>
+    <developer>
+      <id>chirino</id>
+      <name>Hiram Chirino</name>
+      <email>hiram@hiramchirino.com</email>
+      <url>http://hiramchirino.com</url>
+      <timezone>GMT-5</timezone>
+    </developer>
+  </developers>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.fusesource.hawtjni</groupId>
+      <artifactId>hawtjni-runtime</artifactId>
+      <version>${hawtjni-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.4</version>
+          <configuration>
+            <linksource>true</linksource>
+            <links>
+              <link>http://fusesource.github.io/hawtjni/documentation/api</link>
+            </links>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+    
+      <!-- the older clean plugin has trouble deleting directories with symlinks in them -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+      
+
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20</version>
+        <configuration>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <forkMode>once</forkMode>
+            <argLine>-ea</argLine>
+            <failIfNoTests>false</failIfNoTests>
+            <workingDirectory>${project.build.directory}</workingDirectory>
+            <excludes>
+                <exclude>**/Abstract*.java</exclude>
+                <exclude>**/Test*.java</exclude>
+            </excludes>
+            <includes>
+                <include>**/*Test.java</include>
+            </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.0.1</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>    
+              <goal>manifest</goal>
+            </goals>   
+            <configuration>
+              <instructions>
+                  <Import-Package>!org.fusesource.jansi*,!org.fusesource.hawtjni*,sun.reflect;resolution:=optional,*</Import-Package>
+              </instructions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <archive>  
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive> 
+        </configuration>
+      </plugin>  
+      
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>summary</report>
+              <report>plugins</report>
+              <report>dependencies</report>
+              <report>mailing-list</report>
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    
+    <profile>
+      <id>platform</id>
+      <activation>
+        <property>
+          <name>platform</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          
+          <plugin>
+            <groupId>org.fusesource.hawtjni</groupId>
+            <artifactId>hawtjni-maven-plugin</artifactId>
+            <version>${hawtjni-version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>generate</goal>
+                  <goal>build</goal>
+                  <goal>package-jar</goal>
+                  <goal>package-source</goal>
+                </goals>
+                <configuration>
+                  <platform>${platform}</platform>
+                  <name>jansi</name>
+                  <classified>false</classified>
+                  <callbacks>false</callbacks>
+                  <windowsBuildTool>msbuild</windowsBuildTool>
+                  <copyright><![CDATA[
+/*******************************************************************************
+ * Copyright (C) 2009-2017 the original author(s).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
+                  ]]></copyright>
+                </configuration>
+              </execution>
+            </executions>        
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.0.2</version>
+            <configuration>
+              <classesDirectory>${basedir}/target/generated-sources/hawtjni/lib</classesDirectory>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+    
+
+    <!-- Profile which enables Universal binaries on OS X -->
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os><family>mac</family></os>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.fusesource.hawtjni</groupId>
+            <artifactId>maven-hawtjni-plugin</artifactId>
+            <configuration>
+              <osgiPlatforms>
+                <osgiPlatform>osname=MacOS;processor=x86-64</osgiPlatform>
+                <osgiPlatform>osname=MacOS;processor=x86</osgiPlatform>
+                <osgiPlatform>osname=MacOS;processor=PowerPC</osgiPlatform>
+                <osgiPlatform>*</osgiPlatform>
+              </osgiPlatforms>
+              <configureArgs>
+                <arg>--with-universal</arg>
+              </configureArgs>
+              <platform>osx</platform>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    
+  </profiles>
+</project>

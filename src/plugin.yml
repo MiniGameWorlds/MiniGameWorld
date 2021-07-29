@@ -1,9 +1,11 @@
 name: MiniGameMaker
 main: com.wbm.minigamemaker.Main
 version: 1.0
-description: worldbiomusic (discord -> worldbiomusic#7075)
-api-version: 1.16
+author: worldbiomusic
+description: discord(worldbiomusic#7075), email(worldbiomusic@gmail.com)
+api-version: 1.17
 depend: [wbmMC]
 
 commands:
   minigame:
+    aliases: mg

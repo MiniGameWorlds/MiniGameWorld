@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Sun Jul 25 16:10:00 KST 2021
+onejar.license.required=true
+manifest.mergeall=true
+manifest.removesigners=true
+excludes=
+includes=
+onejar.checkbox=false
+onejar.expand=
+manifest.classpath=
+jarname=MiniGameMaker_fat.jar
+jarname.isextern=false
+manifest.file=<createnew>
+manifest.mainclass=

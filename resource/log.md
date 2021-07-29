@@ -99,4 +99,7 @@
 - Setting 클래스에 플러그인 prefix 제공하는 sendMsg() 기능 추가
 - Setting 클래스에 Logger관련 기능(log(), warning()) 추가
 - jardescription.jardesc 추가
-- 
+
+# 2021/7/25
+- paper api 17로 변경
+- MiniGameManager의 감지이벤트에서 InventoryPickupItem 제거(Player와 관련 없음)
