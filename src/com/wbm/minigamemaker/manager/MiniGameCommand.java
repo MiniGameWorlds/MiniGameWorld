@@ -81,8 +81,8 @@ public class MiniGameCommand implements CommandExecutor {
 
 	private void reloadConfig(Player p, String[] args) {
 		// reload "setting.yml", "minigames.yml"
-		this.minigameM.reloadConfig();
-		this.MiniGameDataM.reloadConfig();
+		this.minigameM.reload();
+		this.MiniGameDataM.reload();
 		Setting.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "Reload Complete" + ChatColor.WHITE + ": "
 				+ this.minigameM.getFileName() + ", " + this.MiniGameDataM.getFileName());
 	}

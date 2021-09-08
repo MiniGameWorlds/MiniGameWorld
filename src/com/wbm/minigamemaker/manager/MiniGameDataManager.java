@@ -101,7 +101,8 @@ public class MiniGameDataManager implements YamlMember {
 		}
 	}
 
-	public void reloadConfig() {
+	@Override
+	public void reload() {
 		this.yamlM.reload(this);
 
 		// apply reloaded config file values

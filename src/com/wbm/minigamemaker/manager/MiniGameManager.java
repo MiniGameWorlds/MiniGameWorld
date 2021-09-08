@@ -384,7 +384,8 @@ public class MiniGameManager implements YamlMember {
 		this.minigameDataM = minigameDataM;
 	}
 
-	public void reloadConfig() {
+	@Override
+	public void reload() {
 		this.yamlM.reload(this);
 	}
 
