@@ -87,7 +87,6 @@ protected void processEvent(Event event) {
 - `initGameSetting()`: 미니게임 설정값 세팅메소드로 시작되기 전에 한번씩 꼭 실행되는 메소드
 - `runTaskAfterStart()`: 미니게임이 실제로 시작 된 직후 실행되는 메소드
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
-- `getGameTutorialStrings()`: 미니게임 튜토리얼 출력할 문자 반환 메소드
 
 # CustomData
 - 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구 ([minigames.yml](playingMiniGameWiki.md#minigamesyml) 참고)
