@@ -1,19 +1,18 @@
 package com.wbm.minigamemaker.manager;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.type.TNT;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.wbm.minigamemaker.Main;
@@ -33,14 +32,40 @@ public class CommonEventListener implements Listener {
 	public CommonEventListener(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;
 
-//		this.registerAllEventListener();
+		this.registerAllEventListener();
 	}
 
 	private void registerAllEventListener() {
 		Setting.log("[ Register EventHandler ]");
 		Setting.log("wait for all EventHandler registration...");
 		Setting.log("Event class name: " + Event.class.getName());
-		ClassInfoList events = new ClassGraph().enableClassInfo().scan() // you should use try-catch-resources instead
+
+		long startTime = System.currentTimeMillis();
+
+		List<URL> cacheDirJarURLs = new ArrayList<>();
+		for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
+			File cpFile = new File(cpEntry);
+			if (cpFile.canRead()) {
+				File cachedDir = new File(cpFile.isDirectory() ? cpFile : cpFile.getParentFile(), "cache");
+				if (cachedDir.canRead() && cachedDir.isDirectory()) {
+					try {
+						for (File cachedDirJar : cachedDir.listFiles()) {
+							if (cachedDirJar.getName().toLowerCase().endsWith(".jar")) {
+								cacheDirJarURLs.add(cachedDirJar.toURI().toURL());
+							}
+						}
+					} catch (MalformedURLException e) {
+						// Ignore
+					}
+				}
+			}
+		}
+		ClassGraph classGraph = new ClassGraph();
+		if (!cacheDirJarURLs.isEmpty()) {
+			classGraph.addClassLoader(new URLClassLoader(cacheDirJarURLs.toArray(new URL[0])));
+		}
+
+		ClassInfoList events = classGraph.enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());
 
 		Listener listener = new Listener() {
@@ -82,6 +107,9 @@ public class CommonEventListener implements Listener {
 		Setting.log("Events found: " + events.size());
 		Setting.log("HandlerList size: " + HandlerList.getHandlerLists().size());
 		// Bukkit.getLogger().info("registered EventHandler: " + eventCount);
+
+		long takenTime = System.currentTimeMillis() - startTime;
+		System.out.println("Duration: " + takenTime / 1000 + " secs");
 	}
 
 	private Object onEvent(Event event) {

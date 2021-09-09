@@ -55,11 +55,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected abstract void processEvent(Event event);
 
-	protected abstract List<String> getGameTutorialStrings();
-
 	// base constructor
-	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime);
+	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime,
+			String[] tutorial) {
+		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime, tutorial);
 
 		// [must setup once]
 		this.setupMiniGame();
@@ -69,8 +68,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	// base location constructor
-	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
+	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial) {
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime, tutorial);
 	}
 
 	private void setupMiniGame() {
@@ -83,9 +82,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	/*
 	 * overriding methods
 	 */
-	//	protected void runTaskBeforeStart() {
+
+	// protected void runTaskBeforeStart() {
 	// not necessary
-	//	};
+	// };
 
 	protected void runTaskAfterStart() {
 	}
@@ -194,6 +194,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// 하위 미니게임 세팅 값 설정
 		this.initGameSetting();
+
 	}
 
 	public void passEvent(Event event) {
@@ -325,8 +326,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.sendMessage(p, "- Time Limit: " + this.getTimeLimit() + " sec");
 
 		// tutorial
-		if (this.getGameTutorialStrings() != null) {
-			for (String msg : this.getGameTutorialStrings()) {
+		if (this.getTutorial() != null) {
+			for (String msg : this.getTutorial()) {
 				this.sendMessage(p, "- " + msg);
 			}
 		}
@@ -628,16 +629,21 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().isSettingFixed();
 	}
 
-	//	public void setAttributes(String title, Location location, int maxPlayerCount, int waitingTime, int timeLimit,
-	//			boolean active, boolean settingFixed) {
-	//		this.setting.setTitle(title);
-	//		this.setting.setLocation(location);
-	//		this.setting.setMaxPlayerCount(maxPlayerCount);
-	//		this.setting.setWaitingTime(waitingTime);
-	//		this.setting.setTimeLimit(timeLimit);
-	//		this.setting.setActive(active);
-	//		this.setting.setSettingFixed(settingFixed);
-	//	}
+	public String[] getTutorial() {
+		return this.getSetting().getTutorial();
+	}
+
+	// public void setAttributes(String title, Location location, int
+	// maxPlayerCount, int waitingTime, int timeLimit,
+	// boolean active, boolean settingFixed) {
+	// this.setting.setTitle(title);
+	// this.setting.setLocation(location);
+	// this.setting.setMaxPlayerCount(maxPlayerCount);
+	// this.setting.setWaitingTime(waitingTime);
+	// this.setting.setTimeLimit(timeLimit);
+	// this.setting.setActive(active);
+	// this.setting.setSettingFixed(settingFixed);
+	// }
 
 	protected void checkAttributes() {
 		/*

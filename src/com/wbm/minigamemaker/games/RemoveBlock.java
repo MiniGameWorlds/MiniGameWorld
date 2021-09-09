@@ -26,8 +26,10 @@ public class RemoveBlock extends TeamMiniGame {
 	private Location pos1, pos2;
 	private List<ItemStack> blocks;
 
+	static String[] tutorial = { "Game Start: +" + 100, "every 5 second: -1", "Remove ALL Blocks: Game End" };
+
 	public RemoveBlock() {
-		super("RemoveBlock", 4, 20, 10);
+		super("RemoveBlock", 4, 20, 10, tutorial);
 		this.getSetting().setScoreNotifying(true);
 	}
 
@@ -117,15 +119,6 @@ public class RemoveBlock extends TeamMiniGame {
 
 		// refill blocks
 		this.refillAllBlocks();
-	}
-
-	@Override
-	protected List<String> getGameTutorialStrings() {
-		List<String> tutorials = new ArrayList<String>();
-		tutorials.add("Game Start: +" + this.getTimeLimit() * 5);
-		tutorials.add("every 5 second: -1");
-		tutorials.add("Remove ALL Blocks: Game End");
-		return tutorials;
 	}
 
 }

@@ -61,3 +61,4 @@ local.properties
 .classpath
 .settings
 target/
+dependency-reduced-pom.xml

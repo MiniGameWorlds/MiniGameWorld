@@ -31,7 +31,7 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 5, 60 * 5, 10);
+		super("PVP", 5, 60 * 5, 10, new String[] {"kill: +1"});
 	}
 
 	@Override
@@ -105,14 +105,6 @@ public class PVP extends SoloBattleMiniGame {
 			p.setGameMode(GameMode.SURVIVAL);
 			p.setHealthScale(20);
 		}
-	}
-
-	@Override
-	protected List<String> getGameTutorialStrings() {
-		List<String> tutorials = new ArrayList<String>();
-		tutorials.add("kill: +1");
-
-		return tutorials;
 	}
 
 }

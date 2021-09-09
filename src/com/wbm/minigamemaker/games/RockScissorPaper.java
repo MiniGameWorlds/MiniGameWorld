@@ -1,8 +1,6 @@
 package com.wbm.minigamemaker.games;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
@@ -12,6 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
 
+@SuppressWarnings("deprecation")
 public class RockScissorPaper extends SoloBattleMiniGame {
 	/*
 	 * 설명: 가위 바위 보 게임, 일정 시간내에 선택지를 입력하고, 일정시간 후에 결과가 나옴(안내면 패배) 타입:
@@ -52,8 +51,11 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	}
 
+	static String[] tutorial = { "enter chat: R or S or P", "Result will be appeared at the end",
+			"selection can be changed" };
+
 	public RockScissorPaper() {
-		super("RSP", 2, 15, 15);
+		super("RSP", 2, 15, 15, tutorial);
 		this.getSetting().setForcePlayerCount(true);
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
 	}
@@ -134,15 +136,6 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 		String p2Selection = "" + ChatColor.GREEN + ChatColor.BOLD + this.selections.get(p2).name() + ChatColor.WHITE;
 		this.sendMessageToAllPlayers(
 				String.format("%s[%s] : [%s]%s", p1.getName(), p1Selection, p2Selection, p2.getName()));
-	}
-
-	@Override
-	protected List<String> getGameTutorialStrings() {
-		List<String> tutorials = new ArrayList<String>();
-		tutorials.add("enter chat: R or S or P");
-		tutorials.add("Result will be appeared in " + this.getTimeLimit() + " sec when start");
-		tutorials.add("can change selection");
-		return tutorials;
 	}
 
 }

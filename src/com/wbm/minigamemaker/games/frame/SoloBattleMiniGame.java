@@ -14,8 +14,8 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	 * [Rule]
 	 * - when use runTaskAfterStart(), must call super.runTaskAfterStart()
 	 */
-	public SoloBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		super(title, maxPlayerCount, timeLimit, waitingTime);
+	public SoloBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial) {
+		super(title, maxPlayerCount, timeLimit, waitingTime, tutorial);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.wbm.minigamemaker.games.frame;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
@@ -15,32 +16,57 @@ public class MiniGameSetting {
 	 * 기본값: 미니게임의 기본 세팅값
 	 */
 	// 파일 관리 o
-	// 기본값: 없음
+	// 기본값: 초기값
+	// 설명: 미니게임 이름(참가 이름)
 	private String title;
+
 	// 파일 관리 o
 	// 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
+	// 설명: 미니게임 플레이 장소
 	private Location location;
+
 	// 파일 관리 o
+	// 기본값: 초기값
+	// 설명: 최대 참여 인원수
 	private int maxPlayerCount;
+
 	// 파일 관리 o
+	// 기본값: 초기값
+	// 설명: 게임 대기 시간 (초)
 	private int waitingTime;
+
 	// 파일 관리 o
+	// 기본값: 초기값
+	// 설명: 게임 진행 시간 (초)
 	private int timeLimit;
+
 	// 파일 관리 o
 	// 기본값: true
+	// 설명: 게임 활성화 여부
 	private boolean active;
+
 	// 파일 관리 x
 	// 기본값: false
+	// 설명: 미니게임의 특정 세팅값(waitingTime, timeLimit, maxPlayerCount) 고정 여부
 	private boolean settingFixed;
+
 	// 파일 관리 x
 	// 기본값: false
+	// 설명: 스코어 변동 알림 여부
 	private boolean scoreNotifying;
+
 	// 파일 관리 x
 	// 기본값: false
-	// 설명: maxPlayerCount값이 강제 인원수로 설정됨
+	// 설명: 인원수가 maxPlayerCount값이어야 게임이 진행됨
 	private boolean forcePlayerCount;
 
-	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+	// 파일 관리 o
+	// 기본값: false
+	// 설명: 미니게임 튜토리얼 문자열
+	private String[] tutorial;
+
+	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime,
+			String[] tutorial) {
 		this.title = title;
 		this.location = location;
 		this.maxPlayerCount = maxPlayerCount;
@@ -51,6 +77,7 @@ public class MiniGameSetting {
 		this.settingFixed = false;
 		this.scoreNotifying = false;
 		this.forcePlayerCount = false;
+		this.tutorial = tutorial;
 	}
 
 	public void setSettingFixed(boolean settingFixed) {
@@ -87,6 +114,10 @@ public class MiniGameSetting {
 
 	public void setForcePlayerCount(boolean forcePlayerCount) {
 		this.forcePlayerCount = forcePlayerCount;
+	}
+
+	public void setTutorial(String[] tutorial) {
+		this.tutorial = tutorial;
 	}
 
 	// getter
@@ -126,8 +157,12 @@ public class MiniGameSetting {
 		return forcePlayerCount;
 	}
 
+	public String[] getTutorial() {
+		return this.tutorial;
+	}
+
 	public Map<String, Object> getFileSetting() {
-		// return settings that exist in minigames.yml 
+		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();
 
 		setting.put("title", this.getTitle());
@@ -136,6 +171,7 @@ public class MiniGameSetting {
 		setting.put("waitingTime", this.getWaitingTime());
 		setting.put("timeLimit", this.getTimeLimit());
 		setting.put("active", this.isActive());
+		setting.put("tutorial", this.getTutorial());
 
 		return setting;
 	}
@@ -153,7 +189,7 @@ public class MiniGameSetting {
 		Location location = (Location) setting.get("location");
 		this.setLocation(location);
 
-		// when settingFixed is false: apply maxPlayerCount, timeLimit, waitingTime 
+		// when settingFixed is false: apply maxPlayerCount, timeLimit, waitingTime
 		if (!isSettingFixed()) {
 			// maxPlayerCount
 			int maxPlayerCount = (int) setting.get("maxPlayerCount");
@@ -172,6 +208,10 @@ public class MiniGameSetting {
 		boolean active = (boolean) setting.get("active");
 		this.setActive(active);
 
+		// tutorial
+		@SuppressWarnings("unchecked")
+		String[] tutorial = ((List<String>) setting.get("tutorial")).toArray(new String[0]);
+		this.setTutorial(tutorial);
 	}
 
 }

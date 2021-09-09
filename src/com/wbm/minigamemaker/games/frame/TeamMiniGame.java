@@ -13,8 +13,8 @@ public abstract class TeamMiniGame extends MiniGame {
 	 * - must use plusScoreToTeam() or minusScoreToTeam() for managing score
 	 */
 
-	public TeamMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		super(title, maxPlayerCount, timeLimit, waitingTime);
+	public TeamMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial) {
+		super(title, maxPlayerCount, timeLimit, waitingTime, tutorial);
 	}
 
 	protected int getTeamScore() {

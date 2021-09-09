@@ -42,9 +42,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	// 팀 등록 강제
 	protected abstract void registerAllPlayersToTeam();
 
-	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, int teamCount,
-			int teamSize) {
-		super(title, maxPlayerCount, timeLimit, waitingTime);
+	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial,
+			int teamCount, int teamSize) {
+		super(title, maxPlayerCount, timeLimit, waitingTime, tutorial);
 
 		// set teamCount, teamSize
 		this.fixTeamCount(teamCount);
@@ -173,18 +173,18 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		team.plusTeamScore(score);
 	}
 
-	//	protected void plusScoreToTeam(Team team, int score) {
-	//		team.plusScoreToMembers(score);
-	//	}
+	// protected void plusScoreToTeam(Team team, int score) {
+	// team.plusScoreToMembers(score);
+	// }
 
 	protected void minusTeamScore(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
 		team.minusTeamScore(score);
 	}
 
-	//	protected void minusScoreToTeam(Team team, int score) {
-	//		team.minusScoreToMembers(score);
-	//	}
+	// protected void minusScoreToTeam(Team team, int score) {
+	// team.minusScoreToMembers(score);
+	// }
 
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);

@@ -1,8 +1,5 @@
 package com.wbm.minigamemaker.games;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -16,19 +13,16 @@ public class MoreHit extends TeamBattleMiniGame {
 	/*
 	 * 설명: 더 많이 때리는 게임 타입: TeamBattle
 	 */
+
+	static String[] tutorial = {"Hit other team member: +1"};
+
 	public MoreHit() {
-		super("MoreHit", 2, 20, 10, 2, 1);
+		super("MoreHit", 2, 20, 10, tutorial, 2, 1);
 		this.getSetting().setScoreNotifying(true);
 		this.setAutoTeamSetup(true);
 		this.setGroupChat(true);
 	}
 
-	@Override
-	protected List<String> getGameTutorialStrings() {
-		List<String> tutorials = new ArrayList<String>();
-		tutorials.add("Hit other team member: +1");
-		return tutorials;
-	}
 
 	@Override
 	protected void initGameSetting() {
@@ -58,10 +52,10 @@ public class MoreHit extends TeamBattleMiniGame {
 			this.sendMessage(e.getPlayer(), "respawn!");
 		}
 	}
-	
+
 	@Override
 	protected void registerAllPlayersToTeam() {
-		
+
 	}
 }
 
