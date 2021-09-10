@@ -95,13 +95,12 @@ protected void processEvent(Event event) {
 MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
 ```java
 @Override
-protected Map<String, Object> registerCustomData() {
-  Map<String, Object> customData = new HashMap<String, Object>();
+protected void registerCustomData() {
+  Map<String, Object> customData = this.getCustomData();
   customData.put("health", 30);
   List<ItemStack> items = new ArrayList<>();
   items.add(new ItemStack(Material.STONE_SWORD));
   customData.put("items", items);
-  return customData;
 }
 ```
 ## 데이터 사용하는 법
