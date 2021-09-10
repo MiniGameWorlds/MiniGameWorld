@@ -12,10 +12,10 @@
 - Window 10
 - Eclipse 2020-03
 - Git / Github
-- JDK 8
+- JDK 16
 
 # 사용 라이브러리
-- [Paper]: 1.16.5 기준
+- [Paper]: 최신버전
 - [wbmMC]: worldbiomusic 마인크래프트 라이브러리
 - [classgraph]: 마인크래프트의 모든 이벤트 핸들러 등록할 떄 사용됨
 
