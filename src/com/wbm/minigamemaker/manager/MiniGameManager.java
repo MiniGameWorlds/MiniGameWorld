@@ -37,10 +37,6 @@ import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 
 public class MiniGameManager implements YamlMember {
-	// API 용 클래스
-	// Singleton 사용
-	// TODO: 명령어로 gameSetting값 조절할 수 있게 기능 추가
-
 	// Singleton 객체
 	private static MiniGameManager instance = new MiniGameManager();
 	private static boolean instanceCreated = false;
@@ -52,8 +48,8 @@ public class MiniGameManager implements YamlMember {
 
 	private Map<String, Object> setting;
 
-	// 게임 끝나고 돌아갈 서버 스폰
-	private Location serverSpawn;
+	// 게임 끝나고 돌아갈 로비
+	private Location lobby;
 
 	// 미니게임 파일 데이터
 	private MiniGameDataManager minigameDataM;
@@ -101,11 +97,11 @@ public class MiniGameManager implements YamlMember {
 		 * set basic setting.yml
 		 */
 		// serverSpawn 설정
-		if (!this.setting.containsKey("spawnLocation")) {
-			this.setting.put("spawnLocation", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
+		if (!this.setting.containsKey("lobby")) {
+			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
 
-		this.serverSpawn = (Location) this.setting.get("spawnLocation");
+		this.lobby = (Location) this.setting.get("lobby");
 
 		// minigameSign
 		if (!this.setting.containsKey("minigameSign")) {
@@ -377,7 +373,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public Location getServerSpawn() {
-		return this.serverSpawn;
+		return this.lobby;
 	}
 
 	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {

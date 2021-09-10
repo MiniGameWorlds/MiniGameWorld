@@ -101,7 +101,7 @@ public class MiniGameAccessor {
 	}
 
 	public int getLeftWaitTime() {
-		return this.minigame.getLeftWaitTime();
+		return this.minigame.getLeftWaitingTime();
 	}
 
 	public int getLeftFinishTime() {

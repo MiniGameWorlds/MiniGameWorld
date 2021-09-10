@@ -205,7 +205,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	}
 
-	public void passEvent(Event event) {
+	public final void passEvent(Event event) {
 		/*
 		 * 넘겨받은 이벤트 처리
 		 */
@@ -220,7 +220,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
-	public boolean leaveGame(Player p) {
+	public final boolean leaveGame(Player p) {
 		// check
 		// 1. game must not be started
 		// 2. game waitingTime counter must be upper than 10
@@ -263,7 +263,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.removePlayer(p);
 	}
 
-	public boolean joinGame(Player p) {
+	public final boolean joinGame(Player p) {
 		// 처리 순서
 		// 1.minigames.yml에서 active가 true인지
 		// 2.이미 게임이 시작전인지
@@ -298,7 +298,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return true;
 	}
 
-	protected void setupPlayerJoinSettings(Player p) {
+	private void setupPlayerJoinSettings(Player p) {
 		/*
 		 * initSetting 이미 했으므로 플레이어관련한것만 세팅
 		 */
@@ -420,7 +420,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.taskManager.cancelTask("_finishTimer");
 	}
 
-	protected void printEndInfo() {
+	private void printEndInfo() {
 		// title
 		for (Player p : this.getPlayers()) {
 			// break line
@@ -677,7 +677,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.setting;
 	}
 
-	public int getLeftWaitTime() {
+	public int getLeftWaitingTime() {
 		// 기다리는 남은 시간 리턴 (sec)
 		return this.waitingCounter.getCount();
 	}
