@@ -50,6 +50,7 @@
 > - yml file reload 기능 추가(YamlMember에서 reload구현하고, 명령어로 등록)
 > - 1.17 update 준비(JDK 16으로 변경, wbmMC도 변경, paper api 도 변경)
 
+- 미니게임 로비 이름 변경 `spawnLocation` > `lobby`
 - Inventory관리 기능 추가하기(종이에 설계함 MiniGamePlayerInvManager)
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)

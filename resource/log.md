@@ -113,7 +113,7 @@
 # 2021-09-10
 - CustomData를 MiniGameSetting 내부 변수로 옮기기
 - settingFixed의 관리대상에 customData도 추가하기
-
+- change class name `Main` > `MiniGameMakerMain`
 
 
 

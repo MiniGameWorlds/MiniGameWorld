@@ -1,7 +1,6 @@
 package com.wbm.minigamemaker.games;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +36,8 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected Map<String, Object> registerCustomData() {
-		Map<String, Object> customData = new HashMap<String, Object>();
+	protected void registerCustomData() {
+		Map<String, Object> customData = this.getCustomData();
 		customData.put("health", 30);
 		List<ItemStack> items = new ArrayList<>();
 		items.add(new ItemStack(Material.STONE_SWORD));
@@ -47,8 +46,6 @@ public class PVP extends SoloBattleMiniGame {
 		items.add(new ItemStack(Material.COOKED_PORKCHOP, 10));
 		items.add(new ItemStack(Material.GOLDEN_APPLE));
 		customData.put("items", items);
-		
-		return customData;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -119,14 +116,11 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void handleGameExeption(Player p, Exception exception, Object arg) {
-		super.handleGameExeption(p, exception, arg);
+	protected void handleGameException(Player p, Exception exception, Object arg) {
+		super.handleGameException(p, exception, arg);
 		
 		// set player health scale to 20
 		p.setHealthScale(20);
-		
-		// clear inventory
-		p.getInventory().clear();
 	}
 	
 }

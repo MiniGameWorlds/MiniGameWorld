@@ -1,5 +1,5 @@
 name: MiniGameMaker
-main: com.wbm.minigamemaker.Main
+main: com.wbm.minigamemaker.MiniGameMakerMain
 version: 1.0
 author: worldbiomusic
 description: email(worldbiomusic@gmail.com)

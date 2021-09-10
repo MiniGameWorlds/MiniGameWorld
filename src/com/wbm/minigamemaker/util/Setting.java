@@ -4,10 +4,10 @@ import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 
-import com.wbm.minigamemaker.Main;
+import com.wbm.minigamemaker.MiniGameMakerMain;
 
 public class Setting {
-	static Main main = Main.getInstance();
+	static MiniGameMakerMain main = MiniGameMakerMain.getInstance();
 	static Logger logger = main.getLogger();
 
 	public static void sendMsg(Player p, String msg) {

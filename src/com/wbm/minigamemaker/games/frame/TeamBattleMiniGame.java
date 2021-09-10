@@ -209,10 +209,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.registerAllPlayersToTeam();
 		}
 
-		this.checkOnlyOneTeamRemains();
+		this.checkAtLeastTeamRemains(2);
 	}
 
-	protected boolean checkOnlyOneTeamRemains() {
+	protected boolean checkAtLeastTeamRemains(int count) {
 		// 1개의 팀에만 플레이어가 존재하는지 검사후 맞으면 게임 종료
 		if (this.getValidTeamCount() <= 1) {
 			this.sendMessageToAllPlayers("Game End: only 1 team remains");
@@ -223,9 +223,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void handleGameExeption(Player p, Exception exception, Object arg) {
-		super.handleGameExeption(p, exception, arg);
-		this.checkOnlyOneTeamRemains();
+	protected void handleGameException(Player p, Exception exception, Object arg) {
+		super.handleGameException(p, exception, arg);
+		// handled player will remove after run "handleGameException()"
+		this.checkAtLeastTeamRemains(3);
 	}
 
 	@Override

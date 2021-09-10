@@ -1,7 +1,6 @@
 package com.wbm.minigamemaker.games;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +43,8 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected Map<String, Object> registerCustomData() {
-		super.registerCustomData();
-		Map<String, Object> data = new HashMap<>();
+	protected void registerCustomData() {
+		Map<String, Object> data = this.getCustomData();
 
 		// block positions
 		data.put("pos1", new Location(Bukkit.getWorld("world"), 0, 4, 0));
@@ -59,8 +57,6 @@ public class RemoveBlock extends TeamMiniGame {
 		blockList.add(new ItemStack(Material.STONE));
 		blockList.add(new ItemStack(Material.OAK_WOOD));
 		this.getCustomData().put("blocks", blockList);
-		
-		return data;
 	}
 
 	@SuppressWarnings("unchecked")

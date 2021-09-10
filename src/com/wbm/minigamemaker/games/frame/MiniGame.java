@@ -15,6 +15,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.wbm.minigamemaker.manager.PlayerInvManager;
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier;
 import com.wbm.minigamemaker.observer.MiniGameObserver;
 import com.wbm.minigamemaker.util.Setting;
@@ -48,6 +49,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// observer list
 	private List<MiniGameObserver> observerList;
 
+	// inv manager
+	private PlayerInvManager invManager;
+
 	// abstract methods
 	protected abstract void initGameSetting();
 
@@ -74,12 +78,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void setupMiniGame() {
 		this.taskManager = new BukkitTaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
+		this.invManager = new PlayerInvManager();
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
 
 		// register custom data
-		this.getSetting().setCustomData(this.registerCustomData());
+		this.registerCustomData();
 	}
 
 	/*
@@ -99,15 +104,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void runTaskAfterFinish() {
 	}
 
-	protected void handleGameExeption(Player p, Exception exception, Object arg) {
+	protected void handleGameException(Player p, Exception exception, Object arg) {
 	}
 
 	protected void registerTasks() {
 	}
 
-	protected Map<String, Object> registerCustomData() {
-		// must do NOT use "super.override()"
-		return new HashMap<String, Object>();
+	protected void registerCustomData() {
 	}
 
 	private void initMiniGame() {
@@ -209,7 +212,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// 미니게임 예외 이벤트인지 검사
 		if (event instanceof PlayerQuitEvent) {
-			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PlayerQuitServer, event);
+			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PLAYER_QUIT_SERVER, event);
 		}
 		// 게임이 시작됬을 때 미니게임에 이벤트 전달
 		if (this.started) {
@@ -497,10 +500,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
 	}
 
+	protected void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+	}
+
 	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		for (Player p : getPlayers()) {
-			p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-		}
+		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
 	}
 
 	public int getScore(Player p) {
@@ -534,7 +539,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public enum Exception {
-		PlayerQuitServer, ServerDown;
+		PLAYER_QUIT_SERVER, SERVER_STOP;
 	}
 
 	public final void handleException(Player p, Exception exception, Object arg) {
@@ -542,25 +547,25 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 * [예외 상황 관리]
 		 * 
 		 * - 플레이어가 미니게임에서 예외상황으로 인해 게임 플레이가 불가능 할 떄 호출되는 메서드
-		 * 
-		 * - PlayerQuitEvent에서 Reason 체크
-		 * 
-		 * - 현재: 게임도중 서버 나가는 예외 처리
-		 * 
 		 * - 마지막에 각 게임에게 예외 발생 매소드로 알림
+		 *
+		 * # 종류
+		 * - PlayerQuitEvent에서 Reason 체크
+		 * - 게임도중 서버 나가는 예외 처리
+		 * 
 		 */
 
 		// info
 		Setting.log("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// PlayerQuitServer일 때 이유 출력
-		if (exception == Exception.PlayerQuitServer) {
+		if (exception == Exception.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
 			Setting.log("Quit: " + event.getReason().name());
 		}
 
 		// 플레이중인 미니게임에게 예외 발생 매소드로 처리 알림 (예. task 중지, inv 초기화 등)
-		this.handleGameExeption(p, exception, arg);
+		this.handleGameException(p, exception, arg);
 
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
@@ -584,7 +589,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// 게임룸 위치로 tp
 		p.teleport(this.getLocation());
 
-		// player inventory clear
+		// 1. save player inventory
+		// 2. clear player inventory
+		this.invManager.savePlayerInv(p);
 		p.getInventory().clear();
 
 		// 플레이어 상태 초기화
@@ -596,8 +603,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		Location serverSpawn = MiniGameMaker.create().getServerSpawn();
 		p.teleport(serverSpawn);
 
-		// player inventory clear
+		// 1. clear player inventory
+		// 2. restore player inventory
 		p.getInventory().clear();
+		this.invManager.restorePlayerInv(p);
 
 		// 플레이어 상태 초기화
 		PlayerTool.makePureState(p);

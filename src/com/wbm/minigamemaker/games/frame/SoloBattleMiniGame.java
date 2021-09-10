@@ -21,21 +21,22 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	@Override
 	protected void runTaskAfterStart() {
 		super.runTaskAfterStart();
-		checkOnlyOnePlayerRemains();
+		checkAtLeastPlayerRemains(2);
 	}
 
-	protected void checkOnlyOnePlayerRemains() {
+	protected void checkAtLeastPlayerRemains(int count) {
 		// 게임시작후 1 명일 떄 게임 종료
-		if (this.getPlayerCount() <= 1) {
-			this.sendMessageToAllPlayers("Game End: only 1 player remains");
+		if (this.getPlayerCount() < count) {
+			this.sendMessageToAllPlayers("Game End: need more players");
 			this.endGame();
 		}
 	}
 
 	@Override
-	protected void handleGameExeption(Player p, Exception exception, Object arg) {
-		super.handleGameExeption(p, exception, arg);
-		this.checkOnlyOnePlayerRemains();
+	protected void handleGameException(Player p, Exception exception, Object arg) {
+		super.handleGameException(p, exception, arg);
+		// handled player will remove after run "handleGameException()"
+		this.checkAtLeastPlayerRemains(3);
 	}
 
 	@Override
