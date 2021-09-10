@@ -87,7 +87,7 @@ protected void processEvent(Event event) {
 - `initGameSetting()`: 미니게임 설정값 세팅메소드로 시작되기 전에 한번씩 꼭 실행되는 메소드
 - `runTaskAfterStart()`: 미니게임이 실제로 시작 된 직후 실행되는 메소드
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
-- `getGameTutorialStrings()`: 미니게임 튜토리얼 출력할 문자 반환 메소드
+- `registerTutorial()`: 미니게임 튜토리얼 글
 
 # CustomData
 - 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구 ([minigames.yml](playingMiniGameWiki.md#minigamesyml) 참고)
@@ -104,7 +104,7 @@ protected void registerCustomData() {
 }
 ```
 ## 데이터 사용하는 법
-커스템 데이터 사용은 `getCustomData()`로 접근해서 **생성자를 제외한** 어디에서나 사용 가능
+커스템 데이터 사용은 `getCustomData()`로 접근해서 미니게임의 **생성자를 제외한** 어디에서나 사용 가능
 ```java
 @SuppressWarnings("unchecked")
 @Override
@@ -113,15 +113,14 @@ protected void initGameSetting() {
   this.health = (int) this.getCustomData().get("health");
   // give kit tool
   List<ItemStack> items = (List<ItemStack>) this.getCustomData().get("items");
-	items.forEach(item -> p.getInventory().addItem(item));
+  items.forEach(item -> p.getInventory().addItem(item));
 }
 ```
 or
 ```java
 @Override
 protected void processEvent(Event event) {
-  // 
-  player.setHealthScale((int) this.getCustomData().get("health"));
+    player.setHealthScale((int) this.getCustomData().get("health"));
   }
 }
 ```
@@ -130,7 +129,7 @@ protected void processEvent(Event event) {
 # 설정값
 - MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
 - 일부 설정값제외한 값들은 minigames.yml 파일에서 수정가능
-- `settingFixed` 설정값: `waitingTime`, `maxPlayerCount`, `timeLimit` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
+- `settingFixed` 설정값: `waitingTime`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
 
 # 미니게임 종료
 - `endGame()` 메소드 사용

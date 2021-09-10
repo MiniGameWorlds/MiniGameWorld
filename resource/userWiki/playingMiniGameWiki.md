@@ -84,7 +84,7 @@
 - 미니게임 메이커 세팅 파일
 ```yml
 setting:
-  spawnLocation:
+  lobby:
     ==: org.bukkit.Location
     world: world
     x: 0.0
@@ -96,7 +96,7 @@ setting:
   minigameCommand: true
 
 ```
-- `spawnLocation`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
+- `lobby`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
 - `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
 - `minigameCommand`: 명령어로 미니게임 참가/퇴장 (true / false)
 
@@ -125,6 +125,8 @@ minigames:
         type: STONE_SWORD
     title: PVP
     active: true
+    tutorial: 
+    - 'kill player: +1'
 ```
 - `title`: 게임 제목
 - `location`: 입장 스폰 위치
@@ -133,6 +135,7 @@ minigames:
 - `timeLimit`: 플레이 제한 시간 (초)
 - `active`: 게임 활성화 여부 (true/false)
 - `customData`: 미니게임의 커스텀 설정 값
+- `tutorial`: 튜토리얼 설명글
 - 플러그인으로 넣은 미니게임이 자동으로 `minigames.yml`에 등록됨 
 - 없는 미니게임은 서버가 종료된 후 `minigames.yml`에서 삭제됨
 - 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미닉임의 기본값 함부로 변경시 작동 안할 수 있음)
