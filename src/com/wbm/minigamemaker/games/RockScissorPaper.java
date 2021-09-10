@@ -1,6 +1,8 @@
 package com.wbm.minigamemaker.games;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
@@ -51,11 +53,8 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	}
 
-	static String[] tutorial = { "enter chat: R or S or P", "Result will be appeared at the end",
-			"selection can be changed" };
-
 	public RockScissorPaper() {
-		super("RSP", 2, 15, 15, tutorial);
+		super("RSP", 2, 15, 15);
 		this.getSetting().setForcePlayerCount(true);
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
 	}
@@ -138,6 +137,14 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 				String.format("%s[%s] : [%s]%s", p1.getName(), p1Selection, p2Selection, p2.getName()));
 	}
 
+	@Override
+	protected List<String> registerTutorial() {
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("enter chat: R or S or P");
+		tutorial.add("Result will be appeared at the end");
+		tutorial.add("selection can be changed");
+		return tutorial;
+	}
 }
 //
 //

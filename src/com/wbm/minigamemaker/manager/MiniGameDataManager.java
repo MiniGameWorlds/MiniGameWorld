@@ -28,10 +28,6 @@ public class MiniGameDataManager implements YamlMember {
 	public void addMiniGameData(MiniGame minigame) {
 		Map<String, Object> data = minigame.getSetting().getFileSetting();
 
-		// customData
-		Map<String, Object> customData = minigame.getCustomData();
-		data.put("customData", customData);
-
 		// data 추가 (className, data)
 		this.minigameData.put(minigame.getClassName(), data);
 	}
@@ -52,7 +48,6 @@ public class MiniGameDataManager implements YamlMember {
 		return (Map<String, Object>) this.minigameData.get(minigame.getClassName());
 	}
 
-	@SuppressWarnings("unchecked")
 	public void applyMiniGameDataToInstance(MiniGame minigame) {
 		/*
 		 * If minigames.yml file has same MiniGame, then overwrite saved minigame data
@@ -60,6 +55,7 @@ public class MiniGameDataManager implements YamlMember {
 		 */
 		Map<String, Object> data = this.getMiniGameData(minigame);
 
+		// apply settings
 		minigame.getSetting().setFileSetting(data);
 
 		// when settingFixed is true: restore "maxPlayerCount", "waitingTime", "timeLimit" values to file
@@ -73,10 +69,6 @@ public class MiniGameDataManager implements YamlMember {
 			// timeLimit
 			data.put("timeLimit", minigame.getTimeLimit());
 		}
-
-		// apply customData
-		Map<String, Object> customData = (Map<String, Object>) data.get("customData");
-		minigame.setCustomData(customData);
 	}
 
 	public void removeNotExistMiniGameData() {

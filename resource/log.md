@@ -109,3 +109,24 @@
 
 # 2021-09-09
 - MiniGameSetting클래스로 List<String> tutorial 변수 옮기기 (MiniGame에서 저장되야 되는 데이터는 MiniGameSetting으로 옮겨서 관리하기), (wiki에 변경사항 기록: new String[] {"tutorial"} 사용)
+
+# 2021-09-10
+- CustomData를 MiniGameSetting 내부 변수로 옮기기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

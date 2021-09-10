@@ -20,7 +20,7 @@ public class FitTool extends SoloMiniGame {
 	List<Material> blocks;
 
 	public FitTool() {
-		super("FitTool", 30, 10, new String[] {"Break block: +1"});
+		super("FitTool", 30, 10);
 		this.getSetting().setScoreNotifying(true);
 	}
 
@@ -70,6 +70,13 @@ public class FitTool extends SoloMiniGame {
 			p.getInventory().addItem(new ItemStack(Material.IRON_AXE));
 			p.getInventory().addItem(new ItemStack(Material.IRON_SHOVEL));
 		}
+	}
+
+	@Override
+	protected List<String> registerTutorial() {
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Break block: +1");
+		return tutorial;
 	}
 
 }

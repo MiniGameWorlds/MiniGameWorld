@@ -45,8 +45,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// task manager
 	private BukkitTaskManager taskManager;
 
-	private Map<String, Object> customData;
-
 	// observer list
 	private List<MiniGameObserver> observerList;
 
@@ -55,10 +53,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected abstract void processEvent(Event event);
 
+	protected abstract List<String> registerTutorial();
+
 	// base constructor
-	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime,
-			String[] tutorial) {
-		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime, tutorial);
+	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime);
 
 		// [must setup once]
 		this.setupMiniGame();
@@ -68,15 +67,19 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	// base location constructor
-	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime, tutorial);
+	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
 	}
 
 	private void setupMiniGame() {
 		this.taskManager = new BukkitTaskManager();
-		this.customData = new HashMap<String, Object>();
 		this.observerList = new ArrayList<MiniGameObserver>();
-		this.registerCustomData();
+
+		// register tutorial
+		this.getSetting().setTutorial(this.registerTutorial());
+
+		// register custom data
+		this.getSetting().setCustomData(this.registerCustomData());
 	}
 
 	/*
@@ -102,7 +105,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void registerTasks() {
 	}
 
-	protected void registerCustomData() {
+	protected Map<String, Object> registerCustomData() {
+		// must do NOT use "super.override()"
+		return new HashMap<String, Object>();
 	}
 
 	private void initMiniGame() {
@@ -554,6 +559,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			Setting.log("Quit: " + event.getReason().name());
 		}
 
+		// 플레이중인 미니게임에게 예외 발생 매소드로 처리 알림 (예. task 중지, inv 초기화 등)
+		this.handleGameExeption(p, exception, arg);
+
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
 
@@ -570,9 +578,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (this.isEmpty()) {
 			this.initSetting();
 		}
-
-		// 각 게임에게 예외 발생 매소드로 처리 알림 (예. task 중지)
-		this.handleGameExeption(p, exception, arg);
 	}
 
 	private void setupPlayerWhenJoin(Player p) {
@@ -629,21 +634,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().isSettingFixed();
 	}
 
-	public String[] getTutorial() {
+	public List<String> getTutorial() {
 		return this.getSetting().getTutorial();
 	}
 
-	// public void setAttributes(String title, Location location, int
-	// maxPlayerCount, int waitingTime, int timeLimit,
-	// boolean active, boolean settingFixed) {
-	// this.setting.setTitle(title);
-	// this.setting.setLocation(location);
-	// this.setting.setMaxPlayerCount(maxPlayerCount);
-	// this.setting.setWaitingTime(waitingTime);
-	// this.setting.setTimeLimit(timeLimit);
-	// this.setting.setActive(active);
-	// this.setting.setSettingFixed(settingFixed);
-	// }
+	public Map<String, Object> getCustomData() {
+		return this.getSetting().getCustomData();
+	}
 
 	protected void checkAttributes() {
 		/*
@@ -721,13 +718,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.observerList.forEach(obs -> obs.update(event, new MiniGameAccessor(this)));
 	}
 
-	public void setCustomData(Map<String, Object> customData) {
-		this.customData = customData;
-	}
-
-	public Map<String, Object> getCustomData() {
-		return this.customData;
-	}
 }
 
 //

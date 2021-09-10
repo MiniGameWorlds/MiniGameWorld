@@ -1,6 +1,7 @@
 package com.wbm.minigamemaker.games;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +27,8 @@ public class RemoveBlock extends TeamMiniGame {
 	private Location pos1, pos2;
 	private List<ItemStack> blocks;
 
-	static String[] tutorial = { "Game Start: +" + 100, "every 5 second: -1", "Remove ALL Blocks: Game End" };
-
 	public RemoveBlock() {
-		super("RemoveBlock", 4, 20, 10, tutorial);
+		super("RemoveBlock", 4, 20, 10);
 		this.getSetting().setScoreNotifying(true);
 	}
 
@@ -45,9 +44,9 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	@Override
-	protected void registerCustomData() {
+	protected Map<String, Object> registerCustomData() {
 		super.registerCustomData();
-		Map<String, Object> data = this.getCustomData();
+		Map<String, Object> data = new HashMap<>();
 
 		// block positions
 		data.put("pos1", new Location(Bukkit.getWorld("world"), 0, 4, 0));
@@ -60,6 +59,8 @@ public class RemoveBlock extends TeamMiniGame {
 		blockList.add(new ItemStack(Material.STONE));
 		blockList.add(new ItemStack(Material.OAK_WOOD));
 		this.getCustomData().put("blocks", blockList);
+		
+		return data;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -119,6 +120,15 @@ public class RemoveBlock extends TeamMiniGame {
 
 		// refill blocks
 		this.refillAllBlocks();
+	}
+
+	@Override
+	protected List<String> registerTutorial() {
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Game Start: +" + this.getTimeLimit());
+		tutorial.add("every 5 second: -1");
+		tutorial.add("Remove ALL Blocks: Game End");
+		return tutorial;
 	}
 
 }

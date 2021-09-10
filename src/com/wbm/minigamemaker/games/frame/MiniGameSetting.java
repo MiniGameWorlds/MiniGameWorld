@@ -1,5 +1,6 @@
 package com.wbm.minigamemaker.games.frame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,11 +63,15 @@ public class MiniGameSetting {
 
 	// 파일 관리 o
 	// 기본값: false
-	// 설명: 미니게임 튜토리얼 문자열
-	private String[] tutorial;
+	// 설명: 미니게임 튜토리얼
+	private List<String> tutorial;
 
-	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime,
-			String[] tutorial) {
+	// 파일 관리 o
+	// 기본값: 초기값
+	// 설명: 커스텀 데이터 설정 섹션
+	private Map<String, Object> customData;
+
+	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.title = title;
 		this.location = location;
 		this.maxPlayerCount = maxPlayerCount;
@@ -77,7 +82,8 @@ public class MiniGameSetting {
 		this.settingFixed = false;
 		this.scoreNotifying = false;
 		this.forcePlayerCount = false;
-		this.tutorial = tutorial;
+		this.tutorial = new ArrayList<String>();
+		this.customData = new HashMap<String, Object>();
 	}
 
 	public void setSettingFixed(boolean settingFixed) {
@@ -116,8 +122,12 @@ public class MiniGameSetting {
 		this.forcePlayerCount = forcePlayerCount;
 	}
 
-	public void setTutorial(String[] tutorial) {
+	public void setTutorial(List<String> tutorial) {
 		this.tutorial = tutorial;
+	}
+
+	public void setCustomData(Map<String, Object> customData) {
+		this.customData = customData;
 	}
 
 	// getter
@@ -157,8 +167,12 @@ public class MiniGameSetting {
 		return forcePlayerCount;
 	}
 
-	public String[] getTutorial() {
+	public List<String> getTutorial() {
 		return this.tutorial;
+	}
+
+	public Map<String, Object> getCustomData() {
+		return this.customData;
 	}
 
 	public Map<String, Object> getFileSetting() {
@@ -172,6 +186,7 @@ public class MiniGameSetting {
 		setting.put("timeLimit", this.getTimeLimit());
 		setting.put("active", this.isActive());
 		setting.put("tutorial", this.getTutorial());
+		setting.put("customData", this.customData);
 
 		return setting;
 	}
@@ -210,8 +225,13 @@ public class MiniGameSetting {
 
 		// tutorial
 		@SuppressWarnings("unchecked")
-		String[] tutorial = ((List<String>) setting.get("tutorial")).toArray(new String[0]);
+		List<String> tutorial = (List<String>) setting.get("tutorial");
 		this.setTutorial(tutorial);
+
+		// customData
+		@SuppressWarnings("unchecked")
+		Map<String, Object> customData = (Map<String, Object>) setting.get("customData");
+		this.setCustomData(customData);
 	}
 
 }

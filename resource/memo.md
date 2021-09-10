@@ -50,10 +50,10 @@
 > - yml file reload 기능 추가(YamlMember에서 reload구현하고, 명령어로 등록)
 > - 1.17 update 준비(JDK 16으로 변경, wbmMC도 변경, paper api 도 변경)
 
+- settingFixed의 관리대상에 customData도 추가하기
 - Inventory관리 기능 추가하기(종이에 설계함 MiniGamePlayerInvManager)
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
-- classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음) 
-- CustomData를 MiniGameSetting 내부 변수로 옮기기
+- classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - MiniGame클래스에서 오버라이딩 되서 수정되면 안되는 메소드들 final로 선언하기
 - 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - wbmMC에 데이터 백업 기능 추가하기

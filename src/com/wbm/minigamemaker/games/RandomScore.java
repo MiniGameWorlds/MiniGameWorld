@@ -17,7 +17,7 @@ public class RandomScore extends SoloBattleMiniGame {
 	private List<Integer> randomScores;
 
 	public RandomScore() {
-		super("RandomScore", 2, 10, 10, new String[] { "Sneak: get random score" });
+		super("RandomScore", 2, 10, 10);
 		this.randomScores = new ArrayList<Integer>();
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setScoreNotifying(true);
@@ -43,6 +43,13 @@ public class RandomScore extends SoloBattleMiniGame {
 				this.plusScore(p, randomScore);
 			}
 		}
+	}
+
+	@Override
+	protected List<String> registerTutorial() {
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Sneak: get random score");
+		return tutorial;
 	}
 
 }

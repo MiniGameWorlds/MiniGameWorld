@@ -1,6 +1,8 @@
 package com.wbm.minigamemaker.games;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
@@ -20,12 +22,9 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	 */
 	int randomTime;
 	Map<Player, Integer> chance;
-	static String[] tutorial = {
-			"Every 1 sec: score get to plus until random time and then score get to minus until game end",
-			"Jump: check current score(max: 3)", "Sneak: stop Game and check score" };
 
 	public ScoreClimbing() {
-		super("ScoreClimbing", 4, 60, 10, tutorial);
+		super("ScoreClimbing", 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
 
 	}
@@ -117,6 +116,15 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 				e.setCancelled(true);
 			}
 		}
+	}
+
+	@Override
+	protected List<String> registerTutorial() {
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Every 1 sec: score get to plus until random time and then score get to minus until game end");
+		tutorial.add("Jump: check current score(max: 3)");
+		tutorial.add("Sneak: stop Game and check score");
+		return tutorial;
 	}
 
 }

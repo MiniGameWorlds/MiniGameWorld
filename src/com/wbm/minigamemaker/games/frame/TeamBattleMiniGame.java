@@ -42,9 +42,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	// 팀 등록 강제
 	protected abstract void registerAllPlayersToTeam();
 
-	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, String[] tutorial,
-			int teamCount, int teamSize) {
-		super(title, maxPlayerCount, timeLimit, waitingTime, tutorial);
+	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, int teamCount,
+			int teamSize) {
+		super(title, maxPlayerCount, timeLimit, waitingTime);
 
 		// set teamCount, teamSize
 		this.fixTeamCount(teamCount);
