@@ -84,7 +84,7 @@
 - 미니게임 메이커 세팅 파일
 ```yml
 setting:
-  spawnLocation:
+  lobby:
     ==: org.bukkit.Location
     world: world
     x: 0.0
@@ -96,7 +96,7 @@ setting:
   minigameCommand: true
 
 ```
-- `spawnLocation`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
+- `lobby`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
 - `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
 - `minigameCommand`: 명령어로 미니게임 참가/퇴장 (true / false)
 
