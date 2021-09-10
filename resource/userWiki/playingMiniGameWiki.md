@@ -126,7 +126,7 @@ minigames:
     title: PVP
     active: true
     tutorial: 
-    - 'Sneak: get random score'
+    - 'kill player: +1'
 ```
 - `title`: 게임 제목
 - `location`: 입장 스폰 위치
