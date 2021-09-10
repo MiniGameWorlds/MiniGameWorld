@@ -68,6 +68,9 @@ public class MiniGameDataManager implements YamlMember {
 
 			// timeLimit
 			data.put("timeLimit", minigame.getTimeLimit());
+			
+			// customData
+			data.put("customData", minigame.getCustomData());
 		}
 	}
 

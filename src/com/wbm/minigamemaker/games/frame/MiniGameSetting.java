@@ -48,7 +48,7 @@ public class MiniGameSetting {
 
 	// 파일 관리 x
 	// 기본값: false
-	// 설명: 미니게임의 특정 세팅값(waitingTime, timeLimit, maxPlayerCount) 고정 여부
+	// 설명: 미니게임의 특정 세팅값(waitingTime, timeLimit, maxPlayerCount, customDatat) 고정 여부
 	private boolean settingFixed;
 
 	// 파일 관리 x
@@ -204,7 +204,7 @@ public class MiniGameSetting {
 		Location location = (Location) setting.get("location");
 		this.setLocation(location);
 
-		// when settingFixed is false: apply maxPlayerCount, timeLimit, waitingTime
+		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// maxPlayerCount
 			int maxPlayerCount = (int) setting.get("maxPlayerCount");
@@ -217,6 +217,11 @@ public class MiniGameSetting {
 			// timeLimit
 			int timeLimit = (int) setting.get("timeLimit");
 			this.setTimeLimit(timeLimit);
+
+			// customData
+			@SuppressWarnings("unchecked")
+			Map<String, Object> customData = (Map<String, Object>) setting.get("customData");
+			this.setCustomData(customData);
 		}
 
 		// active
@@ -227,11 +232,6 @@ public class MiniGameSetting {
 		@SuppressWarnings("unchecked")
 		List<String> tutorial = (List<String>) setting.get("tutorial");
 		this.setTutorial(tutorial);
-
-		// customData
-		@SuppressWarnings("unchecked")
-		Map<String, Object> customData = (Map<String, Object>) setting.get("customData");
-		this.setCustomData(customData);
 	}
 
 }
