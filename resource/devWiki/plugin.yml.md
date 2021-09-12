@@ -7,14 +7,22 @@
 # 사용법
 ```yaml
 name: MiniGameMaker
-main: com.wbm.minigamemaker.Main
+main: com.wbm.minigamemaker.MiniGameMakerMain
 version: 1.0
-description: worldbiomusic (discord -> worldbiomusic#7075)
-api-version: 1.16
+author: worldbiomusic
+description: worldbiomusic@gmail.com
+api-version: 1.17
 depend: [wbmMC]
 
 commands:
   minigame:
+    aliases: mg
+    usage: |
+      Usage
+      /minigame join <title>
+      /minigame leave
+      /minigame list
+      /minigame reload
 ```
 
 
