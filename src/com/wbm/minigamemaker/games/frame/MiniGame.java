@@ -560,12 +560,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 
 		// info
-		Utils.log("[" + p.getName() + "] handle exception: " + exception.name());
+		Utils.info("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// PlayerQuitServer일 때 이유 출력
 		if (exception == Exception.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
-			Utils.log("Quit: " + event.getReason().name());
+			Utils.info("Quit: " + event.getReason().name());
 		}
 
 		// 플레이중인 미니게임에게 예외 발생 매소드로 처리 알림 (예. task 중지, inv 초기화 등)
@@ -603,9 +603,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void setupPlayerWhenLeave(Player p) {
-		// player tp
-		Location serverSpawn = MiniGameMaker.create().getServerSpawn();
-		p.teleport(serverSpawn);
+		// tp to lobby
+		p.teleport(MiniGameSetting.getLobby());
 
 		// 1. clear player inventory
 		// 2. restore player inventory

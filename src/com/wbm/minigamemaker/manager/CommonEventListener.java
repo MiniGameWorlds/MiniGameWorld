@@ -42,9 +42,9 @@ public class CommonEventListener implements Listener {
 	}
 
 	private void registerAllEventListener() {
-		Utils.log("[ Register EventHandler ]");
-		Utils.log("wait for all EventHandler registration...");
-		Utils.log("Event class name: " + Event.class.getName());
+		Utils.info("[ Register EventHandler ]");
+		Utils.info("wait for all EventHandler registration...");
+		Utils.info("Event class name: " + Event.class.getName());
 
 		long startTime = System.currentTimeMillis();
 
@@ -110,8 +110,8 @@ public class CommonEventListener implements Listener {
 		// .toArray(String[]::new);
 		//
 		// Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-		Utils.log("Events found: " + events.size());
-		Utils.log("HandlerList size: " + HandlerList.getHandlerLists().size());
+		Utils.info("Events found: " + events.size());
+		Utils.info("HandlerList size: " + HandlerList.getHandlerLists().size());
 		// Bukkit.getLogger().info("registered EventHandler: " + eventCount);
 
 		long takenTime = System.currentTimeMillis() - startTime;

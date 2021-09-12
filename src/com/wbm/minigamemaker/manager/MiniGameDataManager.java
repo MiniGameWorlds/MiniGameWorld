@@ -58,7 +58,7 @@ public class MiniGameDataManager implements YamlMember {
 		// apply settings
 		minigame.getSetting().setFileSetting(data);
 
-		// when settingFixed is true: restore "maxPlayerCount", "waitingTime", "timeLimit" values to file
+		// when settingFixed is true: restore fixed values to file
 		if (minigame.isSettingFixed()) {
 			// maxPlayerCount
 			data.put("maxPlayerCount", minigame.getMaxPlayerCount());
@@ -68,7 +68,7 @@ public class MiniGameDataManager implements YamlMember {
 
 			// timeLimit
 			data.put("timeLimit", minigame.getTimeLimit());
-			
+
 			// customData
 			data.put("customData", minigame.getCustomData());
 		}
@@ -89,10 +89,10 @@ public class MiniGameDataManager implements YamlMember {
 			removedGames.add(gameClassName);
 		}
 
-		Utils.log("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
+		Utils.info("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
-			Utils.log(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
+			Utils.info(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
 		}
 	}
 

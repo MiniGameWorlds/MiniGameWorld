@@ -44,7 +44,7 @@ public class MiniGameMakerMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Utils.log(ChatColor.GREEN + "================= MiniGameMaker =================");
+		Utils.info(ChatColor.GREEN + "================= MiniGameMaker =================");
 
 		// setup settings
 		this.setupSettings();
@@ -113,6 +113,6 @@ public class MiniGameMakerMain extends JavaPlugin {
 
 		// save all data
 		this.yamlM.saveAllData();
-		Utils.log(ChatColor.RED + "================= MiniGameMaker =================");
+		Utils.info(ChatColor.RED + "================= MiniGameMaker =================");
 	}
 }

@@ -88,16 +88,20 @@ public class MiniGameCommand implements CommandExecutor {
 		List<MiniGame> games = this.minigameM.getMiniGameList();
 
 		// info
-		Utils.sendMsg(p, "\n" + ChatColor.BOLD + "[MiniGame List]");
-		Utils.sendMsg(p, "\n" + "※ " + ChatColor.RED + "RED" + ChatColor.WHITE + ": already started");
-		Utils.sendMsg(p, "\n" + "※ " + ChatColor.GREEN + "GREEN" + ChatColor.WHITE + ": can join");
+		String info = "\n" + ChatColor.BOLD + "[MiniGame List]";
+		info += "\n" + "※ " + ChatColor.RED + "RED" + ChatColor.WHITE + ": already started";
+		info += "\n" + "※ " + ChatColor.GREEN + "GREEN" + ChatColor.WHITE + ": can join";
+		info += "\n" + "※ " + ChatColor.STRIKETHROUGH + "STRIKETHROUGH" + ChatColor.WHITE + ": inactive";
+		Utils.sendMsg(p, info);
 
 		// print mingames
 		for (MiniGame game : games) {
 			String gameTitle = game.getTitle();
-			if (game.isStarted()) {
+			if (!game.isActive()) {
+				Utils.sendMsg(p, "- " + ChatColor.STRIKETHROUGH + gameTitle);
+			} else if (game.isStarted()) {
 				Utils.sendMsg(p, "- " + ChatColor.RED + gameTitle);
-			} else {
+			} else if (!game.isStarted()) {
 				Utils.sendMsg(p, "- " + ChatColor.GREEN + gameTitle);
 			}
 		}

@@ -31,6 +31,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
+import com.wbm.minigamemaker.games.frame.MiniGameSetting;
 import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
@@ -47,9 +48,6 @@ public class MiniGameManager implements YamlMember {
 	private Set<Class<? extends Event>> possibleEventList;
 
 	private Map<String, Object> setting;
-
-	// 게임 끝나고 돌아갈 로비
-	private Location lobby;
 
 	// 미니게임 파일 데이터
 	private MiniGameDataManager minigameDataM;
@@ -96,12 +94,11 @@ public class MiniGameManager implements YamlMember {
 		/*
 		 * set basic setting.yml
 		 */
-		// serverSpawn 설정
+		// lobby 설정
 		if (!this.setting.containsKey("lobby")) {
 			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
-
-		this.lobby = (Location) this.setting.get("lobby");
+		MiniGameSetting.setLobby((Location) this.setting.get("lobby"));
 
 		// minigameSign
 		if (!this.setting.containsKey("minigameSign")) {
@@ -112,6 +109,12 @@ public class MiniGameManager implements YamlMember {
 		if (!this.setting.containsKey("minigameCommand")) {
 			this.setting.put("minigameCommand", true);
 		}
+
+		// messagePrefix
+		if (!this.setting.containsKey("messagePrefix")) {
+			this.setting.put("messagePrefix", "MiniGameMaker");
+		}
+		Utils.messagePrefix = (String) this.setting.get("messagePrefix");
 	}
 
 	public boolean joinGame(Player p, String title) {
@@ -353,7 +356,7 @@ public class MiniGameManager implements YamlMember {
 		// 게임 등록
 		this.minigames.add(newGame);
 
-		Utils.log("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
+		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
 				+ " minigame is registered");
 		return true;
 	}
@@ -361,7 +364,7 @@ public class MiniGameManager implements YamlMember {
 	public boolean unregisterMiniGame(MiniGame minigame) {
 		// 등록된 미니게임 삭제
 		if (this.minigames.remove(minigame)) {
-			Utils.log(minigame.getTitleWithClassName() + " minigame is removed");
+			Utils.info(minigame.getTitleWithClassName() + " minigame is removed");
 			return true;
 		} else {
 			return false;
@@ -372,8 +375,8 @@ public class MiniGameManager implements YamlMember {
 		return this.setting;
 	}
 
-	public Location getServerSpawn() {
-		return this.lobby;
+	public Location getLobby() {
+		return MiniGameSetting.getLobby();
 	}
 
 	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {

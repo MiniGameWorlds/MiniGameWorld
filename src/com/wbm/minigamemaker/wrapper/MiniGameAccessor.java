@@ -1,6 +1,9 @@
 package com.wbm.minigamemaker.wrapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Location;
@@ -73,6 +76,7 @@ public class MiniGameAccessor {
 	}
 
 	public Location getLocation() {
+		// copied instance
 		return this.minigame.getLocation().clone();
 	}
 
@@ -94,6 +98,24 @@ public class MiniGameAccessor {
 
 	public boolean isSettingFixed() {
 		return this.minigame.isSettingFixed();
+	}
+
+	public boolean isScoreNotifying() {
+		return this.minigame.getSetting().isScoreNotifying();
+	}
+
+	public boolean isForcePlayerCount() {
+		return this.minigame.getSetting().isForcePlayerCount();
+	}
+
+	public List<String> getTutorial() {
+		// copied instance
+		return new ArrayList<>(this.minigame.getTutorial());
+	}
+
+	public Map<String, Object> getCustomData() {
+		// copied instance
+		return new HashMap<>(this.minigame.getCustomData());
 	}
 
 	public String getClassName() {

@@ -45,7 +45,7 @@ public class MiniGameMaker {
 	 * - getMiniGameList
 	 * - registerMiniGame
 	 * - unregisterMiniGame
-	 * - getServerSpawn
+	 * - getLobby
 	 */
 
 	public boolean joinGame(Player p, String title) {
@@ -97,8 +97,8 @@ public class MiniGameMaker {
 		return this.minigameM.unregisterMiniGame(minigame);
 	}
 
-	public Location getServerSpawn() {
-		return this.minigameM.getServerSpawn().clone();
+	public Location getLobby() {
+		return this.minigameM.getLobby().clone();
 	}
 
 	public void registerMiniGameObserver(MiniGameObserver observer) {

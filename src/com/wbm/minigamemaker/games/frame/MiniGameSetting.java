@@ -11,11 +11,11 @@ public class MiniGameSetting {
 
 	/*
 	 * 미니게임 설정값 관리 클래스
-	 * 
-	 * 파일 관리: minigames.json파일에 속성값이 있는지 여부
-	 * 
-	 * 기본값: 미니게임의 기본 세팅값
 	 */
+
+	// minigame lobby
+	private static Location lobby;
+
 	// 파일 관리 o
 	// 기본값: 초기값
 	// 설명: 미니게임 이름(참가 이름)
@@ -86,6 +86,10 @@ public class MiniGameSetting {
 		this.customData = new HashMap<String, Object>();
 	}
 
+	public static void setLobby(Location location) {
+		lobby = location;
+	}
+
 	public void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
 	}
@@ -131,6 +135,10 @@ public class MiniGameSetting {
 	}
 
 	// getter
+	public static Location getLobby() {
+		return lobby;
+	}
+
 	public String getTitle() {
 		return title;
 	}
