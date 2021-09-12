@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.wbm.minigamemaker.games.frame.TeamBattleMiniGame;
+import com.wbm.minigamemaker.minigameframes.TeamBattleMiniGame;
 import com.wbm.plugin.util.PlayerTool;
 
 public class MoreHit extends TeamBattleMiniGame {

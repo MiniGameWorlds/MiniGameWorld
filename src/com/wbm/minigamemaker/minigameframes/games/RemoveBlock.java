@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.wbm.minigamemaker.games.frame.TeamMiniGame;
+import com.wbm.minigamemaker.minigameframes.TeamMiniGame;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 

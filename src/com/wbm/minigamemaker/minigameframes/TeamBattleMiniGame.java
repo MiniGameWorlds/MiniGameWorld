@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games.frame;
+package com.wbm.minigamemaker.minigameframes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,6 +229,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.checkAtLeastTeamRemains(3);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void processEvent(Event event) {
 		/*

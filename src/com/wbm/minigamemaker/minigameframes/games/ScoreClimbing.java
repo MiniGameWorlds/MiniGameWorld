@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
-import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
+import com.wbm.minigamemaker.minigameframes.SoloBattleMiniGame;
 
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*

@@ -30,8 +30,8 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.minigamemaker.games.frame.MiniGameSetting;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
+import com.wbm.minigamemaker.minigameframes.MiniGameSetting;
 import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;

@@ -8,9 +8,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
 import com.wbm.minigamemaker.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {

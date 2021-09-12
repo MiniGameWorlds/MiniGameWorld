@@ -7,8 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.minigamemaker.manager.MiniGameManager;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
 import com.wbm.minigamemaker.observer.MiniGameObserver;
 
 public class MiniGameMaker {

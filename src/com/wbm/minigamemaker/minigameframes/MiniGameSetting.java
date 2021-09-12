@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games.frame;
+package com.wbm.minigamemaker.minigameframes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

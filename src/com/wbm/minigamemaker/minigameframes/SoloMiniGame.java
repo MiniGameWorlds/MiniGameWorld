@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games.frame;
+package com.wbm.minigamemaker.minigameframes;
 
 import org.bukkit.entity.Player;
 

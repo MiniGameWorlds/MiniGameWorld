@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 public class HiddenArcher {
 	/*

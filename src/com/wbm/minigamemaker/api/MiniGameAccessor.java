@@ -9,8 +9,7 @@ import java.util.Map.Entry;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.minigamemaker.games.frame.MiniGame.Exception;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
 
 public class MiniGameAccessor {
 

@@ -2,7 +2,7 @@ name: MiniGameMaker
 main: com.wbm.minigamemaker.MiniGameMakerMain
 version: 1.0
 author: worldbiomusic
-description: email(worldbiomusic@gmail.com)
+description: worldbiomusic@gmail.com
 api-version: 1.17
 depend: [wbmMC]
 

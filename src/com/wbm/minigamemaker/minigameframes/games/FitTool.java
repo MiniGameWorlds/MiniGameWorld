@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.wbm.minigamemaker.games.frame.SoloMiniGame;
+import com.wbm.minigamemaker.minigameframes.SoloMiniGame;
 
 public class FitTool extends SoloMiniGame {
 	/*

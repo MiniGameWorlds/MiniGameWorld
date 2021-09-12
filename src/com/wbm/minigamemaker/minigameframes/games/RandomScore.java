@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
+import com.wbm.minigamemaker.minigameframes.SoloBattleMiniGame;
 
 public class RandomScore extends SoloBattleMiniGame {
 	/*

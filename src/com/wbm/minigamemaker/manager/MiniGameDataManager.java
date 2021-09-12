@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.wbm.minigamemaker.games.frame.MiniGame;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
 import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;

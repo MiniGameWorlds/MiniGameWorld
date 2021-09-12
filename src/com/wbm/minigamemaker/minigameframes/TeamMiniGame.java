@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games.frame;
+package com.wbm.minigamemaker.minigameframes;
 
 import com.wbm.minigamemaker.util.Utils;
 

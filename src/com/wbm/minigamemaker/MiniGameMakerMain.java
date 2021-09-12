@@ -7,18 +7,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wbm.minigamemaker.api.MiniGameMaker;
 import com.wbm.minigamemaker.commands.MiniGameCommand;
-import com.wbm.minigamemaker.games.FitTool;
-import com.wbm.minigamemaker.games.MoreHit;
-import com.wbm.minigamemaker.games.PVP;
-import com.wbm.minigamemaker.games.RandomScore;
-import com.wbm.minigamemaker.games.RemoveBlock;
-import com.wbm.minigamemaker.games.RockScissorPaper;
-import com.wbm.minigamemaker.games.ScoreClimbing;
-import com.wbm.minigamemaker.games.frame.MiniGame;
 import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
-import com.wbm.minigamemaker.observer.MiniGameEventNotifier.MiniGameEvent;
+import com.wbm.minigamemaker.minigameframes.MiniGame;
+import com.wbm.minigamemaker.minigameframes.games.FitTool;
+import com.wbm.minigamemaker.minigameframes.games.MoreHit;
+import com.wbm.minigamemaker.minigameframes.games.PVP;
+import com.wbm.minigamemaker.minigameframes.games.RandomScore;
+import com.wbm.minigamemaker.minigameframes.games.RemoveBlock;
+import com.wbm.minigamemaker.minigameframes.games.RockScissorPaper;
+import com.wbm.minigamemaker.minigameframes.games.ScoreClimbing;
 import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 

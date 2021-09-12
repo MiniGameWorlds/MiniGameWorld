@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.games;
+package com.wbm.minigamemaker.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.wbm.minigamemaker.games.frame.SoloBattleMiniGame;
+import com.wbm.minigamemaker.minigameframes.SoloBattleMiniGame;
 import com.wbm.plugin.util.InventoryTool;
 
 public class PVP extends SoloBattleMiniGame {
