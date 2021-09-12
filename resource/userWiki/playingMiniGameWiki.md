@@ -69,6 +69,7 @@
 # 명령어
 - `/minigame join <title>`: `<title>` 미니게임에 참가
 - `/minigame leave`: 현재 참여중인 미니게임 퇴장
+- `/minigame list`: 서버의 미니게임 리스트 출력
 - `/minigame reload`: 설정 파일 리로드 (setting.yml, minigames.yml)
 
 # 사용법 유튜브
