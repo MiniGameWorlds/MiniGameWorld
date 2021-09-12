@@ -53,9 +53,9 @@
 - [Setting](Setting.md): 플러그인 세팅 관련 클래스
 
 
-## com.wbm.minigamemaker.wrapper
-- [MiniGameAccessor](MiniGameAccessor.md): `MiniGame` wrapper class (API)
-- [MiniGameMaker](MiniGameMaker.md): `MiniGameManager` wrapper class (API)
+## com.wbm.minigamemaker.api
+- [MiniGameAccessor](MiniGameAccessor.md): `MiniGame` api class
+- [MiniGameMaker](MiniGameMaker.md): `MiniGameManager` api class
 
 # plugin.yml
 - [plugin.yml](plugin.yml.md)
