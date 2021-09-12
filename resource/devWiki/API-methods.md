@@ -1,4 +1,4 @@
-# Wrapper class API 고민
+# Wrapper class API 고민 
 ※ API로 접근한 데이터 수정으로 실제 데이터가 수정되면 안됨(clone데이터 반환해야 함)
 
 ## MiniGameMaker
