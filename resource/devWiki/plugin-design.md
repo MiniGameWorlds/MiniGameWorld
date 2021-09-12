@@ -49,8 +49,8 @@
 - [Utils](Utils.md): 유틸 클래스
 
 ## com.wbm.minigamemaker.api
-- [MiniGameAccessor](MiniGameAccessor.md): `MiniGame` api class
-- [MiniGameMaker](MiniGameMaker.md): `MiniGameManager` api class
+- [MiniGameAccessor](MiniGameAccessor.md): API class
+- [MiniGameMaker](MiniGameMaker.md): plugin API class
 
 # plugin.yml
 - [plugin.yml](plugin.yml.md)
