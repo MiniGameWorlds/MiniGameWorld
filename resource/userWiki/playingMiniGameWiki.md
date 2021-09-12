@@ -64,11 +64,12 @@
 - 협동
 - 개인 배틀
 - 팀 배틀
-- 등등...
+- 커스텀
 
 # 명령어
 - `/minigame join <title>`: `<title>` 미니게임에 참가
 - `/minigame leave`: 현재 참여중인 미니게임 퇴장
+- `/minigame list`: 서버의 미니게임 리스트 출력
 - `/minigame reload`: 설정 파일 리로드 (setting.yml, minigames.yml)
 
 # 사용법 유튜브
@@ -76,12 +77,12 @@
 
 # 주의사항
 - 플러그인을 새로 추가했다면, 서버를 reload하지 말고 stop후에 다시 시작해애 함 (Task가 겹치기 떄문)
-- 미니게임 `시작`/`종료` 에 플레이어의 아이템은 모두 사라짐
+- 미니게임 `시작`때 아이템은 저장되고, `종료`때 복구됨
 - 미니게임 `시작`/`종료` 에 플레이어의 `체력 회복`, `배고픔 회복`, `숨김 제거`, `발광 제거`, `표션 효과 제거`가 적용됨
 
 # 설정 파일
 ## `setting.yml`
-- 미니게임 메이커 세팅 파일
+- 플러그인 세팅 파일
 ```yml
 setting:
   lobby:
@@ -96,19 +97,17 @@ setting:
   minigameCommand: true
 
 ```
-- `lobby`: 게임이 끝나고 서버의 스폰으로 돌아가는 위치
+- `lobby`: 게임이 끝나고 돌아가는 로비 위치
 - `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
-- `minigameCommand`: 명령어로 미니게임 참가/퇴장 (true / false)
+- `minigameCommand`: 명령어로 미니게임 참가/퇴장 여부 (true / false)
 
 
 ## `minigames.yml`
-- 미니게임 설정 파일(예시)
+- 미니게임들 설정 파일(예시)
 ```yml
 minigames:
   PVP:
-    timeLimit: 300
-    maxPlayerCount: 5
-    waitingTime: 10
+    title: PVP
     location:
       ==: org.bukkit.Location
       world: world
@@ -117,16 +116,19 @@ minigames:
       z: 0.0
       pitch: 0.0
       yaw: 0.0
+    waitingTime: 10
+    maxPlayerCount: 5
+    timeLimit: 300
+    active: true
     customData:
       health: 30
       items:
       - ==: org.bukkit.inventory.ItemStack
         v: 2584
         type: STONE_SWORD
-    title: PVP
-    active: true
     tutorial: 
     - 'kill player: +1'
+    - 'death: be a spectator'
 ```
 - `title`: 게임 제목
 - `location`: 입장 스폰 위치
@@ -138,7 +140,7 @@ minigames:
 - `tutorial`: 튜토리얼 설명글
 - 플러그인으로 넣은 미니게임이 자동으로 `minigames.yml`에 등록됨 
 - 없는 미니게임은 서버가 종료된 후 `minigames.yml`에서 삭제됨
-- 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미닉임의 기본값 함부로 변경시 작동 안할 수 있음)
+- 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미니게임의 기본값 변경 원할 시: 해당 미니게임 개발자에게 질문)
 
 
 
