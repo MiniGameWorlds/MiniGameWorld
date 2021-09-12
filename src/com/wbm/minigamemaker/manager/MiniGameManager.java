@@ -31,7 +31,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.minigamemaker.util.Setting;
+import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -336,8 +336,8 @@ public class MiniGameManager implements YamlMember {
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
-				Setting.warning(newGame.getTitleWithClassName() + " minigame is already registered");
-				Setting.warning(
+				Utils.warning(newGame.getTitleWithClassName() + " minigame is already registered");
+				Utils.warning(
 						"Cause: the same minigame " + game.getTitleWithClassName() + " minigame is already registered");
 				return false;
 			}
@@ -353,7 +353,7 @@ public class MiniGameManager implements YamlMember {
 		// 게임 등록
 		this.minigames.add(newGame);
 
-		Setting.log("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
+		Utils.log("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
 				+ " minigame is registered");
 		return true;
 	}
@@ -361,7 +361,7 @@ public class MiniGameManager implements YamlMember {
 	public boolean unregisterMiniGame(MiniGame minigame) {
 		// 등록된 미니게임 삭제
 		if (this.minigames.remove(minigame)) {
-			Setting.log(minigame.getTitleWithClassName() + " minigame is removed");
+			Utils.log(minigame.getTitleWithClassName() + " minigame is removed");
 			return true;
 		} else {
 			return false;

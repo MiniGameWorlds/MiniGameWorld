@@ -8,7 +8,7 @@ import java.util.Map;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.wbm.minigamemaker.games.frame.MiniGame;
-import com.wbm.minigamemaker.util.Setting;
+import com.wbm.minigamemaker.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -89,10 +89,10 @@ public class MiniGameDataManager implements YamlMember {
 			removedGames.add(gameClassName);
 		}
 
-		Setting.log("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
+		Utils.log("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
-			Setting.log(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
+			Utils.log(ChatColor.RED + removedGameTitle + " minigame removed from minigames.yml");
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.wbm.minigamemaker.games.frame;
 
-import com.wbm.minigamemaker.util.Setting;
+import com.wbm.minigamemaker.util.Utils;
 
 public abstract class TeamMiniGame extends MiniGame {
 	/*
@@ -32,11 +32,11 @@ public abstract class TeamMiniGame extends MiniGame {
 		super.checkAttributes();
 		// waitingTime
 		if (this.getWaitingTime() <= 0) {
-			Setting.warning(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
+			Utils.warning(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			Setting.warning(this.getTitleWithClassName()
+			Utils.warning(this.getTitleWithClassName()
 					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
 		}
 

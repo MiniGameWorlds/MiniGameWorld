@@ -18,7 +18,7 @@ import com.wbm.minigamemaker.manager.CommonEventListener;
 import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier.MiniGameEvent;
-import com.wbm.minigamemaker.util.Setting;
+import com.wbm.minigamemaker.util.Utils;
 import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -44,7 +44,7 @@ public class MiniGameMakerMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Setting.log(ChatColor.GREEN + "================= MiniGameMaker =================");
+		Utils.log(ChatColor.GREEN + "================= MiniGameMaker =================");
 
 		// setup settings
 		this.setupSettings();
@@ -113,6 +113,6 @@ public class MiniGameMakerMain extends JavaPlugin {
 
 		// save all data
 		this.yamlM.saveAllData();
-		Setting.log(ChatColor.RED + "================= MiniGameMaker =================");
+		Utils.log(ChatColor.RED + "================= MiniGameMaker =================");
 	}
 }

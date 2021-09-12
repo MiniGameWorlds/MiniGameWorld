@@ -1,19 +1,19 @@
 # 설명
-- 2020-08에 만들기 시작한 `Relay Escape` 서버에서 만들었던 미니게임 모듈을 따로 분리해서 개발 시작 (이전 기록은 Relay Escape 로그 참고)
+- 2020-08에 만들기 시작한 `Relay Escape` 서버에서 만들었던 미니게임 모듈을 따로 분리해서 개발 시작 (이전 기록: Relay Escape 로그 참고)
 
 ---
 
 # 할 것
-- minigames.json 설정값 수정 명령어
-- setting.json 설정값 수정 명령어
+- minigames.yml 설정값 수정 명령어
+- setting.yml 설정값 수정 명령어
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 적용하기(시스템 통일성을 위해)(미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - 주석 영어로 바꾸기
 - 위키 한글/영어 두버전으로 폴더 만들기
-- 오류 캐쳐 기능 만들기(setting.json, minigames.json 오류 검사 기능)
-- setting.json에 한글, 영어 기능 language변수 
-- setting.json에 message prefix 설정값 messagePrefix변수
+- 오류 캐쳐 기능 만들기(setting.yml, minigames.yml 오류 검사 기능)
+- setting.yml에 한글, 영어 기능 language변수 
+- setting.yml에 message prefix 설정값 messagePrefix변수
 
 ---
 
@@ -132,14 +132,16 @@
 # 2021-09-10
 - CustomData를 MiniGameSetting 내부 변수로 옮기기
 - settingFixed의 관리대상에 customData도 추가하기
-- change class name `Main` > `MiniGameMakerMain`
+- 메인 클래스 이름 변경 `Main` > `MiniGameMakerMain`
 - Inventory관리 기능 추가하기(PlayerInvManager)
 - 미니게임 스폰위치 변수 이름 변경 `spawnLocation` > `lobby`
 - MiniGame클래스에서 오버라이딩 되서 수정되면 안되는 메소드들 final로 선언하기
 
+# 2021-09-11
 
 
-
+# 2021-09-12
+- minigame list 명령어 추가
 
 
 

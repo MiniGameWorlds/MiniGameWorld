@@ -9,3 +9,9 @@ depend: [wbmMC]
 commands:
   minigame:
     aliases: mg
+    usage: |
+      Usage
+      /minigame join <title>
+      /minigame leave
+      /minigame list
+      /minigame reload

@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.wbm.minigamemaker.manager.PlayerInvManager;
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier;
 import com.wbm.minigamemaker.observer.MiniGameObserver;
-import com.wbm.minigamemaker.util.Setting;
+import com.wbm.minigamemaker.util.Utils;
 import com.wbm.minigamemaker.wrapper.MiniGameAccessor;
 import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.BukkitTaskManager;
@@ -479,6 +479,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getPlayers().size();
 	}
 
+	public boolean isStarted() {
+		return this.started;
+	}
+
 	/*
 	 * MiniGame의 players는 미니게임이 시작한 후부터 끝나기 전까지 모든 플레이어를 변하지 않고 끝까지 가지고 있는 변수여야 하기
 	 * 때문에 addPlayer()와 removePlayer()를 private으로 선언한다
@@ -556,12 +560,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 
 		// info
-		Setting.log("[" + p.getName() + "] handle exception: " + exception.name());
+		Utils.log("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// PlayerQuitServer일 때 이유 출력
 		if (exception == Exception.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
-			Setting.log("Quit: " + event.getReason().name());
+			Utils.log("Quit: " + event.getReason().name());
 		}
 
 		// 플레이중인 미니게임에게 예외 발생 매소드로 처리 알림 (예. task 중지, inv 초기화 등)
@@ -657,11 +661,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 		// title
 		if (this.getTitle().length() <= 0) {
-			Setting.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
+			Utils.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
 		}
 		// timeLimit
 		if (this.getTimeLimit() <= 0) {
-			Setting.warning(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
+			Utils.warning(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
 		}
 	}
 
