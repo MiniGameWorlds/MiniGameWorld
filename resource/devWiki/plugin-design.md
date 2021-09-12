@@ -39,7 +39,6 @@
 - [CommonEventListener](CommonEventListener.md): 서버 공통 이벤트 리스너
 - [MiniGameDataManager](MiniGameDataManager.md): 미니게임 데이터 관련 매니저
 - [MiniGameManager](MiniGameManager.md): 미니게임 주요 동작 관련 매니저
-- [PlayerInvManager](PlayerInvManager.md): 플레이어 인벤토리 관리 매니저
 
 ## com.wbm.minigamemaker.observer
 - [MiniGameEventNotifier](MiniGameEventNotifier.md): 미니게임 이벤트 동작 관련 Subject (Observer pattern)
