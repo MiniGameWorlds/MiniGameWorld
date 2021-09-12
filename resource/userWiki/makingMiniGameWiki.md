@@ -4,7 +4,7 @@
 - MiniGame의 내부 구조, 동작은 [개발 위키] 참고
 
 # 동작원리
-![MiniGameMakerDesign](../img/MiniGameMakerDesign.JPG)
+![MiniGameMakerDesign](MiniGameMakerDesign.png)
 - 미니게임메이커 플러그인을 기반으로 만든 미니게임 플러그인들은 서버가 시작되면 미니게임메이커에 게임이 등록되고, 관리됨 
 
 # 환경 세팅 방법

@@ -4,13 +4,12 @@
 ---
 
 # 할 것
+- 주석 영어로 바꾸기
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
-- 주석 영어로 바꾸기
 - 위키 한글/영어 두버전으로 폴더 만들기
 - setting.yml에 한글, 영어 기능 language변수 
-
 
 ---
 

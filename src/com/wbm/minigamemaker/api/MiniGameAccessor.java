@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.wrapper;
+package com.wbm.minigamemaker.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MiniGameAccessor {
 	- `getPlayers`: 
 	- `getPlayerCount`: 
 	- `getScore`: 
-	- `handleException`: 
+//	- `handleException`: 
 	- `getTitle`: 
 	- `getLocation`: 
 	- `getWaitingTime`: 
@@ -63,13 +63,14 @@ public class MiniGameAccessor {
 		return this.minigame.getPlayerCount();
 	}
 
-	protected int getScore(Player p) {
+	protected int getPlayerScore(Player p) {
 		return this.minigame.getScore(p);
 	}
 
-	public void handleException(Player p, Exception exception, Object arg) {
-		this.minigame.handleException(p, exception, arg);
-	}
+	// minigame can hurt
+//	public void handleException(Player p, Exception exception, Object arg) {
+//		this.minigame.handleException(p, exception, arg);
+//	}
 
 	public String getTitle() {
 		return this.minigame.getTitle();

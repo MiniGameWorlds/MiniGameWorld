@@ -14,7 +14,7 @@
 
 
 # 플러그인 주요 클래스 diagram
-![MiniGameMaker_plugin_design](../img/MiniGameMaker_plugin_design.JPG)
+![MiniGameMaker_plugin_design](MiniGameMaker_plugin_design.png)
 
 
 # 클래스

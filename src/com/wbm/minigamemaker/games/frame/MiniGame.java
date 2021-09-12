@@ -15,12 +15,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.wbm.minigamemaker.api.MiniGameAccessor;
+import com.wbm.minigamemaker.api.MiniGameMaker;
 import com.wbm.minigamemaker.manager.PlayerInvManager;
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier;
 import com.wbm.minigamemaker.observer.MiniGameObserver;
 import com.wbm.minigamemaker.util.Utils;
-import com.wbm.minigamemaker.wrapper.MiniGameAccessor;
-import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.BukkitTaskManager;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;

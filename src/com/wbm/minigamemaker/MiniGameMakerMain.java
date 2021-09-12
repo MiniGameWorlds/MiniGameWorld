@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.wbm.minigamemaker.api.MiniGameMaker;
 import com.wbm.minigamemaker.commands.MiniGameCommand;
 import com.wbm.minigamemaker.games.FitTool;
 import com.wbm.minigamemaker.games.MoreHit;
@@ -19,7 +20,6 @@ import com.wbm.minigamemaker.manager.MiniGameDataManager;
 import com.wbm.minigamemaker.manager.MiniGameManager;
 import com.wbm.minigamemaker.observer.MiniGameEventNotifier.MiniGameEvent;
 import com.wbm.minigamemaker.util.Utils;
-import com.wbm.minigamemaker.wrapper.MiniGameMaker;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
 public class MiniGameMakerMain extends JavaPlugin {

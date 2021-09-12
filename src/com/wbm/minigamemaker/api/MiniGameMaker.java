@@ -1,4 +1,4 @@
-package com.wbm.minigamemaker.wrapper;
+package com.wbm.minigamemaker.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.wbm.minigamemaker.observer.MiniGameObserver;
 
 public class MiniGameMaker {
 	/*
-	 * MiniGameManager wrapper class
+	 * MiniGameManager wrapper(api) class
 	 */
 	private static MiniGameMaker instance = new MiniGameMaker();
 	private MiniGameManager minigameM;
