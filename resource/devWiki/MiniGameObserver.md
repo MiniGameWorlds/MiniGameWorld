@@ -1,23 +1,21 @@
 # 설명
-- MiniGameEventNotifier와 함께 사용하는 옵저버 패턴 시스템
+- [MiniGameEventNotifier](MiniGameEventNotifier.md)와 함께 사용하는 옵저버 패턴 시스템중의 `Observer`역할
 
 
 # 기능
-- 옵저버로 등록하면, 미니게임에서 특정 이벤트가 발생시 옵저버들에게 알려줌
+- 옵저버를 등록해놓으면, 미니게임에서 특정 이벤트가 발생시 옵저버들에게 알려줌
 
 
 # 사용법
 ## 1.MiniGameObserver interface 구현 클래스 제작
 ```java
 public class RewardManager implements MiniGameObserver {
-
+	// 보상 매니저
 	@Override
 	public void update(MiniGameEvent event, MiniGameAccessor minigame) {
-    	// 미니게임이 끝날 때
-		if (event == MiniGameEvent.FINISH) {
-     		// 1등에게 경험지 1000증정
-			System.out.println(minigame.getTitle() + " Give Reward!");
-      		// 랭킹 데이터 가져옴
+    		// "PVP" 미니게임이 끝날 때 1등에게 경험지 1000증정
+		if (minigame.getClassName().equals("PVP") && minigame.getevent == MiniGameEvent.FINISH) {
+			// 랭킹 데이터 가져옴
 			List<Entry<Player, Integer>> rank = minigame.getScoreRanking();
 			Player fir = rank.get(0).getKey();
 			fir.giveExp(1000);
@@ -41,7 +39,7 @@ public enum MiniGameEvent {
 }
 ```
 
-- MiniGameMaker를 통해 등록하면 모든 미니게임에 옵저버로 등록됨
+- MiniGameMaker를 통해 등록하면 모든 미니게임에 대한 이벤트를 감지함
 - MiniGameAccessor를 받아서 class 이름과 같은것으로 미니게임 구분 가능
 
 # 개선할 것
