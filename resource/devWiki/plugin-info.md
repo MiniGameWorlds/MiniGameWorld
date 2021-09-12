@@ -10,14 +10,14 @@
 
 # 개발 환경
 - Window 10
-- Eclipse 2020-03
+- Eclipse 2021-03
 - Git / Github
 - JDK 16
 
 # 사용 라이브러리
 - [Paper]: 최신버전
 - [wbmMC]: worldbiomusic 마인크래프트 라이브러리
-- [classgraph]: 마인크래프트의 모든 이벤트 핸들러 등록할 떄 사용됨
+- [classgraph]: 마인크래프트의 모든 이벤트에 핸들러 등록할 떄 사용됨
 
 ※ wbmMC는 plugins디렉토리에 넣어놓고, eclipse의 build path추가로 사용  
 ※ plugin.yml파일에 `depend: [wbmMC]` 추가해야 함  
@@ -46,7 +46,7 @@
 <dependency>
     <groupId>com.destroystokyo.paper</groupId>
     <artifactId>paper-api</artifactId>
-    <version>1.16.5-R0.1-SNAPSHOT</version>
+    <version> "version" </version>
     <scope>provided</scope>
 </dependency>
 ```
