@@ -30,10 +30,10 @@
 ## com.wbm.minigamemaker.minigameframes
 - [MiniGame](MiniGame.md): 미니게임 틀
 - [MiniGameSetting](MiniGameSetting.md): 미니게임 설정값
-- [SoloMiniGame](SoloMiniGame.md): 솔로
-- [SoloBattleMiniGame](SoloBattleMiniGame.md): 개인전
-- [TeamMiniGame](TeamMiniGame.md): 팀
-- [TeamBattleMiniGame](TeamBattleMiniGame.md): 팀 대항
+- [SoloMiniGame](SoloMiniGame.md): 솔로 미니게임
+- [SoloBattleMiniGame](SoloBattleMiniGame.md): 개인전 미니게임
+- [TeamMiniGame](TeamMiniGame.md): 팀 미니게임
+- [TeamBattleMiniGame](TeamBattleMiniGame.md): 팀 대항 미니게임
 
 ## com.wbm.minigamemaker.manager
 - [CommonEventListener](CommonEventListener.md): 서버 공통 이벤트 리스너
