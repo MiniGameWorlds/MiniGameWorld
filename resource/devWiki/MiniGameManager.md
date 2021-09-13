@@ -7,7 +7,7 @@
 - 미니게임 참가, 퇴장
 - 미니게임 이벤트 넘기기
 - 미니게임 등록, 제거
-- MiniGameMaker 프레임워크의 전체 세팅값(setting.yml)
+- MiniGameWorld 프레임워크의 전체 세팅값(setting.yml)
 
 # 사용법
 - `getPlayersFromEvent()`: 정해진 이벤트로부터 Player를 추출하는 작업
@@ -35,7 +35,7 @@ Map을 사용하면 데이터를 관리하기 쉽기 때문에, 밑의 코드처
 - 마지막에 `this.initSettingData()`을 하는 이유: 기본적인 세팅값이 없어졌을 때 자동 복구 기능
 - 파일 리로드하려면 YamlManager의 `reload()` 사용하면 됨
 ## API 관련
-- 외부 플러그인에서 MiniGameManager클래스를 접근하면 여러 데이터를 수정할 수 있기 때문에, `MiniGameMaker` wrapper 클래스로 API용도로 사용되야 함
+- 외부 플러그인에서 MiniGameManager클래스를 접근하면 여러 데이터를 수정할 수 있기 때문에, `MiniGameWorld` wrapper 클래스로 API용도로 사용되야 함
 
 
 # 개선할 것
