@@ -10,9 +10,10 @@
 
 # 사용법
 ## 특정 미니게임 가져오기
+- `title`로 접근 가능
 ```java
-MiniGameMaker maker = MiniGameMaker.create();
-MiniGameAccessor minigame = maker.getMiniGameWithClassName("FitTool");
+MiniGameWorld minigameWorld = MiniGameWorld.create();
+MiniGameAccessor minigame = minigameWorld.getMiniGameWithClassName("FitTool");
 ```
 ## 랭킹 확인
 ```java
@@ -28,4 +29,4 @@ firstPlayer.sendMessage("You won the game");
 
 
 # 개선할 것
-API문서
+- API문서
