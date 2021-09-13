@@ -2,8 +2,7 @@
 미니게임 관련 명령어
 
 # 기능
-- `minigame join <title>`: `<title>` 미니게임 참여
-- `minigame leave`: 현재 참가중인 미니게임 퇴장
+- 플러그인 설정값 세팅 명령어들
 
 # 사용법
 - `settings.yml`파일의 `minigameCommand`값이 true 이어야 사용 가능
