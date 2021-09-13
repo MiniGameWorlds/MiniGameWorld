@@ -4,6 +4,8 @@
 ---
 
 # 할 것
+- 실제로 간단한 미니게임 서버 하나 만들면서 플러그인에 추가할것 생각해보기
+- gui 만들기(/mg list 명령어로 열기), MiniGameSetting에 gui에 사용할 Material 변수 추가하기(생성자x), setting.yml에 gui사용 여부 변수 추가, MiniGameWorld에 gui창 오픈하는 메서드 추가
 - 다른 미니게임 플러그인 참고하면서 빠진것 or 추가하면 좋은 기능 찾기 (spigot의 MiniGameMaker)
 - 경험치(xp)도 미니게임에서 관리하기 (죽었을 때 xp 잃어버리므로)
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
