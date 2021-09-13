@@ -33,7 +33,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 ```
 
 # 주의사항
-- MiniGameMaker를 통해서 MiniGameObserver를 등록하는것은 모든 미니게임에 대한 옵저버로서 등록되는 것임
+- MiniGameWorld를 통해서 MiniGameObserver를 등록하는것은 모든 미니게임에 대한 옵저버로서 등록되는 것임
 
 # 개선할 것
 - MiniGameEvent 종류 다양화
