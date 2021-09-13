@@ -29,11 +29,11 @@
 ```
 
 ```
-3. 미니게임 메이커에 등록
-- MiniGameMaker.create()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
+3. MiniGameWorld에 등록
+- MiniGameWorld.create()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
 ```java
-MiniGameMaker maker = MiniGameMaker.create();
-maker.registerMiniGame(new FitTool());
+MiniGameWorld world = MiniGameWorld.create();
+world.registerMiniGame(new FitTool());
 ```
 
 
