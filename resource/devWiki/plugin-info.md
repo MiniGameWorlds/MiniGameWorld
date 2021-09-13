@@ -54,14 +54,14 @@
 # 개발 순서
 1. 코드 작성
 2. 프로젝트 폴더에서 shade플러그인으로 메이븐 빌드 (명령어 `mvn package`)
-3. target 디렉토리의 `MiniGameMaker-x.x.x-SNAPSHOT-shaded.jar` 추출된 플러그인 복사
+3. target 디렉토리의 `MiniGameWorld-x.x.x-SNAPSHOT-shaded.jar` 추출된 플러그인 복사
 4. 서버 버킷 디렉토리의 plugins 디렉토리에 붙여넣기
 5. 서버 버킷 시작
 
 # wbmMC 개발 순서
 1. wbmMC 소스코드 수정
 2. 라이브러리로 사용하는 폴더(마인크래프트 라이브러리 or 자바 라이브러리)에 jar 파일 추출
-3. MiniGameMaker프로젝트를 F5 연타해서 새로고침하거나, `Project > Clean > MiniGameMaker` 로 업데이트된 wbmMC 재 참조 (참조중인 라이브러리가 업데이트 됨)
+3. MiniGameWorld프로젝트를 F5 연타해서 새로고침하거나, `Project > Clean > MiniGameWorld` 로 업데이트된 wbmMC 재 참조 (참조중인 라이브러리가 업데이트 됨)
 4. 서버의 plugins폴더에 새로 추출한 wbmMC.jar 파일 붙여넣기
 
 
