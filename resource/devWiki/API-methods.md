@@ -1,7 +1,7 @@
 # Wrapper class API 고민 
 ※ API로 접근한 데이터 수정으로 실제 데이터가 수정되면 안됨(clone데이터 반환해야 함)
 
-## MiniGameMaker
+## MiniGameWorld
 - MiniGameManager의 wrapper class
 - API로 쓸 메소드들만 정리
 - `joinGame`: 다른 플러그인을 이용해서 다른 입장방식을 사용하려 할 때 필요(하지만, 악용이 가능하므로 yml로 허용플러그인으로 관리할 지 고민중)
