@@ -21,13 +21,13 @@
 
 
 # 클래스
-## com.wbm.minigameworld
-- [Main](Main.md): 플러그인 메인
+## com.minigameworld
+- [MiniGameWorldMain](MiniGameWorldMain.md): 플러그인 메인
 
-## com.wbm.minigameworld.commands
+## com.minigameworld.commands
 - [MiniGameCommand](MiniGameCommand.md): 미니게임 명령어 관련
 
-## com.wbm.minigameworld.minigameframes
+## com.minigameworld.minigameframes
 - [MiniGame](MiniGame.md): 미니게임 틀
 - [MiniGameSetting](MiniGameSetting.md): 미니게임 설정값
 - [SoloMiniGame](SoloMiniGame.md): 솔로 미니게임
@@ -35,20 +35,20 @@
 - [TeamMiniGame](TeamMiniGame.md): 팀 미니게임
 - [TeamBattleMiniGame](TeamBattleMiniGame.md): 팀 대항 미니게임
 
-## com.wbm.minigameworld.manager
+## com.minigameworld.manager
 - [CommonEventListener](CommonEventListener.md): 서버 공통 이벤트 리스너
 - [MiniGameDataManager](MiniGameDataManager.md): 미니게임 데이터 관련 매니저
 - [MiniGameManager](MiniGameManager.md): 미니게임 주요 동작 관련 매니저
 
-## com.wbm.minigameworld.observer
+## com.minigameworld.observer
 - [MiniGameEventNotifier](MiniGameEventNotifier.md): 미니게임 이벤트 동작 관련 Subject (Observer pattern)
 - [MiniGameObserver](MiniGameObserver.md): 미니게임 이벤트 동작 관련 Observer (Observer pattern)
 
-## com.wbm.minigameworld.util
+## com.minigameworld.util
 - [Setting](Setting.md): 플러그인 세팅 관련 클래스
 - [Utils](Utils.md): 유틸 클래스
 
-## com.wbm.minigameworld.api
+## com.minigameworld.api
 - [MiniGameAccessor](MiniGameAccessor.md): API class
 - [MiniGameWorld](MiniGameWorld.md): plugin API class
 
