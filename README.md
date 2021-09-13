@@ -1,4 +1,4 @@
-# MiniGameMaker
+# MiniGameWorld
 - Minecraft MiniGame Framework
 
 
