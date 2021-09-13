@@ -25,10 +25,10 @@ public class RewardManager implements MiniGameObserver {
 
 }
 ```
-## 2.MiniGameMaker를 통해 모든 미니게임에 observer 등록
+## 2.MiniGameWorld를 통해 모든 미니게임에 observer 등록
 ```java
-MiniGameMaker maker = MiniGameMaker.create();
-maker.registerMiniGameObserver(new RewardManager());
+MiniGameWorld minigameWorld = MiniGameWorld.create();
+minigameWorld.registerMiniGameObserver(new RewardManager());
 ```
 
 # 주의사항
@@ -39,7 +39,7 @@ public enum MiniGameEvent {
 }
 ```
 
-- MiniGameMaker를 통해 등록하면 모든 미니게임에 대한 이벤트를 감지함
+- MiniGameWorld를 통해 등록하면 모든 미니게임에 대한 이벤트를 감지함
 - MiniGameAccessor를 받아서 class 이름과 같은것으로 미니게임 구분 가능
 
 # 개선할 것
