@@ -4,7 +4,8 @@
 ---
 
 # 할 것
-- 플러그인 이름 MiniGameWorld 로 변경하기 (변경 할 곳: 프로젝트, 위키, 소스코드)
+- 다른 미니게임 플러그인 참고하면서 빠진것 or 추가하면 좋은 기능 찾기 (spigot의 MiniGameMaker)
+- 경험치(xp)도 미니게임에서 관리하기 (죽었을 때 xp 잃어버리므로)
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
 - 주석 영어로 바꾸기
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
@@ -134,9 +135,6 @@
 - 미니게임 스폰위치 변수 이름 변경 `spawnLocation` > `lobby`
 - MiniGame클래스에서 오버라이딩 되서 수정되면 안되는 메소드들 final로 선언하기
 
-# 2021-09-11
-
-
 # 2021-09-12
 - minigame list 명령어 추가
 - MiniGameSetting에서 lobby 관리
@@ -144,7 +142,19 @@
 - MiniGameAccessor에 MiniGameSetting에 추가된것들 추가
 - wiki 정리
 
-
-
+# 2021-09-13
+- 플러그인 이름 MiniGameWorld 로 변경하기 (변경 할 곳: 프로젝트, 위키, 소스코드)
+```yaml
+# 플러그인 이름 변경
+- 메이커 > 월드, Maker > World
+# 변경할 것
+- [x] github에서 모든 문서 변경
+- [x] 사진 이름 변경
+- [x] ppt 변경 후, 이미지 추출
+- [x] 소스코드(프로젝트 이름, 클래스 이름, 패키지 이름, 기타 코드) 변경
+- [x] maven 이름 변경
+- [x] plugin.yml
+- [x] jardesc.jardesc 변경 (추출 이름)
+```
 
 
