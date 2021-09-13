@@ -5,9 +5,9 @@
 
 
 # 적용법
-1. [미니게임 메이커]와 [wbmMC] 플러그인을 다운
+1. [미니게임 월드]와 [wbmMC] 플러그인을 다운
 2. 추가로 사용할 미니게임 플러그인 다운
-3. 서버 plugins 폴더에 [미니게임 메이커]와 [wbmMC] 플러그인 위치하기
+3. 서버 plugins 폴더에 [미니게임 월드]와 [wbmMC] 플러그인 위치하기
 4. 서버 실행 후 미니게임 플레이
 
 
@@ -136,6 +136,6 @@ minigames:
 # 연락
 - [디스코드]
 
-[미니게임 메이커]: https://github.com/worldbiomusic/MiniGameMaker/releases
+[미니게임 월드]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
 [디스코드]: https://discord.com/invite/fJbxSy2EjA
