@@ -6,8 +6,8 @@
 
 # 사용법
 ```yaml
-name: MiniGameMaker
-main: com.wbm.minigamemaker.MiniGameMakerMain
+name: MiniGameWorld
+main: com.minigameworld.MiniGameWorldMain
 version: 1.0
 author: worldbiomusic
 description: worldbiomusic@gmail.com
