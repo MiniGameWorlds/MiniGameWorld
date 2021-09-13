@@ -11,4 +11,4 @@
 - 명령어는 대부분 다른 클래스(ex. MiniGameManager)의 도움을 받아 작동함
 
 # 개선할 것
-- permission 추가하기
+- permission 추가하기(plugin.yml)
