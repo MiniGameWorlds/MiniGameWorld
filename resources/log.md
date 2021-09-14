@@ -4,6 +4,7 @@
 ---
 
 # 할 것
+- 외부 플러그인에서 MiniGameSetting의 lobby를 setLobby()를 이용해서 바꿀 수 있는 위험이 있으므로, MiniGameSetting안에서 lobby변수가 MiniGameManager로 접근(singleton)해서 lobby 변수 설정하고, setLobby() 제거하기
 - 다른 미니게임 플러그인 참고하면서 빠진것 or 추가하면 좋은 기능 찾기 (spigot의 MiniGameMaker)
 - 경험치(xp)도 미니게임에서 관리하기 (죽었을 때 xp 잃어버리므로)
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
@@ -143,7 +144,7 @@
 - wiki 정리
 
 # 2021-09-13
-- 플러그인 이름 MiniGameWorld 로 변경하기 (변경 할 곳: 프로젝트, 위키, 소스코드)
+- 플러그인 이름 MiniGameWorld 로 변경하기
 ```yaml
 # 플러그인 이름 변경
 - 메이커 > 월드, Maker > World

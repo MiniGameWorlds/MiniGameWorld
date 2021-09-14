@@ -31,7 +31,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.MiniGameSetting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
@@ -54,6 +53,9 @@ public class MiniGameManager implements YamlMember {
 
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
 	private List<Player> eventPlayers;
+
+	// minigame lobby
+	private Location lobby;
 
 	YamlManager yamlM;
 
@@ -98,7 +100,7 @@ public class MiniGameManager implements YamlMember {
 		if (!this.setting.containsKey("lobby")) {
 			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
-		MiniGameSetting.setLobby((Location) this.setting.get("lobby"));
+		this.lobby = (Location) this.setting.get("lobby");
 
 		// minigameSign
 		if (!this.setting.containsKey("minigameSign")) {
@@ -376,7 +378,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public Location getLobby() {
-		return MiniGameSetting.getLobby();
+		return this.lobby;
 	}
 
 	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {

@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
+import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Utils;
@@ -603,7 +604,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void setupPlayerWhenLeave(Player p) {
 		// tp to lobby
-		p.teleport(MiniGameSetting.getLobby());
+		MiniGameManager minigameM = MiniGameManager.getInstance();
+		p.teleport(minigameM.getLobby());
 
 		// 1. clear player inventory
 		// 2. restore player inventory
