@@ -1,6 +1,7 @@
 package com.minigameworld.minigameframes.data;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +18,7 @@ public class MiniGamePlayerData {
 	private ItemStack[] inv;
 	private Collection<PotionEffect> potionEffects;
 	private boolean isGlowing;
-	private boolean isHiding;
+	private List<Player> canNotSeePlayers; // hide
 
 	public MiniGamePlayerData(Player player) {
 		this.player = player;
@@ -52,7 +53,7 @@ public class MiniGamePlayerData {
 		this.isGlowing = this.player.isGlowing();
 
 		// hiding
-		this.isHiding = PlayerTool.isHidden(this.player);
+		this.canNotSeePlayers = PlayerTool.getPlayersCannotSeeTarget(this.player);
 	}
 
 	public void restorePlayerData() {
@@ -78,9 +79,7 @@ public class MiniGamePlayerData {
 		this.player.setGlowing(this.isGlowing);
 
 		// hiding
-		if (this.isHiding) {
-			PlayerTool.hidePlayerFromEveryone(this.player);
-		}
+		PlayerTool.hidePlayerFromOtherPlayers(this.player, canNotSeePlayers);
 	}
 
 	public void makePureState() {
