@@ -55,7 +55,7 @@ public class MiniGameManager implements YamlMember {
 	private List<Player> eventPlayers;
 
 	// minigame lobby
-	private Location lobby;
+	private static Location lobby;
 
 	YamlManager yamlM;
 
@@ -100,7 +100,7 @@ public class MiniGameManager implements YamlMember {
 		if (!this.setting.containsKey("lobby")) {
 			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
-		this.lobby = (Location) this.setting.get("lobby");
+		lobby = (Location) this.setting.get("lobby");
 
 		// minigameSign
 		if (!this.setting.containsKey("minigameSign")) {
@@ -377,8 +377,8 @@ public class MiniGameManager implements YamlMember {
 		return this.setting;
 	}
 
-	public Location getLobby() {
-		return this.lobby;
+	public static Location getLobby() {
+		return lobby;
 	}
 
 	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {

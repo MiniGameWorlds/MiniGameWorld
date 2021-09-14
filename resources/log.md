@@ -4,9 +4,8 @@
 ---
 
 # 할 것
-- 외부 플러그인에서 MiniGameSetting의 lobby를 setLobby()를 이용해서 바꿀 수 있는 위험이 있으므로, MiniGameSetting안에서 lobby변수가 MiniGameManager로 접근(singleton)해서 lobby 변수 설정하고, setLobby() 제거하기
+- 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
 - 다른 미니게임 플러그인 참고하면서 빠진것 or 추가하면 좋은 기능 찾기 (spigot의 MiniGameMaker)
-- 경험치(xp)도 미니게임에서 관리하기 (죽었을 때 xp 잃어버리므로)
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
 - 주석 영어로 바꾸기
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
@@ -157,5 +156,10 @@
 - [x] plugin.yml
 - [x] jardesc.jardesc 변경 (추출 이름)
 ```
+
+# 2021-09-14
+- 외부 플러그인에서 MiniGameSetting의 lobby를 setLobby()를 이용해서 바꿀 수 있는 위험이 있으므로, MiniGameSetting안에서 lobby변수가 MiniGameManager로 접근(singleton)해서 lobby 변수 설정하고, setLobby() 제거하기
+- MiniGamePlayerData 클래스로 미니게임의 플레이어 관련 데이터 관리 분리
+- `경험치(xp)`, `체력`, `배고픔`, `포션 효과`, `hiding, glowing` 미니게임 데이터(MiniGamePlayerDataManager)에서 관리
 
 

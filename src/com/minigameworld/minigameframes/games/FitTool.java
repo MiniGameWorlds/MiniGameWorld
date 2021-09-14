@@ -54,10 +54,11 @@ public class FitTool extends SoloMiniGame {
 			if (this.blocks.contains(b.getType())) {
 				e.setCancelled(true);
 				this.plusScore(p, 1);
+
+				// 랜덤블럭으로 설정
+				b.setType(this.getRandomBlock());
 			}
 
-			// 랜덤블럭으로 설정
-			b.setType(this.getRandomBlock());
 		}
 	}
 

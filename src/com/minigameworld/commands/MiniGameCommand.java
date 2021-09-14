@@ -105,6 +105,7 @@ public class MiniGameCommand implements CommandExecutor {
 				Utils.sendMsg(p, "- " + ChatColor.GREEN + gameTitle);
 			}
 		}
+
 		return true;
 	}
 

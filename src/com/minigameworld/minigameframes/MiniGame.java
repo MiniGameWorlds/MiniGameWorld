@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.minigameframes.data.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Utils;
@@ -24,7 +25,6 @@ import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
 import com.wbm.plugin.util.instance.BukkitTaskManager;
-import com.wbm.plugin.util.instance.PlayerInvManager;
 
 public abstract class MiniGame implements MiniGameEventNotifier {
 	/*
@@ -49,8 +49,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// observer list
 	private List<MiniGameObserver> observerList;
 
-	// inv manager
-	private PlayerInvManager invManager;
+	// player data manager
+	private MiniGamePlayerDataManager playerDataManager;
 
 	// abstract methods
 	protected abstract void initGameSetting();
@@ -78,7 +78,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void setupMiniGame() {
 		this.taskManager = new BukkitTaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
-		this.invManager = new PlayerInvManager();
+		this.playerDataManager = new MiniGamePlayerDataManager();
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -131,6 +131,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// timer counter
 		this.waitingCounter = new Counter(this.getWaitingTime());
 		this.finishCounter = new Counter(this.getTimeLimit());
+
+		// clear player data
+		this.playerDataManager.clearData();
 	}
 
 	private void registerBasicTask() {
@@ -593,27 +596,19 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// 게임룸 위치로 tp
 		p.teleport(this.getLocation());
 
-		// 1. save player inventory
-		// 2. clear player inventory
-		this.invManager.savePlayerInv(p);
-		p.getInventory().clear();
-
-		// 플레이어 상태 초기화
-		PlayerTool.makePureState(p);
+		// save player data
+		this.playerDataManager.savePlayerData(p);
+		
+		// make pure state
+		this.playerDataManager.makePureState(p);
 	}
 
 	private void setupPlayerWhenLeave(Player p) {
 		// tp to lobby
-		MiniGameManager minigameM = MiniGameManager.getInstance();
-		p.teleport(minigameM.getLobby());
+		p.teleport(MiniGameManager.getLobby());
 
-		// 1. clear player inventory
-		// 2. restore player inventory
-		p.getInventory().clear();
-		this.invManager.restorePlayerInv(p);
-
-		// 플레이어 상태 초기화
-		PlayerTool.makePureState(p);
+		// restore player data
+		this.playerDataManager.restorePlayerData(p);
 	}
 
 	/*

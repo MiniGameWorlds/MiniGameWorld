@@ -98,7 +98,7 @@ public class MiniGameWorld {
 	}
 
 	public Location getLobby() {
-		return this.minigameM.getLobby().clone();
+		return MiniGameManager.getLobby().clone();
 	}
 
 	public void registerMiniGameObserver(MiniGameObserver observer) {
