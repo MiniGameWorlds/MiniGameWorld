@@ -33,18 +33,18 @@ public class MiniGameGUIManager {
 				for (Player p : guis.keySet()) {
 					MiniGameGUI gui = guis.get(p);
 					// update minigame list state
-					gui.updateGUI(minigameManager.getMiniGameList());
+					gui.updateGUI();
 					p.updateInventory();
 				}
 			}
-		}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 20);
+		}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 4);
 	}
 
 	public void openGUI(Player p) {
-		this.guis.put(p, new MiniGameGUI(this.minigameManager));
+		this.guis.put(p, new MiniGameGUI(this.minigameManager, this.minigameManager.getMiniGameList()));
 
 		// open 1 page gui
-		Inventory inv = this.guis.get(p).getGUI(this.minigameManager.getMiniGameList(), 1);
+		Inventory inv = this.guis.get(p).createGUI(1);
 		p.openInventory(inv);
 	}
 
@@ -53,9 +53,11 @@ public class MiniGameGUIManager {
 			InventoryClickEvent e = (InventoryClickEvent) event;
 			if (this.isMiniGameWorldGUI(e.getView().title())) {
 				e.setCancelled(true);
-				
+
 				// process inventory event
-				this.getClickedGUI(e.getClickedInventory()).processClickEvent(e);;
+				if (e.getClickedInventory() != null) {
+					this.getClickedGUI(e.getClickedInventory()).processClickEvent(e);
+				}
 			}
 		} else if (event instanceof InventoryClickEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;

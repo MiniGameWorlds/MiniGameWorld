@@ -126,11 +126,10 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean joinGame(Player p, String title) {
-		/*
-		 * 플레이어가 미니게임에 참여하는 메소드
-		 * 
-		 * check player is not playing minigame
-		 */
+		// strip color code
+		title = ChatColor.stripColor(title);
+		
+		// check player is not playing minigame
 		if (!this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame game = this.getMiniGameWithTitle(title);
 			if (game == null) {

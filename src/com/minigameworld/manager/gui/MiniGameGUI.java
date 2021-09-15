@@ -14,14 +14,17 @@ import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.ItemStackTool;
 
 import net.kyori.adventure.text.Component;
 
 public class MiniGameGUI {
+	private MiniGameManager minigameManager;
 	private Inventory inv;
+	private List<MiniGame> minigames;
 	private int currentPage;
+
+	private final int minigameIconListSize = 27;
 
 	private enum BaseElement {
 
@@ -41,10 +44,9 @@ public class MiniGameGUI {
 		}
 	}
 
-	private MiniGameManager minigameManager;
-
-	public MiniGameGUI(MiniGameManager minigameManager) {
+	public MiniGameGUI(MiniGameManager minigameManager, List<MiniGame> minigames) {
 		this.minigameManager = minigameManager;
+		this.minigames = minigames;
 		this.currentPage = 1;
 		this.makeBase();
 	}
@@ -66,22 +68,33 @@ public class MiniGameGUI {
 		this.inv.setItem(50, BaseElement.NEXT_PAGE.getItem());
 	}
 
-	public Inventory getGUI(List<MiniGame> minigames, int page) {
+	private void emptyMiniGameIconList() {
+		for (int i = 18; i < 18 + minigameIconListSize; i++) {
+			this.inv.setItem(i, null);
+		}
+	}
+
+	public Inventory createGUI(int page) {
+		// first, empty list
+		this.emptyMiniGameIconList();
+
 		// slot: 18 ~ 44 (count: 27)
-		int minigameIndex = 0 + ((page - 1) * 27);
-		for (int i = 18; i < 45; i++, minigameIndex++) {
-			if (minigameIndex >= minigames.size()) {
+		int minigameIndex = 0 + ((page - 1) * minigameIconListSize);
+//		for (int i = 18; i < 45; i++, minigameIndex++) {
+		for (int i = 18; i < 18 + minigameIconListSize; i++, minigameIndex++) {
+			if (minigameIndex >= this.minigames.size()) {
 				break;
 			}
-			MiniGame minigame = minigames.get(minigameIndex);
+			MiniGame minigame = this.minigames.get(minigameIndex);
 			this.inv.setItem(i, this.getMiniGameIcon(minigame));
 		}
 
 		return this.inv;
 	}
 
-	public Inventory updateGUI(List<MiniGame> minigames) {
-		return this.getGUI(minigames, this.currentPage);
+	public Inventory updateGUI() {
+		this.updateCurrentPage();
+		return this.createGUI(this.currentPage);
 	}
 
 	private ItemStack getMiniGameIcon(MiniGame minigame) {
@@ -93,7 +106,7 @@ public class MiniGameGUI {
 			displayName = ChatColor.RED + displayName;
 		} else {
 			displayName = ChatColor.GREEN + displayName;
-			ItemStackTool.enchant(item, Enchantment.LUCK, 1);
+			item = ItemStackTool.enchant(item, Enchantment.LUCK, 1);
 		}
 
 		// lore
@@ -111,12 +124,43 @@ public class MiniGameGUI {
 		return this.inv.equals(inv);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void processClickEvent(InventoryClickEvent e) {
-		if (e.getCurrentItem().equals(BaseElement.LEAVE_GAME.getItem())) {
-			Utils.debug("leave game");
-			Player p = (Player)e.getViewers().get(0);
-			this.minigameManager.leaveGame(p);
+		// suppose inventory has only 1 viewer
+		ItemStack ClickedItem = e.getCurrentItem();
+		if (ClickedItem == null) {
+			return;
 		}
+
+		Player p = (Player) e.getViewers().get(0);
+		if (ClickedItem.equals(BaseElement.LEAVE_GAME.getItem())) {
+			this.minigameManager.leaveGame(p);
+		} else if (ClickedItem.equals(BaseElement.LEAVE_GAME.getItem())) {
+			this.minigameManager.leaveGame(p);
+		} else if (ClickedItem.equals(BaseElement.PREVIOUS_PAGE.getItem())) {
+			if (this.currentPage > 1) {
+				this.currentPage -= 1;
+			}
+		} else if (ClickedItem.equals(BaseElement.NEXT_PAGE.getItem())) {
+			if (this.currentPage < this.getMaxPage()) {
+				this.currentPage += 1;
+			}
+		} else if (this.isMiniGameIconSlot(e.getSlot())) {
+			ItemStack item = e.getCurrentItem();
+			this.minigameManager.joinGame(p, item.getItemMeta().getDisplayName());
+		}
+	}
+
+	private boolean isMiniGameIconSlot(int slot) {
+		return (18 <= slot) && (slot <= 18 + this.minigameIconListSize);
+	}
+
+	private int getMaxPage() {
+		return (int) Math.ceil(this.minigames.size() / (double) minigameIconListSize);
+	}
+
+	private void updateCurrentPage() {
+		this.inv.setItem(49, ItemStackTool.item(BaseElement.CURRENT_PAGE.getItem().getType(), "" + this.currentPage));
 	}
 }
 //
