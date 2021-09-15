@@ -97,6 +97,7 @@ setting:
 minigames:
   PVP:
     title: PVP
+    icon: STONE_PICKAXE
     location:
       ==: org.bukkit.Location
       world: world
@@ -120,6 +121,7 @@ minigames:
     - 'death: be a spectator'
 ```
 - `title`: 게임 제목
+- `icon`: GUI에 표시되는 아이템 아이콘
 - `location`: 입장 스폰 위치
 - `waitingTime`: 대기시간 (초)
 - `maxPlayerCount`: 최대 인원수 
