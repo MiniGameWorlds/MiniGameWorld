@@ -6,17 +6,15 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
@@ -123,72 +121,6 @@ public class CommonEventListener implements Listener {
 		this.minigameManager.processEvent(event);
 		return null;
 	}
-
-	Map<Player, ItemStack[]> invs = new HashMap<>();
-
-//	@EventHandler
-//	public void onChat(PlayerChatEvent e) {
-//		Player p = e.getPlayer();
-//		p.sendMessage("check slot number");
-//		if (e.getMessage().equals("save")) {
-//			p.sendMessage("saved");
-//			this.invs.put(p, p.getInventory().getContents());
-//		} else {
-//			p.sendMessage("array size: " + invs.get(p).length);
-//
-//			for (int i = 0; i < this.invs.get(p).length; i++) {
-//				if (this.invs.get(p)[i] != null) {
-//					p.sendMessage("slot number: " + i);
-//					p.sendMessage(this.invs.get(p)[i].displayName());
-//				}
-//			}
-//			p.sendMessage("loaded");
-//			p.getInventory().setContents(invs.get(p));
-//		}
-////		p.getInventory().setItem(0, new ItemStack(Material.SLIME_BALL));
-////		p.getInventory().setItem(18, new ItemStack(Material.SLIME_BLOCK));
-//	}
-	
-	// @EventHandler
-	// public void onPlayerTouchMiniGameSign(PlayerInteractEvent e) {
-	// /*
-	// * OAK_SIGN으로 미니게임에 참여하는 이벤트
-	// */
-	//
-	// Player p = e.getPlayer();
-	//
-	// // check minigameSign (setting.yml)
-	// boolean minigameSign = (boolean)
-	// this.minigameManager.getGameSetting().get("minigameSign");
-	// if (!minigameSign) {
-	// p.sendMessage("minigameSign option is false");
-	// return;
-	// }
-	//
-	// // process
-	// Block block = e.getClickedBlock();
-	// if (block != null) {
-	// if (block.getType() == Material.OAK_SIGN || block.getType() ==
-	// Material.OAK_WALL_SIGN) {
-	// if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-	// Sign sign = (Sign) block.getState();
-	// String minigame = sign.getLines()[0];
-	// String title = sign.getLines()[1];
-	// if (minigame.equalsIgnoreCase("[MiniGame]")) {
-	// // setting.yml에서 signJoin값을 통해서 표지판 입장 유무 결정
-	// this.minigameManager.joinGame(p, title);
-	// } else if (minigame.equalsIgnoreCase("[Leave MiniGame]")) {
-	// this.minigameManager.leaveGame(p);
-	// }
-	// }
-	// }
-	// }
-	// }
-
-	// @EventHandler
-	// public void onPlayerExitServerWhenMiniGamePlaying(PlayerQuitEvent e) {
-	// this.minigameManager.processException(e.getPlayer());
-	// }
 }
 //
 //

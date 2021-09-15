@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.data;
+package com.minigameworld.manager.playerdata;
 
 import java.util.Collection;
 import java.util.List;

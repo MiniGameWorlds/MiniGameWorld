@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.minigameworld.manager.MiniGameDataManager;
 import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.manager.gui.MiniGameGUIManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 
@@ -18,9 +19,9 @@ public class MiniGameCommand implements CommandExecutor {
 	private MiniGameManager minigameM;
 	private MiniGameDataManager MiniGameDataM;
 
-	public MiniGameCommand(MiniGameManager minigameM, MiniGameDataManager MiniGameDataM) {
+	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameM = minigameM;
-		this.MiniGameDataM = MiniGameDataM;
+		this.MiniGameDataM = this.minigameM.getMiniGameDataManager();
 	}
 
 	@Override
@@ -43,6 +44,8 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.leave(p, args);
 			case "list":
 				return this.list(p, args);
+			case "gui":
+				return this.gui(p, args);
 			case "reload":
 				return this.reloadConfig(p, args);
 			}
@@ -106,6 +109,12 @@ public class MiniGameCommand implements CommandExecutor {
 			}
 		}
 
+		return true;
+	}
+
+	private boolean gui(Player p, String[] args) {
+		MiniGameGUIManager guiManager = this.minigameM.getMiniGameGUIManager();
+		guiManager.openGUI(p);
 		return true;
 	}
 

@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.commands.MiniGameCommand;
 import com.minigameworld.manager.CommonEventListener;
-import com.minigameworld.manager.MiniGameDataManager;
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.games.FitTool;
@@ -30,7 +29,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private static MiniGameWorldMain instance;
 	private MiniGameManager minigameManager;
-	private MiniGameDataManager minigameDataM;
 
 	private CommonEventListener commonLis;
 	private MiniGameCommand minigameCommand;
@@ -63,8 +61,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void setupSettings() {
 		this.minigameManager = MiniGameManager.getInstance();
-		this.minigameDataM = new MiniGameDataManager(this.minigameManager);
-		this.minigameManager.setMiniGameDataManager(this.minigameDataM);
 		// MiniGameWorld wrapper class: set MiniGameManager
 		MiniGameWorld minigameWorld = MiniGameWorld.create();
 		minigameWorld.setMiniGameManager(this.minigameManager);
@@ -73,7 +69,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void setupData() {
 		// yaml data manager
 		this.yamlM = new YamlManager(this.getDataFolder());
-		this.yamlM.registerMember(this.minigameDataM);
+		this.yamlM.registerMember(this.minigameManager.getMiniGameDataManager());
 		this.yamlM.registerMember(this.minigameManager);
 	}
 
@@ -83,7 +79,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void setCommandExecutors() {
-		this.minigameCommand = new MiniGameCommand(this.minigameManager, this.minigameDataM);
+		this.minigameCommand = new MiniGameCommand(this.minigameManager);
 		getCommand("minigame").setExecutor(this.minigameCommand);
 
 	}
@@ -108,7 +104,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		}
 
 		// remove not registered minigames setting data in minigames.yml
-		this.minigameDataM.removeNotExistMiniGameData();
+		minigameManager.getMiniGameDataManager().removeNotExistMiniGameData();
 
 		// save all data
 		this.yamlM.saveAllData();

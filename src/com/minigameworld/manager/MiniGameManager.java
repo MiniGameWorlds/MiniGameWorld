@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
+import com.minigameworld.manager.gui.MiniGameGUIManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
@@ -50,6 +51,9 @@ public class MiniGameManager implements YamlMember {
 
 	// 미니게임 파일 데이터
 	private MiniGameDataManager minigameDataM;
+
+	// minigame gui manager
+	private MiniGameGUIManager guiManager;
 
 	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
 	private List<Player> eventPlayers;
@@ -82,6 +86,8 @@ public class MiniGameManager implements YamlMember {
 		this.possibleEventList.add(InventoryMoveItemEvent.class);
 		this.possibleEventList.add(PlayerLeashEntityEvent.class);
 
+		this.minigameDataM = new MiniGameDataManager(this);
+		this.guiManager = new MiniGameGUIManager(this);
 	}
 
 	public static MiniGameManager getInstance() {
@@ -191,6 +197,10 @@ public class MiniGameManager implements YamlMember {
 		// 허용되는 이벤트만 아닐 시 false 반환
 		if (!this.isPossibleEvent(e)) {
 			return false;
+		}
+
+		if (e instanceof InventoryEvent) {
+			this.guiManager.processInventoryEvent((InventoryEvent) e);
 		}
 
 		// check player is trying to join or leave game with Sign
@@ -381,8 +391,12 @@ public class MiniGameManager implements YamlMember {
 		return lobby;
 	}
 
-	public void setMiniGameDataManager(MiniGameDataManager minigameDataM) {
-		this.minigameDataM = minigameDataM;
+	public MiniGameDataManager getMiniGameDataManager() {
+		return this.minigameDataM;
+	}
+
+	public MiniGameGUIManager getMiniGameGUIManager() {
+		return this.guiManager;
 	}
 
 	@Override

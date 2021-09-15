@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 public class MiniGameSetting {
 
@@ -68,6 +69,11 @@ public class MiniGameSetting {
 	// 설명: 커스텀 데이터 설정 섹션
 	private Map<String, Object> customData;
 
+	// 파일 관리 o
+	// 기본값: 초기값
+	// 설명: GUI에 사용될 icon item
+	private Material icon;
+
 	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
 		this.title = title;
 		this.location = location;
@@ -81,6 +87,7 @@ public class MiniGameSetting {
 		this.forcePlayerCount = false;
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
+		this.icon = Material.STONE;
 	}
 
 	public void setSettingFixed(boolean settingFixed) {
@@ -127,6 +134,10 @@ public class MiniGameSetting {
 		this.customData = customData;
 	}
 
+	public void setIcon(Material icon) {
+		this.icon = icon;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -171,6 +182,10 @@ public class MiniGameSetting {
 		return this.customData;
 	}
 
+	public Material getIcon() {
+		return this.icon;
+	}
+
 	public Map<String, Object> getFileSetting() {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();
@@ -183,6 +198,7 @@ public class MiniGameSetting {
 		setting.put("active", this.isActive());
 		setting.put("tutorial", this.getTutorial());
 		setting.put("customData", this.customData);
+		setting.put("icon", this.icon.name());
 
 		return setting;
 	}
@@ -228,6 +244,9 @@ public class MiniGameSetting {
 		@SuppressWarnings("unchecked")
 		List<String> tutorial = (List<String>) setting.get("tutorial");
 		this.setTutorial(tutorial);
+
+		// display item
+		this.setIcon(Material.valueOf((String) setting.get("icon")));
 	}
 
 }

@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.minigameframes.data.MiniGamePlayerDataManager;
+import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Utils;

@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.data;
+package com.minigameworld.manager.playerdata;
 
 import java.util.HashSet;
 import java.util.Set;
