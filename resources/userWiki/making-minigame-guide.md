@@ -13,7 +13,7 @@
 - PlayerLeashEntityEvent
 ```
 
-
+---
 
 # 제작 순서
 ## 1. 플러그인 설정
@@ -55,15 +55,18 @@ MiniGameWorld world = MiniGameWorld.create();
 world.registerMiniGame(new FitTool());
 ```
 
-
+---
 
 # 옵션
-## MiniGameSetting
-- `getSetting()`으로 다양한 옵션 관리 가능
+## - MiniGameSetting
+- MiniGameSetting으로 게임에 대해 다양한 설정을 줄 수 있음
+- `settingFixed` 설정값제외한 값들은 minigames.yml 파일에서 수정가능
+- `settingFixed`: `forceFullPlayer`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
+- `scoreNotifying`: 
+- `foceFullPlayer`: 
 
 
-
-## Task
+## - Task
 - TaskManager를 사용 (`getTaskManager()`)
 - `태스크 등록`: `getTaskManager().registerTask("name", new BukkitRunnable() { // code });`
 - 태스크 등록은 반드시 registerTasks() 메서드에서 작성되야 함
@@ -95,14 +98,14 @@ protected void processEvent(Event event) {
 
 
 
-## Exception handling
-- handleException()를 오버라이딩 해서 사용
+## - Exception handling
+- `handleException()`를 오버라이딩 해서 사용
 - 게임 내 버그, 예외처리는 구현하는 미니게임에서 처리해야 함
 
 
 
-## Custom Data
-- 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임 사용자가 변수를 바꿀 수 있게 도와주는 도구 ([minigames.yml](playingMiniGameWiki.md#minigamesyml) 참고)
+## - Custom Data
+- 미니게임 개발자가 임의로 커스텀 변수를 추가해서 미니게임에 다양한 옵션을 줄 수 있고, 사용자도 다양한 옵션을 변경할 수 있도록 도와주는 도구 ([minigames.yml](playingMiniGameWiki.md#minigamesyml) 참고)
 ### 데이터 설정하는 법
 MiniGame구현 클래스에서 `registerCustomData()` 메소드 오버라이딩 후 커스텀 데이터 추가
 ```java
@@ -138,19 +141,11 @@ protected void processEvent(Event event) {
 ```
 
 
-## etc
-### MiniGameSetting으로
-- MiniGameSetting으로 게임에 대해 다양한 설정을 줄 수 있음
-- `settingFixed` 설정값제외한 값들은 minigames.yml 파일에서 수정가능
-- `settingFixed`: `forceFullPlayer`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
-- `scoreNotifying`: 
-- `foceFullPlayer`: 
-
-
+## - etc
 ### 미니게임 종료
 - `endGame()` 사용
 
-
+---
 
 # 주의사항
 ## 참가 플레이어 데이터 관리
