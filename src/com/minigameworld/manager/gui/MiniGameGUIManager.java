@@ -12,10 +12,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;
 
 public class MiniGameGUIManager {
+	/*
+	 * Manage MiniGameGUI List, because player's personal data will show in MiniGameGUI
+	 */
 	private MiniGameManager minigameManager;
 	private Map<Player, MiniGameGUI> guis;
 
@@ -77,7 +81,7 @@ public class MiniGameGUIManager {
 	}
 
 	private boolean isMiniGameWorldGUI(Component component) {
-		return Component.text("MiniGameWorld").equals(component);
+		return Component.text(Setting.GUI_TITLE).equals(component);
 	}
 }
 //

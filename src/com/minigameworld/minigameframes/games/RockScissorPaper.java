@@ -55,7 +55,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 
 	public RockScissorPaper() {
 		super("RSP", 2, 15, 15);
-		this.getSetting().setForcePlayerCount(true);
+		this.getSetting().setForceFullPlayer(true);
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
 	}
 

@@ -49,15 +49,15 @@ public class MiniGameSetting {
 	// 설명: 미니게임의 특정 세팅값(waitingTime, timeLimit, maxPlayerCount, customDatat) 고정 여부
 	private boolean settingFixed;
 
-	// 파일 관리 x
+	// 파일 관리 o
 	// 기본값: false
 	// 설명: 스코어 변동 알림 여부
 	private boolean scoreNotifying;
 
-	// 파일 관리 x
+	// 파일 관리 o
 	// 기본값: false
 	// 설명: 인원수가 maxPlayerCount값이어야 게임이 진행됨
-	private boolean forcePlayerCount;
+	private boolean forceFullPlayer;
 
 	// 파일 관리 o
 	// 기본값: false
@@ -84,7 +84,7 @@ public class MiniGameSetting {
 		this.active = true;
 		this.settingFixed = false;
 		this.scoreNotifying = false;
-		this.forcePlayerCount = false;
+		this.forceFullPlayer = false;
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
@@ -122,8 +122,8 @@ public class MiniGameSetting {
 		this.active = active;
 	}
 
-	public void setForcePlayerCount(boolean forcePlayerCount) {
-		this.forcePlayerCount = forcePlayerCount;
+	public void setForceFullPlayer(boolean forceFullPlayer) {
+		this.forceFullPlayer = forceFullPlayer;
 	}
 
 	public void setTutorial(List<String> tutorial) {
@@ -170,8 +170,8 @@ public class MiniGameSetting {
 		return scoreNotifying;
 	}
 
-	public boolean isForcePlayerCount() {
-		return forcePlayerCount;
+	public boolean isForceFullPlayer() {
+		return forceFullPlayer;
 	}
 
 	public List<String> getTutorial() {
@@ -190,60 +190,59 @@ public class MiniGameSetting {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();
 
-		setting.put("title", this.getTitle());
-		setting.put("location", this.getLocation());
-		setting.put("maxPlayerCount", this.getMaxPlayerCount());
-		setting.put("waitingTime", this.getWaitingTime());
-		setting.put("timeLimit", this.getTimeLimit());
-		setting.put("active", this.isActive());
-		setting.put("tutorial", this.getTutorial());
+		setting.put("title", this.title);
+		setting.put("location", this.location);
+		setting.put("maxPlayerCount", this.maxPlayerCount);
+		setting.put("waitingTime", this.waitingTime);
+		setting.put("timeLimit", this.timeLimit);
+		setting.put("active", this.active);
+		setting.put("scoreNotifying", this.scoreNotifying);
+		setting.put("forceFullPlayer", this.forceFullPlayer);
+		setting.put("tutorial", this.tutorial);
 		setting.put("customData", this.customData);
 		setting.put("icon", this.icon.name());
 
 		return setting;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setFileSetting(Map<String, Object> setting) {
 		/*
 		 * apply "maxPlayerCount", "waitingTime", "timeLimit" when "settingFixed" is false
 		 */
 
 		// title
-		String title = (String) setting.get("title");
-		this.setTitle(title);
+		this.setTitle((String) setting.get("title"));
 
 		// location
-		Location location = (Location) setting.get("location");
-		this.setLocation(location);
+		this.setLocation((Location) setting.get("location"));
+
+		// waitingTime
+		this.setWaitingTime((int) setting.get("waitingTime"));
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// maxPlayerCount
-			int maxPlayerCount = (int) setting.get("maxPlayerCount");
-			this.setMaxPlayerCount(maxPlayerCount);
-
-			// waitingTime
-			int waitingTime = (int) setting.get("waitingTime");
-			this.setWaitingTime(waitingTime);
+			this.setMaxPlayerCount((int) setting.get("maxPlayerCount"));
 
 			// timeLimit
-			int timeLimit = (int) setting.get("timeLimit");
-			this.setTimeLimit(timeLimit);
+			this.setTimeLimit((int) setting.get("timeLimit"));
 
 			// customData
-			@SuppressWarnings("unchecked")
-			Map<String, Object> customData = (Map<String, Object>) setting.get("customData");
-			this.setCustomData(customData);
+			this.setCustomData((Map<String, Object>) setting.get("customData"));
+
+			// forceFullPlayer
+			this.setForceFullPlayer((boolean) setting.get("forceFullPlayer"));
 		}
 
 		// active
-		boolean active = (boolean) setting.get("active");
-		this.setActive(active);
+		this.setActive((boolean) setting.get("active"));
+
+		// scoreNotifying
+		this.setScoreNotifying((boolean) setting.get("scoreNotifying"));
 
 		// tutorial
-		@SuppressWarnings("unchecked")
-		List<String> tutorial = (List<String>) setting.get("tutorial");
-		this.setTutorial(tutorial);
+		this.setTutorial((List<String>) setting.get("tutorial"));
 
 		// display item
 		this.setIcon(Material.valueOf((String) setting.get("icon")));

@@ -46,6 +46,7 @@ public class MiniGameWorld {
 	 * - registerMiniGame
 	 * - unregisterMiniGame
 	 * - getLobby
+	 * - openGUI
 	 */
 
 	public boolean joinGame(Player p, String title) {
@@ -61,11 +62,11 @@ public class MiniGameWorld {
 	}
 
 	public boolean isPossibleEvent(Event event) {
-		return this.minigameM.isPossibleEvent(event);
+		return this.minigameM.isDetectedEvent(event);
 	}
 
 	public boolean isPossibleEvent(Class<? extends Event> event) {
-		return this.minigameM.isPossibleEvent(event);
+		return this.minigameM.isDetectedEvent(event);
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {
@@ -110,6 +111,10 @@ public class MiniGameWorld {
 	public void unregisterMiniGameObserver(MiniGameObserver observer) {
 		// unregister observer from All MiniGames
 		this.minigameM.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
+	}
+	
+	public void openGUI(Player p) {
+		this.minigameM.getMiniGameGUIManager().openGUI(p);
 	}
 
 }

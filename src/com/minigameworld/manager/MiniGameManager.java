@@ -45,7 +45,7 @@ public class MiniGameManager implements YamlMember {
 	// 미니게임 관리 리스트
 	private List<MiniGame> minigames;
 
-	private Set<Class<? extends Event>> possibleEventList;
+	private Set<Class<? extends Event>> detectionEventList;
 
 	private Map<String, Object> setting;
 
@@ -73,18 +73,18 @@ public class MiniGameManager implements YamlMember {
 		this.setting = new HashMap<String, Object>();
 		this.initSettingData();
 
-		// 처리 가능한 이벤트 목록 초기화
-		this.possibleEventList = new HashSet<>();
-		// 처리가능한 이벤트 목록들 (Player 확인가능한 이벤트)
+		// 감지 가능한 이벤트 목록 초기화
+		this.detectionEventList = new HashSet<>();
+		// 감지가능한 이벤트 목록들 (Player 확인가능한 이벤트)
 		// PlayerEvent 서브 클래스들은 대부분 가능(Chat, OpenChest, CommandSend 등등)
-		this.possibleEventList.add(BlockBreakEvent.class);
-		this.possibleEventList.add(BlockPlaceEvent.class);
-		this.possibleEventList.add(PlayerEvent.class);
-		this.possibleEventList.add(EntityEvent.class);
-		this.possibleEventList.add(HangingEvent.class);
-		this.possibleEventList.add(InventoryEvent.class);
-		this.possibleEventList.add(InventoryMoveItemEvent.class);
-		this.possibleEventList.add(PlayerLeashEntityEvent.class);
+		this.detectionEventList.add(BlockBreakEvent.class);
+		this.detectionEventList.add(BlockPlaceEvent.class);
+		this.detectionEventList.add(PlayerEvent.class);
+		this.detectionEventList.add(EntityEvent.class);
+		this.detectionEventList.add(HangingEvent.class);
+		this.detectionEventList.add(InventoryEvent.class);
+		this.detectionEventList.add(InventoryMoveItemEvent.class);
+		this.detectionEventList.add(PlayerLeashEntityEvent.class);
 
 		this.minigameDataM = new MiniGameDataManager(this);
 		this.guiManager = new MiniGameGUIManager(this);
@@ -128,7 +128,7 @@ public class MiniGameManager implements YamlMember {
 	public boolean joinGame(Player p, String title) {
 		// strip color code
 		title = ChatColor.stripColor(title);
-		
+
 		// check player is not playing minigame
 		if (!this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame game = this.getMiniGameWithTitle(title);
@@ -169,9 +169,9 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
-	public boolean isPossibleEvent(Event event) {
-		// 미니게임에서 처리가능한 이벤트인지 체크 (possibleEvent 클래스 구현 클래스인지 확인)
-		for (Class<? extends Event> c : this.possibleEventList) {
+	public boolean isDetectedEvent(Event event) {
+		// 미니게임에서 감지가능한 이벤트인지 체크 (detectionEvent 클래스 구현 클래스인지 확인)
+		for (Class<? extends Event> c : this.detectionEventList) {
 			if (c.isAssignableFrom(event.getClass())) {
 				return true;
 			}
@@ -179,9 +179,9 @@ public class MiniGameManager implements YamlMember {
 		return false;
 	}
 
-	public boolean isPossibleEvent(Class<? extends Event> event) {
-		// 미니게임에서 처리가능한 이벤트인지 체크 (possibleEvent 클래스 구현 클래스인지 확인)
-		for (Class<? extends Event> c : this.possibleEventList) {
+	public boolean isDetectedEvent(Class<? extends Event> event) {
+		// 미니게임에서 감지가능한 이벤트인지 체크 (detectionEvent 클래스 구현 클래스인지 확인)
+		for (Class<? extends Event> c : this.detectionEventList) {
 			if (c.isAssignableFrom(event)) {
 				return true;
 			}
@@ -189,12 +189,12 @@ public class MiniGameManager implements YamlMember {
 		return false;
 	}
 
-	boolean processEvent(Event e) {
+	public boolean processEvent(Event e) {
 		/*
 		 * 이벤트에서 플레이어 가져와서 플레이어가 참여중인 미니게임으로 이벤트 넘기기
 		 */
 		// 허용되는 이벤트만 아닐 시 false 반환
-		if (!this.isPossibleEvent(e)) {
+		if (!this.isDetectedEvent(e)) {
 			return false;
 		}
 
@@ -208,7 +208,7 @@ public class MiniGameManager implements YamlMember {
 		// 이벤트에서 플레이어 추출
 		List<Player> players = this.getPlayersFromEvent(e);
 
-		// 미니게임과 관련된 이벤트가 아닐 경우 처리 안함
+		// 미니게임과 관련된 이벤트가 아닐 경우 감지 안함
 		if (players.isEmpty()) {
 			return false;
 		}

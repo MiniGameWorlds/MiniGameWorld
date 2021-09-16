@@ -56,15 +56,18 @@ public class MiniGameCommand implements CommandExecutor {
 		return false;
 	}
 
+	private boolean canCommandUse() {
+		return (boolean) this.minigameM.getGameSetting().get("minigameCommand");
+	}
+
 	private boolean join(Player p, String[] args) throws Exception {
 		/*
 		 * minigame join <title>
 		 */
+
 		// check minigameCommand is true(setting.yml)
-		boolean minigameCommand = (boolean) this.minigameM.getGameSetting().get("minigameCommand");
-		if (!minigameCommand) {
+		if (!this.canCommandUse()) {
 			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
-			return true;
 		}
 
 		String title = args[1];
@@ -76,11 +79,10 @@ public class MiniGameCommand implements CommandExecutor {
 		/*
 		 * minigame leave
 		 */
+
 		// check minigameCommand is true(setting.yml)
-		boolean minigameCommand = (boolean) this.minigameM.getGameSetting().get("minigameCommand");
-		if (!minigameCommand) {
+		if (!this.canCommandUse()) {
 			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
-			return true;
 		}
 
 		this.minigameM.leaveGame(p);
@@ -88,6 +90,12 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean list(Player p, String[] args) throws Exception {
+
+		// check minigameCommand is true(setting.yml)
+		if (!this.canCommandUse()) {
+			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+		}
+
 		List<MiniGame> games = this.minigameM.getMiniGameList();
 
 		// info
@@ -113,12 +121,22 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean gui(Player p, String[] args) {
+		// check minigameCommand is true(setting.yml)
+		if (!this.canCommandUse()) {
+			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+		}
+
 		MiniGameGUIManager guiManager = this.minigameM.getMiniGameGUIManager();
 		guiManager.openGUI(p);
 		return true;
 	}
 
 	private boolean reloadConfig(Player p, String[] args) throws Exception {
+		// OP
+		if(!p.isOp()) {
+			return true;
+		}
+		
 		// reload "setting.yml", "minigames.yml"
 		this.minigameM.reload();
 		this.MiniGameDataM.reload();

@@ -1,4 +1,4 @@
-package com.minigameworld.manager;
+package com.minigameworld.listeners;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -10,14 +10,13 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.util.Utils;
 
 import io.github.classgraph.ClassGraph;

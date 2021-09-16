@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.util.Setting;
 import com.wbm.plugin.util.ItemStackTool;
 
 import net.kyori.adventure.text.Component;
@@ -26,7 +27,7 @@ public class MiniGameGUI {
 
 	private final int minigameIconListSize = 27;
 
-	private enum BaseElement {
+	private enum BaseIcon {
 
 		LEAVE_GAME(ItemStackTool.item(Material.WHITE_BED, "Leave Game")),
 		HORIZON_LINE(ItemStackTool.item(Material.BARRIER, " ")),
@@ -35,7 +36,7 @@ public class MiniGameGUI {
 
 		private ItemStack item;
 
-		BaseElement(ItemStack item) {
+		BaseIcon(ItemStack item) {
 			this.item = item;
 		}
 
@@ -48,24 +49,24 @@ public class MiniGameGUI {
 		this.minigameManager = minigameManager;
 		this.minigames = minigames;
 		this.currentPage = 1;
-		this.makeBase();
+		this.makeBaseIcons();
 	}
 
-	private void makeBase() {
-		this.inv = Bukkit.createInventory(null, 9 * 6, Component.text("MiniGameWorld"));
+	private void makeBaseIcons() {
+		this.inv = Bukkit.createInventory(null, 9 * 6, Component.text(Setting.GUI_TITLE));
 
 		// leave game button
-		this.inv.setItem(1, BaseElement.LEAVE_GAME.getItem());
+		this.inv.setItem(1, BaseIcon.LEAVE_GAME.getItem());
 
 		// horizon line
 		for (int i = 9; i < 18; i++) {
-			this.inv.setItem(i, BaseElement.HORIZON_LINE.getItem());
+			this.inv.setItem(i, BaseIcon.HORIZON_LINE.getItem());
 		}
 
 		// page buttons
-		this.inv.setItem(48, BaseElement.PREVIOUS_PAGE.getItem());
-		this.inv.setItem(49, BaseElement.CURRENT_PAGE.getItem());
-		this.inv.setItem(50, BaseElement.NEXT_PAGE.getItem());
+		this.inv.setItem(48, BaseIcon.PREVIOUS_PAGE.getItem());
+		this.inv.setItem(49, BaseIcon.CURRENT_PAGE.getItem());
+		this.inv.setItem(50, BaseIcon.NEXT_PAGE.getItem());
 	}
 
 	private void emptyMiniGameIconList() {
@@ -133,15 +134,15 @@ public class MiniGameGUI {
 		}
 
 		Player p = (Player) e.getViewers().get(0);
-		if (ClickedItem.equals(BaseElement.LEAVE_GAME.getItem())) {
+		if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
 			this.minigameManager.leaveGame(p);
-		} else if (ClickedItem.equals(BaseElement.LEAVE_GAME.getItem())) {
+		} else if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
 			this.minigameManager.leaveGame(p);
-		} else if (ClickedItem.equals(BaseElement.PREVIOUS_PAGE.getItem())) {
+		} else if (ClickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
 			}
-		} else if (ClickedItem.equals(BaseElement.NEXT_PAGE.getItem())) {
+		} else if (ClickedItem.equals(BaseIcon.NEXT_PAGE.getItem())) {
 			if (this.currentPage < this.getMaxPage()) {
 				this.currentPage += 1;
 			}
@@ -160,7 +161,7 @@ public class MiniGameGUI {
 	}
 
 	private void updateCurrentPage() {
-		this.inv.setItem(49, ItemStackTool.item(BaseElement.CURRENT_PAGE.getItem().getType(), "" + this.currentPage));
+		this.inv.setItem(49, ItemStackTool.item(BaseIcon.CURRENT_PAGE.getItem().getType(), "" + this.currentPage));
 	}
 }
 //

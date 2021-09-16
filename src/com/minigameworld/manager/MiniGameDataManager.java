@@ -63,14 +63,14 @@ public class MiniGameDataManager implements YamlMember {
 			// maxPlayerCount
 			data.put("maxPlayerCount", minigame.getMaxPlayerCount());
 
-			// waitingTime
-			data.put("waitingTime", minigame.getWaitingTime());
-
 			// timeLimit
 			data.put("timeLimit", minigame.getTimeLimit());
 
 			// customData
 			data.put("customData", minigame.getCustomData());
+
+			// forceFullPlayer
+			data.put("forceFullPlayer", minigame.getSetting().isForceFullPlayer());
 		}
 	}
 

@@ -4,11 +4,15 @@
 ---
 
 # 할 것
-- GUI: setting.yml에 gui사용 여부 변수 추가, MiniGameWorld에 gui창 오픈하는 메서드 추가, wiki 문서화
-- 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
-- 실제로 간단한 미니게임 서버 하나 만들면서 플러그인에 추가할것 생각해보기
-- 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
+- MiniGame에서 handleException()에 Observer의 감지Event 추가
+- scoreNotifying 옵션을 MiniGame의 하위 프레임에 있는 overrding된 메소드한테 다 적용하기
+- 범용 Reward 플러그인 만들기
+- party 시스템 추가
+- GUI: wiki 문서화, player header 추가
 - 주석 영어로 바꾸기
+- 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
+- 실제로 간단한 미니게임 서버, 미니게임 여러 종류 만들면서 플러그인에 추가할것 생각해보기
+- 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
@@ -161,17 +165,20 @@
 # 2021-09-14
 - 외부 플러그인에서 MiniGameSetting의 lobby를 setLobby()를 이용해서 바꿀 수 있는 위험이 있으므로, MiniGameSetting안에서 lobby변수가 MiniGameManager로 접근(singleton)해서 lobby 변수 설정하고, setLobby() 제거하기
 - MiniGamePlayerData 클래스로 미니게임의 플레이어 관련 데이터 관리 분리
-- `경험치(xp)`, `체력`, `배고픔`, `포션 효과`, `hiding, glowing` 미니게임 데이터(MiniGamePlayerDataManager)에서 관리
+- `경험치(xp)`, `체력`, `배고픔`, `포션 효과`, `hiding`, `glowing` 미니게임 데이터(MiniGamePlayerDataManager)에서 관리
 
 # 2021-09-15
 - GUI 만들기(/mg gui 명령어로 열기)
 - 각 미니게임 icon 추가(MiniGameSetting에 gui에 사용할 Material 변수)
+- MiniGameWorld에 gui창 오픈하는 메서드 추가
 
-
-
-
-
-
+# 2021-09-16
+- command는 setting.yml의 minigameCommand가 true일 때 만 사용 가능
+- MiniGameAccessor에 MiniGame의 icon 접근 method 추가
+- `scoreNotifying`, `forceFullPlayer`를 minigames.yml에서 관리 대상으로 추가
+- `forceFullPlayer`를 fixedSetting의 관리 대상에 추가
+- `waitingTime`을 fixedSetting의 관리 대상에서 제외
+- 게임 waitingTime이 끝나고 시작할 때 `forceFullPlayer`가 true이고, 만족되지 못할 경우 게임을 리셋하지 않고, 다시 waitingTask를 재시작하면서 다른 플레이어 기다리기
 
 
 

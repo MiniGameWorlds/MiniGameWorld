@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.commands.MiniGameCommand;
-import com.minigameworld.manager.CommonEventListener;
+import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.games.FitTool;

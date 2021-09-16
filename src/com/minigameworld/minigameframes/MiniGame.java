@@ -121,16 +121,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			this.players.clear();
 		}
 
-		// stop all tasks
-		this.taskManager.cancelAllTasks();
-
-		// register task
-		this.registerTasks();
-		this.registerBasicTask();
-
-		// timer counter
-		this.waitingCounter = new Counter(this.getWaitingTime());
-		this.finishCounter = new Counter(this.getTimeLimit());
+		this.initTasks();
 
 		// clear player data
 		this.playerDataManager.clearData();
@@ -344,6 +335,22 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
+	private void initTasks() {
+		// stop and restart waiting task
+		// use for waiting other player join when waitingTask ended
+
+		// stop all tasks
+		this.taskManager.cancelAllTasks();
+
+		// register task
+		this.registerTasks();
+		this.registerBasicTask();
+
+		// timer counter
+		this.waitingCounter = new Counter(this.getWaitingTime());
+		this.finishCounter = new Counter(this.getTimeLimit());
+	}
+
 	private void startWaitingTimer() {
 		/*
 		 * waitingTime동안 기다린 후에 게임 시작
@@ -353,20 +360,19 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void runStartTasks() {
 		/*
-		 * forcePlayerCount 검사: 현재 참여 플레이어수가 maxPlayerCount와 같지않으면 모든 플레이어 leaveGame()
+		 * forceFullPlayer 검사: 현재 참여 플레이어수가 maxPlayerCount와 같지않으면 모든 플레이어 leaveGame()
 		 * 실행
 		 */
-		if (this.getSetting().isForcePlayerCount()) {
+		if (this.getSetting().isForceFullPlayer()) {
 			// check player isn't full
 			if (!this.isFull()) {
 				// send message
-				this.sendMessageToAllPlayers("Game cancelled: needs full players");
+				this.sendMessageToAllPlayers("Game can't start: needs full players");
 
-				// leave all players
-				this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
-				// init setting
-				this.initSetting();
-
+				// restart waiting task
+				this.initTasks();
+				this.startWaitingTimer();
+				
 				return;
 			}
 		}
@@ -577,8 +583,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
 
-		// check forcePlayerCount
-		if (this.getSetting().isForcePlayerCount()) {
+		// check forceFullPlayer
+		if (this.getSetting().isForceFullPlayer()) {
 			// send message
 			this.sendMessageToAllPlayers("Game end: game needs full players");
 
@@ -598,7 +604,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// save player data
 		this.playerDataManager.savePlayerData(p);
-		
+
 		// make pure state
 		this.playerDataManager.makePureState(p);
 	}
@@ -652,12 +658,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected void checkAttributes() {
 		/*
-		 * frame MiniGame class에서 조건 추가적으로 검사, final로 선언
+		 * frame MiniGame class에서 조건 추가적으로 검사
 		 */
 		// title
 		if (this.getTitle().length() <= 0) {
 			Utils.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
 		}
+
 		// timeLimit
 		if (this.getTimeLimit() <= 0) {
 			Utils.warning(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");

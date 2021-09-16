@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.minigameframes.MiniGame;
@@ -28,7 +29,7 @@ public class MiniGameAccessor {
 	- `getPlayers`: 
 	- `getPlayerCount`: 
 	- `getScore`: 
-//	- `handleException`: 
+	//	- `handleException`: 
 	- `getTitle`: 
 	- `getLocation`: 
 	- `getWaitingTime`: 
@@ -105,7 +106,7 @@ public class MiniGameAccessor {
 	}
 
 	public boolean isForcePlayerCount() {
-		return this.minigame.getSetting().isForcePlayerCount();
+		return this.minigame.getSetting().isForceFullPlayer();
 	}
 
 	public List<String> getTutorial() {
@@ -116,6 +117,10 @@ public class MiniGameAccessor {
 	public Map<String, Object> getCustomData() {
 		// copied instance
 		return new HashMap<>(this.minigame.getCustomData());
+	}
+
+	public Material getIcon() {
+		return this.minigame.getSetting().getIcon();
 	}
 
 	public String getClassName() {

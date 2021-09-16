@@ -2,7 +2,7 @@ package com.minigameworld.observer;
 
 public interface MiniGameEventNotifier {
 	public enum MiniGameEvent {
-		START, FINISH
+		START, FINISH, EXCEPTION;
 	}
 
 	public void registerObserver(MiniGameObserver observer);
