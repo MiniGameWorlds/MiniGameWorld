@@ -20,7 +20,7 @@
 1. 플러그인 설정
 - plugin.yml: depend
 
-2. 미니게임 클래스 제작
+2. 미니게임 클래스 프레임 선택
 - 미니게임의 특성에 따라 상속할 미니게임 클래스 결정 후, 유의사항에 맞게 클래스 제작 
 - `SoloMiniGame`: 1인 플레이
 - `SoloBattleMiniGame`: 개인전 플레이
@@ -29,12 +29,28 @@
 ```
 
 ```
-3. MiniGameWorld에 등록
+
+3. 미니게임 구현
+
+
+
+4. MiniGameWorld에 등록
 - MiniGameWorld.create()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
 ```java
 MiniGameWorld world = MiniGameWorld.create();
 world.registerMiniGame(new FitTool());
 ```
+
+
+
+# 옵션
+## Setting
+- `active`: 
+- `settingFixed`: 
+- `scoreNotifying`: 
+- ``: 
+- ``: 
+- ``: 
 
 
 
@@ -119,7 +135,7 @@ protected void processEvent(Event event) {
 # 설정값
 - MiniGameSetting으로 게임에 대해 다양하게 값을 설정할 수 있음
 - 일부 설정값제외한 값들은 minigames.yml 파일에서 수정가능
-- `settingFixed` 설정값: `waitingTime`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
+- `settingFixed` 설정값: `forceFullPlayer`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
 
 
 
@@ -140,6 +156,6 @@ protected void processEvent(Event event) {
 
 
 
-# 예외
-- handleException()를 오버라이딩 해서 사용한다
-- 게임 내 버그, 예외처리는 구현하는 미니게임에서 처리해야 
+# 예외 처리
+- handleException()를 오버라이딩 해서 사용
+- 게임 내 버그, 예외처리는 구현하는 미니게임에서 처리해야 함
