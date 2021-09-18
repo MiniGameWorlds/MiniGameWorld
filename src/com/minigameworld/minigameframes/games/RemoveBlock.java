@@ -19,9 +19,7 @@ import com.wbm.plugin.util.InventoryTool;
 public class RemoveBlock extends TeamMiniGame {
 
 	/*
-	 * 설명: 일정시간내 접속한 플레이어끼리 순서대로 한번씩 점프하는 게임
-	 * 
-	 * 타입: Team
+	 * Remove all blocks 
 	 */
 	private Location pos1, pos2;
 	private List<ItemStack> blocks;

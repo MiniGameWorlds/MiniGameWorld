@@ -26,7 +26,7 @@ public class MiniGameWorld {
 	}
 
 	public void setMiniGameManager(MiniGameManager minigameM) {
-		// MiniGameWorld플러그인 시작될 떄 최초 1회만 등록되게 설정
+		// [IMPORTANT] set MiniGameManager only once when plugin loaded
 		if (this.minigameM == null) {
 			this.minigameM = minigameM;
 		}
@@ -62,11 +62,11 @@ public class MiniGameWorld {
 	}
 
 	public boolean isPossibleEvent(Event event) {
-		return this.minigameM.isDetectedEvent(event);
+		return this.minigameM.isDetectableEvent(event);
 	}
 
 	public boolean isPossibleEvent(Class<? extends Event> event) {
-		return this.minigameM.isDetectedEvent(event);
+		return this.minigameM.isDetectableEvent(event);
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {

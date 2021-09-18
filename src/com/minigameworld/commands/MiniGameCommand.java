@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.manager.MiniGameDataManager;
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.manager.gui.MiniGameGUIManager;
@@ -18,10 +19,15 @@ public class MiniGameCommand implements CommandExecutor {
 
 	private MiniGameManager minigameM;
 	private MiniGameDataManager MiniGameDataM;
+	private MiniGameCommandTabCompleter tabCompleter;
 
 	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameM = minigameM;
 		this.MiniGameDataM = this.minigameM.getMiniGameDataManager();
+		
+		// set tab completer
+		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
+		MiniGameWorldMain.getInstance().getCommand("minigame").setTabCompleter(this.tabCompleter);
 	}
 
 	@Override

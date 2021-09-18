@@ -4,12 +4,9 @@
 ---
 
 # 할 것
-- MiniGame에서 handleException()에 Observer의 감지Event 추가
-- scoreNotifying 옵션을 MiniGame의 하위 프레임에 있는 overrding된 메소드한테 다 적용하기
 - 범용 Reward 플러그인 만들기
 - party 시스템 추가
-- GUI: wiki 문서화, player header 추가
-- 주석 영어로 바꾸기
+- GUI: wiki 문서화
 - 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
 - 실제로 간단한 미니게임 서버, 미니게임 여러 종류 만들면서 플러그인에 추가할것 생각해보기
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
@@ -124,7 +121,7 @@
 
 # 2021-07-25
 - paper api 17로 변경
-- MiniGameManager의 감지이벤트에서 InventoryPickupItem 제거(Player와 관련 없음)
+- MiniGameManager의 감지이벤트에서 InventoryPickupItemEvent 제거(Player와 관련 없음)
 
 # 2021-09-08
 - classgraph 오류 해결하기(JDK 16의 오류) (classgraph 문의로 trick사용해서 해결)
@@ -180,12 +177,14 @@
 - `waitingTime`을 fixedSetting의 관리 대상에서 제외
 - 게임 waitingTime이 끝나고 시작할 때 `forceFullPlayer`가 true이고, 만족되지 못할 경우 게임을 리셋하지 않고, 다시 waitingTask를 재시작하면서 다른 플레이어 기다리기
 
+# 2021-09-17
+- MiniGame에서 handleException()에 Observer의 감지Event 추가
+- 주석 추가, 영어로 변경 (부분)
 
-
-
-
-
-
+# 2021-09-18
+- 주석 추가, 영어로 변경 (부분)
+- GUI: player header 추가
+- command tab completer 추가
 
 
 

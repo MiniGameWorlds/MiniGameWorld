@@ -28,7 +28,7 @@ public class MiniGameDataManager implements YamlMember {
 	public void addMiniGameData(MiniGame minigame) {
 		Map<String, Object> data = minigame.getSetting().getFileSetting();
 
-		// data 추가 (className, data)
+		// add data (className, data)
 		this.minigameData.put(minigame.getClassName(), data);
 	}
 
@@ -43,7 +43,7 @@ public class MiniGameDataManager implements YamlMember {
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getMiniGameData(MiniGame minigame) {
 		/*
-		 * ClassName으로 미니게임 구분
+		 * distinguish by ClassName
 		 */
 		return (Map<String, Object>) this.minigameData.get(minigame.getClassName());
 	}
@@ -80,15 +80,15 @@ public class MiniGameDataManager implements YamlMember {
 		List<String> removedGames = new ArrayList<String>();
 		OUT: for (String gameClassName : this.minigameData.keySet()) {
 			for (MiniGame game : gameList) {
-				// gameClassName이 있으면 통과
+				// check if same ClassName exist
 				if (gameClassName.equalsIgnoreCase(game.getClassName())) {
 					continue OUT;
 				}
 			}
-			// gameClassName이 없으면 minigameData에서 삭제 (= 파일에서 삭제)
+			// if not exist, remove minigame (= remove from file)
 			removedGames.add(gameClassName);
 		}
-
+		
 		Utils.info("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);

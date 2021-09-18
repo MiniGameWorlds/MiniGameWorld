@@ -45,7 +45,7 @@ public class MiniGameGUIManager {
 	}
 
 	public void openGUI(Player p) {
-		this.guis.put(p, new MiniGameGUI(this.minigameManager, this.minigameManager.getMiniGameList()));
+		this.guis.put(p, new MiniGameGUI(p, this.minigameManager, this.minigameManager.getMiniGameList()));
 
 		// open 1 page gui
 		Inventory inv = this.guis.get(p).createGUI(1);
@@ -53,8 +53,11 @@ public class MiniGameGUIManager {
 	}
 
 	public void processInventoryEvent(InventoryEvent event) {
+		// manage Inventory Events
 		if (event instanceof InventoryClickEvent) {
 			InventoryClickEvent e = (InventoryClickEvent) event;
+			
+			// check title
 			if (this.isMiniGameWorldGUI(e.getView().title())) {
 				e.setCancelled(true);
 
@@ -63,7 +66,7 @@ public class MiniGameGUIManager {
 					this.getClickedGUI(e.getClickedInventory()).processClickEvent(e);
 				}
 			}
-		} else if (event instanceof InventoryClickEvent) {
+		} else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
 			if (this.isMiniGameWorldGUI(e.getView().title())) {
 				this.guis.remove(e.getPlayer());
@@ -81,7 +84,7 @@ public class MiniGameGUIManager {
 	}
 
 	private boolean isMiniGameWorldGUI(Component component) {
-		return Component.text(Setting.GUI_TITLE).equals(component);
+		return Component.text(Setting.GUI_INV_TITLE).equals(component);
 	}
 }
 //

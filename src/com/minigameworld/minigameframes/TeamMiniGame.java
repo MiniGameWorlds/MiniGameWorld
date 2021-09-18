@@ -1,5 +1,7 @@
 package com.minigameworld.minigameframes;
 
+import org.bukkit.entity.Player;
+
 import com.minigameworld.util.Utils;
 
 public abstract class TeamMiniGame extends MiniGame {
@@ -10,7 +12,7 @@ public abstract class TeamMiniGame extends MiniGame {
 	 * - team util methods
 	 * 
 	 * [Rule]
-	 * - must use plusScoreToTeam() or minusScoreToTeam() for managing score
+	 * - must use plusEveryoneScore() or minusEveryoneScore() for team score
 	 */
 
 	public TeamMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
@@ -19,6 +21,16 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	protected int getTeamScore() {
 		return this.getScore(this.getPlayers().get(0));
+	}
+
+	@Override
+	protected void plusScore(Player p, int score) {
+		this.plusEveryoneScore(score);
+	}
+
+	@Override
+	protected void minusScore(Player p, int score) {
+		this.minusEveryoneScore(score);
 	}
 
 	@Override

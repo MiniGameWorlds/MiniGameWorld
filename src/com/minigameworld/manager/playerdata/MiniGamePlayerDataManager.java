@@ -27,6 +27,7 @@ public class MiniGamePlayerDataManager {
 	}
 
 	public void makePureState(Player p) {
+		// ready for playing minigame
 		MiniGamePlayerData pData = this.getPlayerData(p);
 		if (pData != null) {
 			pData.makePureState();

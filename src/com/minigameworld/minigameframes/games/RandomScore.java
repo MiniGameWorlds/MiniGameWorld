@@ -11,7 +11,7 @@ import com.minigameworld.minigameframes.SoloBattleMiniGame;
 
 public class RandomScore extends SoloBattleMiniGame {
 	/*
-	 * 설명: 웅크려서 랜덤 점수 얻는 게임 타입: MiniGame
+	 * Get random score when sneaking
 	 */
 
 	private List<Integer> randomScores;
@@ -36,7 +36,7 @@ public class RandomScore extends SoloBattleMiniGame {
 		if (event instanceof PlayerToggleSneakEvent) {
 			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
 			Player p = e.getPlayer();
-			// 한번도 randomScore를 안얻었을 때
+			// first sneaking
 			if (this.getScore(p) == 0) {
 				int randomIndex = (int) (Math.random() * this.randomScores.size());
 				int randomScore = this.randomScores.remove(randomIndex);

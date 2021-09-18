@@ -372,7 +372,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 				// restart waiting task
 				this.initTasks();
 				this.startWaitingTimer();
-				
+
 				return;
 			}
 		}
@@ -591,6 +591,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			// 모든 사람 강퇴
 			this.getPlayers().forEach(other -> this.setupPlayerLeavingSettings(other, null));
 		}
+
+		// notify EXCEPTION event to observers
+		this.notifyObservers(MiniGameEvent.EXCEPTION); 
 
 		// 미니게임에 남은 사람이 없으면 미니게임 세팅 초기화
 		if (this.isEmpty()) {

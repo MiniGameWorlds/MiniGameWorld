@@ -89,6 +89,8 @@ public class MiniGameSetting {
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
 	}
+	
+	// set
 
 	public void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
@@ -137,6 +139,8 @@ public class MiniGameSetting {
 	public void setIcon(Material icon) {
 		this.icon = icon;
 	}
+	
+	// get
 
 	public String getTitle() {
 		return title;
@@ -186,6 +190,8 @@ public class MiniGameSetting {
 		return this.icon;
 	}
 
+	// setting 
+	
 	public Map<String, Object> getFileSetting() {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();

@@ -9,10 +9,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
@@ -25,7 +33,7 @@ import io.github.classgraph.ClassInfoList;
 
 public class CommonEventListener implements Listener {
 	/*
-	 * BUG: 서버에 이벤트 리스너가 등록이 잘 안됨(reload 하면 등록이 또 잘됨)
+	 * Set event handler to classes that MiniGame can use with classgraph library
 	 */
 
 	private MiniGameManager minigameManager;
@@ -43,6 +51,7 @@ public class CommonEventListener implements Listener {
 
 		long startTime = System.currentTimeMillis();
 
+		// set cache directory can be found
 		List<URL> cacheDirJarURLs = new ArrayList<>();
 		for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
 			File cpFile = new File(cpEntry);
@@ -66,6 +75,7 @@ public class CommonEventListener implements Listener {
 			classGraph.addClassLoader(new URLClassLoader(cacheDirJarURLs.toArray(new URL[0])));
 		}
 
+		// find classes
 		ClassInfoList events = classGraph.enableClassInfo().scan() // you should use try-catch-resources instead
 				.getClassInfo(Event.class.getName()).getSubclasses().filter(info -> !info.isAbstract());
 
@@ -86,12 +96,8 @@ public class CommonEventListener implements Listener {
 					// I believe the overhead of initializing ~20 more classes
 					// is better than that alternative.
 
-					// register Event Class MiniGameManager ONLY can process
-					// if (this.minigameManager.isPossibleEvent(eventClass)) {
 					Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.NORMAL, executor,
 							MiniGameWorldMain.getInstance());
-
-					// }
 				}
 
 			}
@@ -115,10 +121,54 @@ public class CommonEventListener implements Listener {
 
 	private Object onEvent(Event event) {
 		/*
-		 * 모든 이벤트 발생 캐치하는 메소드
+		 * pass event
 		 */
 		this.minigameManager.processEvent(event);
 		return null;
+	}
+
+	@EventHandler
+	private void checkPlayerClickMiniGameGUI(InventoryEvent e) {
+		this.minigameManager.getMiniGameGUIManager().processInventoryEvent(e);
+	}
+
+	@EventHandler
+	private void checkPlayerTryingMiniGameSign(PlayerInteractEvent e) {
+		// check player is trying to join or leaving with sign
+		Player p = e.getPlayer();
+
+		// process
+		Block block = e.getClickedBlock();
+		if (block == null) {
+			return;
+		}
+
+		if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
+			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				Sign sign = (Sign) block.getState();
+				String minigame = sign.getLines()[0];
+				String title = sign.getLines()[1];
+
+				// check minigameSign option
+				boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
+				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
+					if (!minigameSign) {
+						p.sendMessage("minigameSign option is false");
+						return;
+					}
+
+					// check sign
+					if (minigame.equals("[MiniGame]")) {
+						// join
+						this.minigameManager.joinGame(p, title);
+					} else if (minigame.equals("[Leave MiniGame]")) {
+						// leave
+						this.minigameManager.leaveGame(p);
+					}
+
+				}
+			}
+		}
 	}
 }
 //

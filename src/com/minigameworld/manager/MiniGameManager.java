@@ -10,15 +10,11 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -27,7 +23,6 @@ import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.manager.gui.MiniGameGUIManager;
@@ -38,56 +33,61 @@ import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 
 public class MiniGameManager implements YamlMember {
-	// Singleton 객체
+	// Singleton
 	private static MiniGameManager instance = new MiniGameManager();
 	private static boolean instanceCreated = false;
 
-	// 미니게임 관리 리스트
+	// MiniGame List
 	private List<MiniGame> minigames;
 
-	private Set<Class<? extends Event>> detectionEventList;
+	// detectable events
+	private Set<Class<? extends Event>> detectableEventList;
+	// players for event process (use for memory)
+	private List<Player> eventPlayers;
 
+	// setting.yml
 	private Map<String, Object> setting;
 
-	// 미니게임 파일 데이터
+	// MiniGame Data Manager
 	private MiniGameDataManager minigameDataM;
 
 	// minigame gui manager
 	private MiniGameGUIManager guiManager;
 
-	// 이벤트의 관련있는 플레이어 변수 (메모리를 위해 멤버변수로 설정)
-	private List<Player> eventPlayers;
-
 	// minigame lobby
 	private static Location lobby;
 
+	// yaml data manager
 	YamlManager yamlM;
 
-	// getInstance() 로 접근해서 사용
+	// use getInstance()
 	private MiniGameManager() {
-		// 미니게임 리스트 초기화
+		// init
 		this.minigames = new ArrayList<>();
-
 		this.eventPlayers = new ArrayList<Player>();
-
 		this.setting = new HashMap<String, Object>();
 		this.initSettingData();
 
-		// 감지 가능한 이벤트 목록 초기화
-		this.detectionEventList = new HashSet<>();
-		// 감지가능한 이벤트 목록들 (Player 확인가능한 이벤트)
-		// PlayerEvent 서브 클래스들은 대부분 가능(Chat, OpenChest, CommandSend 등등)
-		this.detectionEventList.add(BlockBreakEvent.class);
-		this.detectionEventList.add(BlockPlaceEvent.class);
-		this.detectionEventList.add(PlayerEvent.class);
-		this.detectionEventList.add(EntityEvent.class);
-		this.detectionEventList.add(HangingEvent.class);
-		this.detectionEventList.add(InventoryEvent.class);
-		this.detectionEventList.add(InventoryMoveItemEvent.class);
-		this.detectionEventList.add(PlayerLeashEntityEvent.class);
+		// register detectable events
+		this.registerDetectableEvent();
 
 		this.minigameDataM = new MiniGameDataManager(this);
 		this.guiManager = new MiniGameGUIManager(this);
+	}
+
+	private void registerDetectableEvent() {
+		// init
+		this.detectableEventList = new HashSet<>();
+
+		// events only related with Player
+		this.detectableEventList.add(BlockBreakEvent.class);
+		this.detectableEventList.add(BlockPlaceEvent.class);
+		this.detectableEventList.add(PlayerEvent.class);
+		this.detectableEventList.add(EntityEvent.class);
+		this.detectableEventList.add(HangingEvent.class);
+		this.detectableEventList.add(InventoryEvent.class);
+		this.detectableEventList.add(InventoryMoveItemEvent.class);
+		this.detectableEventList.add(PlayerLeashEntityEvent.class);
 	}
 
 	public static MiniGameManager getInstance() {
@@ -102,7 +102,7 @@ public class MiniGameManager implements YamlMember {
 		/*
 		 * set basic setting.yml
 		 */
-		// lobby 설정
+		// lobby
 		if (!this.setting.containsKey("lobby")) {
 			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
@@ -126,7 +126,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean joinGame(Player p, String title) {
-		// strip color code
+		// strip "color code"
 		title = ChatColor.stripColor(title);
 
 		// check player is not playing minigame
@@ -144,10 +144,8 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
+	// check player is playing minigame
 	public boolean leaveGame(Player p) {
-		/*
-		 * check player is playing minigame
-		 */
 
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
@@ -159,19 +157,18 @@ public class MiniGameManager implements YamlMember {
 
 	}
 
+	// check player is playing minigame (API)
 	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
-		/*
-		 * check player is playing minigame (API)
-		 */
+
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
 			playingGame.handleException(p, exception, arg);
 		}
 	}
 
-	public boolean isDetectedEvent(Event event) {
-		// 미니게임에서 감지가능한 이벤트인지 체크 (detectionEvent 클래스 구현 클래스인지 확인)
-		for (Class<? extends Event> c : this.detectionEventList) {
+	// check detectable event (using isAssignableFrom())
+	public boolean isDetectableEvent(Event event) {
+		for (Class<? extends Event> c : this.detectableEventList) {
 			if (c.isAssignableFrom(event.getClass())) {
 				return true;
 			}
@@ -179,9 +176,9 @@ public class MiniGameManager implements YamlMember {
 		return false;
 	}
 
-	public boolean isDetectedEvent(Class<? extends Event> event) {
-		// 미니게임에서 감지가능한 이벤트인지 체크 (detectionEvent 클래스 구현 클래스인지 확인)
-		for (Class<? extends Event> c : this.detectionEventList) {
+	// check detectable event (using isAssignableFrom())
+	public boolean isDetectableEvent(Class<? extends Event> event) {
+		for (Class<? extends Event> c : this.detectableEventList) {
 			if (c.isAssignableFrom(event)) {
 				return true;
 			}
@@ -189,81 +186,35 @@ public class MiniGameManager implements YamlMember {
 		return false;
 	}
 
+	/* 
+	 * process event
+	 * - check inventory event
+	 * - check sign click
+	 * - check player is playing minigame and process event to minigame
+	*/
 	public boolean processEvent(Event e) {
-		/*
-		 * 이벤트에서 플레이어 가져와서 플레이어가 참여중인 미니게임으로 이벤트 넘기기
-		 */
-		// 허용되는 이벤트만 아닐 시 false 반환
-		if (!this.isDetectedEvent(e)) {
+		// check event is detectable
+		if (!this.isDetectableEvent(e)) {
 			return false;
 		}
 
-		if (e instanceof InventoryEvent) {
-			this.guiManager.processInventoryEvent((InventoryEvent) e);
-		}
-
-		// check player is trying to join or leave game with Sign
-		this.checkPlayerTryingMiniGameSign(e);
-
-		// 이벤트에서 플레이어 추출
+		// get players
 		List<Player> players = this.getPlayersFromEvent(e);
 
-		// 미니게임과 관련된 이벤트가 아닐 경우 감지 안함
+		// check empty
 		if (players.isEmpty()) {
 			return false;
 		}
 
-		// 이벤트에서 얻은 플레이어들에 대한 미니게임 이벤트 처리
+		// pass evnet to minigame
 		for (Player p : players) {
-			// 플레이어가 플레이중인 미니게임이 없으면 반환
+			// check player is playing minigame
 			if (this.checkPlayerIsPlayingMiniGame(p)) {
 				MiniGame playingGame = this.getPlayingMiniGame(p);
 				playingGame.passEvent(e);
 			}
 		}
-
 		return true;
-	}
-
-	private boolean checkPlayerTryingMiniGameSign(Event event) {
-		// check player is trying to join or leaving with sign
-		if (event instanceof PlayerInteractEvent) {
-			PlayerInteractEvent e = (PlayerInteractEvent) event;
-			Player p = e.getPlayer();
-
-			// process
-			Block block = e.getClickedBlock();
-			if (block != null) {
-				if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
-					if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-						Sign sign = (Sign) block.getState();
-						String minigame = sign.getLines()[0];
-						String title = sign.getLines()[1];
-
-						// check minigameSign option
-						boolean minigameSign = (boolean) this.getGameSetting().get("minigameSign");
-						if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
-							if (!minigameSign) {
-								p.sendMessage("minigameSign option is false");
-								return true;
-							}
-
-							// check sign
-							if (minigame.equals("[MiniGame]")) {
-								// join
-								this.joinGame(p, title);
-							} else if (minigame.equals("[Leave MiniGame]")) {
-								// leave
-								this.leaveGame(p);
-							}
-
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {
@@ -298,10 +249,10 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	private List<Player> getPlayersFromEvent(Event e) {
-		// 플레이어 변수 clear
+		// clear
 		this.eventPlayers.clear();
 
-		// Event마다 Player 얻는 작업
+		// get players from each Event
 		if (e instanceof BlockBreakEvent) {
 			eventPlayers.add(((BlockBreakEvent) e).getPlayer());
 		} else if (e instanceof BlockPlaceEvent) {
@@ -343,12 +294,11 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean registerMiniGame(MiniGame newGame) {
-		// 이미 같은 미니게임이 minigames에 있으면 등록 실패
-		// 주의: 미니게임.title로 비교하면 안됨 -> 클래스 이름으로 비교해야 함(대소문자 구별x),
-		// 왜냐면 minigames.yml파일에서 클래스 이름으로 구분해서 저장하였기 때문
+		// can not register minigame which has same class name with others 
 		String newGameClassName = newGame.getClassName();
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
+			// distinguish with MiniGame class name
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
 				Utils.warning(newGame.getTitleWithClassName() + " minigame is already registered");
 				Utils.warning(
@@ -357,14 +307,14 @@ public class MiniGameManager implements YamlMember {
 			}
 		}
 
-		// 등록하는 미니게임 인스턴스에 이전에 저장된 minigames.yml 파일 데이터 적용
+		// apply already exsiting minigame data in minigames.yml 
 		if (this.minigameDataM.isMinigameDataExists(newGame)) {
 			this.minigameDataM.applyMiniGameDataToInstance(newGame);
 		} else {
 			this.minigameDataM.addMiniGameData(newGame);
 		}
 
-		// 게임 등록
+		// add
 		this.minigames.add(newGame);
 
 		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
@@ -373,7 +323,6 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean unregisterMiniGame(MiniGame minigame) {
-		// 등록된 미니게임 삭제
 		if (this.minigames.remove(minigame)) {
 			Utils.info(minigame.getTitleWithClassName() + " minigame is removed");
 			return true;

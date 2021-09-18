@@ -14,7 +14,7 @@ import com.minigameworld.minigameframes.SoloMiniGame;
 
 public class FitTool extends SoloMiniGame {
 	/*
-	 * 설명: 제한 시간내에 알맞는 도구를 이용해서 많은 블럭을 캐는 미니게임 타입: Solo
+	 * Break blocks with fit tools
 	 */
 
 	List<Material> blocks;
@@ -28,13 +28,13 @@ public class FitTool extends SoloMiniGame {
 	@Override
 	protected void initGameSetting() {
 		this.blocks = new ArrayList<Material>();
-		// 칼 관련
+		// sword
 		this.blocks.add(Material.COBWEB);
-		// 도끼 관련
+		// axe
 		this.blocks.add(Material.OAK_WOOD);
-		// 곡괭이 관련
+		// pickaxe
 		this.blocks.add(Material.COBBLESTONE);
-		// 삽 관련
+		// shovel
 		this.blocks.add(Material.DIRT);
 	}
 
@@ -51,12 +51,12 @@ public class FitTool extends SoloMiniGame {
 
 			Block b = e.getBlock();
 
-			// 밑의 4개 블럭일 경우에만 점수 +1
+			// plus score with specific block
 			if (this.blocks.contains(b.getType())) {
 				e.setCancelled(true);
 				this.plusScore(p, 1);
 
-				// 랜덤블럭으로 설정
+				// random block
 				b.setType(this.getRandomBlock());
 			}
 
@@ -65,7 +65,7 @@ public class FitTool extends SoloMiniGame {
 
 	@Override
 	protected void runTaskAfterStart() {
-		// 4가지 도구 지급
+		// give tools 
 		for (Player p : this.getPlayers()) {
 			p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
 			p.getInventory().addItem(new ItemStack(Material.IRON_PICKAXE));

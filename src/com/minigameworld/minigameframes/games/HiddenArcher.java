@@ -1,8 +1,30 @@
 package com.minigameworld.minigameframes.games;
 
-public class HiddenArcher {
+import java.util.List;
+
+import com.minigameworld.minigameframes.TeamBattleMiniGame;
+
+public class HiddenArcher extends TeamBattleMiniGame {
 	/*
-	 * 설명: 서로의 모습이 보이지 않고(Player hide), 제한된 공간내에서 번갈아가며 화살로 맞추면 +1(피해 회복, 무한 활, 화살1개)
-	 * 타입: MiniGame 
+	 * show hiding players with bow
 	 */
+
+	public HiddenArcher() {
+		super("HiddenArcher", 6, 60 * 3, 20, 3, 2);
+	}
+	
+	@Override
+	protected void initGameSetting() {
+		super.initGameSetting();
+	}
+
+	@Override
+	protected void registerAllPlayersToTeam() {
+	}
+
+	@Override
+	protected List<String> registerTutorial() {
+		return null;
+	}
+
 }

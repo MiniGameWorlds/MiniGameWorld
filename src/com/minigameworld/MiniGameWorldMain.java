@@ -81,7 +81,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void setCommandExecutors() {
 		this.minigameCommand = new MiniGameCommand(this.minigameManager);
 		getCommand("minigame").setExecutor(this.minigameCommand);
-
 	}
 
 	private void registerMiniGames() {

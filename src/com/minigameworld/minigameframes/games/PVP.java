@@ -16,14 +16,10 @@ import com.wbm.plugin.util.InventoryTool;
 
 public class PVP extends SoloBattleMiniGame {
 	/*
-	 * description: pvp game
-	 * 
-	 * type: SoloBattleMiniGame
+	 * pvp game
 	 * 
 	 * rule:
-	 * 
 	 * - change dead player's gamemode to spectator
-	 * 
 	 * - kit: stone sword(1), bow(1), arrow(32), pork(10), golden apple(1)
 	 */
 

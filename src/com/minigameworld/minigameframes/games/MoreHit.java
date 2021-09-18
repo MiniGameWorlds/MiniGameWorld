@@ -14,7 +14,7 @@ import com.wbm.plugin.util.PlayerTool;
 
 public class MoreHit extends TeamBattleMiniGame {
 	/*
-	 * 설명: 더 많이 때리는 게임 타입: TeamBattle
+	 * hit to get score
 	 */
 
 	public MoreHit() {
@@ -39,7 +39,7 @@ public class MoreHit extends TeamBattleMiniGame {
 			if (victimEntity instanceof Player && damagerEntity instanceof Player) {
 				Player victim = (Player) victimEntity;
 				Player damager = (Player) damagerEntity;
-				// 다른 팀일 때
+				// other team
 				if (!this.isSameTeam(victim, damager)) {
 					Team team = this.getPlayerTeam(damager);
 					team.plusTeamScore(1);

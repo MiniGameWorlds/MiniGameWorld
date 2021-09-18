@@ -16,9 +16,9 @@ import com.minigameworld.minigameframes.SoloBattleMiniGame;
 
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*
-	 * 설명: 랜덤 시간까지는 점수가 올라가지만, 그 후에는 점수가 깎임 (특정 이벤트로 점수 확인 3번 가능, 특정 이벤트로 멈춤 가능)
-	 * 
-	 * 타입: Solo
+	 * Random score graph
+	 * - Jump: check graph score
+	 * - Sneak: stop my score
 	 */
 	int randomTime;
 	Map<Player, Integer> chance;
@@ -31,7 +31,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 	@Override
 	protected void initGameSetting() {
-		// 상한 점수 설정
+		// set score limit
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
 
 	}
@@ -40,7 +40,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	protected void registerTasks() {
 		// register task
 		this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
-
 			@Override
 			public void run() {
 				for (Player p : getPlayers()) {
@@ -52,7 +51,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 						}
 					}
 				}
-
 			}
 		});
 	}
@@ -61,7 +59,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	protected void runTaskAfterStart() {
 		super.runTaskAfterStart();
 
-		// 찬스 3번씩 설정
+		// 3 chances
 		this.chance.clear();
 		this.getPlayers().forEach(p -> chance.put(p, 3));
 
@@ -76,14 +74,14 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	@Override
 	protected void processEvent(Event event) {
 		if (event instanceof PlayerJumpEvent) {
-			// 점프 event = 점수 확인
+			// jump: check current graph score
 			PlayerJumpEvent e = (PlayerJumpEvent) event;
 			Player p = e.getPlayer();
 			int leftChance = this.chance.get(p);
 			if (leftChance > 0) {
 				int score = this.getScore(p);
 				this.sendMessage(p, "Current Score: " + score);
-				// chance 기회 -1
+				// chance -1
 				this.chance.put(p, leftChance - 1);
 			} else if (leftChance == 0) {
 				this.sendMessage(p, "You has no more score checking chance");
@@ -91,31 +89,35 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 				this.sendMessage(p, "You can't check score until game end");
 			}
 		} else if (event instanceof PlayerToggleSneakEvent) {
-			// 웅크리기 event = 점수 stop
+			// sneak: stop my score
 			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
 			Player p = e.getPlayer();
 
 			this.sendMessage(p, "Your score has been stopped");
 
-			// chance를 -1로 만들기
+			// set chance to -1
 			this.chance.put(p, -1);
 
-			// 모든 사람의 찬스가 -1이면 모든 사람이 stop했다는것을 증명
-			for (int chance : this.chance.values()) {
-				if (chance != -1) {
-					return;
-				}
+			// check if all player stopped own score
+			if (this.isAllPlayerStoppedScore()) {
+				this.endGame();
 			}
-
-			// 모든 사람이 stop을 했으므로 게임 종료
-			this.endGame();
 		} else if (event instanceof EntityDamageByEntityEvent) {
-			// 때리면 맞는 사람에게 Jump Event가 발생되어 버림
+			// cancel jump event which automaticallt called by hit
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
 				e.setCancelled(true);
 			}
 		}
+	}
+
+	private boolean isAllPlayerStoppedScore() {
+		for (int chance : this.chance.values()) {
+			if (chance != -1) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

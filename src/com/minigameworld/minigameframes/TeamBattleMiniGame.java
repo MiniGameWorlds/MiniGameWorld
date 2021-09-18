@@ -13,6 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.SortTool;
 
+@SuppressWarnings("deprecation")
 public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/*
@@ -229,7 +230,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.checkAtLeastTeamRemains(3);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void processEvent(Event event) {
 		/*
