@@ -12,7 +12,6 @@
 ## 2. 미니게임 구현
 ### 기본적인 MiniGame의 오버라이딩 메소드 설명
 - `initGameSetting()`: 미니게임 설정값 세팅메소드로 시작되기 전에 한번씩 꼭 실행되는 메소드
-- `runTaskAfterStart()`: 미니게임이 실제로 시작 된 직후 실행되는 메소드
 - `processEvent()`: 미니게임에 참여중인 플레이어의 이벤트를 처리해야 하는 메소드
 - `registerTutorial()`: 미니게임 튜토리얼 글
 
