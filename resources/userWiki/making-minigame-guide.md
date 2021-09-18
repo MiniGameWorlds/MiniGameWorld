@@ -1,23 +1,11 @@
-# 처리 가능 이벤트 목록
-※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event도 사용가능(참고: [Paper API])  
-※ 미니게임 이벤트는 해당 이벤트의 Player가 미니게임 플레이중인것이 확인되면 해당 미니게임 이벤트 처리 메소드로 넘어감  
-※ 하위 이벤트까지 모두 사용가능 (예. PlayerEvent의 PlayerJumpEvent)
-```yaml
-- BlockBreakEvent
-- BlockPlaceEvent
-- PlayerEvent
-- EntityEvent
-- HangingEvent
-- InventoryEvent
-- InventoryMoveItemEvent
-- PlayerLeashEntityEvent
-```
+# 목차
+## []()
 
 ---
 
 # 제작 순서
-## 1. 플러그인 설정
-- plugin.yml: depend
+## 1. 개발 환경 세팅
+- [세팅법](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/makingMiniGameWiki.md#%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85-%EB%B0%A9%EB%B2%95)
 
 
 
@@ -32,23 +20,26 @@
 - 미니게임의 특성에 따라 상속할 미니게임 클래스 결정 후, 유의사항에 맞게 클래스 제작 
 #### `SoloMiniGame`
 - 1인 플레이
+- [예시 프로젝트]()
 
 
 #### `SoloBattleMiniGame`
 - 개인전 플레이
+- [예시 프로젝트]()
 
 
 #### `TeamMiniGame`
 - 팀 플레이
+- [예시 프로젝트]()
 
 
 #### `TeamBattleMiniGame`
 - 팀 대전 플레이
+- [예시 프로젝트]()
 
 
 
-
-## 3. MiniGameWorld에 등록
+## 3. 미니게임 등록
 - MiniGameWorld.create()로 객체를 가져와서 registerMiniGame() 메소드로 미니게임 등록
 ```java
 MiniGameWorld world = MiniGameWorld.create();
@@ -60,20 +51,19 @@ world.registerMiniGame(new FitTool());
 # 옵션
 ## - MiniGameSetting
 - MiniGameSetting으로 게임에 대해 다양한 설정을 줄 수 있음
-- `settingFixed` 설정값제외한 값들은 minigames.yml 파일에서 수정가능
 - `settingFixed`: `forceFullPlayer`, `maxPlayerCount`, `timeLimit`, `customData` 값의 고정 여부 (minigame.yml파일에서 유저의 수정이 적용안됨)
-- `scoreNotifying`: 
-- `foceFullPlayer`: 
-
+- `scoreNotifying`: 점수 변동시 메세지 알림 설정 여부
+- `foceFullPlayer`: 플레이어가 `maxPlayerCount`일 때만 게임 시작 여부
+- `icon`: GUI에 표시되는 아이템 (Material)
 
 ## - Task
 - TaskManager를 사용 (`getTaskManager()`)
 - `태스크 등록`: `getTaskManager().registerTask("name", new BukkitRunnable() { // code });`
 - 태스크 등록은 반드시 registerTasks() 메서드에서 작성되야 함
 - `태스크 호출`: getTaskManager().runTask("name");
-- BukkitRunabble에 등록해서 사용한(run) task는 다시 사용 불가능([BukkitRunnable 참고]) (registerTasks()메소드가 항상 게임시작전에 실행되서 새로운 객체로 등록됨)
+- BukkitRunabble에 등록해서 사용한(run) task는 **다시 사용 불가능**([BukkitRunnable 참고]) (registerTasks()메소드가 항상 게임시작전에 실행되서 새로운 객체로 등록됨)
 - MiniGame의 기본 시스템 관련 task(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
-### How to register task
+### 등록 방법
 ```java
 @Override
 protected void registerTasks() {
@@ -87,7 +77,7 @@ protected void registerTasks() {
   });
 }
 ```
-### How to run task
+### 사용 방법
 ```java
 @Override
 protected void processEvent(Event event) {
@@ -157,6 +147,18 @@ protected void processEvent(Event event) {
 - class 이름이 기준으로 등록됨
 - 생성자에서 설정한 기본값으로 설정됨
 
-
-
+## 처리 가능 이벤트 목록
+※ `paper api` 기반으로 만들어졌기 때문에, paper기반 event도 사용가능
+※ 미니게임 이벤트는 Player가 미니게임 플레이중일때만 이벤트 처리가 됨
+※ **하위 이벤트**까지 모두 사용가능 (예. PlayerEvent의 PlayerJumpEvent)
+```yaml
+- BlockBreakEvent
+- BlockPlaceEvent
+- PlayerEvent
+- EntityEvent
+- HangingEvent
+- InventoryEvent
+- InventoryMoveItemEvent
+- PlayerLeashEntityEvent
+```
 
