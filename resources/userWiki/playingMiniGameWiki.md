@@ -14,8 +14,8 @@
 
 # 미니게임 사용법
 1. 미니게임 파일 다운로드
-2. 미니게임을 위한 장소는 직접 제작후
-3. `minigames.yml`파일의 미니게임 `location`부분을 수정해서 위치 지정
+2. 미니게임을 위한 장소는 직접 제작
+3. `minigames.yml`파일의 미니게임 `location`부분을 수정해서 서버에서 직접 제작한 미니게임 위치 지정
 
 
 
@@ -58,8 +58,8 @@
 
 
 
-# 사용법 유튜브
-[사용법]
+# 튜토리얼
+- [튜토리얼]()
 
 
 
@@ -89,7 +89,7 @@ setting:
 - `lobby`: 게임이 끝나고 돌아가는 로비 위치
 - `messagePrefix`: 미니게임 시스템 메세지
 - `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
-- `minigameCommand`: 명령어로 미니게임 참가/퇴장 여부 (true / false)
+- `minigameCommand`: 미니게임 명령어 사용 여부 (true / false)
 
 
 ## `minigames.yml`
