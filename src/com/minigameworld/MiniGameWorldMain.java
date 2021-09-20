@@ -57,6 +57,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 		// register minigames
 		this.registerMiniGames();
+
+		// process works for remained players
+		this.processRemainedPlayersWhenServerStart();
 	}
 
 	private void setupSettings() {
@@ -95,12 +98,15 @@ public class MiniGameWorldMain extends JavaPlugin {
 		minigameWorld.registerMiniGame(new RemoveBlock());
 	}
 
+	private void processRemainedPlayersWhenServerStart() {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			this.minigameManager.processPlayerJoinWorks(p);
+		}
+	}
+
 	@Override
 	public void onDisable() {
-		// send all MiniGame with SEVER_STOP exception
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.minigameManager.handleException(p, MiniGame.Exception.SERVER_STOP, null);
-		}
+		this.processRemainedPlayersWhenServerStop();
 
 		// remove not registered minigames setting data in minigames.yml
 		minigameManager.getMiniGameDataManager().removeNotExistMiniGameData();
@@ -108,5 +114,13 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// save all data
 		this.yamlM.saveAllData();
 		Utils.info(ChatColor.RED + "================= MiniGameWorld =================");
+	}
+
+	private void processRemainedPlayersWhenServerStop() {
+		// send all MiniGame with SEVER_STOP exception
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			this.minigameManager.handleException(p, MiniGame.Exception.SERVER_STOP, null);
+			this.minigameManager.processPlayerQuitWorks(p);
+		}
 	}
 }

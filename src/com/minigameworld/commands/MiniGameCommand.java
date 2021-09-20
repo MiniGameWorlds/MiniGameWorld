@@ -24,7 +24,7 @@ public class MiniGameCommand implements CommandExecutor {
 	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameM = minigameM;
 		this.MiniGameDataM = this.minigameM.getMiniGameDataManager();
-		
+
 		// set tab completer
 		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
 		MiniGameWorldMain.getInstance().getCommand("minigame").setTabCompleter(this.tabCompleter);
@@ -137,12 +137,13 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
+
 	private boolean reloadConfig(Player p, String[] args) throws Exception {
 		// OP
-		if(!p.isOp()) {
+		if (!p.isOp()) {
 			return true;
 		}
-		
+
 		// reload "setting.yml", "minigames.yml"
 		this.minigameM.reload();
 		this.MiniGameDataM.reload();

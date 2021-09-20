@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.manager.gui.MiniGameGUIManager;
+import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
@@ -57,6 +58,9 @@ public class MiniGameManager implements YamlMember {
 	// minigame lobby
 	private static Location lobby;
 
+	// party
+	private PartyManager partyManager;
+
 	// yaml data manager
 	YamlManager yamlM;
 
@@ -73,6 +77,7 @@ public class MiniGameManager implements YamlMember {
 
 		this.minigameDataM = new MiniGameDataManager(this);
 		this.guiManager = new MiniGameGUIManager(this);
+		this.partyManager = new PartyManager();
 	}
 
 	private void registerDetectableEvent() {
@@ -88,6 +93,15 @@ public class MiniGameManager implements YamlMember {
 		this.detectableEventList.add(InventoryEvent.class);
 		this.detectableEventList.add(InventoryMoveItemEvent.class);
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
+	}
+
+	public void processPlayerJoinWorks(Player p) {
+		this.getPartyManager().createParty(p);
+	}
+
+	public void processPlayerQuitWorks(Player p) {
+		this.getPartyManager().leaveParty(p);
+		this.getPartyManager().deleteParty(p);
 	}
 
 	public static MiniGameManager getInstance() {
@@ -294,7 +308,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public boolean registerMiniGame(MiniGame newGame) {
-		// can not register minigame which has same class name with others 
+		// can not register minigame which has same class name with others
 		String newGameClassName = newGame.getClassName();
 		for (MiniGame game : this.minigames) {
 			String existGameClassName = game.getClassName();
@@ -307,7 +321,7 @@ public class MiniGameManager implements YamlMember {
 			}
 		}
 
-		// apply already exsiting minigame data in minigames.yml 
+		// apply already exsiting minigame data in minigames.yml
 		if (this.minigameDataM.isMinigameDataExists(newGame)) {
 			this.minigameDataM.applyMiniGameDataToInstance(newGame);
 		} else {
@@ -345,6 +359,10 @@ public class MiniGameManager implements YamlMember {
 
 	public MiniGameGUIManager getMiniGameGUIManager() {
 		return this.guiManager;
+	}
+
+	public PartyManager getPartyManager() {
+		return this.partyManager;
 	}
 
 	@Override

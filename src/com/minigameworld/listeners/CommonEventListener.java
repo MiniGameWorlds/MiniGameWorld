@@ -21,6 +21,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
@@ -125,6 +127,16 @@ public class CommonEventListener implements Listener {
 		 */
 		this.minigameManager.processEvent(event);
 		return null;
+	}
+
+	@EventHandler
+	public void createParty(PlayerJoinEvent e) {
+		this.minigameManager.processPlayerJoinWorks(e.getPlayer());
+	}
+
+	@EventHandler
+	public void leaveParty(PlayerQuitEvent e) {
+		this.minigameManager.processPlayerQuitWorks(e.getPlayer());
 	}
 
 	@EventHandler
