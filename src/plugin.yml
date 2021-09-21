@@ -15,4 +15,5 @@ commands:
       /minigame leave
       /minigame list
       /minigame gui
+      /minigame party
       /minigame reload

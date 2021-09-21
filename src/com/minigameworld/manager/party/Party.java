@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
+
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Party {
 	private Set<PartyMember> members;
@@ -47,7 +50,7 @@ public class Party {
 				public void run() {
 					invitees.remove(uuid);
 				}
-			}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 20 * Setting.PARTY_INVITE_TIMEOUT);
+			}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * Setting.PARTY_INVITE_TIMEOUT);
 
 			return true;
 		}
@@ -55,7 +58,7 @@ public class Party {
 		return false;
 	}
 
-	public void acceptInvitation(Player invitee) {
+	public boolean acceptInvitation(Player invitee) {
 		UUID uuid = invitee.getUniqueId();
 		if (this.invitees.contains(uuid)) {
 			this.invitees.remove(uuid);
@@ -64,9 +67,10 @@ public class Party {
 
 			// message
 			this.sendMessageToAllMembers(invitee.getName() + " joined party");
-			Utils.sendMsg(invitee, "You joined the party");
+			return true;
 		} else {
-			Utils.sendMsg(invitee, "You don't have a invitation for the party");
+			Party.sendMessage(invitee, "You don't have a invitation for the party");
+			return false;
 		}
 	}
 
@@ -76,8 +80,8 @@ public class Party {
 			this.invitees.remove(uuid);
 
 			// message
-			Utils.sendMsg(inviter, invitee.getName() + " rejected to join your party");
-			Utils.sendMsg(invitee, "You rejected to join " + inviter.getName() + "'s party");
+			Party.sendMessage(inviter, invitee.getName() + " rejected to join your party");
+			Party.sendMessage(invitee, "You rejected to join " + inviter.getName() + "'s party");
 		}
 	}
 
@@ -95,14 +99,30 @@ public class Party {
 	}
 
 	public boolean kickVote(Player reporter, Player target) {
+		// check same Player
+		if (reporter.equals(target)) {
+			Party.sendMessage(reporter, "You can't self kickvote");
+			return false;
+		}
+
+		if (!this.hasPlayer(target)) {
+			Party.sendMessage(reporter, target.getName() + " is not your party");
+			return false;
+		}
+
 		// kick vote & message
 		if (this.getPartyMember(target).kickVote(reporter)) {
-			Utils.sendMsg(reporter, "You reported " + target.getName());
-			Utils.sendMsg(target, "You reported by party member");
+			Party.sendMessage(reporter, "You kick voted " + target.getName());
+			Party.sendMessage(target, "You are kick voted by party member");
 		}
 
 		// check majority
-		return this.checkKickVoteMajority(target);
+		if (this.checkKickVoteMajority(target)) {
+			sendMessage(reporter, "You already kickvoted " + target.getName());
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public boolean checkKickVoteMajority(Player p) {
@@ -115,7 +135,7 @@ public class Party {
 		if (isMajority) {
 			this.removeKickVotingByPlayer(p);
 			this.members.remove(member);
-			Utils.sendMsg(p, "You kicked from your party");
+			Party.sendMessage(p, "You kicked from your party");
 			return true;
 		}
 		return false;
@@ -132,10 +152,6 @@ public class Party {
 		this.sendMessageToAllMembers(p.getName() + " leave a party");
 	}
 
-	public void sendMessageToAllMembers(String msg) {
-		this.members.forEach(m -> Utils.sendMsg(m.getPlayer(), msg));
-	}
-
 	public void askToJoin(Player asker) {
 		UUID uuid = asker.getUniqueId();
 		this.askers.add(uuid);
@@ -146,7 +162,7 @@ public class Party {
 			public void run() {
 				askers.remove(uuid);
 			}
-		}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 20 * Setting.PARTY_ASK_TIMEOUT);
+		}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * Setting.PARTY_ASK_TIMEOUT);
 	}
 
 	public boolean allowToJoin(Player asker) {
@@ -157,11 +173,30 @@ public class Party {
 			this.members.add(new PartyMember(asker));
 
 			// message
-			Utils.sendMsg(asker, "You joined the party");
+			Party.sendMessage(asker, "You joined the party");
 			this.sendMessageToAllMembers(asker.getName() + " joined party");
 			return true;
 		}
 		return false;
+	}
+
+	public static void sendMessage(Player p, String msg) {
+		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE + msg);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void sendMessage(Player p, BaseComponent compo) {
+		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE );
+		msg.addExtra(compo);
+		p.spigot().sendMessage(msg);
+	}
+
+	public void sendMessageToAllMembers(String msg) {
+		this.members.forEach(m -> sendMessage(m.getPlayer(), msg));
+	}
+
+	public void sendMessageToAllMembers(BaseComponent compo) {
+		this.members.forEach(m -> sendMessage(m.getPlayer(), compo));
 	}
 }
 

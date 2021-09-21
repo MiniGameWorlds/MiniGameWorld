@@ -5,7 +5,7 @@
 
 # 할 것
 - 주석 영어 변경
-- party 시스템 마무리
+- party 시스템 마무리 (MiniGameWorld에 gui, party 시스템 접근 허용) (clickable chat)
 - 범용 Reward 플러그인 만들기
 - GUI: wiki 문서화
 - 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
@@ -194,4 +194,5 @@
 - party 시스템 제작 (테스트 필요)
 - Player의 서버 join, quit 때 필수 처리할 것들을 MiniGameManager에 모아두어 처리
 
-
+# 2021-09-21
+- party 시스템 제작

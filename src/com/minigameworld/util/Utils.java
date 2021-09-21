@@ -3,10 +3,13 @@ package com.minigameworld.util;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Utils {
 	public static String messagePrefix = "MiniGameWorld";
@@ -19,6 +22,13 @@ public class Utils {
 
 	public static void sendMsg(Player p, String msg) {
 		p.sendMessage(getMessagePrefixString() + msg);
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void sendMsg(Player p, BaseComponent compo) {
+		TextComponent msg = new TextComponent(getMessagePrefixString());
+		msg.addExtra(compo);
+		p.spigot().sendMessage(msg);
 	}
 
 	public static void info(String msg) {

@@ -17,13 +17,17 @@ import com.minigameworld.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {
 
-	private MiniGameManager minigameM;
+	private MiniGameManager minigameManager;
 	private MiniGameDataManager MiniGameDataM;
 	private MiniGameCommandTabCompleter tabCompleter;
 
+	private MiniGamePartyCommand miniGamePartyCommand;
+
 	public MiniGameCommand(MiniGameManager minigameM) {
-		this.minigameM = minigameM;
-		this.MiniGameDataM = this.minigameM.getMiniGameDataManager();
+		this.minigameManager = minigameM;
+		this.MiniGameDataM = this.minigameManager.getMiniGameDataManager();
+
+		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
 
 		// set tab completer
 		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
@@ -40,7 +44,6 @@ public class MiniGameCommand implements CommandExecutor {
 		Player p = (Player) sender;
 
 		try {
-
 			// menu
 			String menu = args[0];
 			switch (menu) {
@@ -52,6 +55,8 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.list(p, args);
 			case "gui":
 				return this.gui(p, args);
+			case "party":
+				return this.miniGamePartyCommand.party(p, args);
 			case "reload":
 				return this.reloadConfig(p, args);
 			}
@@ -59,11 +64,11 @@ public class MiniGameCommand implements CommandExecutor {
 			e.printStackTrace();
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private boolean canCommandUse() {
-		return (boolean) this.minigameM.getGameSetting().get("minigameCommand");
+		return (boolean) this.minigameManager.getGameSetting().get("minigameCommand");
 	}
 
 	private boolean join(Player p, String[] args) throws Exception {
@@ -77,7 +82,7 @@ public class MiniGameCommand implements CommandExecutor {
 		}
 
 		String title = args[1];
-		this.minigameM.joinGame(p, title);
+		this.minigameManager.joinGame(p, title);
 		return true;
 	}
 
@@ -91,7 +96,7 @@ public class MiniGameCommand implements CommandExecutor {
 			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
 		}
 
-		this.minigameM.leaveGame(p);
+		this.minigameManager.leaveGame(p);
 		return true;
 	}
 
@@ -102,7 +107,7 @@ public class MiniGameCommand implements CommandExecutor {
 			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
 		}
 
-		List<MiniGame> games = this.minigameM.getMiniGameList();
+		List<MiniGame> games = this.minigameManager.getMiniGameList();
 
 		// info
 		String info = "\n" + ChatColor.BOLD + "[MiniGame List]";
@@ -132,11 +137,10 @@ public class MiniGameCommand implements CommandExecutor {
 			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
 		}
 
-		MiniGameGUIManager guiManager = this.minigameM.getMiniGameGUIManager();
+		MiniGameGUIManager guiManager = this.minigameManager.getMiniGameGUIManager();
 		guiManager.openGUI(p);
 		return true;
 	}
-
 
 	private boolean reloadConfig(Player p, String[] args) throws Exception {
 		// OP
@@ -145,10 +149,10 @@ public class MiniGameCommand implements CommandExecutor {
 		}
 
 		// reload "setting.yml", "minigames.yml"
-		this.minigameM.reload();
+		this.minigameManager.reload();
 		this.MiniGameDataM.reload();
 		Utils.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "Reload Complete" + ChatColor.WHITE + ": "
-				+ this.minigameM.getFileName() + ", " + this.MiniGameDataM.getFileName());
+				+ this.minigameManager.getFileName() + ", " + this.MiniGameDataM.getFileName());
 		return true;
 	}
 }

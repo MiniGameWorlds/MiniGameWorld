@@ -28,7 +28,7 @@ public class PartyMember {
 //				public void run() {
 //					cancelKickVote(reporter);
 //				}
-//			}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 20 * 60);
+//			}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * 60);
 
 			return true;
 		}

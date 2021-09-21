@@ -5,17 +5,20 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import com.minigameworld.util.Utils;
+import com.wbm.plugin.util.PlayerTool;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class PartyManager {
 	/*
-	 * - /mg party invite <player(invitee)>
-	 * - /mg party accept <player(inviter)>
-	 * - /mg party ask <player(member)>
-	 * - /mg party allow <player<asker>)
-	 * - /mg party leave
-	 * - /mg party kickvote <player(member)>
+	 * [IMPORTANT]
+	 * - send message with "Party.sendMessage()"
 	 */
+
 	private List<Party> parties;
 
 	public PartyManager() {
@@ -33,9 +36,21 @@ public class PartyManager {
 		this.parties.remove(party);
 	}
 
+	private void deletePersonalParty(Player p) {
+		for (Party party : this.parties) {
+			if (party.hasPlayer(p) && party.getSize() == 1) {
+				this.parties.remove(party);
+				return;
+			}
+		}
+	}
+
 	private boolean hasParty(Player p) {
 		// judge that player has a party if party's member are 2 or more players
 		Party party = this.getPlayerParty(p);
+		if (party == null) {
+			return false;
+		}
 		return party.getSize() >= 2;
 	}
 
@@ -51,35 +66,67 @@ public class PartyManager {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void invitePlayer(Player inviter, Player invitee) {
+		// check target player is online
+		if (!this.checkPlayersOnline(inviter, invitee)) {
+			return;
+		}
+
 		// check invitee has alredy party
 		if (this.hasParty(invitee)) {
-			Utils.sendMsg(inviter, invitee.getName() + " already has a party");
+			Party.sendMessage(inviter, invitee.getName() + " already has a party");
 			return;
 		}
 
 		// invite
 		Party party = this.getPlayerParty(inviter);
 		if (party.invitePlayer(invitee)) {
-			Utils.sendMsg(inviter, "Invitation has been sent to " + invitee.getName());
+			Party.sendMessage(inviter, "Invitation has been sent to " + invitee.getName());
+			Party.sendMessage(invitee, inviter.getName() + " sent a party invitation");
+
+			// message
+			TextComponent msg = new TextComponent("Invitation from " + inviter.getName());
+			msg.setColor(ChatColor.GREEN);
+			msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder("Click to join the party").create()));
+			msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party accept " + inviter.getName()));
+			Party.sendMessage(invitee, msg);
 		} else {
-			Utils.sendMsg(inviter, "You have already invited " + invitee.getName());
+			Party.sendMessage(inviter, "You have already invited " + invitee.getName());
 		}
 	}
 
-	public void acceptInvitation(Player inviter, Player invitee) {
+	public void acceptInvitation(Player invitee, Player inviter) {
+		// check target player is online
+		if (!this.checkPlayersOnline(inviter, invitee)) {
+			return;
+		}
+
 		Party party = this.getPlayerParty(inviter);
-		party.acceptInvitation(invitee);
+		if (party.acceptInvitation(invitee)) {
+			this.deletePersonalParty(invitee);
+		}
 	}
 
 	public void rejectInvitation(Player inviter, Player invitee) {
+		// check target player is online
+		if (!this.checkPlayersOnline(inviter, invitee)) {
+			return;
+		}
+
 		Party party = this.getPlayerParty(inviter);
 		party.rejectInvitation(inviter, invitee);
 	}
 
 	public void ask(Player asker, Player partyMember) {
+		// check target player is online
+		if (!this.checkPlayersOnline(asker, partyMember)) {
+			return;
+		}
+
 		if (this.hasParty(asker)) {
-			Utils.sendMsg(asker, "You already have a party");
+			Party.sendMessage(asker, "You already have a party");
 			return;
 		}
 
@@ -87,19 +134,26 @@ public class PartyManager {
 		party.askToJoin(asker);
 
 		// message
-		Utils.sendMsg(asker, "Send asking to " + partyMember.getName());
-		Utils.sendMsg(partyMember, asker.getName() + " asks you to join your party");
+		Party.sendMessage(asker, "Send asking to " + partyMember.getName());
+		Party.sendMessage(partyMember, asker.getName() + " asks you to join your party");
 	}
 
 	public void allow(Player partyMember, Player asker) {
+		// check target player is online
+		if (!this.checkPlayersOnline(partyMember, asker)) {
+			return;
+		}
+
 		if (this.hasParty(asker)) {
-			Utils.sendMsg(partyMember, asker.getName() + " already has a party");
+			Party.sendMessage(partyMember, asker.getName() + " already has a party");
 			return;
 		}
 
 		Party party = this.getPlayerParty(partyMember);
-		if (!party.allowToJoin(asker)) {
-			Utils.sendMsg(partyMember, asker.getName() + " didn't ask or time has too passed");
+		if (party.allowToJoin(asker)) {
+			this.deletePersonalParty(asker);
+		} else {
+			Party.sendMessage(partyMember, asker.getName() + " didn't ask or time has too passed");
 		}
 	}
 
@@ -108,25 +162,66 @@ public class PartyManager {
 			Party party = this.getPlayerParty(member);
 			party.leave(member);
 
+			// msg
+			Party.sendMessage(member, "You leaved a party");
+
 			// make a new party for member
 			this.createParty(member);
 		} else {
-			Utils.sendMsg(member, "you don't have a party to leave");
+			Party.sendMessage(member, "you don't have a party to leave");
 		}
 	}
 
 	public void kickVote(Player reporter, Player target) {
-		Party party = this.getPlayerParty(reporter);
-		if (!party.hasPlayer(target)) {
-			Utils.sendMsg(reporter, target.getName() + " is not your party");
+		// check target player is online
+		if (!this.checkPlayersOnline(reporter, target)) {
+			return;
 		}
 
+		Party party = this.getPlayerParty(reporter);
 		if (party.kickVote(reporter, target)) {
 			// make a new party for kicked member
 			this.createParty(target);
 		}
 	}
 
+	public void messageToEveryone(Player p, String msg) {
+		// check target player is online
+		if (!PlayerTool.isPlayerOnline(p)) {
+			return;
+		}
+
+		Party party = this.getPlayerParty(p);
+		party.sendMessageToAllMembers("<" + p.getName() + "> " + msg);
+	}
+
+	public void list(Player p) {
+		// check target player is online
+		if (!PlayerTool.isPlayerOnline(p)) {
+			return;
+		}
+
+		Party party = this.getPlayerParty(p);
+		String listMsg = "";
+		for (Player member : party.getMembers()) {
+			listMsg += "\n- " + member.getName();
+		}
+		Party.sendMessage(p, listMsg);
+	}
+
+	private boolean checkPlayersOnline(Player notifyPlayer, Player targetPlayer) {
+		// check nofify player
+		if (!PlayerTool.isPlayerOnline(notifyPlayer)) {
+			return false;
+		}
+
+		// check target player
+		if (!PlayerTool.isPlayerOnline(targetPlayer)) {
+			Party.sendMessage(notifyPlayer, "That player is not online");
+			return false;
+		}
+		return true;
+	}
 }
 //
 //

@@ -21,7 +21,6 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void setLength1Candidates() {
-		// add candidates
 		this.candidates.add("join");
 		this.candidates.add("leave");
 		this.candidates.add("list");
@@ -30,11 +29,21 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void setJoinCandidates() {
-		// add candidates
 		for (MiniGame minigame : this.minigameManager.getMiniGameList()) {
 			String title = minigame.getTitle();
 			this.candidates.add(title);
 		}
+	}
+
+	private void setPartyCandidates() {
+		this.candidates.add("invite <player>");
+		this.candidates.add("accept");
+		this.candidates.add("ask");
+		this.candidates.add("allow");
+		this.candidates.add("leave");
+		this.candidates.add("kickvote");
+		this.candidates.add("msg");
+		this.candidates.add("list");
 	}
 
 	@Override
@@ -47,6 +56,8 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		} else if (length == 2) {
 			if (args[0].equals("join")) {
 				this.setJoinCandidates();
+			} else if (args[0].equals("party")) {
+				this.setPartyCandidates();
 			}
 		}
 		return this.candidates;
