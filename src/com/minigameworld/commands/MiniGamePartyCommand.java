@@ -5,14 +5,6 @@ import org.bukkit.entity.Player;
 
 import com.minigameworld.manager.party.PartyManager;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-
 public class MiniGamePartyCommand {
 	private PartyManager partyManager;
 
@@ -57,12 +49,10 @@ public class MiniGamePartyCommand {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	private boolean invite(Player p, String[] args) throws Exception {
 		String inviteePlayerName = args[2];
 		Player invitee = Bukkit.getPlayer(inviteePlayerName);
 		this.partyManager.invitePlayer(p, invitee);
-
 		return true;
 	}
 

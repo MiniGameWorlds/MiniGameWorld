@@ -1,13 +1,8 @@
-# 설명
-- 2020-08에 만들기 시작한 `Relay Escape` 서버에서 만들었던 미니게임 모듈을 따로 분리해서 개발 시작 (이전 기록: Relay Escape 로그 참고)
-
----
-
 # 할 것
 - 주석 영어 변경
-- party 시스템 마무리 (MiniGameWorld에 gui, party 시스템 접근 허용) (clickable chat)
+- party 시스템 마무리 (MiniGameWorld에 gui, party 시스템 접근 허용)
 - 범용 Reward 플러그인 만들기
-- GUI: wiki 문서화
+- wiki: GUI, Party
 - 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
 - 실제로 간단한 미니게임 서버, 미니게임 여러 종류 만들면서 플러그인에 추가할것 생각해보기
 - 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
@@ -17,6 +12,9 @@
 - setting.yml에 한글, 영어 기능 language변수 
 
 ---
+
+# 2020-09 ~ 2020-05-09
+- `Relay Escape` 서버에서 만들었던 미니게임 모듈을 따로 분리해서 개발 (이전 기록: Relay Escape 로그 참고)
 
 # 2021-05-10
 - 스코어 출력을 스코어 기준 내림차순으로 변경
@@ -196,3 +194,28 @@
 
 # 2021-09-21
 - party 시스템 제작
+- party 시스템에 clickable chat 기능 추가
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

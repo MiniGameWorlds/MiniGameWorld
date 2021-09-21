@@ -99,12 +99,6 @@ public class Party {
 	}
 
 	public boolean kickVote(Player reporter, Player target) {
-		// check same Player
-		if (reporter.equals(target)) {
-			Party.sendMessage(reporter, "You can't self kickvote");
-			return false;
-		}
-
 		if (!this.hasPlayer(target)) {
 			Party.sendMessage(reporter, target.getName() + " is not your party");
 			return false;
@@ -114,20 +108,17 @@ public class Party {
 		if (this.getPartyMember(target).kickVote(reporter)) {
 			Party.sendMessage(reporter, "You kick voted " + target.getName());
 			Party.sendMessage(target, "You are kick voted by party member");
+		} else {
+			Party.sendMessage(reporter, "You already kickvoted " + target.getName());
 		}
 
 		// check majority
-		if (this.checkKickVoteMajority(target)) {
-			sendMessage(reporter, "You already kickvoted " + target.getName());
-			return true;
-		} else {
-			return false;
-		}
+		return this.checkKickVoteMajority(target);
 	}
 
 	public boolean checkKickVoteMajority(Player p) {
 		PartyMember member = this.getPartyMember(p);
-		int votedCount = member.getKickVoting();
+		int votedCount = member.getKickVoteCount();
 
 		// e.g. 3 of 6, 3 of 7
 		int majorityCount = this.getSize() / 2;
@@ -180,23 +171,30 @@ public class Party {
 		return false;
 	}
 
+	public int getKickVoteCount(Player p) {
+		if (this.hasPlayer(p)) {
+			return this.getPartyMember(p).getKickVoteCount();
+		}
+		return -1;
+	}
+
 	public static void sendMessage(Player p, String msg) {
 		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE + msg);
 	}
 
 	@SuppressWarnings("deprecation")
 	public static void sendMessage(Player p, BaseComponent compo) {
-		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE );
+		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE);
 		msg.addExtra(compo);
 		p.spigot().sendMessage(msg);
 	}
 
 	public void sendMessageToAllMembers(String msg) {
-		this.members.forEach(m -> sendMessage(m.getPlayer(), msg));
+		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), msg));
 	}
 
 	public void sendMessageToAllMembers(BaseComponent compo) {
-		this.members.forEach(m -> sendMessage(m.getPlayer(), compo));
+		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), compo));
 	}
 }
 

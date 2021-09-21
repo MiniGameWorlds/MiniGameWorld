@@ -40,7 +40,7 @@ public class PartyMember {
 		this.kickVoted.remove(uuid);
 	}
 
-	public int getKickVoting() {
+	public int getKickVoteCount() {
 		return this.kickVoted.size();
 	}
 

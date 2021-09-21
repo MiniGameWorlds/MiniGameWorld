@@ -79,15 +79,22 @@ public class PartyManager {
 			return;
 		}
 
+		// check same player
+		if (inviter.equals(invitee)) {
+			Party.sendMessage(inviter, "You can't invite yourself");
+			return;
+		}
+
 		// invite
 		Party party = this.getPlayerParty(inviter);
 		if (party.invitePlayer(invitee)) {
 			Party.sendMessage(inviter, "Invitation has been sent to " + invitee.getName());
-			Party.sendMessage(invitee, inviter.getName() + " sent a party invitation");
 
-			// message
+			// clickable chat
 			TextComponent msg = new TextComponent("Invitation from " + inviter.getName());
 			msg.setColor(ChatColor.GREEN);
+			msg.setUnderlined(true);
+			msg.setBold(true);
 			msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 					new ComponentBuilder("Click to join the party").create()));
 			msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party accept " + inviter.getName()));
@@ -119,6 +126,7 @@ public class PartyManager {
 		party.rejectInvitation(inviter, invitee);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void ask(Player asker, Player partyMember) {
 		// check target player is online
 		if (!this.checkPlayersOnline(asker, partyMember)) {
@@ -130,12 +138,27 @@ public class PartyManager {
 			return;
 		}
 
+		// check same player
+		if (asker.equals(partyMember)) {
+			Party.sendMessage(asker, "You can't ask yourself");
+			return;
+		}
+
 		Party party = this.getPlayerParty(partyMember);
 		party.askToJoin(asker);
 
 		// message
 		Party.sendMessage(asker, "Send asking to " + partyMember.getName());
-		Party.sendMessage(partyMember, asker.getName() + " asks you to join your party");
+
+		// clickable chat
+		TextComponent msg = new TextComponent("Asking from " + asker.getName());
+		msg.setColor(ChatColor.GREEN);
+		msg.setBold(true);
+		msg.setUnderlined(true);
+		msg.setHoverEvent(
+				new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to allow to join").create()));
+		msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party allow " + asker.getName()));
+		Party.sendMessage(partyMember, msg);
 	}
 
 	public void allow(Player partyMember, Player asker) {
@@ -178,6 +201,12 @@ public class PartyManager {
 			return;
 		}
 
+		// check same Player
+		if (reporter.equals(target)) {
+			Party.sendMessage(reporter, "You can't kickvote yourself");
+			return;
+		}
+
 		Party party = this.getPlayerParty(reporter);
 		if (party.kickVote(reporter, target)) {
 			// make a new party for kicked member
@@ -195,6 +224,7 @@ public class PartyManager {
 		party.sendMessageToAllMembers("<" + p.getName() + "> " + msg);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void list(Player p) {
 		// check target player is online
 		if (!PlayerTool.isPlayerOnline(p)) {
@@ -202,11 +232,22 @@ public class PartyManager {
 		}
 
 		Party party = this.getPlayerParty(p);
-		String listMsg = "";
+
+		// clickable chat
+		TextComponent msg = new TextComponent("");
 		for (Player member : party.getMembers()) {
-			listMsg += "\n- " + member.getName();
+			int kickVotingCount = party.getKickVoteCount(member);
+			TextComponent playerList = new TextComponent(
+					"\n- " + ChatColor.GREEN + ChatColor.UNDERLINE + member.getName() + ChatColor.WHITE);
+			playerList.addExtra(" [kickvoted: " + ChatColor.RED + kickVotingCount + ChatColor.WHITE + "]");
+			playerList.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder("Click to kickvote " + ChatColor.BOLD + member.getName()).create()));
+			playerList.setClickEvent(
+					new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party kickvote " + member.getName()));
+
+			msg.addExtra(playerList);
 		}
-		Party.sendMessage(p, listMsg);
+		Party.sendMessage(p, msg);
 	}
 
 	private boolean checkPlayersOnline(Player notifyPlayer, Player targetPlayer) {
