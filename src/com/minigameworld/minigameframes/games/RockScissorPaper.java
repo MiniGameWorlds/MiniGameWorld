@@ -59,7 +59,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		this.selections.clear();
 	}
 

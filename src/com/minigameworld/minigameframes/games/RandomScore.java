@@ -24,7 +24,7 @@ public class RandomScore extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		this.randomScores.clear();
 		for (int i = 1; i <= 10; i++) {
 			this.randomScores.add(i);

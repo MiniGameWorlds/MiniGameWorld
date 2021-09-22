@@ -49,7 +49,7 @@ public abstract class TeamMiniGame extends MiniGame {
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
 			Utils.warning(this.getTitleWithClassName()
-					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
+					+ ": maxPlayer is recommended at least 2 players");
 		}
 
 	}

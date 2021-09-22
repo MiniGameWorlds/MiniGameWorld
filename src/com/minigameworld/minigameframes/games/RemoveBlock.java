@@ -59,7 +59,7 @@ public class RemoveBlock extends TeamMiniGame {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		// set positoins
 		this.pos1 = (Location) this.getCustomData().get("pos1");
 		this.pos2 = (Location) this.getCustomData().get("pos2");

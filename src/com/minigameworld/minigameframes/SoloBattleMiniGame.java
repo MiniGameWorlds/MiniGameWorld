@@ -9,7 +9,7 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	/*
 	 * [Info]
 	 * - individual play
-	 * - players must be more than 2
+	 * - must be more than 2 players
 	 * 
 	 * [Rule]
 	 * - when use runTaskAfterStart(), must call super.runTaskAfterStart()
@@ -25,7 +25,6 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	}
 
 	protected void checkAtLeastPlayerRemains(int count) {
-		// 게임시작후 1 명일 떄 게임 종료
 		if (this.getPlayerCount() < count) {
 			this.sendMessageToAllPlayers("Game End: need more players");
 			this.endGame();
@@ -48,8 +47,7 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			Utils.warning(this.getTitleWithClassName()
-					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
+			Utils.warning(this.getTitleWithClassName() + ": maxPlayer is recommended at least 2 players");
 		}
 	}
 }

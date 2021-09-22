@@ -25,8 +25,8 @@ public class MoreHit extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
-		super.initGameSetting();
+	protected void initGameSettings() {
+		super.initGameSettings();
 	}
 
 	@Override

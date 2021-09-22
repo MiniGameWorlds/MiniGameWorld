@@ -26,7 +26,7 @@ public class FitTool extends SoloMiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		this.blocks = new ArrayList<Material>();
 		// sword
 		this.blocks.add(Material.COBWEB);

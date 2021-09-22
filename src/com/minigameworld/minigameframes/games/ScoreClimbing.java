@@ -30,7 +30,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		// set score limit
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
 

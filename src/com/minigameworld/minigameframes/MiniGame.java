@@ -53,7 +53,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private MiniGamePlayerDataManager playerDataManager;
 
 	// abstract methods
-	protected abstract void initGameSetting();
+	protected abstract void initGameSettings();
 
 	protected abstract void processEvent(Event event);
 
@@ -141,7 +141,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 					return;
 				}
 
-				// 플레이어들에게 카운트 다운 타이틀
+				// count down title
 				String time = "" + waitTime;
 				if (waitTime == 3) {
 					time = ChatColor.YELLOW + time;
@@ -171,7 +171,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 					runFinishTasks();
 					return;
 				} else if (leftTime <= 10) {
-					// 10초 이하 남았을 때 알리기
+					// title 3, 2, 1
 					String time = "" + leftTime;
 					if (leftTime == 3) {
 						time = ChatColor.YELLOW + time;
@@ -191,24 +191,21 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		});
 	}
 
-	private void initSetting() {
+	private void initSettings() {
 		this.initMiniGame();
 
-		// 하위 미니게임 세팅 값 설정
-		this.initGameSetting();
-
+		// init implemented minigame setting values
+		this.initGameSettings();
 	}
 
+	// passed event from MiniGameManager
 	public final void passEvent(Event event) {
-		/*
-		 * 넘겨받은 이벤트 처리
-		 */
 
-		// 미니게임 예외 이벤트인지 검사
+		// check exception event
 		if (event instanceof PlayerQuitEvent) {
 			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PLAYER_QUIT_SERVER, event);
 		}
-		// 게임이 시작됬을 때 미니게임에 이벤트 전달
+		// process event when minigame started
 		if (this.started) {
 			this.processEvent(event);
 		}
@@ -234,17 +231,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// check game is emtpy
 		if (this.isEmpty()) {
-			this.initSetting();
+			this.initSettings();
 		}
 
 		return true;
 	}
 
+	/*
+	 * [IMPORTANT] After this method, isEmpty() must be checked and run initSetting() (except
+	 * for runFinishTask())
+	 */
 	private void setupPlayerLeavingSettings(Player p, String reason) {
-		/*
-		 * TODO: After this method, isEmpty() must be checked and run initSetting() (except
-		 * for runFinishTask())
-		 */
 		if (reason != null) {
 			// notify other players to join the game
 			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
@@ -258,11 +255,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public final boolean joinGame(Player p) {
-		// 처리 순서
-		// 1.minigames.yml에서 active가 true인지
-		// 2.이미 게임이 시작전인지
-		// 3.게임 인원이 풀이 아닌지
-		// -> 게임 참여 로직 처리
+		/*
+		 * Logic sequence
+		 * 1. check active
+		 * 2. check started
+		 * 3. check full
+		 */
 
 		if (!this.isActive()) {
 			this.sendMessage(p, " game is not active");
@@ -279,35 +277,33 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		// 처음 들어온 사람일 경우 세팅초기화후에 타이머 시작
+		// init setting when first player joins
 		if (this.isEmpty()) {
-			this.initSetting();
+			this.initSettings();
 			this.startWaitingTimer();
 		}
 
-		// player 세팅
+		// setup player
 		setupPlayerJoinSettings(p);
 
-		// 성공적으로 joinGame
+		// join success
 		return true;
 	}
 
+	// settings related with player
 	private void setupPlayerJoinSettings(Player p) {
-		/*
-		 * initSetting 이미 했으므로 플레이어관련한것만 세팅
-		 */
-		// 인원에 추가
+		// add player to list
 		this.addPlayer(p);
 
 		// setup player
 		this.setupPlayerWhenJoin(p);
 
-		// info 전달
+		// notify info
 		this.notifyInfo(p);
 	}
 
 	private void notifyInfo(Player p) {
-		// player에게 튜토리얼 전달
+		// print tutorial
 		this.printGameTutorial(p);
 
 		// notify other players to join the game
@@ -315,9 +311,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void printGameTutorial(Player p) {
-		/*
-		 * 튜토리얼
-		 */
 		p.sendMessage("");
 		this.sendMessage(p, "=================================");
 		this.sendMessage(p, "" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
@@ -335,10 +328,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
+	// stop and restart waiting task
+	// use for waiting other player join when waitingTask ended
 	private void initTasks() {
-		// stop and restart waiting task
-		// use for waiting other player join when waitingTask ended
-
 		// stop all tasks
 		this.taskManager.cancelAllTasks();
 
@@ -352,17 +344,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void startWaitingTimer() {
-		/*
-		 * waitingTime동안 기다린 후에 게임 시작
-		 */
+		// start game after waitingTimer
 		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
 	}
 
 	private void runStartTasks() {
-		/*
-		 * forceFullPlayer 검사: 현재 참여 플레이어수가 maxPlayerCount와 같지않으면 모든 플레이어 leaveGame()
-		 * 실행
-		 */
+		// check "forceFullPlayer" setting
 		if (this.getSetting().isForceFullPlayer()) {
 			// check player isn't full
 			if (!this.isFull()) {
@@ -377,13 +364,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			}
 		}
 
-		// 활성화
+		// start
 		started = true;
 
 		// play sound
 		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_END_PORTAL_SPAWN));
 
-		// 시작 타이틀
+		// starting title
 		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
 
 		// runTaskAfterStart
@@ -392,10 +379,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// notify start event to observers
 		this.notifyObservers(MiniGameEvent.START);
 
-		// 태스크 종료
+		// cancel task
 		this.taskManager.cancelTask("_waitingTimer");
 
-		// finishTimer 시작
+		// start finishsTimer
 		startFinishTimer();
 	}
 
@@ -416,16 +403,15 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.notifyObservers(MiniGameEvent.FINISH);
 
 		// setup player
-		// 이 다음에 runTaskAfterFinish()가 실행되기 떄문에, initSetting()하면 안됨!
 		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
 
-		// runTaskAfterFinish
+		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
 
-		// initSeting
-		initSetting();
+		// initSeting ([IMPORTANT] call after done others)
+		initSettings();
 
-		// 태스크 종료
+		// cancel finish task
 		this.taskManager.cancelTask("_finishTimer");
 	}
 
@@ -439,7 +425,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			this.sendMessage(p, "=================================");
 		}
 
-		// 종료 알리기
+		// send finish title
 		sendTitleToAllPlayers("FINISH", "", 4, 20 * 2, 4);
 
 		// print score
@@ -450,9 +436,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.runFinishTasks();
 	}
 
-	// 게임 유형에 따라 다르게 출력되야 할 필요 있음
+	// can print differently depending on game type
 	protected void printScore() {
-		// 스코어 결과 score기준 내림차순으로 출력
+		// print scores in descending order
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(this.players);
 		int rank = 1;
@@ -470,9 +456,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public boolean isFull() {
-		int currentPlayerCount = this.getPlayers().size();
-		int maxPlayerCount = this.getMaxPlayerCount();
-		return currentPlayerCount == maxPlayerCount;
+		return this.getPlayerCount() == this.getMaxPlayerCount();
 	}
 
 	public boolean containsPlayer(Player p) {
@@ -492,15 +476,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.started;
 	}
 
-	/*
-	 * MiniGame의 players는 미니게임이 시작한 후부터 끝나기 전까지 모든 플레이어를 변하지 않고 끝까지 가지고 있는 변수여야 하기
-	 * 때문에 addPlayer()와 removePlayer()를 private으로 선언한다
-	 */
+	// private
 	private void addPlayer(Player p) {
-		// 0점 으로 플레이어 등록
+		// register player with 0 score
 		this.players.put(p, 0);
 	}
 
+	// private
 	private void removePlayer(Player p) {
 		this.players.remove(p);
 	}
@@ -528,7 +510,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void plusScore(Player p, int score) {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore + score);
-		// scoreNotifying 메세지 전송
+		// check scoreNotifying
 		if (this.setting.isScoreNotifying()) {
 			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + score);
 		}
@@ -541,7 +523,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void minusScore(Player p, int score) {
 		int previousScore = this.players.get(p);
 		this.players.put(p, previousScore - score);
-		// scoreNotifying 메세지 전송
+		// check scoreNotifying
 		if (this.setting.isScoreNotifying()) {
 			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + score);
 		}
@@ -555,29 +537,18 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		PLAYER_QUIT_SERVER, SERVER_STOP;
 	}
 
+	// handle exception and notify to minigame mingame and observers
 	public final void handleException(Player p, Exception exception, Object arg) {
-		/*
-		 * [예외 상황 관리]
-		 * 
-		 * - 플레이어가 미니게임에서 예외상황으로 인해 게임 플레이가 불가능 할 떄 호출되는 메서드
-		 * - 마지막에 각 게임에게 예외 발생 매소드로 알림
-		 *
-		 * # 종류
-		 * - PlayerQuitEvent에서 Reason 체크
-		 * - 게임도중 서버 나가는 예외 처리
-		 * 
-		 */
-
 		// info
 		Utils.info("[" + p.getName() + "] handle exception: " + exception.name());
 
-		// PlayerQuitServer일 때 이유 출력
+		// print reason when PLAYER_QUIT_SERVER
 		if (exception == Exception.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
 			Utils.info("Quit: " + event.getReason().name());
 		}
 
-		// 플레이중인 미니게임에게 예외 발생 매소드로 처리 알림 (예. task 중지, inv 초기화 등)
+		// pass exception to implemented minigame
 		this.handleGameException(p, exception, arg);
 
 		// setup leaving settings
@@ -588,21 +559,21 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			// send message
 			this.sendMessageToAllPlayers("Game end: game needs full players");
 
-			// 모든 사람 강퇴
+			// setup leaving setting for everyone
 			this.getPlayers().forEach(other -> this.setupPlayerLeavingSettings(other, null));
 		}
 
 		// notify EXCEPTION event to observers
-		this.notifyObservers(MiniGameEvent.EXCEPTION); 
+		this.notifyObservers(MiniGameEvent.EXCEPTION);
 
-		// 미니게임에 남은 사람이 없으면 미니게임 세팅 초기화
+		// init settings if empty
 		if (this.isEmpty()) {
-			this.initSetting();
+			this.initSettings();
 		}
 	}
 
 	private void setupPlayerWhenJoin(Player p) {
-		// 게임룸 위치로 tp
+		// tp to game location
 		p.teleport(this.getLocation());
 
 		// save player data
@@ -621,7 +592,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/*
-	 * 자주 쓰이는 세팅값은 getter 추가
+	 * getters
 	 */
 	public String getTitle() {
 		return this.getSetting().getTitle();
@@ -659,10 +630,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().getCustomData();
 	}
 
+	/*
+	 * check attributes are valid 
+	 */
 	protected void checkAttributes() {
-		/*
-		 * frame MiniGame class에서 조건 추가적으로 검사
-		 */
 		// title
 		if (this.getTitle().length() <= 0) {
 			Utils.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
@@ -687,12 +658,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public int getLeftWaitingTime() {
-		// 기다리는 남은 시간 리턴 (sec)
 		return this.waitingCounter.getCount();
 	}
 
 	public int getLeftFinishTime() {
-		// 끝나기까지 남은 시간 리턴 (sec)
 		return this.finishCounter.getCount();
 	}
 
@@ -701,7 +670,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		for (Player p : this.getPlayers()) {
 			members += p.getName() + ", ";
 		}
-		// 마지막 ", " 제거
+		// remove last ", "
 		members = members.substring(0, members.length() - 2);
 		return members;
 	}

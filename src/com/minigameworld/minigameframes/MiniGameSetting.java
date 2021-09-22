@@ -9,69 +9,88 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 public class MiniGameSetting {
-
 	/*
-	 * 미니게임 설정값 관리 클래스
+	 * file control: O
+	 * init value: setup value
+	 * description: minigame title
 	 */
-
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: 미니게임 이름(참가 이름)
 	private String title;
 
-	// 파일 관리 o
-	// 기본값: new Location(Bukkit.getWorld("world"), 0, 4, 0)
-	// 설명: 미니게임 플레이 장소
+	/*
+	 * file control: O
+	 * init value: new Location(Bukkit.getWorld("world"), 0, 4, 0)
+	 * description: minigame playing location
+	 */
 	private Location location;
 
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: 최대 참여 인원수
+	/*
+	 * file control: O
+	 * init value: setup value
+	 * description: max participating players
+	 */
 	private int maxPlayerCount;
 
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: 게임 대기 시간 (초)
+	/*
+	 * file control: O
+	 * init value: setup value
+	 * description: waiting time for starting (sec)
+	 */
 	private int waitingTime;
 
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: 게임 진행 시간 (초)
+	/*
+	 * file control: O
+	 * init value: setup value
+	 * description: minigame running time (sec)
+	 */
 	private int timeLimit;
 
-	// 파일 관리 o
-	// 기본값: true
-	// 설명: 게임 활성화 여부
+	/*
+	 * file control: O
+	 * init value: true
+	 * description: whether minigame is active or not 
+	 */
 	private boolean active;
 
-	// 파일 관리 x
-	// 기본값: false
-	// 설명: 미니게임의 특정 세팅값(waitingTime, timeLimit, maxPlayerCount, customDatat) 고정 여부
+	/*
+	 * file control: X
+	 * init value: false
+	 * description: option for specific MiniGameSettings fix 
+	 */
 	private boolean settingFixed;
 
-	// 파일 관리 o
-	// 기본값: false
-	// 설명: 스코어 변동 알림 여부
+	/*
+	 * file control: O
+	 * init value: false
+	 * description: option to notify when score changes 
+	 */
 	private boolean scoreNotifying;
 
-	// 파일 관리 o
-	// 기본값: false
-	// 설명: 인원수가 maxPlayerCount값이어야 게임이 진행됨
+	/*
+	 * file control: O
+	 * init value: false
+	 * description: start game when "current player count" == "max player count"
+	 */
 	private boolean forceFullPlayer;
 
-	// 파일 관리 o
-	// 기본값: false
-	// 설명: 미니게임 튜토리얼
+	/*
+	 * file control: O
+	 * init value: none
+	 * description: tutorial
+	 */
 	private List<String> tutorial;
 
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: 커스텀 데이터 설정 섹션
+	/*
+	 * file control: O
+	 * init value: setup value
+	 * description: custom data
+	 */
 	private Map<String, Object> customData;
 
-	// 파일 관리 o
-	// 기본값: 초기값
-	// 설명: GUI에 사용될 icon item
+	/*
+	 * file control: O
+	 * init value: setup value
+	 * description: icon item for GUI inventory
+	 */
 	private Material icon;
 
 	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
@@ -89,7 +108,7 @@ public class MiniGameSetting {
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
 	}
-	
+
 	// set
 
 	public void setSettingFixed(boolean settingFixed) {
@@ -139,7 +158,7 @@ public class MiniGameSetting {
 	public void setIcon(Material icon) {
 		this.icon = icon;
 	}
-	
+
 	// get
 
 	public String getTitle() {
@@ -190,8 +209,8 @@ public class MiniGameSetting {
 		return this.icon;
 	}
 
-	// setting 
-	
+	// setting
+
 	public Map<String, Object> getFileSetting() {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();
@@ -213,10 +232,6 @@ public class MiniGameSetting {
 
 	@SuppressWarnings("unchecked")
 	public void setFileSetting(Map<String, Object> setting) {
-		/*
-		 * apply "maxPlayerCount", "waitingTime", "timeLimit" when "settingFixed" is false
-		 */
-
 		// title
 		this.setTitle((String) setting.get("title"));
 

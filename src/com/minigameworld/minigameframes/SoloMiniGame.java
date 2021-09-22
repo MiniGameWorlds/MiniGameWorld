@@ -44,7 +44,7 @@ public abstract class SoloMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
-		// 스코어 결과만 출력
+		// print just score
 		this.sendMessageToAllPlayers("[Score]");
 		int score = this.getScore();
 		this.sendMessageToAllPlayers(this.getSoloPlayer().getName() + ": " + score);

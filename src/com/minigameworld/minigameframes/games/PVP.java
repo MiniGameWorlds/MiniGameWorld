@@ -46,7 +46,7 @@ public class PVP extends SoloBattleMiniGame {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		this.health = (int) this.getCustomData().get("health");
 		this.items = (List<ItemStack>) this.getCustomData().get("items");
 	}

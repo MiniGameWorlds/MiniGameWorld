@@ -32,15 +32,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 
 	private List<Team> allTeams;
-	// 팀 개수
+	// team count
 	private int teamCount;
-	// 팀 인원 수
+	// players per team
 	private int teamSize;
+
 	private boolean groupChat;
-	// 팀 개수, 인원수에 맞게 자동 팀 분배
+
+	// distribute players according to teamCount and teamSize
 	private boolean autoTeamSetup;
 
-	// 팀 등록 강제
+	// registe team
 	protected abstract void registerAllPlayersToTeam();
 
 	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, int teamCount,
@@ -59,31 +61,28 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	protected void setAutoTeamSetup(boolean autoTeamSetup) {
-		//
 		this.autoTeamSetup = autoTeamSetup;
 	}
 
 	private void setupAllTeams() {
-		// allTeams 초기화
+		// init allTeams
 		if (this.allTeams == null) {
 			this.allTeams = new ArrayList<Team>();
 		} else {
 			this.allTeams.clear();
 		}
 
-		// teamCount만큼 팀 추가
+		// add "teamCount" teams
 		for (int i = 0; i < this.teamCount; i++) {
 			this.allTeams.add(new Team());
 		}
 	}
 
 	protected void fixTeamCount(int teamCount) {
-		// 팀 최대 갯수 설정
 		this.teamCount = teamCount;
 	}
 
 	protected void fixTeamSize(int teamSize) {
-		// 1팀당 최대 인원 설정
 		this.teamSize = teamSize;
 	}
 
@@ -101,16 +100,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	protected boolean isSameTeam(Player p1, Player p2) {
-		/*
-		 * 2 player가 같은 팀인지
-		 */
+		// compare with "=="(memory ref)
 		return this.getPlayerTeam(p1) == this.getPlayerTeam(p2);
 	}
 
 	protected boolean registerPlayerWithTeam(Player p) {
-		/*
-		 * 순서대로 팀에 플레이어 추가
-		 */
+		// register player to team in order
 		for (int teamNumber = 0; teamNumber < teamCount; teamNumber++) {
 			if (this.registerPlayerWithTeam(p, teamNumber)) {
 				return true;
@@ -121,22 +116,18 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	protected boolean registerPlayerWithTeam(Player p, int teamNumber) {
-		/*
-		 * teamNumber 팀에 플레이어 추가
-		 */
-		// teamCount 검사
+		// check teamCount
 		if (teamNumber >= teamCount) {
 			return false;
 		}
-		// team 가져오기
+
+		// register
 		Team team = getTeam(teamNumber);
 		return team.registerMember(p);
 	}
 
 	protected boolean unregisterPlayerFromTeam(Player p) {
-		/*
-		 * player를 어떤 팀에서든 unregister시킴
-		 */
+		// unregister from team
 		for (int teamNumber = 0; teamNumber < teamCount; teamNumber++) {
 			Team team = getTeam(teamNumber);
 			if (team.unregisterMember(p)) {
@@ -159,7 +150,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	protected int getValidTeamCount() {
-		// player가 1명 이상 들어있는 팀의 개수
+		// valid team = team which has 1 player or more count
 		int count = 0;
 		for (Team team : this.allTeams) {
 			if (this.isValidTeam(team)) {
@@ -174,18 +165,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		team.plusTeamScore(score);
 	}
 
-	// protected void plusScoreToTeam(Team team, int score) {
-	// team.plusScoreToMembers(score);
-	// }
-
 	protected void minusTeamScore(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
 		team.minusTeamScore(score);
 	}
-
-	// protected void minusScoreToTeam(Team team, int score) {
-	// team.minusScoreToMembers(score);
-	// }
 
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
@@ -193,13 +176,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void initGameSetting() {
+	protected void initGameSettings() {
 		this.setupAllTeams();
 	}
 
 	@Override
 	protected void runTaskAfterStart() {
-		// 자동 팀 분배 (한명씩 모든 팀에 번갈아가면서 넣기)
+		// auto team setup: register all players to each teams
 		if (this.autoTeamSetup) {
 			int teamNumber = 0;
 			for (Player p : this.getPlayers()) {
@@ -210,13 +193,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.registerAllPlayersToTeam();
 		}
 
+		// check there are at least 2 teams
 		this.checkAtLeastTeamRemains(2);
 	}
 
 	protected boolean checkAtLeastTeamRemains(int count) {
-		// 1개의 팀에만 플레이어가 존재하는지 검사후 맞으면 게임 종료
-		if (this.getValidTeamCount() <= 1) {
-			this.sendMessageToAllPlayers("Game End: only 1 team remains");
+		// check at least "count" teams remian
+		if (this.getValidTeamCount() < count) {
+			this.sendMessageToAllPlayers("Game End: need more team to play game");
 			this.endGame();
 			return true;
 		}
@@ -227,27 +211,23 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected void handleGameException(Player p, Exception exception, Object arg) {
 		super.handleGameException(p, exception, arg);
 		// handled player will remove after run "handleGameException()"
+		// so check there are al least 3 teams
 		this.checkAtLeastTeamRemains(3);
 	}
 
 	@Override
 	protected void processEvent(Event event) {
-		/*
-		 * 그룹채팅 기능
-		 * 
-		 * - 사용하려면 groupChat=true와 super.processEvent()를 사용하여야 함
-		 */
-		// groupChat이 true일 때
+		// group chat
 		if (this.groupChat) {
 			if (event instanceof AsyncPlayerChatEvent) {
 				AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
-				// 플레이어 채팅 cancel후
+				// cancel event
 				e.setCancelled(true);
 				Player sender = e.getPlayer();
 
-				// 팀 내 플레이어들에게만 채팅 전송
+				// send message to only team members
 				Team team = this.getPlayerTeam(sender);
-				// ex. [GameTitle] worldbiomusic: go go
+				// ex. [Title] worldbiomusic: go go
 				team.sendTeamMessage(sender, e.getMessage());
 			}
 		}
@@ -263,16 +243,16 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
 			Utils.warning(this.getTitleWithClassName()
-					+ ": maxPlayer is recommended at least 2 players(or extends SoloMiniGame)");
+					+ ": maxPlayer is recommended at least 2 players");
 		}
 	}
 
 	@Override
 	protected void printScore() {
-		// 스코어 결과 팀 score기준 내림차순으로 출력
+		// print team score in descending order 
 		this.sendMessageToAllPlayers("[Score]");
 
-		// team별 멤버 1명씩 삽입
+		// add each player of all teams (for sorting score by team)
 		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
 		for (Team team : this.allTeams) {
 			if (this.isValidTeam(team)) {
@@ -282,7 +262,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 		}
 
-		// 팀 점수대로 순위
+		// rank team by score
 		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(eachValidTeamPlayer);
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
@@ -297,11 +277,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	public class Team {
-		/*
-		 * 변수 값에 대한 접근은 Team메소드는 public
-		 * 
-		 * 변수 값에 대한 설정은 TeamMiniGame의 메소드로의 접근을 강제하기 위해 Team메소드는 private
-		 */
 		private List<Player> members;
 
 		Team() {
@@ -337,7 +312,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		private boolean registerMember(Player p) {
-			// teamSize 검사
+			// check teamSize 
 			boolean isFull = this.size() >= teamSize;
 			if (isFull) {
 				return false;
@@ -360,7 +335,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			for (Player p : this.members) {
 				members += p.getName() + ", ";
 			}
-			// 마지막 ", " 제거
+			// remove last ", "
 			members = members.substring(0, members.length() - 2);
 			return members;
 		}
