@@ -1,6 +1,6 @@
 # 할 것
-- 주석 영어 변경
-- party 시스템 마무리 (MiniGameWorld에 gui, party 시스템 접근 허용)
+- party GUI 메뉴 추가하기
+- party와 MiniGame 결합 (동반 입장, 퇴장)
 - 범용 Reward 플러그인 만들기
 - wiki: GUI, Party
 - 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
@@ -10,6 +10,7 @@
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - setting.yml에 한글, 영어 기능 language변수 
+- java docs 만들기
 
 ---
 
@@ -198,7 +199,7 @@
 
 # 2021-09-22
 - 주석 영어로 변경 (완료)
-
+- GUI에 간단한 party member 목록 추가
 
 
 

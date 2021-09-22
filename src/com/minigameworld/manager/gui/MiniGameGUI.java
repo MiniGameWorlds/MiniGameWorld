@@ -27,7 +27,6 @@ public class MiniGameGUI {
 	private Player player;
 	private MiniGameManager minigameManager;
 	private Inventory inv;
-	private List<MiniGame> minigames;
 	private int currentPage;
 
 	private final int minigameIconListSize = 27;
@@ -56,10 +55,9 @@ public class MiniGameGUI {
 		}
 	}
 
-	public MiniGameGUI(Player player, MiniGameManager minigameManager, List<MiniGame> minigames) {
+	public MiniGameGUI(Player player, MiniGameManager minigameManager) {
 		this.player = player;
 		this.minigameManager = minigameManager;
-		this.minigames = minigames;
 		this.currentPage = 1;
 		this.makeBaseIcons();
 	}
@@ -76,7 +74,7 @@ public class MiniGameGUI {
 
 		// horizon line
 		for (int i = 0; i < 9; i++) {
-			this.inv.setItem(BaseIcon.HORIZON_LINE.getSlot(), BaseIcon.HORIZON_LINE.getItem());
+			this.inv.setItem(BaseIcon.HORIZON_LINE.getSlot() + i, BaseIcon.HORIZON_LINE.getItem());
 		}
 
 		// page buttons
@@ -88,7 +86,7 @@ public class MiniGameGUI {
 	private ItemStack getPlayerHead(Player p) {
 		ItemStack item = PlayerTool.getPlayerHead(this.player);
 		ItemMeta meta = item.getItemMeta();
-		meta.displayName(Component.text(ChatColor.BOLD + "INFO"));
+		meta.displayName(Component.text("" + ChatColor.YELLOW + ChatColor.BOLD + "INFO"));
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -102,6 +100,15 @@ public class MiniGameGUI {
 		ItemMeta meta = playerHead.getItemMeta();
 		List<Component> lore = new ArrayList<>();
 		lore.add(Component.text(ChatColor.WHITE + "- Minigame: " + title));
+
+		// add party members
+		lore.add(Component.text(""));
+		lore.add(Component.text("" + ChatColor.YELLOW + ChatColor.BOLD + "Party"));
+		List<Player> partyMembers = this.minigameManager.getPartyManager().getMembers(this.player);
+		for (Player member : partyMembers) {
+			lore.add(Component.text(ChatColor.WHITE + "- " + member.getName()));
+		}
+
 		meta.lore(lore);
 		playerHead.setItemMeta(meta);
 	}
@@ -124,12 +131,13 @@ public class MiniGameGUI {
 
 		// slot: 18 ~ 44 (count: 27)
 		int minigameIndex = 0 + ((page - 1) * minigameIconListSize);
+		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
 //		for (int i = 18; i < 45; i++, minigameIndex++) {
 		for (int i = 18; i < 18 + minigameIconListSize; i++, minigameIndex++) {
-			if (minigameIndex >= this.minigames.size()) {
+			if (minigameIndex >= minigameList.size()) {
 				break;
 			}
-			MiniGame minigame = this.minigames.get(minigameIndex);
+			MiniGame minigame = minigameList.get(minigameIndex);
 			this.inv.setItem(i, this.getMiniGameIcon(minigame));
 		}
 
@@ -198,7 +206,8 @@ public class MiniGameGUI {
 	}
 
 	private int getMaxPageNumber() {
-		return (int) Math.ceil(this.minigames.size() / (double) minigameIconListSize);
+		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
+		return (int) Math.ceil(minigameList.size() / (double) minigameIconListSize);
 	}
 
 	private void updateCurrentPageNumber() {

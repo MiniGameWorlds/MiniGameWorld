@@ -45,7 +45,7 @@ public class MiniGameGUIManager {
 	}
 
 	public void openGUI(Player p) {
-		this.guis.put(p, new MiniGameGUI(p, this.minigameManager, this.minigameManager.getMiniGameList()));
+		this.guis.put(p, new MiniGameGUI(p, this.minigameManager));
 
 		// open 1 page gui
 		Inventory inv = this.guis.get(p).createGUI(1);

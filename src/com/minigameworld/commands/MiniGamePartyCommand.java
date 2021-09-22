@@ -13,8 +13,6 @@ public class MiniGamePartyCommand {
 	}
 
 	public boolean party(Player p, String[] args) throws Exception {
-		// check player is online
-
 		/*
 		 * - /mg party invite <player(invitee)>
 		 * - /mg party accept <player(inviter)>
@@ -96,7 +94,7 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean list(Player p, String[] args) throws Exception {
-		this.partyManager.list(p);
+		this.partyManager.printList(p);
 		return true;
 	}
 

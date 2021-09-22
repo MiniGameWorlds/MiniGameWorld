@@ -225,7 +225,7 @@ public class PartyManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void list(Player p) {
+	public void printList(Player p) {
 		// check target player is online
 		if (!PlayerTool.isPlayerOnline(p)) {
 			return;
@@ -248,6 +248,16 @@ public class PartyManager {
 			msg.addExtra(playerList);
 		}
 		Party.sendMessage(p, msg);
+	}
+
+	public List<Player> getMembers(Player p) {
+		// check target player is online
+		if (!PlayerTool.isPlayerOnline(p)) {
+			return null;
+		}
+		
+		Party party = this.getPlayerParty(p);
+		return party.getMembers();
 	}
 
 	private boolean checkPlayersOnline(Player notifyPlayer, Player targetPlayer) {
