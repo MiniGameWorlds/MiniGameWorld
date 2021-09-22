@@ -16,7 +16,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
+import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.manager.party.Party;
+import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
@@ -52,6 +55,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// player data manager
 	private MiniGamePlayerDataManager playerDataManager;
 
+	// MiniGameWorld
+	private MiniGameWorld minigameWorld;
+
 	// abstract methods
 	protected abstract void initGameSettings();
 
@@ -60,8 +66,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected abstract List<String> registerTutorial();
 
 	// base constructor
-	protected MiniGame(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this.setting = new MiniGameSetting(title, location, maxPlayerCount, timeLimit, waitingTime);
+	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
+			int waitingTime) {
+		this.setting = new MiniGameSetting(title, location, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 
 		// [must setup once]
 		this.setupMiniGame();
@@ -71,14 +78,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	// base location constructor
-	protected MiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), maxPlayerCount, timeLimit, waitingTime);
+	protected MiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayerCount, maxPlayerCount, timeLimit,
+				waitingTime);
 	}
 
 	private void setupMiniGame() {
 		this.taskManager = new BukkitTaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerDataManager = new MiniGamePlayerDataManager();
+		this.minigameWorld = MiniGameWorld.create();
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -226,8 +235,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		// leave
-		this.setupPlayerLeavingSettings(p, "Before start");
+		// leave party members
+		PartyManager partyManager = this.minigameWorld.getPartyManager();
+		List<Player> members = partyManager.getMembers(p);
+		members.forEach(m -> {
+			this.setupPlayerLeavingSettings(m, "Before start");
+			Party.sendMessage(m, p.getName() + " leaved " + this.getTitle() + " with party");
+		});
 
 		// check game is emtpy
 		if (this.isEmpty()) {
@@ -263,17 +277,27 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		 */
 
 		if (!this.isActive()) {
-			this.sendMessage(p, " game is not active");
+			this.sendMessage(p, "game is not active");
 			return false;
 		}
 
 		if (this.started) {
-			this.sendMessage(p, " already started");
+			this.sendMessage(p, "already started");
 			return false;
 		}
 
 		if (this.isFull()) {
-			this.sendMessage(p, " Player is full");
+			this.sendMessage(p, "Player is full");
+			return false;
+		}
+
+		// check party can join or not
+		PartyManager partyManager = this.minigameWorld.getPartyManager();
+		List<Player> members = partyManager.getMembers(p);
+		int partySize = members.size();
+		int leftSeats = this.getMaxPlayerCount() - this.getPlayerCount();
+		if (partySize > leftSeats) {
+			this.sendMessage(p, "Party members are too many to join the game");
 			return false;
 		}
 
@@ -283,8 +307,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			this.startWaitingTimer();
 		}
 
-		// setup player
-		setupPlayerJoinSettings(p);
+		// setup party members join settings
+		members.forEach(m -> {
+			this.setupPlayerJoinSettings(m);
+			Party.sendMessage(m, p.getName() + " joined " + this.getTitle() + " with party");
+		});
 
 		// join success
 		return true;
@@ -348,6 +375,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
 	}
 
+	protected void restartWaitingTask() {
+		this.initTasks();
+		this.startWaitingTimer();
+	}
+
 	private void runStartTasks() {
 		// check "forceFullPlayer" setting
 		if (this.getSetting().isForceFullPlayer()) {
@@ -357,12 +389,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 				this.sendMessageToAllPlayers("Game can't start: needs full players");
 
 				// restart waiting task
-				this.initTasks();
-				this.startWaitingTimer();
+				this.restartWaitingTask();
 
 				return;
 			}
 		}
+
+		// runTaskAfterStart
+		runTaskAfterStart();
 
 		// start
 		started = true;
@@ -372,9 +406,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// starting title
 		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
-
-		// runTaskAfterStart
-		runTaskAfterStart();
 
 		// notify start event to observers
 		this.notifyObservers(MiniGameEvent.START);
@@ -608,6 +639,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public int getTimeLimit() {
 		return this.getSetting().getTimeLimit();
+	}
+
+	public int getMinPlayerCount() {
+		return this.getSetting().getMinPlayerCount();
 	}
 
 	public int getMaxPlayerCount() {

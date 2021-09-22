@@ -1,4 +1,5 @@
 # 할 것
+- GUI 클릭 버그 고치기
 - party GUI 메뉴 추가하기
 - party와 MiniGame 결합 (동반 입장, 퇴장)
 - 범용 Reward 플러그인 만들기
@@ -200,7 +201,7 @@
 # 2021-09-22
 - 주석 영어로 변경 (완료)
 - GUI에 간단한 party member 목록 추가
-
+- MiniGame에 `minPlayerCount` 속성 추가
 
 
 

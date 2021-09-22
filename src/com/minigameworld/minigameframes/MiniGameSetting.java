@@ -26,6 +26,13 @@ public class MiniGameSetting {
 	/*
 	 * file control: O
 	 * init value: setup value
+	 * description: min participating players
+	 */
+	private int minPlayerCount;
+
+	/*
+	 * file control: O
+	 * init value: setup value
 	 * description: max participating players
 	 */
 	private int maxPlayerCount;
@@ -93,9 +100,11 @@ public class MiniGameSetting {
 	 */
 	private Material icon;
 
-	public MiniGameSetting(String title, Location location, int maxPlayerCount, int timeLimit, int waitingTime) {
+	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
+			int waitingTime) {
 		this.title = title;
 		this.location = location;
+		this.minPlayerCount = minPlayerCount;
 		this.maxPlayerCount = maxPlayerCount;
 		this.waitingTime = waitingTime;
 		this.timeLimit = timeLimit;
@@ -125,6 +134,10 @@ public class MiniGameSetting {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public void setMinPlayerCount(int minPlayerCount) {
+		this.minPlayerCount = minPlayerCount;
 	}
 
 	public void setMaxPlayerCount(int maxPlayerCount) {
@@ -167,6 +180,10 @@ public class MiniGameSetting {
 
 	public Location getLocation() {
 		return location;
+	}
+
+	public int getMinPlayerCount() {
+		return minPlayerCount;
 	}
 
 	public int getMaxPlayerCount() {
@@ -217,6 +234,7 @@ public class MiniGameSetting {
 
 		setting.put("title", this.title);
 		setting.put("location", this.location);
+		setting.put("minPlayerCount", this.minPlayerCount);
 		setting.put("maxPlayerCount", this.maxPlayerCount);
 		setting.put("waitingTime", this.waitingTime);
 		setting.put("timeLimit", this.timeLimit);
@@ -243,6 +261,9 @@ public class MiniGameSetting {
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
+			// minPlayerCount
+			this.setMinPlayerCount((int) setting.get("minPlayerCount"));
+
 			// maxPlayerCount
 			this.setMaxPlayerCount((int) setting.get("maxPlayerCount"));
 

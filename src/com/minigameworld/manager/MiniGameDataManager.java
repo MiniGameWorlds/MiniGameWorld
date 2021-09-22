@@ -60,6 +60,9 @@ public class MiniGameDataManager implements YamlMember {
 
 		// when settingFixed is true: restore fixed values to file
 		if (minigame.isSettingFixed()) {
+			// minPlayerCount
+			data.put("minPlayerCount", minigame.getMinPlayerCount());
+
 			// maxPlayerCount
 			data.put("maxPlayerCount", minigame.getMaxPlayerCount());
 
@@ -88,7 +91,7 @@ public class MiniGameDataManager implements YamlMember {
 			// if not exist, remove minigame (= remove from file)
 			removedGames.add(gameClassName);
 		}
-		
+
 		Utils.info("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List in minigames.yml ]");
 		for (String removedGameTitle : removedGames) {
 			this.minigameData.remove(removedGameTitle);
