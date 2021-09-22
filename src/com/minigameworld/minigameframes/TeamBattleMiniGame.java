@@ -26,7 +26,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * [Rule]
 	 * - when use initGameSetting(), must call super.initGameSetting()
 	 * - when "autoTeamSetup" is false, register player with team using overrided registerAllPlayersToTeam() method
-	 * - when use runTaskAfterStart(), must call super.runTaskAfterStart()
 	 * - whem use processEvent(), must call super.processEvent()
 	 * 
 	 */
@@ -45,13 +44,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	// registe team
 	protected abstract void registerAllPlayersToTeam();
 
-	public TeamBattleMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime, int teamCount,
-			int teamSize) {
-		super(title, maxPlayerCount, timeLimit, waitingTime);
+	public TeamBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime,
+			int teamCount, int teamSize) {
+		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 
 		// set teamCount, teamSize
 		this.fixTeamCount(teamCount);
 		this.fixTeamSize(teamSize);
+		
 		// setup team
 		this.setupAllTeams();
 	}
@@ -192,27 +192,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		} else {
 			this.registerAllPlayersToTeam();
 		}
-
-		// check there are at least 2 teams
-		this.checkAtLeastTeamRemains(2);
-	}
-
-	protected boolean checkAtLeastTeamRemains(int count) {
-		// check at least "count" teams remian
-		if (this.getValidTeamCount() < count) {
-			this.sendMessageToAllPlayers("Game End: need more team to play game");
-			this.endGame();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	protected void handleGameException(Player p, Exception exception, Object arg) {
-		super.handleGameException(p, exception, arg);
-		// handled player will remove after run "handleGameException()"
-		// so check there are al least 3 teams
-		this.checkAtLeastTeamRemains(3);
 	}
 
 	@Override
@@ -242,14 +221,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			Utils.warning(this.getTitleWithClassName()
-					+ ": maxPlayer is recommended at least 2 players");
+			Utils.warning(this.getTitleWithClassName() + ": maxPlayer is recommended at least 2 players");
 		}
 	}
 
 	@Override
 	protected void printScore() {
-		// print team score in descending order 
+		// print team score in descending order
 		this.sendMessageToAllPlayers("[Score]");
 
 		// add each player of all teams (for sorting score by team)
@@ -312,7 +290,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		private boolean registerMember(Player p) {
-			// check teamSize 
+			// check teamSize
 			boolean isFull = this.size() >= teamSize;
 			if (isFull) {
 				return false;

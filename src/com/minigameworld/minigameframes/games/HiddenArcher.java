@@ -10,9 +10,9 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	 */
 
 	public HiddenArcher() {
-		super("HiddenArcher", 6, 60 * 3, 20, 3, 2);
+		super("HiddenArcher", 4, 8, 60 * 3, 20, 3, 2);
 	}
-	
+
 	@Override
 	protected void initGameSettings() {
 		super.initGameSettings();

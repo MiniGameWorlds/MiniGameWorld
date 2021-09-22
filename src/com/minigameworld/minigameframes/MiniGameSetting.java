@@ -74,13 +74,6 @@ public class MiniGameSetting {
 
 	/*
 	 * file control: O
-	 * init value: false
-	 * description: start game when "current player count" == "max player count"
-	 */
-	private boolean forceFullPlayer;
-
-	/*
-	 * file control: O
 	 * init value: none
 	 * description: tutorial
 	 */
@@ -112,7 +105,6 @@ public class MiniGameSetting {
 		this.active = true;
 		this.settingFixed = false;
 		this.scoreNotifying = false;
-		this.forceFullPlayer = false;
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
@@ -154,10 +146,6 @@ public class MiniGameSetting {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public void setForceFullPlayer(boolean forceFullPlayer) {
-		this.forceFullPlayer = forceFullPlayer;
 	}
 
 	public void setTutorial(List<String> tutorial) {
@@ -210,9 +198,6 @@ public class MiniGameSetting {
 		return scoreNotifying;
 	}
 
-	public boolean isForceFullPlayer() {
-		return forceFullPlayer;
-	}
 
 	public List<String> getTutorial() {
 		return this.tutorial;
@@ -240,7 +225,6 @@ public class MiniGameSetting {
 		setting.put("timeLimit", this.timeLimit);
 		setting.put("active", this.active);
 		setting.put("scoreNotifying", this.scoreNotifying);
-		setting.put("forceFullPlayer", this.forceFullPlayer);
 		setting.put("tutorial", this.tutorial);
 		setting.put("customData", this.customData);
 		setting.put("icon", this.icon.name());
@@ -273,8 +257,6 @@ public class MiniGameSetting {
 			// customData
 			this.setCustomData((Map<String, Object>) setting.get("customData"));
 
-			// forceFullPlayer
-			this.setForceFullPlayer((boolean) setting.get("forceFullPlayer"));
 		}
 
 		// active

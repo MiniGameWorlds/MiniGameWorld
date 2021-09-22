@@ -12,6 +12,7 @@
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - setting.yml에 한글, 영어 기능 language변수 
 - java docs 만들기
+- MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 
 ---
 
@@ -202,6 +203,7 @@
 - 주석 영어로 변경 (완료)
 - GUI에 간단한 party member 목록 추가
 - MiniGame에 `minPlayerCount` 속성 추가
+- `forcedFullPlayer` 속성 제거 (`minPlayerCount` = `maxPlayerCount`와 같은 효과를 가지므로)
 
 
 

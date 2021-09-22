@@ -17,7 +17,7 @@ public class RandomScore extends SoloBattleMiniGame {
 	private List<Integer> randomScores;
 
 	public RandomScore() {
-		super("RandomScore", 2, 10, 10);
+		super("RandomScore", 2, 4, 10, 10);
 		this.randomScores = new ArrayList<Integer>();
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setScoreNotifying(true);

@@ -14,7 +14,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	 * 
 	 */
 	public SoloMiniGame(String title, int timeLimit, int waitingTime) {
-		super(title, 1, timeLimit, waitingTime);
+		super(title, 1, 1, timeLimit, waitingTime);
 	}
 
 	@Override

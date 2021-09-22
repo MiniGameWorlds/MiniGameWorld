@@ -71,9 +71,6 @@ public class MiniGameDataManager implements YamlMember {
 
 			// customData
 			data.put("customData", minigame.getCustomData());
-
-			// forceFullPlayer
-			data.put("forceFullPlayer", minigame.getSetting().isForceFullPlayer());
 		}
 	}
 

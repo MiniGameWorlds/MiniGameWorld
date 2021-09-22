@@ -27,7 +27,7 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 5, 60 * 5, 10);
+		super("PVP", 2, 5, 60 * 5, 10);
 		this.getSetting().setSettingFixed(true);
 	}
 
@@ -98,7 +98,7 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void runTaskBeforeFinish() {
 		super.runTaskBeforeFinish();
-		for(Player p : this.getPlayers()) {
+		for (Player p : this.getPlayers()) {
 			p.setGameMode(GameMode.SURVIVAL);
 			p.setHealthScale(20);
 		}
@@ -114,11 +114,11 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void handleGameException(Player p, Exception exception, Object arg) {
 		super.handleGameException(p, exception, arg);
-		
+
 		// set player health scale to 20
 		p.setHealthScale(20);
 	}
-	
+
 }
 //
 //

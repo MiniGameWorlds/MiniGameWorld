@@ -15,8 +15,8 @@ public abstract class TeamMiniGame extends MiniGame {
 	 * - must use plusEveryoneScore() or minusEveryoneScore() for team score
 	 */
 
-	public TeamMiniGame(String title, int maxPlayerCount, int timeLimit, int waitingTime) {
-		super(title, maxPlayerCount, timeLimit, waitingTime);
+	public TeamMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
+		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 	}
 
 	protected int getTeamScore() {
@@ -48,8 +48,7 @@ public abstract class TeamMiniGame extends MiniGame {
 		}
 		// maxPlayerCount
 		if (this.getMaxPlayerCount() <= 1) {
-			Utils.warning(this.getTitleWithClassName()
-					+ ": maxPlayer is recommended at least 2 players");
+			Utils.warning(this.getTitleWithClassName() + ": maxPlayer is recommended at least 2 players");
 		}
 
 	}

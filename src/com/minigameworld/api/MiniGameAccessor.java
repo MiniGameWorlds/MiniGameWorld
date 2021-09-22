@@ -105,10 +105,6 @@ public class MiniGameAccessor {
 		return this.minigame.getSetting().isScoreNotifying();
 	}
 
-	public boolean isForcePlayerCount() {
-		return this.minigame.getSetting().isForceFullPlayer();
-	}
-
 	public List<String> getTutorial() {
 		// copied instance
 		return new ArrayList<>(this.minigame.getTutorial());

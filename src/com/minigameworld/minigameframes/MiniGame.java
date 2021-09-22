@@ -23,6 +23,7 @@ import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
@@ -230,7 +231,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		if (this.waitingCounter.getCount() <= 10) {
+		if (this.waitingCounter.getCount() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
 			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
 			return false;
 		}
@@ -381,22 +382,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void runStartTasks() {
-		// check "forceFullPlayer" setting
-		if (this.getSetting().isForceFullPlayer()) {
-			// check player isn't full
-			if (!this.isFull()) {
-				// send message
-				this.sendMessageToAllPlayers("Game can't start: needs full players");
+		// check min player count
+		if (!this.checkMinPlayerCountRemains()) {
+			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
+			// send message
+			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
 
-				// restart waiting task
-				this.restartWaitingTask();
+			// restart waiting task
+			this.restartWaitingTask();
 
-				return;
-			}
+			return;
 		}
-
-		// runTaskAfterStart
-		runTaskAfterStart();
 
 		// start
 		started = true;
@@ -406,6 +402,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// starting title
 		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
+
+		// runTaskAfterStart
+		runTaskAfterStart();
 
 		// notify start event to observers
 		this.notifyObservers(MiniGameEvent.START);
@@ -579,19 +578,19 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			Utils.info("Quit: " + event.getReason().name());
 		}
 
-		// pass exception to implemented minigame
-		this.handleGameException(p, exception, arg);
-
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
 
-		// check forceFullPlayer
-		if (this.getSetting().isForceFullPlayer()) {
-			// send message
-			this.sendMessageToAllPlayers("Game end: game needs full players");
+		// pass exception to implemented minigame
+		this.handleGameException(p, exception, arg);
 
-			// setup leaving setting for everyone
-			this.getPlayers().forEach(other -> this.setupPlayerLeavingSettings(other, null));
+		// check min player count
+		if (!this.checkMinPlayerCountRemains()) {
+			// send message
+			this.sendMessageToAllPlayers("Game end: game needs more players to play");
+
+			// end game
+			this.endGame();
 		}
 
 		// notify EXCEPTION event to observers
@@ -643,6 +642,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public int getMinPlayerCount() {
 		return this.getSetting().getMinPlayerCount();
+	}
+
+	protected boolean checkMinPlayerCountRemains() {
+		return this.getPlayerCount() >= this.getMinPlayerCount();
 	}
 
 	public int getMaxPlayerCount() {

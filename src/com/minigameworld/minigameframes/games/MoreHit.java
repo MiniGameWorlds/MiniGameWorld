@@ -18,7 +18,7 @@ public class MoreHit extends TeamBattleMiniGame {
 	 */
 
 	public MoreHit() {
-		super("MoreHit", 2, 20, 10, 2, 1);
+		super("MoreHit", 2, 2, 20, 10, 2, 1);
 		this.getSetting().setScoreNotifying(true);
 		this.setAutoTeamSetup(true);
 		this.setGroupChat(true);
