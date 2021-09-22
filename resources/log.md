@@ -1,7 +1,6 @@
 # 할 것
 - GUI 클릭 버그 고치기
 - party GUI 메뉴 추가하기
-- party와 MiniGame 결합 (동반 입장, 퇴장)
 - 범용 Reward 플러그인 만들기
 - wiki: GUI, Party
 - 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
@@ -204,7 +203,7 @@
 - GUI에 간단한 party member 목록 추가
 - MiniGame에 `minPlayerCount` 속성 추가
 - `forcedFullPlayer` 속성 제거 (`minPlayerCount` = `maxPlayerCount`와 같은 효과를 가지므로)
-
+- party와 MiniGame 결합 (동반 입장, 퇴장) (일부 파티멤버가 다른 미니게임에 참여중일 때도, 남은 파티원끼리 미니게임 참여 가능)
 
 
 

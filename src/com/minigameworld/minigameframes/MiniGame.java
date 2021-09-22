@@ -18,8 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.manager.party.Party;
-import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
@@ -236,13 +234,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		// leave party members
-		PartyManager partyManager = this.minigameWorld.getPartyManager();
-		List<Player> members = partyManager.getMembers(p);
-		members.forEach(m -> {
-			this.setupPlayerLeavingSettings(m, "Before start");
-			Party.sendMessage(m, p.getName() + " leaved " + this.getTitle() + " with party");
-		});
+		this.setupPlayerLeavingSettings(p, "Before start");
 
 		// check game is emtpy
 		if (this.isEmpty()) {
@@ -292,27 +284,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		// check party can join or not
-		PartyManager partyManager = this.minigameWorld.getPartyManager();
-		List<Player> members = partyManager.getMembers(p);
-		int partySize = members.size();
-		int leftSeats = this.getMaxPlayerCount() - this.getPlayerCount();
-		if (partySize > leftSeats) {
-			this.sendMessage(p, "Party members are too many to join the game");
-			return false;
-		}
-
 		// init setting when first player joins
 		if (this.isEmpty()) {
 			this.initSettings();
 			this.startWaitingTimer();
 		}
 
-		// setup party members join settings
-		members.forEach(m -> {
-			this.setupPlayerJoinSettings(m);
-			Party.sendMessage(m, p.getName() + " joined " + this.getTitle() + " with party");
-		});
+		// setup join settings
+		this.setupPlayerJoinSettings(p);
 
 		// join success
 		return true;
@@ -741,6 +720,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	@Override
 	public void notifyObservers(MiniGameEvent event) {
 		this.observerList.forEach(obs -> obs.update(event, new MiniGameAccessor(this)));
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null) {
+			if (obj instanceof MiniGame) {
+				return this.getTitle().equals(((MiniGame) obj).getTitle());
+			}
+
+		}
+		return false;
 	}
 
 }

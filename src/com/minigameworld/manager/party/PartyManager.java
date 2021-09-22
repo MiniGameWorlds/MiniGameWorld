@@ -45,7 +45,7 @@ public class PartyManager {
 		}
 	}
 
-	private boolean hasParty(Player p) {
+	public boolean hasParty(Player p) {
 		// judge that player has a party if party's member are 2 or more players
 		Party party = this.getPlayerParty(p);
 		if (party == null) {

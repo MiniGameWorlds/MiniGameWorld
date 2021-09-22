@@ -51,12 +51,12 @@ public class MiniGameWorld {
 	 * - getPartyManager
 	 */
 
-	public boolean joinGame(Player p, String title) {
-		return this.minigameManager.joinGame(p, title);
+	public void joinGame(Player p, String title) {
+		this.minigameManager.joinGame(p, title);
 	}
 
-	public boolean leaveGame(Player p) {
-		return this.minigameManager.leaveGame(p);
+	public void leaveGame(Player p) {
+		this.minigameManager.leaveGame(p);
 	}
 
 	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
@@ -114,7 +114,7 @@ public class MiniGameWorld {
 		// unregister observer from All MiniGames
 		this.minigameManager.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
 	}
-	
+
 	public void openGUI(Player p) {
 		this.minigameManager.getMiniGameGUIManager().openGUI(p);
 	}

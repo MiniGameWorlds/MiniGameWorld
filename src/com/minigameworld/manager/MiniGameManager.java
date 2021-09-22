@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.manager.gui.MiniGameGUIManager;
+import com.minigameworld.manager.party.Party;
 import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
@@ -139,34 +140,71 @@ public class MiniGameManager implements YamlMember {
 		Utils.messagePrefix = (String) this.setting.get("messagePrefix");
 	}
 
-	public boolean joinGame(Player p, String title) {
+	public void joinGame(Player p, String title) {
 		// strip "color code"
 		title = ChatColor.stripColor(title);
+		MiniGame game = this.getMiniGameWithTitle(title);
+		if (game == null) {
+			Utils.sendMsg(p, title + " minigame does not exist");
+			return;
+		}
+
+		// party members can join game without other members that already playing game
+		if (!this.canPartyJoin(p, game)) {
+			return;
+		}
 
 		// check player is not playing minigame
+		List<Player> members = this.partyManager.getMembers(p);
 		if (!this.checkPlayerIsPlayingMiniGame(p)) {
-			MiniGame game = this.getMiniGameWithTitle(title);
-			if (game == null) {
-				p.sendMessage(title + " minigame does not exist");
-				return false;
-			} else {
-				return game.joinGame(p);
+			for (Player member : members) {
+				if (!this.checkPlayerIsPlayingMiniGame(member)) {
+					game.joinGame(member);
+				}
+
+				// message to everyone
+				Party.sendMessage(member, p.getName() + " joined " + game.getTitle() + " with party");
 			}
 		} else {
-			p.sendMessage("You already joined other minigame");
-			return false;
+			Utils.sendMsg(p, "You already joined other minigame");
 		}
 	}
 
-	// check player is playing minigame
-	public boolean leaveGame(Player p) {
+	private boolean canPartyJoin(Player p, MiniGame game) {
+		if (!this.partyManager.hasParty(p)) {
+			return true;
+		}
 
+		List<Player> members = this.partyManager.getMembers(p);
+		int nonPlayingGameMemberCount = this.getNonPlayingPlayerCount(members);
+		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
+
+		// check party size
+		if (nonPlayingGameMemberCount > leftSeats) {
+			Utils.sendMsg(p, "Party members are too many to join the game");
+			return false;
+		}
+
+		return true;
+	}
+
+	public void leaveGame(Player p) {
+		// leave party members
+		List<Player> members = this.partyManager.getMembers(p);
+		// check player is playing minigame
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
-			return playingGame.leaveGame(p);
+			for (Player member : members) {
+				// leave with members who is playing the same minigame with "p"
+				if (playingGame.equals(this.getPlayingMiniGame(member))) {
+					playingGame.leaveGame(p);
+				}
+
+				// message to everyone
+				Party.sendMessage(member, p.getName() + " leaved " + playingGame.getTitle() + " with party");
+			}
 		} else {
-			p.sendMessage("You're not playing any minigame");
-			return false;
+			Utils.sendMsg(p, "You're not playing any minigame");
 		}
 
 	}
@@ -363,6 +401,16 @@ public class MiniGameManager implements YamlMember {
 
 	public PartyManager getPartyManager() {
 		return this.partyManager;
+	}
+
+	private int getNonPlayingPlayerCount(List<Player> players) {
+		int Count = 0;
+		for (Player p : players) {
+			if (!this.checkPlayerIsPlayingMiniGame(p)) {
+				Count += 1;
+			}
+		}
+		return Count;
 	}
 
 	@Override
