@@ -60,6 +60,7 @@ world.registerMiniGame(new FitTool());
 - `태스크 등록`: `getTaskManager().registerTask("name", new Runnable() { // code });`
 - `태스크 호출`: `getTaskManager().runTask("name");`
 - MiniGame의 기본 시스템 관련 task(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
+- `BukkitRunnable()` 사용 금지
 ### 등록 방법
 ```java
 @Override
