@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -228,7 +229,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print team score in descending order
-		this.sendMessageToAllPlayers("[Score]");
+		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 
 		// add each player of all teams (for sorting score by team)
 		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();

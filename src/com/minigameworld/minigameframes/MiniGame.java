@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
@@ -54,9 +53,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// player data manager
 	private MiniGamePlayerDataManager playerDataManager;
 
-	// MiniGameWorld
-	private MiniGameWorld minigameWorld;
-
 	// abstract methods
 	protected abstract void initGameSettings();
 
@@ -86,7 +82,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.taskManager = new BukkitTaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerDataManager = new MiniGamePlayerDataManager();
-		this.minigameWorld = MiniGameWorld.create();
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -497,7 +492,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	protected void sendMessage(Player p, String msg) {
-		p.sendMessage("[" + this.getTitle() + "] " + msg);
+		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.WHITE + msg);
 	}
 
 	protected void sendMessageToAllPlayers(String msg) {

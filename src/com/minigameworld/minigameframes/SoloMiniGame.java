@@ -1,5 +1,6 @@
 package com.minigameworld.minigameframes;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public abstract class SoloMiniGame extends MiniGame {
@@ -45,7 +46,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print just score
-		this.sendMessageToAllPlayers("[Score]");
+		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 		int score = this.getScore();
 		this.sendMessageToAllPlayers(this.getSoloPlayer().getName() + ": " + score);
 	}

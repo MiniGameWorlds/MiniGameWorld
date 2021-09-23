@@ -149,7 +149,6 @@ public class MiniGameManager implements YamlMember {
 			return;
 		}
 
-		// party members can join game without other members that already playing game
 		if (!this.canPartyJoin(p, game)) {
 			return;
 		}
@@ -158,6 +157,7 @@ public class MiniGameManager implements YamlMember {
 		List<Player> members = this.partyManager.getMembers(p);
 		if (!this.checkPlayerIsPlayingMiniGame(p)) {
 			for (Player member : members) {
+				// join with party members without other members that already playing game
 				if (!this.checkPlayerIsPlayingMiniGame(member)) {
 					game.joinGame(member);
 				}
@@ -191,6 +191,7 @@ public class MiniGameManager implements YamlMember {
 	public void leaveGame(Player p) {
 		// leave party members
 		List<Player> members = this.partyManager.getMembers(p);
+		
 		// check player is playing minigame
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
@@ -238,10 +239,7 @@ public class MiniGameManager implements YamlMember {
 		return false;
 	}
 
-	/* 
-	 * process event
-	 * - check inventory event
-	 * - check sign click
+	/*
 	 * - check player is playing minigame and process event to minigame
 	*/
 	public boolean processEvent(Event e) {

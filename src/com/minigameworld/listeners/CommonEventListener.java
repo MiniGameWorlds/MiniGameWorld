@@ -19,7 +19,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -129,21 +130,35 @@ public class CommonEventListener implements Listener {
 		return null;
 	}
 
+	/*
+	 * Join / Quit
+	 */
 	@EventHandler
-	public void createParty(PlayerJoinEvent e) {
+	public void onPlayerJoin(PlayerJoinEvent e) {
 		this.minigameManager.processPlayerJoinWorks(e.getPlayer());
 	}
 
 	@EventHandler
-	public void leaveParty(PlayerQuitEvent e) {
+	public void onPlayerQuit(PlayerQuitEvent e) {
 		this.minigameManager.processPlayerQuitWorks(e.getPlayer());
 	}
 
+	/*
+	 * Inventory
+	 */
 	@EventHandler
-	private void checkPlayerClickMiniGameGUI(InventoryEvent e) {
+	private void checkPlayerClickMiniGameGUI(InventoryClickEvent e) {
 		this.minigameManager.getMiniGameGUIManager().processInventoryEvent(e);
 	}
 
+	@EventHandler
+	private void checkPlayerCloseMiniGameGUI(InventoryCloseEvent e) {
+		this.minigameManager.getMiniGameGUIManager().processInventoryEvent(e);
+	}
+
+	/*
+	 * MiniGame Sign
+	 */
 	@EventHandler
 	private void checkPlayerTryingMiniGameSign(PlayerInteractEvent e) {
 		// check player is trying to join or leaving with sign

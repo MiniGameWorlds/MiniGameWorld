@@ -1,5 +1,6 @@
 package com.minigameworld.minigameframes;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.util.Utils;
@@ -35,7 +36,7 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
-		this.sendMessageToAllPlayers("[Score]");
+		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 		this.sendMessageToAllPlayers("Team(" + this.getEveryoneName() + ")" + ": " + getTeamScore());
 	}
 
