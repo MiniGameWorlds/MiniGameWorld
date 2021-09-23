@@ -55,19 +55,18 @@ world.registerMiniGame(new FitTool());
 - `foceFullPlayer`: 플레이어가 `maxPlayerCount`일 때만 게임 시작 여부
 - `icon`: GUI에 표시되는 아이템 (Material)
 
-## - Task
-- TaskManager를 사용 (`getTaskManager()`)
-- `태스크 등록`: `getTaskManager().registerTask("name", new BukkitRunnable() { // code });`
-- 태스크 등록은 반드시 registerTasks() 메서드에서 작성되야 함
-- `태스크 호출`: getTaskManager().runTask("name");
-- BukkitRunabble에 등록해서 사용한(run) task는 **다시 사용 불가능**([BukkitRunnable 참고]) (registerTasks()메소드가 항상 게임시작전에 실행되서 새로운 객체로 등록됨)
+## - Task 관리
+- TaskManager 사용 (`getTaskManager()`)
+- `태스크 등록`: `getTaskManager().registerTask("name", new Runnable() { // code });`
+- `태스크 호출`: `getTaskManager().runTask("name");`
 - MiniGame의 기본 시스템 관련 task(`_waitingTimer`, `_finishTimer`)는 등록, 사용 금지
+- `BukkitRunnable()` 사용 금지
 ### 등록 방법
 ```java
 @Override
 protected void registerTasks() {
   // register task
-  this.getTaskManager().registerTask("task1", new BukkitRunnable() {
+  this.getTaskManager().registerTask("task1", new Runnable() {
 
     @Override
     public void run() {
@@ -161,3 +160,5 @@ protected void processEvent(Event event) {
 - PlayerLeashEntityEvent
 ```
 
+# Override
+- 대부분의 super.`###()`는 그대로 놯두고 사용해야 정상 작동
