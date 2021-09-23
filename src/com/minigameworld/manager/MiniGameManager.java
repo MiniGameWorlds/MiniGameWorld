@@ -191,19 +191,25 @@ public class MiniGameManager implements YamlMember {
 	public void leaveGame(Player p) {
 		// leave party members
 		List<Player> members = this.partyManager.getMembers(p);
-		
+
 		// check player is playing minigame
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
+			
+			boolean canLeave = false;
 			for (Player member : members) {
 				// leave with members who is playing the same minigame with "p"
 				if (playingGame.equals(this.getPlayingMiniGame(member))) {
-					playingGame.leaveGame(p);
+					canLeave = playingGame.leaveGame(member);
 				}
-
-				// message to everyone
-				Party.sendMessage(member, p.getName() + " leaved " + playingGame.getTitle() + " with party");
 			}
+			
+			// message to everyone
+			if (canLeave) {
+				members.forEach(
+						m -> Party.sendMessage(m, p.getName() + " leaved " + playingGame.getTitle() + " with party"));
+			}
+
 		} else {
 			Utils.sendMsg(p, "You're not playing any minigame");
 		}

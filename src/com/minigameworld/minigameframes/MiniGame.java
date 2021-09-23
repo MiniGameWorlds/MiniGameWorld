@@ -13,7 +13,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.manager.MiniGameManager;
@@ -25,7 +24,7 @@ import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
-import com.wbm.plugin.util.instance.BukkitTaskManager;
+import com.wbm.plugin.util.instance.TaskManager;
 
 public abstract class MiniGame implements MiniGameEventNotifier {
 	/*
@@ -45,7 +44,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private Map<Player, Integer> players;
 
 	// task manager
-	private BukkitTaskManager taskManager;
+	private TaskManager taskManager;
 
 	// observer list
 	private List<MiniGameObserver> observerList;
@@ -79,7 +78,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void setupMiniGame() {
-		this.taskManager = new BukkitTaskManager();
+		this.taskManager = new TaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerDataManager = new MiniGamePlayerDataManager();
 
@@ -88,6 +87,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// register custom data
 		this.registerCustomData();
+
+		// register basic tasks
+		this.registerBasicTasks();
 	}
 
 	/*
@@ -110,9 +112,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void handleGameException(Player p, Exception exception, Object arg) {
 	}
 
-	protected void registerTasks() {
-	}
-
 	protected void registerCustomData() {
 	}
 
@@ -130,9 +129,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.playerDataManager.clearData();
 	}
 
-	private void registerBasicTask() {
+	private void registerBasicTasks() {
 		// register waitingTimer task to taskManager
-		this.taskManager.registerTask("_waitingTimer", new BukkitRunnable() {
+		this.taskManager.registerTask("_waitingTimer", new Runnable() {
 
 			@Override
 			public void run() {
@@ -165,7 +164,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		});
 
 		// register finishTimer task to taskManager
-		this.taskManager.registerTask("_finishTimer", new BukkitRunnable() {
+		this.taskManager.registerTask("_finishTimer", new Runnable() {
 
 			@Override
 			public void run() {
@@ -335,10 +334,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void initTasks() {
 		// stop all tasks
 		this.taskManager.cancelAllTasks();
-
-		// register task
-		this.registerTasks();
-		this.registerBasicTask();
 
 		// timer counter
 		this.waitingCounter = new Counter(this.getWaitingTime());
@@ -691,7 +686,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return SortTool.getDescendingSortedList(this.players);
 	}
 
-	protected BukkitTaskManager getTaskManager() {
+	protected TaskManager getTaskManager() {
 		return this.taskManager;
 	}
 

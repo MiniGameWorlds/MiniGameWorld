@@ -65,7 +65,7 @@ public class FitTool extends SoloMiniGame {
 
 	@Override
 	protected void runTaskAfterStart() {
-		// give tools 
+		// give tools
 		for (Player p : this.getPlayers()) {
 			p.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
 			p.getInventory().addItem(new ItemStack(Material.IRON_PICKAXE));

@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.manager.party.PartyManager;
@@ -115,8 +116,8 @@ public class MiniGameWorld {
 		this.minigameManager.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
 	}
 
-	public void openGUI(Player p) {
-		this.minigameManager.getMiniGameGUIManager().openGUI(p);
+	public Inventory openMiniGameGUI(Player p) {
+		return this.minigameManager.getMiniGameGUIManager().openGUI(p);
 	}
 
 	public PartyManager getPartyManager() {

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
@@ -27,19 +26,18 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		super("ScoreClimbing", 2, 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
 
+		this.registerTasks();
 	}
 
 	@Override
 	protected void initGameSettings() {
 		// set score limit
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
-
 	}
-
-	@Override
+	
 	protected void registerTasks() {
 		// register task
-		this.getTaskManager().registerTask("scoreTask", new BukkitRunnable() {
+		this.getTaskManager().registerTask("scoreTask", new Runnable() {
 			@Override
 			public void run() {
 				for (Player p : getPlayers()) {

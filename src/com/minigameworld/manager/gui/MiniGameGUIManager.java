@@ -21,11 +21,11 @@ public class MiniGameGUIManager {
 	 * Manage MiniGameGUI List, because player's personal data will show in MiniGameGUI
 	 */
 	private MiniGameManager minigameManager;
-	private Map<Player, MiniGameGUI> guis;
+	private Map<Player, MiniGameGUI> guiList;
 
 	public MiniGameGUIManager(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;
-		this.guis = new HashMap<>();
+		this.guiList = new HashMap<>();
 
 		this.startUpdatingGUITask();
 	}
@@ -34,8 +34,8 @@ public class MiniGameGUIManager {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				for (Player p : guis.keySet()) {
-					MiniGameGUI gui = guis.get(p);
+				for (Player p : guiList.keySet()) {
+					MiniGameGUI gui = guiList.get(p);
 					// update minigame list state
 					gui.updateGUI();
 					p.updateInventory();
@@ -44,12 +44,13 @@ public class MiniGameGUIManager {
 		}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 4);
 	}
 
-	public void openGUI(Player p) {
-		this.guis.put(p, new MiniGameGUI(p, this.minigameManager));
+	public Inventory openGUI(Player p) {
+		this.guiList.put(p, new MiniGameGUI(p, this.minigameManager));
 
 		// open 1 page gui
-		Inventory inv = this.guis.get(p).createGUI(1);
+		Inventory inv = this.guiList.get(p).createGUI(1);
 		p.openInventory(inv);
+		return inv;
 	}
 
 	public void processInventoryEvent(InventoryEvent event) {
@@ -69,13 +70,13 @@ public class MiniGameGUIManager {
 		} else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
 			if (this.isMiniGameWorldGUI(e.getView().title())) {
-				this.guis.remove(e.getPlayer());
+				this.guiList.remove(e.getPlayer());
 			}
 		}
 	}
 
 	private MiniGameGUI getClickedGUI(Inventory inv) {
-		for (MiniGameGUI gui : this.guis.values()) {
+		for (MiniGameGUI gui : this.guiList.values()) {
 			if (gui.isSameInventory(inv)) {
 				return gui;
 			}

@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.minigameframes.TeamMiniGame;
 import com.wbm.plugin.util.BlockTool;
@@ -27,12 +26,12 @@ public class RemoveBlock extends TeamMiniGame {
 	public RemoveBlock() {
 		super("RemoveBlock", 2, 4, 20, 10);
 		this.getSetting().setScoreNotifying(true);
+		
+		this.registerTasks();
 	}
 
-	@Override
 	protected void registerTasks() {
-		super.registerTasks();
-		this.getTaskManager().registerTask("every5", new BukkitRunnable() {
+		this.getTaskManager().registerTask("every5", new Runnable() {
 			@Override
 			public void run() {
 				minusEveryoneScore(1);

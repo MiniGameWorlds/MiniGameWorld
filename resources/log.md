@@ -1,4 +1,5 @@
 # 할 것
+- 몬스터 관련 미니게임 추가
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
 - wiki: GUI, Party
@@ -9,7 +10,7 @@
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - setting.yml에 한글, 영어 기능 language변수 
-- java docs 만들기
+- java docs 만들기: MiniGameWorld, MiniGameAccess, 
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 
 ---
@@ -207,7 +208,7 @@
 
 # 2021-09-23
 - GUI 클릭 버그 고치기
-
+- WbmMC의 `TaskManager`의 Runnable 반복 등록 제거 (task실행 객체를 BukkitRunnable > Runnable로 넣어서 반복 등록 필요 없어짐)
 
 
 
