@@ -14,18 +14,25 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.SortTool;
 
-@SuppressWarnings("deprecation")
 public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/*
 	 * 
 	 * [Info]
 	 * - team battle play
-	 * - each team has same score
+	 * - team has same score
 	 * - team util class, methods
+	 * - groupChat
+	 * - Team Register Method: NONE, FAIR, FILL, FAIR_FILL, RANDOM or can divide overriding registerPlayersToTeam()
+	 * > e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4
+	 * > NONE: no divide (use registerPlayersToTeam())
+	 * > FAIR: all teams have the same player count (= maximun team count) (e.g. 4, 3, 3, 3)
+	 * > FILL: fulfill teams as possible (= minimum team count) (e.g. 5, 5, 3, 0)
+	 * > FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)
+	 * > RANDOM: random (e.g. ?, ?, ?, ?)
 	 * 
 	 * [Rule]
-	 * - create Teams at constructor
+	 * - create Teams with createTeams()
 	 * - When use initGameSetting(), must call super.initGameSetting()
 	 * - If use TeamRegisterMethod.NONE, register players to team using registerPlayersToTeam()
 	 * - When use processEvent(), must call super.processEvent()
@@ -38,7 +45,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	private List<Team> allTeams;
-	private TeamRegisterMethod teamRegisterMethod;
+//	private TeamRegisterMethod teamRegisterMethod;
+
+	protected abstract void createTeams();
 
 	protected void registerPlayersToTeam() {
 	}
@@ -49,8 +58,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		// group chat
 		this.getCustomData().put("groupChat", true);
 
+		// setup teams
+		this.initTeams();
+	}
+
+	private void initTeams() {
 		// create teams
 		this.allTeams = new ArrayList<Team>();
+		this.createTeams();
 
 		// set maxPlayerCount with sum of all team members
 		int allMemberCount = 0;
@@ -60,13 +75,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.getSetting().setMaxPlayerCount(allMemberCount);
 
 		// set team register method
-		this.teamRegisterMethod = TeamRegisterMethod.FAIR_FILL;
+//		this.teamRegisterMethod = TeamRegisterMethod.FAIR_FILL;
+		this.getCustomData().put("TeamRegisterMethod", TeamRegisterMethod.FAIR_FILL.name());
 	}
 
 	/*
 	 * team
 	 */
-	private void initAllTeams() {
+	private void emptyAllTeams() {
 		this.allTeams.forEach(t -> t.emptyMembers());
 	}
 
@@ -201,7 +217,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * setter, getter
 	 */
 	protected void setTeamRegisterMethod(TeamRegisterMethod teamRegisterMethod) {
-		this.teamRegisterMethod = teamRegisterMethod;
+//		this.teamRegisterMethod = teamRegisterMethod;
+		this.getCustomData().put("TeamRegisterMethod", teamRegisterMethod.name());
 	}
 
 	protected void setGroupChat(boolean groupChat) {
@@ -294,12 +311,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void initGameSettings() {
-		this.initAllTeams();
+		this.emptyAllTeams();
 	}
 
 	@Override
 	protected void runTaskAfterStart() {
-		switch (this.teamRegisterMethod) {
+		String methodString = (String) this.getCustomData().get("TeamRegisterMethod");
+		TeamRegisterMethod method = TeamRegisterMethod.valueOf(methodString);
+		switch (method) {
 		case NONE:
 			this.registerPlayersToTeam();
 			break;
@@ -449,7 +468,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public void sendTeamMessage(Player sender, String msg) {
-			this.members.forEach(p -> sendMessage(p, this.color + sender.getName() + ChatColor.WHITE + ": " + msg));
+			this.members.forEach(p -> sendMessage(p,
+					sender.getName() + "(" + this.color + this.teamName + ChatColor.WHITE + ")" + ": " + msg));
 		}
 
 		public int getTeamScore() {
@@ -457,11 +477,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public void plusTeamScore(int score) {
-			this.getMembers().forEach(p -> plusScore(p, score));
+			this.getMembers().forEach(p -> TeamBattleMiniGame.super.plusScore(p, score));
 		}
 
 		public void minusTeamScore(int score) {
-			this.getMembers().forEach(p -> minusScore(p, score));
+			this.getMembers().forEach(p -> TeamBattleMiniGame.super.minusScore(p, score));
 		}
 
 		private boolean registerMember(Player p) {

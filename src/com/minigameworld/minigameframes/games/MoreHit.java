@@ -20,19 +20,9 @@ public class MoreHit extends TeamBattleMiniGame {
 
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10);
-		this.getSetting().setScoreNotifying(true);
+		this.getSetting().setScoreNotifying(false);
 		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
 
-		// create teams
-		Team red = new Team("red", 2);
-		red.setColor(ChatColor.RED);
-		this.createTeam(red);
-		Team blue = new Team("blue", 2);
-		blue.setColor(ChatColor.BLUE);
-		this.createTeam(blue);
-		Team green = new Team("green", 2);
-		green.setColor(ChatColor.GREEN);
-		this.createTeam(green);
 	}
 
 	@Override
@@ -60,6 +50,20 @@ public class MoreHit extends TeamBattleMiniGame {
 	}
 
 	@Override
+	protected void createTeams() {
+		// create teams
+		Team red = new Team("red", 2);
+		red.setColor(ChatColor.RED);
+		this.createTeam(red);
+		Team blue = new Team("blue", 2);
+		blue.setColor(ChatColor.BLUE);
+		this.createTeam(blue);
+		Team green = new Team("green", 2);
+		green.setColor(ChatColor.GREEN);
+		this.createTeam(green);
+	}
+
+	@Override
 	protected void registerPlayersToTeam() {
 		for (Player p : this.getPlayers()) {
 			if (this.getTeam("red").isEmpty()) {
@@ -78,6 +82,7 @@ public class MoreHit extends TeamBattleMiniGame {
 		tutorial.add("Hit other team member: +1");
 		return tutorial;
 	}
+
 }
 
 //

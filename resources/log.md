@@ -212,8 +212,10 @@
 - GUI 클릭 버그 고치기
 - WbmMC의 `TaskManager`의 Runnable 반복 등록 제거 (task실행 객체를 BukkitRunnable > Runnable로 넣어서 반복 등록 필요 없어짐)
 
-
-
+# 2021-09-24
+- TeamBattleMiniGame의 Team 관련 기능 세분화
+- TeamBattleMiniGame의 groupChat을 customData에서 관리
+- TeamBattleMiniGame의 TeamRegisterMethod를 customData에서 관리
 
 
 

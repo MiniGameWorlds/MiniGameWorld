@@ -19,6 +19,10 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	}
 
 	@Override
+	protected void createTeams() {
+	}
+
+	@Override
 	protected void registerPlayersToTeam() {
 	}
 
