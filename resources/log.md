@@ -1,4 +1,6 @@
 # 할 것
+- MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
+- checkAttribute() 기능 삭제하기
 - 몬스터 관련 미니게임 추가
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기

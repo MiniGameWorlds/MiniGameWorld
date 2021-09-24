@@ -3,6 +3,7 @@ package com.minigameworld.minigameframes.games;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -18,15 +19,21 @@ public class MoreHit extends TeamBattleMiniGame {
 	 */
 
 	public MoreHit() {
-		super("MoreHit", 2, 2, 20, 10, 2, 1);
+		super("MoreHit", 2, 20, 10);
 		this.getSetting().setScoreNotifying(true);
-		this.setAutoTeamSetup(true);
 		this.setGroupChat(true);
-	}
+		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
 
-	@Override
-	protected void initGameSettings() {
-		super.initGameSettings();
+		// create teams
+		Team red = new Team("red", 2);
+		red.setColor(ChatColor.RED);
+		this.createTeam(red);
+		Team blue = new Team("blue", 2);
+		blue.setColor(ChatColor.BLUE);
+		this.createTeam(blue);
+		Team green = new Team("green", 2);
+		green.setColor(ChatColor.GREEN);
+		this.createTeam(green);
 	}
 
 	@Override
@@ -41,7 +48,7 @@ public class MoreHit extends TeamBattleMiniGame {
 				Player damager = (Player) damagerEntity;
 				// other team
 				if (!this.isSameTeam(victim, damager)) {
-					Team team = this.getPlayerTeam(damager);
+					Team team = this.getTeam(damager);
 					team.plusTeamScore(1);
 					PlayerTool.heal(victim);
 				}
@@ -54,8 +61,16 @@ public class MoreHit extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void registerAllPlayersToTeam() {
-
+	protected void registerPlayersToTeam() {
+		for (Player p : this.getPlayers()) {
+			if (this.getTeam("red").isEmpty()) {
+				this.registerPlayerToTeam(p, "red");
+			} else if (this.getTeam("green").isEmpty()) {
+				this.registerPlayerToTeam(p, "green");
+			} else {
+				this.registerPlayerToRandomTeam(p);
+			}
+		}
 	}
 
 	@Override

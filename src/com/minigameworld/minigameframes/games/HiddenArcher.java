@@ -6,11 +6,11 @@ import com.minigameworld.minigameframes.TeamBattleMiniGame;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*
-	 * show hiding players with bow
+	 * shoot hiding players with bow
 	 */
 
 	public HiddenArcher() {
-		super("HiddenArcher", 4, 8, 60 * 3, 20, 3, 2);
+		super("HiddenArcher", 4, 60 * 3, 20);
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	}
 
 	@Override
-	protected void registerAllPlayersToTeam() {
+	protected void registerPlayersToTeam() {
 	}
 
 	@Override
