@@ -38,7 +38,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	private List<Team> allTeams;
-	private boolean groupChat;
 	private TeamRegisterMethod teamRegisterMethod;
 
 	protected void registerPlayersToTeam() {
@@ -46,6 +45,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	public TeamBattleMiniGame(String title, int minPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, -1, timeLimit, waitingTime);
+
+		// group chat
+		this.getCustomData().put("groupChat", true);
 
 		// create teams
 		this.allTeams = new ArrayList<Team>();
@@ -203,7 +205,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	protected void setGroupChat(boolean groupChat) {
-		this.groupChat = groupChat;
+		this.getCustomData().put("groupChat", groupChat);
 	}
 
 	protected List<Team> getTeamList() {
@@ -360,7 +362,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void processEvent(Event event) {
 		// group chat
-		if (this.groupChat) {
+		boolean isGroupChat = (boolean) this.getCustomData().get("groupChat");
+		if (isGroupChat) {
 			if (event instanceof AsyncPlayerChatEvent) {
 				AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
 				// cancel event

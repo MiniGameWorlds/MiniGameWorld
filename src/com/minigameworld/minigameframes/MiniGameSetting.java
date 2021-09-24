@@ -104,7 +104,7 @@ public class MiniGameSetting {
 
 		this.active = true;
 		this.settingFixed = false;
-		this.scoreNotifying = false;
+		this.scoreNotifying = true;
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
