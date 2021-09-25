@@ -47,8 +47,6 @@ public class MiniGameManager implements YamlMember {
 
 	// detectable events
 	private Set<Class<? extends Event>> detectableEventList;
-	// players for event process (use for memory)
-	private List<Player> eventPlayers;
 
 	// setting.yml
 	private Map<String, Object> setting;
@@ -72,7 +70,6 @@ public class MiniGameManager implements YamlMember {
 	private MiniGameManager() {
 		// init
 		this.minigames = new ArrayList<>();
-		this.eventPlayers = new ArrayList<Player>();
 		this.setting = new HashMap<String, Object>();
 		this.initSettingData();
 
@@ -266,23 +263,23 @@ public class MiniGameManager implements YamlMember {
 		}
 
 		// pass evnet to minigame
-		Iterator<Player> it = players.iterator();
-//		for (Player p : players) {
-//			// check player is playing minigame
-//			if (this.checkPlayerIsPlayingMiniGame(p)) {
-//				MiniGame playingGame = this.getPlayingMiniGame(p);
-//				playingGame.passEvent(e);
-//			}
-//		}
-
-		while (it.hasNext()) {
+		for (Player p : players) {
 			// check player is playing minigame
-			Player p = it.next();
 			if (this.isPlayingMiniGame(p)) {
 				MiniGame playingGame = this.getPlayingMiniGame(p);
 				playingGame.passEvent(e);
 			}
 		}
+
+//		Iterator<Player> it = players.iterator();
+//		while (it.hasNext()) {
+//			// check player is playing minigame
+//			Player p = it.next();
+//			if (this.isPlayingMiniGame(p)) {
+//				MiniGame playingGame = this.getPlayingMiniGame(p);
+//				playingGame.passEvent(e);
+//			}
+//		}
 		return true;
 	}
 
@@ -318,9 +315,10 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	private List<Player> getPlayersFromEvent(Event e) {
+		List<Player> eventPlayers = new ArrayList<>();
 		// clear
-		this.eventPlayers.clear();
-		
+		eventPlayers.clear();
+
 		// temp
 		if (e instanceof EntityDeathEvent) {
 			Player killer = ((EntityDeathEvent) e).getEntity().getKiller();
@@ -364,7 +362,7 @@ public class MiniGameManager implements YamlMember {
 			if (damager instanceof Player) {
 				eventPlayers.add((Player) damager);
 			}
-		} 
+		}
 
 		return eventPlayers;
 	}
