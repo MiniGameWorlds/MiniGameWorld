@@ -3,6 +3,7 @@ package com.minigameworld.manager.playerdata;
 import java.util.Collection;
 import java.util.List;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -11,14 +12,15 @@ import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGamePlayerData {
 	private Player player;
-	private double health;
-	private int foodLevel;
-	private int level;
-	private float exp;
-	private ItemStack[] inv;
-	private Collection<PotionEffect> potionEffects;
-	private boolean isGlowing;
+	private double health; // full
+	private int foodLevel; // full
+	private int level; // 0
+	private float exp; // 0
+	private ItemStack[] inv; // empty
+	private Collection<PotionEffect> potionEffects; // remove all
+	private boolean isGlowing; // false
 	private List<Player> canNotSeePlayers; // hide
+	private GameMode gameMode; // survival
 
 	public MiniGamePlayerData(Player player) {
 		this.player = player;
@@ -54,6 +56,9 @@ public class MiniGamePlayerData {
 
 		// hiding
 		this.canNotSeePlayers = PlayerTool.getPlayersCannotSeeTarget(this.player);
+
+		// gamemode
+		this.gameMode = this.player.getGameMode();
 	}
 
 	public void restorePlayerData() {
@@ -80,6 +85,9 @@ public class MiniGamePlayerData {
 
 		// hiding
 		PlayerTool.hidePlayerFromOtherPlayers(this.player, canNotSeePlayers);
+
+		// gamemode
+		this.player.setGameMode(this.gameMode);
 	}
 
 	public void makePureState() {
@@ -104,6 +112,9 @@ public class MiniGamePlayerData {
 
 		// show player
 		PlayerTool.unhidePlayerFromEveryone(this.player);
+
+		// gamemode
+		this.player.setGameMode(GameMode.SURVIVAL);
 	}
 
 	@Override
