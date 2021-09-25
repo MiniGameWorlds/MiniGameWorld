@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import com.minigameworld.minigameframes.TeamMiniGame;
+import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
 
 public class BreedMob extends TeamMiniGame {
@@ -73,26 +74,26 @@ public class BreedMob extends TeamMiniGame {
 			if (BreedingMob.mobList().contains(entity.getType())) {
 //				if (Math.random() > 0.3) {
 
-					Location deathLoc = entity.getLocation();
+				Location deathLoc = entity.getLocation();
 
-					// spawn random 2 mobs
-					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
-					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
+				// spawn random 2 mobs
+				this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
+				this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
 
-					// plus score
-					this.plusTeamScore(1);
+				// plus score
+				this.plusTeamScore(1);
 
-					// firework
-					Firework firework = (Firework) deathLoc.getWorld().spawnEntity(deathLoc, EntityType.FIREWORK);
-					FireworkMeta fireworkMeta = firework.getFireworkMeta();
+				// firework
+				Firework firework = (Firework) deathLoc.getWorld().spawnEntity(deathLoc, EntityType.FIREWORK);
+				FireworkMeta fireworkMeta = firework.getFireworkMeta();
 
-					FireworkEffect.Type type = FireworkEffect.Type.BALL;
+				FireworkEffect.Type type = FireworkEffect.Type.BALL;
 
-					FireworkEffect effect = FireworkEffect.builder().with(type).withColor(Color.YELLOW).build();
-					fireworkMeta.addEffect(effect);
+				FireworkEffect effect = FireworkEffect.builder().with(type).withColor(Color.YELLOW).build();
+				fireworkMeta.addEffect(effect);
 
-					fireworkMeta.setPower(0);
-					firework.setFireworkMeta(fireworkMeta);
+				fireworkMeta.setPower(0);
+				firework.setFireworkMeta(fireworkMeta);
 //				}
 			}
 		}
@@ -139,6 +140,7 @@ public class BreedMob extends TeamMiniGame {
 	protected void runTaskAfterFinish() {
 		super.runTaskAfterFinish();
 
+		Utils.debug("left mobs: " + this.mobs.size());
 		this.mobs.forEach(e -> e.remove());
 	}
 

@@ -5,14 +5,9 @@
 - 미니게임 추가 (몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드, 몬스터 증식 시기키(죽이면 2배씩 늘어나지만, 살아남기 힘들어짐))
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
-- wiki: GUI, Party
-- 유튜브 마인크래프트 미니게임 만들기 강좌 만들어 보기 (제작자임을 밣히지 말고 테스트로)
-- 실제로 간단한 미니게임 서버, 미니게임 여러 종류 만들면서 플러그인에 추가할것 생각해보기
-- 위키 한글/영어 두버전으로 폴더 만들기 (userWiki를 먼저 제작하고, devWiki는 나중에 외국인들에게 pull request받아서 서서히 제작)
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
-- setting.yml에 한글, 영어 기능 language변수 
 - java docs 만들기: MiniGameWorld, MiniGameAccess, 내부 docs도 모두다 만들기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
@@ -225,8 +220,7 @@
 - 채팅을 MiniGame에 있는 사람들끼리만 보이게 (customData에 넣기) (각 하위 미니게임 프레임에서 processChat() 오버라이딩해서 변형 가능)
 - MiniGamePlayerData에 GameMode 추가
 - TeamBattleMiniGame의 Team의 player에 `live` 변수 추가
-
-
+- BreedMob 미니게임 추가
 
 
 

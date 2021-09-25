@@ -398,34 +398,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
-
-//		// print team score in descending order
-//		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
-//
-//		// add each player of all teams (for sorting score by team)
-//		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
-//		for (Team team : this.allTeams) {
-//			if (!team.isEmpty()) {
-//				Player member = team.getRandomMember();
-//				int teamScore = team.getTeamScore();
-//				eachValidTeamPlayer.put(member, teamScore);
-//			}
-//		}
-//
-//		// rank team by score
-//		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(eachValidTeamPlayer);
-//		int rank = 1;
-//		for (Entry<Player, Integer> entry : entries) {
-//			Player p = entry.getKey();
-//			int score = entry.getValue();
-//			Team team = this.getTeam(p);
-//			String memberString = team.getAllMemberNameString();
-//			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
-//			rank += 1;
-//		}
-//
-//	
-
 		// print team score in descending order
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 
@@ -524,6 +496,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public String getAllMemberNameString() {
+			if (this.isEmpty()) {
+				return "";
+			}
+
 			String members = "";
 			for (Player p : this.getMembers()) {
 				members += p.getName() + ", ";

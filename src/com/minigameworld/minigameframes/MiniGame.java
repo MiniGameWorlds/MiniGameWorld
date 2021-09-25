@@ -426,6 +426,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void printEndInfo() {
+		if(this.isEmpty()) {
+			return;
+		}
+		
 		// title
 		for (Player p : this.getPlayers()) {
 			// break line
@@ -710,6 +714,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public String getEveryoneName() {
 		String members = "";
+		if (this.isEmpty()) {
+			return members;
+		}
+		
 		for (Player p : this.getPlayers()) {
 			members += p.getName() + ", ";
 		}

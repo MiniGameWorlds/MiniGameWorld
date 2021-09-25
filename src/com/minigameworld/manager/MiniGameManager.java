@@ -271,15 +271,6 @@ public class MiniGameManager implements YamlMember {
 			}
 		}
 
-//		Iterator<Player> it = players.iterator();
-//		while (it.hasNext()) {
-//			// check player is playing minigame
-//			Player p = it.next();
-//			if (this.isPlayingMiniGame(p)) {
-//				MiniGame playingGame = this.getPlayingMiniGame(p);
-//				playingGame.passEvent(e);
-//			}
-//		}
 		return true;
 	}
 
