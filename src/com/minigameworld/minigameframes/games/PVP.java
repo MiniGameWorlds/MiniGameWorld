@@ -112,7 +112,7 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void handleGameException(Player p, Exception exception, Object arg) {
+	protected void handleGameException(Player p, GameException exception, Object arg) {
 		super.handleGameException(p, exception, arg);
 
 		// set player health scale to 20

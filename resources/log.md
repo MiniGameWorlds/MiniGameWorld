@@ -1,4 +1,5 @@
 # 할 것
+- MiniGame에서 handleException 모듈 분리
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 몬스터 관련 미니게임 추가
 - party GUI 메뉴 추가하기
@@ -222,6 +223,28 @@
 - MiniGameSetting의 scoreNotifying을 customData 영역으로 이동
 - 채팅을 MiniGame에 있는 사람들끼리만 보이게 (customData에 넣기) (각 하위 미니게임 프레임에서 processChat() 오버라이딩해서 변형 가능)
 - MiniGamePlayerData에 GameMode 추가
+- TeamBattleMiniGame의 Team의 player에 `live` 변수 추가
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

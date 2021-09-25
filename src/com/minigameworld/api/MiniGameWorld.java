@@ -60,7 +60,7 @@ public class MiniGameWorld {
 		this.minigameManager.leaveGame(p);
 	}
 
-	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
+	public void handleException(Player p, MiniGame.GameException exception, Object arg) {
 		this.minigameManager.handleException(p, exception, arg);
 	}
 

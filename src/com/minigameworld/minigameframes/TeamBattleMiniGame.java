@@ -1,6 +1,8 @@
 package com.minigameworld.minigameframes;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,8 +81,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/*
 	 * team
 	 */
-	private void emptyAllTeams() {
-		this.allTeams.forEach(t -> t.emptyMembers());
+	private void initAllTeams() {
+		this.allTeams.forEach(t -> t.init());
 	}
 
 	protected void createTeam(Team team) {
@@ -237,6 +239,21 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.allTeams.size();
 	}
 
+	protected List<Team> getLiveTeamsList() {
+		List<Team> liveTeams = new ArrayList<>();
+		liveTeams.forEach(t -> {
+			if (t.isTeamLive()) {
+				liveTeams.add(t);
+			}
+		});
+
+		return liveTeams;
+	}
+
+	protected int getLiveTeamCount() {
+		return this.getLiveTeamsList().size();
+	}
+
 	/*
 	 * score
 	 */
@@ -280,44 +297,24 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return team.getTeamScore();
 	}
 
-	/*
-	 * check
-	 */
-	protected boolean isValidTeam(Team team) {
-		// valid team = team which has 1 player or more
-		return !team.isEmpty();
-	}
-
-	protected int getValidTeamCount() {
-		int count = 0;
-		for (Team team : this.allTeams) {
-			if (this.isValidTeam(team)) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	private boolean checkAtLeastTeamRemains(int count) {
-		if (this.getValidTeamCount() <= count) {
-			this.sendMessageToAllPlayers("Game End: only " + this.getValidTeamCount() + " team remains");
+	protected void checkGameEnd() {
+		if (this.getLiveTeamCount() <= 1) {
+			this.sendMessageToAllPlayers("Game End: only 1 team left");
 			this.endGame();
-			return true;
 		}
-		return false;
 	}
 
 	@Override
-	protected void handleGameException(Player p, Exception exception, Object arg) {
+	protected void handleGameException(Player p, GameException exception, Object arg) {
 		super.handleGameException(p, exception, arg);
 
-		// if game is not stop when only 1 team remians
-		this.checkAtLeastTeamRemains(1);
+		// check remaining team count
+		this.checkGameEnd();
 	}
 
 	@Override
 	protected void initGameSettings() {
-		this.emptyAllTeams();
+		this.initAllTeams();
 	}
 
 	@Override
@@ -411,26 +408,52 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
+
+//		// print team score in descending order
+//		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
+//
+//		// add each player of all teams (for sorting score by team)
+//		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
+//		for (Team team : this.allTeams) {
+//			if (!team.isEmpty()) {
+//				Player member = team.getRandomMember();
+//				int teamScore = team.getTeamScore();
+//				eachValidTeamPlayer.put(member, teamScore);
+//			}
+//		}
+//
+//		// rank team by score
+//		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(eachValidTeamPlayer);
+//		int rank = 1;
+//		for (Entry<Player, Integer> entry : entries) {
+//			Player p = entry.getKey();
+//			int score = entry.getValue();
+//			Team team = this.getTeam(p);
+//			String memberString = team.getAllMemberNameString();
+//			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
+//			rank += 1;
+//		}
+//
+//	
+
 		// print team score in descending order
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 
-		// add each player of all teams (for sorting score by team)
-		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
+		// left teams
+		Map<Team, Integer> leftTeams = new HashMap<Team, Integer>();
 		for (Team team : this.allTeams) {
-			if (this.isValidTeam(team)) {
-				Player member = team.getRandomMember();
+			if (!team.isEmpty()) {
 				int teamScore = team.getTeamScore();
-				eachValidTeamPlayer.put(member, teamScore);
+				leftTeams.put(team, teamScore);
 			}
 		}
 
 		// rank team by score
-		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(eachValidTeamPlayer);
+		List<Entry<Team, Integer>> entries = SortTool.getDescendingSortedList(leftTeams);
 		int rank = 1;
-		for (Entry<Player, Integer> entry : entries) {
-			Player p = entry.getKey();
+		for (Entry<Team, Integer> entry : entries) {
 			int score = entry.getValue();
-			Team team = this.getTeam(p);
+			Team team = entry.getKey();
 			String memberString = team.getAllMemberNameString();
 			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
 			rank += 1;
@@ -441,16 +464,18 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	public class Team {
 		private String teamName;
 		private int maxMemberCount;
-		private List<Player> members;
+		// <Player, Live>
+		private Map<Player, Boolean> members;
 		private ChatColor color;
 
 		public Team(String teamName, int memberSize) {
 			this.teamName = teamName;
 			this.maxMemberCount = memberSize;
-			this.members = new ArrayList<Player>(memberSize);
+			this.members = new HashMap<>(memberSize);
+			this.color = ChatColor.WHITE;
 		}
 
-		public void emptyMembers() {
+		public void init() {
 			this.members.clear();
 		}
 
@@ -463,12 +488,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public List<Player> getMembers() {
-			return this.members;
+			return new ArrayList<>(this.members.keySet());
 		}
 
 		public void sendTeamMessage(Player sender, String msg) {
 			if (this.hasMember(sender)) {
-				this.members.forEach(p -> sendMessage(p,
+				this.getMembers().forEach(p -> sendMessage(p,
 						sender.getName() + "(" + this.color + this.teamName + ChatColor.WHITE + ")" + ": " + msg));
 			}
 		}
@@ -490,7 +515,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			if (this.isFull()) {
 				return false;
 			} else {
-				this.members.add(p);
+				this.members.put(p, true);
 				return true;
 			}
 		}
@@ -500,17 +525,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public boolean hasMember(Player p) {
-			return this.members.contains(p);
+			return this.getMembers().contains(p);
 		}
 
 		public Player getRandomMember() {
 			int randomIndex = (int) (Math.random() * this.getMemberCount());
-			return this.members.get(randomIndex);
+			return this.getMembers().get(randomIndex);
 		}
 
 		public String getAllMemberNameString() {
 			String members = "";
-			for (Player p : this.members) {
+			for (Player p : this.getMembers()) {
 				members += p.getName() + ", ";
 			}
 			// remove last ", "
@@ -524,6 +549,42 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 		public void setColor(ChatColor color) {
 			this.color = color;
+		}
+
+		public boolean isTeamLive() {
+			boolean live = false;
+			for (boolean memberLive : this.members.values()) {
+				memberLive = memberLive || live;
+
+			}
+			return live;
+		}
+
+		public boolean isMemberLive(Player p) {
+			if (this.hasMember(p)) {
+				return this.members.get(p);
+			}
+			return false;
+		}
+
+		public void setMemberLive(Player member, boolean live) {
+			if (this.hasMember(member)) {
+				this.members.put(member, live);
+			}
+		}
+
+		public int getLiveMemberCount() {
+			return this.getLiveMemberList().size();
+		}
+
+		public List<Player> getLiveMemberList() {
+			List<Player> liveMembers = new ArrayList<>();
+			for (Entry<Player, Boolean> entry : this.members.entrySet()) {
+				if (entry.getValue()) {
+					liveMembers.add(entry.getKey());
+				}
+			}
+			return liveMembers;
 		}
 
 		public String getName() {

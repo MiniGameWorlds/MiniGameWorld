@@ -218,7 +218,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	// check player is playing minigame (API)
-	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
+	public void handleException(Player p, MiniGame.GameException exception, Object arg) {
 
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);

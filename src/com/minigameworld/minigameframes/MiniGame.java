@@ -112,7 +112,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void runTaskAfterFinish() {
 	}
 
-	protected void handleGameException(Player p, Exception exception, Object arg) {
+	protected void handleGameException(Player p, GameException exception, Object arg) {
 	}
 
 	protected void registerCustomData() {
@@ -209,7 +209,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// check exception event
 		if (event instanceof PlayerQuitEvent) {
-			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PLAYER_QUIT_SERVER, event);
+			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.GameException.PLAYER_QUIT_SERVER,
+					event);
 		}
 
 		else if (event instanceof PlayerChatEvent) {
@@ -456,23 +457,26 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	}
 
-	public enum Exception {
+	public enum GameException {
 		PLAYER_QUIT_SERVER, SERVER_STOP;
 	}
 
 	// handle exception and notify to minigame mingame and observers
-	public final void handleException(Player p, Exception exception, Object arg) {
+	public final void handleException(Player p, GameException exception, Object arg) {
 		// info
 		Utils.info("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// print reason when PLAYER_QUIT_SERVER
-		if (exception == Exception.PLAYER_QUIT_SERVER) {
+		if (exception == GameException.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
 			Utils.info("Quit: " + event.getReason().name());
 		}
 
 		// setup leaving settings
 		this.setupPlayerLeavingSettings(p, exception.name());
+
+		// notify EXCEPTION event to observers
+		this.notifyObservers(MiniGameEvent.EXCEPTION);
 
 		// pass exception to implemented minigame
 		this.handleGameException(p, exception, arg);
@@ -485,9 +489,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			// end game
 			this.endGame();
 		}
-
-		// notify EXCEPTION event to observers
-		this.notifyObservers(MiniGameEvent.EXCEPTION);
 
 		// init settings if empty
 		if (this.isEmpty()) {
@@ -566,8 +567,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 	}
 
+	protected void sendTitle(Player p, String title, String subTitle) {
+		p.sendTitle(title, subTitle, 4, 12, 4);
+	}
+
 	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
+	}
+
+	protected void sendTitleToAllPlayers(String title, String subTitle) {
+		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, 4, 12, 4));
 	}
 
 	public int getScore(Player p) {

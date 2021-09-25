@@ -123,7 +123,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void processRemainedPlayersWhenServerStop() {
 		// send all MiniGame with SEVER_STOP exception
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.minigameManager.handleException(p, MiniGame.Exception.SERVER_STOP, null);
+			this.minigameManager.handleException(p, MiniGame.GameException.SERVER_STOP, null);
 			this.minigameManager.processPlayerQuitWorks(p);
 		}
 	}
