@@ -20,14 +20,13 @@ public class MoreHit extends TeamBattleMiniGame {
 
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10);
-		this.setGroupChat(false);
+		this.setGroupChat(true);
 		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
 
 	}
 
 	@Override
 	protected void processEvent(Event event) {
-		super.processEvent(event);
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			Entity victimEntity = e.getEntity();

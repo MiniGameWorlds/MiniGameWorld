@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
@@ -209,6 +210,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (event instanceof PlayerQuitEvent) {
 			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PLAYER_QUIT_SERVER, event);
 		}
+
+		else if (event instanceof PlayerChatEvent) {
+			PlayerChatEvent e = (PlayerChatEvent) event;
+			this._processChatting(e);
+		}
+
 		// process event when minigame started
 		if (this.started) {
 			this.processEvent(event);
@@ -599,7 +606,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getCustomData().put("scoreNotifying", option);
 	}
 
-	protected boolean isScoreNotifying() {
+	public boolean isScoreNotifying() {
 		return (boolean) this.getCustomData().get("scoreNotifying");
 	}
 
@@ -607,8 +614,24 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getCustomData().put("chatting", true);
 	}
 
-	protected boolean isChatting() {
+	public boolean isChatting() {
 		return (boolean) this.getCustomData().get("chatting");
+	}
+
+	@SuppressWarnings("deprecation")
+	private void _processChatting(PlayerChatEvent e) {
+		if (this.isChatting()) {
+			e.setCancelled(true);
+			this.processChatting(e);
+		} else {
+			e.setCancelled(true);
+		}
+	}
+
+	protected void processChatting(PlayerChatEvent e) {
+		Player p = e.getPlayer();
+		String msg = e.getMessage();
+		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 
 	/*

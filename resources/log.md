@@ -1,5 +1,4 @@
 # 할 것
-- 채팅을 MiniGame에 있는 사람들끼리만 보이게 (PlayerChatEvent) (customData에 넣기) (각 하위 미니게임 프레임에서 processEvent에서 chatevent 감지해서 override 하기)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 몬스터 관련 미니게임 추가
 - party GUI 메뉴 추가하기
@@ -220,7 +219,7 @@
 # 2021-09-25
 - checkAttribute() 기능 삭제
 - MiniGameSetting의 scoreNotifying을 customData 영역으로 이동
-
+- 채팅을 MiniGame에 있는 사람들끼리만 보이게 (customData에 넣기) (각 하위 미니게임 프레임에서 processChat() 오버라이딩해서 변형 가능)
 
 
 

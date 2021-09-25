@@ -22,13 +22,11 @@ public abstract class TeamMiniGame extends MiniGame {
 		return this.getScore(this.getPlayers().get(0));
 	}
 
-	@Override
-	protected void plusScore(Player p, int score) {
+	protected void plusTeamScore(Player p, int score) {
 		this.plusEveryoneScore(score);
 	}
 
-	@Override
-	protected void minusScore(Player p, int score) {
+	protected void minusTeamScore(Player p, int score) {
 		this.minusEveryoneScore(score);
 	}
 

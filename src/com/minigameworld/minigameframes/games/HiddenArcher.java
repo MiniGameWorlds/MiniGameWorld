@@ -2,6 +2,8 @@ package com.minigameworld.minigameframes.games;
 
 import java.util.List;
 
+import org.bukkit.event.Event;
+
 import com.minigameworld.minigameframes.TeamBattleMiniGame;
 
 public class HiddenArcher extends TeamBattleMiniGame {
@@ -29,6 +31,10 @@ public class HiddenArcher extends TeamBattleMiniGame {
 	@Override
 	protected List<String> registerTutorial() {
 		return null;
+	}
+
+	@Override
+	protected void processEvent(Event event) {
 	}
 
 }

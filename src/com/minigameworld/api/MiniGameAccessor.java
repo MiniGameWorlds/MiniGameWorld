@@ -102,7 +102,11 @@ public class MiniGameAccessor {
 	}
 
 	public boolean isScoreNotifying() {
-		return this.minigame.getSetting().isScoreNotifying();
+		return this.minigame.isScoreNotifying();
+	}
+	
+	public boolean isChatting() {
+		return this.minigame.isChatting();
 	}
 
 	public List<String> getTutorial() {

@@ -8,8 +8,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 
 import com.wbm.plugin.util.SortTool;
 
@@ -34,7 +33,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * - create Teams with createTeams()
 	 * - When use initGameSetting(), must call super.initGameSetting()
 	 * - If use TeamRegisterMethod.NONE, register players to team using registerPlayersToTeam()
-	 * - When use processEvent(), must call super.processEvent()
 	 * - When use handleGameException(), must call super.handleGameException()
 	 * 
 	 */
@@ -224,6 +222,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.getCustomData().put("groupChat", groupChat);
 	}
 
+	protected boolean isGroupChat() {
+		return (boolean) this.getCustomData().get("groupChat");
+	}
+
 	protected List<Team> getTeamList() {
 		return this.allTeams;
 	}
@@ -377,22 +379,19 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.getPlayers().forEach(p -> this.registerPlayerToRandomTeam(p));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	protected void processEvent(Event event) {
+	protected void processChatting(PlayerChatEvent e) {
 		// group chat
-		boolean isGroupChat = (boolean) this.getCustomData().get("groupChat");
-		if (isGroupChat) {
-			if (event instanceof AsyncPlayerChatEvent) {
-				AsyncPlayerChatEvent e = (AsyncPlayerChatEvent) event;
-				// cancel event
-				e.setCancelled(true);
-				Player sender = e.getPlayer();
+		if (this.isStarted() && this.isGroupChat()) {
+			// cancel event
+			e.setCancelled(true);
+			Player sender = e.getPlayer();
 
-				// send message to only team members
-				Team team = this.getTeam(sender);
-				// ex. [Title] worldbiomusic: go go
-				team.sendTeamMessage(sender, e.getMessage());
-			}
+			// send message to only team members
+			Team team = this.getTeam(sender);
+			// ex. [Title] worldbiomusic: go go
+			team.sendTeamMessage(sender, e.getMessage());
 		}
 	}
 
