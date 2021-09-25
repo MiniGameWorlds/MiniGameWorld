@@ -93,7 +93,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	protected Team getTeam(String teamName) {
 		for (Team team : this.allTeams) {
-			if (team.getTeamName().equals(teamName)) {
+			if (team.getName().equals(teamName)) {
 				return team;
 			}
 		}
@@ -137,7 +137,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected Team getMinPlayerCountTeam() {
 		Team minTeam = this.allTeams.get(0);
 		for (Team team : this.allTeams) {
-			if (team.getPlayerCount() < minTeam.getPlayerCount()) {
+			if (team.getMemberCount() < minTeam.getMemberCount()) {
 				minTeam = team;
 			}
 		}
@@ -147,7 +147,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected Team getMaxPlayerCountTeam() {
 		Team maxTeam = this.allTeams.get(0);
 		for (Team team : this.allTeams) {
-			if (team.getPlayerCount() > maxTeam.getPlayerCount()) {
+			if (team.getMemberCount() > maxTeam.getMemberCount()) {
 				maxTeam = team;
 			}
 		}
@@ -214,8 +214,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * setter, getter
 	 */
 	protected void setTeamRegisterMethod(TeamRegisterMethod teamRegisterMethod) {
-//		this.teamRegisterMethod = teamRegisterMethod;
 		this.getCustomData().put("TeamRegisterMethod", teamRegisterMethod.name());
+	}
+
+	protected TeamRegisterMethod getTeamRegisterMethod() {
+		return TeamRegisterMethod.valueOf((String) this.getCustomData().get("TeamRegisterMethod"));
 	}
 
 	protected void setGroupChat(boolean groupChat) {
@@ -307,6 +310,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void handleGameException(Player p, Exception exception, Object arg) {
 		super.handleGameException(p, exception, arg);
+
+		// if game is not stop when only 1 team remians
 		this.checkAtLeastTeamRemains(1);
 	}
 
@@ -317,9 +322,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void runTaskAfterStart() {
-		String methodString = (String) this.getCustomData().get("TeamRegisterMethod");
-		TeamRegisterMethod method = TeamRegisterMethod.valueOf(methodString);
-		switch (method) {
+		switch (this.getTeamRegisterMethod()) {
 		case NONE:
 			this.registerPlayersToTeam();
 			break;
@@ -350,6 +353,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		// [IMPORTANT] suppose that all teams has the same max player count
 		int teamMemberCount = this.allTeams.get(0).maxCount();
 		int usingTeamCount = (int) Math.ceil((double) this.getPlayerCount() / teamMemberCount);
+		if (usingTeamCount == 1) {
+			usingTeamCount += 1;
+		}
 		int memberCountPerTeam = this.getPlayerCount() / usingTeamCount;
 
 		int teamNumber = 0;
@@ -383,7 +389,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void processChatting(PlayerChatEvent e) {
 		// group chat
-		if (this.isStarted() && this.isGroupChat()) {
+		if (this.isGroupChat()) {
 			// cancel event
 			e.setCancelled(true);
 			Player sender = e.getPlayer();
@@ -392,6 +398,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			Team team = this.getTeam(sender);
 			// ex. [Title] worldbiomusic: go go
 			team.sendTeamMessage(sender, e.getMessage());
+		} else {
+			Player p = e.getPlayer();
+			String msg = e.getMessage();
+			Team team = this.getTeam(p);
+			String teamName = team.getName();
+			ChatColor color = team.getColor();
+			String teamString = "(" + color + teamName + ChatColor.WHITE + ")";
+			this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + teamString + ": " + msg));
 		}
 	}
 
@@ -404,7 +418,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		Map<Player, Integer> eachValidTeamPlayer = new HashMap<Player, Integer>();
 		for (Team team : this.allTeams) {
 			if (this.isValidTeam(team)) {
-				Player member = team.getMembers().get(0);
+				Player member = team.getRandomMember();
 				int teamScore = team.getTeamScore();
 				eachValidTeamPlayer.put(member, teamScore);
 			}
@@ -441,11 +455,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public boolean isEmpty() {
-			return this.getPlayerCount() == 0;
+			return this.getMemberCount() == 0;
 		}
 
 		public boolean isFull() {
-			return this.getPlayerCount() == this.maxMemberCount;
+			return this.getMemberCount() == this.maxMemberCount;
 		}
 
 		public List<Player> getMembers() {
@@ -453,12 +467,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public void sendTeamMessage(Player sender, String msg) {
-			this.members.forEach(p -> sendMessage(p,
-					sender.getName() + "(" + this.color + this.teamName + ChatColor.WHITE + ")" + ": " + msg));
+			if (this.hasMember(sender)) {
+				this.members.forEach(p -> sendMessage(p,
+						sender.getName() + "(" + this.color + this.teamName + ChatColor.WHITE + ")" + ": " + msg));
+			}
 		}
 
 		public int getTeamScore() {
-			return getScore(this.members.get(0));
+			return getScore(this.getRandomMember());
 		}
 
 		public void plusTeamScore(int score) {
@@ -487,6 +503,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return this.members.contains(p);
 		}
 
+		public Player getRandomMember() {
+			int randomIndex = (int) (Math.random() * this.getMemberCount());
+			return this.members.get(randomIndex);
+		}
+
 		public String getAllMemberNameString() {
 			String members = "";
 			for (Player p : this.members) {
@@ -505,11 +526,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.color = color;
 		}
 
-		public String getTeamName() {
+		public String getName() {
 			return teamName;
 		}
 
-		public int getPlayerCount() {
+		public int getMemberCount() {
 			return this.members.size();
 		}
 

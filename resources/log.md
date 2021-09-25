@@ -13,6 +13,7 @@
 - setting.yml에 한글, 영어 기능 language변수 
 - java docs 만들기: MiniGameWorld, MiniGameAccess, 내부 docs도 모두다 만들기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
+- 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
 
 ---
 
@@ -220,7 +221,7 @@
 - checkAttribute() 기능 삭제
 - MiniGameSetting의 scoreNotifying을 customData 영역으로 이동
 - 채팅을 MiniGame에 있는 사람들끼리만 보이게 (customData에 넣기) (각 하위 미니게임 프레임에서 processChat() 오버라이딩해서 변형 가능)
-
+- MiniGamePlayerData에 GameMode 추가
 
 
 

@@ -120,6 +120,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void initMiniGame() {
 		this.started = false;
+
 		if (this.players == null) {
 			this.players = new HashMap<>();
 		} else {
@@ -477,7 +478,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.handleGameException(p, exception, arg);
 
 		// check min player count
-		if (!this.checkMinPlayerCountRemains()) {
+		if (!this.isStarted() && !this.checkMinPlayerCountRemains()) {
 			// send message
 			this.sendMessageToAllPlayers("Game end: game needs more players to play");
 
@@ -620,11 +621,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	@SuppressWarnings("deprecation")
 	private void _processChatting(PlayerChatEvent e) {
-		if (this.isChatting()) {
-			e.setCancelled(true);
-			this.processChatting(e);
-		} else {
-			e.setCancelled(true);
+		if (this.isStarted()) {
+			if (this.isChatting()) {
+				e.setCancelled(true);
+				this.processChatting(e);
+			} else {
+				e.setCancelled(true);
+			}
 		}
 	}
 

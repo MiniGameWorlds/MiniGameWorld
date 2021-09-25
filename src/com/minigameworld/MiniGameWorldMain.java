@@ -1,5 +1,7 @@
 package com.minigameworld;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.HiddenAction;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,6 +19,7 @@ import com.minigameworld.minigameframes.games.RandomScore;
 import com.minigameworld.minigameframes.games.RemoveBlock;
 import com.minigameworld.minigameframes.games.RockScissorPaper;
 import com.minigameworld.minigameframes.games.ScoreClimbing;
+import com.minigameworld.minigameframes.games.HiddenArcher;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -96,6 +99,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		minigameWorld.registerMiniGame(new RockScissorPaper());
 		minigameWorld.registerMiniGame(new PVP());
 		minigameWorld.registerMiniGame(new RemoveBlock());
+		minigameWorld.registerMiniGame(new HiddenArcher());
 	}
 
 	private void processRemainedPlayersWhenServerStart() {

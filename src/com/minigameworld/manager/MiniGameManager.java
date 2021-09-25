@@ -3,6 +3,7 @@ package com.minigameworld.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -195,7 +196,7 @@ public class MiniGameManager implements YamlMember {
 		// check player is playing minigame
 		if (this.checkPlayerIsPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
-			
+
 			boolean canLeave = false;
 			for (Player member : members) {
 				// leave with members who is playing the same minigame with "p"
@@ -203,7 +204,7 @@ public class MiniGameManager implements YamlMember {
 					canLeave = playingGame.leaveGame(member);
 				}
 			}
-			
+
 			// message to everyone
 			if (canLeave) {
 				members.forEach(
@@ -263,8 +264,18 @@ public class MiniGameManager implements YamlMember {
 		}
 
 		// pass evnet to minigame
-		for (Player p : players) {
+		Iterator<Player> it = players.iterator();
+//		for (Player p : players) {
+//			// check player is playing minigame
+//			if (this.checkPlayerIsPlayingMiniGame(p)) {
+//				MiniGame playingGame = this.getPlayingMiniGame(p);
+//				playingGame.passEvent(e);
+//			}
+//		}
+
+		while (it.hasNext()) {
 			// check player is playing minigame
+			Player p = it.next();
 			if (this.checkPlayerIsPlayingMiniGame(p)) {
 				MiniGame playingGame = this.getPlayingMiniGame(p);
 				playingGame.passEvent(e);
