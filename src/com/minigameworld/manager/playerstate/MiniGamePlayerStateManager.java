@@ -1,25 +1,25 @@
-package com.minigameworld.manager.playerdata;
+package com.minigameworld.manager.playerstate;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
 
-public class MiniGamePlayerDataManager {
+public class MiniGamePlayerStateManager {
 	/*
 	 * manage player data for enjoying minigame
 	 */
 	private Set<MiniGamePlayerData> playerData;
 
-	public MiniGamePlayerDataManager() {
+	public MiniGamePlayerStateManager() {
 		this.playerData = new HashSet<>();
 	}
 
-	public void savePlayerData(Player p) {
+	public void savePlayerState(Player p) {
 		this.playerData.add(new MiniGamePlayerData(p));
 	}
 
-	public void restorePlayerData(Player p) {
+	public void restorePlayerState(Player p) {
 		MiniGamePlayerData pData = this.getPlayerData(p);
 		if (pData != null) {
 			pData.restorePlayerData();

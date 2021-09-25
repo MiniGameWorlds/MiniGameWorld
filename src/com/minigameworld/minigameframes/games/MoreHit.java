@@ -22,7 +22,7 @@ public class MoreHit extends TeamBattleMiniGame {
 		super("MoreHit", 2, 20, 10);
 		this.setGroupChat(true);
 		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
-
+		
 	}
 
 	@Override

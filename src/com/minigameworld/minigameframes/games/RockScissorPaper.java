@@ -82,6 +82,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 			// put selection and cancel chat event
 			if (selection != null) {
 				this.selections.put(p, selection);
+				e.setMessage(ChatColor.MAGIC + "*");
 				e.setCancelled(true);
 				this.sendMessage(p, "your choice: " + ChatColor.GREEN + selection.name());
 			}

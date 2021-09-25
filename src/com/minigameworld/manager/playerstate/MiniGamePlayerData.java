@@ -1,4 +1,4 @@
-package com.minigameworld.manager.playerdata;
+package com.minigameworld.manager.playerstate;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +38,6 @@ public class MiniGamePlayerData {
 		this.health = this.player.getHealth();
 
 		// food level
-
 		this.foodLevel = this.player.getFoodLevel();
 
 		// exp
@@ -75,7 +74,8 @@ public class MiniGamePlayerData {
 		// inventory
 		this.player.getInventory().setContents(this.inv);
 
-		// potion effects
+		// potion effects (after remove all effects)
+		PlayerTool.removeAllPotionEffects(this.player);
 		for (PotionEffect effect : this.potionEffects) {
 			this.player.addPotionEffect(effect);
 		}

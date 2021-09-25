@@ -24,7 +24,7 @@ public class RemoveBlock extends TeamMiniGame {
 	private List<ItemStack> blocks;
 
 	public RemoveBlock() {
-		super("RemoveBlock", 2, 4, 20, 10);
+		super("RemoveBlock", 2, 4, 60 * 3, 10);
 		
 		this.registerTasks();
 	}

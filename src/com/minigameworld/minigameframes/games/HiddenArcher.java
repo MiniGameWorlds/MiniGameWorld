@@ -12,14 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
 
 public class HiddenArcher extends TeamBattleMiniGame {

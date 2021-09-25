@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.manager.playerdata.MiniGamePlayerDataManager;
+import com.minigameworld.manager.playerstate.MiniGamePlayerStateManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Setting;
@@ -51,7 +51,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private List<MiniGameObserver> observerList;
 
 	// player data manager
-	private MiniGamePlayerDataManager playerDataManager;
+	private MiniGamePlayerStateManager playerStateManager;
 
 	// abstract methods
 	protected abstract void initGameSettings();
@@ -81,7 +81,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void setupMiniGame() {
 		this.taskManager = new TaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
-		this.playerDataManager = new MiniGamePlayerDataManager();
+		this.playerStateManager = new MiniGamePlayerStateManager();
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -130,7 +130,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.initTasks();
 
 		// clear player data
-		this.playerDataManager.clearData();
+		this.playerStateManager.clearData();
 	}
 
 	private void registerBasicTasks() {
@@ -224,48 +224,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
-	public final boolean leaveGame(Player p) {
-		// check
-		// 1. game must not be started
-		// 2. game waitingTime counter must be upper than 10
-
-		if (this.started) {
-			this.sendMessage(p, "You can't leave game(Reason: game already has started)");
-			return false;
-		}
-
-		if (this.waitingCounter.getCount() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
-			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
-			return false;
-		}
-
-		this.setupPlayerLeavingSettings(p, "Before start");
-
-		// check game is emtpy
-		if (this.isEmpty()) {
-			this.initSettings();
-		}
-
-		return true;
-	}
-
-	/*
-	 * [IMPORTANT] After this method, isEmpty() must be checked and run initSetting() (except
-	 * for runFinishTask())
-	 */
-	private void setupPlayerLeavingSettings(Player p, String reason) {
-		if (reason != null) {
-			// notify other players to join the game
-			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
-		}
-
-		// setup player state
-		this.setupPlayerWhenLeave(p);
-
-		// remove player from minigame
-		this.removePlayer(p);
-	}
-
 	public final boolean joinGame(Player p) {
 		/*
 		 * Logic sequence
@@ -314,6 +272,48 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.notifyInfo(p);
 	}
 
+	public final boolean leaveGame(Player p) {
+		// check
+		// 1. game must not be started
+		// 2. game waitingTime counter must be upper than 10
+
+		if (this.started) {
+			this.sendMessage(p, "You can't leave game(Reason: game already has started)");
+			return false;
+		}
+
+		if (this.waitingCounter.getCount() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
+			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
+			return false;
+		}
+
+		this.setupPlayerLeavingSettings(p, "Before start");
+
+		// check game is emtpy
+		if (this.isEmpty()) {
+			this.initSettings();
+		}
+
+		return true;
+	}
+
+	/*
+	 * [IMPORTANT] After this method, isEmpty() must be checked and run initSetting() (except
+	 * for runFinishTask())
+	 */
+	private void setupPlayerLeavingSettings(Player p, String reason) {
+		if (reason != null) {
+			// notify other players to join the game
+			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
+		}
+
+		// setup player state
+		this.setupPlayerWhenLeave(p);
+
+		// remove player from minigame
+		this.removePlayer(p);
+	}
+
 	private void notifyInfo(Player p) {
 		// print tutorial
 		this.printGameTutorial(p);
@@ -329,13 +329,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.sendMessage(p, "=================================");
 
 		// print rule
-		this.sendMessage(p, ChatColor.BOLD + "[Rule]");
-		this.sendMessage(p, "- Time Limit: " + this.getTimeLimit() + " sec");
+		this.sendMessage(p, "\n" + ChatColor.BOLD + "[Rule]");
+		p.sendMessage("- Time Limit: " + this.getTimeLimit() + " sec");
 
 		// tutorial
 		if (this.getTutorial() != null) {
 			for (String msg : this.getTutorial()) {
-				this.sendMessage(p, "- " + msg);
+				p.sendMessage("- " + msg);
 			}
 		}
 	}
@@ -501,10 +501,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		p.teleport(this.getLocation());
 
 		// save player data
-		this.playerDataManager.savePlayerData(p);
+		this.playerStateManager.savePlayerState(p);
 
 		// make pure state
-		this.playerDataManager.makePureState(p);
+		this.playerStateManager.makePureState(p);
 	}
 
 	private void setupPlayerWhenLeave(Player p) {
@@ -512,7 +512,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		p.teleport(MiniGameManager.getLobby());
 
 		// restore player data
-		this.playerDataManager.restorePlayerData(p);
+		this.playerStateManager.restorePlayerState(p);
 	}
 
 	public boolean isEmpty() {

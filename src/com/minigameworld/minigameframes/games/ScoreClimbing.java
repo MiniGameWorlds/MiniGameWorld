@@ -25,6 +25,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	public ScoreClimbing() {
 		super("ScoreClimbing", 2, 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
+		this.setScoreNotifying(false);
 
 		this.registerTasks();
 	}
@@ -34,7 +35,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		// set score limit
 		this.randomTime = (int) (Math.random() * this.getTimeLimit());
 	}
-	
+
 	protected void registerTasks() {
 		// register task
 		this.getTaskManager().registerTask("scoreTask", new Runnable() {
