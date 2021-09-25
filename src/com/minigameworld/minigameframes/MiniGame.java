@@ -637,21 +637,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().getCustomData();
 	}
 
-	/*
-	 * check attributes are valid 
-	 */
-	protected void checkAttributes() {
-		// title
-		if (this.getTitle().length() <= 0) {
-			Utils.warning(this.getTitleWithClassName() + ": title must be at least 1 character");
-		}
-
-		// timeLimit
-		if (this.getTimeLimit() <= 0) {
-			Utils.warning(this.getTitleWithClassName() + ": timeLimit must be at least 1 sec");
-		}
-	}
-
 	public String getTitleWithClassName() {
 		return this.getTitle() + "[Class: " + this.getClassName() + "]";
 	}

@@ -18,11 +18,6 @@ public abstract class SoloMiniGame extends MiniGame {
 		super(title, 1, 1, timeLimit, waitingTime);
 	}
 
-	@Override
-	protected final void checkAttributes() {
-		super.checkAttributes();
-	}
-
 	/*
 	 * solo util methods
 	 */

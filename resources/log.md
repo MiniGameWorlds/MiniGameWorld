@@ -1,6 +1,6 @@
 # 할 것
+- 채팅을 MiniGame에 있는 사람들끼리만 보이게 (PlayerChatEvent) (customData에 넣기) (각 하위 미니게임 프레임에서 processEvent에서 chatevent 감지해서 override 하기)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
-- checkAttribute() 기능 삭제하기
 - 몬스터 관련 미니게임 추가
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
@@ -12,7 +12,7 @@
 - classgraph로 모든 이벤트에 핸들러 추가하지 말고, 추가하는 조건에 `PlayerEvent하위 이벤트, EntityEvent하위 이벤트, 다른 모드는 이벤트중에서 getEntity() 메소드를 가진 이벤트`를 추가해서 등록하기(왜냐하면  BlockShearEntityEvent같은것이 등록이 안되있음)
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - setting.yml에 한글, 영어 기능 language변수 
-- java docs 만들기: MiniGameWorld, MiniGameAccess, 
+- java docs 만들기: MiniGameWorld, MiniGameAccess, 내부 docs도 모두다 만들기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 
 ---
@@ -217,9 +217,8 @@
 - TeamBattleMiniGame의 groupChat을 customData에서 관리
 - TeamBattleMiniGame의 TeamRegisterMethod를 customData에서 관리
 
-
-
-
+# 2021-09-25
+- checkAttribute() 기능 삭제
 
 
 

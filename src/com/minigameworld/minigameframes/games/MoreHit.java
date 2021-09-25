@@ -20,7 +20,7 @@ public class MoreHit extends TeamBattleMiniGame {
 
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10);
-		this.getSetting().setScoreNotifying(false);
+		this.setGroupChat(false);
 		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
 
 	}

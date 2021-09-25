@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.SortTool;
 
 public abstract class TeamBattleMiniGame extends MiniGame {
@@ -394,19 +393,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				// ex. [Title] worldbiomusic: go go
 				team.sendTeamMessage(sender, e.getMessage());
 			}
-		}
-	}
-
-	@Override
-	protected final void checkAttributes() {
-		super.checkAttributes();
-		// waitingTime
-		if (this.getWaitingTime() <= 0) {
-			Utils.warning(this.getTitleWithClassName() + ": waitingTime must be at least 1 sec");
-		}
-		// maxPlayerCount
-		if (this.getMaxPlayerCount() <= 1) {
-			Utils.warning(this.getTitleWithClassName() + ": maxPlayer is recommended at least 2 players");
 		}
 	}
 
