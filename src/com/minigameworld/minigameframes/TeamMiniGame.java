@@ -22,7 +22,7 @@ public abstract class TeamMiniGame extends MiniGame {
 		return this.getScore(this.getPlayers().get(0));
 	}
 
-	protected void plusTeamScore(Player p, int score) {
+	protected void plusTeamScore(int score) {
 		this.plusEveryoneScore(score);
 	}
 

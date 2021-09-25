@@ -363,7 +363,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void runStartTasks() {
 		// check min player count
-		if (!this.checkMinPlayerCountRemains()) {
+		if (!this.isMinPlayerCountRemains()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
 			// send message
 			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
@@ -482,17 +482,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.handleGameException(p, exception, arg);
 
 		// check min player count
-		if (!this.isStarted() && !this.checkMinPlayerCountRemains()) {
+		if (!this.isMinPlayerCountRemains()) {
 			// send message
 			this.sendMessageToAllPlayers("Game end: game needs more players to play");
 
 			// end game
 			this.endGame();
-		}
-
-		// init settings if empty
-		if (this.isEmpty()) {
-			this.initSettings();
 		}
 	}
 
@@ -669,7 +664,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getSetting().getMinPlayerCount();
 	}
 
-	protected boolean checkMinPlayerCountRemains() {
+	protected boolean isMinPlayerCountRemains() {
 		return this.getPlayerCount() >= this.getMinPlayerCount();
 	}
 

@@ -73,7 +73,7 @@ public class MiniGameWorld {
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {
-		return this.minigameManager.checkPlayerIsPlayingMiniGame(p);
+		return this.minigameManager.isPlayingMiniGame(p);
 	}
 
 	public MiniGameAccessor getMiniGameWithClassName(String className) {

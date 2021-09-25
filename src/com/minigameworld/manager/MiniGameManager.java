@@ -18,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.hanging.HangingEvent;
@@ -156,10 +158,10 @@ public class MiniGameManager implements YamlMember {
 
 		// check player is not playing minigame
 		List<Player> members = this.partyManager.getMembers(p);
-		if (!this.checkPlayerIsPlayingMiniGame(p)) {
+		if (!this.isPlayingMiniGame(p)) {
 			for (Player member : members) {
 				// join with party members without other members that already playing game
-				if (!this.checkPlayerIsPlayingMiniGame(member)) {
+				if (!this.isPlayingMiniGame(member)) {
 					game.joinGame(member);
 				}
 
@@ -194,7 +196,7 @@ public class MiniGameManager implements YamlMember {
 		List<Player> members = this.partyManager.getMembers(p);
 
 		// check player is playing minigame
-		if (this.checkPlayerIsPlayingMiniGame(p)) {
+		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
 
 			boolean canLeave = false;
@@ -220,7 +222,7 @@ public class MiniGameManager implements YamlMember {
 	// check player is playing minigame (API)
 	public void handleException(Player p, MiniGame.GameException exception, Object arg) {
 
-		if (this.checkPlayerIsPlayingMiniGame(p)) {
+		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
 			playingGame.handleException(p, exception, arg);
 		}
@@ -276,7 +278,7 @@ public class MiniGameManager implements YamlMember {
 		while (it.hasNext()) {
 			// check player is playing minigame
 			Player p = it.next();
-			if (this.checkPlayerIsPlayingMiniGame(p)) {
+			if (this.isPlayingMiniGame(p)) {
 				MiniGame playingGame = this.getPlayingMiniGame(p);
 				playingGame.passEvent(e);
 			}
@@ -284,7 +286,7 @@ public class MiniGameManager implements YamlMember {
 		return true;
 	}
 
-	public boolean checkPlayerIsPlayingMiniGame(Player p) {
+	public boolean isPlayingMiniGame(Player p) {
 		return this.getPlayingMiniGame(p) != null;
 	}
 
@@ -318,6 +320,12 @@ public class MiniGameManager implements YamlMember {
 	private List<Player> getPlayersFromEvent(Event e) {
 		// clear
 		this.eventPlayers.clear();
+		
+		// temp
+		if (e instanceof EntityDeathEvent) {
+			Player killer = ((EntityDeathEvent) e).getEntity().getKiller();
+			eventPlayers.add(killer);
+		}
 
 		// get players from each Event
 		if (e instanceof BlockBreakEvent) {
@@ -351,7 +359,12 @@ public class MiniGameManager implements YamlMember {
 			}
 		} else if (e instanceof PlayerLeashEntityEvent) {
 			eventPlayers.add(((PlayerLeashEntityEvent) e).getPlayer());
-		}
+		} else if (e instanceof EntityDamageByEntityEvent) {
+			Entity damager = ((EntityDamageByEntityEvent) e).getDamager();
+			if (damager instanceof Player) {
+				eventPlayers.add((Player) damager);
+			}
+		} 
 
 		return eventPlayers;
 	}
@@ -421,7 +434,7 @@ public class MiniGameManager implements YamlMember {
 	private int getNonPlayingPlayerCount(List<Player> players) {
 		int Count = 0;
 		for (Player p : players) {
-			if (!this.checkPlayerIsPlayingMiniGame(p)) {
+			if (!this.isPlayingMiniGame(p)) {
 				Count += 1;
 			}
 		}

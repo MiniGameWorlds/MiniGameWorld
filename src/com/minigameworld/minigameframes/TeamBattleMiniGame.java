@@ -35,7 +35,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * - create Teams with createTeams()
 	 * - When use initGameSetting(), must call super.initGameSetting()
 	 * - If use TeamRegisterMethod.NONE, register players to team using registerPlayersToTeam()
-	 * - When use handleGameException(), must call super.handleGameException()
 	 * 
 	 */
 
@@ -297,19 +296,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return team.getTeamScore();
 	}
 
-	protected void checkGameEnd() {
-		if (this.getLiveTeamCount() <= 1) {
-			this.sendMessageToAllPlayers("Game End: only 1 team left");
-			this.endGame();
-		}
-	}
-
+	// change counting unit: player > team
 	@Override
-	protected void handleGameException(Player p, GameException exception, Object arg) {
-		super.handleGameException(p, exception, arg);
-
-		// check remaining team count
-		this.checkGameEnd();
+	protected boolean isMinPlayerCountRemains() {
+		return this.getLiveTeamCount() > 1;
 	}
 
 	@Override

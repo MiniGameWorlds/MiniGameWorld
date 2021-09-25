@@ -25,7 +25,7 @@ public class MiniGamePlayerState {
 	public MiniGamePlayerState(Player player) {
 		this.player = player;
 
-		// save player data
+		// save player state
 		this.savePlayerState();
 	}
 
