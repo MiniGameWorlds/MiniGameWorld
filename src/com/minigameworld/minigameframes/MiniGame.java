@@ -130,7 +130,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.initTasks();
 
 		// clear player data
-		this.playerStateManager.clearData();
+		this.playerStateManager.clearAllPlayers();
 	}
 
 	private void registerBasicTasks() {

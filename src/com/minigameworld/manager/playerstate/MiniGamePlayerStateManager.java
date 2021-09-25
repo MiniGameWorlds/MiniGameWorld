@@ -7,43 +7,43 @@ import org.bukkit.entity.Player;
 
 public class MiniGamePlayerStateManager {
 	/*
-	 * manage player data for enjoying minigame
+	 * manage player state for enjoying minigame
 	 */
-	private Set<MiniGamePlayerData> playerData;
+	private Set<MiniGamePlayerState> playerStates;
 
 	public MiniGamePlayerStateManager() {
-		this.playerData = new HashSet<>();
+		this.playerStates = new HashSet<>();
 	}
 
 	public void savePlayerState(Player p) {
-		this.playerData.add(new MiniGamePlayerData(p));
+		this.playerStates.add(new MiniGamePlayerState(p));
 	}
 
 	public void restorePlayerState(Player p) {
-		MiniGamePlayerData pData = this.getPlayerData(p);
-		if (pData != null) {
-			pData.restorePlayerData();
+		MiniGamePlayerState pState = this.getPlayerState(p);
+		if (pState != null) {
+			pState.restorePlayerState();
 		}
 	}
 
 	public void makePureState(Player p) {
 		// ready for playing minigame
-		MiniGamePlayerData pData = this.getPlayerData(p);
-		if (pData != null) {
-			pData.makePureState();
+		MiniGamePlayerState pState = this.getPlayerState(p);
+		if (pState != null) {
+			pState.makePureState();
 		}
 	}
 
-	private MiniGamePlayerData getPlayerData(Player p) {
-		for (MiniGamePlayerData pData : this.playerData) {
-			if (pData.isSamePlayer(p)) {
-				return pData;
+	private MiniGamePlayerState getPlayerState(Player p) {
+		for (MiniGamePlayerState pState : this.playerStates) {
+			if (pState.isSamePlayer(p)) {
+				return pState;
 			}
 		}
 		return null;
 	}
 
-	public void clearData() {
-		this.playerData.clear();
+	public void clearAllPlayers() {
+		this.playerStates.clear();
 	}
 }

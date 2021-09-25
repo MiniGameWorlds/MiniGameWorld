@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffect;
 
 import com.wbm.plugin.util.PlayerTool;
 
-public class MiniGamePlayerData {
+public class MiniGamePlayerState {
 	private Player player;
 	private double health; // full
 	private int foodLevel; // full
@@ -22,18 +22,18 @@ public class MiniGamePlayerData {
 	private List<Player> canNotSeePlayers; // hide
 	private GameMode gameMode; // survival
 
-	public MiniGamePlayerData(Player player) {
+	public MiniGamePlayerState(Player player) {
 		this.player = player;
 
 		// save player data
-		this.savePlayerData();
+		this.savePlayerState();
 	}
 
 	public boolean isSamePlayer(Player p) {
 		return this.player.equals(p);
 	}
 
-	public void savePlayerData() {
+	public void savePlayerState() {
 		// health
 		this.health = this.player.getHealth();
 
@@ -60,7 +60,7 @@ public class MiniGamePlayerData {
 		this.gameMode = this.player.getGameMode();
 	}
 
-	public void restorePlayerData() {
+	public void restorePlayerState() {
 		// health
 		this.player.setHealth(this.health);
 
@@ -119,8 +119,8 @@ public class MiniGamePlayerData {
 
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof MiniGamePlayerData) {
-			return ((MiniGamePlayerData) other).isSamePlayer(this.player);
+		if (other instanceof MiniGamePlayerState) {
+			return ((MiniGamePlayerState) other).isSamePlayer(this.player);
 		}
 
 		return false;
