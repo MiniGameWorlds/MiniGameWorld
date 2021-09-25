@@ -21,8 +21,8 @@ public class FitTool extends SoloMiniGame {
 
 	public FitTool() {
 		super("FitTool", 30, 10);
-		this.getSetting().setScoreNotifying(true);
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
+		this.setScoreNotifying(false);
 	}
 
 	@Override

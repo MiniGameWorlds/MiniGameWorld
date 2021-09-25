@@ -87,6 +87,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// register custom data
 		this.registerCustomData();
+		this.getCustomData().put("chatting", true);
+		this.getCustomData().put("scoreNotifying", true);
 
 		// register basic tasks
 		this.registerBasicTasks();
@@ -431,10 +433,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		printScore();
 	}
 
-	protected final void endGame() {
-		this.runFinishTasks();
-	}
-
 	// can print differently depending on game type
 	protected void printScore() {
 		// print scores in descending order
@@ -448,88 +446,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			rank += 1;
 		}
 
-	}
-
-	public boolean isEmpty() {
-		return this.getPlayers().isEmpty();
-	}
-
-	public boolean isFull() {
-		return this.getPlayerCount() == this.getMaxPlayerCount();
-	}
-
-	public boolean containsPlayer(Player p) {
-		return this.players.containsKey(p);
-	}
-
-	public List<Player> getPlayers() {
-		// copy
-		return new ArrayList<Player>(this.players.keySet());
-	}
-
-	public int getPlayerCount() {
-		return this.getPlayers().size();
-	}
-
-	public boolean isStarted() {
-		return this.started;
-	}
-
-	// private
-	private void addPlayer(Player p) {
-		// register player with 0 score
-		this.players.put(p, 0);
-	}
-
-	// private
-	private void removePlayer(Player p) {
-		this.players.remove(p);
-	}
-
-	protected void sendMessage(Player p, String msg) {
-		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.WHITE + msg);
-	}
-
-	protected void sendMessageToAllPlayers(String msg) {
-		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
-	}
-
-	protected void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
-	}
-
-	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
-	}
-
-	public int getScore(Player p) {
-		return this.players.get(p);
-	}
-
-	protected void plusScore(Player p, int score) {
-		int previousScore = this.players.get(p);
-		this.players.put(p, previousScore + score);
-		// check scoreNotifying
-		if (this.setting.isScoreNotifying()) {
-			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + score);
-		}
-	}
-
-	protected void plusEveryoneScore(int score) {
-		this.getPlayers().forEach(p -> this.plusScore(p, score));
-	}
-
-	protected void minusScore(Player p, int score) {
-		int previousScore = this.players.get(p);
-		this.players.put(p, previousScore - score);
-		// check scoreNotifying
-		if (this.setting.isScoreNotifying()) {
-			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + score);
-		}
-	}
-
-	protected void minusEveryoneScore(int score) {
-		this.getPlayers().forEach(p -> this.minusScore(p, score));
 	}
 
 	public enum Exception {
@@ -588,6 +504,111 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// restore player data
 		this.playerDataManager.restorePlayerData(p);
+	}
+
+	public boolean isEmpty() {
+		return this.getPlayers().isEmpty();
+	}
+
+	public boolean isFull() {
+		return this.getPlayerCount() == this.getMaxPlayerCount();
+	}
+
+	public boolean containsPlayer(Player p) {
+		return this.players.containsKey(p);
+	}
+
+	public List<Player> getPlayers() {
+		// copy
+		return new ArrayList<Player>(this.players.keySet());
+	}
+
+	public int getPlayerCount() {
+		return this.getPlayers().size();
+	}
+
+	public boolean isStarted() {
+		return this.started;
+	}
+
+	protected final void endGame() {
+		this.runFinishTasks();
+	}
+
+	// private
+	private void addPlayer(Player p) {
+		// register player with 0 score
+		this.players.put(p, 0);
+	}
+
+	// private
+	private void removePlayer(Player p) {
+		this.players.remove(p);
+	}
+
+	protected void sendMessage(Player p, String msg) {
+		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.WHITE + msg);
+	}
+
+	protected void sendMessageToAllPlayers(String msg) {
+		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
+	}
+
+	protected void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+	}
+
+	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
+	}
+
+	public int getScore(Player p) {
+		return this.players.get(p);
+	}
+
+	protected void plusScore(Player p, int score) {
+		int previousScore = this.players.get(p);
+		this.players.put(p, previousScore + score);
+		// check scoreNotifying
+		if (this.isScoreNotifying()) {
+			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + score);
+		}
+	}
+
+	protected void plusEveryoneScore(int score) {
+		this.getPlayers().forEach(p -> this.plusScore(p, score));
+	}
+
+	protected void minusScore(Player p, int score) {
+		int previousScore = this.players.get(p);
+		this.players.put(p, previousScore - score);
+		// check scoreNotifying
+		if (this.isScoreNotifying()) {
+			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + score);
+		}
+	}
+
+	protected void minusEveryoneScore(int score) {
+		this.getPlayers().forEach(p -> this.minusScore(p, score));
+	}
+
+	/*
+	 * setters
+	 */
+	protected void setScoreNotifying(boolean option) {
+		this.getCustomData().put("scoreNotifying", option);
+	}
+
+	protected boolean isScoreNotifying() {
+		return (boolean) this.getCustomData().get("scoreNotifying");
+	}
+
+	protected void setChatting(boolean option) {
+		this.getCustomData().put("chatting", true);
+	}
+
+	protected boolean isChatting() {
+		return (boolean) this.getCustomData().get("chatting");
 	}
 
 	/*

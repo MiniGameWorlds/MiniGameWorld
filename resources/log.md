@@ -219,7 +219,7 @@
 
 # 2021-09-25
 - checkAttribute() 기능 삭제
-
+- MiniGameSetting의 scoreNotifying을 customData 영역으로 이동
 
 
 

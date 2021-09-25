@@ -25,7 +25,6 @@ public class RemoveBlock extends TeamMiniGame {
 
 	public RemoveBlock() {
 		super("RemoveBlock", 2, 4, 20, 10);
-		this.getSetting().setScoreNotifying(true);
 		
 		this.registerTasks();
 	}

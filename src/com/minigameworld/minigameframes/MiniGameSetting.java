@@ -67,13 +67,6 @@ public class MiniGameSetting {
 
 	/*
 	 * file control: O
-	 * init value: false
-	 * description: option to notify when score changes 
-	 */
-	private boolean scoreNotifying;
-
-	/*
-	 * file control: O
 	 * init value: none
 	 * description: tutorial
 	 */
@@ -104,7 +97,6 @@ public class MiniGameSetting {
 
 		this.active = true;
 		this.settingFixed = false;
-		this.scoreNotifying = true;
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
@@ -114,10 +106,6 @@ public class MiniGameSetting {
 
 	public void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
-	}
-
-	public void setScoreNotifying(boolean scoreNotifying) {
-		this.scoreNotifying = scoreNotifying;
 	}
 
 	public void setTitle(String title) {
@@ -194,11 +182,6 @@ public class MiniGameSetting {
 		return settingFixed;
 	}
 
-	public boolean isScoreNotifying() {
-		return scoreNotifying;
-	}
-
-
 	public List<String> getTutorial() {
 		return this.tutorial;
 	}
@@ -224,7 +207,6 @@ public class MiniGameSetting {
 		setting.put("waitingTime", this.waitingTime);
 		setting.put("timeLimit", this.timeLimit);
 		setting.put("active", this.active);
-		setting.put("scoreNotifying", this.scoreNotifying);
 		setting.put("tutorial", this.tutorial);
 		setting.put("customData", this.customData);
 		setting.put("icon", this.icon.name());
@@ -261,9 +243,6 @@ public class MiniGameSetting {
 
 		// active
 		this.setActive((boolean) setting.get("active"));
-
-		// scoreNotifying
-		this.setScoreNotifying((boolean) setting.get("scoreNotifying"));
 
 		// tutorial
 		this.setTutorial((List<String>) setting.get("tutorial"));
