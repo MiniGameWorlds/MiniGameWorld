@@ -23,6 +23,7 @@ public class FitTool extends SoloMiniGame {
 		super("FitTool", 30, 10);
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
 		this.setScoreNotifying(false);
+		this.getSetting().setPassUndetectableEvents(true);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class FitTool extends SoloMiniGame {
 				b.setType(this.getRandomBlock());
 			}
 
-		}
+		} 
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.minigameworld.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -248,30 +247,38 @@ public class MiniGameManager implements YamlMember {
 	/*
 	 * - check player is playing minigame and process event to minigame
 	*/
-	public boolean processEvent(Event e) {
-		// check event is detectable
-		if (!this.isDetectableEvent(e)) {
-			return false;
+	public void passEvent(Event e) {
+		// detect event
+		if (this.isDetectableEvent(e)) {
+
+			// get players
+			List<Player> players = this.getPlayersFromEvent(e);
+
+			// check empty
+			if (players.isEmpty()) {
+				return;
+			}
+
+			// pass evnet to minigame
+			for (Player p : players) {
+				// check player is playing minigame
+				if (this.isPlayingMiniGame(p)) {
+					MiniGame playingGame = this.getPlayingMiniGame(p);
+					playingGame.passEvent(e);
+				}
+			}
+		} else {
+			// pass undetectable event to MiniGame which permit
+			this.passUndetectableEventToMiniGame(e);
 		}
+	}
 
-		// get players
-		List<Player> players = this.getPlayersFromEvent(e);
-
-		// check empty
-		if (players.isEmpty()) {
-			return false;
-		}
-
-		// pass evnet to minigame
-		for (Player p : players) {
-			// check player is playing minigame
-			if (this.isPlayingMiniGame(p)) {
-				MiniGame playingGame = this.getPlayingMiniGame(p);
-				playingGame.passEvent(e);
+	private void passUndetectableEventToMiniGame(Event e) {
+		for (MiniGame minigame : this.minigames) {
+			if (minigame.getSetting().isPassUndetectableEvents()) {
+				minigame.passEvent(e);
 			}
 		}
-
-		return true;
 	}
 
 	public boolean isPlayingMiniGame(Player p) {
@@ -310,7 +317,7 @@ public class MiniGameManager implements YamlMember {
 		// clear
 		eventPlayers.clear();
 
-		// temp
+		// several case
 		if (e instanceof EntityDeathEvent) {
 			Player killer = ((EntityDeathEvent) e).getEntity().getKiller();
 			eventPlayers.add(killer);

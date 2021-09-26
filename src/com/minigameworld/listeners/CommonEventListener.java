@@ -126,7 +126,7 @@ public class CommonEventListener implements Listener {
 		/*
 		 * pass event
 		 */
-		this.minigameManager.processEvent(event);
+		this.minigameManager.passEvent(event);
 		return null;
 	}
 

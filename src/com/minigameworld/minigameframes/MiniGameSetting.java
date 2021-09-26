@@ -86,6 +86,13 @@ public class MiniGameSetting {
 	 */
 	private Material icon;
 
+	/*
+	 * file control: X
+	 * init value: setup value
+	 * description: whether get all event without filtering player
+	 */
+	private boolean passUndetectableEvents;
+
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
 		this.title = title;
@@ -100,6 +107,7 @@ public class MiniGameSetting {
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
+		this.passUndetectableEvents = false;
 	}
 
 	// set
@@ -148,6 +156,10 @@ public class MiniGameSetting {
 		this.icon = icon;
 	}
 
+	public void setPassUndetectableEvents(boolean passUndetectableEvents) {
+		this.passUndetectableEvents = passUndetectableEvents;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -194,7 +206,11 @@ public class MiniGameSetting {
 		return this.icon;
 	}
 
-	// setting
+	public boolean isPassUndetectableEvents() {
+		return passUndetectableEvents;
+	}
+
+	// file (only file control)
 
 	public Map<String, Object> getFileSetting() {
 		// return settings that exist in minigames.yml
