@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -55,6 +56,7 @@ public class RockScissorPaper extends SoloBattleMiniGame {
 	public RockScissorPaper() {
 		super("RSP", 2, 2, 15, 15);
 		this.selections = new HashMap<Player, RockScissorPaper.Selection>();
+		this.getSetting().setIcon(Material.SHEARS);
 	}
 
 	@Override

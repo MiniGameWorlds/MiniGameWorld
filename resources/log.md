@@ -222,6 +222,7 @@
 - TeamBattleMiniGame의 Team의 player에 `live` 변수 추가
 - BreedMob 미니게임 추가
 
+# 2021-09-26
 
 
 

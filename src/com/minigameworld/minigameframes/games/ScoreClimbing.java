@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -28,6 +29,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		this.setScoreNotifying(false);
 
 		this.registerTasks();
+
+		this.getSetting().setIcon(Material.OAK_STAIRS);
 	}
 
 	@Override

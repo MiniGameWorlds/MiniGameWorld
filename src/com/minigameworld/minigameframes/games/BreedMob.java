@@ -48,6 +48,7 @@ public class BreedMob extends TeamMiniGame {
 
 	public BreedMob() {
 		super("BreedMob", 1, 4, 60 * 3, 10);
+		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
 	}
 
 	@Override
