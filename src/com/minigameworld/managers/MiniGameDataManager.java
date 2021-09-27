@@ -17,12 +17,12 @@ import net.md_5.bungee.api.ChatColor;
 
 public class MiniGameDataManager implements YamlMember {
 	private Map<String, Object> minigameData;
-	private MiniGameManager minigameM;
+	private MiniGameManager minigameManager;
 	private YamlManager yamlM;
 
 	public MiniGameDataManager(MiniGameManager minigameM) {
 		this.minigameData = new HashMap<String, Object>();
-		this.minigameM = minigameM;
+		this.minigameManager = minigameM;
 	}
 
 	public void addMiniGameData(MiniGame minigame) {
@@ -76,7 +76,7 @@ public class MiniGameDataManager implements YamlMember {
 
 	public void removeNotExistMiniGameData() {
 		// remove deleted minigame before save minigames.yml file
-		List<MiniGame> gameList = this.minigameM.getMiniGameList();
+		List<MiniGame> gameList = this.minigameManager.getMiniGameList();
 		List<String> removedGames = new ArrayList<String>();
 		OUT: for (String gameClassName : this.minigameData.keySet()) {
 			for (MiniGame game : gameList) {
@@ -101,7 +101,7 @@ public class MiniGameDataManager implements YamlMember {
 		this.yamlM.reload(this);
 
 		// apply reloaded config file values
-		this.minigameM.getMiniGameList().forEach(minigame -> this.applyMiniGameDataToInstance(minigame));
+		this.minigameManager.getMiniGameList().forEach(minigame -> this.applyMiniGameDataToInstance(minigame));
 	}
 
 	@Override

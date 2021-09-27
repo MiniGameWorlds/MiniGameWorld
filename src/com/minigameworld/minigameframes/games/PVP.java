@@ -66,7 +66,7 @@ public class PVP extends SoloBattleMiniGame {
 			PlayerDeathEvent e = (PlayerDeathEvent) event;
 			Player victim = e.getEntity();
 			victim.getInventory().clear();
-			
+
 			Player killer = victim.getKiller();
 
 			// killer +1 score
@@ -83,6 +83,13 @@ public class PVP extends SoloBattleMiniGame {
 	private void initKitsAndHealth(Player p) {
 		p.setHealthScale(this.health);
 		InventoryTool.addItemsToPlayer(p, this.items);
+
+		// set armors
+		p.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
+		p.getEquipment().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
+		p.getEquipment().setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
+		p.getEquipment().setBoots(new ItemStack(Material.LEATHER_BOOTS));
+		p.getEquipment().setItemInOffHand(new ItemStack(Material.SHIELD));
 	}
 
 	@Override

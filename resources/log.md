@@ -1,7 +1,8 @@
 # 할 것
+- MiniGame의 customData에 pvp 넣기 (TeamMiniGame, TeamBattleMiniGame에는 teamPvp도 추가)
 - Guava 사용해보기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
-- 미니게임 추가 (몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드)
+- 미니게임 추가 (보스 몹 레이드, 몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드)
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
@@ -15,7 +16,7 @@
 > EntityDamagedByEntityEvent의 damager가 Player일 때 
 > EntityDeathEvent의 entity의 killer가 Player일 때
 ```
-- 나중에 MiniGame에서 MiniGamePlayerData 모듈로 분리하기
+- 미니게임마다 파일1개씩 관리하도록 구조 변경
 
 ---
 

@@ -1,9 +1,9 @@
 package com.minigameworld.minigameframes;
 
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.wbm.plugin.util.PlayerTool;
 
 public abstract class TeamMiniGame extends MiniGame {
 	/*
@@ -23,9 +23,9 @@ public abstract class TeamMiniGame extends MiniGame {
 	protected int getTeamScore() {
 		return this.getScore(this.getRandomPlayer());
 	}
-	
+
 	protected Player getRandomPlayer() {
-		int randomIndex = (int)(Math.random() * this.getPlayerCount());
+		int randomIndex = (int) (Math.random() * this.getPlayerCount());
 		return this.getPlayers().get(randomIndex);
 	}
 
@@ -40,7 +40,9 @@ public abstract class TeamMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
-		this.sendMessageToAllPlayers("Team(" + this.getEveryoneName() + ")" + ": " + getTeamScore());
+
+		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
+		this.sendMessageToAllPlayers("Team(" + allPlayersName + ")" + ": " + getTeamScore());
 	}
 }
 

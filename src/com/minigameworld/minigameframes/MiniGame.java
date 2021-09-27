@@ -83,7 +83,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// register basic tasks
 		this.taskManager = new MiniGameTaskManager(this);
 		this.taskManager.registerBasicTasks();
-		
+
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
 		this.rankManager = new MiniGameRankManager(this);
@@ -174,6 +174,24 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			// just cancel event and pass to minigame
 			((BlockPlaceEvent) event).setCancelled(!this.isBlockPlace());
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void _processChatting(PlayerChatEvent e) {
+		if (this.isStarted()) {
+			if (this.isChatting()) {
+				e.setCancelled(true);
+				this.processChatting(e);
+			} else {
+				e.setCancelled(true);
+			}
+		}
+	}
+
+	protected void processChatting(PlayerChatEvent e) {
+		Player p = e.getPlayer();
+		String msg = e.getMessage();
+		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 
 	public final boolean joinGame(Player p) {
@@ -639,24 +657,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return (boolean) this.getCustomData().get("blockPlace");
 	}
 
-	@SuppressWarnings("deprecation")
-	private void _processChatting(PlayerChatEvent e) {
-		if (this.isStarted()) {
-			if (this.isChatting()) {
-				e.setCancelled(true);
-				this.processChatting(e);
-			} else {
-				e.setCancelled(true);
-			}
-		}
-	}
-
-	protected void processChatting(PlayerChatEvent e) {
-		Player p = e.getPlayer();
-		String msg = e.getMessage();
-		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
-	}
-
 	/*
 	 * MiniGameSetting getters
 	 */
@@ -718,20 +718,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public int getLeftFinishTime() {
 		return this.taskManager.getLeftFinishTime();
-	}
-
-	public String getEveryoneName() {
-		String members = "";
-		if (this.isEmpty()) {
-			return members;
-		}
-
-		for (Player p : this.getPlayers()) {
-			members += p.getName() + ", ";
-		}
-		// remove last ", "
-		members = members.substring(0, members.length() - 2);
-		return members;
 	}
 
 	protected TaskManager getTaskManager() {

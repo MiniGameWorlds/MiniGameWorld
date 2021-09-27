@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
 
 public abstract class TeamBattleMiniGame extends MiniGame {
@@ -492,17 +493,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public String getAllMemberNameString() {
-			if (this.isEmpty()) {
-				return "";
-			}
-
-			String members = "";
-			for (Player p : this.getMembers()) {
-				members += p.getName() + ", ";
-			}
-			// remove last ", "
-			members = members.substring(0, members.length() - 2);
-			return members;
+			return PlayerTool.getPlayersNameString(this.members, ",");
 		}
 
 		public ChatColor getColor() {

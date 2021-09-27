@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.minigameframes.MiniGame;
+import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGameAccessor {
 
@@ -136,7 +137,7 @@ public class MiniGameAccessor {
 	}
 
 	public String getEveryoneName() {
-		return this.minigame.getEveryoneName();
+		return PlayerTool.getPlayersNameString(this.minigame.getPlayers(), ",");
 	}
 
 	public List<Entry<Player, Integer>> getAscendingScoreRanking() {
