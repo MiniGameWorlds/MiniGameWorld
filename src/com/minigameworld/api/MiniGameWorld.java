@@ -7,10 +7,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.manager.eventdetect.MiniGameEventDetector;
-import com.minigameworld.manager.party.PartyManager;
+import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameEventDetector;
 import com.minigameworld.observer.MiniGameObserver;
 
 public class MiniGameWorld {

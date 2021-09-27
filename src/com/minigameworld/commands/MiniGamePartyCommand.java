@@ -3,7 +3,7 @@ package com.minigameworld.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.manager.party.PartyManager;
+import com.minigameworld.managers.party.PartyManager;
 
 public class MiniGamePartyCommand {
 	private PartyManager partyManager;

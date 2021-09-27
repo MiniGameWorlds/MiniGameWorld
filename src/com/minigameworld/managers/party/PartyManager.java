@@ -1,4 +1,4 @@
-package com.minigameworld.manager.party;
+package com.minigameworld.managers.party;
 
 import java.util.ArrayList;
 import java.util.List;

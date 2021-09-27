@@ -1,4 +1,4 @@
-package com.minigameworld.manager.utils;
+package com.minigameworld.minigameframes.utils;
 
 import java.util.HashMap;
 import java.util.List;

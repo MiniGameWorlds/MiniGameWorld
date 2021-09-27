@@ -1,4 +1,4 @@
-package com.minigameworld.manager;
+package com.minigameworld.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

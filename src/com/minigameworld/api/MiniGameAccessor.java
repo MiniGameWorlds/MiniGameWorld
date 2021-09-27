@@ -104,7 +104,7 @@ public class MiniGameAccessor {
 	public boolean isScoreNotifying() {
 		return this.minigame.isScoreNotifying();
 	}
-	
+
 	public boolean isChatting() {
 		return this.minigame.isChatting();
 	}
@@ -139,8 +139,12 @@ public class MiniGameAccessor {
 		return this.minigame.getEveryoneName();
 	}
 
-	public List<Entry<Player, Integer>> getScoreRanking() {
-		return this.minigame.getScoreRanking();
+	public List<Entry<Player, Integer>> getAscendingScoreRanking() {
+		return this.minigame.getMiniGameRankManager().getAscendingScoreRanking(this.minigame.getPlayers());
+	}
+
+	public List<Entry<Player, Integer>> getDescendingScoreRanking() {
+		return this.minigame.getMiniGameRankManager().getDescendingScoreRanking(this.minigame.getPlayers());
 	}
 }
 //

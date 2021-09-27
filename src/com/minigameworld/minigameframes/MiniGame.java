@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.manager.playerstate.MiniGamePlayerStateManager;
-import com.minigameworld.manager.utils.MiniGameRankManager;
+import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
+import com.minigameworld.minigameframes.utils.MiniGameRankManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Setting;
@@ -809,10 +809,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.taskManager;
 	}
 
-	protected MiniGameRankManager getMiniGameRankManager() {
+	public MiniGameRankManager getMiniGameRankManager() {
 		return this.rankManager;
 	}
-
+	
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());
 		return this.getPlayers().get(random);

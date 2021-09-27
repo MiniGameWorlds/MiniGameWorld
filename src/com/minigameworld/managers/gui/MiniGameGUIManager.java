@@ -1,4 +1,4 @@
-package com.minigameworld.manager.gui;
+package com.minigameworld.managers.gui;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;

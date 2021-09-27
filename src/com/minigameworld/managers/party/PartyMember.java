@@ -1,4 +1,4 @@
-package com.minigameworld.manager.party;
+package com.minigameworld.managers.party;
 
 import java.util.HashSet;
 import java.util.Set;

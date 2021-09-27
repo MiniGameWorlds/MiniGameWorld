@@ -1,4 +1,4 @@
-package com.minigameworld.manager;
+package com.minigameworld.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import com.minigameworld.manager.eventdetect.MiniGameEventDetector;
-import com.minigameworld.manager.gui.MiniGameGUIManager;
-import com.minigameworld.manager.party.Party;
-import com.minigameworld.manager.party.PartyManager;
+import com.minigameworld.managers.gui.MiniGameGUIManager;
+import com.minigameworld.managers.party.Party;
+import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameEventDetector;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;

@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Utils;
 
 import io.github.classgraph.ClassGraph;

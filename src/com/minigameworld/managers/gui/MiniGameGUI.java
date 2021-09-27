@@ -1,4 +1,4 @@
-package com.minigameworld.manager.gui;
+package com.minigameworld.managers.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.wbm.plugin.util.ItemStackTool;

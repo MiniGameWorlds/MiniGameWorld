@@ -9,9 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.manager.MiniGameDataManager;
-import com.minigameworld.manager.MiniGameManager;
-import com.minigameworld.manager.gui.MiniGameGUIManager;
+import com.minigameworld.managers.MiniGameDataManager;
+import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.managers.gui.MiniGameGUIManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 

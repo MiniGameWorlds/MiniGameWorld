@@ -1,4 +1,4 @@
-package com.minigameworld.manager.eventdetect;
+package com.minigameworld.minigameframes.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
