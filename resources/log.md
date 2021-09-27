@@ -1,5 +1,4 @@
 # 할 것
-- MiniGame customData에 blockBreaking, blockPlace 추가
 - Guava 사용해보기
 - MiniGame에서 player에게 live 변수를 추가하기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
@@ -234,8 +233,8 @@
 # 2021-09-27
 - MiniGameManager에서 MiniGameEventDetector 모듈 분리
 - MiniGameEventDetector에 detectableEvent가 감지 못하는 이벤트 따로 감지 메소드 추가 (getPlayersFromDetailedEvent)
-
-
+- MiniGame event handler priority 변경: NORMAL > HIGHEST
+- MiniGame customData에 blockBreak, blockPlace 추가 (blockBreak, blockPlace기본값이 false이므로, 해당 이벤트를 사용하는 미니게임에서는 체크해야 함)
 
 
 

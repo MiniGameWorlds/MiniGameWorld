@@ -71,8 +71,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.getSetting().setMaxPlayerCount(allMemberCount);
 
 		// set team register method
-//		this.teamRegisterMethod = TeamRegisterMethod.FAIR_FILL;
-		this.getCustomData().put("TeamRegisterMethod", TeamRegisterMethod.FAIR_FILL.name());
+		this.setTeamRegisterMethod(TeamRegisterMethod.FAIR_FILL);
 	}
 
 	/*
@@ -213,11 +212,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * setter, getter
 	 */
 	protected void setTeamRegisterMethod(TeamRegisterMethod teamRegisterMethod) {
-		this.getCustomData().put("TeamRegisterMethod", teamRegisterMethod.name());
+		this.getCustomData().put("teamRegisterMethod", teamRegisterMethod.name());
 	}
 
 	protected TeamRegisterMethod getTeamRegisterMethod() {
-		return TeamRegisterMethod.valueOf((String) this.getCustomData().get("TeamRegisterMethod"));
+		return TeamRegisterMethod.valueOf((String) this.getCustomData().get("teamRegisterMethod"));
 	}
 
 	protected void setGroupChat(boolean groupChat) {

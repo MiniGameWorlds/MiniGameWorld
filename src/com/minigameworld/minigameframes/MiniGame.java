@@ -12,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -90,6 +92,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.registerCustomData();
 		this.getCustomData().put("chatting", true);
 		this.getCustomData().put("scoreNotifying", true);
+		this.getCustomData().put("blockBreak", false);
+		this.getCustomData().put("blockPlace", false);
 
 		// register basic tasks
 		this.registerBasicTasks();
@@ -213,14 +217,25 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 					event);
 		}
 
-		else if (event instanceof PlayerChatEvent) {
-			PlayerChatEvent e = (PlayerChatEvent) event;
-			this._processChatting(e);
-		}
+		// option events
+		this.processOptionEvents(event);
 
 		// process event when minigame started
 		if (this.started) {
 			this.processEvent(event);
+		}
+	}
+
+	private void processOptionEvents(Event event) {
+		if (event instanceof PlayerChatEvent) {
+			PlayerChatEvent e = (PlayerChatEvent) event;
+			this._processChatting(e);
+		} else if (event instanceof BlockBreakEvent) {
+			// just cancel event and pass to minigame
+			((BlockBreakEvent) event).setCancelled(!this.isBlockBreak());
+		} else if (event instanceof BlockPlaceEvent) {
+			// just cancel event and pass to minigame
+			((BlockPlaceEvent) event).setCancelled(!this.isBlockPlace());
 		}
 	}
 
@@ -426,10 +441,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void printEndInfo() {
-		if(this.isEmpty()) {
+		if (this.isEmpty()) {
 			return;
 		}
-		
+
 		// title
 		for (Player p : this.getPlayers()) {
 			// break line
@@ -627,6 +642,22 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return (boolean) this.getCustomData().get("chatting");
 	}
 
+	public void setBlockBreak(boolean active) {
+		this.getCustomData().put("blockBreak", active);
+	}
+
+	public boolean isBlockBreak() {
+		return (boolean) this.getCustomData().get("blockBreak");
+	}
+
+	public void setBlockPlace(boolean active) {
+		this.getCustomData().put("blockPlace", active);
+	}
+
+	public boolean isBlockPlace() {
+		return (boolean) this.getCustomData().get("blockPlace");
+	}
+
 	@SuppressWarnings("deprecation")
 	private void _processChatting(PlayerChatEvent e) {
 		if (this.isStarted()) {
@@ -717,7 +748,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (this.isEmpty()) {
 			return members;
 		}
-		
+
 		for (Player p : this.getPlayers()) {
 			members += p.getName() + ", ";
 		}

@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.TeamMiniGame;
+import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 
@@ -24,9 +25,11 @@ public class RemoveBlock extends TeamMiniGame {
 	private List<ItemStack> blocks;
 
 	public RemoveBlock() {
-		super("RemoveBlock", 2, 4, 60 * 3, 10);
+		super("RemoveBlock", 1, 4, 60 * 3, 10);
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
+		
+		this.setBlockBreak(true);
 	}
 
 	protected void registerTasks() {
@@ -43,8 +46,8 @@ public class RemoveBlock extends TeamMiniGame {
 		Map<String, Object> data = this.getCustomData();
 
 		// block positions
-		data.put("pos1", new Location(Bukkit.getWorld("world"), 0, 4, 0));
-		data.put("pos2", new Location(Bukkit.getWorld("world"), 4, 4, 4));
+		data.put("pos1", this.getLocation());
+		data.put("pos2", this.getLocation());
 
 		// block list
 		List<ItemStack> blockList = new ArrayList<ItemStack>();
@@ -105,7 +108,7 @@ public class RemoveBlock extends TeamMiniGame {
 		InventoryTool.addItemsToPlayers(this.getPlayers(), items);
 
 		// add default score
-		this.plusEveryoneScore(this.getTimeLimit() * 5);
+		this.plusEveryoneScore(this.getTimeLimit());
 
 		// start minus score timer every 5 sec
 		this.getTaskManager().runTaskTimer("every5", 0, 20 * 5);
