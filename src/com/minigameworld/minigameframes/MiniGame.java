@@ -18,8 +18,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.minigameframes.utils.MiniGameData;
+import com.minigameworld.minigameframes.utils.MiniGamePlayerData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
 import com.minigameworld.minigameframes.utils.MiniGameRankManager;
+import com.minigameworld.minigameframes.utils.MiniGameSetting;
 import com.minigameworld.minigameframes.utils.MiniGameTaskManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
@@ -54,6 +57,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// observer list
 	private List<MiniGameObserver> observerList;
 
+	// data
+	private MiniGameData minigameData;
+
 	// abstract methods
 	protected abstract void initGameSettings();
 
@@ -87,6 +93,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
 		this.rankManager = new MiniGameRankManager(this);
+		this.minigameData = new MiniGameData(this);
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -701,7 +708,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public String getTitleWithClassName() {
-		return this.getTitle() + "[Class: " + this.getClassName() + "]";
+		return this.getTitle() + " [Class: " + this.getClassName() + "]";
 	}
 
 	public String getClassName() {
@@ -726,6 +733,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public MiniGameRankManager getMiniGameRankManager() {
 		return this.rankManager;
+	}
+
+	public MiniGameData getMiniGameData() {
+		return this.minigameData;
 	}
 
 	protected Player randomPlayer() {

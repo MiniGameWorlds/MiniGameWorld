@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
+import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 
 import net.md_5.bungee.api.ChatColor;
@@ -19,9 +22,11 @@ public class PartyManager {
 	 * - send message with "Party.sendMessage()"
 	 */
 
+	private MiniGameManager miniGameManager;
 	private List<Party> parties;
 
-	public PartyManager() {
+	public PartyManager(MiniGameManager miniGameManager) {
+		this.miniGameManager = miniGameManager;
 		this.parties = new ArrayList<>();
 	}
 
@@ -266,6 +271,24 @@ public class PartyManager {
 			Party.sendMessage(notifyPlayer, "That player is not online");
 			return false;
 		}
+		return true;
+	}
+
+	public boolean canPartyJoin(Player p, MiniGame game) {
+		if (!this.hasParty(p)) {
+			return true;
+		}
+
+		List<Player> members = this.getMembers(p);
+		int nonPlayingGameMemberCount = this.miniGameManager.getNonPlayingPlayerCount(members);
+		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
+
+		// check party size
+		if (nonPlayingGameMemberCount > leftSeats) {
+			Utils.sendMsg(p, "Party members are too many to join the game");
+			return false;
+		}
+
 		return true;
 	}
 }

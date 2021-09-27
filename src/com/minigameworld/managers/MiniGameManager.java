@@ -1,5 +1,6 @@
 package com.minigameworld.managers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import com.google.common.io.Files;
 import com.minigameworld.managers.gui.MiniGameGUIManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
@@ -31,13 +33,10 @@ public class MiniGameManager implements YamlMember {
 	private List<MiniGame> minigames;
 
 	// setting.yml
-	private Map<String, Object> setting;
+	private Map<String, Object> settings;
 
 	// event detector
 	MiniGameEventDetector minigameEventDetector;
-
-	// MiniGame Data Manager
-	private MiniGameDataManager minigameDataM;
 
 	// minigame gui manager
 	private MiniGameGUIManager guiManager;
@@ -49,19 +48,18 @@ public class MiniGameManager implements YamlMember {
 	private PartyManager partyManager;
 
 	// yaml data manager
-	YamlManager yamlM;
+	YamlManager yamlManager;
 
 	// use getInstance()
 	private MiniGameManager() {
 		// init
 		this.minigames = new ArrayList<>();
-		this.setting = new HashMap<String, Object>();
+		this.settings = new HashMap<String, Object>();
 		this.initSettingData();
 		this.minigameEventDetector = new MiniGameEventDetector();
 
-		this.minigameDataM = new MiniGameDataManager(this);
 		this.guiManager = new MiniGameGUIManager(this);
-		this.partyManager = new PartyManager();
+		this.partyManager = new PartyManager(this);
 	}
 
 	public void processPlayerJoinWorks(Player p) {
@@ -86,26 +84,26 @@ public class MiniGameManager implements YamlMember {
 		 * set basic setting.yml
 		 */
 		// lobby
-		if (!this.setting.containsKey("lobby")) {
-			this.setting.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
+		if (!this.settings.containsKey("lobby")) {
+			this.settings.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
-		lobby = (Location) this.setting.get("lobby");
+		lobby = (Location) this.settings.get("lobby");
 
 		// minigameSign
-		if (!this.setting.containsKey("minigameSign")) {
-			this.setting.put("minigameSign", true);
+		if (!this.settings.containsKey("minigameSign")) {
+			this.settings.put("minigameSign", true);
 		}
 
 		// minigameCommand
-		if (!this.setting.containsKey("minigameCommand")) {
-			this.setting.put("minigameCommand", true);
+		if (!this.settings.containsKey("minigameCommand")) {
+			this.settings.put("minigameCommand", true);
 		}
 
 		// messagePrefix
-		if (!this.setting.containsKey("messagePrefix")) {
-			this.setting.put("messagePrefix", "MiniGameWorld");
+		if (!this.settings.containsKey("messagePrefix")) {
+			this.settings.put("messagePrefix", "MiniGameWorld");
 		}
-		Utils.messagePrefix = (String) this.setting.get("messagePrefix");
+		Utils.messagePrefix = (String) this.settings.get("messagePrefix");
 	}
 
 	public void joinGame(Player p, String title) {
@@ -117,7 +115,7 @@ public class MiniGameManager implements YamlMember {
 			return;
 		}
 
-		if (!this.canPartyJoin(p, game)) {
+		if (!this.partyManager.canPartyJoin(p, game)) {
 			return;
 		}
 
@@ -139,24 +137,6 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			Utils.sendMsg(p, "You already joined other minigame");
 		}
-	}
-
-	private boolean canPartyJoin(Player p, MiniGame game) {
-		if (!this.partyManager.hasParty(p)) {
-			return true;
-		}
-
-		List<Player> members = this.partyManager.getMembers(p);
-		int nonPlayingGameMemberCount = this.getNonPlayingPlayerCount(members);
-		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
-
-		// check party size
-		if (nonPlayingGameMemberCount > leftSeats) {
-			Utils.sendMsg(p, "Party members are too many to join the game");
-			return false;
-		}
-
-		return true;
 	}
 
 	public void leaveGame(Player p) {
@@ -269,23 +249,18 @@ public class MiniGameManager implements YamlMember {
 
 	public boolean registerMiniGame(MiniGame newGame) {
 		// can not register minigame which has same class name with others
-		String newGameClassName = newGame.getClassName();
-		for (MiniGame game : this.minigames) {
-			String existGameClassName = game.getClassName();
-			// distinguish with MiniGame class name
-			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
-				Utils.warning(newGame.getTitleWithClassName() + " minigame is already registered");
-				Utils.warning(
-						"Cause: the same minigame " + game.getTitleWithClassName() + " minigame is already registered");
-				return false;
-			}
+		if (this.hasSameMiniGame(newGame)) {
+			return false;
 		}
 
-		// apply already exsiting minigame data in minigames.yml
-		if (this.minigameDataM.isMinigameDataExists(newGame)) {
-			this.minigameDataM.applyMiniGameDataToInstance(newGame);
+		// reigster member to YamlManager
+		this.yamlManager.registerMember(newGame.getMiniGameData());
+
+		// check already existing data
+		if (newGame.getMiniGameData().isMinigameDataExists()) {
+			newGame.getMiniGameData().applyMiniGameDataToInstance();
 		} else {
-			this.minigameDataM.addMiniGameData(newGame);
+			newGame.getMiniGameData().addMiniGameData();
 		}
 
 		// add
@@ -294,6 +269,21 @@ public class MiniGameManager implements YamlMember {
 		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
 				+ " minigame is registered");
 		return true;
+	}
+
+	private boolean hasSameMiniGame(MiniGame newGame) {
+		// can not register minigame which has same class name with others
+		String newGameClassName = newGame.getClassName();
+		for (MiniGame game : this.minigames) {
+			String existGameClassName = game.getClassName();
+			// distinguish with MiniGame class name
+			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
+				Utils.warning(newGameClassName + " can not be registered");
+				Utils.warning("The same " + game.getTitleWithClassName() + " minigame is already registered");
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean unregisterMiniGame(MiniGame minigame) {
@@ -305,16 +295,36 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
+	public void removeNotExistMiniGameData() {
+		// remove deleted minigame before save minigames.yml file
+		List<String> removedGames = new ArrayList<String>();
+
+		List<String> minigameStringList = new ArrayList<String>();
+		this.minigames.forEach(m -> minigameStringList.add(m.getClassName()));
+
+		File minigamesFolder = Utils.getMiniGamesFolder();
+		for (File minigameFile : minigamesFolder.listFiles()) {
+			String flieName = Files.getNameWithoutExtension(minigameFile.getName());
+			if (!minigameStringList.contains(flieName)) {
+				// remove file
+				minigameFile.delete();
+				// add removed list
+				removedGames.add(minigameFile.getName());
+			}
+		}
+
+		Utils.info("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List ]");
+		for (String removedGameTitle : removedGames) {
+			Utils.info(ChatColor.RED + removedGameTitle + " minigame file is deleted");
+		}
+	}
+
 	public Map<String, Object> getGameSetting() {
-		return this.setting;
+		return this.settings;
 	}
 
 	public static Location getLobby() {
 		return lobby;
-	}
-
-	public MiniGameDataManager getMiniGameDataManager() {
-		return this.minigameDataM;
 	}
 
 	public MiniGameGUIManager getMiniGameGUIManager() {
@@ -329,7 +339,7 @@ public class MiniGameManager implements YamlMember {
 		return this.minigameEventDetector;
 	}
 
-	private int getNonPlayingPlayerCount(List<Player> players) {
+	public int getNonPlayingPlayerCount(List<Player> players) {
 		int Count = 0;
 		for (Player p : players) {
 			if (!this.isPlayingMiniGame(p)) {
@@ -341,18 +351,21 @@ public class MiniGameManager implements YamlMember {
 
 	@Override
 	public void reload() {
-		this.yamlM.reload(this);
+		this.yamlManager.reload(this);
+
+		// reload minigames
+		this.minigames.forEach(m -> m.getMiniGameData().reload());
 	}
 
 	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {
-		this.yamlM = yamlM;
+		this.yamlManager = yamlM;
 
 		// sync config setting with variable setting
-		if (config.isSet("setting")) {
-			this.setting = YamlHelper.ObjectToMap(config.getConfigurationSection("setting"));
+		if (config.isSet("settings")) {
+			this.settings = YamlHelper.ObjectToMap(config.getConfigurationSection("settings"));
 		}
-		config.set("setting", this.setting);
+		config.set("settings", this.settings);
 
 		// check setting has basic values
 		this.initSettingData();
@@ -360,7 +373,7 @@ public class MiniGameManager implements YamlMember {
 
 	@Override
 	public String getFileName() {
-		return "setting.yml";
+		return "settings.yml";
 	}
 }
 //

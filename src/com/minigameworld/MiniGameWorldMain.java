@@ -1,7 +1,5 @@
 package com.minigameworld;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.HiddenAction;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,13 +12,13 @@ import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.games.BreedMob;
 import com.minigameworld.minigameframes.games.FitTool;
+import com.minigameworld.minigameframes.games.HiddenArcher;
 import com.minigameworld.minigameframes.games.MoreHit;
 import com.minigameworld.minigameframes.games.PVP;
 import com.minigameworld.minigameframes.games.RandomScore;
 import com.minigameworld.minigameframes.games.RemoveBlock;
 import com.minigameworld.minigameframes.games.RockScissorPaper;
 import com.minigameworld.minigameframes.games.ScoreClimbing;
-import com.minigameworld.minigameframes.games.HiddenArcher;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -36,7 +34,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private CommonEventListener commonLis;
 	private MiniGameCommand minigameCommand;
-	private YamlManager yamlM;
+	private YamlManager yamlManager;
 
 	public static MiniGameWorldMain getInstance() {
 		return instance;
@@ -75,9 +73,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void setupData() {
 		// yaml data manager
-		this.yamlM = new YamlManager(this.getDataFolder());
-		this.yamlM.registerMember(this.minigameManager.getMiniGameDataManager());
-		this.yamlM.registerMember(this.minigameManager);
+		this.yamlManager = new YamlManager(this.getDataFolder());
+		this.yamlManager.registerMember(this.minigameManager);
 	}
 
 	private void registerEventListeners() {
@@ -115,10 +112,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.processRemainedPlayersWhenServerStop();
 
 		// remove not registered minigames setting data in minigames.yml
-		minigameManager.getMiniGameDataManager().removeNotExistMiniGameData();
+		this.minigameManager.removeNotExistMiniGameData();
 
 		// save all data
-		this.yamlM.saveAllData();
+		this.yamlManager.saveAllData();
 		Utils.info(ChatColor.RED + "================= MiniGameWorld =================");
 	}
 

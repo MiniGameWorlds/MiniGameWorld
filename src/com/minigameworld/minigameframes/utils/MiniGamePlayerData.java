@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.minigameworld.minigameframes.utils;
 
 import org.bukkit.entity.Player;
 

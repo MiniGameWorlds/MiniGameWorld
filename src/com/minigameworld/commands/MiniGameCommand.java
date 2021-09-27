@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.managers.MiniGameDataManager;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.gui.MiniGameGUIManager;
 import com.minigameworld.minigameframes.MiniGame;
@@ -18,14 +17,12 @@ import com.minigameworld.util.Utils;
 public class MiniGameCommand implements CommandExecutor {
 
 	private MiniGameManager minigameManager;
-	private MiniGameDataManager MiniGameDataM;
 	private MiniGameCommandTabCompleter tabCompleter;
 
 	private MiniGamePartyCommand miniGamePartyCommand;
 
 	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameManager = minigameM;
-		this.MiniGameDataM = this.minigameManager.getMiniGameDataManager();
 
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
 
@@ -150,9 +147,11 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// reload "setting.yml", "minigames.yml"
 		this.minigameManager.reload();
-		this.MiniGameDataM.reload();
-		Utils.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "Reload Complete" + ChatColor.WHITE + ": "
-				+ this.minigameManager.getFileName() + ", " + this.MiniGameDataM.getFileName());
+		Utils.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
+		Utils.sendMsg(p, "- " + this.minigameManager.getFileName());
+		this.minigameManager.getMiniGameList().forEach(m -> {
+			Utils.sendMsg(p, " - " + m.getTitleWithClassName());
+		});
 		return true;
 	}
 }

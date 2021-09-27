@@ -1,4 +1,5 @@
 # 할 것
+- MiniGameManager의 canPartyJoin()를 Party로 이동
 - MiniGame의 customData에 pvp 넣기 (TeamMiniGame, TeamBattleMiniGame에는 teamPvp도 추가)
 - Guava 사용해보기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
@@ -240,7 +241,7 @@
 - MiniGame에서 MiniGamePlayerData로 player데이터 분리
 - MiniGamePlayerData에 live 변수 추가
 - MiniGame에서 TaskManager 모듈 분리
-
+- 각 MiniGame 관리 file 분리
 
 
 

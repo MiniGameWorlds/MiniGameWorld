@@ -1,11 +1,13 @@
 package com.minigameworld.util;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.minigameframes.utils.MiniGameData;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -46,5 +48,9 @@ public class Utils {
 	@SuppressWarnings("deprecation")
 	public static void broadcast(String msg) {
 		Bukkit.broadcastMessage(getMessagePrefixString() + msg);
+	}
+
+	public static File getMiniGamesFolder() {
+		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameData.FOLDER_NAME);
 	}
 }

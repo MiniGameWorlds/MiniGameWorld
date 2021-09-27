@@ -11,4 +11,6 @@ public class Setting {
 	
 	// Minigame
 	public static final int MINIGAME_LEAVE_MIN_TIME = 3;
+	
+	
 }

@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.minigameworld.minigameframes.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -266,7 +266,6 @@ public class MiniGameSetting {
 		// display item
 		this.setIcon(Material.valueOf((String) setting.get("icon")));
 	}
-
 }
 //
 //
