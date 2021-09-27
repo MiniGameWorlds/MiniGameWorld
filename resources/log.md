@@ -238,7 +238,7 @@
 - MiniGame에서 MiniGameRankManager 모듈 분리
 - MiniGame에서 MiniGamePlayerData로 player데이터 분리
 - MiniGamePlayerData에 live 변수 추가
-
+- MiniGame에서 TaskManager 모듈 분리
 
 
 

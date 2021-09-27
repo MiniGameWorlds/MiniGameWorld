@@ -20,11 +20,11 @@ import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
 import com.minigameworld.minigameframes.utils.MiniGameRankManager;
+import com.minigameworld.minigameframes.utils.MiniGameTaskManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
-import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
 
@@ -39,23 +39,20 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// check game has started
 	private boolean started;
 
-	// timer counter
-	private Counter waitingCounter, finishCounter;
-
 	// player data (score, live)
 	private List<MiniGamePlayerData> players;
 
 	// task manager
-	private TaskManager taskManager;
-
-	// observer list
-	private List<MiniGameObserver> observerList;
+	private MiniGameTaskManager taskManager;
 
 	// player data manager
 	private MiniGamePlayerStateManager playerStateManager;
 
 	// rank manager
 	private MiniGameRankManager rankManager;
+
+	// observer list
+	private List<MiniGameObserver> observerList;
 
 	// abstract methods
 	protected abstract void initGameSettings();
@@ -83,7 +80,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	private void setupMiniGame() {
-		this.taskManager = new TaskManager();
+		// register basic tasks
+		this.taskManager = new MiniGameTaskManager(this);
+		this.taskManager.registerBasicTasks();
+		
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
 		this.rankManager = new MiniGameRankManager(this);
@@ -98,8 +98,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getCustomData().put("blockBreak", false);
 		this.getCustomData().put("blockPlace", false);
 
-		// register basic tasks
-		this.registerBasicTasks();
 	}
 
 	/*
@@ -138,70 +136,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// clear player data
 		this.playerStateManager.clearAllPlayers();
-	}
-
-	private void registerBasicTasks() {
-		// register waitingTimer task to taskManager
-		this.taskManager.registerTask("_waitingTimer", new Runnable() {
-
-			@Override
-			public void run() {
-				int waitTime = waitingCounter.getCount();
-
-				// end count down
-				if (waitTime <= 0) {
-					runStartTasks();
-					return;
-				}
-
-				// count down title
-				String time = "" + waitTime;
-				if (waitTime == 3) {
-					time = ChatColor.YELLOW + time;
-				} else if (waitTime == 2) {
-					time = ChatColor.GOLD + time;
-				} else if (waitTime == 1) {
-					time = ChatColor.RED + time;
-				}
-				sendTitleToAllPlayers(time, "", 4, 12, 4);
-
-				// play sound
-				if (waitTime <= 3) {
-					getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
-				}
-
-				waitingCounter.removeCount(1);
-			}
-		});
-
-		// register finishTimer task to taskManager
-		this.taskManager.registerTask("_finishTimer", new Runnable() {
-
-			@Override
-			public void run() {
-				int leftTime = finishCounter.getCount();
-				if (leftTime <= 0) {
-					runFinishTasks();
-					return;
-				} else if (leftTime <= 10) {
-					// title 3, 2, 1
-					String time = "" + leftTime;
-					if (leftTime == 3) {
-						time = ChatColor.YELLOW + time;
-					} else if (leftTime == 2) {
-						time = ChatColor.GOLD + time;
-					} else if (leftTime == 1) {
-						time = ChatColor.RED + time;
-					}
-					sendTitleToAllPlayers("" + time, "", 4, 12, 4);
-
-					// play sound
-					getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
-				}
-
-				finishCounter.removeCount(1);
-			}
-		});
 	}
 
 	private void initSettings() {
@@ -300,7 +234,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		if (this.waitingCounter.getCount() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
+		if (this.getLeftWaitingTime() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
 			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
 			return false;
 		}
@@ -361,17 +295,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// stop and restart waiting task
 	// use for waiting other player join when waitingTask ended
 	private void initTasks() {
-		// stop all tasks
-		this.taskManager.cancelAllTasks();
-
-		// timer counter
-		this.waitingCounter = new Counter(this.getWaitingTime());
-		this.finishCounter = new Counter(this.getTimeLimit());
+		this.taskManager.init();
 	}
 
 	private void startWaitingTimer() {
 		// start game after waitingTimer
-		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
+		this.getTaskManager().runTaskTimer("_waitingTimer", 0, 20);
 	}
 
 	protected void restartWaitingTask() {
@@ -379,7 +308,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.startWaitingTimer();
 	}
 
-	private void runStartTasks() {
+	public void runStartTasks() {
 		// check min player count
 		if (!this.isMinPlayersLive()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
@@ -408,17 +337,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.notifyObservers(MiniGameEvent.START);
 
 		// cancel task
-		this.taskManager.cancelTask("_waitingTimer");
+		this.getTaskManager().cancelTask("_waitingTimer");
 
 		// start finishsTimer
 		startFinishTimer();
 	}
 
 	private void startFinishTimer() {
-		this.taskManager.runTaskTimer("_finishTimer", 0, 20);
+		this.getTaskManager().runTaskTimer("_finishTimer", 0, 20);
 	}
 
-	private void runFinishTasks() {
+	public void runFinishTasks() {
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();
 
@@ -440,7 +369,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		initSettings();
 
 		// cancel finish task
-		this.taskManager.cancelTask("_finishTimer");
+		this.getTaskManager().cancelTask("_finishTimer");
 	}
 
 	private void printEndInfo() {
@@ -576,27 +505,27 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
-	protected void sendMessage(Player p, String msg) {
+	public void sendMessage(Player p, String msg) {
 		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.WHITE + msg);
 	}
 
-	protected void sendMessageToAllPlayers(String msg) {
+	public void sendMessageToAllPlayers(String msg) {
 		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
 	}
 
-	protected void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	public void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 	}
 
-	protected void sendTitle(Player p, String title, String subTitle) {
+	public void sendTitle(Player p, String title, String subTitle) {
 		p.sendTitle(title, subTitle, 4, 12, 4);
 	}
 
-	protected void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	public void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
 	}
 
-	protected void sendTitleToAllPlayers(String title, String subTitle) {
+	public void sendTitleToAllPlayers(String title, String subTitle) {
 		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, 4, 12, 4));
 	}
 
@@ -656,7 +585,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected boolean isLive(Player p) {
 		return this.getPlayerData(p).isLive();
 	}
-	
+
 	protected List<Player> getLivePlayers() {
 		List<Player> livePlayers = new ArrayList<Player>();
 		for (Player p : this.getPlayers()) {
@@ -784,11 +713,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public int getLeftWaitingTime() {
-		return this.waitingCounter.getCount();
+		return this.taskManager.getLeftWaitingTime();
 	}
 
 	public int getLeftFinishTime() {
-		return this.finishCounter.getCount();
+		return this.taskManager.getLeftFinishTime();
 	}
 
 	public String getEveryoneName() {
@@ -806,13 +735,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	protected TaskManager getTaskManager() {
-		return this.taskManager;
+		return this.taskManager.getTaskManager();
 	}
 
 	public MiniGameRankManager getMiniGameRankManager() {
 		return this.rankManager;
 	}
-	
+
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());
 		return this.getPlayers().get(random);
