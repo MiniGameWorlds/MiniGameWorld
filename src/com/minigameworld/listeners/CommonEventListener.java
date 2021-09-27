@@ -99,7 +99,7 @@ public class CommonEventListener implements Listener {
 					// I believe the overhead of initializing ~20 more classes
 					// is better than that alternative.
 
-					Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.NORMAL, executor,
+					Bukkit.getPluginManager().registerEvent(eventClass, listener, EventPriority.HIGHEST, executor,
 							MiniGameWorldMain.getInstance());
 				}
 
