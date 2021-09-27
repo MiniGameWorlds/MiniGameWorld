@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
@@ -27,7 +28,7 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 2, 5, 60 * 5, 10);
+		super("PVP", 2, 5, 60 * 3, 10);
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setIcon(Material.STONE_SWORD);
 	}
@@ -55,12 +56,8 @@ public class PVP extends SoloBattleMiniGame {
 	@Override
 	protected void runTaskAfterStart() {
 		super.runTaskAfterStart();
-		// set health scale
-		// give kit items
-		for (Player p : this.getPlayers()) {
-			p.setHealthScale(this.health);
-			InventoryTool.addItemsToPlayer(p, this.items);
-		}
+		// set health scale, give kit items
+		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
 
 	@Override
@@ -68,32 +65,24 @@ public class PVP extends SoloBattleMiniGame {
 		if (event instanceof PlayerDeathEvent) {
 			PlayerDeathEvent e = (PlayerDeathEvent) event;
 			Player victim = e.getEntity();
+			victim.getInventory().clear();
+			
 			Player killer = victim.getKiller();
-
-			// change victim gamemode to spectator
-			victim.setGameMode(GameMode.SPECTATOR);
 
 			// killer +1 score
 			if (killer != null) {
 				this.plusScore(killer, 1);
 			}
-
-			// game end when only 1 player remains
-			this.checkGameEnd();
+		} else if (event instanceof PlayerRespawnEvent) {
+			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
+			e.setRespawnLocation(this.getLocation());
+			this.initKitsAndHealth(e.getPlayer());
 		}
 	}
 
-	private void checkGameEnd() {
-		int remain = 0;
-		for (Player p : this.getPlayers()) {
-			if (p.getGameMode() == GameMode.SURVIVAL) {
-				remain += 1;
-			}
-		}
-
-		if (remain <= 1) {
-			this.endGame();
-		}
+	private void initKitsAndHealth(Player p) {
+		p.setHealthScale(this.health);
+		InventoryTool.addItemsToPlayer(p, this.items);
 	}
 
 	@Override

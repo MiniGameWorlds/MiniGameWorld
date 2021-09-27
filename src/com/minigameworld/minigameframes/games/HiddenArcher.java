@@ -97,16 +97,11 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		// victim
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
 		victim.setGameMode(GameMode.SPECTATOR);
-		this.getTeam(victim).setMemberLive(victim, false);
+		this.setLive(victim, false);
 
 		// damager
 		this.sendTitle(shooter, "HIT", "");
 		this.plusTeamScore(shooter, 1);
-
-		// check game end
-		if (!this.isMinPlayersLive()) {
-			this.endGame();
-		}
 	}
 
 	@Override

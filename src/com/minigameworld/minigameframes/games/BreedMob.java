@@ -60,21 +60,20 @@ public class BreedMob extends TeamMiniGame {
 	protected void processEvent(Event event) {
 		if (event instanceof PlayerDeathEvent) {
 			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			e.getEntity().setGameMode(GameMode.SPECTATOR);
+			Player p = e.getEntity();
+			
+			// set live: false, gamemode: spectator
+			this.setLive(p, false);
+			p.setGameMode(GameMode.SPECTATOR);
 
-			if (!this.checkSurvivedPlayers()) {
-				this.endGame();
-			}
 		} else if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 
 			LivingEntity entity = e.getEntity();
-			Player killer = entity.getKiller();
+//			Player killer = entity.getKiller();
 
 			// check mob
 			if (BreedingMob.mobList().contains(entity.getType())) {
-//				if (Math.random() > 0.3) {
-
 				Location deathLoc = entity.getLocation();
 
 				// spawn random 2 mobs
@@ -95,18 +94,8 @@ public class BreedMob extends TeamMiniGame {
 
 				fireworkMeta.setPower(0);
 				firework.setFireworkMeta(fireworkMeta);
-//				}
 			}
 		}
-	}
-
-	private boolean checkSurvivedPlayers() {
-		for (Player p : this.getPlayers()) {
-			if (p.getGameMode() == GameMode.SURVIVAL) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
