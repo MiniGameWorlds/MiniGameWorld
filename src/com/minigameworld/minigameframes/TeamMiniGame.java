@@ -1,5 +1,7 @@
 package com.minigameworld.minigameframes;
 
+import java.util.Random;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -19,7 +21,12 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	protected int getTeamScore() {
-		return this.getScore(this.getPlayers().get(0));
+		return this.getScore(this.getRandomPlayer());
+	}
+	
+	protected Player getRandomPlayer() {
+		int randomIndex = (int)(Math.random() * this.getPlayerCount());
+		return this.getPlayers().get(randomIndex);
 	}
 
 	protected void plusTeamScore(int score) {

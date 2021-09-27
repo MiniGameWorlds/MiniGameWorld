@@ -295,7 +295,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	// change counting unit: player > team
 	@Override
-	protected boolean isMinPlayerCountRemains() {
+	protected boolean isMinPlayersLive() {
 		return this.getLiveTeamCount() > 1;
 	}
 
@@ -423,14 +423,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	public class Team {
 		private String teamName;
 		private int maxMemberCount;
-		// <Player, Live>
-		private Map<Player, Boolean> members;
+		private List<Player> members;
 		private ChatColor color;
 
 		public Team(String teamName, int memberSize) {
 			this.teamName = teamName;
 			this.maxMemberCount = memberSize;
-			this.members = new HashMap<>(memberSize);
+			this.members = new ArrayList<>(memberSize);
 			this.color = ChatColor.WHITE;
 		}
 
@@ -447,7 +446,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public List<Player> getMembers() {
-			return new ArrayList<>(this.members.keySet());
+			return this.members;
 		}
 
 		public void sendTeamMessage(Player sender, String msg) {
@@ -474,7 +473,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			if (this.isFull()) {
 				return false;
 			} else {
-				this.members.put(p, true);
+				this.members.add(p);
 				return true;
 			}
 		}
@@ -515,25 +514,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		public boolean isTeamLive() {
-			boolean live = false;
-			for (boolean memberLive : this.members.values()) {
-				memberLive = memberLive || live;
-
+			for (Player member : this.members) {
+				if (!getLivePlayers().contains(member)) {
+					return false;
+				}
 			}
-			return live;
-		}
-
-		public boolean isMemberLive(Player p) {
-			if (this.hasMember(p)) {
-				return this.members.get(p);
-			}
-			return false;
-		}
-
-		public void setMemberLive(Player member, boolean live) {
-			if (this.hasMember(member)) {
-				this.members.put(member, live);
-			}
+			return true;
 		}
 
 		public int getLiveMemberCount() {
@@ -542,9 +528,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 		public List<Player> getLiveMemberList() {
 			List<Player> liveMembers = new ArrayList<>();
-			for (Entry<Player, Boolean> entry : this.members.entrySet()) {
-				if (entry.getValue()) {
-					liveMembers.add(entry.getKey());
+			for (Player member : this.members) {
+				if (getLivePlayers().contains(member)) {
+					liveMembers.add(member);
 				}
 			}
 			return liveMembers;

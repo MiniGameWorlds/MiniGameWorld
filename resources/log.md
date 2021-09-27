@@ -1,6 +1,5 @@
 # 할 것
 - Guava 사용해보기
-- MiniGame에서 player에게 live 변수를 추가하기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 추가 (몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드)
 - party GUI 메뉴 추가하기
@@ -16,6 +15,7 @@
 > EntityDamagedByEntityEvent의 damager가 Player일 때 
 > EntityDeathEvent의 entity의 killer가 Player일 때
 ```
+- 나중에 MiniGame에서 MiniGamePlayerData 모듈로 분리하기
 
 ---
 
@@ -235,8 +235,9 @@
 - MiniGameEventDetector에 detectableEvent가 감지 못하는 이벤트 따로 감지 메소드 추가 (getPlayersFromDetailedEvent)
 - MiniGame event handler priority 변경: NORMAL > HIGHEST
 - MiniGame customData에 blockBreak, blockPlace 추가 (blockBreak, blockPlace기본값이 false이므로, 해당 이벤트를 사용하는 미니게임에서는 체크해야 함)
-
-
+- MiniGame에서 MiniGameRankManager 모듈 분리
+- MiniGame에서 MiniGamePlayerData로 player데이터 분리
+- MiniGamePlayerData에 live 변수 추가
 
 
 

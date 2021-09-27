@@ -1,7 +1,6 @@
 package com.minigameworld.minigameframes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,13 +19,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.manager.MiniGameManager;
 import com.minigameworld.manager.playerstate.MiniGamePlayerStateManager;
+import com.minigameworld.manager.utils.MiniGameRankManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
-import com.wbm.plugin.util.SortTool;
 import com.wbm.plugin.util.instance.TaskManager;
 
 public abstract class MiniGame implements MiniGameEventNotifier {
@@ -43,8 +42,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// timer counter
 	private Counter waitingCounter, finishCounter;
 
-	// <player, score>
-	private Map<Player, Integer> players;
+	// player data (score, live)
+	private List<MiniGamePlayerData> players;
 
 	// task manager
 	private TaskManager taskManager;
@@ -54,6 +53,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	// player data manager
 	private MiniGamePlayerStateManager playerStateManager;
+
+	// rank manager
+	private MiniGameRankManager rankManager;
 
 	// abstract methods
 	protected abstract void initGameSettings();
@@ -84,6 +86,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.taskManager = new TaskManager();
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
+		this.rankManager = new MiniGameRankManager(this);
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -126,7 +129,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.started = false;
 
 		if (this.players == null) {
-			this.players = new HashMap<>();
+			this.players = new ArrayList<MiniGamePlayerData>();
 		} else {
 			this.players.clear();
 		}
@@ -378,7 +381,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void runStartTasks() {
 		// check min player count
-		if (!this.isMinPlayerCountRemains()) {
+		if (!this.isMinPlayersLive()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
 			// send message
 			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
@@ -465,7 +468,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void printScore() {
 		// print scores in descending order
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
-		List<Entry<Player, Integer>> entries = SortTool.getDescendingSortedList(this.players);
+
+		List<Entry<Player, Integer>> entries = this.rankManager.getDescendingScoreRanking(this.getPlayers());
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
@@ -501,9 +505,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.handleGameException(p, exception, arg);
 
 		// check min player count
-		if (!this.isMinPlayerCountRemains()) {
+		if (!this.isMinPlayersLive()) {
 			// send message
-			this.sendMessageToAllPlayers("Game end: game needs more players to play");
+			this.sendMessageToAllPlayers("Game end: live players count is under the min player count");
 
 			// end game
 			this.endGame();
@@ -538,12 +542,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public boolean containsPlayer(Player p) {
-		return this.players.containsKey(p);
+		return this.getPlayerData(p) != null;
 	}
 
 	public List<Player> getPlayers() {
-		// copy
-		return new ArrayList<Player>(this.players.keySet());
+		List<Player> players = new ArrayList<>();
+		this.players.forEach(pData -> players.add(pData.getPlayer()));
+		return players;
 	}
 
 	public int getPlayerCount() {
@@ -560,13 +565,15 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	// private
 	private void addPlayer(Player p) {
-		// register player with 0 score
-		this.players.put(p, 0);
+		// register player (score: 0, live: true)
+		this.players.add(new MiniGamePlayerData(p));
 	}
 
 	// private
 	private void removePlayer(Player p) {
-		this.players.remove(p);
+		if (this.containsPlayer(p)) {
+			this.players.remove(this.getPlayerData(p));
+		}
 	}
 
 	protected void sendMessage(Player p, String msg) {
@@ -593,38 +600,83 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, 4, 12, 4));
 	}
 
+	/*
+	 * MiniGamePlayerData
+	 */
+	public MiniGamePlayerData getPlayerData(Player p) {
+		for (MiniGamePlayerData pData : this.players) {
+			if (pData.isSamePlayer(p)) {
+				return pData;
+			}
+		}
+		return null;
+	}
+
 	public int getScore(Player p) {
-		return this.players.get(p);
+		return this.getPlayerData(p).getScore();
 	}
 
-	protected void plusScore(Player p, int score) {
-		int previousScore = this.players.get(p);
-		this.players.put(p, previousScore + score);
+	protected void plusScore(Player p, int amount) {
+		this.getPlayerData(p).plusScore(amount);
 		// check scoreNotifying
 		if (this.isScoreNotifying()) {
-			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + score);
+			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + amount);
 		}
 	}
 
-	protected void plusEveryoneScore(int score) {
-		this.getPlayers().forEach(p -> this.plusScore(p, score));
+	protected void plusEveryoneScore(int amount) {
+		this.getPlayers().forEach(p -> this.plusScore(p, amount));
 	}
 
-	protected void minusScore(Player p, int score) {
-		int previousScore = this.players.get(p);
-		this.players.put(p, previousScore - score);
+	protected void minusScore(Player p, int amount) {
+		this.getPlayerData(p).minusScore(amount);
 		// check scoreNotifying
 		if (this.isScoreNotifying()) {
-			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + score);
+			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + amount);
 		}
 	}
 
-	protected void minusEveryoneScore(int score) {
-		this.getPlayers().forEach(p -> this.minusScore(p, score));
+	protected void minusEveryoneScore(int amount) {
+		this.getPlayers().forEach(p -> this.minusScore(p, amount));
+	}
+
+	protected void setLive(Player p, boolean live) {
+		this.getPlayerData(p).setLive(live);
+
+		// check min player count
+		if (!this.isMinPlayersLive()) {
+			// send message
+			this.sendMessageToAllPlayers("Game end: live players count is under the min player count");
+
+			// end game
+			this.endGame();
+		}
+	}
+
+	protected boolean isLive(Player p) {
+		return this.getPlayerData(p).isLive();
+	}
+	
+	protected List<Player> getLivePlayers() {
+		List<Player> livePlayers = new ArrayList<Player>();
+		for (Player p : this.getPlayers()) {
+			if (this.getPlayerData(p).isLive()) {
+				livePlayers.add(p);
+			}
+		}
+		return livePlayers;
+	}
+
+	protected int getLivePlayersCount() {
+		return this.getLivePlayers().size();
+	}
+
+	protected boolean isMinPlayersLive() {
+		return this.getLivePlayersCount() >= this.getMinPlayerCount();
 	}
 
 	/*
-	 * setters
+	 * CustomData base options
 	 */
 	protected void setScoreNotifying(boolean option) {
 		this.getCustomData().put("scoreNotifying", option);
@@ -677,7 +729,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/*
-	 * getters
+	 * MiniGameSetting getters
 	 */
 	public String getTitle() {
 		return this.getSetting().getTitle();
@@ -697,10 +749,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public int getMinPlayerCount() {
 		return this.getSetting().getMinPlayerCount();
-	}
-
-	protected boolean isMinPlayerCountRemains() {
-		return this.getPlayerCount() >= this.getMinPlayerCount();
 	}
 
 	public int getMaxPlayerCount() {
@@ -757,12 +805,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return members;
 	}
 
-	public List<Entry<Player, Integer>> getScoreRanking() {
-		return SortTool.getDescendingSortedList(this.players);
-	}
-
 	protected TaskManager getTaskManager() {
 		return this.taskManager;
+	}
+
+	protected MiniGameRankManager getMiniGameRankManager() {
+		return this.rankManager;
 	}
 
 	protected Player randomPlayer() {

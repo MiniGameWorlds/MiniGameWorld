@@ -104,7 +104,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		this.plusTeamScore(shooter, 1);
 
 		// check game end
-		if (!this.isMinPlayerCountRemains()) {
+		if (!this.isMinPlayersLive()) {
 			this.endGame();
 		}
 	}
