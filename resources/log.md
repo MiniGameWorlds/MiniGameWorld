@@ -1,8 +1,7 @@
 # 할 것
-- MiniGameManager에서 MiniGameEventDetector 모듈 분리
 - MiniGame customData에 blockBreaking, blockPlace 추가
 - Guava 사용해보기
-- MiniGame에서 player에게 live 변수를 추가할 까 고민중
+- MiniGame에서 player에게 live 변수를 추가하기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 추가 (몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드)
 - party GUI 메뉴 추가하기
@@ -232,9 +231,9 @@
 # 2021-09-26
 - MiniGameSetting에 `passUndetectableEvents` 추가(감지 불가능한 이벤트도 넘기는 옵션) (주의: 미니게임과 관련된 이벤트인지 꼭 확인해야 함)
 
-
-
-
+# 2021-09-27
+- MiniGameManager에서 MiniGameEventDetector 모듈 분리
+- MiniGameEventDetector에 detectableEvent가 감지 못하는 이벤트 따로 감지 메소드 추가 (getPlayersFromDetailedEvent)
 
 
 

@@ -124,14 +124,17 @@ public class MiniGameManager implements YamlMember {
 		// check player is not playing minigame
 		List<Player> members = this.partyManager.getMembers(p);
 		if (!this.isPlayingMiniGame(p)) {
+			// join with party members who is not playing game
 			for (Player member : members) {
-				// join with party members without other members that already playing game
 				if (!this.isPlayingMiniGame(member)) {
-					game.joinGame(member);
 				}
 
-				// message to everyone
-				Party.sendMessage(member, p.getName() + " joined " + game.getTitle() + " with party");
+				// join
+				if (game.joinGame(member)) {
+					// message to everyone
+					Utils.broadcast(member.getName() + " joined " + game.getTitle());
+				}
+
 			}
 		} else {
 			Utils.sendMsg(p, "You already joined other minigame");

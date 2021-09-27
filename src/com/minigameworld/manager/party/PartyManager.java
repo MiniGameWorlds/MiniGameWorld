@@ -214,15 +214,10 @@ public class PartyManager {
 		}
 	}
 
-//	public void messageToEveryone(Player p, String msg) {
-//		// check target player is online
-//		if (!PlayerTool.isPlayerOnline(p)) {
-//			return;
-//		}
-//
-//		Party party = this.getPlayerParty(p);
-//		party.sendMessageToAllMembers("<" + p.getName() + "> " + msg);
-//	}
+	public void sendMessageToPlayerPartyMembers(Player p, String msg) {
+		Party party = this.getPlayerParty(p);
+		party.sendMessageToAllMembers(msg);
+	}
 
 	@SuppressWarnings("deprecation")
 	public void printList(Player p) {
@@ -255,7 +250,7 @@ public class PartyManager {
 		if (!PlayerTool.isPlayerOnline(p)) {
 			return null;
 		}
-		
+
 		Party party = this.getPlayerParty(p);
 		return party.getMembers();
 	}

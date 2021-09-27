@@ -3,7 +3,6 @@ package com.minigameworld.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.manager.party.Party;
 import com.minigameworld.manager.party.PartyManager;
 
 public class MiniGamePartyCommand {
@@ -90,8 +89,7 @@ public class MiniGamePartyCommand {
 
 	private boolean msg(Player p, String[] args) throws Exception {
 		String msg = args[2];
-		Party party = this.partyManager.getPlayerParty(p);
-		party.sendMessageToAllMembers(msg);
+		this.partyManager.sendMessageToPlayerPartyMembers(p, msg);
 		return true;
 	}
 
