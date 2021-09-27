@@ -68,10 +68,9 @@ public class MiniGameEventDetector {
 	public List<Player> getPlayersFromEvent(Event e) {
 		List<Player> eventPlayers = new ArrayList<>();
 
-		// several case
-		if (e instanceof EntityDeathEvent) {
-			Player killer = ((EntityDeathEvent) e).getEntity().getKiller();
-			eventPlayers.add(killer);
+		// check detailed events
+		if (this.getPlayersFromDetailedEvent(e, eventPlayers)) {
+			return eventPlayers;
 		}
 
 		// get players from each Event
@@ -115,4 +114,49 @@ public class MiniGameEventDetector {
 
 		return eventPlayers;
 	}
+
+	private boolean getPlayersFromDetailedEvent(Event event, List<Player> eventPlayers) {
+		// several case
+		if (event instanceof EntityDeathEvent) {
+			Player killer = ((EntityDeathEvent) event).getEntity().getKiller();
+			if (killer != null) {
+				eventPlayers.add(killer);
+			}
+		} else if (event instanceof EntityDamageByEntityEvent) {
+			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+			if (e.getDamager() instanceof Player) {
+				eventPlayers.add((Player) e.getDamager());
+			}
+		}
+
+		return !eventPlayers.isEmpty();
+	}
 }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
