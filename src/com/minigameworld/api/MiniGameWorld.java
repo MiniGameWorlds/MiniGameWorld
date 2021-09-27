@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.manager.MiniGameManager;
+import com.minigameworld.manager.eventdetect.MiniGameEventDetector;
 import com.minigameworld.manager.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.observer.MiniGameObserver;
@@ -40,7 +40,6 @@ public class MiniGameWorld {
 	 * - joinGame
 	 * - leaveGame
 	 * - handleException
-	 * - isPossibleEvent
 	 * - checkPlayerIsPlayingMiniGame
 	 * - getMiniGameWithClassName
 	 * - getPlayingGame
@@ -64,12 +63,8 @@ public class MiniGameWorld {
 		this.minigameManager.handleException(p, exception, arg);
 	}
 
-	public boolean isPossibleEvent(Event event) {
-		return this.minigameManager.isDetectableEvent(event);
-	}
-
-	public boolean isPossibleEvent(Class<? extends Event> event) {
-		return this.minigameManager.isDetectableEvent(event);
+	public MiniGameEventDetector getMiniGameEventDetector() {
+		return this.minigameManager.getMiniGameEventDetector();
 	}
 
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {

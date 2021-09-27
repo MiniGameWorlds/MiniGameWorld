@@ -54,7 +54,7 @@ public class PartyManager {
 		return party.getSize() >= 2;
 	}
 
-	private Party getPlayerParty(Player p) {
+	public Party getPlayerParty(Player p) {
 		/*
 		 * [IMPORTANT] player must always have party ( = not need to check has party ) 
 		 */
@@ -214,15 +214,15 @@ public class PartyManager {
 		}
 	}
 
-	public void messageToEveryone(Player p, String msg) {
-		// check target player is online
-		if (!PlayerTool.isPlayerOnline(p)) {
-			return;
-		}
-
-		Party party = this.getPlayerParty(p);
-		party.sendMessageToAllMembers("<" + p.getName() + "> " + msg);
-	}
+//	public void messageToEveryone(Player p, String msg) {
+//		// check target player is online
+//		if (!PlayerTool.isPlayerOnline(p)) {
+//			return;
+//		}
+//
+//		Party party = this.getPlayerParty(p);
+//		party.sendMessageToAllMembers("<" + p.getName() + "> " + msg);
+//	}
 
 	@SuppressWarnings("deprecation")
 	public void printList(Player p) {
