@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption;
 import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGameAccessor {
@@ -102,12 +103,8 @@ public class MiniGameAccessor {
 		return this.minigame.isSettingFixed();
 	}
 
-	public boolean isScoreNotifying() {
-		return this.minigame.isScoreNotifying();
-	}
-
-	public boolean isChatting() {
-		return this.minigame.isChatting();
+	public Object getCustomOption(MiniGameCustomOption.Option option) {
+		return this.minigame.getMiniGameCustomOption().getCustomOption(option);
 	}
 
 	public List<String> getTutorial() {

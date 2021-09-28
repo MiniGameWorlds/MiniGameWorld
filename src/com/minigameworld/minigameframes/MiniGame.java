@@ -11,13 +11,13 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 import com.minigameworld.minigameframes.utils.MiniGameData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
@@ -39,12 +39,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// Info
 	private MiniGameSetting setting;
 
-	// check game has started
-	private boolean started;
-
-	// player data (score, live)
-	private List<MiniGamePlayerData> players;
-
 	// task manager
 	private MiniGameTaskManager taskManager;
 
@@ -54,11 +48,20 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// rank manager
 	private MiniGameRankManager rankManager;
 
-	// observer list
-	private List<MiniGameObserver> observerList;
-
 	// data
 	private MiniGameData minigameData;
+
+	// custom option
+	private MiniGameCustomOption customOption;
+
+	// check game has started
+	private boolean started;
+
+	// player data (score, live)
+	private List<MiniGamePlayerData> players;
+
+	// observer list
+	private List<MiniGameObserver> observerList;
 
 	// abstract methods
 	protected abstract void initGameSettings();
@@ -100,11 +103,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// register custom data
 		this.registerCustomData();
-		this.getCustomData().put("chatting", true);
-		this.getCustomData().put("scoreNotifying", true);
-		this.getCustomData().put("blockBreak", false);
-		this.getCustomData().put("blockPlace", false);
 
+		// custom option
+		this.customOption = new MiniGameCustomOption(this);
 	}
 
 	/*
@@ -154,44 +155,20 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	// passed event from MiniGameManager
 	public final void passEvent(Event event) {
+		// pass event to custom option
+		this.customOption.processEvent(event);
 
-		// check exception event
+		// check exception events
 		if (event instanceof PlayerQuitEvent) {
 			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.GameException.PLAYER_QUIT_SERVER,
 					event);
+		} else if (event instanceof PlayerChatEvent) {
+			this.processChatting((PlayerChatEvent) event);
 		}
-
-		// option events
-		this.processOptionEvents(event);
 
 		// process event when minigame started
 		if (this.started) {
 			this.processEvent(event);
-		}
-	}
-
-	private void processOptionEvents(Event event) {
-		if (event instanceof PlayerChatEvent) {
-			PlayerChatEvent e = (PlayerChatEvent) event;
-			this._processChatting(e);
-		} else if (event instanceof BlockBreakEvent) {
-			// just cancel event and pass to minigame
-			((BlockBreakEvent) event).setCancelled(!this.isBlockBreak());
-		} else if (event instanceof BlockPlaceEvent) {
-			// just cancel event and pass to minigame
-			((BlockPlaceEvent) event).setCancelled(!this.isBlockPlace());
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	private void _processChatting(PlayerChatEvent e) {
-		if (this.isStarted()) {
-			if (this.isChatting()) {
-				e.setCancelled(true);
-				this.processChatting(e);
-			} else {
-				e.setCancelled(true);
-			}
 		}
 	}
 
@@ -384,11 +361,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// nofity finish event to observers (before remove players)
 		this.notifyObservers(MiniGameEvent.FINISH);
 
-		// setup player
-		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
-
 		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
+
+		// setup player
+		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
 
 		// initSeting ([IMPORTANT] call after done others)
 		initSettings();
@@ -573,7 +550,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void plusScore(Player p, int amount) {
 		this.getPlayerData(p).plusScore(amount);
 		// check scoreNotifying
-		if (this.isScoreNotifying()) {
+		if ((boolean) this.customOption.getCustomOption(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + amount);
 		}
 	}
@@ -585,7 +562,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void minusScore(Player p, int amount) {
 		this.getPlayerData(p).minusScore(amount);
 		// check scoreNotifying
-		if (this.isScoreNotifying()) {
+		if ((boolean) this.customOption.getCustomOption(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + amount);
 		}
 	}
@@ -627,41 +604,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected boolean isMinPlayersLive() {
 		return this.getLivePlayersCount() >= this.getMinPlayerCount();
-	}
-
-	/*
-	 * CustomData base options
-	 */
-	protected void setScoreNotifying(boolean option) {
-		this.getCustomData().put("scoreNotifying", option);
-	}
-
-	public boolean isScoreNotifying() {
-		return (boolean) this.getCustomData().get("scoreNotifying");
-	}
-
-	protected void setChatting(boolean option) {
-		this.getCustomData().put("chatting", true);
-	}
-
-	public boolean isChatting() {
-		return (boolean) this.getCustomData().get("chatting");
-	}
-
-	public void setBlockBreak(boolean active) {
-		this.getCustomData().put("blockBreak", active);
-	}
-
-	public boolean isBlockBreak() {
-		return (boolean) this.getCustomData().get("blockBreak");
-	}
-
-	public void setBlockPlace(boolean active) {
-		this.getCustomData().put("blockPlace", active);
-	}
-
-	public boolean isBlockPlace() {
-		return (boolean) this.getCustomData().get("blockPlace");
 	}
 
 	/*
@@ -738,6 +680,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	public MiniGameData getMiniGameData() {
 		return this.minigameData;
 	}
+	
+	public MiniGameCustomOption getMiniGameCustomOption() {
+		return this.customOption;
+	}
+	
 
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());

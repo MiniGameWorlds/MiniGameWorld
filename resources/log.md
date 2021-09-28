@@ -1,6 +1,4 @@
 # 할 것
-- MiniGameManager의 canPartyJoin()를 Party로 이동
-- MiniGame의 customData에 pvp 넣기 (TeamMiniGame, TeamBattleMiniGame에는 teamPvp도 추가)
 - Guava 사용해보기
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 추가 (보스 몹 레이드, 몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드)
@@ -17,7 +15,6 @@
 > EntityDamagedByEntityEvent의 damager가 Player일 때 
 > EntityDeathEvent의 entity의 killer가 Player일 때
 ```
-- 미니게임마다 파일1개씩 관리하도록 구조 변경
 
 ---
 
@@ -152,7 +149,7 @@
 - wiki 정리
 
 # 2021-09-13
-- 플러그인 이름 MiniGameWorld 로 변경하기
+- 플러그인 이름 MiniGameWorld 로 변경하기 (MiniGameMaker 플러그인 이름이 이미 존재함)
 ```yaml
 # 플러그인 이름 변경
 - 메이커 > 월드, Maker > World
@@ -234,14 +231,27 @@
 
 # 2021-09-27
 - MiniGameManager에서 MiniGameEventDetector 모듈 분리
-- MiniGameEventDetector에 detectableEvent가 감지 못하는 이벤트 따로 감지 메소드 추가 (getPlayersFromDetailedEvent)
+- MiniGameEventDetector에 detectableEvent가 감지 못하는 이벤트 따로 감지 메소드 추가 (getPlayersFromDetailedEvent())
 - MiniGame event handler priority 변경: NORMAL > HIGHEST
 - MiniGame customData에 blockBreak, blockPlace 추가 (blockBreak, blockPlace기본값이 false이므로, 해당 이벤트를 사용하는 미니게임에서는 체크해야 함)
 - MiniGame에서 MiniGameRankManager 모듈 분리
 - MiniGame에서 MiniGamePlayerData로 player데이터 분리
-- MiniGamePlayerData에 live 변수 추가
-- MiniGame에서 TaskManager 모듈 분리
-- 각 MiniGame 관리 file 분리
+- MiniGamePlayerData에 live 변수 추가 (미니게임 종료 시점 체크가 쉬워짐)
+- MiniGame에서 MiniGameTaskManager 모듈 분리
+- 미니게임마다 파일 1개씩 관리하도록 데이터 저장 구조 변경 
+
+# 2021-09-28
+- MiniGame에서 MiniGameCustomOption 분리하기 (e.g. chatting, damage)
+- MiniGame의 MiniGameCustomOption에 pvp 넣기 (TeamBattleMiniGame에는 teamPvp도 추가)
+
+
+
+
+
+
+
+
+
 
 
 

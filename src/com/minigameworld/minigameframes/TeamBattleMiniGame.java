@@ -7,9 +7,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
 
@@ -52,8 +57,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	public TeamBattleMiniGame(String title, int minPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, -1, timeLimit, waitingTime);
 
-		// group chat
-		this.getCustomData().put("groupChat", true);
+		// custom options
+		this.setGroupChat(true);
+		this.setTeamPVP(false);
 
 		// setup teams
 		this.initTeams();
@@ -228,6 +234,14 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return (boolean) this.getCustomData().get("groupChat");
 	}
 
+	protected void setTeamPVP(boolean active) {
+		this.getCustomData().put("teamPvp", active);
+	}
+
+	protected boolean isTeamPvP() {
+		return (boolean) this.getCustomData().get("teamPvp");
+	}
+
 	protected List<Team> getTeamList() {
 		return this.allTeams;
 	}
@@ -368,6 +382,42 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	private void registerPlayers_RANDOM() {
 		this.getPlayers().forEach(p -> this.registerPlayerToRandomTeam(p));
+	}
+
+	@Override
+	protected void processEvent(Event event) {
+		if (event instanceof EntityDamageByEntityEvent) {
+			if (this.isTeamPvP()) {
+				return;
+			}
+
+			// cancel damage by entity
+			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+			Entity victim = e.getEntity();
+			Entity damager = e.getDamager();
+			if (!(victim instanceof Player)) {
+				return;
+			}
+
+			// direct damage
+			if (damager instanceof Player) {
+				if (this.isSameTeam((Player) victim, (Player) damager)) {
+					Utils.debug("cancel same team damage");
+					e.setCancelled(true);
+				}
+			}
+			// projectile damage
+			else if (damager instanceof Projectile) {
+				Projectile proj = (Projectile) damager;
+				if (!(proj.getShooter() instanceof Player)) {
+					return;
+				}
+				if (this.isSameTeam((Player) victim, (Player) proj.getShooter())) {
+					Utils.debug("cancel projectile event");
+					e.setCancelled(true);
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("deprecation")
