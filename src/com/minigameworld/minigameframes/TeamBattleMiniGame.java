@@ -423,6 +423,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void processChatting(PlayerChatEvent e) {
+		if(!this.isStarted()) {
+			super.processChatting(e);
+			return;
+		}
+		
 		// group chat
 		if (this.isGroupChat()) {
 			// cancel event

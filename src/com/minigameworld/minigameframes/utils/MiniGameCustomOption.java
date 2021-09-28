@@ -34,18 +34,18 @@ public class MiniGameCustomOption {
 		this.minigame = minigame;
 
 		// init custom options
-		this.setCustomOption(Option.CHATTING, true);
-		this.setCustomOption(Option.SCORE_NOTIFYING, true);
-		this.setCustomOption(Option.BLOCK_BREAK, false);
-		this.setCustomOption(Option.BLOCK_PLACE, false);
-		this.setCustomOption(Option.PVP, false);
+		this.setOption(Option.CHATTING, true);
+		this.setOption(Option.SCORE_NOTIFYING, true);
+		this.setOption(Option.BLOCK_BREAK, false);
+		this.setOption(Option.BLOCK_PLACE, false);
+		this.setOption(Option.PVP, false);
 	}
 
-	public void setCustomOption(Option option, Object value) {
+	public void setOption(Option option, Object value) {
 		this.setData(option.getKeyString(), value);
 	}
 
-	public Object getCustomOption(Option option) {
+	public Object getOption(Option option) {
 		return this.getData(option.getKeyString());
 	}
 
@@ -60,13 +60,13 @@ public class MiniGameCustomOption {
 	public void processEvent(Event event) {
 		if (event instanceof PlayerChatEvent) {
 			PlayerChatEvent e = (PlayerChatEvent) event;
-			e.setCancelled(!(boolean) this.getCustomOption(Option.CHATTING));
+			e.setCancelled(!(boolean) this.getOption(Option.CHATTING));
 		} else if (event instanceof BlockBreakEvent) {
-			((BlockBreakEvent) event).setCancelled(!(boolean) this.getCustomOption(Option.BLOCK_BREAK));
+			((BlockBreakEvent) event).setCancelled(!(boolean) this.getOption(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {
-			((BlockPlaceEvent) event).setCancelled(!(boolean) this.getCustomOption(Option.BLOCK_PLACE));
+			((BlockPlaceEvent) event).setCancelled(!(boolean) this.getOption(Option.BLOCK_PLACE));
 		} else if (event instanceof EntityDamageByEntityEvent) {
-			if ((boolean) this.getCustomOption(Option.PVP)) {
+			if ((boolean) this.getOption(Option.PVP)) {
 				return;
 			}
 

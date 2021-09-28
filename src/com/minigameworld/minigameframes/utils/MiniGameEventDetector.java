@@ -8,6 +8,7 @@ import java.util.Set;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -45,24 +46,16 @@ public class MiniGameEventDetector {
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
 	}
 
-	// check detectable event (using isAssignableFrom())
+	// check detectable event
+
+	// [IMPORTANT] never check in detectableEventList (bacause, detectableEventList
+	// can't not get player in every event)
 	public boolean isDetectableEvent(Event event) {
-		for (Class<? extends Event> c : this.detectableEventList) {
-			if (c.isAssignableFrom(event.getClass())) {
-				return true;
-			}
-		}
-		return false;
+		return !this.getPlayersFromEvent(event).isEmpty();
 	}
 
-	// check detectable event (using isAssignableFrom())
 	public boolean isDetectableEvent(Class<? extends Event> event) {
-		for (Class<? extends Event> c : this.detectableEventList) {
-			if (c.isAssignableFrom(event)) {
-				return true;
-			}
-		}
-		return false;
+		return this.isDetectableEvent(event);
 	}
 
 	public List<Player> getPlayersFromEvent(Event e) {
@@ -126,6 +119,13 @@ public class MiniGameEventDetector {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			if (e.getDamager() instanceof Player) {
 				eventPlayers.add((Player) e.getDamager());
+			}
+			// check projectile
+			else if (e.getDamager() instanceof Projectile) {
+				Projectile proj = (Projectile) e.getDamager();
+				if (proj.getShooter() instanceof Player) {
+					eventPlayers.add((Player) proj.getShooter());
+				}
 			}
 		}
 

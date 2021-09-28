@@ -19,6 +19,7 @@ import com.minigameworld.minigameframes.games.RandomScore;
 import com.minigameworld.minigameframes.games.RemoveBlock;
 import com.minigameworld.minigameframes.games.RockScissorPaper;
 import com.minigameworld.minigameframes.games.ScoreClimbing;
+import com.minigameworld.minigameframes.games.SuperMob;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -99,6 +100,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		minigameWorld.registerMiniGame(new RemoveBlock());
 		minigameWorld.registerMiniGame(new HiddenArcher());
 		minigameWorld.registerMiniGame(new BreedMob());
+		minigameWorld.registerMiniGame(new SuperMob());
 	}
 
 	private void processRemainedPlayersWhenServerStart() {

@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.TeamMiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
 
@@ -26,8 +27,9 @@ public class RemoveBlock extends TeamMiniGame {
 		super("RemoveBlock", 1, 4, 60 * 3, 10);
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
-		
-		this.setBlockBreak(true);
+
+		this.getCustomOption().setOption(Option.BLOCK_BREAK, true);
+
 	}
 
 	protected void registerTasks() {

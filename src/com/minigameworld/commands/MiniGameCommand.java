@@ -148,9 +148,9 @@ public class MiniGameCommand implements CommandExecutor {
 		// reload "setting.yml", "minigames.yml"
 		this.minigameManager.reload();
 		Utils.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
-		Utils.sendMsg(p, "- " + this.minigameManager.getFileName());
+		p.sendMessage("- " + this.minigameManager.getFileName());
 		this.minigameManager.getMiniGameList().forEach(m -> {
-			Utils.sendMsg(p, " - " + m.getTitleWithClassName());
+			p.sendMessage("- " + m.getTitleWithClassName());
 		});
 		return true;
 	}

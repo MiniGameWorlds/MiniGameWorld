@@ -104,7 +104,7 @@ public class MiniGameAccessor {
 	}
 
 	public Object getCustomOption(MiniGameCustomOption.Option option) {
-		return this.minigame.getMiniGameCustomOption().getCustomOption(option);
+		return this.minigame.getCustomOption().getOption(option);
 	}
 
 	public List<String> getTutorial() {

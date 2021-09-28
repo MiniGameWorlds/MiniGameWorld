@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*
@@ -26,7 +27,8 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	public ScoreClimbing() {
 		super("ScoreClimbing", 2, 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
-		this.setScoreNotifying(false);
+		this.getCustomOption().setOption(Option.SCORE_NOTIFYING, false);
+
 
 		this.registerTasks();
 

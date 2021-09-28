@@ -48,7 +48,7 @@ public class BreedMob extends TeamMiniGame {
 
 	public BreedMob() {
 		super("BreedMob", 1, 4, 60 * 3, 10);
-		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
+		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class BreedMob extends TeamMiniGame {
 		if (event instanceof PlayerDeathEvent) {
 			PlayerDeathEvent e = (PlayerDeathEvent) event;
 			Player p = e.getEntity();
-			
+
 			// set live: false, gamemode: spectator
 			p.setGameMode(GameMode.SPECTATOR);
 			this.setLive(p, false);
@@ -136,7 +136,11 @@ public class BreedMob extends TeamMiniGame {
 
 	@Override
 	protected List<String> registerTutorial() {
-		return null;
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Kill mob: +1");
+		tutorial.add("Death: spectator");
+		tutorial.add("Mobs will be copied when die");
+		return tutorial;
 	}
 
 }

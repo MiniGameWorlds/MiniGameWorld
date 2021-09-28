@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 
 public class FitTool extends SoloMiniGame {
 	/*
@@ -22,7 +23,7 @@ public class FitTool extends SoloMiniGame {
 	public FitTool() {
 		super("FitTool", 30, 10);
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
-		this.setScoreNotifying(false);
+		this.getCustomOption().setOption(Option.SCORE_NOTIFYING, false);
 		this.getSetting().setPassUndetectableEvents(true);
 	}
 

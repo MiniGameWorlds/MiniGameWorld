@@ -173,6 +173,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	protected void processChatting(PlayerChatEvent e) {
+		e.setCancelled(true);
 		Player p = e.getPlayer();
 		String msg = e.getMessage();
 		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
@@ -272,8 +273,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// print tutorial
 		this.printGameTutorial(p);
 
-		// notify other players to join the game
-		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
+//		// notify other players to join the game
+//		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
 	}
 
 	private void printGameTutorial(Player p) {
@@ -312,7 +313,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public void runStartTasks() {
 		// check min player count
-		if (!this.isMinPlayersLive()) {
+		if (this.getPlayerCount() < this.getMinPlayerCount()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
 			// send message
 			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
@@ -550,7 +551,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void plusScore(Player p, int amount) {
 		this.getPlayerData(p).plusScore(amount);
 		// check scoreNotifying
-		if ((boolean) this.customOption.getCustomOption(Option.SCORE_NOTIFYING)) {
+		if ((boolean) this.customOption.getOption(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + amount);
 		}
 	}
@@ -562,7 +563,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void minusScore(Player p, int amount) {
 		this.getPlayerData(p).minusScore(amount);
 		// check scoreNotifying
-		if ((boolean) this.customOption.getCustomOption(Option.SCORE_NOTIFYING)) {
+		if ((boolean) this.customOption.getOption(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + amount);
 		}
 	}
@@ -680,11 +681,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	public MiniGameData getMiniGameData() {
 		return this.minigameData;
 	}
-	
-	public MiniGameCustomOption getMiniGameCustomOption() {
+
+	public MiniGameCustomOption getCustomOption() {
 		return this.customOption;
 	}
-	
 
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());
