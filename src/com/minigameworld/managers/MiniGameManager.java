@@ -90,20 +90,20 @@ public class MiniGameManager implements YamlMember {
 		lobby = (Location) this.settings.get("lobby");
 
 		// minigameSign
-		if (!this.settings.containsKey("minigameSign")) {
-			this.settings.put("minigameSign", true);
+		if (!this.settings.containsKey("minigame-sign")) {
+			this.settings.put("minigame-sign", true);
 		}
 
 		// minigameCommand
-		if (!this.settings.containsKey("minigameCommand")) {
-			this.settings.put("minigameCommand", true);
+		if (!this.settings.containsKey("minigame-command")) {
+			this.settings.put("minigame-command", true);
 		}
 
 		// messagePrefix
-		if (!this.settings.containsKey("messagePrefix")) {
-			this.settings.put("messagePrefix", "MiniGameWorld");
+		if (!this.settings.containsKey("message-prefix")) {
+			this.settings.put("message-prefix", "MiniGameWorld");
 		}
-		Utils.messagePrefix = (String) this.settings.get("messagePrefix");
+		Utils.messagePrefix = (String) this.settings.get("message-prefix");
 	}
 
 	public void joinGame(Player p, String title) {
