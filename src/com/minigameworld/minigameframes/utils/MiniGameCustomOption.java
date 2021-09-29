@@ -7,15 +7,17 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 
 public class MiniGameCustomOption {
 	public enum Option {
-		CHATTING("chatting"), SCORE_NOTIFYING("scoreNotifying"), BLOCK_BREAK("blockBreak"), BLOCK_PLACE("blockPlace"),
-		PVP("pvp");
+		CHATTING("chatting"), SCORE_NOTIFYING("score-notifying"), BLOCK_BREAK("block-break"),
+		BLOCK_PLACE("block-place"), PVP("pvp"), INVENTORY_SAVE("inventory-save"), MINIGAME_RESPAWN("minigame-respawn");
 
 		private String keyString;
 
@@ -39,6 +41,8 @@ public class MiniGameCustomOption {
 		this.setOption(Option.BLOCK_BREAK, false);
 		this.setOption(Option.BLOCK_PLACE, false);
 		this.setOption(Option.PVP, false);
+		this.setOption(Option.INVENTORY_SAVE, true);
+		this.setOption(Option.MINIGAME_RESPAWN, true);
 	}
 
 	public void setOption(Option option, Object value) {
@@ -89,6 +93,16 @@ public class MiniGameCustomOption {
 					e.setCancelled(true);
 				}
 			}
+		} else if (event instanceof PlayerDeathEvent) {
+			PlayerDeathEvent e = (PlayerDeathEvent) event;
+			// keep inv
+			e.setKeepInventory(true);
+
+			// remove drops
+			e.getDrops().clear();
+		} else if (event instanceof PlayerRespawnEvent) {
+			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
+			e.setRespawnLocation(this.minigame.getLocation());
 		}
 	}
 
