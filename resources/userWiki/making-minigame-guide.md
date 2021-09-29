@@ -107,7 +107,7 @@ protected void registerCustomData() {
 }
 ```
 ### 데이터 사용하는 법
-커스템 데이터 사용은 `getCustomData()`로 접근해서 미니게임의 **생성자를 제외한** 어디에서나 사용 가능
+- 커스템 데이터 사용은 `getCustomData()`로 접근해서 미니게임의 어디에서나 사용 가능
 ```java
 @SuppressWarnings("unchecked")
 @Override
