@@ -1,10 +1,11 @@
 # 할 것
+- config 파일 key값 모두 폼 바꾸기 (e.g. setPvp > set-pvp)
 - 만든 미니게임
 - 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 주문 제작 양식 만들기
-- 미니게임 추가 (몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드, 디펜스 게임)
+- 미니게임 추가 (몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드, 디펜스 게임, 스킬 대전)
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
@@ -261,7 +262,9 @@ if(!this.isMinPlayersLive()) {
 ```
 - detectable event 리스트 수정
 - detailed event리스트 추가 (BlockEvent)
-
+- 미니게임 PassMob 추가
+- MiniGameSetting에 RankOrder 추가
+- MiniGameCustomOption에 INVENTORY_SAVE, MINIGAME_RESPAWN 추가
 
 
 

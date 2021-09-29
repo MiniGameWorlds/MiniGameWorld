@@ -14,6 +14,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 
+import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
@@ -27,7 +28,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * - team has same score
 	 * - team util class, methods
 	 * - groupChat
-	 * - Team Register Method: NONE, FAIR, FILL, FAIR_FILL, RANDOM or can divide overriding registerPlayersToTeam()
+	 * - Team Register Mode: NONE, FAIR, FILL, FAIR_FILL, RANDOM or can divide overriding registerPlayersToTeam()
 	 * > e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4
 	 * > NONE: no divide (use registerPlayersToTeam())
 	 * > FAIR: all teams have the same player count (= maximun team count) (e.g. 4, 3, 3, 3)
@@ -38,16 +39,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * [Rule]
 	 * - create Teams with createTeams()
 	 * - When use initGameSetting(), must call super.initGameSetting()
-	 * - If use TeamRegisterMethod.NONE, register players to team using registerPlayersToTeam()
+	 * - If use TeamRegisterMode.NONE, register players to team using registerPlayersToTeam()
 	 * 
 	 */
 
-	public enum TeamRegisterMethod {
+	public enum TeamRegisterMode {
 		NONE, FAIR, FILL, FAIR_FILL, RANDOM;
 	}
 
 	private List<Team> allTeams;
-//	private TeamRegisterMethod teamRegisterMethod;
 
 	protected abstract void createTeams();
 
@@ -77,8 +77,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 		this.getSetting().setMaxPlayerCount(allMemberCount);
 
-		// set team register method
-		this.setTeamRegisterMethod(TeamRegisterMethod.FAIR_FILL);
+		// set team register mode
+		this.setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
 	}
 
 	/*
@@ -218,12 +218,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/*
 	 * setter, getter
 	 */
-	protected void setTeamRegisterMethod(TeamRegisterMethod teamRegisterMethod) {
-		this.getCustomData().put("teamRegisterMethod", teamRegisterMethod.name());
+	protected void setTeamRegisterMode(TeamRegisterMode teamRegisterMode) {
+		this.getCustomData().put("teamRegisterMode", teamRegisterMode.name());
 	}
 
-	protected TeamRegisterMethod getTeamRegisterMethod() {
-		return TeamRegisterMethod.valueOf((String) this.getCustomData().get("teamRegisterMethod"));
+	protected TeamRegisterMode getTeamRegisterMode() {
+		return TeamRegisterMode.valueOf((String) this.getCustomData().get("teamRegisterMode"));
 	}
 
 	protected void setGroupChat(boolean groupChat) {
@@ -278,10 +278,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		team.plusTeamScore(score);
 	}
 
-	@Override
-	protected void plusScore(Player p, int score) {
-		this.plusTeamScore(p, score);
-	}
+//	@Override
+//	protected void plusScore(Player p, int score) {
+//		this.plusTeamScore(p, score);
+//	}
 
 	protected void minusTeamScore(int teamNumber, int score) {
 		Team team = this.getTeam(teamNumber);
@@ -293,10 +293,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		team.minusTeamScore(score);
 	}
 
-	@Override
-	protected void minusScore(Player p, int score) {
-		this.minusTeamScore(p, score);
-	}
+//	@Override
+//	protected void minusScore(Player p, int score) {
+//		this.minusTeamScore(p, score);
+//	}
 
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
@@ -321,7 +321,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void runTaskAfterStart() {
-		switch (this.getTeamRegisterMethod()) {
+		switch (this.getTeamRegisterMode()) {
 		case NONE:
 			this.registerPlayersToTeam();
 			break;
@@ -465,7 +465,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		// rank team by score
-		List<Entry<Team, Integer>> entries = SortTool.getDescendingSortedList(leftTeams);
+		List<Entry<Team, Integer>> entries = this.getRank(leftTeams);
 		int rank = 1;
 		for (Entry<Team, Integer> entry : entries) {
 			int score = entry.getValue();
@@ -475,6 +475,16 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			rank += 1;
 		}
 
+	}
+
+	private List<Entry<Team, Integer>> getRank(Map<Team, Integer> leftTeams) {
+		// return rank with MiniGame RankOrder setting
+		RankOrder order = this.getSetting().getRankOrder();
+		if (order == RankOrder.ASCENDING) {
+			return SortTool.getAscendingSortedList(leftTeams);
+		} else { // if (order == RankOrder.DESCENDING) {
+			return SortTool.getDescendingSortedList(leftTeams);
+		}
 	}
 
 	public class Team {

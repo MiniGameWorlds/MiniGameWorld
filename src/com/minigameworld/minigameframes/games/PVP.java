@@ -45,6 +45,7 @@ public class PVP extends SoloBattleMiniGame {
 		items.add(new ItemStack(Material.ARROW, 32));
 		items.add(new ItemStack(Material.COOKED_PORKCHOP, 10));
 		items.add(new ItemStack(Material.GOLDEN_APPLE));
+		items.add(new ItemStack(Material.WOODEN_AXE));
 		customData.put("items", items);
 	}
 

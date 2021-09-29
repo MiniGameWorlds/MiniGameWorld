@@ -11,10 +11,12 @@ import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.games.BreedMob;
+import com.minigameworld.minigameframes.games.FallingBlock;
 import com.minigameworld.minigameframes.games.FitTool;
 import com.minigameworld.minigameframes.games.HiddenArcher;
 import com.minigameworld.minigameframes.games.MoreHit;
 import com.minigameworld.minigameframes.games.PVP;
+import com.minigameworld.minigameframes.games.PassMob;
 import com.minigameworld.minigameframes.games.RandomScore;
 import com.minigameworld.minigameframes.games.RemoveBlock;
 import com.minigameworld.minigameframes.games.RockScissorPaper;
@@ -101,6 +103,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 		minigameWorld.registerMiniGame(new HiddenArcher());
 		minigameWorld.registerMiniGame(new BreedMob());
 		minigameWorld.registerMiniGame(new SuperMob());
+		minigameWorld.registerMiniGame(new PassMob());
+		minigameWorld.registerMiniGame(new FallingBlock());
 	}
 
 	private void processRemainedPlayersWhenServerStart() {

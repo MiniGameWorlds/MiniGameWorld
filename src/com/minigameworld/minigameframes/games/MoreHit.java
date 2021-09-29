@@ -23,7 +23,7 @@ public class MoreHit extends TeamBattleMiniGame {
 	public MoreHit() {
 		super("MoreHit", 2, 20, 10);
 		this.setGroupChat(true);
-		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
+		this.setTeamRegisterMode(TeamRegisterMode.NONE);
 		this.getSetting().setIcon(Material.STICK);
 		this.getCustomOption().setOption(Option.PVP, true);
 	}

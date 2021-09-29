@@ -177,10 +177,10 @@ public class CommonEventListener implements Listener {
 				String title = sign.getLines()[1];
 
 				// check minigameSign option
-				boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigameSign");
+				boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigame-sign");
 				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
 					if (!minigameSign) {
-						p.sendMessage("minigameSign option is false");
+						p.sendMessage("minigame-sign option is false");
 						return;
 					}
 

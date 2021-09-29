@@ -65,7 +65,7 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean canCommandUse() {
-		return (boolean) this.minigameManager.getGameSetting().get("minigameCommand");
+		return (boolean) this.minigameManager.getGameSetting().get("minigame-command");
 	}
 
 	private boolean join(Player p, String[] args) throws Exception {
@@ -75,7 +75,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
 		}
 
 		String title = args[1];
@@ -90,7 +90,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
 		}
 
 		this.minigameManager.leaveGame(p);
@@ -101,7 +101,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
 		}
 
 		List<MiniGame> games = this.minigameManager.getMiniGameList();
@@ -131,7 +131,7 @@ public class MiniGameCommand implements CommandExecutor {
 	private boolean gui(Player p, String[] args) {
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigameCommand option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
 		}
 
 		MiniGameGUIManager guiManager = this.minigameManager.getMiniGameGUIManager();

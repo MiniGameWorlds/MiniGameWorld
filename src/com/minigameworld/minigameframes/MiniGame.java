@@ -18,6 +18,7 @@ import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.utils.MiniGameCustomOption;
 import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
 import com.minigameworld.minigameframes.utils.MiniGameData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
@@ -396,12 +397,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		printScore();
 	}
 
+	// print scores in rank order
 	// can print differently depending on game type
 	protected void printScore() {
-		// print scores in descending order
 		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
 
-		List<Entry<Player, Integer>> entries = this.rankManager.getDescendingScoreRanking(this.getPlayers());
+		List<Entry<Player, Integer>> entries = this.getRank(this.getPlayers());
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
@@ -410,6 +411,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			rank += 1;
 		}
 
+	}
+
+	protected List<Entry<Player, Integer>> getRank(List<Player> players) {
+		// return rank with MiniGame RankOrder setting
+		RankOrder order = this.getSetting().getRankOrder();
+		if (order == RankOrder.ASCENDING) {
+			return this.rankManager.getAscendingScoreRanking(players);
+		} else { // if (order == RankOrder.DESCENDING) {
+			return this.rankManager.getDescendingScoreRanking(players);
+		}
 	}
 
 	public enum GameException {
