@@ -66,6 +66,10 @@ public class BreedMob extends TeamMiniGame {
 			p.setGameMode(GameMode.SPECTATOR);
 			this.setLive(p, false);
 
+			if (!this.isMinPlayersLive()) {
+				this.endGame();
+			}
+
 		} else if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 

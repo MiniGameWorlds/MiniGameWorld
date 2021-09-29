@@ -575,14 +575,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void setLive(Player p, boolean live) {
 		this.getPlayerData(p).setLive(live);
 
-		// check min player count
-		if (!this.isMinPlayersLive()) {
-			// send message
-			this.sendMessageToAllPlayers("Game end: live players count is under the min player count");
-
-			// end game
-			this.endGame();
-		}
+//		// check min player count
+//		if (!this.isMinPlayersLive()) {
+//			// send message
+//			this.sendMessageToAllPlayers("Game end: live players count is under the min player count");
+//
+//			// end game
+//			this.endGame();
+//		}
 	}
 
 	protected boolean isLive(Player p) {

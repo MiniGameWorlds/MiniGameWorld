@@ -3,8 +3,6 @@ package com.minigameworld.minigameframes.games;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,36 +19,21 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.wbm.plugin.util.InventoryTool;
-
-import net.kyori.adventure.text.format.NamedTextColor;
 
 public class SuperMob extends SoloBattleMiniGame {
 
 	private Zombie superMob;
 	private List<Entity> entities;
 	double skillChance;
-	private Scoreboard board;
 
 	public SuperMob() {
 		super("SuperMob", 1, 5, 60 * 3, 10);
 		this.entities = new ArrayList<>();
 		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
 		this.getSetting().setPassUndetectableEvents(true);
-
-		// for supermob glowing color
-		this.board = Bukkit.getScoreboardManager().getNewScoreboard();
-		Team red = this.board.registerNewTeam(Mode.ATTACK.name());
-		red.setColor(ChatColor.RED);
-		red.color(NamedTextColor.RED);
-		Team blue = this.board.registerNewTeam(Mode.DEFENSE.name());
-		blue.color(NamedTextColor.BLUE);
-		Team yellow = this.board.registerNewTeam(Mode.FAST.name());
-		yellow.color(NamedTextColor.YELLOW);
 
 		// random targeting task
 		this.getTaskManager().registerTask("changeTarget", new Runnable() {
@@ -159,6 +142,10 @@ public class SuperMob extends SoloBattleMiniGame {
 			e.getDrops().clear();
 			p.setGameMode(GameMode.SPECTATOR);
 			this.setLive(p, false);
+			
+			if(!this.isMinPlayersLive()) {
+				this.endGame();
+			}
 		} else if (event instanceof PlayerRespawnEvent) {
 			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
 			e.setRespawnLocation(this.getLocation());
@@ -244,9 +231,6 @@ public class SuperMob extends SoloBattleMiniGame {
 			this.useFastMode();
 			break;
 		}
-
-		// glow with color
-		this.setGlowing(mode);
 	}
 
 	private void useAttackMode() {
@@ -262,10 +246,6 @@ public class SuperMob extends SoloBattleMiniGame {
 	private void useFastMode() {
 		this.superMob.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 0));
 		this.sendMessageToAllPlayers("SuperMob uses fast mode");
-	}
-
-	private void setGlowing(Mode mode) {
-		this.board.getTeam(mode.name()).addEntry(this.superMob.getUniqueId().toString());
 	}
 
 	@Override

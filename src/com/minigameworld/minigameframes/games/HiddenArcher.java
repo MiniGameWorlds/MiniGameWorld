@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -90,18 +91,26 @@ public class HiddenArcher extends TeamBattleMiniGame {
 					}
 				}
 			}
+		} else if (event instanceof EntityShootBowEvent) {
+			EntityShootBowEvent e = (EntityShootBowEvent) event;
+			Player p = (Player) e.getEntity();
+			p.getInventory().addItem(new ItemStack(Material.ARROW));
 		}
 	}
 
 	private void shootPlayer(Player shooter, Player victim) {
+		// damager
+		this.sendTitle(shooter, "HIT", "");
+		this.plusTeamScore(shooter, 1);
+
 		// victim
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
 		victim.setGameMode(GameMode.SPECTATOR);
 		this.setLive(victim, false);
-
-		// damager
-		this.sendTitle(shooter, "HIT", "");
-		this.plusTeamScore(shooter, 1);
+		
+		if(!this.isMinPlayersLive()) {
+			this.endGame();
+		}
 	}
 
 	@Override
@@ -116,7 +125,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 		// give tools
 		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.BOW));
-		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.ARROW, 64));
+		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.ARROW, 5));
 	}
 
 }

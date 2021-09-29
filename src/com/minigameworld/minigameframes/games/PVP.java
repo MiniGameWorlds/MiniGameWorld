@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
 
 public class PVP extends SoloBattleMiniGame {
@@ -31,6 +32,7 @@ public class PVP extends SoloBattleMiniGame {
 		super("PVP", 2, 5, 60 * 3, 10);
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setIcon(Material.STONE_SWORD);
+		this.getCustomOption().setOption(Option.PVP, true);
 	}
 
 	@Override

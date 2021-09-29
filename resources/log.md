@@ -243,10 +243,20 @@
 # 2021-09-28
 - MiniGame에서 MiniGameCustomOption 분리하기 (e.g. chatting, damage)
 - MiniGame의 MiniGameCustomOption에 pvp 넣기 (TeamBattleMiniGame에는 teamPvp도 추가)
+- 미니게임 SuperMob 추가
+- undetectableEvent 로직 수정 (passUndetectableEvent옵션이 true인 미니게임들에게도 event pass하기 전에 최대한 detectableEvent에서 Player를 찾아서 처리한 후에 찾지 못할시에 pass)
 
-
-
-
+# 2021-09-29
+- MiniGame의 setLive()의 내부에서 isMinPlayersLive() 자동으로 검사하지 말고 수동으로 미니게임 구현할 때 검사하게 하기 
+> 미니게임에서 항상 live를 사용하지 않아도 됨 (다른 조건을 이용해서 게임 종료조건을 만들어도 됨)
+> 플레이어가 미니게임 나갈 때: isMinPlayersLive()가 자동으로 검사됨
+> 시간의 모두 흐르는것을 기다려서 게임을 끝내도 됨
+```java
+// e.g.
+if(!this.isMinPlayersLive()) {
+	this.endGame();
+}
+```
 
 
 

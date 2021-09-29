@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.minigameworld.minigameframes.TeamBattleMiniGame;
+import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.PlayerTool;
 
 public class MoreHit extends TeamBattleMiniGame {
@@ -24,6 +25,7 @@ public class MoreHit extends TeamBattleMiniGame {
 		this.setGroupChat(true);
 		this.setTeamRegisterMethod(TeamRegisterMethod.NONE);
 		this.getSetting().setIcon(Material.STICK);
+		this.getCustomOption().setOption(Option.PVP, true);
 	}
 
 	@Override

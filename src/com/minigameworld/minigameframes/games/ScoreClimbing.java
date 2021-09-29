@@ -96,6 +96,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			// sneak: stop my score
 			PlayerToggleSneakEvent e = (PlayerToggleSneakEvent) event;
 			Player p = e.getPlayer();
+			this.setLive(p, false);
 
 			this.sendMessage(p, "Your score has been stopped");
 
@@ -103,7 +104,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			this.chance.put(p, -1);
 
 			// check if all player stopped own score
-			if (this.isAllPlayerStoppedScore()) {
+			if(!this.isMinPlayersLive()) {
 				this.endGame();
 			}
 		} else if (event instanceof EntityDamageByEntityEvent) {
@@ -113,15 +114,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 				e.setCancelled(true);
 			}
 		}
-	}
-
-	private boolean isAllPlayerStoppedScore() {
-		for (int chance : this.chance.values()) {
-			if (chance != -1) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Override
