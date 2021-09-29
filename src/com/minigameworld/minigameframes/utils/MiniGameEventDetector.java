@@ -11,7 +11,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.block.BlockFertilizeEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockReceiveGameEvent;
+import org.bukkit.event.block.BlockShearEntityEvent;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -21,6 +30,10 @@ import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.Inventory;
+
+import com.destroystokyo.paper.event.block.TNTPrimeEvent;
+
+import io.papermc.paper.event.block.BellRingEvent;
 
 public class MiniGameEventDetector {
 	// detectable events
@@ -36,8 +49,6 @@ public class MiniGameEventDetector {
 		this.detectableEventList = new HashSet<>();
 
 		// events only related with Player
-		this.detectableEventList.add(BlockBreakEvent.class);
-		this.detectableEventList.add(BlockPlaceEvent.class);
 		this.detectableEventList.add(PlayerEvent.class);
 		this.detectableEventList.add(EntityEvent.class);
 		this.detectableEventList.add(HangingEvent.class);
@@ -67,11 +78,7 @@ public class MiniGameEventDetector {
 		}
 
 		// get players from each Event
-		if (e instanceof BlockBreakEvent) {
-			eventPlayers.add(((BlockBreakEvent) e).getPlayer());
-		} else if (e instanceof BlockPlaceEvent) {
-			eventPlayers.add(((BlockPlaceEvent) e).getPlayer());
-		} else if (e instanceof PlayerEvent) {
+		if (e instanceof PlayerEvent) {
 			eventPlayers.add(((PlayerEvent) e).getPlayer());
 		} else if (e instanceof EntityEvent) {
 			Entity entity = ((EntityEvent) e).getEntity();
@@ -98,11 +105,6 @@ public class MiniGameEventDetector {
 			}
 		} else if (e instanceof PlayerLeashEntityEvent) {
 			eventPlayers.add(((PlayerLeashEntityEvent) e).getPlayer());
-		} else if (e instanceof EntityDamageByEntityEvent) {
-			Entity damager = ((EntityDamageByEntityEvent) e).getDamager();
-			if (damager instanceof Player) {
-				eventPlayers.add((Player) damager);
-			}
 		}
 
 		return eventPlayers;
@@ -110,6 +112,59 @@ public class MiniGameEventDetector {
 
 	private boolean getPlayersFromDetailedEvent(Event event, List<Player> eventPlayers) {
 		// several case
+		if (event instanceof BlockEvent) {
+			this.getPlayersFromBlockEvent((BlockEvent) event, eventPlayers);
+		} else if (event instanceof EntityEvent) {
+			this.getPlayersFromEntityEvent((EntityEvent) event, eventPlayers);
+		}
+
+		return !eventPlayers.isEmpty();
+	}
+
+	private void getPlayersFromBlockEvent(BlockEvent event, List<Player> eventPlayers) {
+		if (event instanceof BellRingEvent) {
+			BellRingEvent e = (BellRingEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof BlockBreakEvent) {
+			eventPlayers.add(((BlockBreakEvent) event).getPlayer());
+		} else if (event instanceof BlockDamageEvent) {
+			eventPlayers.add(((BlockDamageEvent) event).getPlayer());
+		} else if (event instanceof BlockDropItemEvent) {
+			eventPlayers.add(((BlockDropItemEvent) event).getPlayer());
+		} else if (event instanceof BlockFertilizeEvent) {
+			eventPlayers.add(((BlockFertilizeEvent) event).getPlayer());
+		} else if (event instanceof BlockIgniteEvent) {
+			eventPlayers.add(((BlockIgniteEvent) event).getPlayer());
+		} else if (event instanceof BlockPlaceEvent) {
+			eventPlayers.add(((BlockPlaceEvent) event).getPlayer());
+		} else if (event instanceof BlockReceiveGameEvent) {
+			BlockReceiveGameEvent e = (BlockReceiveGameEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof BlockShearEntityEvent) {
+			BlockShearEntityEvent e = (BlockShearEntityEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof CauldronLevelChangeEvent) {
+			CauldronLevelChangeEvent e = (CauldronLevelChangeEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof SignChangeEvent) {
+			eventPlayers.add(((SignChangeEvent) event).getPlayer());
+		} else if (event instanceof TNTPrimeEvent) {
+			TNTPrimeEvent e = (TNTPrimeEvent) event;
+			if (e.getPrimerEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getPrimerEntity());
+			}
+		}
+	}
+
+	private void getPlayersFromEntityEvent(EntityEvent event, List<Player> eventPlayers) {
 		if (event instanceof EntityDeathEvent) {
 			Player killer = ((EntityDeathEvent) event).getEntity().getKiller();
 			if (killer != null) {
@@ -128,8 +183,6 @@ public class MiniGameEventDetector {
 				}
 			}
 		}
-
-		return !eventPlayers.isEmpty();
 	}
 }
 //

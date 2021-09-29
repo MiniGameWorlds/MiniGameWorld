@@ -1,17 +1,19 @@
 # 할 것
-- Guava 사용해보기
+- 만든 미니게임
+- 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
+- MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
-- 미니게임 추가 (보스 몹 레이드, 몬스터 많이 죽이기, 몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드, 디펜스 게임)
+- 미니게임 주문 제작 양식 만들기
+- 미니게임 추가 (몬스터 많이 넘기기, 블럭 땅따먹기, 블럭 더 많이 자기 색깔로 바꾸기, 점프맵, 플레이어 보스레이드, 몬스터 레이드, 디펜스 게임)
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
 - java docs 만들기: 모두다 만들기 (외부에 API 공개할 때는 private 없이, 개발 관련 api는 private 옵션 줘서 생성)
-- MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
-- 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
 ## Event Detection 관련
 ```
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - 감지 못하는 이벤트들 일일히 검색해서 수동으로 추가하기
+- e.g.
 > EntityDamagedByEntityEvent의 damager가 Player일 때 
 > EntityDeathEvent의 entity의 killer가 Player일 때
 ```
@@ -248,16 +250,17 @@
 
 # 2021-09-29
 - MiniGame의 setLive()의 내부에서 isMinPlayersLive() 자동으로 검사하지 말고 수동으로 미니게임 구현할 때 검사하게 하기 
-> 미니게임에서 항상 live를 사용하지 않아도 됨 (다른 조건을 이용해서 게임 종료조건을 만들어도 됨)
-> 플레이어가 미니게임 나갈 때: isMinPlayersLive()가 자동으로 검사됨
-> 시간의 모두 흐르는것을 기다려서 게임을 끝내도 됨
-```java
+``` 
+- 미니게임에서 항상 live를 사용하지 않아도 됨 (다른 조건을 이용해서 게임 종료조건을 만들어도 됨)
+- 플레이어가 미니게임 나갈 때: isMinPlayersLive()가 자동으로 검사됨
+- 시간의 모두 흐르는것을 기다려서 게임을 끝내도 됨
 // e.g.
 if(!this.isMinPlayersLive()) {
 	this.endGame();
 }
 ```
-
+- detectable event 리스트 수정
+- detailed event리스트 추가 (BlockEvent)
 
 
 
