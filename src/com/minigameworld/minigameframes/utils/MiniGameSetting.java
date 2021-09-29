@@ -93,6 +93,17 @@ public class MiniGameSetting {
 	 */
 	private boolean passUndetectableEvents;
 
+	/*
+	 * file control: X
+	 * init value: setup value
+	 * description: rank order
+	 */
+	public enum RankOrder {
+		ASCENDING, DESCENDING;
+	}
+
+	private RankOrder rankOrder;
+
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
 		this.title = title;
@@ -108,6 +119,7 @@ public class MiniGameSetting {
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
 		this.passUndetectableEvents = false;
+
 	}
 
 	// set
@@ -160,6 +172,10 @@ public class MiniGameSetting {
 		this.passUndetectableEvents = passUndetectableEvents;
 	}
 
+	public void setRankOrder(RankOrder rankOrder) {
+		this.rankOrder = rankOrder;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -208,6 +224,10 @@ public class MiniGameSetting {
 
 	public boolean isPassUndetectableEvents() {
 		return passUndetectableEvents;
+	}
+
+	public RankOrder getRankOrder() {
+		return rankOrder;
 	}
 
 	// file (only file control)
