@@ -238,13 +238,13 @@ public class MiniGameSetting {
 
 		setting.put("title", this.title);
 		setting.put("location", this.location);
-		setting.put("minPlayerCount", this.minPlayerCount);
-		setting.put("maxPlayerCount", this.maxPlayerCount);
-		setting.put("waitingTime", this.waitingTime);
-		setting.put("timeLimit", this.timeLimit);
+		setting.put("min-player-count", this.minPlayerCount);
+		setting.put("max-player-count", this.maxPlayerCount);
+		setting.put("waiting-time", this.waitingTime);
+		setting.put("time-limit", this.timeLimit);
 		setting.put("active", this.active);
 		setting.put("tutorial", this.tutorial);
-		setting.put("customData", this.customData);
+		setting.put("custom-data", this.customData);
 		setting.put("icon", this.icon.name());
 
 		return setting;
@@ -259,21 +259,21 @@ public class MiniGameSetting {
 		this.setLocation((Location) setting.get("location"));
 
 		// waitingTime
-		this.setWaitingTime((int) setting.get("waitingTime"));
+		this.setWaitingTime((int) setting.get("waiting-time"));
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// minPlayerCount
-			this.setMinPlayerCount((int) setting.get("minPlayerCount"));
+			this.setMinPlayerCount((int) setting.get("min-player-count"));
 
 			// maxPlayerCount
-			this.setMaxPlayerCount((int) setting.get("maxPlayerCount"));
+			this.setMaxPlayerCount((int) setting.get("max-player-count"));
 
 			// timeLimit
-			this.setTimeLimit((int) setting.get("timeLimit"));
+			this.setTimeLimit((int) setting.get("time-limit"));
 
 			// customData
-			this.setCustomData((Map<String, Object>) setting.get("customData"));
+			this.setCustomData((Map<String, Object>) setting.get("custom-data"));
 
 		}
 
