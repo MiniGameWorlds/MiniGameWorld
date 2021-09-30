@@ -28,6 +28,7 @@ import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
 import io.github.classgraph.ClassGraph;
@@ -180,10 +181,10 @@ public class CommonEventListener implements Listener {
 				String title = ((TextComponent) lines.get(1)).content();
 
 				// check minigameSign option
-				boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigame-sign");
+				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
 				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
 					if (!minigameSign) {
-						p.sendMessage("minigame-sign option is false");
+						p.sendMessage(Setting.SETTINGS_MINIGAME_SIGN + " option is false");
 						return;
 					}
 

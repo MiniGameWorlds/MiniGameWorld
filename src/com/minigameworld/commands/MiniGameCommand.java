@@ -12,6 +12,7 @@ import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.gui.MiniGameGUIManager;
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {
@@ -20,11 +21,15 @@ public class MiniGameCommand implements CommandExecutor {
 	private MiniGameCommandTabCompleter tabCompleter;
 
 	private MiniGamePartyCommand miniGamePartyCommand;
+	private MiniGameSettingsConfigCommand miniGameSettingsConfigCommand;
+	private MiniGameMinigamesConfigCommand miniGameMinigamesConfigCommand;
 
 	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameManager = minigameM;
 
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
+		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager);
+		this.miniGameMinigamesConfigCommand = new MiniGameMinigamesConfigCommand(this.minigameManager);
 
 		// set tab completer
 		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
@@ -56,6 +61,10 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.miniGamePartyCommand.party(p, args);
 			case "reload":
 				return this.reloadConfig(p, args);
+			case "settings":
+				return this.miniGameSettingsConfigCommand.settings(p, args);
+			case "minigames":
+				return this.miniGameMinigamesConfigCommand.minigames(p, args);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +74,7 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean canCommandUse() {
-		return (boolean) this.minigameManager.getGameSetting().get("minigame-command");
+		return (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_COMMAND);
 	}
 
 	private boolean join(Player p, String[] args) throws Exception {
@@ -75,7 +84,8 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
+			return true;
 		}
 
 		String title = args[1];
@@ -90,7 +100,8 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
+			return true;
 		}
 
 		this.minigameManager.leaveGame(p);
@@ -101,7 +112,8 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
+			return true;
 		}
 
 		List<MiniGame> games = this.minigameManager.getMiniGameList();
@@ -131,7 +143,8 @@ public class MiniGameCommand implements CommandExecutor {
 	private boolean gui(Player p, String[] args) {
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, "minigame-command option is false in \"setting.yml\" file");
+			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
+			return true;
 		}
 
 		MiniGameGUIManager guiManager = this.minigameManager.getMiniGameGUIManager();

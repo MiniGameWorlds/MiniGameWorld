@@ -8,6 +8,8 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import com.minigameworld.util.Setting;
+
 public class MiniGameSetting {
 	/*
 	 * file control: O
@@ -236,16 +238,16 @@ public class MiniGameSetting {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new HashMap<String, Object>();
 
-		setting.put("title", this.title);
-		setting.put("location", this.location);
-		setting.put("min-player-count", this.minPlayerCount);
-		setting.put("max-player-count", this.maxPlayerCount);
-		setting.put("waiting-time", this.waitingTime);
-		setting.put("time-limit", this.timeLimit);
-		setting.put("active", this.active);
-		setting.put("tutorial", this.tutorial);
-		setting.put("custom-data", this.customData);
-		setting.put("icon", this.icon.name());
+		setting.put(Setting.MINIGAMES_TITLE, this.title);
+		setting.put(Setting.MINIGAMES_LOCATION, this.location);
+		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayerCount);
+		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayerCount);
+		setting.put(Setting.MINIGAMES_WAITING_TIME, this.waitingTime);
+		setting.put(Setting.MINIGAMES_TIME_LIMIT, this.timeLimit);
+		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
+		setting.put(Setting.MINIGAMES_TUTORIAL, this.tutorial);
+		setting.put(Setting.MINIGAMES_CUSTOM_DATA, this.customData);
+		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
 
 		return setting;
 	}
@@ -253,38 +255,38 @@ public class MiniGameSetting {
 	@SuppressWarnings("unchecked")
 	public void setFileSetting(Map<String, Object> setting) {
 		// title
-		this.setTitle((String) setting.get("title"));
+		this.setTitle((String) setting.get(Setting.MINIGAMES_TITLE));
 
 		// location
-		this.setLocation((Location) setting.get("location"));
+		this.setLocation((Location) setting.get(Setting.MINIGAMES_LOCATION));
 
 		// waitingTime
-		this.setWaitingTime((int) setting.get("waiting-time"));
+		this.setWaitingTime((int) setting.get(Setting.MINIGAMES_WAITING_TIME));
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// minPlayerCount
-			this.setMinPlayerCount((int) setting.get("min-player-count"));
+			this.setMinPlayerCount((int) setting.get(Setting.MINIGAMES_MIN_PLAYER_COUNT));
 
 			// maxPlayerCount
-			this.setMaxPlayerCount((int) setting.get("max-player-count"));
+			this.setMaxPlayerCount((int) setting.get(Setting.MINIGAMES_MAX_PLAYER_COUNT));
 
 			// timeLimit
-			this.setTimeLimit((int) setting.get("time-limit"));
+			this.setTimeLimit((int) setting.get(Setting.MINIGAMES_TIME_LIMIT));
 
 			// customData
-			this.setCustomData((Map<String, Object>) setting.get("custom-data"));
+			this.setCustomData((Map<String, Object>) setting.get(Setting.MINIGAMES_CUSTOM_DATA));
 
 		}
 
 		// active
-		this.setActive((boolean) setting.get("active"));
+		this.setActive((boolean) setting.get(Setting.MINIGAMES_ACTIVE));
 
 		// tutorial
-		this.setTutorial((List<String>) setting.get("tutorial"));
+		this.setTutorial((List<String>) setting.get(Setting.MINIGAMES_TUTORIAL));
 
 		// display item
-		this.setIcon(Material.valueOf((String) setting.get("icon")));
+		this.setIcon(Material.valueOf((String) setting.get(Setting.MINIGAMES_ICON)));
 	}
 }
 //

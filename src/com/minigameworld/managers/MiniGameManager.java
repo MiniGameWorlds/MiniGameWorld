@@ -19,6 +19,7 @@ import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
@@ -84,26 +85,26 @@ public class MiniGameManager implements YamlMember {
 		 * set basic setting.yml
 		 */
 		// lobby
-		if (!this.settings.containsKey("lobby")) {
-			this.settings.put("lobby", new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
+		if (!this.settings.containsKey(Setting.SETTINGS_LOBBY)) {
+			this.settings.put(Setting.SETTINGS_LOBBY, new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
 		}
-		lobby = (Location) this.settings.get("lobby");
+		lobby = (Location) this.settings.get(Setting.SETTINGS_LOBBY);
 
 		// minigameSign
-		if (!this.settings.containsKey("minigame-sign")) {
-			this.settings.put("minigame-sign", true);
+		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_SIGN)) {
+			this.settings.put(Setting.SETTINGS_MINIGAME_SIGN, true);
 		}
 
 		// minigameCommand
-		if (!this.settings.containsKey("minigame-command")) {
-			this.settings.put("minigame-command", true);
+		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_COMMAND)) {
+			this.settings.put(Setting.SETTINGS_MINIGAME_COMMAND, true);
 		}
 
 		// messagePrefix
-		if (!this.settings.containsKey("message-prefix")) {
-			this.settings.put("message-prefix", "MiniGameWorld");
+		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
+			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, "MiniGameWorld");
 		}
-		Utils.messagePrefix = (String) this.settings.get("message-prefix");
+		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 	}
 
 	public void joinGame(Player p, String title) {
@@ -260,7 +261,7 @@ public class MiniGameManager implements YamlMember {
 		if (newGame.getMiniGameData().isMinigameDataExists()) {
 			newGame.getMiniGameData().applyMiniGameDataToInstance();
 		} else {
-			newGame.getMiniGameData().addMiniGameData();
+			newGame.getMiniGameData().createMiniGameData();
 		}
 
 		// add
@@ -319,7 +320,7 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
-	public Map<String, Object> getGameSetting() {
+	public Map<String, Object> getSettings() {
 		return this.settings;
 	}
 
@@ -337,6 +338,10 @@ public class MiniGameManager implements YamlMember {
 
 	public MiniGameEventDetector getMiniGameEventDetector() {
 		return this.minigameEventDetector;
+	}
+	
+	public YamlManager getYamlManager() {
+		return this.yamlManager;
 	}
 
 	public int getNonPlayingPlayerCount(List<Player> players) {

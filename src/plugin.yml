@@ -17,3 +17,5 @@ commands:
       /minigame gui
       /minigame party
       /minigame reload
+      /minigame settings
+      /minigame minigames
