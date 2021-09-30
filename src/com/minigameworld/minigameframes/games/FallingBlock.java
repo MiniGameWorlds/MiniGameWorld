@@ -45,7 +45,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 					Location pLoc = p.getLocation();
 
 					// check fell
-					if (isFell(p)) {
+					if (hasFollen(p)) {
 						processFollenPlayer(p);
 					}
 
@@ -65,7 +65,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		});
 	}
 
-	private boolean isFell(Player p) {
+	private boolean hasFollen(Player p) {
 		Location pLoc = p.getLocation();
 		if (pLoc.getY() < ((Location) getCustomData().get("pos1")).getY() - 0.5) {
 			return true;
@@ -121,6 +121,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("fall: die");
+		tutorial.add("block will be disappeared when you step");
 		return tutorial;
 	}
 

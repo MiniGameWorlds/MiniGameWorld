@@ -1,6 +1,5 @@
 # 할 것
 - 만든 미니게임 customData, 등등 재정비 하기
-- 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 주문 제작 양식 만들기
@@ -8,7 +7,7 @@
 - party GUI 메뉴 추가하기
 - 범용 Reward 플러그인 만들기
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
-- java docs 만들기: 모두다 만들기 (외부에 API 공개할 때는 private 없이, 개발 관련 api는 private 옵션 줘서 생성)
+- dev위키에서 클래스 정보들 파일 지우고 java docs 만들어서 기입하기: 모두다 만들기 (외부에 API 공개할 때는 private 없이, 개발 관련 api는 private 옵션 줘서 생성)
 ## Event Detection 관련
 ```
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
@@ -249,7 +248,7 @@
 - undetectableEvent 로직 수정 (passUndetectableEvent옵션이 true인 미니게임들에게도 event pass하기 전에 최대한 detectableEvent에서 Player를 찾아서 처리한 후에 찾지 못할시에 pass)
 
 # 2021-09-29
-- MiniGame의 setLive()의 내부에서 isMinPlayersLive() 자동으로 검사하지 말고 수동으로 미니게임 구현할 때 검사하게 하기 
+- MiniGame의 setLive()의 내부에서 isMinPlayersLive() 자동으로 검사하지 말고 수동으로 미니게임 구현할 때 검사하게 하기 (setLive()순서의 민감도를 낮추기 위해)
 ``` 
 - 미니게임에서 항상 live를 사용하지 않아도 됨 (다른 조건을 이용해서 게임 종료조건을 만들어도 됨)
 - 플레이어가 미니게임 나갈 때: isMinPlayersLive()가 자동으로 검사됨
@@ -270,7 +269,7 @@ if(!this.isMinPlayersLive()) {
 # 2021-09-30
 - detailed event 리스트 추가(VehicleEvent, UnknownCommandEvent, EntityEvent)
 - deprecated api 수정
-
+- 미니게임 config(settings.yml, minigames/<game>.yml) cmd 제작 (reload()도 자동 실행)
 
 
 
