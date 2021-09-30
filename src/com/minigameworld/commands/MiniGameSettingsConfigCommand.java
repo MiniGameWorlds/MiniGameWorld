@@ -80,7 +80,7 @@ public class MiniGameSettingsConfigCommand {
 			this.settings.put(Setting.SETTINGS_LOBBY, loc);
 
 			// msg
-			String locString = String.format("x: %f, y: %f, z: %f", x, y, z);
+			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
 			Utils.sendMsg(p, Setting.SETTINGS_LOBBY + " set to (" + locString + ")");
 		} else {
 			return false;

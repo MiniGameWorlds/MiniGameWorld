@@ -64,6 +64,7 @@ public class MiniGameMinigamesConfigCommand {
 			this.tutorial(p, args, data);
 			break;
 		case Setting.MINIGAMES_CUSTOM_DATA: // can not process
+			this.custom_data(p, args, data);
 			break;
 		case Setting.MINIGAMES_ICON:
 			this.icon(p, args, data);
@@ -112,7 +113,7 @@ public class MiniGameMinigamesConfigCommand {
 			data.put(Setting.MINIGAMES_LOCATION, loc);
 
 			// msg
-			String locString = String.format("x: %f, y: %f, z: %f", x, y, z);
+			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
 			Utils.sendMsg(p, Setting.MINIGAMES_LOCATION + " set to (" + locString + ")");
 		} else {
 			return false;
@@ -168,6 +169,10 @@ public class MiniGameMinigamesConfigCommand {
 
 		this.setKeyValue(p, data, Setting.MINIGAMES_TUTORIAL, tutorial);
 		return true;
+	}
+
+	private void custom_data(Player p, String[] args, Map<String, Object> data) {
+		Utils.sendMsg(p, "custom-data is only can be fixed with file");
 	}
 
 	private boolean icon(Player p, String[] args, Map<String, Object> data) throws Exception {
