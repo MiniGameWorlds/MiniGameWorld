@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.minigameworld.util.Utils;
+import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
 
@@ -439,10 +440,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			// send message to only team members
 			Team team = this.getTeam(sender);
 			// ex. [Title] worldbiomusic: go go
-			team.sendTeamMessage(sender, ((TextComponent)e.message()).content());
+			team.sendTeamMessage(sender, ((TextComponent) e.message()).content());
 		} else {
 			Player p = e.getPlayer();
-			String msg = ((TextComponent)e.message()).content();
+			String msg = ((TextComponent) e.message()).content();
 			Team team = this.getTeam(p);
 			String teamName = team.getName();
 			ChatColor color = team.getColor();
@@ -454,7 +455,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print team score in descending order
-		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
+		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
 		// left teams
 		Map<Team, Integer> leftTeams = new HashMap<Team, Integer>();
@@ -472,7 +473,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			int score = entry.getValue();
 			Team team = entry.getKey();
 			String memberString = team.getAllMemberNameString();
-			this.sendMessageToAllPlayers("[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
+			BroadcastTool.sendMessage(this.getPlayers(),
+					"[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
 			rank += 1;
 		}
 

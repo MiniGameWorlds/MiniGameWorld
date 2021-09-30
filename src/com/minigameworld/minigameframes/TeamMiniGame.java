@@ -3,6 +3,7 @@ package com.minigameworld.minigameframes;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 
 public abstract class TeamMiniGame extends MiniGame {
@@ -39,10 +40,10 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
-		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
+		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
 		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
-		this.sendMessageToAllPlayers("Team(" + allPlayersName + ")" + ": " + getTeamScore());
+		BroadcastTool.sendMessage(this.getPlayers(), "Team(" + allPlayersName + ")" + ": " + getTeamScore());
 	}
 }
 

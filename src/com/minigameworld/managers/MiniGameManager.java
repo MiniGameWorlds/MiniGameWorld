@@ -102,7 +102,7 @@ public class MiniGameManager implements YamlMember {
 
 		// messagePrefix
 		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
-			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, "MiniGameWorld");
+			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld");
 		}
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 	}
@@ -339,7 +339,7 @@ public class MiniGameManager implements YamlMember {
 	public MiniGameEventDetector getMiniGameEventDetector() {
 		return this.minigameEventDetector;
 	}
-	
+
 	public YamlManager getYamlManager() {
 		return this.yamlManager;
 	}

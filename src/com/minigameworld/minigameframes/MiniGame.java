@@ -28,6 +28,7 @@ import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
+import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
 
@@ -178,7 +179,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void processChatting(AsyncChatEvent e) {
 		e.setCancelled(true);
 		Player p = e.getPlayer();
-		String msg = ((TextComponent)e.message()).content();
+		String msg = ((TextComponent) e.message()).content();
 		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 
@@ -282,12 +283,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	private void printGameTutorial(Player p) {
 		p.sendMessage("");
-		this.sendMessage(p, "=================================");
-		this.sendMessage(p, "" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
-		this.sendMessage(p, "=================================");
+		p.sendMessage("=================================");
+		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
+		p.sendMessage("=================================");
 
 		// print rule
-		this.sendMessage(p, "\n" + ChatColor.BOLD + "[Rule]");
+		p.sendMessage("\n" + ChatColor.BOLD + "[Rule]");
 		p.sendMessage("- Time Limit: " + this.getTimeLimit() + " sec");
 
 		// tutorial
@@ -387,9 +388,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		for (Player p : this.getPlayers()) {
 			// break line
 			p.sendMessage("");
-			this.sendMessage(p, "=================================");
-			this.sendMessage(p, "" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
-			this.sendMessage(p, "=================================");
+			p.sendMessage("=================================");
+			p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.WHITE);
+			p.sendMessage("=================================");
 		}
 
 		// send finish title
@@ -402,14 +403,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// print scores in rank order
 	// can print differently depending on game type
 	protected void printScore() {
-		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
+		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
 		List<Entry<Player, Integer>> entries = this.getRank(this.getPlayers());
 		int rank = 1;
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
 			int score = entry.getValue();
-			this.sendMessageToAllPlayers("[" + rank + "] " + p.getName() + ": " + score);
+			BroadcastTool.sendMessage(this.getPlayers(), "[" + rank + "] " + p.getName() + ": " + score);
 			rank += 1;
 		}
 

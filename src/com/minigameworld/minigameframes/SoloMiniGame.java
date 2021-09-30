@@ -3,6 +3,8 @@ package com.minigameworld.minigameframes;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.wbm.plugin.util.BroadcastTool;
+
 public abstract class SoloMiniGame extends MiniGame {
 
 	/*
@@ -41,9 +43,9 @@ public abstract class SoloMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print just score
-		this.sendMessageToAllPlayers(ChatColor.BOLD + "[Score]");
+		BroadcastTool.sendMessage(this.getPlayers(),ChatColor.BOLD + "[Score]");
 		int score = this.getScore();
-		this.sendMessageToAllPlayers(this.getSoloPlayer().getName() + ": " + score);
+		BroadcastTool.sendMessage(this.getPlayers(),this.getSoloPlayer().getName() + ": " + score);
 	}
 
 }
