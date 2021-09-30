@@ -1,127 +1,159 @@
-# 설명
-- 서버에서 미니게임을 적용하기 위한 사람(어드민)들을 대상으로 작성된 글
-- 기본 미니게임들이 포함되어 있음 (정식 출시 때는 jar로 따로 관리하기)
+# Description
+- This document describe how to use MiniGameWorld pluin in your server
+- [Example MiniGames]()
 
 
 
-# 적용법
-1. [미니게임 월드]와 [wbmMC] 플러그인을 다운
-2. 추가로 사용할 미니게임 플러그인 다운
-3. 서버 plugins 폴더에 [미니게임 월드]와 [wbmMC] 플러그인 위치하기
-4. 서버 실행 후 미니게임 플레이
+# How to apply
+1. Download [MiniGameWorld]
+2. Download minigames that you want to add to your server
+3. Locate MiniGameWorld and minigame plugin
+4. Run the server and Enjoy
 
 
 
-# 미니게임 사용법
-1. 미니게임 파일 다운로드
-2. 미니게임을 위한 장소는 직접 제작
-3. `minigames.yml`파일의 미니게임 `location`부분을 수정해서 서버에서 직접 제작한 미니게임 위치 지정
+# Place
+- You must make minigame place for playing
+- You can set minigame location with `command` or `config(location)`
 
 
 
-# 참가 / 퇴장
-## 참가
-### 1. 표지판
-<img src="sign-join.png" width="60%"></img>
-- setting.yml의 minigameSign이 true로 설정되야 함
+# Join / Leave
+### 1. Sign
+<img src="sign-join.png" width="49%"></img>
+<img src="sign-leave.png" width="49%"></img>
+- Must set `minigame-sign` in `settings.yml` true
 
-### 2. 명령어
-- `/minigame join <title>`
-- setting.yml의 minigameCommand가 true로 설정되야 함
+### 2. Command
+- Join: `/minigame join <title>`
+- Leave: `/minigame leave`
+- Must set `minigame-command` in `settings.yml` true
 
-## 퇴장
-### 1. 표지판
-<img src="sign-leave.png" width="60%"></img>
-- setting.yml의 minigameCommand이 true로 설정되야 함
-
-### 2. 명령어
-- `/minigame leave`
-- setting.yml의 minigameCommand가 true로 설정되야 함
+### 3. GUI
+- `/minigame gui`
+- Join: click minigame
+- Leave: click bed
 
 
 
-# 미니게임 종류
-- 솔로
-- 협동
-- 개인 배틀
-- 팀 배틀
-- 커스텀
+# Types
+- Solo
+- SoloBattle
+- Team
+- Team Battle
+- Custom
 
 
 
-# 명령어
-- `/minigame join <title>`: `<title>` 미니게임에 참가
-- `/minigame leave`: 현재 참여중인 미니게임 퇴장
-- `/minigame list`: 서버의 미니게임 리스트 출력
-- `/minigame gui`: 미니게임 GUI 창 열기
-- `/minigame reload`: 설정 파일 리로드 (setting.yml, minigames.yml)
+# Commands
+- aliases: `mg`
+## General
+- `/minigame join <title>`: join `<title>` minigame
+- `/minigame leave`: leave minigame that player is playing (when only waiting)
+- `/minigame list`: print minigame list
+- `/minigame gui`: open GUI
+- `/minigame reload`: reload all configs
+## Party
+- `/minigame party invite <player>`: invite `<player>` to your party
+- `/minigame party accept <player>`: accept `<player>`'s invitation
+- `/minigame party ask <player>`: ask to `<player>` if you can join
+- `/minigame party allow <player>`: allow `<player>`'s ask
+- `/minigame party leave`: leave party
+- `/minigame party kickvote <player>`: vote `<player>` that you want to kick
+- `/minigame party msg <player>`: send message to player
+- `/minigame party list`: show party member list
+## Config
+### settings
+- `/minigame settings <key> <value>`: set server setting in `settings.yml` config file
+### minigames
+- `/minigame minigames <key> <value>`: set MiniGame setting in `minigames/<minigame>.yml` config file
+
+
+# Tutorial
+- [Tutorial]()
 
 
 
-# 튜토리얼
-- [튜토리얼]()
+# Caution
+- Not recommend to run `/reload` in the server console
+- Player's `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode` will be stored at game starting and be restored at the game end
 
 
-
-# 주의사항
-- 플러그인을 새로 추가했다면, 서버를 reload하지 말고 stop후에 다시 시작해애 함 (Task가 중복됨)
-- 미니게임 `참가`/`퇴장`때 플레이어의 `인벤토리`, `체력`, `배고픔`, `숨김`, `발광`, `표션 효과`, `경험치`가 저장되고, 미니게임 플레이 때 초기화 된후, 게임이 끝난 후 복구됨
-
-
-
-# 설정 파일
+# Config
 ## `setting.yml`
-- 플러그인 세팅 파일
+- Plugin settings
 ```yml
-setting:
+settings:
+  message-prefix: MiniGameWorld
+  minigame-sign: true
+  minigame-command: true
   lobby:
     ==: org.bukkit.Location
     world: world
     x: 0.0
-    y: 8.0
+    y: 4.0
     z: 0.0
     pitch: 0.0
     yaw: 90.0
-  minigameSign: true
-  minigameCommand: true
-
 ```
-- `lobby`: 게임이 끝나고 돌아가는 로비 위치
-- `messagePrefix`: 미니게임 시스템 메세지
-- `minigameSign`: 참나무 표지판 우클릭으로 미니게임을 참가/퇴장 수 있는 여부 (true / false)
-- `minigameCommand`: 미니게임 명령어 사용 여부 (true / false)
+- `lobby`: player will be teleport to location when game end
+- `message-prefix`: system message of `MiniGameWorld` pluin
+- `minigame-sign`: whether you can join or leave minigame with right-click sign (true / false)
+- `minigame-command`: whether you can use plugin command (true / false)
 
 
 ## `minigames.yml`
-- 미니게임들 설정 파일(예시)
+- Minigame settings
 ```yml
-minigames:
-  PVP:
-    title: PVP
-    timeLimit: 300
-    maxPlayerCount: 5
-    icon: STONE
-    waitingTime: 10
-    active: true
-    scoreNotifying: false
-    forceFullPlayer: false
-    location:
-      ==: org.bukkit.Location
-      world: world
-      x: 0.0
-      y: 4.0
-      z: 0.0
-      pitch: 0.0
-      yaw: 0.0
-    customData:
-      health: 30
-      items:
-      - ==: org.bukkit.inventory.ItemStack
-        v: 2730
-        type: STONE_SWORD
-    tutorial:
-    - 'kill: +1'
-    - 'death: be a spectator'
+PVP:
+  title: PVP
+  time-limit: 180
+  min-player-count: 2
+  custom-data:
+    block-break: false
+    health: 30
+    score-notifying: true
+    pvp: true
+    inventory-save: true
+    minigame-respawn: true
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: STONE_SWORD
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: BOW
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: ARROW
+      amount: 32
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: COOKED_PORKCHOP
+      amount: 10
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: GOLDEN_APPLE
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2730
+      type: WOODEN_AXE
+    chatting: true
+    block-place: false
+  waiting-time: 10
+  max-player-count: 5
+  icon: STONE_SWORD
+  active: true
+  location:
+    ==: org.bukkit.Location
+    world: world
+    x: 0.0
+    y: 4.0
+    z: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  tutorial:
+  - 'kill: +1'
+  
 ```
 - `title`: 게임 제목
 - `timeLimit`: 플레이 제한 시간 (초)
