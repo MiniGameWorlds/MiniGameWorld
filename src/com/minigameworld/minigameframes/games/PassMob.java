@@ -16,8 +16,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
-import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
 
@@ -81,6 +81,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.getSetting().setPassUndetectableEvents(true);
 		this.getSetting().setRankOrder(RankOrder.ASCENDING);
 		this.setGroupChat(true);
+		this.getSetting().setIcon(Material.OAK_FENCE);
 
 		// options
 		this.getCustomOption().setOption(Option.MINIGAME_RESPAWN, false);
@@ -226,7 +227,9 @@ public class PassMob extends TeamBattleMiniGame {
 
 	@Override
 	protected List<String> registerTutorial() {
-		return null;
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("At the game end, winner is the team that has less mobs");
+		return tutorial;
 	}
 
 	public boolean isPassMobEntity(Entity entity) {

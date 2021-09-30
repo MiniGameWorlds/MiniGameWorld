@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class FitTool extends SoloMiniGame {
 	/*

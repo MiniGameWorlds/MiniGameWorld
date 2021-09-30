@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.utils.MiniGameData;
+import com.minigameworld.minigameframes.helpers.MiniGameData;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

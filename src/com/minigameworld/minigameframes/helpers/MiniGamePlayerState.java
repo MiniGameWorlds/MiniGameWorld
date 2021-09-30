@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.utils;
+package com.minigameworld.minigameframes.helpers;
 
 import java.util.Collection;
 import java.util.List;

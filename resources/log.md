@@ -269,7 +269,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-09-30
 - detailed event 리스트 추가(VehicleEvent, UnknownCommandEvent, EntityEvent)
-
+- deprecated api 수정
 
 
 

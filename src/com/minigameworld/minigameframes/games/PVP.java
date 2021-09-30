@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
 
 public class PVP extends SoloBattleMiniGame {

@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class ScoreClimbing extends SoloBattleMiniGame {
 	/*

@@ -143,7 +143,7 @@ public class BreedMob extends TeamMiniGame {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Kill mob: +1");
 		tutorial.add("Death: spectator");
-		tutorial.add("Mobs will be copied when die");
+		tutorial.add("Mobs will lay two mobs when die");
 		return tutorial;
 	}
 

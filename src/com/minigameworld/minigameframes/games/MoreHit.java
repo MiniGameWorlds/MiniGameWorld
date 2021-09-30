@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.PlayerTool;
 
 public class MoreHit extends TeamBattleMiniGame {

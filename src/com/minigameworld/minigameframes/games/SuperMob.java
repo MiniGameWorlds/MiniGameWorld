@@ -250,7 +250,9 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	@Override
 	protected List<String> registerTutorial() {
-		return null;
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("Hit Super Mob: +(damage)");
+		return tutorial;
 	}
 
 }

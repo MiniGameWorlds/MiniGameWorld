@@ -18,7 +18,7 @@ import com.minigameworld.managers.gui.MiniGameGUIManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.utils.MiniGameEventDetector;
+import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;

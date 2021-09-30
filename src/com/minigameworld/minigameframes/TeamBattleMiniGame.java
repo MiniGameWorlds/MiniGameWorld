@@ -13,7 +13,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
+import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
