@@ -1,6 +1,5 @@
 # 할 것
-- config 파일 key값 모두 폼 바꾸기 (e.g. setPvp > set-pvp)
-- 만든 미니게임
+- 만든 미니게임 customData, 등등 재정비 하기
 - 미니게임 설정값 설정 cmd 만들기 (loc같은것 지정하기 편함) (reload()도 자동 실행)
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
@@ -263,11 +262,13 @@ if(!this.isMinPlayersLive()) {
 - detectable event 리스트 수정
 - detailed event리스트 추가 (BlockEvent)
 - 미니게임 PassMob 추가
+- 미니게임 FallingBlock 추가
 - MiniGameSetting에 RankOrder 추가
 - MiniGameCustomOption에 INVENTORY_SAVE, MINIGAME_RESPAWN 추가
+- config 파일 key값 모두 폼 바꾸기 (e.g. setPvp > set-pvp)
 
-
-
+# 2021-09-30
+- detailed event 리스트 추가(VehicleEvent, UnknownCommandEvent, EntityEvent)
 
 
 

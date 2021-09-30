@@ -83,15 +83,15 @@ public class FallingBlock extends SoloBattleMiniGame {
 		}
 	}
 
-	private void removeBlockWithDelayTask(Block b) {
-		this.getTaskManager().registerTask("removeBlock", new Runnable() {
-
-			@Override
-			public void run() {
-				b.setType(Material.AIR);
-			}
-		});
-	}
+//	private void removeBlockWithDelayTask(Block b) {
+//		this.getTaskManager().registerTask("removeBlock", new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				b.setType(Material.AIR);
+//			}
+//		});
+//	}
 
 	@Override
 	protected void runTaskAfterStart() {

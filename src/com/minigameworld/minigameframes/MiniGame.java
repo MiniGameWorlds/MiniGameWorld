@@ -11,19 +11,18 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.utils.MiniGameCustomOption;
 import com.minigameworld.minigameframes.utils.MiniGameCustomOption.Option;
-import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
 import com.minigameworld.minigameframes.utils.MiniGameData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerData;
 import com.minigameworld.minigameframes.utils.MiniGamePlayerStateManager;
 import com.minigameworld.minigameframes.utils.MiniGameRankManager;
 import com.minigameworld.minigameframes.utils.MiniGameSetting;
+import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
 import com.minigameworld.minigameframes.utils.MiniGameTaskManager;
 import com.minigameworld.observer.MiniGameEventNotifier;
 import com.minigameworld.observer.MiniGameObserver;
@@ -31,6 +30,9 @@ import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
+
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.TextComponent;
 
 public abstract class MiniGame implements MiniGameEventNotifier {
 	/*
@@ -163,8 +165,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (event instanceof PlayerQuitEvent) {
 			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.GameException.PLAYER_QUIT_SERVER,
 					event);
-		} else if (event instanceof PlayerChatEvent) {
-			this.processChatting((PlayerChatEvent) event);
+		} else if (event instanceof AsyncChatEvent) {
+			this.processChatting((AsyncChatEvent) event);
 		}
 
 		// process event when minigame started
@@ -173,10 +175,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
-	protected void processChatting(PlayerChatEvent e) {
+	protected void processChatting(AsyncChatEvent e) {
 		e.setCancelled(true);
 		Player p = e.getPlayer();
-		String msg = e.getMessage();
+		String msg = ((TextComponent)e.message()).content();
 		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 

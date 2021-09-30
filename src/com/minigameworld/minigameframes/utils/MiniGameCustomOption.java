@@ -8,11 +8,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Utils;
+
+import io.papermc.paper.event.player.AsyncChatEvent;
 
 public class MiniGameCustomOption {
 	public enum Option {
@@ -62,8 +62,8 @@ public class MiniGameCustomOption {
 	}
 
 	public void processEvent(Event event) {
-		if (event instanceof PlayerChatEvent) {
-			PlayerChatEvent e = (PlayerChatEvent) event;
+		if (event instanceof AsyncChatEvent) {
+			AsyncChatEvent e = (AsyncChatEvent) event;
 			e.setCancelled(!(boolean) this.getOption(Option.CHATTING));
 		} else if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.getOption(Option.BLOCK_BREAK));

@@ -33,6 +33,8 @@ import com.minigameworld.util.Utils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
 public class CommonEventListener implements Listener {
 	/*
@@ -173,8 +175,9 @@ public class CommonEventListener implements Listener {
 		if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
-				String minigame = sign.getLines()[0];
-				String title = sign.getLines()[1];
+				List<Component> lines = sign.lines();
+				String minigame = ((TextComponent) lines.get(0)).content();
+				String title = ((TextComponent) lines.get(1)).content();
 
 				// check minigameSign option
 				boolean minigameSign = (boolean) this.minigameManager.getGameSetting().get("minigame-sign");
@@ -197,6 +200,7 @@ public class CommonEventListener implements Listener {
 			}
 		}
 	}
+
 }
 //
 //

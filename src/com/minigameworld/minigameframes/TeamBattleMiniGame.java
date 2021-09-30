@@ -12,12 +12,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 
 import com.minigameworld.minigameframes.utils.MiniGameSetting.RankOrder;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
+
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.TextComponent;
 
 public abstract class TeamBattleMiniGame extends MiniGame {
 
@@ -420,9 +422,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	protected void processChatting(PlayerChatEvent e) {
+	protected void processChatting(AsyncChatEvent e) {
 		if (!this.isStarted()) {
 			super.processChatting(e);
 			return;
@@ -438,10 +439,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			// send message to only team members
 			Team team = this.getTeam(sender);
 			// ex. [Title] worldbiomusic: go go
-			team.sendTeamMessage(sender, e.getMessage());
+			team.sendTeamMessage(sender, ((TextComponent)e.message()).content());
 		} else {
 			Player p = e.getPlayer();
-			String msg = e.getMessage();
+			String msg = ((TextComponent)e.message()).content();
 			Team team = this.getTeam(p);
 			String teamName = team.getName();
 			ChatColor color = team.getColor();
