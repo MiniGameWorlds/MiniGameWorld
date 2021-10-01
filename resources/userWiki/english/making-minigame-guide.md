@@ -10,8 +10,8 @@
 
 ## 2. Make class
 ### Essential overriding methods
-- `initGameSetting()`: fired every time when minigame starts
-- `processEvent()`: fired when event pass to minigame
+- `initGameSetting()`: executed every time when minigame starts
+- `processEvent()`: executed when event is passed to minigame
 - `registerTutorial()`: tutorial string
 
 ### Frame class
@@ -22,12 +22,12 @@
 
 
 #### `SoloBattleMiniGame`
-- Individual battle
+- Individual battle play
 - [Example Minigame]()
 
 
 #### `TeamMiniGame`
-- 1 Team play
+- Cooperative play
 - [Example Minigame]()
 
 
@@ -49,9 +49,19 @@ mw.registerMiniGame(new FitTool());
 # Options
 ## - MiniGameSetting
 - Fundamental settings of minigame
-- `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config) > false
-- `passUndetectableEvents`: pass all event to minigame (must check event in detail (e.g. check event player is playing current minigame))
+- `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
+- `passUndetectableEvents`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
 - `rankOrder`: rank order method by score
+### How to use
+```java
+public PassMob() {
+  super("PassMob", 2, 60 * 3, 10);
+  // settings
+  this.getSetting().setPassUndetectableEvents(true);
+  this.getSetting().setRankOrder(RankOrder.ASCENDING);
+  this.getSetting().setIcon(Material.OAK_FENCE);
+}
+```
 
 ## - MiniGameCustomOption
 - All custom options are in `custom-data` section
@@ -62,6 +72,14 @@ mw.registerMiniGame(new FitTool());
 - `PVP`: whether players can pvp
 - `INVENTORY_SAVE`: whether inventory save
 - `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
+### How to use
+```java
+public PassMob() {
+  super("PassMob", 2, 60 * 3, 10);
+  // options
+  this.getCustomOption().set(Option.MINIGAME_RESPAWN, false);
+}
+```
 
 ## - Task Management
 - Can manage task easily
@@ -103,8 +121,8 @@ protected void processEvent(Event event) {
 
 ## - Custom Data
 - Minigame Developer can add custom data
-- Minigame User can play with edit custom data
-### How to set
+- Minigame User can play and edit custom data
+### How to register
 - Override `registerCustomData()` and add data
 ```java
 @Override
@@ -130,10 +148,22 @@ protected void runTaskAfterStart() {
 ```
 
 ## - Reservation Task
-- `runTaskAfterStart()`: run after minigame started
-- `runTaskBeforeFinish()`: run before minigame finishes
-- `runTaskAfterFinish()`: run after minigame finished
-
+- `runTaskAfterStart()`: executed after minigame started
+- `runTaskBeforeFinish()`: executed before minigame finishes
+- `runTaskAfterFinish()`: executed after minigame finished
+### Example
+```java
+@Override
+protected void runTaskAfterStart() {
+  super.runTaskAfterStart();
+  // give kits
+  for (Player p : this.getPlayers()) {
+    InventoryTool.addItemToPlayer(p, new ItemStack(Material.IRON_SWORD));
+    InventoryTool.addItemToPlayer(p, new ItemStack(Material.BOW));
+    InventoryTool.addItemToPlayer(p, new ItemStack(Material.ARROW, 64));
+  }
+}
+```
 
 ## - Players
 - `containsPlayer()`: check player is contained
@@ -152,7 +182,7 @@ protected void runTaskAfterStart() {
 - `minusScore()`: minus player score
 - `setLive()`: set player live
 - `isLive()`: check player is live
-- 
+
 
 ## - etc
 - `endGame()`: end minigame
@@ -166,12 +196,13 @@ protected void runTaskAfterStart() {
 ## Player state management
 - MiniGameWorld manages player's default states when join / leave
 > `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode`  
-- If minigame changed while playing minigame, have to restore all changed things using `runTaskBeforeFinish()`
+- If minigame changed things that MiniGameWorld can not manage, have to restore all changed things (with `runTaskBeforeFinish()`)
 
 ## Detectable Events
-- MiniGameWorld only detect event that can get player from event
-- Detectable events only processed when player from event is playing minigame
+- MiniGameWorld only passes detectable events that can get player from event
+- Detectable events only pass to minigame that player from event is playing minigame
 - Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
+- If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 ```yaml
 - PlayerEvent
 - EntityEvent
