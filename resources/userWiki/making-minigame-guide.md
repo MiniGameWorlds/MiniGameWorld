@@ -49,14 +49,14 @@ mw.registerMiniGame(new FitTool());
 ## - MiniGameSetting
 - Fundamental settings of minigame
 - `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
-- `passUndetectableEvents`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
+- `passUndetectableEvent`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
 - `rankOrder`: rank order method by score
 ### How to use
 ```java
 public PassMob() {
   super("PassMob", 2, 60 * 3, 10);
   // settings
-  this.getSetting().setPassUndetectableEvents(true);
+  this.getSetting().setPassUndetectableEvent(true);
   this.getSetting().setRankOrder(RankOrder.ASCENDING);
   this.getSetting().setIcon(Material.OAK_FENCE);
 }
