@@ -183,9 +183,4 @@ PVP:
 
 
 
-
-# Contact
-- [Discord]
-
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
-[Discord]: https://discord.com/invite/fJbxSy2EjA
