@@ -4,5 +4,5 @@
 # [How to Make]
 - Description for making MiniGame plugin with MiniGameWorld API
 
-[How to Play]: playingMiniGameWiki.md
-[How to Make]: makingMiniGameWiki.md
+[How to Play]: playing-minigame-wiki.md
+[How to Make]: making-minigame-wiki.md
