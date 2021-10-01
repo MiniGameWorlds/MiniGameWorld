@@ -7,14 +7,9 @@
 # How to apply
 1. Download [MiniGameWorld]
 2. Download minigames that you want to add to your server
-3. Locate MiniGameWorld and minigame plugin
-4. Run the server and Enjoy
-
-
-
-# Place
-- You must make minigame place for playing
-- You can set minigame location with `command` or `config(location)`
+3. Locate MiniGameWorld and minigame plugin in your server `plugins` folder
+4. Make minigame playground and set location
+5. Run the server and Enjoy
 
 
 
@@ -22,12 +17,12 @@
 ### 1. Sign
 <img src="sign-join.png" width="49%"></img>
 <img src="sign-leave.png" width="49%"></img>
-- Must set `minigame-sign` in `settings.yml` true
+- Must set `minigame-sign` in `settings.yml` to true
 
 ### 2. Command
 - Join: `/minigame join <title>`
 - Leave: `/minigame leave`
-- Must set `minigame-command` in `settings.yml` true
+- Must set `minigame-command` in `settings.yml` to true
 
 ### 3. GUI
 - `/minigame gui`
@@ -46,10 +41,10 @@
 
 
 # Commands
-- aliases: `mg`
+- aliases: `/mg`
 ## General
 - `/minigame join <title>`: join `<title>` minigame
-- `/minigame leave`: leave minigame that player is playing (when only waiting)
+- `/minigame leave`: leave current playing minigame (when only waiting)
 - `/minigame list`: print minigame list
 - `/minigame gui`: open GUI
 - `/minigame reload`: reload all configs
@@ -59,14 +54,14 @@
 - `/minigame party ask <player>`: ask to `<player>` if you can join
 - `/minigame party allow <player>`: allow `<player>`'s ask
 - `/minigame party leave`: leave party
-- `/minigame party kickvote <player>`: vote `<player>` that you want to kick
+- `/minigame party kickvote <player>`: vote `<player>` that you want to kick from your party
 - `/minigame party msg <player>`: send message to player
 - `/minigame party list`: show party member list
 ## Config
 ### settings
 - `/minigame settings <key> <value>`: set plugin setting in `settings.yml` config file
 ### minigames
-- `/minigame minigames <key> <value>`: set MiniGame setting in `minigames/<minigame>.yml` config file
+- `/minigame minigames <key> <value>`: set minigame setting in `minigames/<minigame>.yml` config file
 
 
 # Tutorial
@@ -77,6 +72,7 @@
 # Caution
 - Not recommend to run `/reload` in the server console
 - Player's `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode` will be stored at game starting and be restored at the game end
+
 
 
 # Config
@@ -102,7 +98,7 @@ settings:
 - `minigame-command`: whether you can use plugin command (true / false)
 
 
-## `minigames.yml`
+## `minigames/<MiniGame>.yml`
 - Minigame settings
 ```yml
 PVP:
@@ -116,13 +112,14 @@ PVP:
   location:
     ==: org.bukkit.Location
     world: world
-    x: 0.0
-    y: 4.0
-    z: 0.0
+    x: 100.0
+    y: 70.0
+    z: 100.0
     pitch: 0.0
     yaw: 0.0
   tutorial:
   - 'kill: +1'
+  - 'give kit tools'
   custom-data:
     block-break: false
     block-place: false
@@ -156,7 +153,7 @@ PVP:
 - `icon`: Material which show in GUI
 - `location`: minigame join location
 - `tutorial`: tutorials
-- `custom-data`: custom data of minigame
+- `custom-data`: custom data by developer
 - Minigame has each files in `minigames` folder
 - Deleted minigame file will be removed
 - Minigame has a default settings (can be changed by a user)
