@@ -27,7 +27,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	public ScoreClimbing() {
 		super("ScoreClimbing", 2, 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
-		this.getCustomOption().setOption(Option.SCORE_NOTIFYING, false);
+		this.getCustomOption().set(Option.SCORE_NOTIFYING, false);
 
 
 		this.registerTasks();

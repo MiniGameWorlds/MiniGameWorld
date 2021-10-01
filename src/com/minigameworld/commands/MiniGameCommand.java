@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.managers.gui.MiniGameGUIManager;
+import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
@@ -55,8 +55,8 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.leave(p, args);
 			case "list":
 				return this.list(p, args);
-			case "gui":
-				return this.gui(p, args);
+			case "menu":
+				return this.menu(p, args);
 			case "party":
 				return this.miniGamePartyCommand.party(p, args);
 			case "reload":
@@ -140,15 +140,15 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean gui(Player p, String[] args) {
+	private boolean menu(Player p, String[] args) {
 		// check minigameCommand is true(setting.yml)
 		if (!this.canCommandUse()) {
 			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
 			return true;
 		}
 
-		MiniGameGUIManager guiManager = this.minigameManager.getMiniGameGUIManager();
-		guiManager.openGUI(p);
+		MiniGameMenuManager menuManager = this.minigameManager.getMiniGameMenuManager();
+		menuManager.openMenu(p);
 		return true;
 	}
 

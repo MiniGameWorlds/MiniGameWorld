@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameData;
+import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
@@ -33,7 +33,7 @@ public class MiniGameMinigamesConfigCommand {
 		// /mg minigames <ClassName> <key> <value>
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
-		MiniGameData minigameData = minigame.getMiniGameData();
+		MiniGameDataManager minigameData = minigame.getDataManager();
 		Map<String, Object> data = minigameData.getData();
 
 		String key = args[2];

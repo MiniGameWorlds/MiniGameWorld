@@ -14,7 +14,7 @@ commands:
       /minigame join <title>
       /minigame leave
       /minigame list
-      /minigame gui
+      /minigame menu
       /minigame party
       /minigame reload
       /minigame settings

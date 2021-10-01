@@ -1,4 +1,5 @@
 # 할 것
+- wiki에서 kor없에기 (영어로만 작성)
 - 만든 미니게임 customData, 등등 재정비 하기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
@@ -271,8 +272,10 @@ if(!this.isMinPlayersLive()) {
 - deprecated api 수정
 - 미니게임 config(settings.yml, minigames/<game>.yml) cmd 제작 (reload()도 자동 실행)
 
-
-
+# 2021-10-01
+- wiki 작성
+- MiniGameAccessor에서 대부분 setting data(getTitle(), getTimeLimit()  등등) 삭제하기 (getSettings()로 Map형태로 접근할 수 있게 만들었기 떄문)
+- 이름변경: MiniGameGUI > MiniGameMenu
 
 
 

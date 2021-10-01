@@ -480,7 +480,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	}
 
-	private List<Entry<Team, Integer>> getRank(Map<Team, Integer> leftTeams) {
+	public List<Entry<Team, Integer>> getRank(Map<Team, Integer> leftTeams) {
 		// return rank with MiniGame RankOrder setting
 		RankOrder order = this.getSetting().getRankOrder();
 		if (order == RankOrder.ASCENDING) {

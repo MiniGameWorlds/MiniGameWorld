@@ -32,7 +32,7 @@ public class PVP extends SoloBattleMiniGame {
 		super("PVP", 2, 5, 60 * 3, 10);
 		this.getSetting().setSettingFixed(true);
 		this.getSetting().setIcon(Material.STONE_SWORD);
-		this.getCustomOption().setOption(Option.PVP, true);
+		this.getCustomOption().set(Option.PVP, true);
 	}
 
 	@Override

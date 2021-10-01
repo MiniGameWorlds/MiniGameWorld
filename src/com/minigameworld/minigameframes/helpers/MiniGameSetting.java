@@ -93,7 +93,7 @@ public class MiniGameSetting {
 	 * init value: setup value
 	 * description: whether get all event without filtering player
 	 */
-	private boolean passUndetectableEvents;
+	private boolean passUndetectableEvent;
 
 	/*
 	 * file control: X
@@ -120,8 +120,8 @@ public class MiniGameSetting {
 		this.tutorial = new ArrayList<String>();
 		this.customData = new HashMap<String, Object>();
 		this.icon = Material.STONE;
-		this.passUndetectableEvents = false;
-
+		this.passUndetectableEvent = false;
+		this.rankOrder = RankOrder.DESCENDING;
 	}
 
 	// set
@@ -170,8 +170,8 @@ public class MiniGameSetting {
 		this.icon = icon;
 	}
 
-	public void setPassUndetectableEvents(boolean passUndetectableEvents) {
-		this.passUndetectableEvents = passUndetectableEvents;
+	public void setPassUndetectableEvent(boolean passUndetectableEvent) {
+		this.passUndetectableEvent = passUndetectableEvent;
 	}
 
 	public void setRankOrder(RankOrder rankOrder) {
@@ -224,8 +224,8 @@ public class MiniGameSetting {
 		return this.icon;
 	}
 
-	public boolean isPassUndetectableEvents() {
-		return passUndetectableEvents;
+	public boolean isPassUndetectableEvent() {
+		return passUndetectableEvent;
 	}
 
 	public RankOrder getRankOrder() {

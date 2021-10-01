@@ -94,8 +94,8 @@ public class MiniGameWorld {
 		this.minigameManager.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
 	}
 
-	public Inventory openMiniGameGUI(Player p) {
-		return this.minigameManager.getMiniGameGUIManager().openGUI(p);
+	public Inventory openMiniGameMenu(Player p) {
+		return this.minigameManager.getMiniGameMenuManager().openMenu(p);
 	}
 
 	public PartyManager getPartyManager() {

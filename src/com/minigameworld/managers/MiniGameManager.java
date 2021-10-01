@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import com.google.common.io.Files;
-import com.minigameworld.managers.gui.MiniGameGUIManager;
+import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
@@ -37,10 +37,10 @@ public class MiniGameManager implements YamlMember {
 	private Map<String, Object> settings;
 
 	// event detector
-	MiniGameEventDetector minigameEventDetector;
+	private MiniGameEventDetector minigameEventDetector;
 
 	// minigame gui manager
-	private MiniGameGUIManager guiManager;
+	private MiniGameMenuManager guiManager;
 
 	// minigame lobby
 	private static Location lobby;
@@ -59,7 +59,7 @@ public class MiniGameManager implements YamlMember {
 		this.initSettingData();
 		this.minigameEventDetector = new MiniGameEventDetector();
 
-		this.guiManager = new MiniGameGUIManager(this);
+		this.guiManager = new MiniGameMenuManager(this);
 		this.partyManager = new PartyManager(this);
 	}
 
@@ -207,7 +207,7 @@ public class MiniGameManager implements YamlMember {
 
 	private void passUndetectableEventToMiniGame(Event e) {
 		for (MiniGame minigame : this.minigames) {
-			if (minigame.getSetting().isPassUndetectableEvents()) {
+			if (minigame.getSetting().isPassUndetectableEvent()) {
 				minigame.passEvent(e);
 			}
 		}
@@ -255,13 +255,13 @@ public class MiniGameManager implements YamlMember {
 		}
 
 		// reigster member to YamlManager
-		this.yamlManager.registerMember(newGame.getMiniGameData());
+		this.yamlManager.registerMember(newGame.getDataManager());
 
 		// check already existing data
-		if (newGame.getMiniGameData().isMinigameDataExists()) {
-			newGame.getMiniGameData().applyMiniGameDataToInstance();
+		if (newGame.getDataManager().isMinigameDataExists()) {
+			newGame.getDataManager().applyMiniGameDataToInstance();
 		} else {
-			newGame.getMiniGameData().createMiniGameData();
+			newGame.getDataManager().createMiniGameData();
 		}
 
 		// add
@@ -328,7 +328,7 @@ public class MiniGameManager implements YamlMember {
 		return lobby;
 	}
 
-	public MiniGameGUIManager getMiniGameGUIManager() {
+	public MiniGameMenuManager getMiniGameMenuManager() {
 		return this.guiManager;
 	}
 
@@ -359,7 +359,7 @@ public class MiniGameManager implements YamlMember {
 		this.yamlManager.reload(this);
 
 		// reload minigames
-		this.minigames.forEach(m -> m.getMiniGameData().reload());
+		this.minigames.forEach(m -> m.getDataManager().reload());
 	}
 
 	@Override

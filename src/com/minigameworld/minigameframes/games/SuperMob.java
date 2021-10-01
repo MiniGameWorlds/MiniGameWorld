@@ -33,7 +33,7 @@ public class SuperMob extends SoloBattleMiniGame {
 		super("SuperMob", 1, 5, 60 * 3, 10);
 		this.entities = new ArrayList<>();
 		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
-		this.getSetting().setPassUndetectableEvents(true);
+		this.getSetting().setPassUndetectableEvent(true);
 
 		// random targeting task
 		this.getTaskManager().registerTask("changeTarget", new Runnable() {

@@ -15,13 +15,13 @@ import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 
-public class MiniGameData implements YamlMember {
+public class MiniGameDataManager implements YamlMember {
 	public static final String FOLDER_NAME = "minigames";
 	private MiniGame minigame;
 	private YamlManager yamlManager;
 	private Map<String, Object> data;
 
-	public MiniGameData(MiniGame minigame) {
+	public MiniGameDataManager(MiniGame minigame) {
 		this.minigame = minigame;
 		this.data = new HashMap<>();
 	}

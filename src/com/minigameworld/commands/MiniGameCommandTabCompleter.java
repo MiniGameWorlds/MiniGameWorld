@@ -54,7 +54,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.add("join");
 		this.candidates.add("leave");
 		this.candidates.add("list");
-		this.candidates.add("gui");
+		this.candidates.add("menu");
 		this.candidates.add("party");
 		this.candidates.add("reload");
 		this.candidates.add("settings");
@@ -88,7 +88,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void setMiniGamesKeyCandidates() {
-		this.minigameManager.getMiniGameList().get(0).getMiniGameData().getData().keySet()
+		this.minigameManager.getMiniGameList().get(0).getDataManager().getData().keySet()
 				.forEach(key -> candidates.add(key));
 	}
 

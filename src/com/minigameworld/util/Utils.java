@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.helpers.MiniGameData;
+import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -51,6 +51,6 @@ public class Utils {
 	}
 
 	public static File getMiniGamesFolder() {
-		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameData.FOLDER_NAME);
+		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameDataManager.FOLDER_NAME);
 	}
 }

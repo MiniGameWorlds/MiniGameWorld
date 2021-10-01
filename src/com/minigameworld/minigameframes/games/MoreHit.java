@@ -25,7 +25,7 @@ public class MoreHit extends TeamBattleMiniGame {
 		this.setGroupChat(true);
 		this.setTeamRegisterMode(TeamRegisterMode.NONE);
 		this.getSetting().setIcon(Material.STICK);
-		this.getCustomOption().setOption(Option.PVP, true);
+		this.getCustomOption().set(Option.PVP, true);
 	}
 
 	@Override

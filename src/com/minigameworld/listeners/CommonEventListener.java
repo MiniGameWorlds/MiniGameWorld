@@ -151,12 +151,12 @@ public class CommonEventListener implements Listener {
 	 */
 	@EventHandler
 	private void checkPlayerClickMiniGameGUI(InventoryClickEvent e) {
-		this.minigameManager.getMiniGameGUIManager().processInventoryEvent(e);
+		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
 	}
 
 	@EventHandler
 	private void checkPlayerCloseMiniGameGUI(InventoryCloseEvent e) {
-		this.minigameManager.getMiniGameGUIManager().processInventoryEvent(e);
+		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
 	}
 
 	/*
@@ -184,7 +184,7 @@ public class CommonEventListener implements Listener {
 				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
 				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
 					if (!minigameSign) {
-						p.sendMessage(Setting.SETTINGS_MINIGAME_SIGN + " option is false");
+						Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
 						return;
 					}
 

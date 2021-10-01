@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
-import com.minigameworld.minigameframes.helpers.MiniGameData;
+import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
 import com.minigameworld.minigameframes.helpers.MiniGameRankManager;
@@ -53,7 +53,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private MiniGameRankManager rankManager;
 
 	// data
-	private MiniGameData minigameData;
+	private MiniGameDataManager minigameDataManager;
 
 	// custom option
 	private MiniGameCustomOption customOption;
@@ -100,7 +100,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
 		this.rankManager = new MiniGameRankManager(this);
-		this.minigameData = new MiniGameData(this);
+		this.minigameDataManager = new MiniGameDataManager(this);
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -310,7 +310,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.getTaskManager().runTaskTimer("_waitingTimer", 0, 20);
 	}
 
-	protected void restartWaitingTask() {
+	private void restartWaitingTask() {
 		this.initTasks();
 		this.startWaitingTimer();
 	}
@@ -416,7 +416,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	}
 
-	protected List<Entry<Player, Integer>> getRank(List<Player> players) {
+	public List<Entry<Player, Integer>> getRank(List<Player> players) {
 		// return rank with MiniGame RankOrder setting
 		RankOrder order = this.getSetting().getRankOrder();
 		if (order == RankOrder.ASCENDING) {
@@ -565,7 +565,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void plusScore(Player p, int amount) {
 		this.getPlayerData(p).plusScore(amount);
 		// check scoreNotifying
-		if ((boolean) this.customOption.getOption(Option.SCORE_NOTIFYING)) {
+		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.WHITE + amount);
 		}
 	}
@@ -577,7 +577,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void minusScore(Player p, int amount) {
 		this.getPlayerData(p).minusScore(amount);
 		// check scoreNotifying
-		if ((boolean) this.customOption.getOption(Option.SCORE_NOTIFYING)) {
+		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
 			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.WHITE + amount);
 		}
 	}
@@ -692,8 +692,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.rankManager;
 	}
 
-	public MiniGameData getMiniGameData() {
-		return this.minigameData;
+	public MiniGameDataManager getDataManager() {
+		return this.minigameDataManager;
 	}
 
 	public MiniGameCustomOption getCustomOption() {

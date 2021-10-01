@@ -78,13 +78,13 @@ public class PassMob extends TeamBattleMiniGame {
 		super("PassMob", 2, 60 * 3, 10);
 
 		// settings
-		this.getSetting().setPassUndetectableEvents(true);
+		this.getSetting().setPassUndetectableEvent(true);
 		this.getSetting().setRankOrder(RankOrder.ASCENDING);
 		this.setGroupChat(true);
 		this.getSetting().setIcon(Material.OAK_FENCE);
 
 		// options
-		this.getCustomOption().setOption(Option.MINIGAME_RESPAWN, false);
+		this.getCustomOption().set(Option.MINIGAME_RESPAWN, false);
 
 		// areas
 		this.redArea = new Area("red");

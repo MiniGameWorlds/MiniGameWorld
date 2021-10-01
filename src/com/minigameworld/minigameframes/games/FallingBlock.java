@@ -26,7 +26,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		this.getSetting().setIcon(Material.SAND);
 
 		// options
-		this.getCustomOption().setOption(Option.PVP, true);
+		this.getCustomOption().set(Option.PVP, true);
 
 		// task
 		this.removeBelowBlockTask();

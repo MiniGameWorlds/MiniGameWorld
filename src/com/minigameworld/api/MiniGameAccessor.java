@@ -50,7 +50,7 @@ public class MiniGameAccessor {
 	}
 
 	public Object getCustomOption(MiniGameCustomOption.Option option) {
-		return this.minigame.getCustomOption().getOption(option);
+		return this.minigame.getCustomOption().get(option);
 	}
 
 	public String getClassName() {

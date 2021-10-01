@@ -3,7 +3,7 @@ package com.minigameworld.util;
 public class Setting {
 	public static final boolean DEBUG_MODE = true;
 
-	public static final String GUI_INV_TITLE = "MiniGameWorld";
+	public static final String MENU_INV_TITLE = "MiniGameWorld";
 
 	// party
 	public static final int PARTY_INVITE_TIMEOUT = 60;

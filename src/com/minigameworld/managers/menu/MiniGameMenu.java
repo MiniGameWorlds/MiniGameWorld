@@ -1,4 +1,4 @@
-package com.minigameworld.managers.gui;
+package com.minigameworld.managers.menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import com.wbm.plugin.util.PlayerTool;
 
 import net.kyori.adventure.text.Component;
 
-public class MiniGameGUI {
+public class MiniGameMenu {
 	/*
-	 * GUI Inventory
+	 * Menu Inventory
 	 */
 	private Player player;
 	private MiniGameManager minigameManager;
@@ -32,7 +32,7 @@ public class MiniGameGUI {
 	private final int minigameIconListSize = 27;
 
 	private enum BaseIcon {
-		LEAVE_GAME(ItemStackTool.item(Material.WHITE_BED, "Leave Game"), 1),
+		LEAVE_GAME(ItemStackTool.item(Material.OAK_DOOR, "Leave Game"), 1),
 		HORIZON_LINE(ItemStackTool.item(Material.BARRIER, " "), 9),
 		PREVIOUS_PAGE(ItemStackTool.item(Material.REDSTONE_TORCH, "<"), 48),
 		CURRENT_PAGE(ItemStackTool.item(Material.PAPER, "1"), 49),
@@ -55,7 +55,7 @@ public class MiniGameGUI {
 		}
 	}
 
-	public MiniGameGUI(Player player, MiniGameManager minigameManager) {
+	public MiniGameMenu(Player player, MiniGameManager minigameManager) {
 		this.player = player;
 		this.minigameManager = minigameManager;
 		this.currentPage = 1;
@@ -63,7 +63,7 @@ public class MiniGameGUI {
 	}
 
 	private void makeBaseIcons() {
-		this.inv = Bukkit.createInventory(null, 9 * 6, Component.text(Setting.GUI_INV_TITLE));
+		this.inv = Bukkit.createInventory(null, 9 * 6, Component.text(Setting.MENU_INV_TITLE));
 
 		// player head
 		ItemStack playerHead = this.getPlayerHead(this.player);
@@ -119,7 +119,7 @@ public class MiniGameGUI {
 		}
 	}
 
-	public Inventory createGUI(int page) {
+	public Inventory createMenu(int page) {
 		// set player head content
 		this.updatePlayerHead();
 
@@ -144,8 +144,8 @@ public class MiniGameGUI {
 		return this.inv;
 	}
 
-	public void updateGUI() {
-		this.createGUI(this.currentPage);
+	public void updateMenu() {
+		this.createMenu(this.currentPage);
 	}
 
 	private ItemStack getMiniGameIcon(MiniGame minigame) {

@@ -28,7 +28,7 @@ public class RemoveBlock extends TeamMiniGame {
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
 
-		this.getCustomOption().setOption(Option.BLOCK_BREAK, true);
+		this.getCustomOption().set(Option.BLOCK_BREAK, true);
 
 	}
 
