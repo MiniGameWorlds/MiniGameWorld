@@ -1,5 +1,5 @@
 # Description
-- This doucment describe how to make minigame with `MiniGameWorld`
+- This doucment describe how to make `Minigame plugin`, `Third-Party plugin`
 - About MiniGameWorld plugin's structure: [Dev Wiki]
 
 
@@ -19,7 +19,7 @@
 - [MiniGameWorld]: MiniGame Framework
 - [wbmMC]: Minecraft util library (not essential) 
 - Add build path libs
-- `plugin.yml`: add `[MiniGameWorld]` in `depend` section
+- add `[MiniGameWorld]` to `depend` section in `plugin.yml`
 
 
 
@@ -37,14 +37,9 @@
 
 
 
-# Contact 
-- [Discord]
-
-
 
 [Dev Wiki]: ../devWiki/home.md
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
-[Discord]: https://discord.com/invite/fJbxSy2EjA
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
