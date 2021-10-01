@@ -210,6 +210,7 @@ protected void runTaskAfterStart() {
 - InventoryMoveItemEvent
 - PlayerLeashEntityEvent
 ```
+- And [Detailed Event list](.)
 
 ## Override
 - Almost overrided method shold have `super.method()`
