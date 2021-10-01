@@ -23,22 +23,22 @@
 
 
 
-# 제작
-## 미니게임 제작
+# How to make
+## MiniGame
 - [making-minigame-guide](making-minigame-guide.md)
 
-## 3rd party 플러그인 제작
+## Thirdy party plugin
 - [making-3rd-party-guide](making-3rd-party-guide.md)
 
 
 
-# 유튜브 가이드
-- [가이드]
+# Tutorial
+- [Tutorial]()
 
 
 
-# 연락
-- [디스코드]
+# Contact
+- [Discord]
 
 
 
@@ -46,6 +46,5 @@
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
-[디스코드]: https://discord.com/invite/fJbxSy2EjA
+[Discord]: https://discord.com/invite/fJbxSy2EjA
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
-[BukkitRunnable 참고]: https://www.spigotmc.org/threads/prevent-already-scheduled-as-xxx-error.202486/#post-2103877
