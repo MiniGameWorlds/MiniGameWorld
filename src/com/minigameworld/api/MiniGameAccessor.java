@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.minigameframes.MiniGame.GameException;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
-import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGameAccessor {
 
@@ -22,29 +20,6 @@ public class MiniGameAccessor {
 		this.minigame = minigame;
 	}
 
-	/*
-	 * API
-	 * 
-	- `isEmpty`: 
-	- `isFull`: 
-	- `containsPlayer`: 
-	- `getPlayers`: 
-	- `getPlayerCount`: 
-	- `getScore`: 
-	//	- `handleException`: 
-	- `getTitle`: 
-	- `getLocation`: 
-	- `getWaitingTime`: 
-	- `getTimeLimit`: 
-	- `getMaxPlayerCount`: 
-	- `isActive`: 
-	- `isSettingFixed`: 
-	- `getClassName`: 
-	- `getLeftWaitTime`: 
-	- `getLeftFinishTime`: 
-	- `getEveryoneNameString`: 
-	- `getCurrentScoreRanking`: 
-	 */
 	public boolean isEmpty() {
 		return this.minigame.isEmpty();
 	}
@@ -61,64 +36,21 @@ public class MiniGameAccessor {
 		return this.minigame.getPlayers();
 	}
 
-	public int getPlayerCount() {
-		return this.minigame.getPlayerCount();
-	}
-
 	protected int getPlayerScore(Player p) {
 		return this.minigame.getScore(p);
 	}
 
-	// minigame can hurt
-//	public void handleException(Player p, Exception exception, Object arg) {
-//		this.minigame.handleException(p, exception, arg);
-//	}
-
-	public String getTitle() {
-		return this.minigame.getTitle();
+	public void handleException(Player p, GameException exception, Object arg) {
+		this.minigame.handleException(p, exception, arg);
 	}
 
-	public Location getLocation() {
-		// copied instance
-		return this.minigame.getLocation().clone();
-	}
-
-	public int getWaitingTime() {
-		return this.minigame.getWaitingTime();
-	}
-
-	public int getTimeLimit() {
-		return this.minigame.getTimeLimit();
-	}
-
-	public int getMaxPlayerCount() {
-		return this.minigame.getMaxPlayerCount();
-	}
-
-	public boolean isActive() {
-		return this.minigame.isActive();
-	}
-
-	public boolean isSettingFixed() {
-		return this.minigame.isSettingFixed();
+	public Map<String, Object> getSettings() {
+		// copied
+		return new HashMap<>(this.minigame.getDataManager().getData());
 	}
 
 	public Object getCustomOption(MiniGameCustomOption.Option option) {
 		return this.minigame.getCustomOption().getOption(option);
-	}
-
-	public List<String> getTutorial() {
-		// copied instance
-		return new ArrayList<>(this.minigame.getTutorial());
-	}
-
-	public Map<String, Object> getCustomData() {
-		// copied instance
-		return new HashMap<>(this.minigame.getCustomData());
-	}
-
-	public Material getIcon() {
-		return this.minigame.getSetting().getIcon();
 	}
 
 	public String getClassName() {
@@ -133,17 +65,11 @@ public class MiniGameAccessor {
 		return this.minigame.getLeftFinishTime();
 	}
 
-	public String getEveryoneName() {
-		return PlayerTool.getPlayersNameString(this.minigame.getPlayers(), ",");
+	public List<Entry<Player, Integer>> getScoreRank() {
+		// copied
+		return new ArrayList<>(this.minigame.getRank(this.minigame.getPlayers()));
 	}
 
-	public List<Entry<Player, Integer>> getAscendingScoreRanking() {
-		return this.minigame.getMiniGameRankManager().getAscendingScoreRanking(this.minigame.getPlayers());
-	}
-
-	public List<Entry<Player, Integer>> getDescendingScoreRanking() {
-		return this.minigame.getMiniGameRankManager().getDescendingScoreRanking(this.minigame.getPlayers());
-	}
 }
 //
 //

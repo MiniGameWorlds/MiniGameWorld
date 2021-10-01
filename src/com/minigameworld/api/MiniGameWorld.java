@@ -34,23 +34,6 @@ public class MiniGameWorld {
 		}
 	}
 
-	/*
-	 * API
-	 * 
-	 * - joinGame
-	 * - leaveGame
-	 * - handleException
-	 * - checkPlayerIsPlayingMiniGame
-	 * - getMiniGameWithClassName
-	 * - getPlayingGame
-	 * - getMiniGameList
-	 * - registerMiniGame
-	 * - unregisterMiniGame
-	 * - getLobby
-	 * - openGUI
-	 * - getPartyManager
-	 */
-
 	public void joinGame(Player p, String title) {
 		this.minigameManager.joinGame(p, title);
 	}
