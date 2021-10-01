@@ -202,7 +202,7 @@ protected void runTaskAfterStart() {
 - Detectable events only pass to minigame that player from event is playing minigame
 - Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
 - If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
-- [Detectable Event List](.)
+- [Detectable Event List](detectable-event-list.md)
 
 ## Override
 - Almost overrided method shold have `super.method()`
