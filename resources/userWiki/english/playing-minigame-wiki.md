@@ -37,7 +37,7 @@
 - `/minigame menu`
 - Join: click minigame
 - Leave: click leave icon
-
+- Must set `minigame-command` in `settings.yml` to true
 
 
 # Types
@@ -73,6 +73,20 @@
 - `/minigame minigames <key> <value>`: set minigame setting in `minigames/<minigame>.yml` config file
 
 
+
+# Party System
+- Party **doesn't** have `leader`
+- All player can `join` / `leave` minigames
+- All player can `invite` / `allow` players
+- All player can `kickvote` player 
+
+
+
+# Third-Party plugin
+- You can `give reward with rank `, `save rank data` and etc with third party plugins
+
+
+
 # Tutorial
 - [Tutorial]()
 
@@ -85,6 +99,9 @@
 
 
 # Config
+- Minigame has each files in `MiniGameWorld/minigames` folder
+- Deleted minigame file will be removed
+- Minigame config created with default values by developer's settings
 ## `setting.yml`
 - Plugin settings
 ```yml
@@ -102,7 +119,7 @@ settings:
     yaw: 90.0
 ```
 - `lobby`: player will be teleport to location when game end
-- `message-prefix`: system message of `MiniGameWorld` pluin
+- `message-prefix`: system message of `MiniGameWorld` plugin
 - `minigame-sign`: whether you can join or leave minigame with right-click sign (true / false)
 - `minigame-command`: whether you can use plugin command (true / false)
 
@@ -162,10 +179,8 @@ PVP:
 - `icon`: Material which show in menu
 - `location`: minigame join location
 - `tutorial`: tutorials
-- `custom-data`: custom data by developer
-- Minigame has each files in `minigames` folder
-- Deleted minigame file will be removed
-- Minigame config created with default values by developer (can be changed by a user)
+- `custom-data`: custom data added by developer
+
 
 
 
