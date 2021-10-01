@@ -170,13 +170,13 @@ PVP:
       health: 30
     chatting: true
 ```
-- `title`: minigame title (different with Class Name)
+- `title`: minigame title (can be different with Class Name)
 - `time-limit`: minigame playing time limit (sec)
 - `min-player-count`: minimun player for playing game
 - `max-player-count`: maximun player for playing game
 - `waiting-time`: waiting time (sec)
 - `active`: whether this minigame is active in the server(true/false)
-- `icon`: Material which show in menu
+- `icon`: Material which show in menu (Material)
 - `location`: minigame join location
 - `tutorial`: tutorials
 - `custom-data`: custom data added by developer
