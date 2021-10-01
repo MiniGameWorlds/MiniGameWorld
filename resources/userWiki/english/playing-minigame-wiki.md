@@ -165,7 +165,7 @@ PVP:
 - `custom-data`: custom data by developer
 - Minigame has each files in `minigames` folder
 - Deleted minigame file will be removed
-- Minigame has a default settings (can be changed by a user)
+- Minigame config created with default values by developer (can be changed by a user)
 
 
 
@@ -173,5 +173,4 @@ PVP:
 - [Discord]
 
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
-[Tutorial]: 
 [Discord]: https://discord.com/invite/fJbxSy2EjA
