@@ -17,6 +17,15 @@
 ### 1. Sign
 <img src="sign-join.png" width="49%"></img>
 <img src="sign-leave.png" width="49%"></img>
+- Join
+```yaml
+[MiniGame]
+ <title>
+```
+- Leave
+```yaml
+[Leave Minigame]
+```
 - Must set `minigame-sign` in `settings.yml` to true
 
 ### 2. Command
@@ -24,10 +33,10 @@
 - Leave: `/minigame leave`
 - Must set `minigame-command` in `settings.yml` to true
 
-### 3. GUI
-- `/minigame gui`
+### 3. MENU
+- `/minigame menu`
 - Join: click minigame
-- Leave: click bed
+- Leave: click leave icon
 
 
 
@@ -46,7 +55,7 @@
 - `/minigame join <title>`: join `<title>` minigame
 - `/minigame leave`: leave current playing minigame (when only waiting)
 - `/minigame list`: print minigame list
-- `/minigame gui`: open GUI
+- `/minigame menu`: open menu
 - `/minigame reload`: reload all configs
 ## Party
 - `/minigame party invite <player>`: invite `<player>` to your party
@@ -150,7 +159,7 @@ PVP:
 - `max-player-count`: maximun player for playing game
 - `waiting-time`: waiting time (sec)
 - `active`: whether this minigame is active in the server(true/false)
-- `icon`: Material which show in GUI
+- `icon`: Material which show in menu
 - `location`: minigame join location
 - `tutorial`: tutorials
 - `custom-data`: custom data by developer
