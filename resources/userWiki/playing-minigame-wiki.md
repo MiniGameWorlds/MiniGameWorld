@@ -100,7 +100,7 @@
 
 # Config
 - Minigame has each files in `MiniGameWorld/minigames` folder
-- Deleted minigame file will be removed
+- Deleted minigame file will be removed automatically
 - Minigame config created with default values by developer's settings
 ## `setting.yml`
 - Plugin settings

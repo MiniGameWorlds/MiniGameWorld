@@ -7,7 +7,7 @@
 - [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/english/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
-## 2. Make class
+## 2. Craete class
 ### Essential overriding methods
 - `initGameSetting()`: executed every time when minigame starts
 - `processEvent()`: executed when event is passed to minigame
@@ -49,14 +49,14 @@ mw.registerMiniGame(new FitTool());
 ## - MiniGameSetting
 - Fundamental settings of minigame
 - `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
-- `passUndetectableEvents`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
+- `passUndetectableEvent`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
 - `rankOrder`: rank order method by score
 ### How to use
 ```java
 public PassMob() {
   super("PassMob", 2, 60 * 3, 10);
   // settings
-  this.getSetting().setPassUndetectableEvents(true);
+  this.getSetting().setPassUndetectableEvent(true);
   this.getSetting().setRankOrder(RankOrder.ASCENDING);
   this.getSetting().setIcon(Material.OAK_FENCE);
 }
@@ -202,14 +202,7 @@ protected void runTaskAfterStart() {
 - Detectable events only pass to minigame that player from event is playing minigame
 - Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
 - If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
-```yaml
-- PlayerEvent
-- EntityEvent
-- HangingEvent
-- InventoryEvent
-- InventoryMoveItemEvent
-- PlayerLeashEntityEvent
-```
+- [Detectable Event List](detectable-event-list.md)
 
 ## Override
 - Almost overrided method shold have `super.method()`
