@@ -14,9 +14,10 @@
 
 
 # Minigame Join/Leave
-- `Join/Leave` way can be changed
+- Can change `Join/Leave` way 
 - Example
 ```java
+// join minigame with portal
 @EventHandler
 public void onPlayerEnterPortal(EntityPortalEnterEvent e) {
   if (e.getEntity() instanceof Player) {
@@ -27,6 +28,7 @@ public void onPlayerEnterPortal(EntityPortalEnterEvent e) {
   }
 }
 
+// leave minigame with right-click block
 @EventHandler
 public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
   Player p = e.getPlayer();
@@ -46,7 +48,7 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 
 
 
-# GUI
+# Menu
 
 
 
@@ -63,6 +65,7 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 
 ## Examples
 ### Reward System
+- Give reward when minigame finished
 ```java
 class RewardManager implements MiniGameObserver {
 
