@@ -64,7 +64,7 @@
 - `/minigame party list`: show party member list
 ## Config
 ### settings
-- `/minigame settings <key> <value>`: set server setting in `settings.yml` config file
+- `/minigame settings <key> <value>`: set plugin setting in `settings.yml` config file
 ### minigames
 - `/minigame minigames <key> <value>`: set MiniGame setting in `minigames/<minigame>.yml` config file
 
@@ -109,9 +109,23 @@ PVP:
   title: PVP
   time-limit: 180
   min-player-count: 2
+  max-player-count: 5
+  waiting-time: 30
+  active: true
+  icon: STONE_SWORD
+  location:
+    ==: org.bukkit.Location
+    world: world
+    x: 0.0
+    y: 4.0
+    z: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  tutorial:
+  - 'kill: +1'
   custom-data:
     block-break: false
-    health: 30
+    block-place: false
     score-notifying: true
     pvp: true
     inventory-save: true
@@ -130,51 +144,28 @@ PVP:
     - ==: org.bukkit.inventory.ItemStack
       v: 2730
       type: COOKED_PORKCHOP
-      amount: 10
-    - ==: org.bukkit.inventory.ItemStack
-      v: 2730
-      type: GOLDEN_APPLE
-    - ==: org.bukkit.inventory.ItemStack
-      v: 2730
-      type: WOODEN_AXE
+      health: 30
     chatting: true
-    block-place: false
-  waiting-time: 10
-  max-player-count: 5
-  icon: STONE_SWORD
-  active: true
-  location:
-    ==: org.bukkit.Location
-    world: world
-    x: 0.0
-    y: 4.0
-    z: 0.0
-    pitch: 0.0
-    yaw: 0.0
-  tutorial:
-  - 'kill: +1'
-  
 ```
-- `title`: 게임 제목
-- `timeLimit`: 플레이 제한 시간 (초)
-- `maxPlayerCount`: 최대 인원수 
-- `icon`: GUI에 표시되는 아이템 아이콘
-- `waitingTime`: 대기시간 (초)
-- `active`: 게임 활성화 여부 (true/false)
-- `scoreNotifying`: 스코어 변경 자동 알림 여부 (true/false) 
-- `forceFullPlayer`: 게임 플레이어 수(`maxPlayerCount`) 강제 여부 (true/false)
-- `location`: 입장 스폰 위치
-- `customData`: 미니게임의 커스텀 설정 값
-- `tutorial`: 튜토리얼 설명글
-- 플러그인으로 넣은 미니게임이 자동으로 `minigames.yml`에 등록됨 
-- 없는 미니게임은 서버가 종료된 후 `minigames.yml`에서 삭제됨
-- 각 미니게임에 맞게 기본값이 설정되어 있음 (각 미니게임의 기본값 변경 원할 시: 해당 미니게임 개발자에게 질문)
+- `title`: minigame title (different with Class Name)
+- `time-limit`: minigame playing time limit (sec)
+- `min-player-count`: minimun player for playing game
+- `max-player-count`: maximun player for playing game
+- `waiting-time`: waiting time (sec)
+- `active`: whether this minigame is active in the server(true/false)
+- `icon`: Material which show in GUI
+- `location`: minigame join location
+- `tutorial`: tutorials
+- `custom-data`: custom data of minigame
+- Minigame has each files in `minigames` folder
+- Deleted minigame file will be removed
+- Minigame has a default settings (can be changed by a user)
 
 
 
-# 연락
-- [디스코드]
+# Contact
+- [Discord]
 
-[미니게임 월드]: https://github.com/worldbiomusic/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC
-[디스코드]: https://discord.com/invite/fJbxSy2EjA
+[MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
+[Tutorial]: 
+[Discord]: https://discord.com/invite/fJbxSy2EjA
