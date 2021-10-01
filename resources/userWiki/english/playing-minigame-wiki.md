@@ -76,9 +76,9 @@
 
 # Party System
 - Party **doesn't** have `leader`
-- All player can `join` / `leave` minigames
-- All player can `invite` / `allow` players
-- All player can `kickvote` player 
+- All members can `join` / `leave` minigames
+- All members can `invite` / `allow` players
+- All members can `kickvote` player 
 
 
 
