@@ -276,7 +276,7 @@ if(!this.isMinPlayersLive()) {
 - wiki 작성
 - MiniGameAccessor에서 대부분 setting data(getTitle(), getTimeLimit()  등등) 삭제하기 (getSettings()로 Map형태로 접근할 수 있게 만들었기 떄문)
 - 이름변경: MiniGameGUI > MiniGameMenu
-
+- version체크 기능 추가 (MiniGameWorld와 MiniGame, Third party 등록간의 확인 작업): VersionChecker
 
 
 

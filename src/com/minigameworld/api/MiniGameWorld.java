@@ -12,8 +12,14 @@ import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
 import com.minigameworld.observer.MiniGameObserver;
+import com.minigameworld.util.Setting;
+import com.minigameworld.util.VersionChecker;
+import com.minigameworld.util.VersionChecker.Different;
 
 public class MiniGameWorld {
+
+	public static final String VERSION = Setting.VERSION;
+
 	/*
 	 * MiniGameManager wrapper(api) class
 	 */
@@ -23,8 +29,22 @@ public class MiniGameWorld {
 	private MiniGameWorld() {
 	}
 
-	public static MiniGameWorld create() {
-		return instance;
+	public static MiniGameWorld create(String version) {
+		if (checkCompatibleVersion(version)) {
+			return instance;
+		}
+
+		return null;
+	}
+
+	public static boolean checkCompatibleVersion(String version) {
+		Different diff = VersionChecker.getDifferent(MiniGameWorld.VERSION, version);
+		// only return instance when diff is PATCH
+		if (diff == Different.PATCH) {
+			return true;
+		}
+		// MINER, MAJOR or null
+		return false;
 	}
 
 	public void setMiniGameManager(MiniGameManager minigameM) {

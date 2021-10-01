@@ -1,6 +1,8 @@
 package com.minigameworld.util;
 
 public class Setting {
+	public static final String VERSION = "1.0.0";
+	
 	public static final boolean DEBUG_MODE = true;
 
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
@@ -29,4 +31,6 @@ public class Setting {
 	public static final String MINIGAMES_TUTORIAL = "tutorial";
 	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";
 	public static final String MINIGAMES_ICON = "icon";
+
+	
 }

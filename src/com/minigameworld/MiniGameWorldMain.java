@@ -22,6 +22,7 @@ import com.minigameworld.minigameframes.games.RemoveBlock;
 import com.minigameworld.minigameframes.games.RockScissorPaper;
 import com.minigameworld.minigameframes.games.ScoreClimbing;
 import com.minigameworld.minigameframes.games.SuperMob;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 
@@ -70,7 +71,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void setupSettings() {
 		this.minigameManager = MiniGameManager.getInstance();
 		// MiniGameWorld wrapper class: set MiniGameManager
-		MiniGameWorld minigameWorld = MiniGameWorld.create();
+		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
 	}
 
@@ -92,7 +93,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void registerMiniGames() {
 		// register minigames
-		MiniGameWorld minigameWorld = MiniGameWorld.create();
+		if (!MiniGameWorld.checkCompatibleVersion(Setting.VERSION)) {
+			return;
+		}
+		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.VERSION);
 		minigameWorld.registerMiniGame(new FitTool());
 		minigameWorld.registerMiniGame(new RandomScore());
 		minigameWorld.registerMiniGame(new MoreHit());

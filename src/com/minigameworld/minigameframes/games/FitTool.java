@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.minigameworld.util.Utils;
 
 public class FitTool extends SoloMiniGame {
 	/*
