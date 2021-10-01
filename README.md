@@ -3,7 +3,7 @@
 
 
 # Wiki
-- [User Wiki](resources/userWiki/english/home.md)
+- [User Wiki](resources/userWiki/home.md)
 - [Dev Wiki](resources/devWiki/home.md)
 
 # Community
