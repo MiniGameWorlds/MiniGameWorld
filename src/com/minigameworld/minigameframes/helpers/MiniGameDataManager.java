@@ -1,7 +1,7 @@
 package com.minigameworld.minigameframes.helpers;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -23,7 +23,7 @@ public class MiniGameDataManager implements YamlMember {
 
 	public MiniGameDataManager(MiniGame minigame) {
 		this.minigame = minigame;
-		this.data = new HashMap<>();
+		this.data = new LinkedHashMap<>();
 	}
 
 	public void createMiniGameData() {

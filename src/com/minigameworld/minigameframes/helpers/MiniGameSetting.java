@@ -2,6 +2,7 @@ package com.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -236,18 +237,18 @@ public class MiniGameSetting {
 
 	public Map<String, Object> getFileSetting() {
 		// return settings that exist in minigames.yml
-		Map<String, Object> setting = new HashMap<String, Object>();
+		Map<String, Object> setting = new LinkedHashMap<String, Object>();
 
 		setting.put(Setting.MINIGAMES_TITLE, this.title);
-		setting.put(Setting.MINIGAMES_LOCATION, this.location);
 		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayerCount);
 		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayerCount);
 		setting.put(Setting.MINIGAMES_WAITING_TIME, this.waitingTime);
 		setting.put(Setting.MINIGAMES_TIME_LIMIT, this.timeLimit);
 		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
+		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
+		setting.put(Setting.MINIGAMES_LOCATION, this.location);
 		setting.put(Setting.MINIGAMES_TUTORIAL, this.tutorial);
 		setting.put(Setting.MINIGAMES_CUSTOM_DATA, this.customData);
-		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
 
 		return setting;
 	}
