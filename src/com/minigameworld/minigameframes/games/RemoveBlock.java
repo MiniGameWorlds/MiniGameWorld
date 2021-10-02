@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +15,7 @@ import com.minigameworld.minigameframes.TeamMiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.InventoryTool;
+import com.wbm.plugin.util.LocationTool;
 
 public class RemoveBlock extends TeamMiniGame {
 
@@ -21,15 +23,15 @@ public class RemoveBlock extends TeamMiniGame {
 	 * Remove all blocks 
 	 */
 	private Location pos1, pos2;
-	private List<ItemStack> blocks;
+	private List<Material> blocks;
 
 	public RemoveBlock() {
 		super("RemoveBlock", 1, 4, 60 * 3, 10);
+		this.blocks = new ArrayList<>();
 		this.registerTasks();
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
 
 		this.getCustomOption().set(Option.BLOCK_BREAK, true);
-
 	}
 
 	protected void registerTasks() {
@@ -49,32 +51,45 @@ public class RemoveBlock extends TeamMiniGame {
 		data.put("pos1", this.getLocation());
 		data.put("pos2", this.getLocation());
 
-		// block list
-		List<ItemStack> blockList = new ArrayList<ItemStack>();
-		blockList.add(new ItemStack(Material.DIRT));
-		blockList.add(new ItemStack(Material.COBWEB));
-		blockList.add(new ItemStack(Material.STONE));
-		blockList.add(new ItemStack(Material.OAK_WOOD));
-		this.getCustomData().put("blocks", blockList);
+		// Blocks
+		// save with String (Material doesn't implement ConfigurationSerialization)
+		List<String> blocksData = new ArrayList<>();
+		// sword
+		blocksData.add(Material.COBWEB.name());
+		// axe
+		blocksData.add(Material.OAK_WOOD.name());
+		// pickaxe
+		blocksData.add(Material.COBBLESTONE.name());
+		// shovel
+		blocksData.add(Material.DIRT.name());
+
+		data.put("blocks", blocksData);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	protected void initGameSettings() {
+	public void loadCustomData() {
 		// set positoins
 		this.pos1 = (Location) this.getCustomData().get("pos1");
 		this.pos2 = (Location) this.getCustomData().get("pos2");
 
-		// set blocks
-		this.blocks = (List<ItemStack>) this.getCustomData().get("blocks");
+		@SuppressWarnings("unchecked")
+		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
+
+		for (String block : blocksStr) {
+			this.blocks.add(Material.valueOf(block));
+		}
+	}
+
+	@Override
+	protected void initGameSettings() {
 	}
 
 	@Override
 	protected void processEvent(Event event) {
 		if (event instanceof BlockBreakEvent) {
 			BlockBreakEvent e = (BlockBreakEvent) event;
-			ItemStack block = new ItemStack(e.getBlock().getType());
-			if (this.isTargetBlock(block)) {
+			Block block = e.getBlock();
+			if (LocationTool.isIn(pos1, block.getLocation(), pos2) && this.isTargetBlock(block)) {
 				e.getBlock().setType(Material.AIR);
 				if (this.checkAllBlocksRemoved()) {
 					this.endGame();
@@ -83,8 +98,8 @@ public class RemoveBlock extends TeamMiniGame {
 		}
 	}
 
-	boolean isTargetBlock(ItemStack target) {
-		return this.blocks.contains(target);
+	boolean isTargetBlock(Block target) {
+		return this.blocks.contains(target.getType());
 	}
 
 	boolean checkAllBlocksRemoved() {
@@ -92,7 +107,7 @@ public class RemoveBlock extends TeamMiniGame {
 	}
 
 	void refillAllBlocks() {
-		BlockTool.fillRandomBlock(pos1, pos2, this.blocks);
+		BlockTool.fillBlockWithRandomMaterial(pos1, pos2, this.blocks);
 	}
 
 	@Override

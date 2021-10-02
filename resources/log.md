@@ -1,5 +1,7 @@
 # 할 것
-
+- 백업 모듈 추가하기
+- 미니게임 배포, 요청 template 작성 (github의 discussions)
+- MiniGame lifecycle 그래프로 그리기
 - 만든 미니게임 customData, 등등 재정비 하기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
@@ -273,12 +275,14 @@ if(!this.isMinPlayersLive()) {
 - 미니게임 config(settings.yml, minigames/<game>.yml) cmd 제작 (reload()도 자동 실행)
 
 # 2021-10-01
-- wiki 작성
+- user wiki 작성
 - MiniGameAccessor에서 대부분 setting data(getTitle(), getTimeLimit()  등등) 삭제하기 (getSettings()로 Map형태로 접근할 수 있게 만들었기 떄문)
 - 이름변경: MiniGameGUI > MiniGameMenu
 - version체크 기능 추가 (MiniGameWorld와 MiniGame, Third party 등록간의 확인 작업): VersionChecker
 - 한글 wiki 제거
 
-
-
+# 2021-01-02
+- MiniGame에 loadCustomData() 추가하기
+- Github Discussions 작성 (template등)
+- Config: Yaml에서 Map의 Key저장 순서 관리 (HashMap > LinkedHashMap)
 

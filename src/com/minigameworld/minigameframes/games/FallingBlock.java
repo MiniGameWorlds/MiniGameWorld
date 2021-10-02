@@ -92,7 +92,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		this.removingBlock = Material.valueOf((String) this.getCustomData().get("removingBlock"));
 
 		// fill blocks
-		BlockTool.setBlockWithMaterial(pos1, pos2, this.removingBlock);
+		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
 	}
 
 	private void processFollenPlayer(Player p) {
@@ -111,7 +111,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		Location pos2 = (Location) this.getCustomData().get("pos2");
 
 		// fill blocks
-		BlockTool.setBlockWithMaterial(pos1, pos2, Material.STONE);
+		BlockTool.fillBlockWithMaterial(pos1, pos2, Material.STONE);
 
 		// start remove block task
 		this.getTaskManager().runTaskTimer("removeBelowBlock", 0, 2);

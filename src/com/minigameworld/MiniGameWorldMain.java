@@ -28,8 +28,7 @@ import com.wbm.plugin.util.data.yaml.YamlManager;
 
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {
-		// eclipse에서 "Runnable Jar"로 추출할 때 main메소드가 필요해서 넣은 임시 메소드
-		// Runnable Jar로 추출하면 사용하는 라이브러리를 한 jar파일에 넣을 수 있는 장점이 있음
+		// main Method for "Runnable Jar" option in Eclipse 
 		System.out.println("MiniGameWorld launched");
 	}
 

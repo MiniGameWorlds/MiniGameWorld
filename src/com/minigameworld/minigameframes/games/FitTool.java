@@ -2,7 +2,9 @@ package com.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,33 +14,67 @@ import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.wbm.plugin.util.BlockTool;
+import com.wbm.plugin.util.LocationTool;
 
 public class FitTool extends SoloMiniGame {
 	/*
 	 * Break blocks with fit tools
 	 */
 
-	List<Material> blocks;
+	private List<Material> blocks;
+	private Location pos1, pos2;
 
 	public FitTool() {
 		super("FitTool", 30, 10);
 		this.getSetting().setIcon(Material.STONE_PICKAXE);
-		this.getCustomOption().set(Option.SCORE_NOTIFYING, false);
-		this.getSetting().setPassUndetectableEvent(true);
+	}
 
+	@Override
+	public void loadCustomData() {
+		this.blocks = new ArrayList<>();
+		// blocks
+		@SuppressWarnings("unchecked")
+		List<String> blocksStr = (List<String>) this.getCustomData().get("blocks");
+
+		for (String block : blocksStr) {
+			this.blocks.add(Material.valueOf(block));
+		}
+
+		// blocks location
+		this.pos1 = (Location) this.getCustomData().get("pos1");
+		this.pos2 = (Location) this.getCustomData().get("pos2");
 	}
 
 	@Override
 	protected void initGameSettings() {
-		this.blocks = new ArrayList<Material>();
+		// fill blocks
+		BlockTool.fillBlockWithRandomMaterial(this.pos1, this.pos2, this.blocks);
+	}
+
+	@Override
+	protected void registerCustomData() {
+		super.registerCustomData();
+
+		Map<String, Object> data = this.getCustomData();
+
+		// Blocks
+		// save with String (Material doesn't implement ConfigurationSerialization)
+		List<String> blocksData = new ArrayList<>();
 		// sword
-		this.blocks.add(Material.COBWEB);
+		blocksData.add(Material.COBWEB.name());
 		// axe
-		this.blocks.add(Material.OAK_WOOD);
+		blocksData.add(Material.OAK_WOOD.name());
 		// pickaxe
-		this.blocks.add(Material.COBBLESTONE);
+		blocksData.add(Material.COBBLESTONE.name());
 		// shovel
-		this.blocks.add(Material.DIRT);
+		blocksData.add(Material.DIRT.name());
+
+		data.put("blocks", blocksData);
+
+		// blocks location
+		data.put("pos1", this.getLocation());
+		data.put("pos2", this.getLocation());
 	}
 
 	private Material getRandomBlock() {
@@ -55,14 +91,13 @@ public class FitTool extends SoloMiniGame {
 			Block b = e.getBlock();
 
 			// plus score with specific block
-			if (this.blocks.contains(b.getType())) {
+			if (LocationTool.isIn(pos1, b.getLocation(), pos2) && this.blocks.contains(b.getType())) {
 				e.setCancelled(true);
 				this.plusScore(p, 1);
 
 				// random block
 				b.setType(this.getRandomBlock());
 			}
-
 		}
 	}
 
@@ -80,7 +115,8 @@ public class FitTool extends SoloMiniGame {
 	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("Break block: +1");
+		tutorial.add("Break blocks with fit tools");
+		tutorial.add("Breaking block: +1");
 		return tutorial;
 	}
 
