@@ -135,6 +135,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void registerCustomData() {
 	}
 
+	public void loadCustomData() {
+	}
+
 	private void initMiniGame() {
 		this.started = false;
 

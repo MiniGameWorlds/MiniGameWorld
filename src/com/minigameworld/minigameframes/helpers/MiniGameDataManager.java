@@ -80,12 +80,15 @@ public class MiniGameDataManager implements YamlMember {
 			// customData
 			this.data.put(Setting.MINIGAMES_CUSTOM_DATA, this.minigame.getCustomData());
 		}
+
+		// call load custom data
+		this.minigame.loadCustomData();
 	}
 
 	public String getClassName() {
 		return this.minigame.getClassName();
 	}
-	
+
 	public Map<String, Object> getData() {
 		return this.data;
 	}
