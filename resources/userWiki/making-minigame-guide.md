@@ -133,11 +133,11 @@ protected void registerCustomData() {
   customData.put("items", items);
 }
 ```
-### How to use
-- Can use wherever with `getCustomData()`
+### How to load/use
+- Override `loadCustomData()` and load data
 ```java
 @Override
-protected void runTaskAfterStart() {
+protected void loadCustomData() {
   // set health scale
   this.health = (int) this.getCustomData().get("health");
   // give kit tool
