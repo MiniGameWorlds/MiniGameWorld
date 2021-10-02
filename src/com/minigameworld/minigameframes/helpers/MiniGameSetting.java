@@ -1,7 +1,6 @@
 package com.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +118,7 @@ public class MiniGameSetting {
 		this.active = true;
 		this.settingFixed = false;
 		this.tutorial = new ArrayList<String>();
-		this.customData = new HashMap<String, Object>();
+		this.customData = new LinkedHashMap<String, Object>();
 		this.icon = Material.STONE;
 		this.passUndetectableEvent = false;
 		this.rankOrder = RankOrder.DESCENDING;
