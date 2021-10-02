@@ -106,9 +106,6 @@
 - Plugin settings
 ```yml
 settings:
-  message-prefix: MiniGameWorld
-  minigame-sign: true
-  minigame-command: true
   lobby:
     ==: org.bukkit.Location
     world: world
@@ -117,6 +114,10 @@ settings:
     z: 0.0
     pitch: 0.0
     yaw: 90.0
+  message-prefix: MiniGameWorld
+  minigame-sign: true
+  minigame-command: true
+
 ```
 - `lobby`: player will be teleport to location when game end
 - `message-prefix`: system message of `MiniGameWorld` plugin
@@ -129,30 +130,25 @@ settings:
 ```yml
 PVP:
   title: PVP
-  time-limit: 180
   min-player-count: 2
   max-player-count: 5
-  waiting-time: 30
+  waiting-time: 10
+  time-limit: 180
   active: true
   icon: STONE_SWORD
   location:
     ==: org.bukkit.Location
     world: world
-    x: 100.0
-    y: 70.0
-    z: 100.0
+    x: 0.0
+    y: 4.0
+    z: 0.0
     pitch: 0.0
     yaw: 0.0
   tutorial:
   - 'kill: +1'
-  - 'give kit tools'
+  - 'death: respawn'
   custom-data:
-    block-break: false
-    block-place: false
-    score-notifying: true
-    pvp: true
-    inventory-save: true
-    minigame-respawn: true
+    health: 30
     items:
     - ==: org.bukkit.inventory.ItemStack
       v: 2730
@@ -164,17 +160,20 @@ PVP:
       v: 2730
       type: ARROW
       amount: 32
-    - ==: org.bukkit.inventory.ItemStack
-      v: 2730
-      type: COOKED_PORKCHOP
-      health: 30
     chatting: true
+    score-notifying: true
+    block-break: false
+    block-place: false
+    pvp: true
+    inventory-save: true
+    minigame-respawn: true
+
 ```
 - `title`: minigame title (can be different with Class Name)
-- `time-limit`: minigame playing time limit (sec)
 - `min-player-count`: minimun player for playing game
 - `max-player-count`: maximun player for playing game
 - `waiting-time`: waiting time (sec)
+- `time-limit`: minigame playing time limit (sec)
 - `active`: whether this minigame is active in the server(true/false)
 - `icon`: Material which show in menu (Material)
 - `location`: minigame join location
