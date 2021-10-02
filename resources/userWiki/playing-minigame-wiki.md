@@ -106,9 +106,6 @@
 - Plugin settings
 ```yml
 settings:
-  message-prefix: MiniGameWorld
-  minigame-sign: true
-  minigame-command: true
   lobby:
     ==: org.bukkit.Location
     world: world
@@ -117,6 +114,10 @@ settings:
     z: 0.0
     pitch: 0.0
     yaw: 90.0
+  message-prefix: MiniGameWorld
+  minigame-sign: true
+  minigame-command: true
+
 ```
 - `lobby`: player will be teleport to location when game end
 - `message-prefix`: system message of `MiniGameWorld` plugin
