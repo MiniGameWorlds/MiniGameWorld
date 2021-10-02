@@ -129,10 +129,10 @@ settings:
 ```yml
 PVP:
   title: PVP
-  time-limit: 180
   min-player-count: 2
   max-player-count: 5
   waiting-time: 30
+  time-limit: 180
   active: true
   icon: STONE_SWORD
   location:
@@ -171,10 +171,10 @@ PVP:
     chatting: true
 ```
 - `title`: minigame title (can be different with Class Name)
-- `time-limit`: minigame playing time limit (sec)
 - `min-player-count`: minimun player for playing game
 - `max-player-count`: maximun player for playing game
 - `waiting-time`: waiting time (sec)
+- `time-limit`: minigame playing time limit (sec)
 - `active`: whether this minigame is active in the server(true/false)
 - `icon`: Material which show in menu (Material)
 - `location`: minigame join location
