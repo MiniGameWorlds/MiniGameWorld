@@ -12,6 +12,7 @@ import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGamePlayerState {
 	private Player player;
+	private double healthScale;
 	private double health; // full
 	private int foodLevel; // full
 	private int level; // 0
@@ -34,6 +35,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void savePlayerState() {
+		// health scale
+		this.healthScale = this.player.getHealthScale();
+
 		// health
 		this.health = this.player.getHealth();
 
@@ -61,6 +65,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void restorePlayerState() {
+		// health scale
+		this.player.setHealthScale(this.healthScale);
+
 		// health
 		this.player.setHealth(this.health);
 
@@ -91,6 +98,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void makePureState() {
+		// set normal health scale (20)
+		this.player.setHealthScale(20);
+
 		// set health max
 		this.player.setHealth(this.player.getHealthScale());
 
