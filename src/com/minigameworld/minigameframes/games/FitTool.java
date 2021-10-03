@@ -13,7 +13,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
 

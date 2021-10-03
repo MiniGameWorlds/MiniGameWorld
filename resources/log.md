@@ -1,8 +1,7 @@
 # 할 것
-- 백업 모듈 추가하기
-- 미니게임 배포, 요청 template 작성 (github의 discussions)
-- MiniGame lifecycle 그래프로 그리기
-- 만든 미니게임 customData, 등등 재정비 하기
+- MiniGame lifecycle 그래프로 그려서 wiki에 등록
+- Github issue template 제작
+- 만든 미니게임 loadCustomData() 사용하기 등등 재정비 하기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 주문 제작 양식 만들기
@@ -15,9 +14,6 @@
 ```
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
 - 감지 못하는 이벤트들 일일히 검색해서 수동으로 추가하기
-- e.g.
-> EntityDamagedByEntityEvent의 damager가 Player일 때 
-> EntityDeathEvent의 entity의 killer가 Player일 때
 ```
 
 ---
@@ -281,8 +277,32 @@ if(!this.isMinPlayersLive()) {
 - version체크 기능 추가 (MiniGameWorld와 MiniGame, Third party 등록간의 확인 작업): VersionChecker
 - 한글 wiki 제거
 
-# 2021-01-02
+# 2021-10-02
 - MiniGame에 loadCustomData() 추가하기
 - Github Discussions 작성 (template등)
 - Config: Yaml에서 Map의 Key저장 순서 관리 (HashMap > LinkedHashMap)
+
+# 2021-10-03
+- 백업 모듈 추가하기 (BackupDataManager)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

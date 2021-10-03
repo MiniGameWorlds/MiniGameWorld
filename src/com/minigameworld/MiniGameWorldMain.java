@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.commands.MiniGameCommand;
 import com.minigameworld.listeners.CommonEventListener;
+import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.games.BreedMob;
@@ -24,20 +25,19 @@ import com.minigameworld.minigameframes.games.ScoreClimbing;
 import com.minigameworld.minigameframes.games.SuperMob;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
-import com.wbm.plugin.util.data.yaml.YamlManager;
 
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {
-		// main Method for "Runnable Jar" option in Eclipse 
+		// main Method for "Runnable Jar" option in Eclipse
 		System.out.println("MiniGameWorld launched");
 	}
 
 	private static MiniGameWorldMain instance;
 	private MiniGameManager minigameManager;
+	private DataManager dataManager;
 
 	private CommonEventListener commonLis;
 	private MiniGameCommand minigameCommand;
-	private YamlManager yamlManager;
 
 	public static MiniGameWorldMain getInstance() {
 		return instance;
@@ -76,8 +76,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void setupData() {
 		// yaml data manager
-		this.yamlManager = new YamlManager(this.getDataFolder());
-		this.yamlManager.registerMember(this.minigameManager);
+		this.dataManager = new DataManager(this);
+		this.dataManager.registerYamlMember(this.minigameManager);
 	}
 
 	private void registerEventListeners() {
@@ -124,7 +124,11 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.minigameManager.removeNotExistMiniGameData();
 
 		// save all data
-		this.yamlManager.saveAllData();
+		this.dataManager.saveAllData();
+
+		// save backup data
+		this.dataManager.saveBackupData();
+
 		Utils.info(ChatColor.RED + "================= MiniGameWorld =================");
 	}
 
