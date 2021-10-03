@@ -4,7 +4,7 @@
 
 # Order
 ## 1. Setup dev environment
-- [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/english/making-minigame-wiki.md#how-to-set-dev-environment)
+- [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
 ## 2. Craete class
