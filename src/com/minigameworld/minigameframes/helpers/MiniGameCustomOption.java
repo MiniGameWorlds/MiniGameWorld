@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import com.minigameworld.minigameframes.MiniGame;
 
@@ -77,35 +78,41 @@ public class MiniGameCustomOption {
 				return;
 			}
 
-			// cancel damage by entity
+			// cancel damage by entity (
+			// when victim == minigame player && damager == minigame player
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			Entity victim = e.getEntity();
 			Entity damager = e.getDamager();
-			if (!(victim instanceof Player)) {
+			if (!(victim instanceof Player) || !this.minigame.containsPlayer((Player) victim)) {
 				return;
 			}
 
 			// direct damage
-			if (damager instanceof Player) {
+			if (damager instanceof Player || this.minigame.containsPlayer((Player) damager)) {
 				e.setCancelled(true);
 			}
 			// projectile damage
 			else if (damager instanceof Projectile) {
 				Projectile proj = (Projectile) damager;
-				if (proj.getShooter() instanceof Player) {
+				ProjectileSource shooter = proj.getShooter();
+				if (shooter instanceof Player || this.minigame.containsPlayer((Player) shooter)) {
 					e.setCancelled(true);
 				}
 			}
 		} else if (event instanceof PlayerDeathEvent) {
-			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			// keep inv
-			e.setKeepInventory(true);
+			if ((boolean) this.get(Option.INVENTORY_SAVE)) {
+				PlayerDeathEvent e = (PlayerDeathEvent) event;
+				// keep inv
+				e.setKeepInventory(true);
 
-			// remove drops
-			e.getDrops().clear();
+				// remove drops
+				e.getDrops().clear();
+			}
 		} else if (event instanceof PlayerRespawnEvent) {
-			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-			e.setRespawnLocation(this.minigame.getLocation());
+			if ((boolean) this.get(Option.MINIGAME_RESPAWN)) {
+				PlayerRespawnEvent e = (PlayerRespawnEvent) event;
+				e.setRespawnLocation(this.minigame.getLocation());
+			}
 		}
 	}
 
