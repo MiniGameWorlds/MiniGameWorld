@@ -28,11 +28,13 @@ public class MiniGameDataManager implements YamlMember {
 
 	public void createMiniGameData() {
 		// [IMPORTANT] if do "this.data = minigame.getSetting().getFileSetting()",
-		// YamlManager's config
-		// will lost this.data
+		// YamlManager's config will lost this.data
 		for (Entry<String, Object> entry : minigame.getSetting().getFileSetting().entrySet()) {
 			this.data.put(entry.getKey(), entry.getValue());
 		}
+
+		//
+		this.taskAfterDataSet();
 	}
 
 	public boolean isMinigameDataExists() {
@@ -81,7 +83,12 @@ public class MiniGameDataManager implements YamlMember {
 			this.data.put(Setting.MINIGAMES_CUSTOM_DATA, this.minigame.getCustomData());
 		}
 
-		// call load custom data
+		//
+		this.taskAfterDataSet();
+	}
+
+	private void taskAfterDataSet() {
+		// load custom data
 		this.minigame.loadCustomData();
 	}
 
