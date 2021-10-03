@@ -1,7 +1,6 @@
 # 할 것
 - MiniGame lifecycle 그래프로 그려서 wiki에 등록
 - Github issue template 제작
-- 만든 미니게임 loadCustomData() 사용하기 등등 재정비 하기
 - MiniGame에 custom color 기능 만들기(title, score 등 색 표시)
 - MiniGameWorld 용도 유튜브 브랜드 채널 만들기 (튜토리얼)
 - 미니게임 주문 제작 양식 만들기
@@ -284,7 +283,8 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-03
 - 백업 모듈 추가하기 (BackupDataManager)
-
+- 만든 미니게임 loadCustomData() 사용하기 등등 재정비 하기
+- MiniGamePlayerState에 health scale 추가
 
 
 

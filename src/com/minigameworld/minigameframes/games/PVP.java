@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -51,9 +50,14 @@ public class PVP extends SoloBattleMiniGame {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void initGameSettings() {
+	public void loadCustomData() {
+		super.loadCustomData();
 		this.health = (int) this.getCustomData().get("health");
 		this.items = (List<ItemStack>) this.getCustomData().get("items");
+	}
+
+	@Override
+	protected void initGameSettings() {
 	}
 
 	@Override
@@ -99,7 +103,6 @@ public class PVP extends SoloBattleMiniGame {
 	protected void runTaskBeforeFinish() {
 		super.runTaskBeforeFinish();
 		for (Player p : this.getPlayers()) {
-			p.setGameMode(GameMode.SURVIVAL);
 			p.setHealthScale(20);
 		}
 	}

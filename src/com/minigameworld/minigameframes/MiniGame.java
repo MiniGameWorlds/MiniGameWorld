@@ -67,12 +67,40 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	// observer list
 	private List<MiniGameObserver> observerList;
 
-	// abstract methods
+	/*
+	 * abstract methods
+	 */
 	protected abstract void initGameSettings();
 
 	protected abstract void processEvent(Event event);
 
 	protected abstract List<String> registerTutorial();
+
+	/*
+	 * overriding methods
+	 */
+
+	// protected void runTaskBeforeStart() {
+	// not necessary
+	// };
+
+	protected void runTaskAfterStart() {
+	}
+
+	protected void runTaskBeforeFinish() {
+	}
+
+	protected void runTaskAfterFinish() {
+	}
+
+	protected void handleGameException(Player p, GameException exception, Object arg) {
+	}
+
+	protected void registerCustomData() {
+	}
+
+	public void loadCustomData() {
+	}
 
 	// base constructor
 	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
@@ -110,32 +138,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// custom option
 		this.customOption = new MiniGameCustomOption(this);
-	}
-
-	/*
-	 * overriding methods
-	 */
-
-	// protected void runTaskBeforeStart() {
-	// not necessary
-	// };
-
-	protected void runTaskAfterStart() {
-	}
-
-	protected void runTaskBeforeFinish() {
-	}
-
-	protected void runTaskAfterFinish() {
-	}
-
-	protected void handleGameException(Player p, GameException exception, Object arg) {
-	}
-
-	protected void registerCustomData() {
-	}
-
-	public void loadCustomData() {
 	}
 
 	private void initMiniGame() {
@@ -591,15 +593,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	protected void setLive(Player p, boolean live) {
 		this.getPlayerData(p).setLive(live);
-
-//		// check min player count
-//		if (!this.isMinPlayersLive()) {
-//			// send message
-//			this.sendMessageToAllPlayers("Game end: live players count is under the min player count");
-//
-//			// end game
-//			this.endGame();
-//		}
 	}
 
 	protected boolean isLive(Player p) {
@@ -731,11 +724,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			if (obj instanceof MiniGame) {
 				return this.getTitle().equals(((MiniGame) obj).getTitle());
 			}
-
 		}
 		return false;
 	}
-
 }
 
 //

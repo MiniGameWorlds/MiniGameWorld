@@ -15,13 +15,15 @@ import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
+import com.wbm.plugin.util.LocationTool;
 
 public class FallingBlock extends SoloBattleMiniGame {
+	private Location pos1, pos2;
 	private Material removingBlock;
 
 	public FallingBlock() {
 		super("FallingBlock", 2, 4, 120, 10);
-		
+
 		// settings
 		this.getSetting().setIcon(Material.SAND);
 
@@ -45,18 +47,27 @@ public class FallingBlock extends SoloBattleMiniGame {
 					Location pLoc = p.getLocation();
 
 					// check fell
-					if (hasFollen(p)) {
-						processFollenPlayer(p);
+					if (hasFallen(p)) {
+						processFallenPlayer(p);
 					}
 
 					// check removingBlock
 					Block belowBlock = pLoc.subtract(0, 1, 0).getBlock();
+
+					// check location
+					if (!LocationTool.isIn(pos1, belowBlock.getLocation(), pos2)) {
+						return;
+					}
+
 					if (belowBlock.getType() == removingBlock) {
 						// remove block with delay
 						new BukkitRunnable() {
 							@Override
 							public void run() {
-								belowBlock.setType(Material.AIR);
+								if (belowBlock.getType() == removingBlock) {
+									plusScore(p, 1);
+									belowBlock.setType(Material.AIR);
+								}
 							}
 						}.runTaskLater(MiniGameWorldMain.getInstance(), 5);
 					}
@@ -65,9 +76,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 		});
 	}
 
-	private boolean hasFollen(Player p) {
+	private boolean hasFallen(Player p) {
 		Location pLoc = p.getLocation();
-		if (pLoc.getY() < ((Location) getCustomData().get("pos1")).getY() - 0.5) {
+		if (pLoc.getY() < this.pos1.getY() - 0.5) {
 			return true;
 		}
 		return false;
@@ -84,18 +95,22 @@ public class FallingBlock extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
-		// custom data
-		Location pos1 = (Location) this.getCustomData().get("pos1");
-		Location pos2 = (Location) this.getCustomData().get("pos2");
+	public void loadCustomData() {
+		super.loadCustomData();
+
+		this.pos1 = (Location) getCustomData().get("pos1");
+		this.pos2 = (Location) getCustomData().get("pos2");
 
 		this.removingBlock = Material.valueOf((String) this.getCustomData().get("removingBlock"));
+	}
 
+	@Override
+	protected void initGameSettings() {
 		// fill blocks
 		BlockTool.fillBlockWithMaterial(pos1, pos2, this.removingBlock);
 	}
 
-	private void processFollenPlayer(Player p) {
+	private void processFallenPlayer(Player p) {
 		p.setGameMode(GameMode.SPECTATOR);
 		this.setLive(p, false);
 		if (!this.isMinPlayersLive()) {
@@ -120,8 +135,9 @@ public class FallingBlock extends SoloBattleMiniGame {
 	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
-		tutorial.add("fall: die");
-		tutorial.add("block will be disappeared when you step");
+		tutorial.add("block will be disappeared after you stepped");
+		tutorial.add("remove block with step: +1");
+		tutorial.add("fallen: die");
 		return tutorial;
 	}
 

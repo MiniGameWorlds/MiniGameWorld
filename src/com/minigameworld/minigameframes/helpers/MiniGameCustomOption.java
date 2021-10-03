@@ -15,6 +15,9 @@ import com.minigameworld.minigameframes.MiniGame;
 import io.papermc.paper.event.player.AsyncChatEvent;
 
 public class MiniGameCustomOption {
+	/*
+	 * All options saved in "custom-data" section
+	 */
 	public enum Option {
 		CHATTING("chatting"), SCORE_NOTIFYING("score-notifying"), BLOCK_BREAK("block-break"),
 		BLOCK_PLACE("block-place"), PVP("pvp"), INVENTORY_SAVE("inventory-save"), MINIGAME_RESPAWN("minigame-respawn");

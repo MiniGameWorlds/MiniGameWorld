@@ -1,6 +1,7 @@
 
 package com.minigameworld.minigameframes.games;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -56,7 +57,10 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 	@Override
 	protected List<String> registerTutorial() {
-		return null;
+		List<String> tutorial = new ArrayList<>();
+		tutorial.add("After game start, everyone will be hide from others with bow and arrows");
+		tutorial.add("Hit by other: die");
+		return tutorial;
 	}
 
 	@Override

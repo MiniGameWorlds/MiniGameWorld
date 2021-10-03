@@ -73,6 +73,7 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	private Area redArea, blueArea;
+	private int mobSpawnDelay;
 
 	public PassMob() {
 		super("PassMob", 2, 60 * 3, 10);
@@ -120,6 +121,18 @@ public class PassMob extends TeamBattleMiniGame {
 	}
 
 	@Override
+	public void loadCustomData() {
+		super.loadCustomData();
+
+		// create areas
+		this.redArea.loc = (Location) this.getCustomData().get("redLocation");
+		this.blueArea.loc = (Location) this.getCustomData().get("blueLocation");
+
+		// mob spawn delay
+		this.mobSpawnDelay = (int) this.getCustomData().get("mobSpawnDelay");
+	}
+
+	@Override
 	protected void createTeams() {
 		Team red = new Team("red", 4);
 		red.setColor(ChatColor.RED);
@@ -162,12 +175,6 @@ public class PassMob extends TeamBattleMiniGame {
 	protected void initGameSettings() {
 		super.initGameSettings();
 
-		// create areas
-		Location redLoc = (Location) this.getCustomData().get("redLocation");
-		Location blueLoc = (Location) this.getCustomData().get("blueLocation");
-
-		this.redArea.loc = redLoc;
-		this.blueArea.loc = blueLoc;
 	}
 
 	@Override
@@ -198,8 +205,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.blueArea.tpTeam();
 
 		// start random mob spawn task
-		int mobSpawnDelay = (int) this.getCustomData().get("mobSpawnDelay");
-		this.getTaskManager().runTaskTimer("spawnMob", mobSpawnDelay * 20, mobSpawnDelay * 20);
+		this.getTaskManager().runTaskTimer("spawnMob", this.mobSpawnDelay * 20, this.mobSpawnDelay * 20);
 	}
 
 	@Override
