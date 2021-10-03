@@ -10,7 +10,7 @@ import com.minigameworld.commands.MiniGameCommand;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.minigameframes.MiniGame.Exception;
 import com.minigameworld.minigameframes.games.BreedMob;
 import com.minigameworld.minigameframes.games.FallingBlock;
 import com.minigameworld.minigameframes.games.FitTool;
@@ -60,8 +60,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// set command
 		this.setCommandExecutors();
 
-		// register minigames
-		this.registerMiniGames();
+//		// register minigames
+//		this.registerMiniGames();
 
 		// process works for remained players
 		this.processRemainedPlayersWhenServerStart();
@@ -135,7 +135,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void processRemainedPlayersWhenServerStop() {
 		// send all MiniGame with SEVER_STOP exception
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.minigameManager.handleException(p, MiniGame.GameException.SERVER_STOP, null);
+			this.minigameManager.handleException(p, Exception.SERVER_STOP, null);
 			this.minigameManager.processPlayerQuitWorks(p);
 		}
 	}

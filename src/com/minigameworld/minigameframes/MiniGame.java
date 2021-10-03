@@ -93,7 +93,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void runTaskAfterFinish() {
 	}
 
-	protected void handleGameException(Player p, GameException exception, Object arg) {
+	protected void handleGameException(Player p, Exception exception, Object arg) {
 	}
 
 	protected void registerCustomData() {
@@ -169,7 +169,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// check exception events
 		if (event instanceof PlayerQuitEvent) {
-			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.GameException.PLAYER_QUIT_SERVER,
+			this.handleException(((PlayerQuitEvent) event).getPlayer(), MiniGame.Exception.PLAYER_QUIT_SERVER,
 					event);
 		} else if (event instanceof AsyncChatEvent) {
 			this.processChatting((AsyncChatEvent) event);
@@ -282,8 +282,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// print tutorial
 		this.printGameTutorial(p);
 
-//		// notify other players to join the game
-//		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
+		// notify other players to join the game
+		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
 	}
 
 	private void printGameTutorial(Player p) {
@@ -431,17 +431,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 	}
 
-	public enum GameException {
+	public enum Exception {
 		PLAYER_QUIT_SERVER, SERVER_STOP;
 	}
 
 	// handle exception and notify to minigame mingame and observers
-	public final void handleException(Player p, GameException exception, Object arg) {
+	public final void handleException(Player p, Exception exception, Object arg) {
 		// info
 		Utils.info("[" + p.getName() + "] handle exception: " + exception.name());
 
 		// print reason when PLAYER_QUIT_SERVER
-		if (exception == GameException.PLAYER_QUIT_SERVER) {
+		if (exception == Exception.PLAYER_QUIT_SERVER) {
 			PlayerQuitEvent event = (PlayerQuitEvent) arg;
 			Utils.info("Quit: " + event.getReason().name());
 		}
@@ -528,7 +528,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	public void sendMessage(Player p, String msg) {
-		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.WHITE + msg);
+		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.RESET + msg);
 	}
 
 	public void sendMessageToAllPlayers(String msg) {

@@ -129,11 +129,7 @@ public class MiniGameManager implements YamlMember {
 				}
 
 				// join
-				if (game.joinGame(member)) {
-					// message to everyone
-					Utils.broadcast(member.getName() + " joined " + game.getTitle());
-				}
-
+				game.joinGame(member);
 			}
 		} else {
 			Utils.sendMsg(p, "You already joined other minigame");
@@ -168,7 +164,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	// check player is playing minigame (API)
-	public void handleException(Player p, MiniGame.GameException exception, Object arg) {
+	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
 
 		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
@@ -263,7 +259,7 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			newGame.getDataManager().createMiniGameData();
 		}
-
+		
 		// add
 		this.minigames.add(newGame);
 

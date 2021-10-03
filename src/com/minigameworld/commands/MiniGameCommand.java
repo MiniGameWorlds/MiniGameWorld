@@ -136,6 +136,10 @@ public class MiniGameCommand implements CommandExecutor {
 				Utils.sendMsg(p, "- " + ChatColor.GREEN + gameTitle);
 			}
 		}
+		
+		// test
+		p.setHealthScale(30);
+		
 
 		return true;
 	}

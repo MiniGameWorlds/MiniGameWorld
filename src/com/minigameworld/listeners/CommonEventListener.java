@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -51,11 +50,10 @@ public class CommonEventListener implements Listener {
 	}
 
 	private void registerAllEventListener() {
-		Utils.info("[ Register EventHandler ]");
-		Utils.info("wait for all EventHandler registration...");
-		Utils.info("Event class name: " + Event.class.getName());
-
-		long startTime = System.currentTimeMillis();
+//		Utils.info("[ Register EventHandler ]");
+//		Utils.info("wait for all EventHandler registration...");
+//		Utils.info("Event class name: " + Event.class.getName());
+//		long startTime = System.currentTimeMillis();
 
 		// set cache directory can be found
 		List<URL> cacheDirJarURLs = new ArrayList<>();
@@ -117,12 +115,12 @@ public class CommonEventListener implements Listener {
 		// .toArray(String[]::new);
 		//
 		// Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-		Utils.info("Events found: " + events.size());
-		Utils.info("HandlerList size: " + HandlerList.getHandlerLists().size());
 		// Bukkit.getLogger().info("registered EventHandler: " + eventCount);
 
-		long takenTime = System.currentTimeMillis() - startTime;
-		System.out.println("Duration: " + takenTime / 1000 + " secs");
+//		Utils.info("Events found: " + events.size());
+//		Utils.info("HandlerList size: " + HandlerList.getHandlerLists().size());
+//		long takenTime = System.currentTimeMillis() - startTime;
+//		Utils.info("Duration: " + takenTime / 1000 + " secs");
 	}
 
 	private Object onEvent(Event event) {
