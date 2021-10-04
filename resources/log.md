@@ -1,4 +1,5 @@
 # 할 것
+- docs 폴더에 javadoc문서 넣기
 - log.md 영어로 변경
 - MiniGame lifecycle 그래프로 그려서 wiki에 등록
 - Github issue template 제작
