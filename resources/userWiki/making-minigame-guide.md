@@ -184,7 +184,7 @@ protected void runTaskAfterStart() {
 
 
 ## - etc
-- `endGame()`: end minigame
+- `finishGame()`: finish minigame
 - `getLeftWaitingTime()`: get left waiting time (sec)
 - `getLeftFinishTime()`: get left time to finish (sec)
 
