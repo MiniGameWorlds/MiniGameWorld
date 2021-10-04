@@ -9,7 +9,15 @@
 - Menu에 party 기능 추가하기
 - 범용 Reward 플러그인 만들기
 - 기본 미니게임들 .jar파일로 꺼내서 외부 jar로 작업하기 (시스템 통일성을 위해), (미니게임 클래스가 많이 바뀌므로 배포 직전에 작업하기)
-- dev위키에서 클래스 정보들 파일 지우고 java docs 만들어서 기입하기: 모두다 만들기 (외부에 API 공개할 때는 private 없이, 개발 관련 api는 private 옵션 줘서 생성)
+- dev위키에서 클래스 정보들 파일 지우고 java docs 만들어서 기입하기: 모두다 만들기 
+```
+# tag list (class, var, method)
+- description 필수
+- 메소드: param, return
+# 제어자
+- 공개: public
+- 개발: private
+```
 ## Event Detection 관련
 ```
 - classgraph말고 다른 class graph 사용하는 library 사용해보기 (e.g. reflections)
@@ -290,9 +298,11 @@ if(!this.isMinPlayersLive()) {
 - 만든 미니게임 loadCustomData() 사용하기 등등 재정비 하기
 - MiniGamePlayerState에 health scale 추가
 
-
-
-
+# 2021-10-04
+- MiniGame javadoc 작성
+- 서버 종료시 `모든 플레이어 exception` > `모든 미니게임 finish`로 방법 변경 (player exception 순서에 따라서 미니게임 결과가 달라지므로)
+- MiniGame.Exception 기능 추가 (CUSTOM)
+- MiniGameSetting에 GameFinishCondition 추가
 
 
 

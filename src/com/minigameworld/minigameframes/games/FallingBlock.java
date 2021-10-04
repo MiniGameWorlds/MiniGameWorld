@@ -114,7 +114,7 @@ public class FallingBlock extends SoloBattleMiniGame {
 		p.setGameMode(GameMode.SPECTATOR);
 		this.setLive(p, false);
 		if (!this.isMinPlayersLive()) {
-			this.endGame();
+			this.finishGame();
 		}
 	}
 

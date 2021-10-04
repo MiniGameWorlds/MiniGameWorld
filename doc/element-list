@@ -1,0 +1,12 @@
+com.minigameworld
+com.minigameworld.api
+com.minigameworld.commands
+com.minigameworld.listeners
+com.minigameworld.managers
+com.minigameworld.managers.menu
+com.minigameworld.managers.party
+com.minigameworld.minigameframes
+com.minigameworld.minigameframes.games
+com.minigameworld.minigameframes.helpers
+com.minigameworld.observer
+com.minigameworld.util

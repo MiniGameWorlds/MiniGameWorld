@@ -95,16 +95,40 @@ public class MiniGameSetting {
 	 */
 	private boolean passUndetectableEvent;
 
+	public enum RankOrder {
+		ASCENDING, DESCENDING;
+	}
+
 	/*
 	 * file control: X
 	 * init value: setup value
 	 * description: rank order
 	 */
-	public enum RankOrder {
-		ASCENDING, DESCENDING;
+	private RankOrder rankOrder;
+
+	/**
+	 * Check condition when minigame finished
+	 */
+	public enum GameFinishCondition {
+		/**
+		 * Check nothing<br>
+		 * Have to process in minigame with overriding "handleGameException()"
+		 */
+		NONE,
+		/**
+		 * Finish minigame if min players are not live
+		 */
+		MIN_PLAYERS_LIVE,
+		/**
+		 * Finish minigame if min players are not left
+		 */
+		MIN_PLAYERS_LEFT;
 	}
 
-	private RankOrder rankOrder;
+	/**
+	 * 
+	 */
+	private GameFinishCondition gameFinishCondition;
 
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
@@ -122,6 +146,7 @@ public class MiniGameSetting {
 		this.icon = Material.STONE;
 		this.passUndetectableEvent = false;
 		this.rankOrder = RankOrder.DESCENDING;
+		this.gameFinishCondition = GameFinishCondition.MIN_PLAYERS_LIVE;
 	}
 
 	// set
@@ -178,6 +203,10 @@ public class MiniGameSetting {
 		this.rankOrder = rankOrder;
 	}
 
+	public void setGameFinishCondition(GameFinishCondition gameFinishCondition) {
+		this.gameFinishCondition = gameFinishCondition;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -230,6 +259,10 @@ public class MiniGameSetting {
 
 	public RankOrder getRankOrder() {
 		return rankOrder;
+	}
+
+	public GameFinishCondition getGameFinishCondition() {
+		return gameFinishCondition;
 	}
 
 	// file (only file control)

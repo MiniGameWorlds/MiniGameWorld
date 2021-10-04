@@ -89,7 +89,7 @@ public class RemoveBlock extends TeamMiniGame {
 			if (LocationTool.isIn(pos1, block.getLocation(), pos2) && this.isTargetBlock(block)) {
 				e.getBlock().setType(Material.AIR);
 				if (this.checkAllBlocksRemoved()) {
-					this.endGame();
+					this.finishGame();
 				}
 			}
 		}

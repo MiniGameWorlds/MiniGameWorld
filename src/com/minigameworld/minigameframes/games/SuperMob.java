@@ -144,7 +144,7 @@ public class SuperMob extends SoloBattleMiniGame {
 			this.setLive(p, false);
 			
 			if(!this.isMinPlayersLive()) {
-				this.endGame();
+				this.finishGame();
 			}
 		} else if (event instanceof PlayerRespawnEvent) {
 			PlayerRespawnEvent e = (PlayerRespawnEvent) event;

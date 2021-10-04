@@ -100,26 +100,10 @@ public class PVP extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void runTaskBeforeFinish() {
-		super.runTaskBeforeFinish();
-		for (Player p : this.getPlayers()) {
-			p.setHealthScale(20);
-		}
-	}
-
-	@Override
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("kill: +1");
 		return tutorial;
-	}
-
-	@Override
-	protected void handleGameException(Player p, Exception exception, Object arg) {
-		super.handleGameException(p, exception, arg);
-
-		// set player health scale to 20
-		p.setHealthScale(20);
 	}
 
 }

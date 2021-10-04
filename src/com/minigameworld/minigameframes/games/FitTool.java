@@ -13,7 +13,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.minigameframes.SoloMiniGame;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
 
@@ -119,5 +118,5 @@ public class FitTool extends SoloMiniGame {
 		tutorial.add("Breaking block: +1");
 		return tutorial;
 	}
-
+	
 }

@@ -66,10 +66,12 @@ public class MiniGameCustomOption {
 	}
 
 	public void processEvent(Event event) {
-		if (event instanceof AsyncChatEvent) {
-			AsyncChatEvent e = (AsyncChatEvent) event;
-			e.setCancelled(!(boolean) this.get(Option.CHATTING));
-		} else if (event instanceof BlockBreakEvent) {
+		// chat event is managed in Minigame class (for overriding)
+//		if (event instanceof AsyncChatEvent) {
+//			AsyncChatEvent e = (AsyncChatEvent) event;
+//			e.setCancelled(!(boolean) this.get(Option.CHATTING));
+//		} else 
+		if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {
 			((BlockPlaceEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));

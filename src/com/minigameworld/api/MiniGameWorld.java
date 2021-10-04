@@ -16,13 +16,14 @@ import com.minigameworld.util.Setting;
 import com.minigameworld.util.VersionChecker;
 import com.minigameworld.util.VersionChecker.Different;
 
+/**
+ * MiniGameWorld plugin API
+ * 
+ */
 public class MiniGameWorld {
 
 	public static final String VERSION = Setting.VERSION;
 
-	/*
-	 * MiniGameManager wrapper(api) class
-	 */
 	private static MiniGameWorld instance = new MiniGameWorld();
 	private MiniGameManager minigameManager;
 
@@ -62,8 +63,8 @@ public class MiniGameWorld {
 		this.minigameManager.leaveGame(p);
 	}
 
-	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
-		this.minigameManager.handleException(p, exception, arg);
+	public void handleException(Player p, MiniGame.Exception exception) {
+		this.minigameManager.handleException(p, exception);
 	}
 
 	public MiniGameEventDetector getMiniGameEventDetector() {

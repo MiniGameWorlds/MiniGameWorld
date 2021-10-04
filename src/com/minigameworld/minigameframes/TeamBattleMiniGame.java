@@ -430,9 +430,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return;
 		}
 
-		// cancel event
-		e.setCancelled(true);
-
 		// group chat
 		if (this.isGroupChat()) {
 			Player sender = e.getPlayer();

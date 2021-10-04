@@ -105,7 +105,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 			// check if all player stopped own score
 			if(!this.isMinPlayersLive()) {
-				this.endGame();
+				this.finishGame();
 			}
 		} else if (event instanceof EntityDamageByEntityEvent) {
 			// cancel jump event which automaticallt called by hit

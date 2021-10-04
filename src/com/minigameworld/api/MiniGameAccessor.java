@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.MiniGame.Exception;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 
 public class MiniGameAccessor {
@@ -38,10 +37,6 @@ public class MiniGameAccessor {
 
 	protected int getPlayerScore(Player p) {
 		return this.minigame.getScore(p);
-	}
-
-	public void handleException(Player p, Exception exception, Object arg) {
-		this.minigame.handleException(p, exception, arg);
 	}
 
 	public Map<String, Object> getSettings() {

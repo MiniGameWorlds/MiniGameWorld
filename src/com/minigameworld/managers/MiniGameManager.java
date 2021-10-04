@@ -68,6 +68,7 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	public void processPlayerQuitWorks(Player p) {
+		// party
 		this.getPartyManager().leaveParty(p);
 		this.getPartyManager().deleteParty(p);
 	}
@@ -164,11 +165,11 @@ public class MiniGameManager implements YamlMember {
 	}
 
 	// check player is playing minigame (API)
-	public void handleException(Player p, MiniGame.Exception exception, Object arg) {
+	public void handleException(Player p, MiniGame.Exception exception) {
 
 		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
-			playingGame.handleException(p, exception, arg);
+			playingGame.handleException(p, exception);
 		}
 	}
 
@@ -259,7 +260,7 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			newGame.getDataManager().createMiniGameData();
 		}
-		
+
 		// add
 		this.minigames.add(newGame);
 

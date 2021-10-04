@@ -27,6 +27,7 @@ import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
@@ -141,7 +142,15 @@ public class CommonEventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
-		this.minigameManager.processPlayerQuitWorks(e.getPlayer());
+		Player p = e.getPlayer();
+		this.minigameManager.processPlayerQuitWorks(p);
+		
+		// minigame exception
+		MiniGame.Exception exception = MiniGame.Exception.PLAYER_QUIT_SERVER;
+		exception.setDetailedReason(e.getReason().name());
+		exception.setDetailedObj(e);
+
+		this.minigameManager.handleException(p, exception);
 	}
 
 	/*

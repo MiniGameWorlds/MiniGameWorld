@@ -48,7 +48,7 @@ public class MiniGameTaskManager {
 
 				// end count down
 				if (waitTime <= 0) {
-					minigame.runStartTasks();
+					minigame.startGame();
 					return;
 				}
 
@@ -79,7 +79,7 @@ public class MiniGameTaskManager {
 			public void run() {
 				int leftTime = finishCounter.getCount();
 				if (leftTime <= 0) {
-					minigame.runFinishTasks();
+					minigame.finishGame();
 					return;
 				} else if (leftTime <= 10) {
 					// title 3, 2, 1
