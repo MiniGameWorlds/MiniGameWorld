@@ -87,7 +87,6 @@ Class-Path: . libs/classgraph.jar
 
 
 
-# 개발 순서
 # Development order
 ## Maven
 1. Develop
