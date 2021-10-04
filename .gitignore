@@ -65,4 +65,8 @@ dependency-reduced-pom.xml
 *.jardesc
 *.fatjar
 /*.jar
+
+# MiniGameWorld plugin's special
 doc/
+META-INF/
+pom.xml
