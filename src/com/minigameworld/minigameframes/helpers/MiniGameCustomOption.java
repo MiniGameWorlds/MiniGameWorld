@@ -13,8 +13,6 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import com.minigameworld.minigameframes.MiniGame;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
-
 public class MiniGameCustomOption {
 	/*
 	 * All options saved in "custom-data" section

@@ -59,7 +59,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// set command
 		this.setCommandExecutors();
 
-//		// register minigames
+		// register minigames
 //		this.registerMiniGames();
 
 		// process works for remained players
