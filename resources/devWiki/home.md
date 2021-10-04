@@ -1,10 +1,10 @@
-# 설명
-- MiniGameWorld 플러그인 개발 관련 위키
-- 플러그인의 `동작구조`, `구조수정`의 문서화
+# Desciprion
+- Wiki for develop `MiniGameWorld`
+- Documents of `design` and `operation` of plugin
 
-# 링크
-- [플러그인 설명]
-- [플러그인 구조]
+# Link
+- [Info]
+- [Structure]
 
-[플러그인 설명]: plugin-info.md
-[플러그인 구조]: plugin-design.md
+[Info]: plugin-info.md
+[Structure]: plugin-design.md
