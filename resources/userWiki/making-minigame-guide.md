@@ -4,7 +4,7 @@
 
 # Order
 ## 1. Setup dev environment
-- [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/english/making-minigame-wiki.md#how-to-set-dev-environment)
+- [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
 ## 2. Craete class
@@ -184,7 +184,7 @@ protected void runTaskAfterStart() {
 
 
 ## - etc
-- `endGame()`: end minigame
+- `finishGame()`: finish minigame
 - `getLeftWaitingTime()`: get left waiting time (sec)
 - `getLeftFinishTime()`: get left time to finish (sec)
 
