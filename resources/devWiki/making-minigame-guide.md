@@ -1,5 +1,5 @@
 # Description
-
+- Make minigame with [API] document
 ---
 
 # Order
@@ -112,7 +112,7 @@ protected void processEvent(Event event) {
 
 
 ## - Exception handling
-- GameException: `PLAYER_QUIT_SERVER`, `SERVER_STOP`
+- GameException: `PLAYER_QUIT_SERVER`, `CUSTOM`
 - Use `handleException()` with overriding
 - Related player must leave the minigame
 
@@ -199,10 +199,12 @@ protected void runTaskAfterStart() {
 
 ## Detectable Events
 - MiniGameWorld only passes detectable events that can get player from event
-- Detectable events only pass to minigame that player from event is playing minigame
+- Detectable events only pass to player's playing minigame
 - Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
 - If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 - [Detectable Event List](detectable-event-list.md)
 
 ## Override
 - Almost overrided method shold have `super.method()`
+
+[API]: https://worldbiomusic.github.io/MiniGameWorld/
