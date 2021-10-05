@@ -11,13 +11,13 @@
 
 ---
 
-# Minigame Data
+# Minigame Rank Data
 
 ---
 
 # Minigame Join/Leave
 - Can change `Join/Leave` way 
-- Example
+## Example
 ```java
 // join minigame with portal
 @EventHandler
@@ -47,7 +47,31 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 ---
 
 # Minigame Exception
+- Can process various exception
+## Example
+- Send custom exception to minigames
+```java
+public void processServerEvent(Player p) {
+	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
+	ex.setDetailedReason("SERVER_EVENT_TIME");
+	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+	mw.handleException(p, ex, null);
+ }
+```
 
+- Handle exception in minigame
+```java
+@Override
+ protected void handleGameException(Player p, Exception exception, Object arg) {
+	super.handleGameException(p, exception);
+	if (exception == MiniGame.Exception.CUSTOM) {
+		String detailedReason = exception.getDetailedReason();
+		if (detailedReason.equals("SERVER_EVENT_TIME")) {
+			// process somethings
+		}
+	}
+ }
+```
 ---
 
 # Menu
