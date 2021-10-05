@@ -7,7 +7,8 @@
 - [Structure]
 
 # Log
-- [Log]()
+- [Log]
 
 [Info]: plugin-info.md
 [Structure]: plugin-design.md
+[Log]: log.md

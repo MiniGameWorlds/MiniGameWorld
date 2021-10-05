@@ -9,20 +9,22 @@
 - Observer System
 ```
 
-# Minigame Data
+---
 
+# Minigame Rank Data
 
+---
 
 # Minigame Join/Leave
 - Can change `Join/Leave` way 
-- Example
+## Example
 ```java
 // join minigame with portal
 @EventHandler
 public void onPlayerEnterPortal(EntityPortalEnterEvent e) {
   if (e.getEntity() instanceof Player) {
     Player p = (Player) e.getEntity();
-    MiniGameWorld mw = MiniGameWorld.create();
+    MiniGameWorld mw = MiniGameWorld.create("x.x.x");
     // join minigame
     mw.joinGame(p, "Minigame-Title");
   }
@@ -35,26 +37,50 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
   if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
     Block b = e.getClickedBlock();
     if (b.getType() == Material.BEDROCK) {
-      MiniGameWorld mw = MiniGameWorld.create();
+      MiniGameWorld mw = MiniGameWorld.create("x.x.x");
       // leave minigame
       mw.leaveGame(p);
     }
   }
 }
 ```
-
+---
 
 # Minigame Exception
+- Can process various exception
+## Example
+- Send custom exception to minigames
+```java
+public void processServerEvent(Player p) {
+	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
+	ex.setDetailedReason("SERVER_EVENT_TIME");
+	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+	mw.handleException(p, ex, null);
+ }
+```
 
-
+- Handle exception in minigame
+```java
+@Override
+ protected void handleGameException(Player p, Exception exception, Object arg) {
+	super.handleGameException(p, exception);
+	if (exception == MiniGame.Exception.CUSTOM) {
+		String detailedReason = exception.getDetailedReason();
+		if (detailedReason.equals("SERVER_EVENT_TIME")) {
+			// process somethings
+		}
+	}
+ }
+```
+---
 
 # Menu
 
-
+---
 
 # Party
 
-
+---
 
 # Observer System
 - Observer can reserve tasks with event of MiniGame
@@ -66,11 +92,11 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 ## Examples
 ### Reward System
 - Give reward when minigame finished
+- Can distinguish with `class name` or `title` of minigame
 ```java
 class RewardManager implements MiniGameObserver {
 
-	public RewardManager() {
-		MiniGameWorld mw = MiniGameWorld.create();
+	public RewardManager(MiniGameWorld mw) {
 		mw.registerMiniGameObserver(this);
 	}
 
