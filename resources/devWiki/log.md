@@ -8,7 +8,7 @@
 - Create minigame `custom-made order` category and template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
-- Make generic Reward plugin (Thid-party)
+- Make generic `Reward` plugin (Thid-party)
 - Export base minigames to each jar file (before release)
 ```
 # tag list (class, var, method)
@@ -303,7 +303,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-05
 - Change `log.md` to english
-
+- Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`
 
 
 
