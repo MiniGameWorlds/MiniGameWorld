@@ -4,13 +4,12 @@
 
 
 
-# API
+# API design
 <!-- <img src="api-design.png" width="49.5%"></img> -->
 ![](api-design.png)
 - `Custom minigame` and `third-party` uses `MiniGameWorld` API
-## API class
-- `MiniGameWorld`: can access data of MiniGameWorld plugin, can register minigame to MiniGameWorld plugin
-- `MiniGameAccessor`: can access data of registered minigame in MiniGameWorld plugin
+## Document
+- [MiniGameWorld API](https://worldbiomusic.github.io/MiniGameWorld/)
 
 
 
