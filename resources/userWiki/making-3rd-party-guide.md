@@ -9,9 +9,11 @@
 - Observer System
 ```
 
+---
+
 # Minigame Data
 
-
+---
 
 # Minigame Join/Leave
 - Can change `Join/Leave` way 
@@ -42,19 +44,19 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
   }
 }
 ```
-
+---
 
 # Minigame Exception
 
-
+---
 
 # Menu
 
-
+---
 
 # Party
 
-
+---
 
 # Observer System
 - Observer can reserve tasks with event of MiniGame
