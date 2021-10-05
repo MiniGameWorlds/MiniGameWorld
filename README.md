@@ -10,4 +10,5 @@
 
 
 # Community
+- [Github Community](https://github.com/worldbiomusic/MiniGameWorld/discussions)
 - [Discord](https://discord.com/invite/fJbxSy2EjA)
