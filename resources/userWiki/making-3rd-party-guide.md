@@ -66,11 +66,11 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 ## Examples
 ### Reward System
 - Give reward when minigame finished
+- Can distinguish with `class name` or `title` of minigame
 ```java
 class RewardManager implements MiniGameObserver {
 
-	public RewardManager() {
-		MiniGameWorld mw = MiniGameWorld.create();
+	public RewardManager(MiniGameWorld mw) {
 		mw.registerMiniGameObserver(this);
 	}
 
