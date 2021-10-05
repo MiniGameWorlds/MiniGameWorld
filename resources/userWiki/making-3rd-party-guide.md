@@ -24,7 +24,7 @@
 public void onPlayerEnterPortal(EntityPortalEnterEvent e) {
   if (e.getEntity() instanceof Player) {
     Player p = (Player) e.getEntity();
-    MiniGameWorld mw = MiniGameWorld.create();
+    MiniGameWorld mw = MiniGameWorld.create("x.x.x");
     // join minigame
     mw.joinGame(p, "Minigame-Title");
   }
@@ -37,7 +37,7 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
   if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
     Block b = e.getClickedBlock();
     if (b.getType() == Material.BEDROCK) {
-      MiniGameWorld mw = MiniGameWorld.create();
+      MiniGameWorld mw = MiniGameWorld.create("x.x.x");
       // leave minigame
       mw.leaveGame(p);
     }
