@@ -22,52 +22,91 @@ import com.wbm.plugin.util.SortTool;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;
 
+/**
+ * <b>[Info]</b><br>
+ * - Minigame frame players battle with each teams<br>
+ * - min team count: 2 or more <br>
+ * - all teams have the same score <br>
+ * - team util class, methods <br>
+ * <br>
+ * 
+ * <b>[Custom Option]</b><br>
+ * - groupChat: If true, send message only to team members (default: true)<br>
+ * - teamPVP: If true, team members can not attack each other(pvp option have to
+ * be set to true), (default: true)<br>
+ * <br>
+ * 
+ * <b>[Team Register Mode]</b><br>
+ * - Participants divied into teams when game starts with mode<br>
+ * - See {@link TeamBattleMiniGame.TeamRegisterMode} <br>
+ * <br>
+ * 
+ * <b>[Rule]</b><br>
+ * - Create Teams with createTeams()<br>
+ * - When use initGameSetting(), must call super.initGameSetting()<br>
+ * - If use TeamRegisterMode.NONE, should register players to team with
+ * registerPlayersToTeam()<br>
+ * 
+ */
 public abstract class TeamBattleMiniGame extends MiniGame {
 
-	/*
+	/**
+	 * Team register mode<br>
+	 * - Participants divied into teams when game starts with mode<br>
+	 * - If use TeamRegisterMode.NONE, should register players to team with
+	 * registerPlayersToTeam()<br>
+	 * <br>
 	 * 
-	 * [Info]
-	 * - team battle play
-	 * - team has same score
-	 * - team util class, methods
-	 * - groupChat
-	 * - Team Register Mode: NONE, FAIR, FILL, FAIR_FILL, RANDOM or can divide overriding registerPlayersToTeam()
-	 * > e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4
-	 * > NONE: no divide (use registerPlayersToTeam())
-	 * > FAIR: all teams have the same player count (= maximun team count) (e.g. 4, 3, 3, 3)
-	 * > FILL: fulfill teams as possible (= minimum team count) (e.g. 5, 5, 3, 0)
-	 * > FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)
-	 * > RANDOM: random (e.g. ?, ?, ?, ?)
-	 * 
-	 * [Rule]
-	 * - create Teams with createTeams()
-	 * - When use initGameSetting(), must call super.initGameSetting()
-	 * - If use TeamRegisterMode.NONE, register players to team using registerPlayersToTeam()
-	 * 
+	 * <b>[Team Register Mode]</b><br>
+	 * - NONE, FAIR, FILL, FAIR_FILL, RANDOM or can divide overriding
+	 * "registerPlayersToTeam()"<br>
+	 * <br>
+	 * - e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4<br>
+	 * - NONE: no divide (use registerPlayersToTeam())<br>
+	 * - FAIR: all teams have the same player count fairly(= maximun team count)
+	 * (e.g. 4, 3, 3, 3)<br>
+	 * - FILL: fulfill teams as possible from first (= minimum team count) (e.g. 5,
+	 * 5, 3, 0)<br>
+	 * - FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)<br>
+	 * - RANDOM: random (e.g. ?, ?, ?, ?)<br>
 	 */
-
 	public enum TeamRegisterMode {
 		NONE, FAIR, FILL, FAIR_FILL, RANDOM;
 	}
 
+	/**
+	 * Team list
+	 */
 	private List<Team> allTeams;
 
+	/**
+	 * Creates team with overriding this method
+	 */
 	protected abstract void createTeams();
 
+	/**
+	 * Registers players to team if TeamRegisterMode is NONE
+	 */
 	protected void registerPlayersToTeam() {
 	}
 
+	/**
+	 * maxPlayerCount is sum of all teams member size
+	 */
 	public TeamBattleMiniGame(String title, int minPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, -1, timeLimit, waitingTime);
 
 		// custom options
 		this.setGroupChat(true);
-		this.setTeamPVP(false);
+		this.setTeamPVP(true);
 
 		// setup teams
 		this.initTeams();
 	}
 
+	/**
+	 * Inits team settings just once
+	 */
 	private void initTeams() {
 		// create teams
 		this.allTeams = new ArrayList<Team>();
@@ -84,21 +123,38 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		this.setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
 	}
 
-	/*
-	 * team
+	/**
+	 * Inits all team settings
 	 */
 	private void initAllTeams() {
 		this.allTeams.forEach(t -> t.init());
 	}
 
+	/**
+	 * Registers team to list
+	 * 
+	 * @param team Team to register
+	 */
 	protected void createTeam(Team team) {
 		this.allTeams.add(team);
 	}
 
+	/**
+	 * Gets team
+	 * 
+	 * @param teamNumber Index of list
+	 * @return Team
+	 */
 	protected Team getTeam(int teamNumber) {
 		return allTeams.get(teamNumber);
 	}
 
+	/**
+	 * Gets team
+	 * 
+	 * @param teamName Team name
+	 * @return Team
+	 */
 	protected Team getTeam(String teamName) {
 		for (Team team : this.allTeams) {
 			if (team.getName().equals(teamName)) {
@@ -108,6 +164,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return null;
 	}
 
+	/**
+	 * Gets player's team
+	 * 
+	 * @param p Target player
+	 * @return Player team
+	 */
 	protected Team getTeam(Player p) {
 		for (Team team : allTeams) {
 			if (team.hasMember(p)) {
@@ -117,21 +179,44 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return null;
 	}
 
+	/**
+	 * Check two team is the same team
+	 * 
+	 * @param p1 Player of first team
+	 * @param p2 Player of second team
+	 * @return True if two team is the same
+	 */
 	protected boolean isSameTeam(Player p1, Player p2) {
 		// check p1 team has p2
 		return this.getTeam(p1).hasMember(p2);
 	}
 
+	/**
+	 * Gets random team
+	 * 
+	 * @return Random team
+	 */
 	protected Team getRandomTeam() {
 		int randomIndex = (int) (Math.random() * this.getTeamCount());
 		return this.allTeams.get(randomIndex);
 	}
 
+	/**
+	 * Gets random team in given list
+	 * 
+	 * @param teams Teams to randomize
+	 * @return Random Team
+	 */
 	protected Team getRandomTeam(List<Team> teams) {
 		int randomIndex = (int) (Math.random() * this.getTeamCount());
 		return teams.get(randomIndex);
 	}
 
+	/**
+	 * Gets not fulled random team
+	 * 
+	 * @return Not fulled random team
+	 */
 	private Team getNotFulledRandomTeams() {
 		List<Team> notFulledTeams = new ArrayList<>();
 		for (Team team : this.allTeams) {
@@ -142,6 +227,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.getRandomTeam(notFulledTeams);
 	}
 
+	/**
+	 * Gets team which has minimum player count
+	 * 
+	 * @return Min player count team
+	 */
 	protected Team getMinPlayerCountTeam() {
 		Team minTeam = this.allTeams.get(0);
 		for (Team team : this.allTeams) {
@@ -152,6 +242,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return minTeam;
 	}
 
+	/**
+	 * Gets team which has maximum team player count
+	 * 
+	 * @return Max player count team
+	 */
 	protected Team getMaxPlayerCountTeam() {
 		Team maxTeam = this.allTeams.get(0);
 		for (Team team : this.allTeams) {
@@ -162,24 +257,43 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return maxTeam;
 	}
 
-	/*
-	 * register team
+	/**
+	 * Registers player to team which has minimum player count
+	 * 
+	 * @param p Player to join team
 	 */
 	protected void registerPlayerToMinPlayerCountTeam(Player p) {
 		Team team = this.getMinPlayerCountTeam();
 		this.registerPlayerToTeam(p, team);
 	}
 
+	/**
+	 * Registers player to team which has maximum player count
+	 * 
+	 * @param p Player to join team
+	 */
 	protected void registerPlayerToMaxPlayerCountTeam(Player p) {
 		Team team = this.getMaxPlayerCountTeam();
 		this.registerPlayerToTeam(p, team);
 	}
 
+	/**
+	 * Registers player to random team
+	 * 
+	 * @param p Player to join team
+	 */
 	protected void registerPlayerToRandomTeam(Player p) {
 		Team notFulledRandomTeam = this.getNotFulledRandomTeams();
 		this.registerPlayerToTeam(p, notFulledRandomTeam);
 	}
 
+	/**
+	 * Registers player to team with index
+	 * 
+	 * @param p          Player to join team
+	 * @param teamNumber Team index of list
+	 * @return True if player join team, or false
+	 */
 	protected boolean registerPlayerToTeam(Player p, int teamNumber) {
 		// check teamCount
 		if (teamNumber >= this.getTeamCount()) {
@@ -191,6 +305,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return team.registerMember(p);
 	}
 
+	/**
+	 * Registers player to team with name
+	 * 
+	 * @param p          Player to join team
+	 * @param teamNumber Team index of list
+	 * @return True if player join team, or false
+	 */
 	protected boolean registerPlayerToTeam(Player p, String teamName) {
 		// register
 		Team team = getTeam(teamName);
@@ -200,6 +321,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return team.registerMember(p);
 	}
 
+	/**
+	 * Registers player to team with team instance
+	 * 
+	 * @param p          Player to join team
+	 * @param teamNumber Team index of list
+	 * @return True if player join team, or false
+	 */
 	protected boolean registerPlayerToTeam(Player p, Team team) {
 		// register
 		if (team == null) {
@@ -208,6 +336,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return team.registerMember(p);
 	}
 
+	/**
+	 * Unregisters player from team
+	 * 
+	 * @param p Player to unregister from team
+	 * @return True if player is in any team, or false
+	 */
 	protected boolean unregisterPlayerFromTeam(Player p) {
 		// unregister from team
 		for (Team team : this.allTeams) {
@@ -218,41 +352,83 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return false;
 	}
 
-	/*
-	 * setter, getter
+	/**
+	 * Sets team register mode
+	 * 
+	 * @param teamRegisterMode TeamRegisterMode
 	 */
 	protected void setTeamRegisterMode(TeamRegisterMode teamRegisterMode) {
 		this.getCustomData().put("teamRegisterMode", teamRegisterMode.name());
 	}
 
+	/**
+	 * Gets team register mode
+	 * 
+	 * @return TeamRegisterMode
+	 */
 	protected TeamRegisterMode getTeamRegisterMode() {
 		return TeamRegisterMode.valueOf((String) this.getCustomData().get("teamRegisterMode"));
 	}
 
+	/**
+	 * Sets group chat
+	 * 
+	 * @param groupChat groupChat
+	 */
 	protected void setGroupChat(boolean groupChat) {
 		this.getCustomData().put("groupChat", groupChat);
 	}
 
+	/**
+	 * Check group chat is enabled
+	 * 
+	 * @return True if enabled
+	 */
 	protected boolean isGroupChat() {
 		return (boolean) this.getCustomData().get("groupChat");
 	}
 
-	protected void setTeamPVP(boolean active) {
-		this.getCustomData().put("teamPvp", active);
+	/**
+	 * Sets team pvp
+	 * 
+	 * @param teamPvp groupChat
+	 */
+	protected void setTeamPVP(boolean teamPvp) {
+		this.getCustomData().put("teamPvp", teamPvp);
 	}
 
+	/**
+	 * Check team pvp is enabled
+	 * 
+	 * @return True if enabled
+	 */
 	protected boolean isTeamPvP() {
 		return (boolean) this.getCustomData().get("teamPvp");
 	}
 
+	/**
+	 * Gets all team list
+	 * 
+	 * @return Team list
+	 */
 	protected List<Team> getTeamList() {
 		return this.allTeams;
 	}
 
+	/**
+	 * Gets all team count
+	 * 
+	 * @return Team count
+	 */
 	protected int getTeamCount() {
 		return this.allTeams.size();
 	}
 
+	/**
+	 * Gets live teams
+	 * 
+	 * @return Live teams
+	 */
 	protected List<Team> getLiveTeamsList() {
 		List<Team> liveTeams = new ArrayList<>();
 		liveTeams.forEach(t -> {
@@ -264,54 +440,84 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return liveTeams;
 	}
 
+	/**
+	 * Gets live teams count
+	 * 
+	 * @return
+	 */
 	protected int getLiveTeamCount() {
 		return this.getLiveTeamsList().size();
 	}
 
-	/*
-	 * score
+	/**
+	 * Plus team score with team index
+	 * 
+	 * @param teamNumber Team index
+	 * @param amount     Amount to plus
 	 */
-	protected void plusTeamScore(int teamNumber, int score) {
+	protected void plusTeamScore(int teamNumber, int amount) {
 		Team team = this.getTeam(teamNumber);
-		team.plusTeamScore(score);
+		team.plusTeamScore(amount);
 	}
 
-	protected void plusTeamScore(Player p, int score) {
+	/**
+	 * Plus score of the team which player belongs
+	 * 
+	 * @param p      Team of Player
+	 * @param amount Amount to plus
+	 */
+	protected void plusTeamScore(Player p, int amount) {
 		Team team = this.getTeam(p);
-		team.plusTeamScore(score);
+		team.plusTeamScore(amount);
 	}
 
-//	@Override
-//	protected void plusScore(Player p, int score) {
-//		this.plusTeamScore(p, score);
-//	}
-
-	protected void minusTeamScore(int teamNumber, int score) {
+	/**
+	 * Minus team score with team index
+	 * 
+	 * @param teamNumber Team index
+	 * @param amount     Amount to minus
+	 */
+	protected void minusTeamScore(int teamNumber, int amount) {
 		Team team = this.getTeam(teamNumber);
-		team.minusTeamScore(score);
+		team.minusTeamScore(amount);
 	}
 
-	protected void minusTeamScore(Player p, int score) {
+	/**
+	 * Minus score of the team which player belongs
+	 * 
+	 * @param p      Team of Player
+	 * @param amount Amount to minus
+	 */
+	protected void minusTeamScore(Player p, int amount) {
 		Team team = this.getTeam(p);
-		team.minusTeamScore(score);
+		team.minusTeamScore(amount);
 	}
 
-//	@Override
-//	protected void minusScore(Player p, int score) {
-//		this.minusTeamScore(p, score);
-//	}
-
+	/**
+	 * Gets team score with index
+	 * 
+	 * @param teamNumber Team index
+	 * @return Team score
+	 */
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
 		return team.getTeamScore();
 	}
 
+	/**
+	 * Gets score of team which player belongs
+	 * 
+	 * @param p Team of player
+	 * @return Team score
+	 */
 	protected int getTeamScore(Player p) {
 		Team team = this.getTeam(p);
 		return team.getTeamScore();
 	}
 
-	// change counting unit: player > team
+	/**
+	 * Counting unit changed: "player" to "team"
+	 */
 	@Override
 	protected boolean isMinPlayersLive() {
 		return this.getLiveTeamCount() > 1;
@@ -343,14 +549,23 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	/**
+	 * TeamBattleMiniGame.TeamRegisterMode = FAIR
+	 */
 	private void registerPlayers_FAIR() {
 		this.getPlayers().forEach(p -> this.registerPlayerToMinPlayerCountTeam(p));
 	}
 
+	/**
+	 * TeamBattleMiniGame.TeamRegisterMode = FILL
+	 */
 	private void registerPlayers_FILL() {
 		this.getPlayers().forEach(p -> this.registerPlayerToMaxPlayerCountTeam(p));
 	}
 
+	/**
+	 * TeamBattleMiniGame.TeamRegisterMode = FAIR_FILL
+	 */
 	private void registerPlayers_FAIR_FILL() {
 		// [IMPORTANT] suppose that all teams has the same max player count
 		int teamMemberCount = this.allTeams.get(0).maxCount();
@@ -383,6 +598,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	/**
+	 * TeamBattleMiniGame.TeamRegisterMode = RANDOM
+	 */
 	private void registerPlayers_RANDOM() {
 		this.getPlayers().forEach(p -> this.registerPlayerToRandomTeam(p));
 	}
@@ -487,12 +705,23 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	/**
+	 * Team which used in TeamBattleMiniGame frame<br>
+	 * Manage: teamName, maxMemberCount, members, color
+	 *
+	 */
 	public class Team {
 		private String teamName;
 		private int maxMemberCount;
 		private List<Player> members;
 		private ChatColor color;
 
+		/**
+		 * Member size is needed for calculating maxPlayerCount of minigame
+		 * 
+		 * @param teamName   Team name
+		 * @param memberSize Team max member size
+		 */
 		public Team(String teamName, int memberSize) {
 			this.teamName = teamName;
 			this.maxMemberCount = memberSize;
@@ -500,22 +729,46 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.color = ChatColor.WHITE;
 		}
 
+		/**
+		 * Inits instance
+		 */
 		public void init() {
 			this.members.clear();
 		}
 
+		/**
+		 * Check team has players
+		 * 
+		 * @return True if team has no players
+		 */
 		public boolean isEmpty() {
 			return this.getMemberCount() == 0;
 		}
 
+		/**
+		 * Check team has players
+		 * 
+		 * @return True if team players are full
+		 */
 		public boolean isFull() {
 			return this.getMemberCount() == this.maxMemberCount;
 		}
 
+		/**
+		 * Gets team members
+		 * 
+		 * @return Player list
+		 */
 		public List<Player> getMembers() {
 			return this.members;
 		}
 
+		/**
+		 * Sends message to team members
+		 * 
+		 * @param sender Player from send
+		 * @param msg    Message to send
+		 */
 		public void sendTeamMessage(Player sender, String msg) {
 			if (this.hasMember(sender)) {
 				this.getMembers().forEach(p -> sendMessage(p,
@@ -523,18 +776,39 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 		}
 
+		/**
+		 * Gets team score
+		 * 
+		 * @return
+		 */
 		public int getTeamScore() {
 			return getScore(this.getRandomMember());
 		}
 
-		public void plusTeamScore(int score) {
-			this.getMembers().forEach(p -> TeamBattleMiniGame.super.plusScore(p, score));
+		/**
+		 * Plus team score
+		 * 
+		 * @param amount Amount to plus
+		 */
+		public void plusTeamScore(int amount) {
+			this.getMembers().forEach(p -> TeamBattleMiniGame.super.plusScore(p, amount));
 		}
 
-		public void minusTeamScore(int score) {
-			this.getMembers().forEach(p -> TeamBattleMiniGame.super.minusScore(p, score));
+		/**
+		 * Minus team score
+		 * 
+		 * @param amount Amount to minus
+		 */
+		public void minusTeamScore(int amount) {
+			this.getMembers().forEach(p -> TeamBattleMiniGame.super.minusScore(p, amount));
 		}
 
+		/**
+		 * Registers member to this team
+		 * 
+		 * @param p Player to register
+		 * @return False if team players are full, or true
+		 */
 		private boolean registerMember(Player p) {
 			// check teamSize
 			if (this.isFull()) {
@@ -545,31 +819,68 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 		}
 
+		/**
+		 * Unregisters player from this team
+		 * 
+		 * @param p Player to unregister
+		 * @return False if team doesn't has player
+		 */
 		private boolean unregisterMember(Player p) {
 			return this.members.remove(p);
 		}
 
+		/**
+		 * Check team has player
+		 * 
+		 * @param p Player to check
+		 * @return True if team has player
+		 */
 		public boolean hasMember(Player p) {
 			return this.getMembers().contains(p);
 		}
 
+		/**
+		 * Gets random player of team members
+		 * 
+		 * @return Random team member
+		 */
 		public Player getRandomMember() {
 			int randomIndex = (int) (Math.random() * this.getMemberCount());
 			return this.getMembers().get(randomIndex);
 		}
 
+		/**
+		 * Gets all members name string
+		 * 
+		 * @return All members name string
+		 */
 		public String getAllMemberNameString() {
 			return PlayerTool.getPlayersNameString(this.members, ",");
 		}
 
+		/**
+		 * Gets team color
+		 * 
+		 * @return Team color
+		 */
 		public ChatColor getColor() {
 			return color;
 		}
 
+		/**
+		 * Sets team color
+		 * 
+		 * @param color Team color
+		 */
 		public void setColor(ChatColor color) {
 			this.color = color;
 		}
 
+		/**
+		 * Check team is live
+		 * 
+		 * @return True if any member is live, or false if all of members are death
+		 */
 		public boolean isTeamLive() {
 			for (Player member : this.members) {
 				if (!getLivePlayers().contains(member)) {
@@ -579,10 +890,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return true;
 		}
 
-		public int getLiveMemberCount() {
-			return this.getLiveMemberList().size();
-		}
-
+		/**
+		 * Gets live member list
+		 * 
+		 * @return Live member list
+		 */
 		public List<Player> getLiveMemberList() {
 			List<Player> liveMembers = new ArrayList<>();
 			for (Player member : this.members) {
@@ -593,14 +905,38 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			return liveMembers;
 		}
 
+		/**
+		 * Gets live members count
+		 * 
+		 * @return Count of live members
+		 */
+		public int getLiveMemberCount() {
+			return this.getLiveMemberList().size();
+		}
+
+		/**
+		 * Gets team name
+		 * 
+		 * @return
+		 */
 		public String getName() {
 			return teamName;
 		}
 
+		/**
+		 * Gets members count
+		 * 
+		 * @return
+		 */
 		public int getMemberCount() {
 			return this.members.size();
 		}
 
+		/**
+		 * Gets team member max size
+		 * 
+		 * @return Max size of team
+		 */
 		public int maxCount() {
 			return this.maxMemberCount;
 		}

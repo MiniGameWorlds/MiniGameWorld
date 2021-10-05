@@ -1,14 +1,15 @@
 # TODO
 - Put javadoc in `docs` dir
-- Create MiniGame `life cycle` graph to wiki
+- Make Youtube tutorial (in new brand channel)
 - Make Github issue template
+- Export base minigames to each jar file (before release)
+- Test plugin to others (black0712_)
+- Spigot forum
+- Create MiniGame `life cycle` graph to wiki
 - Add `custom color` to MiniGame (file control:X, adjust to `title`, `score notifying`, etc)
-- Make Youtube tutorial (after create brand channel)
-- Create minigame `custom-made order` category and template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
 - Make generic `Reward` plugin (Thid-party)
-- Export base minigames to each jar file (before release)
 ```
 # tag list (class, var, method)
 - description
@@ -302,10 +303,10 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-05
 - Change `log.md` to english
-- Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`
+- Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`, `SoloMiniGame`, `SoloBattleMiniGame`, `TeamMiniGame`, `TeamBattleMiniGame`
 - Edit wiki
 - Add description `party` system to user wiki
-
+- Create minigame `custom order` category and template
 
 
 

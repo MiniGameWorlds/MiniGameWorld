@@ -126,7 +126,9 @@ public class MiniGameSetting {
 	}
 
 	/**
-	 * 
+	 * file control: X<br>
+	 * init value: setup value<br>
+	 * description: Checked in "handleException()"
 	 */
 	private GameFinishCondition gameFinishCondition;
 

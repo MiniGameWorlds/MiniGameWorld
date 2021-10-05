@@ -1,41 +1,52 @@
 package com.minigameworld.minigameframes;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 
+/**
+ * <b>[Info]</b><br>
+ * - Minigame frame players cooperate with each other<br>
+ * - min player count: 1 or more <br>
+ * - all players have the same score <br>
+ * - team util methods <br>
+ * 
+ * <b>[Rule]</b><br>
+ * - must use "plusEveryoneScore()" or "minusEveryoneScore()" for team score
+ * 
+ */
 public abstract class TeamMiniGame extends MiniGame {
-	/*
-	 * [Info]
-	 * - team play
-	 * - all players has same score
-	 * - team util methods
-	 * 
-	 * [Rule]
-	 * - must use plusEveryoneScore() or minusEveryoneScore() for team score
-	 */
 
 	public TeamMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 	}
 
+	/**
+	 * Gets team score
+	 * 
+	 * @return Team score
+	 */
 	protected int getTeamScore() {
-		return this.getScore(this.getRandomPlayer());
+		return this.getScore(this.randomPlayer());
 	}
 
-	protected Player getRandomPlayer() {
-		int randomIndex = (int) (Math.random() * this.getPlayerCount());
-		return this.getPlayers().get(randomIndex);
+	/**
+	 * Plus team score
+	 * 
+	 * @param amount Amount to plus
+	 */
+	protected void plusTeamScore(int amount) {
+		this.plusEveryoneScore(amount);
 	}
 
-	protected void plusTeamScore(int score) {
-		this.plusEveryoneScore(score);
-	}
-
-	protected void minusTeamScore(Player p, int score) {
-		this.minusEveryoneScore(score);
+	/**
+	 * Minus team score
+	 * 
+	 * @param amount Amount to minus
+	 */
+	protected void minusTeamScore(int amount) {
+		this.minusEveryoneScore(amount);
 	}
 
 	@Override

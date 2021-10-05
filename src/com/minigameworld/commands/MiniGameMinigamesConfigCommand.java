@@ -90,7 +90,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean title(Player p, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> <key> title
+		// /mg minigames <classname> title <value>
 		String title = args[3];
 		this.setKeyValue(p, data, Setting.MINIGAMES_TITLE, title);
 		return true;
@@ -153,7 +153,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean tutorial(Player p, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> tutorial <index> <4> <5> <6> ...
+		// /mg minigames <classname> tutorial <line> <4> <5> <6> ...
 
 		String tutorialString = "";
 		for (int i = 4; i < args.length - 1; i++) {
@@ -163,9 +163,9 @@ public class MiniGameMinigamesConfigCommand {
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
 		List<String> tutorial = minigame.getSetting().getTutorial();
-		int index = Integer.parseInt(args[3]);
+		int line = Integer.parseInt(args[3]);
 
-		tutorial.set(index, tutorialString);
+		tutorial.set(line, tutorialString);
 
 		this.setKeyValue(p, data, Setting.MINIGAMES_TUTORIAL, tutorial);
 		return true;
