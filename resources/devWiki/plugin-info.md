@@ -13,7 +13,7 @@
 - [classgraph]: Using for register all `Event` handlers
 
 # How to build
-## 1. Maven
+## With Maven
 - Download `shade` plugin
 - Run `mvn package` (uses `shade` plugin)
 ### Paper
@@ -47,9 +47,9 @@
   <version>LATEST</version>
 </dependency>
 ```
+---
 
-
-## 2. MANIFEST.MF
+## With MANIFEST.MF
 - Use `MANIFEST.MF` for add library class path
 ```mf
 Manifest-Version: 1.0
@@ -69,8 +69,9 @@ Class-Path: . libs/classgraph.jar
 - Add build path in eclipse
 - Put in `plugins/libs/classgraph.jar`
 
+---
 
-## 3. Fat-Jar
+## With Fat-Jar
 - Put libraries to one jar
 - Download `fat-jar` plugin
 - Export to `fat-jar` plugin with `classgraph`
@@ -85,21 +86,21 @@ Class-Path: . libs/classgraph.jar
 ### classgraph
 - Add build path in eclipse
 
-
+---
 
 # Development order
-## Maven
+## With Maven
 1. Develop
 2. Build with `shade` plugin (`mvn package`) in command
 3. Copy `MiniGameWorld-x.x.x-SNAPSHOT-shaded.jar` to `pluins` from `target`
 4. Start server
 
-## MANIFEST.MF
+## With MANIFEST.MF
 1. Develop
 2. Export with `MANIFEST.MF`
 3. Start server
 
-## Fat-Jar
+## With Fat-Jar
 1. Develop
 2. Export to `fat-jar` plugin with `classgraph`
 3. Start server
