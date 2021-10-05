@@ -1,6 +1,6 @@
 # Description
 - This doucment describe how to make `Minigame plugin`, `Third-Party plugin`
-- About MiniGameWorld plugin's structure: [Dev Wiki]
+- About MiniGameWorld plugin's structure: [MiniGameWorld]
 
 
 
@@ -37,7 +37,7 @@
 
 
 
-[Dev Wiki]: ../devWiki/home.md
+[MiniGameWorld]: ../devWiki/MiniGameWorld-home.md
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
