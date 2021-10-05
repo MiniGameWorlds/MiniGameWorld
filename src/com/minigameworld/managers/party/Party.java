@@ -16,11 +16,20 @@ import com.minigameworld.util.Setting;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+/**
+ * Party which manage members, invitees, askers
+ *
+ */
 public class Party {
 	private Set<PartyMember> members;
 	private Set<UUID> invitees;
 	private Set<UUID> askers;
 
+	/**
+	 * Make player's party
+	 * 
+	 * @param p Participant
+	 */
 	public Party(Player p) {
 		this.members = new HashSet<>();
 		this.members.add(new PartyMember(p));
@@ -29,16 +38,47 @@ public class Party {
 		this.askers = new HashSet<>();
 	}
 
+	/**
+	 * Gets member list
+	 * 
+	 * @return Player list
+	 */
 	public List<Player> getMembers() {
 		List<Player> players = new ArrayList<>();
 		this.members.forEach(member -> players.add(member.getPlayer()));
 		return players;
 	}
 
+	/**
+	 * Gets member list
+	 * 
+	 * @param p Target player
+	 * @return PartyMember list
+	 */
+	public PartyMember getPartyMember(Player p) {
+		for (PartyMember member : this.members) {
+			if (member.getPlayer().equals(p)) {
+				return member;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets size of party members
+	 * 
+	 * @return
+	 */
 	public int getSize() {
 		return this.members.size();
 	}
 
+	/**
+	 * Invites player to this party
+	 * 
+	 * @param invitee Player to invite
+	 * @return True if invitation sended to invitee
+	 */
 	public boolean invitePlayer(Player invitee) {
 		UUID uuid = invitee.getUniqueId();
 		if (!this.invitees.contains(uuid)) {
@@ -58,6 +98,12 @@ public class Party {
 		return false;
 	}
 
+	/**
+	 * Accept invitation
+	 * 
+	 * @param invitee Player who accept
+	 * @return True if party have invitation for invitee
+	 */
 	public boolean acceptInvitation(Player invitee) {
 		UUID uuid = invitee.getUniqueId();
 		if (this.invitees.contains(uuid)) {
@@ -74,6 +120,12 @@ public class Party {
 		}
 	}
 
+	/**
+	 * Rejects invitation
+	 * 
+	 * @param inviter Player who invited invitee
+	 * @param invitee Player who rejects
+	 */
 	public void rejectInvitation(Player inviter, Player invitee) {
 		UUID uuid = invitee.getUniqueId();
 		if (this.invitees.contains(uuid)) {
@@ -85,19 +137,23 @@ public class Party {
 		}
 	}
 
+	/**
+	 * Check party has the player
+	 * 
+	 * @param target Target player
+	 * @return True if party has player
+	 */
 	public boolean hasPlayer(Player target) {
 		return this.getMembers().contains(target);
 	}
 
-	private PartyMember getPartyMember(Player p) {
-		for (PartyMember member : this.members) {
-			if (member.getPlayer().equals(p)) {
-				return member;
-			}
-		}
-		return null;
-	}
-
+	/**
+	 * Votes player to kick
+	 * 
+	 * @param reporter Player who kickvoted
+	 * @param target   Kickvoted player
+	 * @return True if target player is kicked from party
+	 */
 	public boolean kickVote(Player reporter, Player target) {
 		if (!this.hasPlayer(target)) {
 			Party.sendMessage(reporter, target.getName() + " is not your party");
@@ -118,15 +174,21 @@ public class Party {
 		return this.checkKickVoteMajority(target);
 	}
 
+	/**
+	 * Checks kick vote count majority
+	 * 
+	 * @param p Checked player
+	 * @return True if majoritys, or not
+	 */
 	public boolean checkKickVoteMajority(Player p) {
 		PartyMember member = this.getPartyMember(p);
-		int votedCount = member.getKickVoteCount();
+		int votedCount = member.getKickVotesCount();
 
 		// e.g. 3 of 6, 3 of 7
 		int majorityCount = this.getSize() / 2;
 		boolean isMajority = votedCount > majorityCount;
 		if (isMajority) {
-			this.removeKickVotingByPlayer(p);
+			this.removeKickVotesByPlayer(p);
 			this.members.remove(member);
 			Party.sendMessage(p, "You kicked from your party");
 			return true;
@@ -134,17 +196,32 @@ public class Party {
 		return false;
 	}
 
-	private void removeKickVotingByPlayer(Player p) {
+	/**
+	 * Removes kick votes by a player
+	 * 
+	 * @param p Player who kick voted
+	 */
+	private void removeKickVotesByPlayer(Player p) {
 		this.members.forEach(m -> m.cancelKickVote(p));
 	}
 
+	/**
+	 * Leaves party
+	 * 
+	 * @param p Player to leave
+	 */
 	public void leave(Player p) {
-		this.removeKickVotingByPlayer(p);
+		this.removeKickVotesByPlayer(p);
 		PartyMember member = this.getPartyMember(p);
 		this.members.remove(member);
 		this.sendMessageToAllMembers(p.getName() + " leave a party");
 	}
 
+	/**
+	 * Asks party to join
+	 * 
+	 * @param asker Player who asked
+	 */
 	public void askToJoin(Player asker) {
 		UUID uuid = asker.getUniqueId();
 		this.askers.add(uuid);
@@ -158,6 +235,12 @@ public class Party {
 		}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * Setting.PARTY_ASK_TIMEOUT);
 	}
 
+	/**
+	 * Allows asker to join the party
+	 * 
+	 * @param asker Player who asked
+	 * @return True if asker joined the party
+	 */
 	public boolean allowToJoin(Player asker) {
 		UUID uuid = asker.getUniqueId();
 		if (this.askers.contains(uuid)) {
@@ -173,28 +256,57 @@ public class Party {
 		return false;
 	}
 
-	public int getKickVoteCount(Player p) {
+	/**
+	 * Gets kick votes count of player
+	 * 
+	 * @param p Checking player
+	 * @return Amount of kick votes
+	 */
+	public int getKickVotesCount(Player p) {
 		if (this.hasPlayer(p)) {
-			return this.getPartyMember(p).getKickVoteCount();
+			return this.getPartyMember(p).getKickVotesCount();
 		}
 		return -1;
 	}
 
+	/**
+	 * Sends message to member
+	 * 
+	 * @param p   Audience
+	 * @param msg Message to send
+	 */
 	public static void sendMessage(Player p, String msg) {
 		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE + msg);
 	}
 
 	@SuppressWarnings("deprecation")
+	/**
+	 * Sends message with Component
+	 * 
+	 * @param p     Audience
+	 * @param compo Component to send
+	 */
 	public static void sendMessage(Player p, BaseComponent compo) {
 		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE);
 		msg.addExtra(compo);
 		p.spigot().sendMessage(msg);
 	}
 
+	/**
+	 * Sends message to all members
+	 * 
+	 * @param msg Message to send
+	 */
 	public void sendMessageToAllMembers(String msg) {
 		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), msg));
 	}
 
+	/**
+	 * Sends message to all members with Component
+	 * 
+	 * @param p     Audience
+	 * @param compo Component to send
+	 */
 	public void sendMessageToAllMembers(BaseComponent compo) {
 		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), compo));
 	}

@@ -16,11 +16,18 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+/**
+ * [Party System]<br>
+ * - All member have equal permission (i.e. leader not exist)<br>
+ * - No relation in the minigame<br>
+ * <br>
+ * 
+ * [IMPORTANT]<br>
+ * - Player always has party even alone<br>
+ * - send message with {@link Party#sendMessage()}<br>
+ *
+ */
 public class PartyManager {
-	/*
-	 * [IMPORTANT]
-	 * - send message with "Party.sendMessage()"
-	 */
 
 	private MiniGameManager miniGameManager;
 	private List<Party> parties;
@@ -30,26 +37,35 @@ public class PartyManager {
 		this.parties = new ArrayList<>();
 	}
 
+	/**
+	 * Creates party to player join(only need to execute when player join the
+	 * server)
+	 * 
+	 * @param p Joined player
+	 */
 	public void createParty(Player p) {
 		if (!this.hasParty(p)) {
 			this.parties.add(new Party(p));
 		}
 	}
 
+	/**
+	 * Delets player party (only need to execute when player quit party or join
+	 * other party)
+	 * 
+	 * @param p Party to delete of player
+	 */
 	public void deleteParty(Player p) {
 		Party party = this.getPlayerParty(p);
 		this.parties.remove(party);
 	}
 
-	private void deletePersonalParty(Player p) {
-		for (Party party : this.parties) {
-			if (party.hasPlayer(p) && party.getSize() == 1) {
-				this.parties.remove(party);
-				return;
-			}
-		}
-	}
-
+	/**
+	 * Check player has a party
+	 * 
+	 * @param p Player to check
+	 * @return True if player has party
+	 */
 	public boolean hasParty(Player p) {
 		// judge that player has a party if party's member are 2 or more players
 		Party party = this.getPlayerParty(p);
@@ -59,6 +75,12 @@ public class PartyManager {
 		return party.getSize() >= 2;
 	}
 
+	/**
+	 * Gets player's party
+	 * 
+	 * @param p Target player
+	 * @return Null if player doesn't have party, or return player's party instance
+	 */
 	public Party getPlayerParty(Player p) {
 		/*
 		 * [IMPORTANT] player must always have party ( = not need to check has party ) 
@@ -71,6 +93,12 @@ public class PartyManager {
 		return null;
 	}
 
+	/**
+	 * Invites player to own party
+	 * 
+	 * @param inviter Player who sent invitation
+	 * @param invitee Player to send invitation
+	 */
 	@SuppressWarnings("deprecation")
 	public void invitePlayer(Player inviter, Player invitee) {
 		// check target player is online
@@ -109,6 +137,12 @@ public class PartyManager {
 		}
 	}
 
+	/**
+	 * Accepts invitation
+	 * 
+	 * @param invitee Player who get invitation from inviter
+	 * @param inviter Player who sent invitation
+	 */
 	public void acceptInvitation(Player invitee, Player inviter) {
 		// check target player is online
 		if (!this.checkPlayersOnline(inviter, invitee)) {
@@ -117,10 +151,16 @@ public class PartyManager {
 
 		Party party = this.getPlayerParty(inviter);
 		if (party.acceptInvitation(invitee)) {
-			this.deletePersonalParty(invitee);
+			this.deleteParty(invitee);
 		}
 	}
 
+	/**
+	 * Rejects invitation
+	 * 
+	 * @param inviter Player who sent invitation
+	 * @param invitee Player who get invitation from inviter
+	 */
 	public void rejectInvitation(Player inviter, Player invitee) {
 		// check target player is online
 		if (!this.checkPlayersOnline(inviter, invitee)) {
@@ -131,6 +171,12 @@ public class PartyManager {
 		party.rejectInvitation(inviter, invitee);
 	}
 
+	/**
+	 * Asks to join player's party
+	 * 
+	 * @param asker       Player who wants join party
+	 * @param partyMember Player to ask
+	 */
 	@SuppressWarnings("deprecation")
 	public void ask(Player asker, Player partyMember) {
 		// check target player is online
@@ -166,6 +212,12 @@ public class PartyManager {
 		Party.sendMessage(partyMember, msg);
 	}
 
+	/**
+	 * Allows asker can join own party
+	 * 
+	 * @param partyMember Player permit ask
+	 * @param asker       Player to join party
+	 */
 	public void allow(Player partyMember, Player asker) {
 		// check target player is online
 		if (!this.checkPlayersOnline(partyMember, asker)) {
@@ -179,12 +231,17 @@ public class PartyManager {
 
 		Party party = this.getPlayerParty(partyMember);
 		if (party.allowToJoin(asker)) {
-			this.deletePersonalParty(asker);
+			this.deleteParty(asker);
 		} else {
 			Party.sendMessage(partyMember, asker.getName() + " didn't ask or time has too passed");
 		}
 	}
 
+	/**
+	 * Leaves from party
+	 * 
+	 * @param member Player to leave
+	 */
 	public void leaveParty(Player member) {
 		if (this.hasParty(member)) {
 			Party party = this.getPlayerParty(member);
@@ -200,6 +257,12 @@ public class PartyManager {
 		}
 	}
 
+	/**
+	 * Votes player to kick
+	 * 
+	 * @param reporter Player who kickvoted
+	 * @param target   kickvoted player
+	 */
 	public void kickVote(Player reporter, Player target) {
 		// check target player is online
 		if (!this.checkPlayersOnline(reporter, target)) {
@@ -219,11 +282,22 @@ public class PartyManager {
 		}
 	}
 
+	/**
+	 * Send message to party members
+	 * 
+	 * @param p   Target player
+	 * @param msg Message to send
+	 */
 	public void sendMessageToPlayerPartyMembers(Player p, String msg) {
 		Party party = this.getPlayerParty(p);
 		party.sendMessageToAllMembers(msg);
 	}
 
+	/**
+	 * Print member list
+	 * 
+	 * @param p Target Player
+	 */
 	@SuppressWarnings("deprecation")
 	public void printList(Player p) {
 		// check target player is online
@@ -236,7 +310,7 @@ public class PartyManager {
 		// clickable chat
 		TextComponent msg = new TextComponent("");
 		for (Player member : party.getMembers()) {
-			int kickVotingCount = party.getKickVoteCount(member);
+			int kickVotingCount = party.getKickVotesCount(member);
 			TextComponent playerList = new TextComponent(
 					"\n- " + ChatColor.GREEN + ChatColor.UNDERLINE + member.getName() + ChatColor.WHITE);
 			playerList.addExtra(" [kickvoted: " + ChatColor.RED + kickVotingCount + ChatColor.WHITE + "]");
@@ -250,6 +324,12 @@ public class PartyManager {
 		Party.sendMessage(p, msg);
 	}
 
+	/**
+	 * Gets player's party member list
+	 * 
+	 * @param p Target player
+	 * @return Null if player is offline, or return Member list
+	 */
 	public List<Player> getMembers(Player p) {
 		// check target player is online
 		if (!PlayerTool.isPlayerOnline(p)) {
@@ -260,6 +340,13 @@ public class PartyManager {
 		return party.getMembers();
 	}
 
+	/**
+	 * Checks players are online each other
+	 * 
+	 * @param notifyPlayer Player to be notified
+	 * @param targetPlayer Player to check online
+	 * @return True if two players are online, or false
+	 */
 	private boolean checkPlayersOnline(Player notifyPlayer, Player targetPlayer) {
 		// check nofify player
 		if (!PlayerTool.isPlayerOnline(notifyPlayer)) {
@@ -274,6 +361,13 @@ public class PartyManager {
 		return true;
 	}
 
+	/**
+	 * Check party members can join minigame
+	 * 
+	 * @param p    Target player
+	 * @param game MiniGame
+	 * @return True if can join, or false
+	 */
 	public boolean canPartyJoin(Player p, MiniGame game) {
 		if (!this.hasParty(p)) {
 			return true;

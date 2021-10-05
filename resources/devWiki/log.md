@@ -303,7 +303,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-05
 - Change `log.md` to english
-- Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`, `SoloMiniGame`, `SoloBattleMiniGame`, `TeamMiniGame`, `TeamBattleMiniGame`
+- Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`, `SoloMiniGame`, `SoloBattleMiniGame`, `TeamMiniGame`, `TeamBattleMiniGame`, `PartyManager`, `Party`, `PartyMember`
 - Edit wiki
 - Add description `party` system to user wiki
 - Create minigame `custom order` category and template

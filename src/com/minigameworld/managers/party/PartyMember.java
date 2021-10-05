@@ -6,15 +6,34 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+/**
+ * Party member which have data related with party
+ *
+ */
 public class PartyMember {
 	private Player player;
+
+	/**
+	 * Kickvote reporter list
+	 */
 	private Set<UUID> kickVoted;
 
+	/**
+	 * Subject
+	 * 
+	 * @param p Player
+	 */
 	public PartyMember(Player p) {
 		this.player = p;
 		this.kickVoted = new HashSet<>();
 	}
 
+	/**
+	 * Kicks vote player
+	 * 
+	 * @param reporter Player who kick voted
+	 * @return True if this player is kick voted
+	 */
 	public boolean kickVote(Player reporter) {
 		UUID uuid = reporter.getUniqueId();
 
@@ -35,15 +54,30 @@ public class PartyMember {
 		return false;
 	}
 
+	/**
+	 * Cancels kick vote from player
+	 * 
+	 * @param reporter
+	 */
 	public void cancelKickVote(Player reporter) {
 		UUID uuid = reporter.getUniqueId();
 		this.kickVoted.remove(uuid);
 	}
 
-	public int getKickVoteCount() {
+	/**
+	 * Gets kick votes count
+	 * 
+	 * @return Amount of kick votes
+	 */
+	public int getKickVotesCount() {
 		return this.kickVoted.size();
 	}
 
+	/**
+	 * Gets player
+	 * 
+	 * @return Player
+	 */
 	public Player getPlayer() {
 		return this.player;
 	}

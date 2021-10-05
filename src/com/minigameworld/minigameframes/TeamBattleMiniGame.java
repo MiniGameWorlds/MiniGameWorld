@@ -308,8 +308,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Registers player to team with name
 	 * 
-	 * @param p          Player to join team
-	 * @param teamNumber Team index of list
+	 * @param p        Player to join team
+	 * @param teamName Team index of list
 	 * @return True if player join team, or false
 	 */
 	protected boolean registerPlayerToTeam(Player p, String teamName) {
@@ -324,8 +324,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Registers player to team with team instance
 	 * 
-	 * @param p          Player to join team
-	 * @param teamNumber Team index of list
+	 * @param p    Player to join team
+	 * @param team Team index of list
 	 * @return True if player join team, or false
 	 */
 	protected boolean registerPlayerToTeam(Player p, Team team) {
@@ -695,6 +695,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	}
 
+	/**
+	 * Gets team rank
+	 * 
+	 * @param leftTeams Team list to compare team score
+	 * @return Ordered team list by score with {@link RankOrder}
+	 * @see RankOrder
+	 */
 	public List<Entry<Team, Integer>> getRank(Map<Team, Integer> leftTeams) {
 		// return rank with MiniGame RankOrder setting
 		RankOrder order = this.getSetting().getRankOrder();
