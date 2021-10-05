@@ -36,9 +36,9 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;
 
 /**
- * MiniGame class of all minigames <br>
- * Custom minigame frame can be made with this class
- * 
+ * <b>MiniGame class of all minigames</b> <br>
+ * - Custom minigame frame can be made with extending this class
+ * - Message only send to same minigame players 
  */
 public abstract class MiniGame implements MiniGameEventNotifier {
 
@@ -1206,7 +1206,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	public boolean equals(Object obj) {
 		if (obj != null) {
 			if (obj instanceof MiniGame) {
-				return this.getTitle().equals(((MiniGame) obj).getTitle());
+				return this.getClass().getName().equals(((MiniGame) obj).getClassName());
 			}
 		}
 		return false;

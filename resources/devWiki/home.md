@@ -6,5 +6,8 @@
 - [Info]
 - [Structure]
 
+# Log
+- [Log]()
+
 [Info]: plugin-info.md
 [Structure]: plugin-design.md
