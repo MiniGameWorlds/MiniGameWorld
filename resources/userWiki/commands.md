@@ -17,6 +17,20 @@
 - `/minigame party list`: show party member list
 ## Config
 ### settings
-- `/minigame settings <key> <value>`: set plugin setting in `settings.yml` config file
+- set plugin settinsg in `settings.yml` config  
+- `/minigame settings lobby [<x> <y> <z>]`: set lobby location
+- `/minigame settings minigame-sign <true|false>`: set activation of minigame `sign block` join / leave
+- `/minigame settings minigame-command <true|false>`: set activation of minigame command
+- `/minigame settings message-prefix <value>`: set plugin message prefix
+
 ### minigames
-- `/minigame minigames <key> <value>`: set minigame setting in `minigames/<minigame>.yml` config file
+- set minigame settings in `minigames/<minigame>.yml` config 
+- `/minigame minigames <classname> title <value>`: set title
+- `/minigame minigames <classname> location [<x> <y> <z>]`: set minigame spawn location (without [<x> <y> <z>]: set player's location)
+- `/minigame minigames <classname> min-player-count <value>`: set min player count
+- `/minigame minigames <classname> max-player-count <value>`: set max player count
+- `/minigame minigames <classname> waiting-time <value>`: set waiting time (sec)
+- `/minigame minigames <classname> time-limit <value>`: set playing time limit (sec)
+- `/minigame minigames <classname> active <value>`: set activation of minigame
+- `/minigame minigames <classname> tutorial <line> <tutorials>`: set tutorials at <line>
+- `/minigame minigames <classname> icon <value>`: set icon (uppercase of item)
