@@ -1,14 +1,5 @@
-# Desciprion
-- Wiki for develop `MiniGameWorld`
-- Documents of `design` and `operation` of plugin
+# [How to make MiniGame](making-minigame-wiki.md)
+- Description for making MiniGame plugin with API
 
-# Link
-- [Info]
-- [Structure]
-
-# Log
-- [Log]
-
-[Info]: plugin-info.md
-[Structure]: plugin-design.md
-[Log]: log.md
+# [MiniGameWorld plugin](MiniGameWorld-home.md)
+- Description for development about `MiniGameWorld` plugin
