@@ -1,16 +1,15 @@
 # Description
 - This doucment describe how to make `Minigame plugin`, `Third-Party plugin`
-- About MiniGameWorld plugin's structure: [Dev Wiki]
+- About MiniGameWorld plugin's structure: [MiniGameWorld]
 
 
 
-# API
+# API design
 <!-- <img src="api-design.png" width="49.5%"></img> -->
 ![](api-design.png)
 - `Custom minigame` and `third-party` uses `MiniGameWorld` API
-## API class
-- `MiniGameWorld`: can access data of MiniGameWorld plugin, can register minigame to MiniGameWorld plugin
-- `MiniGameAccessor`: can access data of registered minigame in MiniGameWorld plugin
+## Document
+- [MiniGameWorld API](https://worldbiomusic.github.io/MiniGameWorld/)
 
 
 
@@ -38,7 +37,7 @@
 
 
 
-[Dev Wiki]: ../devWiki/home.md
+[MiniGameWorld]: ../devWiki/MiniGameWorld-home.md
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
