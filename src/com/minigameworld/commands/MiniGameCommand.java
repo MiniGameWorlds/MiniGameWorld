@@ -48,6 +48,12 @@ public class MiniGameCommand implements CommandExecutor {
 		try {
 			// menu
 			String menu = args[0];
+
+			// check permit
+			if (!this.canUseCommand(p, menu)) {
+				return true;
+			}
+
 			switch (menu) {
 			case "join":
 				return this.join(p, args);
@@ -57,10 +63,10 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.list(p, args);
 			case "menu":
 				return this.menu(p, args);
-			case "party":
-				return this.miniGamePartyCommand.party(p, args);
 			case "reload":
 				return this.reloadConfig(p, args);
+			case "party":
+				return this.miniGamePartyCommand.party(p, args);
 			case "settings":
 				return this.miniGameSettingsConfigCommand.settings(p, args);
 			case "minigames":
@@ -73,6 +79,24 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
+	private boolean canUseCommand(Player p, String menu) {
+		switch (menu) {
+		case "join":
+		case "leave":
+		case "list":
+		case "menu":
+		case "party":
+			// check minigameCommand is true(setting.yml)
+			if (!this.canCommandUse()) {
+				Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
+				return false;
+			}
+			break;
+		}
+
+		return true;
+	}
+
 	private boolean canCommandUse() {
 		return (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_COMMAND);
 	}
@@ -81,12 +105,6 @@ public class MiniGameCommand implements CommandExecutor {
 		/*
 		 * minigame join <title>
 		 */
-
-		// check minigameCommand is true(setting.yml)
-		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
-			return true;
-		}
 
 		String title = args[1];
 		this.minigameManager.joinGame(p, title);
@@ -98,23 +116,11 @@ public class MiniGameCommand implements CommandExecutor {
 		 * minigame leave
 		 */
 
-		// check minigameCommand is true(setting.yml)
-		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
-			return true;
-		}
-
 		this.minigameManager.leaveGame(p);
 		return true;
 	}
 
 	private boolean list(Player p, String[] args) throws Exception {
-
-		// check minigameCommand is true(setting.yml)
-		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
-			return true;
-		}
 
 		List<MiniGame> games = this.minigameManager.getMiniGameList();
 
@@ -136,20 +142,14 @@ public class MiniGameCommand implements CommandExecutor {
 				Utils.sendMsg(p, "- " + ChatColor.GREEN + gameTitle);
 			}
 		}
-		
+
 		// test
 		p.setHealthScale(30);
-		
 
 		return true;
 	}
 
 	private boolean menu(Player p, String[] args) {
-		// check minigameCommand is true(setting.yml)
-		if (!this.canCommandUse()) {
-			Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
-			return true;
-		}
 
 		MiniGameMenuManager menuManager = this.minigameManager.getMiniGameMenuManager();
 		menuManager.openMenu(p);

@@ -1,5 +1,4 @@
 # TODO
-- Add description `party` system to user wiki
 - Put javadoc in `docs` dir
 - Create MiniGame `life cycle` graph to wiki
 - Make Github issue template
@@ -304,8 +303,8 @@ if(!this.isMinPlayersLive()) {
 # 2021-10-05
 - Change `log.md` to english
 - Write javadoc: `MiniGameWorld`, `MiniGameAccessor`, `MiniGameEventNotifier`, `MiniGameObserver`
-
-
+- Edit wiki
+- Add description `party` system to user wiki
 
 
 
