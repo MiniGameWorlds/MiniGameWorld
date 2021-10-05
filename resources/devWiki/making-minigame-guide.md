@@ -14,7 +14,7 @@
 - `registerTutorial()`: tutorial string
 
 ### Frame class
-- Select according to minigame features
+- Select with minigame features
 #### `SoloMiniGame`
 - Solo play
 - [Example Minigame]()
