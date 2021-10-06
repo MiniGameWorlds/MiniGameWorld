@@ -31,11 +31,19 @@ public class MiniGameTaskManager {
 	}
 
 	public void runWaitingTask() {
+		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
+	}
 
+	public void cancelWaitingTask() {
+		this.taskManager.cancelTask("_waitingTimer");
 	}
 
 	public void runFinishTask() {
+		this.taskManager.runTaskTimer("_finishTimer", 0, 20);
+	}
 
+	public void cancelFinishTask() {
+		this.taskManager.cancelTask("_finishTimer");
 	}
 
 	public void registerBasicTasks() {

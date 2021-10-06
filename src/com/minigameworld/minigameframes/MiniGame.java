@@ -37,8 +37,8 @@ import net.kyori.adventure.text.TextComponent;
 
 /**
  * <b>MiniGame class of all minigames</b> <br>
- * - Custom minigame frame can be made with extending this class
- * - Message only send to same minigame players 
+ * - Custom minigame frame can be made with extending this class - Message only
+ * send to same minigame players
  */
 public abstract class MiniGame implements MiniGameEventNotifier {
 
@@ -60,7 +60,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	/**
 	 * Task manager
 	 */
-	private MiniGameTaskManager taskManager;
+	private MiniGameTaskManager minigameTaskManager;
 
 	/**
 	 * Player state manager (health, food level ...)
@@ -183,8 +183,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void setupMiniGame() {
 		// register basic tasks
-		this.taskManager = new MiniGameTaskManager(this);
-		this.taskManager.registerBasicTasks();
+		this.minigameTaskManager = new MiniGameTaskManager(this);
+		this.minigameTaskManager.registerBasicTasks();
 
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager();
@@ -202,7 +202,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Init(reset) minigame settings
+	 * Init(reset) minigame settings<br>
+	 * <b>[IMPORTANT]</b><br>
+	 * - Executed every game ready to start or ended
+	 * 
 	 */
 	private void initSettings() {
 		this.initBaseSettings();
@@ -306,7 +309,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// init setting when first player joins
 		if (this.isEmpty()) {
 			this.initSettings();
-			this.startWaitingTimer();
+			this.minigameTaskManager.runWaitingTask();
 		}
 
 		// setup join settings
@@ -425,15 +428,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Cancel all tasks and timer count (waitingTime task, finishTime task)
 	 */
 	private void initTasks() {
-		this.taskManager.init();
-	}
-
-	/**
-	 * Start waiting timer for start
-	 */
-	private void startWaitingTimer() {
-		// start game after waitingTimer
-		this.getTaskManager().runTaskTimer("_waitingTimer", 0, 20);
+		this.minigameTaskManager.init();
 	}
 
 	/**
@@ -442,7 +437,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void restartWaitingTask() {
 		this.initTasks();
-		this.startWaitingTimer();
+		this.minigameTaskManager.runWaitingTask();
 	}
 
 	/**
@@ -480,17 +475,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.notifyObservers(MiniGameEvent.START);
 
 		// cancel task
-		this.getTaskManager().cancelTask("_waitingTimer");
+		this.minigameTaskManager.cancelWaitingTask();
 
 		// start finishsTimer
-		startFinishTimer();
-	}
-
-	/**
-	 * Start finish timer
-	 */
-	private void startFinishTimer() {
-		this.getTaskManager().runTaskTimer("_finishTimer", 0, 20);
+		this.minigameTaskManager.runFinishTask();
 	}
 
 	/**
@@ -523,7 +511,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		initSettings();
 
 		// cancel finish task
-		this.getTaskManager().cancelTask("_finishTimer");
+		this.minigameTaskManager.cancelFinishTask();
 	}
 
 	/**
@@ -1127,7 +1115,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @return Left waiting time
 	 */
 	public int getLeftWaitingTime() {
-		return this.taskManager.getLeftWaitingTime();
+		return this.minigameTaskManager.getLeftWaitingTime();
 	}
 
 	/**
@@ -1136,7 +1124,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @return Left finish time
 	 */
 	public int getLeftFinishTime() {
-		return this.taskManager.getLeftFinishTime();
+		return this.minigameTaskManager.getLeftFinishTime();
 	}
 
 	/**
@@ -1145,7 +1133,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @return Task manager
 	 */
 	protected TaskManager getTaskManager() {
-		return this.taskManager.getTaskManager();
+		return this.minigameTaskManager.getTaskManager();
 	}
 
 	/**
