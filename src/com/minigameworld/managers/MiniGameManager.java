@@ -16,7 +16,6 @@ import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
-import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
@@ -104,7 +103,7 @@ public class MiniGameManager implements YamlMember {
 
 		// messagePrefix
 		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
-			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld");
+			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET);
 		}
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 	}
@@ -172,7 +171,9 @@ public class MiniGameManager implements YamlMember {
 	*/
 	public void passEvent(Event e) {
 		// check server down
-//		this.checkPluginGoDisabled();
+		if (this.checkPluginStartToBeDisabled(e)) {
+			return;
+		}
 
 		// detect event
 		if (this.minigameEventDetector.isDetectableEvent(e)) {
@@ -199,10 +200,14 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
-	private void checkPluginGoDisabled(Event e) {
+	private boolean checkPluginStartToBeDisabled(Event e) {
 		if (e instanceof PluginDisableEvent) {
-			this.minigames.forEach(m -> m.finishGame());
+			this.minigames.forEach(m -> {
+				m.finishGame();
+			});
+			return true;
 		}
+		return false;
 	}
 
 	private void passUndetectableEventToMiniGame(Event e) {
