@@ -24,7 +24,7 @@ import net.md_5.bungee.api.chat.TextComponent;
  * 
  * [IMPORTANT]<br>
  * - Player always has party even alone<br>
- * - send message with {@link Party#sendMessage()}<br>
+ * - send message with {@link Party#sendMessage}<br>
  *
  */
 public class PartyManager {
@@ -58,6 +58,21 @@ public class PartyManager {
 	public void deleteParty(Player p) {
 		Party party = this.getPlayerParty(p);
 		this.parties.remove(party);
+	}
+
+	/**
+	 * Deletes personal party<br>
+	 * Use this after player joined another player when solo party
+	 * 
+	 * @param p Player to delete party
+	 */
+	private void deletePersonalParty(Player p) {
+		for (Party party : this.parties) {
+			if (party.hasPlayer(p) && party.getSize() == 1) {
+				this.parties.remove(party);
+				return;
+			}
+		}
 	}
 
 	/**
@@ -151,7 +166,7 @@ public class PartyManager {
 
 		Party party = this.getPlayerParty(inviter);
 		if (party.acceptInvitation(invitee)) {
-			this.deleteParty(invitee);
+			this.deletePersonalParty(invitee);
 		}
 	}
 
@@ -231,7 +246,7 @@ public class PartyManager {
 
 		Party party = this.getPlayerParty(partyMember);
 		if (party.allowToJoin(asker)) {
-			this.deleteParty(asker);
+			this.deletePersonalParty(asker);
 		} else {
 			Party.sendMessage(partyMember, asker.getName() + " didn't ask or time has too passed");
 		}

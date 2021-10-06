@@ -45,8 +45,33 @@ import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
 import io.papermc.paper.event.block.BellRingEvent;
 import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
 
+/**
+ * Event detector to send Minigames<br>
+ * <br>
+ * <b>[IMPORTANT]</b><br>
+ * Detectable event means can get player from "Default event list" or "Detailed
+ * event list"<br>
+ * <br>
+ * 
+ * [Default Event List]<br>
+ * - PlayerEvent<br>
+ * - EntityEvent<br>
+ * - HangingEvent<br>
+ * - InventoryEvent<br>
+ * - InventoryMoveItemEvent<br>
+ * - PlayerLeashEntityEvent<br>
+ * <br>
+ * 
+ * [Detailed Event list]<br>
+ * - {@link #getPlayersFromBlockEvent}<br>
+ * - {@link #getPlayersFromEntityEvent}<br>
+ * - {@link #getPlayersFromVehicleEvent}<br>
+ * - {@link #getPlayersFromUnknownCommandEvent}<br>
+ */
 public class MiniGameEventDetector {
-	// detectable events
+	/**
+	 * Default detectable event list
+	 */
 	private Set<Class<? extends Event>> detectableEventList;
 
 	public MiniGameEventDetector() {
@@ -54,6 +79,9 @@ public class MiniGameEventDetector {
 		this.registerDetectableEvent();
 	}
 
+	/**
+	 * Registers default detectable events
+	 */
 	private void registerDetectableEvent() {
 		// init
 		this.detectableEventList = new HashSet<>();
@@ -67,18 +95,32 @@ public class MiniGameEventDetector {
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
 	}
 
-	// check detectable event
-
-	// [IMPORTANT] never check in detectableEventList (because, detectableEventList
-	// can't not get player in every event)
+	/**
+	 * Checks event is detectable
+	 * 
+	 * @param event Event to check
+	 * @return True if detectable event
+	 */
 	public boolean isDetectableEvent(Event event) {
 		return !this.getPlayersFromEvent(event).isEmpty();
 	}
 
+	/**
+	 * Checks event is detectable
+	 * 
+	 * @param event Event to check
+	 * @return True if detectable event
+	 */
 	public boolean isDetectableEvent(Class<? extends Event> event) {
 		return this.isDetectableEvent(event);
 	}
 
+	/**
+	 * Gets players from default events + detailed events
+	 * 
+	 * @param e Event to get players
+	 * @return Players from event
+	 */
 	public List<Player> getPlayersFromEvent(Event e) {
 		List<Player> eventPlayers = new ArrayList<>();
 
@@ -120,6 +162,13 @@ public class MiniGameEventDetector {
 		return eventPlayers;
 	}
 
+	/**
+	 * Gets players from detailed events
+	 * 
+	 * @param event        Event to get players
+	 * @param eventPlayers Players from event
+	 * @return False if no players from event
+	 */
 	private boolean getPlayersFromDetailedEvent(Event event, List<Player> eventPlayers) {
 		// several case
 		if (event instanceof BlockEvent) {
@@ -135,6 +184,12 @@ public class MiniGameEventDetector {
 		return !eventPlayers.isEmpty();
 	}
 
+	/**
+	 * Gets players from Block event
+	 * 
+	 * @param event        Event to get player
+	 * @param eventPlayers Players from event
+	 */
 	private void getPlayersFromBlockEvent(BlockEvent event, List<Player> eventPlayers) {
 		if (event instanceof BellRingEvent) {
 			BellRingEvent e = (BellRingEvent) event;
@@ -178,6 +233,12 @@ public class MiniGameEventDetector {
 		}
 	}
 
+	/**
+	 * Gets players from Entity event
+	 * 
+	 * @param event        Event to get player
+	 * @param eventPlayers Players from event
+	 */
 	private void getPlayersFromEntityEvent(EntityEvent event, List<Player> eventPlayers) {
 		if (event instanceof EntityDeathEvent) {
 			Player killer = ((EntityDeathEvent) event).getEntity().getKiller();
@@ -212,6 +273,12 @@ public class MiniGameEventDetector {
 
 	}
 
+	/**
+	 * Gets players from Vehicle event
+	 * 
+	 * @param event        Event to get player
+	 * @param eventPlayers Players from event
+	 */
 	private void getPlayersFromVehicleEvent(VehicleEvent event, List<Player> eventPlayers) {
 		if (event instanceof VehicleDamageEvent) {
 			VehicleDamageEvent e = (VehicleDamageEvent) event;
@@ -236,6 +303,12 @@ public class MiniGameEventDetector {
 		}
 	}
 
+	/**
+	 * Gets players from UnknownCommand event
+	 * 
+	 * @param event        Event to get player
+	 * @param eventPlayers Players from event
+	 */
 	private void getPlayersFromUnknownCommandEvent(UnknownCommandEvent event, List<Player> eventPlayers) {
 		if (event.getSender() instanceof Player) {
 			eventPlayers.add((Player) event.getSender());

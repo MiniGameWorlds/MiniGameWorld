@@ -304,7 +304,6 @@ public class Party {
 	/**
 	 * Sends message to all members with Component
 	 * 
-	 * @param p     Audience
 	 * @param compo Component to send
 	 */
 	public void sendMessageToAllMembers(BaseComponent compo) {

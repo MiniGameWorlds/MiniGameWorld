@@ -133,6 +133,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void processRemainedPlayersWhenServerStop() {
 		// finish all minigames
+		// [PROBLEM] other .jar minigames instance already put down from JVM, so games
+		// class are not found
 		this.minigameManager.getMiniGameList().forEach(game -> game.finishGame());
 
 		// process player quit work

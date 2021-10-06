@@ -144,7 +144,7 @@ public class CommonEventListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 		this.minigameManager.processPlayerQuitWorks(p);
-		
+
 		// minigame exception
 		MiniGame.Exception exception = MiniGame.Exception.PLAYER_QUIT_SERVER;
 		exception.setDetailedReason(e.getReason().name());
@@ -209,6 +209,7 @@ public class CommonEventListener implements Listener {
 		}
 	}
 
+	
 }
 //
 //

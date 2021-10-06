@@ -1,23 +1,16 @@
 # TODO
-- Put javadoc in `docs` dir
 - Make Youtube tutorial (in new brand channel)
-- Make Github issue template
 - Export base minigames to each jar file (before release)
 - Test plugin to others (black0712_)
 - Spigot forum
+- Put javadoc in `docs` dir
+- Make Github issue template
 - Create MiniGame `life cycle` graph to wiki
 - Add `custom color` to MiniGame (file control:X, adjust to `title`, `score notifying`, etc)
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
-- Make generic `Reward` plugin (Thid-party)
-```
-# tag list (class, var, method)
-- description
-- method: param, return
-# access
-- public: public
-- dev: private
-```
+- Make generic `Reward` plugin (Third-party)
+- Add `Scoreboard` to minigame (also managed in PlayerState)
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -308,10 +301,11 @@ if(!this.isMinPlayersLive()) {
 - Add description `party` system to user wiki
 - Create minigame `custom order` category and template
 
-
-
-
-
+# 2021-10-06
+- Write javadoc: `MiniGameEventDetector`
+- Write third-party-guide wiki
+- Test with `black0712_`
+- Fix bugs
 
 
 

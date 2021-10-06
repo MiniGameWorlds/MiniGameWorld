@@ -358,6 +358,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
+		// send message everyone
+		Utils.broadcast(p.getName() + " leaved " + this.getTitle());
+
 		this.setupPlayerLeavingSettings(p, "Before start");
 
 		// check game is emtpy
@@ -398,7 +401,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.printGameTutorial(p);
 
 		// notify other players to join the game
-		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
+		Utils.broadcast(p.getName() + " joined " + this.getTitle());
+//		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
 	}
 
 	/**
@@ -490,6 +494,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 */
 	public void finishGame() {
+		if (!this.isStarted()) {
+			return;
+		}
+
+		Utils.debug("finished@@@@@@@@@@@@@@@@");
+
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();
 
@@ -1194,7 +1204,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	public boolean equals(Object obj) {
 		if (obj != null) {
 			if (obj instanceof MiniGame) {
-				return this.getClass().getName().equals(((MiniGame) obj).getClassName());
+				return this.getClass().getSimpleName().equals(((MiniGame) obj).getClassName());
 			}
 		}
 		return false;

@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
@@ -145,18 +146,11 @@ public class MiniGameManager implements YamlMember {
 		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
 
-			boolean canLeave = false;
 			for (Player member : members) {
 				// leave with members who is playing the same minigame with "p"
 				if (playingGame.equals(this.getPlayingMiniGame(member))) {
-					canLeave = playingGame.leaveGame(member);
+					playingGame.leaveGame(member);
 				}
-			}
-
-			// message to everyone
-			if (canLeave) {
-				members.forEach(
-						m -> Party.sendMessage(m, p.getName() + " leaved " + playingGame.getTitle() + " with party"));
 			}
 
 		} else {
@@ -177,6 +171,9 @@ public class MiniGameManager implements YamlMember {
 	 * - check player is playing minigame and process event to minigame
 	*/
 	public void passEvent(Event e) {
+		// check server down
+//		this.checkPluginGoDisabled();
+
 		// detect event
 		if (this.minigameEventDetector.isDetectableEvent(e)) {
 
@@ -199,6 +196,12 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			// pass undetectable event to MiniGame which permit
 			this.passUndetectableEventToMiniGame(e);
+		}
+	}
+
+	private void checkPluginGoDisabled(Event e) {
+		if (e instanceof PluginDisableEvent) {
+			this.minigames.forEach(m -> m.finishGame());
 		}
 	}
 

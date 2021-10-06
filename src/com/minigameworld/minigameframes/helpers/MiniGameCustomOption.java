@@ -64,11 +64,6 @@ public class MiniGameCustomOption {
 	}
 
 	public void processEvent(Event event) {
-		// chat event is managed in Minigame class (for overriding)
-//		if (event instanceof AsyncChatEvent) {
-//			AsyncChatEvent e = (AsyncChatEvent) event;
-//			e.setCancelled(!(boolean) this.get(Option.CHATTING));
-//		} else 
 		if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {
@@ -83,19 +78,22 @@ public class MiniGameCustomOption {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			Entity victim = e.getEntity();
 			Entity damager = e.getDamager();
-			if (!(victim instanceof Player) || !this.minigame.containsPlayer((Player) victim)) {
+			if (!(victim instanceof Player)) {
 				return;
 			}
 
 			// direct damage
-			if (damager instanceof Player || this.minigame.containsPlayer((Player) damager)) {
-				e.setCancelled(true);
+			if (damager instanceof Player) {
+				if (this.minigame.containsPlayer((Player) damager)) {
+					e.setCancelled(true);
+				}
 			}
+
 			// projectile damage
 			else if (damager instanceof Projectile) {
 				Projectile proj = (Projectile) damager;
 				ProjectileSource shooter = proj.getShooter();
-				if (shooter instanceof Player || this.minigame.containsPlayer((Player) shooter)) {
+				if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
 					e.setCancelled(true);
 				}
 			}
