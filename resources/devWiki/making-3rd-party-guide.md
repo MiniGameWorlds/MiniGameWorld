@@ -1,17 +1,12 @@
 # Description
 - Third party plugin can access/change below things
 ```yaml
-- Minigame data
-- Minigame Join/Leave 
+- Join/Leave 
 - Minigame Exception
-- GUI
-- Party 
-- Observer System
+- Menu
+- Party
+- Observer
 ```
-
----
-
-# Minigame Rank Data
 
 ---
 
@@ -75,10 +70,65 @@ public void processServerEvent(Player p) {
 ---
 
 # Menu
+- Can add custom slot to `menu`
+- Beware of already exist slot in `menu` inventory
+## Example
+- Add custom slot to menu
+```java
+@Override
+public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	// only player
+	if (!(sender instanceof Player)) {
+		return true;
+	}
 
+	Player p = (Player) sender;
+
+	if (args[0].equalsIgnoreCase("m")) {
+		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+
+		// get opened menu inventory
+		Inventory inv = mw.openMiniGameMenu(p);
+
+		// custom slot
+		ItemStack customSlot = new ItemStack(Material.REDSTONE);
+		ItemMeta meta = customSlot.getItemMeta();
+		meta.setDisplayName("custom slot");
+		customSlot.setItemMeta(meta);
+
+		// set slot to inv
+		inv.setItem(7, customSlot);
+	}
+
+	return true;
+}
+```
 ---
 
 # Party
+- Can use different way to access party
+```java
+/*
+ * Ask a player to join party by right-click	
+ */
+@EventHandler
+public void onPlayerAskPartyJoin(PlayerInteractAtEntityEvent e) {
+	// check clicked entity is a player
+	if (!(e.getRightClicked() instanceof Player)) {
+		return;
+	}
+
+	Player asker = e.getPlayer();
+	Player asked = (Player) e.getRightClicked();
+
+	// get party manager
+	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+	PartyManager partyManager = mw.getPartyManager();
+
+	// show ask clickable chat to asked player
+	partyManager.ask(asker, asked);
+}
+```
 
 ---
 
@@ -90,7 +140,7 @@ public void processServerEvent(Player p) {
 - `EXCEPTION`: fired when exception created
 
 ## Examples
-### Reward System
+### 1. Reward System
 - Give reward when minigame finished
 - Can distinguish with `class name` or `title` of minigame
 ```java
@@ -123,5 +173,44 @@ class RewardManager implements MiniGameObserver {
 	}
 }
 ```
+### 2. Save Rank Data
+- Save rank data to config
+```java
+class RankDataManager implements MiniGameObserver {
 
+	private JavaPlugin plugin;
 
+	public RankDataManager(MiniGameWorld mw, JavaPlugin plugin) {
+		mw.registerMiniGameObserver(this);
+		this.plugin = plugin;
+	}
+
+	@Override
+	public void update(MiniGameEvent event, MiniGameAccessor minigame) {
+		if (event == MiniGameEvent.FINISH) {
+			List<Entry<Player, Integer>> rankList = minigame.getScoreRank();
+
+			// check rank is empty
+			if (rankList.isEmpty()) {
+				return;
+			}
+
+			// get minigame data section
+			String minigameClassName = minigame.getClassName();
+			ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
+			
+			for (Entry<Player, Integer> e : rankList) {
+				// get player's name, score
+				String playerName = e.getKey().getName();
+				int score = e.getValue();
+
+				// set data
+				section.set(playerName, score);
+			}
+
+			// save config
+			plugin.saveConfig();
+		}
+	}
+}
+```
