@@ -23,6 +23,7 @@ public class MiniGameCommand implements CommandExecutor {
 	private MiniGamePartyCommand miniGamePartyCommand;
 	private MiniGameSettingsConfigCommand miniGameSettingsConfigCommand;
 	private MiniGameMinigamesConfigCommand miniGameMinigamesConfigCommand;
+	private MiniGameHelpCommand minigameHelpCommand;
 
 	public MiniGameCommand(MiniGameManager minigameM) {
 		this.minigameManager = minigameM;
@@ -30,6 +31,7 @@ public class MiniGameCommand implements CommandExecutor {
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
 		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager);
 		this.miniGameMinigamesConfigCommand = new MiniGameMinigamesConfigCommand(this.minigameManager);
+		this.minigameHelpCommand = new MiniGameHelpCommand();
 
 		// set tab completer
 		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
@@ -73,9 +75,10 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.miniGameMinigamesConfigCommand.minigames(p, args);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+
 		}
+		// print usage
+		this.minigameHelpCommand.printHelp(p, args);
 		return true;
 	}
 

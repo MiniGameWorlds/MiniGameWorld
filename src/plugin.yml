@@ -8,14 +8,15 @@ depend: [wbmMC]
 
 commands:
   minigame:
-    aliases: mg
+    aliases: [mg, minigame, mw]
     usage: |
-      Usage
-      /minigame join <title>
-      /minigame leave
-      /minigame list
-      /minigame menu
-      /minigame party
-      /minigame reload
-      /minigame settings
-      /minigame minigames
+      
+      USAGE
+      /<command> join <title>
+      /<command> leave
+      /<command> list
+      /<command> menu
+      /<command> party
+      /<command> reload
+      /<command> settings
+      /<command> minigames

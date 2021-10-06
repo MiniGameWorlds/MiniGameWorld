@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.server.PluginDisableEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
@@ -498,7 +499,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return;
 		}
 
-		Utils.debug("finished@@@@@@@@@@@@@@@@");
+		Utils.debug("finishied @@@@@@@@@@");
 
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();

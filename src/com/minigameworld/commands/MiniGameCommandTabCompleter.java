@@ -44,7 +44,10 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 			if (args[0].equals("minigames")) {
 				this.setMiniGamesKeyCandidates();
 			}
-		} else {
+		}
+		
+		// add player names
+		if (this.candidates.isEmpty()) {
 			Bukkit.getOnlinePlayers().forEach(p -> candidates.add(p.getName()));
 		}
 		return this.candidates;
