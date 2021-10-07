@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.server.PluginDisableEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.managers.MiniGameManager;
@@ -499,8 +498,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return;
 		}
 
-		Utils.debug("finishied @@@@@@@@@@");
-
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();
 
@@ -509,11 +506,19 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		printEndInfo();
 
-		// nofity finish event to observers (before remove players)
-		this.notifyObservers(MiniGameEvent.FINISH);
+		// save players for minigame finish event
+		List<Player> leavingPlayers = this.getPlayers();
 
 		// setup player
 		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
+
+		// notify finish event to observers (after setup player leaving settings (e.g.
+		// give reward(item) after state restored))
+
+		// [IMPORTANT] restore removed leaving players for a while
+		leavingPlayers.forEach(this::addPlayer);
+		this.notifyObservers(MiniGameEvent.FINISH);
+		leavingPlayers.forEach(this::removePlayer);
 
 		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
@@ -836,6 +841,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param stay     Stay time (tick)
 	 * @param fadeOut  Fade out time (tick)
 	 */
+	@SuppressWarnings("deprecation")
 	public void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 	}
@@ -847,6 +853,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param title    Title string
 	 * @param subTitle Subtitle string
 	 */
+	@SuppressWarnings("deprecation")
 	public void sendTitle(Player p, String title, String subTitle) {
 		p.sendTitle(title, subTitle, 4, 12, 4);
 	}
