@@ -135,6 +135,9 @@ public class MiniGameAccessor {
 		return new ArrayList<>(this.minigame.getRank(this.minigame.getPlayers()));
 	}
 
+	public Class<?> getClassType() {
+		return this.minigame.getClass();
+	}
 }
 //
 //
