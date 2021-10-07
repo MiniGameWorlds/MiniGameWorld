@@ -68,7 +68,6 @@ public class MiniGameHelpCommand {
 	}
 
 	private void printSettingsUsage(Player p) {
-		p.sendMessage("/minigame settings lobby [<x> <y> <z>]: set lobby location");
 		p.sendMessage(
 				"/minigame settings minigame-sign <true|false>: set activation of minigame sign block join / leave");
 		p.sendMessage("/minigame settings minigame-command <true|false>: set activation of minigame command");

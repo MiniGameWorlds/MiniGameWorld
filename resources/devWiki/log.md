@@ -310,4 +310,36 @@ if(!this.isMinPlayersLive()) {
 - Make help usage of all commands
 
 # 2021-10-07
-- 
+- Plan to test plugin with black0712's server
+- Invite black0712 to github repo
+- Fix using MiniGameEvent.FINISH observer can get players from minigame
+- Create third-party: MiniGameWorld-Reward
+- Remove `lobby` option (player will tp to joined before location after game finished)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

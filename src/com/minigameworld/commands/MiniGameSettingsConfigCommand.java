@@ -2,8 +2,6 @@ package com.minigameworld.commands;
 
 import java.util.Map;
 
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.managers.MiniGameManager;
@@ -28,9 +26,6 @@ public class MiniGameSettingsConfigCommand {
 		// /mg settings <key> <value>
 		String key = args[1];
 		switch (key) {
-		case Setting.SETTINGS_LOBBY:
-			this.lobby(p, args);
-			break;
 		case Setting.SETTINGS_MESSAGE_PREFIX:
 			this.message_prefix(p, args);
 			break;
@@ -63,30 +58,6 @@ public class MiniGameSettingsConfigCommand {
 		}
 	}
 
-	private boolean lobby(Player p, String[] args) throws Exception {
-		// /mg settings lobby [<x> <y> <z>]
-		if (args.length == 2) {
-			Location playerLoc = p.getLocation();
-			this.settings.put(Setting.SETTINGS_LOBBY, playerLoc);
-
-			// msg
-			Utils.sendMsg(p, Setting.SETTINGS_LOBBY + " set to your location");
-		} else if (args.length == 5) {
-			double x = Integer.parseInt(args[2]);
-			double y = Integer.parseInt(args[3]);
-			double z = Integer.parseInt(args[4]);
-			World w = p.getLocation().getWorld();
-			Location loc = new Location(w, x, y, z);
-			this.settings.put(Setting.SETTINGS_LOBBY, loc);
-
-			// msg
-			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
-			Utils.sendMsg(p, Setting.SETTINGS_LOBBY + " set to (" + locString + ")");
-		} else {
-			return false;
-		}
-		return true;
-	}
 
 	private boolean message_prefix(Player p, String[] args) throws Exception {
 		// /mg settings <key> <value>

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -12,6 +13,7 @@ import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGamePlayerState {
 	private Player player;
+	private Location joinedLocation;
 	private double healthScale;
 	private double health; // full
 	private int foodLevel; // full
@@ -35,6 +37,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void savePlayerState() {
+		// joined location
+		this.joinedLocation = this.player.getLocation();
+		
 		// health scale
 		this.healthScale = this.player.getHealthScale();
 
@@ -65,6 +70,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void restorePlayerState() {
+		// joined location
+		this.player.teleport(this.joinedLocation);
+		
 		// health scale
 		this.player.setHealthScale(this.healthScale);
 
@@ -98,6 +106,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void makePureState() {
+		// joined location
+		// nothing (tp to minigame location)
+		
 		// set normal health scale (20)
 		this.player.setHealthScale(20);
 

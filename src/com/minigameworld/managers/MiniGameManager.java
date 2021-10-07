@@ -6,9 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -41,9 +39,6 @@ public class MiniGameManager implements YamlMember {
 
 	// minigame gui manager
 	private MiniGameMenuManager guiManager;
-
-	// minigame lobby
-	private static Location lobby;
 
 	// party
 	private PartyManager partyManager;
@@ -85,11 +80,6 @@ public class MiniGameManager implements YamlMember {
 		/*
 		 * set basic setting.yml
 		 */
-		// lobby
-		if (!this.settings.containsKey(Setting.SETTINGS_LOBBY)) {
-			this.settings.put(Setting.SETTINGS_LOBBY, new Location(Bukkit.getWorld("world"), 0, 4, 0, 90, 0));
-		}
-		lobby = (Location) this.settings.get(Setting.SETTINGS_LOBBY);
 
 		// minigameSign
 		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_SIGN)) {
@@ -327,10 +317,6 @@ public class MiniGameManager implements YamlMember {
 
 	public Map<String, Object> getSettings() {
 		return this.settings;
-	}
-
-	public static Location getLobby() {
-		return lobby;
 	}
 
 	public MiniGameMenuManager getMiniGameMenuManager() {

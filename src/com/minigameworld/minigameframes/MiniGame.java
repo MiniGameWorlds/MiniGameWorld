@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
@@ -711,14 +710,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param p Target player
 	 */
 	private void setupPlayerWhenJoin(Player p) {
-		// tp to game location
-		p.teleport(this.getLocation());
-
 		// save player data
 		this.playerStateManager.savePlayerState(p);
-
+		
 		// make pure state
 		this.playerStateManager.makePureState(p);
+
+		// tp to game location
+		p.teleport(this.getLocation());
 	}
 
 	/**
@@ -727,9 +726,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param p
 	 */
 	private void setupPlayerWhenLeave(Player p) {
-		// tp to lobby
-		p.teleport(MiniGameManager.getLobby());
-
 		// restore player data
 		this.playerStateManager.restorePlayerState(p);
 	}

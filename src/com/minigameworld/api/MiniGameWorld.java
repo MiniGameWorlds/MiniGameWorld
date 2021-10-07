@@ -3,7 +3,6 @@ package com.minigameworld.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -204,15 +203,6 @@ public class MiniGameWorld {
 	 */
 	public boolean unregisterMiniGame(MiniGame minigame) {
 		return this.minigameManager.unregisterMiniGame(minigame);
-	}
-
-	/**
-	 * Gets lobby location
-	 * 
-	 * @return Lobby location
-	 */
-	public Location getLobby() {
-		return MiniGameManager.getLobby().clone();
 	}
 
 	/**
