@@ -309,4 +309,5 @@ if(!this.isMinPlayersLive()) {
 - Add `checkPluginStartToBeDisabled()` to MiniGameManager for finish game when server doen(Because minigames disabled earlier than MiniGameWorld(Then can not find minigame class in JVM))
 - Make help usage of all commands
 
-
+# 2021-10-07
+- 

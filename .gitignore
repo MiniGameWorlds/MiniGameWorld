@@ -64,7 +64,7 @@ target/
 dependency-reduced-pom.xml
 *.jardesc
 *.fatjar
-/*.jar
+# /*.jar
 
 # Only MiniGameWorld
 doc/
