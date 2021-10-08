@@ -6,20 +6,11 @@
 - Plugin settings
 ```yml
 settings:
-  lobby:
-    ==: org.bukkit.Location
-    world: world
-    x: 0.0
-    y: 4.0
-    z: 0.0
-    pitch: 0.0
-    yaw: 90.0
   message-prefix: MiniGameWorld
   minigame-sign: true
   minigame-command: true
 
 ```
-- `lobby`: player will be teleport to location when game end
 - `message-prefix`: system message of `MiniGameWorld` plugin
 - `minigame-sign`: whether you can join or leave minigame with right-click sign (true / false)
 - `minigame-command`: whether you can use plugin command (true / false)
