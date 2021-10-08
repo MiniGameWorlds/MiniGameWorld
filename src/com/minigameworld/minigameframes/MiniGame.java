@@ -181,6 +181,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Setup minigame just once
 	 */
 	private void setupMiniGame() {
+		// setup player list
+		this.players = new ArrayList<MiniGamePlayerData>();
+
 		// register basic tasks
 		this.minigameTaskManager = new MiniGameTaskManager(this);
 		this.minigameTaskManager.registerBasicTasks();
@@ -219,11 +222,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void initBaseSettings() {
 		this.started = false;
 
-		if (this.players == null) {
-			this.players = new ArrayList<MiniGamePlayerData>();
-		} else {
-			this.players.clear();
-		}
+		this.players.clear();
 
 		this.initTasks();
 
@@ -364,7 +363,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// check game is emtpy
 		if (this.isEmpty()) {
-			this.initSettings();
+			this.initBaseSettings();
 		}
 
 		return true;
@@ -522,8 +521,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
 
-		// initSeting ([IMPORTANT] call after done others)
-		initSettings();
+		// initSeting ([IMPORTANT] call after others done)
+		initBaseSettings();
 
 		// cancel finish task
 		this.minigameTaskManager.cancelFinishTask();
@@ -712,7 +711,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void setupPlayerWhenJoin(Player p) {
 		// save player data
 		this.playerStateManager.savePlayerState(p);
-		
+
 		// make pure state
 		this.playerStateManager.makePureState(p);
 
