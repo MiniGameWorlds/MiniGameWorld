@@ -1,3 +1,5 @@
+<img src="resources/logo.png" width=30%></img>
+
 # MiniGameWorld
 - Minecraft MiniGame Framework
 
