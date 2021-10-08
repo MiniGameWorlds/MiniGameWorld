@@ -18,7 +18,6 @@
 ## Config
 ### settings
 - set plugin settinsg in `settings.yml` config  
-- `/minigame settings lobby [<x> <y> <z>]`: set lobby location
 - `/minigame settings minigame-sign <true|false>`: set activation of minigame `sign block` join / leave
 - `/minigame settings minigame-command <true|false>`: set activation of minigame command
 - `/minigame settings message-prefix <value>`: set plugin message prefix
