@@ -2,6 +2,7 @@ name: MiniGameWorld
 main: com.worldbiomusic.minigameworld.MiniGameWorldMain
 version: 0.0.1
 author: worldbiomusic
+website: https://github.com/worldbiomusic/MiniGameWorld
 description: Minecraft MiniGame Framework
 api-version: 1.17
 depend: [wbmMC]
