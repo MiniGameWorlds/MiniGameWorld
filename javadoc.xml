@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="protected" additionalparam="-encoding UTF-8 -charset UTF-8 -docencoding UTF-8 " author="true" classpath="C:\Users\world\Desktop\Computer\workspace\maven-repository\io\github\classgraph\classgraph\4.8.111\classgraph-4.8.111.jar;C:\Users\world\Desktop\Computer\library\java\paper_patched_1.17.1.jar;C:\Users\world\Desktop\Computer\library\java\wbmMC.jar" destdir="docs" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.worldbiomusic.minigameworld.minigameframes.helpers,com.worldbiomusic.minigameworld.commands,com.worldbiomusic.minigameworld.managers.party,com.worldbiomusic.minigameworld.listeners,com.worldbiomusic.minigameworld.util,com.worldbiomusic.minigameworld.api,com.worldbiomusic.minigameworld.managers,com.worldbiomusic.minigameworld.managers.menu,com.worldbiomusic.minigameworld,com.worldbiomusic.minigameworld.minigameframes.games,com.worldbiomusic.minigameworld.observer,com.worldbiomusic.minigameworld.minigameframes" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>
