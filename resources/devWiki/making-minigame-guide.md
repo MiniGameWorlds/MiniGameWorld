@@ -45,9 +45,9 @@
 - [PassMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PassMob.java)
 
 
-## 3. Set [Options](./#Options)
+## 3. Set [Options](#Options)
 - Can set various options for minigame
-- You must check [custom options](./#-MiniGameCustomOption)
+- You must check [custom options](#--minigamecustomoption)
 
 ## 4.Register MiniGame
 - Register MiniGame with registerMiniGame() of MiniGameWorld.create()
