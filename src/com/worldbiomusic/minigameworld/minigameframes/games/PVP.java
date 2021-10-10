@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -28,8 +29,7 @@ public class PVP extends SoloBattleMiniGame {
 	private List<ItemStack> items;
 
 	public PVP() {
-		super("PVP", 2, 5, 60 * 3, 10);
-		this.getSetting().setSettingFixed(true);
+		super("PVP", 2, 5, 60 * 3, 30);
 		this.getSetting().setIcon(Material.STONE_SWORD);
 		this.getCustomOption().set(Option.PVP, true);
 	}
@@ -67,23 +67,36 @@ public class PVP extends SoloBattleMiniGame {
 		this.getPlayers().forEach(p -> initKitsAndHealth(p));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void processEvent(Event event) {
-		if (event instanceof PlayerDeathEvent) {
-			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			Player victim = e.getEntity();
-			victim.getInventory().clear();
-
-			Player killer = victim.getKiller();
-
-			// killer +1 score
-			if (killer != null) {
-				this.plusScore(killer, 1);
-			}
-		} else if (event instanceof PlayerRespawnEvent) {
+		if (event instanceof PlayerRespawnEvent) {
 			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
 			e.setRespawnLocation(this.getLocation());
 			this.initKitsAndHealth(e.getPlayer());
+		} else if (event instanceof EntityDamageByEntityEvent) {
+			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+			if (e.getEntity() instanceof Player) {
+				Player p = (Player) e.getEntity();
+
+				// if death
+				if (p.getHealth() <= e.getDamage()) {
+					
+					// check killer is playing the same minigame
+					if (e.getDamager() instanceof Player || this.containsPlayer((Player) e.getDamager())) {
+						// killer +1 score
+						Player killer = (Player) e.getDamager();
+						this.plusScore(killer, 1);
+
+						// heal health, food level
+						e.setDamage(0);
+						this.sendTitle(p, "Die", "");
+						p.setHealth(p.getMaxHealth());
+						p.setFoodLevel(20);
+					}
+
+				}
+			}
 		}
 	}
 
