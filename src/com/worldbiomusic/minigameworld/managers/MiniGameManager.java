@@ -258,6 +258,9 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			newGame.getDataManager().createMiniGameData();
 		}
+		
+		// save config directly for first load (data saved in config)
+		this.yamlManager.save(newGame.getDataManager());
 
 		// add
 		this.minigames.add(newGame);
