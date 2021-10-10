@@ -18,26 +18,38 @@
 - Select with minigame features
 #### `SoloMiniGame`
 - Solo play
-- [Example Minigame]()
-
+##### Examples
+- [FitTool](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/FitTool.java)
 
 #### `SoloBattleMiniGame`
 - Individual battle play
-- [Example Minigame]()
-
+##### Examples
+- [FallingBlock](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/FallingBlock.java)
+- [PVP](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PVP.java)
+- [RandomScore](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/RandomScore.java)
+- [RockScissorPaper](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/RockScissorPaper.java)
+- [ScoreClimbing](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/ScoreClimbing.java)
+- [SuperMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/SuperMob.java)
 
 #### `TeamMiniGame`
 - Cooperative play
-- [Example Minigame]()
-
+##### Examples
+- [BreedMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/BreedMob.java)
+- [RemoveBlock](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/RemoveBlock.java)
 
 #### `TeamBattleMiniGame`
 - Team battle play
-- [Example Minigame]()
+##### Examples
+- [HiddenArcher](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/HiddenArcher.java)
+- [MoreHit](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/MoreHit.java)
+- [PassMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PassMob.java)
 
 
+## 3. Set [Options](#Options)
+- Can set various options for minigame
+- You must check [custom options](#--minigamecustomoption)
 
-## 3.Register MiniGame
+## 4.Register MiniGame
 - Register MiniGame with registerMiniGame() of MiniGameWorld.create()
 ```java
 MiniGameWorld mw = MiniGameWorld.create();
@@ -70,6 +82,7 @@ public PassMob() {
 - `BLOCK_BREAK`: whether player can break block
 - `BLOCK_PLACE`: whether player can place block
 - `PVP`: whether players can pvp
+- `PVE`: whether players can damage entity (not player)
 - `INVENTORY_SAVE`: whether inventory save
 - `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
 ### How to use

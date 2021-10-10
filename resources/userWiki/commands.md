@@ -25,7 +25,7 @@
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
 - `/minigame minigames <classname> title <value>`: set title
-- `/minigame minigames <classname> location [<x> <y> <z>]`: set minigame spawn location (without [<x> <y> <z>]: set player's location)
+- `/minigame minigames <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location (without [<x> <y> <z>]: set player's location)
 - `/minigame minigames <classname> min-player-count <value>`: set min player count
 - `/minigame minigames <classname> max-player-count <value>`: set max player count
 - `/minigame minigames <classname> waiting-time <value>`: set waiting time (sec)

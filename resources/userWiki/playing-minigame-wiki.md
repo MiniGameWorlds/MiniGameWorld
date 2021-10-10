@@ -4,12 +4,12 @@
 
 
 # How to apply
-1. Download [MiniGameWorld]
+1. Download [MiniGameWorld] and [wbmMC]
 2. Download [MiniGames] that you want to add to your server
-3. Put `MiniGameWorld` and `minigame plugins` in server `plugins` folder
+3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
 4. Make minigame place for minigame
-5-1. Update minigame location in `plugins/MiniGameWorld/minigames/<title>.yml` file and run command `/minigame reload`
-5-2. Update minigame location using `/minigame minigames <title> location [<x> <y> <z>]`
+5-1. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload`
+5-2. Update minigame location using `/minigame minigames <class-name> location <<player> | <x> <y> <z>>`
 
 
 # How to join / leave
@@ -60,7 +60,7 @@
 
 # Caution
 - Not recommend to run `/reload` in the server console
-- Player's `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode` will be stored at game starting and be restored at the game end
+- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode` are saved at the game start and restored when the game finished
 
 
 
@@ -70,6 +70,7 @@
 
 
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
+[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [MiniGames]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/minigames
 [Commands]: commands.md
 [Third-Parties]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/third-parties

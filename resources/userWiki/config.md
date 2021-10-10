@@ -56,6 +56,7 @@ PVP:
     block-break: false
     block-place: false
     pvp: true
+    pve: true
     inventory-save: true
     minigame-respawn: true
 
@@ -70,3 +71,11 @@ PVP:
 - `location`: minigame join location
 - `tutorial`: tutorials
 - `custom-data`: custom data added by developer
+- `custom-data.chatting`: whether players can chat
+- `custom-data.score-notifying`: whether score change notifies to players
+- `custom-data.block-break`: whether players can break block
+- `custom-data.block-place`: whether players can place block
+- `custom-data.pvp`: whether players can damage to each other
+- `custom-data.pve`: whether players can damage to living entity (not player)
+- `custom-data.inventory-save`: whether player's inventory saving when death
+- `custom-data.minigame-respawn`: whether player respawn in `location`
