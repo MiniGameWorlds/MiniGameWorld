@@ -60,7 +60,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.setCommandExecutors();
 
 		// register minigames
-		this.registerMiniGames();
+//		this.registerMiniGames();
 
 		// process works for remained players
 		this.processRemainedPlayersWhenServerStart();
@@ -69,7 +69,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void setupSettings() {
 		this.minigameManager = MiniGameManager.getInstance();
 		// MiniGameWorld wrapper class: set MiniGameManager
-		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.VERSION);
+		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
 	}
 
@@ -91,10 +91,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void registerMiniGames() {
 		// register minigames
-		if (!MiniGameWorld.checkCompatibleVersion(Setting.VERSION)) {
+		if (!MiniGameWorld.checkCompatibleVersion(Setting.API_VERSION)) {
 			return;
 		}
-		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.VERSION);
+		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.registerMiniGame(new FitTool());
 		minigameWorld.registerMiniGame(new RandomScore());
 		minigameWorld.registerMiniGame(new MoreHit());

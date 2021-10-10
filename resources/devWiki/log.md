@@ -8,6 +8,7 @@
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
 - Add `Scoreboard` to minigame (also managed in PlayerState)
+- Make Setting.API_VERSION managed by version of `plugin.yml` automatically
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -321,7 +322,7 @@ if(!this.isMinPlayersLive()) {
 # 2021-10-10
 - CustomOption: PVE (entity(not player) damage by player)
 - Print value of key for `settings`, `minigames` commands
-
+- Make config data save in directly when plugin first load
 
 
 

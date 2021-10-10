@@ -12,6 +12,7 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
 import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 import com.worldbiomusic.minigameworld.util.VersionChecker;
 import com.worldbiomusic.minigameworld.util.VersionChecker.Different;
 
@@ -24,7 +25,7 @@ public class MiniGameWorld {
 	/**
 	 * MiniGameWorld API version
 	 */
-	public static final String VERSION = Setting.VERSION;
+	public static final String VERSION = Setting.API_VERSION;
 
 	/**
 	 * instance
@@ -84,6 +85,7 @@ public class MiniGameWorld {
 			return true;
 		}
 		// MINER, MAJOR or null
+		Utils.debug("Version not matched");
 		return false;
 	}
 
