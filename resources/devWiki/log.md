@@ -320,7 +320,6 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-10
 - CustomOption: PVE (entity(not player) damage by player)
-- Fix commands args
 - Print value of key for `settings`, `minigames` commands
 
 

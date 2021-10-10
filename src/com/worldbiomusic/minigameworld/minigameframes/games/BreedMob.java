@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
@@ -58,26 +55,13 @@ public class BreedMob extends TeamMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
-		if (event instanceof PlayerDeathEvent) {
-			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			Player p = e.getEntity();
-
-			// set live: false, gamemode: spectator
-			p.setGameMode(GameMode.SPECTATOR);
-			this.setLive(p, false);
-
-			if (!this.isMinPlayersLive()) {
-				this.finishGame();
-			}
-
-		} else if (event instanceof EntityDeathEvent) {
+		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
-
+			
 			LivingEntity entity = e.getEntity();
-//			Player killer = entity.getKiller();
 
 			// check mob
-			if (BreedingMob.mobList().contains(entity.getType())) {
+			if (this.mobs.contains(entity)) {
 				Location deathLoc = entity.getLocation();
 
 				// spawn random 2 mobs
@@ -86,19 +70,41 @@ public class BreedMob extends TeamMiniGame {
 
 				// plus score
 				this.plusTeamScore(1);
-
-				// firework
-				Firework firework = (Firework) deathLoc.getWorld().spawnEntity(deathLoc, EntityType.FIREWORK);
-				FireworkMeta fireworkMeta = firework.getFireworkMeta();
-
-				FireworkEffect.Type type = FireworkEffect.Type.BALL;
-
-				FireworkEffect effect = FireworkEffect.builder().with(type).withColor(Color.YELLOW).build();
-				fireworkMeta.addEffect(effect);
-
-				fireworkMeta.setPower(0);
-				firework.setFireworkMeta(fireworkMeta);
 			}
+		} 
+		else if (event instanceof EntityDamageEvent) {
+			EntityDamageEvent e = (EntityDamageEvent) event;
+			if (e.getEntity() instanceof Player) {
+				Player p = (Player) e.getEntity();
+
+				// if death
+				if (p.getHealth() <= e.getDamage()) {
+					e.setCancelled(true);
+					// set live: false, gamemode: spectator
+					p.setGameMode(GameMode.SPECTATOR);
+					this.setLive(p, false);
+
+					if (!this.isMinPlayersLive()) {
+						this.finishGame();
+					}
+
+				}
+			}
+//			else if (this.mobs.contains(e.getEntity())) {
+//				LivingEntity entity = (LivingEntity) e.getEntity();
+//
+//				// if death
+//				if (entity.getHealth() <= e.getDamage()) {
+//					Location deathLoc = entity.getLocation();
+//
+//					// spawn random 2 mobs
+//					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
+//					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
+//
+//					// plus score
+//					this.plusTeamScore(1);
+//				}
+//			}
 		}
 	}
 
@@ -122,6 +128,7 @@ public class BreedMob extends TeamMiniGame {
 
 		// set armors
 		for (Player p : this.getPlayers()) {
+			p.setHealthScale(40);
 			p.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
 			p.getEquipment().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
 			p.getEquipment().setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
@@ -134,7 +141,6 @@ public class BreedMob extends TeamMiniGame {
 	protected void runTaskAfterFinish() {
 		super.runTaskAfterFinish();
 
-		Utils.debug("left mobs: " + this.mobs.size());
 		this.mobs.forEach(e -> e.remove());
 	}
 

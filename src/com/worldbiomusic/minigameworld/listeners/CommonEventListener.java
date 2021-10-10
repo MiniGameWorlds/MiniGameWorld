@@ -6,9 +6,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -23,6 +26,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
@@ -41,6 +45,7 @@ public class CommonEventListener implements Listener {
 	/*
 	 * Set event handler to classes that MiniGame can use with classgraph library
 	 */
+	public static Map<Player, Location> deathPlayers = new HashMap<>();
 
 	private MiniGameManager minigameManager;
 
@@ -188,7 +193,6 @@ public class CommonEventListener implements Listener {
 				// check minigameSign option
 				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
 
-				Utils.debug("click sign");
 				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
 					if (!minigameSign) {
 						Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
@@ -208,6 +212,16 @@ public class CommonEventListener implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onPlayerRespawn(PlayerRespawnEvent e) {
+		Player p = e.getPlayer();
+		p.sendMessage("respawned ");
+		if (deathPlayers.containsKey(p)) {
+			p.sendMessage("You respawned with joined minigame");
+			e.setRespawnLocation(deathPlayers.get(p));
+			deathPlayers.remove(p);
+		}
+	}
 }
 //
 //

@@ -9,6 +9,7 @@ import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameSettingsConfigCommand {
+
 	private MiniGameManager minigameManager;
 	// setting.yml
 	private Map<String, Object> settings;
@@ -51,7 +52,7 @@ public class MiniGameSettingsConfigCommand {
 			// refer settings again (reload make new config and retarget settings)
 			this.settings = this.minigameManager.getSettings();
 		}
-		
+
 		return true;
 	}
 
@@ -76,14 +77,12 @@ public class MiniGameSettingsConfigCommand {
 	}
 
 	private boolean message_prefix(Player p, String[] args) throws Exception {
-		// /mg settings <key> <value1> <value2> <value3> ...
-		String value = "";
-		for (int i = 2; i < args.length; i++) {
-			value += args[i];
-		}
+		// /mg settings <key> <value>
+		String value = args[2];
 
 		this.setKeyValue(p, Setting.SETTINGS_MESSAGE_PREFIX, value);
 		return true;
+
 	}
 
 	private boolean minigame_sign(Player p, String[] args) throws Exception {

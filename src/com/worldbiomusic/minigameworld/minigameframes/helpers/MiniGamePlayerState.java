@@ -39,7 +39,7 @@ public class MiniGamePlayerState {
 	public void savePlayerState() {
 		// joined location
 		this.joinedLocation = this.player.getLocation();
-		
+
 		// health scale
 		this.healthScale = this.player.getHealthScale();
 
@@ -72,7 +72,7 @@ public class MiniGamePlayerState {
 	public void restorePlayerState() {
 		// joined location
 		this.player.teleport(this.joinedLocation);
-		
+
 		// health scale
 		this.player.setHealthScale(this.healthScale);
 
@@ -108,7 +108,7 @@ public class MiniGamePlayerState {
 	public void makePureState() {
 		// joined location
 		// nothing (tp to minigame location)
-		
+
 		// set normal health scale (20)
 		this.player.setHealthScale(20);
 

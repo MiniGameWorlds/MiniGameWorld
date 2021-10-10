@@ -14,7 +14,7 @@ public class MiniGameSetting {
 	/*
 	 * file control: O
 	 * init value: setup value
-	 * description: minigame title
+	 * description: minigame title, must be no blank in title
 	 */
 	private String title;
 

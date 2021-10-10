@@ -109,11 +109,8 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean title(Player p, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> title <value1> <value2> <value3> ...
-		String title = "";
-		for (int i = 3; i < args.length; i++) {
-			title += args[i];
-		}
+		// /mg minigames <classname> title <value>
+		String title = args[3];
 
 		this.setKeyValue(p, args[1], data, Setting.MINIGAMES_TITLE, title);
 		return true;
@@ -186,6 +183,9 @@ public class MiniGameMinigamesConfigCommand {
 		String tutorialString = "";
 		for (int i = 4; i < args.length - 1; i++) {
 			tutorialString += args[i];
+			if (i < args.length - 1) {
+				tutorialString += " ";
+			}
 		}
 
 		String className = args[1];
