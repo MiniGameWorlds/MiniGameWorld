@@ -1,5 +1,6 @@
 # Description
 - Make minigame with [API] document
+
 ---
 
 # Order
@@ -206,5 +207,8 @@ protected void runTaskAfterStart() {
 
 ## Override
 - Almost overrided method shold have `super.method()`
+
+## Flow
+<img src="flow.png" width=50%></img>
 
 [API]: https://worldbiomusic.github.io/MiniGameWorld/
