@@ -56,6 +56,7 @@ PVP:
     block-break: false
     block-place: false
     pvp: true
+    pve: true
     inventory-save: true
     minigame-respawn: true
 
