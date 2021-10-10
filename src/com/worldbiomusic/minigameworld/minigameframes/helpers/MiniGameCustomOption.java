@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameCustomOption {
 	/*
@@ -19,7 +19,8 @@ public class MiniGameCustomOption {
 	 */
 	public enum Option {
 		CHATTING("chatting"), SCORE_NOTIFYING("score-notifying"), BLOCK_BREAK("block-break"),
-		BLOCK_PLACE("block-place"), PVP("pvp"), INVENTORY_SAVE("inventory-save"), MINIGAME_RESPAWN("minigame-respawn");
+		BLOCK_PLACE("block-place"), PVP("pvp"), PVE("pve"), INVENTORY_SAVE("inventory-save"),
+		MINIGAME_RESPAWN("minigame-respawn");
 
 		private String keyString;
 
@@ -43,6 +44,7 @@ public class MiniGameCustomOption {
 		this.set(Option.BLOCK_BREAK, false);
 		this.set(Option.BLOCK_PLACE, false);
 		this.set(Option.PVP, false);
+		this.set(Option.PVE, true);
 		this.set(Option.INVENTORY_SAVE, true);
 		this.set(Option.MINIGAME_RESPAWN, true);
 	}
@@ -69,42 +71,77 @@ public class MiniGameCustomOption {
 		} else if (event instanceof BlockPlaceEvent) {
 			((BlockPlaceEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
 		} else if (event instanceof EntityDamageByEntityEvent) {
-			if ((boolean) this.get(Option.PVP)) {
-				return;
-			}
+			/*
+			 * PVP
+			 */
+			if (!(boolean) this.get(Option.PVP)) {
+				// cancel damage by entity (
+				// when victim == minigame player && damager == minigame player
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				Entity victim = e.getEntity();
+				Entity damager = e.getDamager();
+				if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
 
-			// cancel damage by entity (
-			// when victim == minigame player && damager == minigame player
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			Entity victim = e.getEntity();
-			Entity damager = e.getDamager();
-			if (!(victim instanceof Player)) {
-				return;
-			}
+					// direct damage
+					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
+						e.setCancelled(true);
+					}
 
-			// direct damage
-			if (damager instanceof Player) {
-				if (this.minigame.containsPlayer((Player) damager)) {
-					e.setCancelled(true);
+					// projectile damage
+					else if (damager instanceof Projectile) {
+						Projectile proj = (Projectile) damager;
+						ProjectileSource shooter = proj.getShooter();
+						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
+							e.setCancelled(true);
+						}
+					}
+				} else {
+
+					// set cancel false
+					e.setCancelled(false);
 				}
 			}
 
-			// projectile damage
-			else if (damager instanceof Projectile) {
-				Projectile proj = (Projectile) damager;
-				ProjectileSource shooter = proj.getShooter();
-				if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
-					e.setCancelled(true);
+			/*
+			 * PVE
+			 */
+			if (!(boolean) this.get(Option.PVE)) {
+				// cancel damage by entity when damager == minigame player && vicitm is not
+				// Player but entity
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				Entity victim = e.getEntity();
+				Entity damager = e.getDamager();
+
+				// not only player
+				if (!(victim instanceof Player)) {
+					// direct damage
+					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
+						e.setCancelled(true);
+					}
+
+					// projectile damage
+					else if (damager instanceof Projectile) {
+						Projectile proj = (Projectile) damager;
+						ProjectileSource shooter = proj.getShooter();
+						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
+							e.setCancelled(true);
+						}
+					}
+				} else {
+					// set cancel false
+					e.setCancelled(false);
 				}
 			}
 		} else if (event instanceof PlayerDeathEvent) {
+			PlayerDeathEvent e = (PlayerDeathEvent) event;
 			if ((boolean) this.get(Option.INVENTORY_SAVE)) {
-				PlayerDeathEvent e = (PlayerDeathEvent) event;
 				// keep inv
 				e.setKeepInventory(true);
 
 				// remove drops
 				e.getDrops().clear();
+			}else {
+				e.setKeepInventory(false);
 			}
 		} else if (event instanceof PlayerRespawnEvent) {
 			if ((boolean) this.get(Option.MINIGAME_RESPAWN)) {
