@@ -4,7 +4,7 @@
 
 
 # How to apply
-1. Download [MiniGameWorld]
+1. Download [MiniGameWorld] and [wbmMC]
 2. Download [MiniGames] that you want to add to your server
 3. Put `MiniGameWorld` and `minigame plugins` in server `plugins` folder
 4. Make minigame place for minigame
@@ -70,6 +70,7 @@
 
 
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
+[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [MiniGames]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/minigames
 [Commands]: commands.md
 [Third-Parties]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/third-parties
