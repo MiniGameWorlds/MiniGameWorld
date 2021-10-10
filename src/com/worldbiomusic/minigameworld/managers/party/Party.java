@@ -1,4 +1,4 @@
-package com.minigameworld.managers.party;
+package com.worldbiomusic.minigameworld.managers.party;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,8 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;

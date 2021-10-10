@@ -1,4 +1,4 @@
-package com.minigameworld.listeners;
+package com.worldbiomusic.minigameworld.listeners;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -25,11 +25,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.EventExecutor;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -173,13 +173,11 @@ public class CommonEventListener implements Listener {
 	private void checkPlayerTryingMiniGameSign(PlayerInteractEvent e) {
 		// check player is trying to join or leaving with sign
 		Player p = e.getPlayer();
-
 		// process
 		Block block = e.getClickedBlock();
 		if (block == null) {
 			return;
 		}
-
 		if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
@@ -189,12 +187,13 @@ public class CommonEventListener implements Listener {
 
 				// check minigameSign option
 				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
+
+				Utils.debug("click sign");
 				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
 					if (!minigameSign) {
 						Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
 						return;
 					}
-
 					// check sign
 					if (minigame.equals("[MiniGame]")) {
 						// join
@@ -209,7 +208,6 @@ public class CommonEventListener implements Listener {
 		}
 	}
 
-	
 }
 //
 //

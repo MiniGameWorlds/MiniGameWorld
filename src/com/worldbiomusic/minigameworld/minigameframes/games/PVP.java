@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class PVP extends SoloBattleMiniGame {
 	/*

@@ -1,4 +1,4 @@
-package com.minigameworld.managers.party;
+package com.worldbiomusic.minigameworld.managers.party;
 
 import java.util.HashSet;
 import java.util.Set;

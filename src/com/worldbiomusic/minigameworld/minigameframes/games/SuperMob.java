@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 
 public class SuperMob extends SoloBattleMiniGame {
 

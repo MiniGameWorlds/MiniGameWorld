@@ -1,4 +1,4 @@
-package com.minigameworld.api;
+package com.worldbiomusic.minigameworld.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.minigameworld.observer.MiniGameObserver;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.VersionChecker;
-import com.minigameworld.util.VersionChecker.Different;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.managers.party.PartyManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.VersionChecker;
+import com.worldbiomusic.minigameworld.util.VersionChecker.Different;
 
 /**
  * MiniGameWorld plugin API

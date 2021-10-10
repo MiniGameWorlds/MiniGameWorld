@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class FallingBlock extends SoloBattleMiniGame {
 	private Location pos1, pos2;

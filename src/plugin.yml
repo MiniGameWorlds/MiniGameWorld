@@ -1,5 +1,5 @@
 name: MiniGameWorld
-main: com.minigameworld.MiniGameWorldMain
+main: com.worldbiomusic.minigameworld.MiniGameWorldMain
 version: 1.0.0
 author: worldbiomusic
 description: Minecraft MiniGame Framework

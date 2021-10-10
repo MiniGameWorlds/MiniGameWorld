@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,9 +20,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import com.minigameworld.minigameframes.TeamMiniGame;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class BreedMob extends TeamMiniGame {
 

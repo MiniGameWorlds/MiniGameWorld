@@ -1,9 +1,9 @@
-package com.minigameworld.commands;
+package com.worldbiomusic.minigameworld.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.managers.party.PartyManager;
+import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 
 public class MiniGamePartyCommand {
 	private PartyManager partyManager;

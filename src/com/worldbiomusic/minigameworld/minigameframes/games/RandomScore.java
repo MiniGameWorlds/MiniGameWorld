@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 
 public class RandomScore extends SoloBattleMiniGame {
 	/*

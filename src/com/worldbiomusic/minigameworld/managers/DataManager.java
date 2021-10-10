@@ -1,12 +1,12 @@
-package com.minigameworld.managers;
+package com.worldbiomusic.minigameworld.managers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.wbm.plugin.util.instance.BackupDataManager;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class DataManager {
 	private YamlManager yamlManager;

@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -8,12 +8,12 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameDataManager implements YamlMember {
 	public static final String FOLDER_NAME = "minigames";

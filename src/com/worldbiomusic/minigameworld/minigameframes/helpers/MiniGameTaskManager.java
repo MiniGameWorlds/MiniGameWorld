@@ -1,12 +1,12 @@
-package com.minigameworld.minigameframes.helpers;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
-import com.minigameworld.minigameframes.MiniGame;
 import com.wbm.plugin.util.Counter;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameTaskManager {
 	// task manager

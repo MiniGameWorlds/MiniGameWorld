@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.worldbiomusic.minigameworld.minigameframes;
 
 /**
  * <b>[Info]</b><br>

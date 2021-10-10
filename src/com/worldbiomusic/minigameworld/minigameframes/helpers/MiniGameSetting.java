@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import com.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameSetting {
 	/*

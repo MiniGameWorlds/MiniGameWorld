@@ -1,4 +1,4 @@
-package com.minigameworld.managers;
+package com.worldbiomusic.minigameworld.managers;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,15 +13,15 @@ import org.bukkit.event.Event;
 import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
-import com.minigameworld.managers.menu.MiniGameMenuManager;
-import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
+import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
+import com.worldbiomusic.minigameworld.managers.party.PartyManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameManager implements YamlMember {
 	// Singleton

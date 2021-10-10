@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SortTool;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;

@@ -1,4 +1,4 @@
-package com.minigameworld.commands;
+package com.worldbiomusic.minigameworld.commands;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.managers.menu.MiniGameMenuManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {
 

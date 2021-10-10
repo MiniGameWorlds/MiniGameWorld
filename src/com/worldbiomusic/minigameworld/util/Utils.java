@@ -1,4 +1,4 @@
-package com.minigameworld.util;
+package com.worldbiomusic.minigameworld.util;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

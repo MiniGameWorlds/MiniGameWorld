@@ -1,4 +1,4 @@
-package com.minigameworld.observer;
+package com.worldbiomusic.minigameworld.observer;
 
 /**
  * Event notifier with minigame phaze(MiniGameEvent)<br>

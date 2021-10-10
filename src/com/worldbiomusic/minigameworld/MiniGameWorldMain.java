@@ -1,29 +1,29 @@
-package com.minigameworld;
+package com.worldbiomusic.minigameworld;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.commands.MiniGameCommand;
-import com.minigameworld.listeners.CommonEventListener;
-import com.minigameworld.managers.DataManager;
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.games.BreedMob;
-import com.minigameworld.minigameframes.games.FallingBlock;
-import com.minigameworld.minigameframes.games.FitTool;
-import com.minigameworld.minigameframes.games.HiddenArcher;
-import com.minigameworld.minigameframes.games.MoreHit;
-import com.minigameworld.minigameframes.games.PVP;
-import com.minigameworld.minigameframes.games.PassMob;
-import com.minigameworld.minigameframes.games.RandomScore;
-import com.minigameworld.minigameframes.games.RemoveBlock;
-import com.minigameworld.minigameframes.games.RockScissorPaper;
-import com.minigameworld.minigameframes.games.ScoreClimbing;
-import com.minigameworld.minigameframes.games.SuperMob;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
+import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
+import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
+import com.worldbiomusic.minigameworld.managers.DataManager;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.games.BreedMob;
+import com.worldbiomusic.minigameworld.minigameframes.games.FallingBlock;
+import com.worldbiomusic.minigameworld.minigameframes.games.FitTool;
+import com.worldbiomusic.minigameworld.minigameframes.games.HiddenArcher;
+import com.worldbiomusic.minigameworld.minigameframes.games.MoreHit;
+import com.worldbiomusic.minigameworld.minigameframes.games.PVP;
+import com.worldbiomusic.minigameworld.minigameframes.games.PassMob;
+import com.worldbiomusic.minigameworld.minigameframes.games.RandomScore;
+import com.worldbiomusic.minigameworld.minigameframes.games.RemoveBlock;
+import com.worldbiomusic.minigameworld.minigameframes.games.RockScissorPaper;
+import com.worldbiomusic.minigameworld.minigameframes.games.ScoreClimbing;
+import com.worldbiomusic.minigameworld.minigameframes.games.SuperMob;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {

@@ -1,5 +1,5 @@
 
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.minigameworld.minigameframes.TeamBattleMiniGame;
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
 
 public class HiddenArcher extends TeamBattleMiniGame {
 	/*

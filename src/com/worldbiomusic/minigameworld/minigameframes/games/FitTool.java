@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigameworld.minigameframes.SoloMiniGame;
 import com.wbm.plugin.util.BlockTool;
 import com.wbm.plugin.util.LocationTool;
+import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
 
 public class FitTool extends SoloMiniGame {
 	/*

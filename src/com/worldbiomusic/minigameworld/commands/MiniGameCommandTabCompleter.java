@@ -1,4 +1,4 @@
-package com.minigameworld.commands;
+package com.worldbiomusic.minigameworld.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameCommandTabCompleter implements TabCompleter {
 

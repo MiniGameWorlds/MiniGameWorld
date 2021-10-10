@@ -1,4 +1,4 @@
-package com.minigameworld.api;
+package com.worldbiomusic.minigameworld.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 
 /**
  * MiniGameWorld plugin "MiniGame" wrapper api

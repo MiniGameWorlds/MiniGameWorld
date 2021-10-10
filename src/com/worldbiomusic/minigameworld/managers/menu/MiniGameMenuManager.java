@@ -1,4 +1,4 @@
-package com.minigameworld.managers.menu;
+package com.worldbiomusic.minigameworld.managers.menu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +10,9 @@ import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;
 

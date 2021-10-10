@@ -1,4 +1,4 @@
-package com.minigameworld.commands;
+package com.worldbiomusic.minigameworld.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

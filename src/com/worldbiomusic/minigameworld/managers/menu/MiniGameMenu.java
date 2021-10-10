@@ -1,4 +1,4 @@
-package com.minigameworld.managers.menu;
+package com.worldbiomusic.minigameworld.managers.menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Setting;
 import com.wbm.plugin.util.ItemStackTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;
 

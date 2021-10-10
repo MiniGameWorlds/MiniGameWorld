@@ -1,6 +1,6 @@
-package com.minigameworld.observer;
+package com.worldbiomusic.minigameworld.observer;
 
-import com.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 
 /**
  * MiniGame phaze(MiniGameEvent) observer<br>

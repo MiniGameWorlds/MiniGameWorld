@@ -1,14 +1,14 @@
-package com.minigameworld.managers.party;
+package com.worldbiomusic.minigameworld.managers.party;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;

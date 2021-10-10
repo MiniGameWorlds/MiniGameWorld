@@ -1,0 +1,12 @@
+com.worldbiomusic.minigameworld
+com.worldbiomusic.minigameworld.api
+com.worldbiomusic.minigameworld.commands
+com.worldbiomusic.minigameworld.listeners
+com.worldbiomusic.minigameworld.managers
+com.worldbiomusic.minigameworld.managers.menu
+com.worldbiomusic.minigameworld.managers.party
+com.worldbiomusic.minigameworld.minigameframes
+com.worldbiomusic.minigameworld.minigameframes.games
+com.worldbiomusic.minigameworld.minigameframes.helpers
+com.worldbiomusic.minigameworld.observer
+com.worldbiomusic.minigameworld.util

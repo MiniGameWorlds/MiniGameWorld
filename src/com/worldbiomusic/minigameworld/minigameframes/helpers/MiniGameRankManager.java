@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 
-import com.minigameworld.minigameframes.MiniGame;
 import com.wbm.plugin.util.SortTool;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameRankManager {
 	private MiniGame minigame;

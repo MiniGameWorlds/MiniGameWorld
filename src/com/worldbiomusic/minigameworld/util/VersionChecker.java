@@ -1,4 +1,4 @@
-package com.minigameworld.util;
+package com.worldbiomusic.minigameworld.util;
 
 import java.util.regex.Pattern;
 

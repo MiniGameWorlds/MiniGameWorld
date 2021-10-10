@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,24 +12,24 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
-import com.minigameworld.minigameframes.helpers.MiniGameRankManager;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
-import com.minigameworld.minigameframes.helpers.MiniGameTaskManager;
-import com.minigameworld.observer.MiniGameEventNotifier;
-import com.minigameworld.observer.MiniGameObserver;
-import com.minigameworld.util.Setting;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
+import com.worldbiomusic.minigameworld.observer.MiniGameEventNotifier;
+import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
+import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;

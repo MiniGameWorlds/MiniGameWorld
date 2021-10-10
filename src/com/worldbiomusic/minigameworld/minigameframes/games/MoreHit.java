@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class MoreHit extends TeamBattleMiniGame {
 	/*

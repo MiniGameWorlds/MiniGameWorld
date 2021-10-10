@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
-import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.InventoryTool;
+import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class PassMob extends TeamBattleMiniGame {
 	public class Area {

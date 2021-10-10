@@ -1,15 +1,12 @@
 # TODO
 - Make Youtube tutorial (in new brand channel)
 - Export base minigames to each jar file (before release)
-- Test plugin to others (black0712_)
 - Spigot forum
 - Put javadoc in `docs` dir
 - Make Github issue template
 - Create MiniGame `life cycle` graph to wiki
-- Add `custom color` to MiniGame (file control:X, adjust to `title`, `score notifying`, etc)
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
-- Make generic `Reward` plugin (Third-party)
 - Add `Scoreboard` to minigame (also managed in PlayerState)
 ##### Event Detection
 ```
@@ -316,11 +313,15 @@ if(!this.isMinPlayersLive()) {
 - Create third-party: MiniGameWorld-Reward
 - Remove `lobby` option (player will tp to joined before location after game finished)
 
+# 2021-10-08
+- Insert `worldbiomusic` in package name (for distinguish with other forks)
+- Make logo image`
+- Add flow image to wiki
 
-
-
-
-
+# 2021-10-10
+- CustomOption: PVE (entity(not player) damage by player)
+- Fix commands args
+- Print value of key for `settings`, `minigames` commands
 
 
 

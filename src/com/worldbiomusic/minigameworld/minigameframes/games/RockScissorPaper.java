@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.games;
+package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 
 @SuppressWarnings("deprecation")
 public class RockScissorPaper extends SoloBattleMiniGame {
