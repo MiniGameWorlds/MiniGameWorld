@@ -25,7 +25,7 @@ public class MiniGameWorld {
 	/**
 	 * MiniGameWorld API version
 	 */
-	public static final String VERSION = Setting.API_VERSION;
+	public static final String API_VERSION = Setting.API_VERSION;
 
 	/**
 	 * instance
@@ -79,7 +79,7 @@ public class MiniGameWorld {
 	 * @return True if compatible
 	 */
 	public static boolean checkCompatibleVersion(String version) {
-		Different diff = VersionChecker.getDifferent(MiniGameWorld.VERSION, version);
+		Different diff = VersionChecker.getDifferent(MiniGameWorld.API_VERSION, version);
 		// only return instance when diff is PATCH
 		if (diff == Different.PATCH) {
 			return true;

@@ -1,8 +1,10 @@
 package com.worldbiomusic.minigameworld.util;
 
+import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+
 public class Setting {
-	public static final String API_VERSION = "0.0.1";
-	
+	public static final String API_VERSION = apiVersion();
+
 	public static final boolean DEBUG_MODE = false;
 
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
@@ -32,5 +34,8 @@ public class Setting {
 	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";
 	public static final String MINIGAMES_ICON = "icon";
 
-	
+	private static String apiVersion() {
+		return MiniGameWorldMain.getInstance().getDescription().getVersion();
+	}
+
 }
