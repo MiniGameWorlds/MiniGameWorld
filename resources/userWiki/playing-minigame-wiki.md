@@ -47,8 +47,9 @@
 
 
 # Tutorial
-- In Making...
-
+<a href="https://youtu.be/sE0vaj0xM8Q">
+<img src="youtube-user-tutorial-thumbnail.png" width="50%" ></img>
+</a>
 
 
 # Backup Data
@@ -75,3 +76,4 @@
 [Commands]: commands.md
 [Third-Parties]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/third-parties
 [Join / Leave]: how-to-join-leave.md
+[Youtube: User Tutorial]: https://youtu.be/sE0vaj0xM8Q
