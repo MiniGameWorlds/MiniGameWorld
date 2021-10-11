@@ -207,19 +207,22 @@ protected void runTaskAfterStart() {
 
 # Caution
 ## Player state management
-- MiniGameWorld manages player's default states when join / leave
-> `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode`  
-- If minigame changed things that MiniGameWorld can not manage, have to restore all changed things (with `runTaskBeforeFinish()`)
+- MiniGameWorld manages and restores player's states when join / leave
+> `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode`
+- If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `runTaskBeforeFinish()`
 
 ## Detectable Events
-- MiniGameWorld only passes detectable events that can get player from event
-- Detectable events only pass to player's playing minigame
-- Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
+- MiniGameWorld only passes detectable events that can extract players from a event
+- Detectable events are only passed to player's playing minigame
+- Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`...etc of `PlayerEvent`)
 - If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 - [Detectable Event List](detectable-event-list.md)
 
 ## Override
 - Almost overrided method shold have `super.method()`
+
+## Player Death
+- Player can't return to joined location from minigame location, if player is dead state when minigame finished (don't let the player die with using any other ways when minigame finished)
 
 ## Flow
 <img src="flow.png" width=50%></img>
