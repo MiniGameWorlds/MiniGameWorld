@@ -85,14 +85,14 @@ public PassMob() {
 
 ## - MiniGameCustomOption
 - All custom options are in `custom-data` section
-- `CHATTING`: whether chat event cancel
-- `SCORE_NOTIFYING`: whether notify score change
-- `BLOCK_BREAK`: whether player can break block
-- `BLOCK_PLACE`: whether player can place block
-- `PVP`: whether players can pvp
-- `PVE`: whether players can damage entity (not player)
-- `INVENTORY_SAVE`: whether inventory save
-- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
+- `CHATTING`: whether chat event cancel (default: `true`)
+- `SCORE_NOTIFYING`: whether notify score change (default: `true`)
+- `BLOCK_BREAK`: whether player can break block (default: `false`)
+- `BLOCK_PLACE`: whether player can place block (default: `false`)
+- `PVP`: whether players can pvp (default: `false`)
+- `PVE`: whether players can damage entity (not player) (default: `true`)
+- `INVENTORY_SAVE`: whether inventory save (default: `true`)
+- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location (default: `true`)
 ### How to use
 ```java
 public PassMob() {
