@@ -26,7 +26,7 @@
 ## MiniGame
 - [making-minigame-guide](making-minigame-guide.md)
 
-## Thirdy party plugin
+## Third party plugin
 - [making-3rd-party-guide](making-3rd-party-guide.md)
 
 
