@@ -5,8 +5,9 @@
 
 # Tutorial
 <a href="https://youtu.be/">
-<img src="youtube-dev-tutorial-thumbnail.png" width="50%" ></img>
+<img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
 </a>
+- In making...
 
 ---
 
