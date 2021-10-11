@@ -31,12 +31,6 @@
 
 
 
-# Tutorial
-- In Making...
-
-
-
-
 [MiniGameWorld]: ../devWiki/MiniGameWorld-home.md
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
