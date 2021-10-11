@@ -14,12 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.TeamMiniGame;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 public class BreedMob extends TeamMiniGame {
 
@@ -46,6 +44,9 @@ public class BreedMob extends TeamMiniGame {
 	public BreedMob() {
 		super("BreedMob", 1, 4, 60 * 3, 10);
 		this.getSetting().setIcon(Material.ZOMBIE_SPAWN_EGG);
+
+		// need when mob die by other reason (e.g. falling, killed by other mob)
+		this.getSetting().setPassUndetectableEvent(true);
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class BreedMob extends TeamMiniGame {
 	protected void processEvent(Event event) {
 		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
-			
+
 			LivingEntity entity = e.getEntity();
 
 			// check mob
@@ -71,8 +72,7 @@ public class BreedMob extends TeamMiniGame {
 				// plus score
 				this.plusTeamScore(1);
 			}
-		} 
-		else if (event instanceof EntityDamageEvent) {
+		} else if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent e = (EntityDamageEvent) event;
 			if (e.getEntity() instanceof Player) {
 				Player p = (Player) e.getEntity();
@@ -90,21 +90,6 @@ public class BreedMob extends TeamMiniGame {
 
 				}
 			}
-//			else if (this.mobs.contains(e.getEntity())) {
-//				LivingEntity entity = (LivingEntity) e.getEntity();
-//
-//				// if death
-//				if (entity.getHealth() <= e.getDamage()) {
-//					Location deathLoc = entity.getLocation();
-//
-//					// spawn random 2 mobs
-//					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
-//					this.mobs.add(BreedingMob.spawnRandomMob(deathLoc));
-//
-//					// plus score
-//					this.plusTeamScore(1);
-//				}
-//			}
 		}
 	}
 
@@ -129,10 +114,10 @@ public class BreedMob extends TeamMiniGame {
 		// set armors
 		for (Player p : this.getPlayers()) {
 			p.setHealthScale(40);
-			p.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
-			p.getEquipment().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
-			p.getEquipment().setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
-			p.getEquipment().setBoots(new ItemStack(Material.LEATHER_BOOTS));
+			p.getEquipment().setHelmet(new ItemStack(Material.IRON_HELMET));
+			p.getEquipment().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
+			p.getEquipment().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+			p.getEquipment().setBoots(new ItemStack(Material.IRON_BOOTS));
 			p.getEquipment().setItemInOffHand(new ItemStack(Material.SHIELD));
 		}
 	}
@@ -141,6 +126,7 @@ public class BreedMob extends TeamMiniGame {
 	protected void runTaskAfterFinish() {
 		super.runTaskAfterFinish();
 
+		// remove mobs
 		this.mobs.forEach(e -> e.remove());
 	}
 

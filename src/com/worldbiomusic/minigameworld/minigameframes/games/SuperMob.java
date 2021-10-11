@@ -13,15 +13,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.wbm.plugin.util.InventoryTool;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class SuperMob extends SoloBattleMiniGame {
 
@@ -32,8 +32,13 @@ public class SuperMob extends SoloBattleMiniGame {
 	public SuperMob() {
 		super("SuperMob", 1, 5, 60 * 3, 10);
 		this.entities = new ArrayList<>();
+
+		// settings
 		this.getSetting().setIcon(Material.ZOMBIE_HEAD);
 		this.getSetting().setPassUndetectableEvent(true);
+
+		// options
+		this.getCustomOption().set(Option.INVENTORY_SAVE, true);
 
 		// random targeting task
 		this.getTaskManager().registerTask("changeTarget", new Runnable() {
@@ -70,10 +75,10 @@ public class SuperMob extends SoloBattleMiniGame {
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.ARROW, 64));
 			InventoryTool.addItemToPlayer(p, new ItemStack(Material.GOLDEN_APPLE));
 
-			p.getEquipment().setHelmet(new ItemStack(Material.LEATHER_HELMET));
-			p.getEquipment().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
-			p.getEquipment().setLeggings(new ItemStack(Material.LEATHER_LEGGINGS));
-			p.getEquipment().setBoots(new ItemStack(Material.LEATHER_BOOTS));
+			p.getEquipment().setHelmet(new ItemStack(Material.IRON_HELMET));
+			p.getEquipment().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
+			p.getEquipment().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+			p.getEquipment().setBoots(new ItemStack(Material.IRON_BOOTS));
 			p.getEquipment().setItemInOffHand(new ItemStack(Material.SHIELD));
 		}
 
@@ -106,55 +111,59 @@ public class SuperMob extends SoloBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
-		if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			if (!(e.getEntity() instanceof Zombie)) {
-				return;
-			}
-
-			Zombie zombie = (Zombie) e.getEntity();
-			if (!this.superMob.equals(zombie)) {
-				return;
-			}
-			// direct damage
-			if (e.getDamager() instanceof Player) {
-				this.whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
-			}
-			// projectile damage
-			else if (e.getDamager() instanceof Arrow) {
-				Arrow proj = (Arrow) e.getDamager();
-				if (!(proj.getShooter() instanceof Player)) {
-					return;
-				}
-
-				Player shooter = (Player) proj.getShooter();
-				if (!this.containsPlayer(shooter)) {
-					return;
-				}
-
-				this.whenSuperMobDamagedByPlayer(e, shooter);
-			}
-
-		} else if (event instanceof PlayerDeathEvent) {
-			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			Player p = e.getEntity();
-
-			e.getDrops().clear();
-			p.setGameMode(GameMode.SPECTATOR);
-			this.setLive(p, false);
-			
-			if(!this.isMinPlayersLive()) {
-				this.finishGame();
-			}
-		} else if (event instanceof PlayerRespawnEvent) {
-			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-			e.setRespawnLocation(this.getLocation());
-		} else if (event instanceof EntityDeathEvent) {
+		if (event instanceof EntityDeathEvent) {
 			EntityDeathEvent e = (EntityDeathEvent) event;
 			if (this.entities.contains(e.getEntity())) {
 				if (e.getEntity().getKiller() != null) {
 					this.plusScore(e.getEntity().getKiller(), 1);
 				}
+			}
+		} else if (event instanceof EntityDamageEvent) {
+			if (((EntityDamageEvent) event).getEntity() instanceof Player) {
+				EntityDamageEvent e = (EntityDamageEvent) event;
+				Player p = (Player) e.getEntity();
+
+				// if death
+				if (p.getHealth() <= e.getDamage()) {
+					// cancel damage
+					e.setDamage(0);
+
+					p.setGameMode(GameMode.SPECTATOR);
+					this.setLive(p, false);
+
+					if (!this.isMinPlayersLive()) {
+						this.finishGame();
+					}
+				}
+			} else if (event instanceof EntityDamageByEntityEvent) {
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				if (!(e.getEntity() instanceof Zombie)) {
+					return;
+				}
+
+				Zombie zombie = (Zombie) e.getEntity();
+				if (!this.superMob.equals(zombie)) {
+					return;
+				}
+				// direct damage
+				if (e.getDamager() instanceof Player) {
+					this.whenSuperMobDamagedByPlayer(e, (Player) e.getDamager());
+				}
+				// projectile damage
+				else if (e.getDamager() instanceof Arrow) {
+					Arrow proj = (Arrow) e.getDamager();
+					if (!(proj.getShooter() instanceof Player)) {
+						return;
+					}
+
+					Player shooter = (Player) proj.getShooter();
+					if (!this.containsPlayer(shooter)) {
+						return;
+					}
+
+					this.whenSuperMobDamagedByPlayer(e, shooter);
+				}
+
 			}
 		}
 	}

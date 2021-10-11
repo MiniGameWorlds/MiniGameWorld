@@ -1,14 +1,9 @@
 # TODO
 - Make Youtube tutorial (in new brand channel)
-- Export base minigames to each jar file (before release)
-- Spigot forum
-- Put javadoc in `docs` dir
 - Make Github issue template
-- Create MiniGame `life cycle` graph to wiki
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
 - Add `Scoreboard` to minigame (also managed in PlayerState)
-- Make Setting.API_VERSION managed by version of `plugin.yml` automatically
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -323,9 +318,13 @@ if(!this.isMinPlayersLive()) {
 - CustomOption: PVE (entity(not player) damage by player)
 - Print value of key for `settings`, `minigames` commands
 - Make config data save in directly when plugin first load
+- Make Setting.API_VERSION managed by version of `plugin.yml` automatically
+- Upload plugin to Spigot forum
+- Put javadoc in `docs` dir
 
-
-
+# 2021-10-11
+- Release MobMiniGames.jar
+- Make user tutorial video
 
 
 

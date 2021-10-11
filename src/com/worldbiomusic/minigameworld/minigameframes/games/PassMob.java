@@ -11,8 +11,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.wbm.plugin.util.InventoryTool;
@@ -143,6 +143,7 @@ public class PassMob extends TeamBattleMiniGame {
 		this.createTeam(blue);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void processEvent(Event event) {
 		super.processEvent(event);
@@ -154,12 +155,25 @@ public class PassMob extends TeamBattleMiniGame {
 				Area area = this.getMobArea(entity);
 				area.passMobToOtherArea(entity, this.otherArea(area));
 			}
-		} else if (event instanceof PlayerRespawnEvent) {
-			PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-			Player p = e.getPlayer();
-			Team team = this.getTeam(p);
-			Area area = this.getTeamArea(team);
-			e.setRespawnLocation(area.loc);
+		} else if (event instanceof EntityDamageEvent) {
+			EntityDamageEvent e = (EntityDamageEvent) event;
+			if (e.getEntity() instanceof Player) {
+				Player p = (Player) e.getEntity();
+
+				// if death
+				if (p.getHealth() <= e.getDamage()) {
+					// cancel damage
+					e.setDamage(0);
+
+					// heal player
+					p.setHealth(p.getMaxHealth());
+					p.setFoodLevel(20);
+
+					Team team = this.getTeam(p);
+					Area area = this.getTeamArea(team);
+					p.teleport(area.loc);
+				}
+			}
 		}
 	}
 
