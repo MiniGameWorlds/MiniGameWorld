@@ -16,7 +16,7 @@
 - [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
-## 2. Craete class
+## 2. Create class
 ### Essential overriding methods
 - `initGameSetting()`: executed every time when minigame starts
 - `processEvent()`: executed when event is passed to minigame
