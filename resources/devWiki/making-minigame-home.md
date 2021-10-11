@@ -33,5 +33,5 @@
 
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC
+[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
