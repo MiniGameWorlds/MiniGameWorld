@@ -104,8 +104,8 @@ public PassMob() {
 
 ## - Task Management
 - Can manage task easily
-- `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in `registerTasks()`
-- `Run`: `getTaskManager().runTask("name");` in anywhere
+- `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
+- `Run`: `getTaskManager().runTask("name");` in anywhere after register
 - Do not register/run system task(`_waitingTimer`, `_finishTimer`)
 - Do not register task with `BukkitRunnable`
 ### How to register
