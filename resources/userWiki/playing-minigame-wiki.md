@@ -7,9 +7,9 @@
 1. Download [MiniGameWorld] and [wbmMC]
 2. Download [MiniGames] that you want to add to your server
 3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
-4. Make minigame place for minigame
-5-1. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload`
-5-2. Update minigame location using `/minigame minigames <class-name> location <<player> | <x> <y> <z>>`
+4. Make minigame place for minigame  
+5-1. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload`  
+5-2. Update minigame location using `/minigame minigames <class-name> location <<player> | <x> <y> <z>>`  
 
 
 # How to join / leave
@@ -47,8 +47,9 @@
 
 
 # Tutorial
-- [Youtube]()
-
+<a href="https://youtu.be/sE0vaj0xM8Q">
+<img src="youtube-user-tutorial-thumbnail.png" width="50%" ></img>
+</a>
 
 
 # Backup Data
@@ -75,3 +76,4 @@
 [Commands]: commands.md
 [Third-Parties]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/third-parties
 [Join / Leave]: how-to-join-leave.md
+[Youtube: User Tutorial]: https://youtu.be/sE0vaj0xM8Q

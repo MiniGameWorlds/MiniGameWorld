@@ -1,6 +1,14 @@
 # Description
 - Make minigame with [API] document
 
+
+
+# Tutorial
+<a href="https://youtu.be/">
+<img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
+</a>
+- In making...
+
 ---
 
 # Order
@@ -8,7 +16,7 @@
 - [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
-## 2. Craete class
+## 2. Create class
 ### Essential overriding methods
 - `initGameSetting()`: executed every time when minigame starts
 - `processEvent()`: executed when event is passed to minigame
@@ -77,14 +85,14 @@ public PassMob() {
 
 ## - MiniGameCustomOption
 - All custom options are in `custom-data` section
-- `CHATTING`: whether chat event cancel
-- `SCORE_NOTIFYING`: whether notify score change
-- `BLOCK_BREAK`: whether player can break block
-- `BLOCK_PLACE`: whether player can place block
-- `PVP`: whether players can pvp
-- `PVE`: whether players can damage entity (not player)
-- `INVENTORY_SAVE`: whether inventory save
-- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
+- `CHATTING`: whether chat event cancel (default: `true`)
+- `SCORE_NOTIFYING`: whether notify score change (default: `true`)
+- `BLOCK_BREAK`: whether player can break block (default: `false`)
+- `BLOCK_PLACE`: whether player can place block (default: `false`)
+- `PVP`: whether players can pvp (default: `false`)
+- `PVE`: whether players can damage entity (not player) (default: `true`)
+- `INVENTORY_SAVE`: whether inventory save (default: `true`)
+- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location (default: `true`)
 ### How to use
 ```java
 public PassMob() {
@@ -96,8 +104,8 @@ public PassMob() {
 
 ## - Task Management
 - Can manage task easily
-- `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });`
-- `Run`: `getTaskManager().runTask("name");`
+- `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
+- `Run`: `getTaskManager().runTask("name");` in anywhere after register
 - Do not register/run system task(`_waitingTimer`, `_finishTimer`)
 - Do not register task with `BukkitRunnable`
 ### How to register
@@ -207,19 +215,22 @@ protected void runTaskAfterStart() {
 
 # Caution
 ## Player state management
-- MiniGameWorld manages player's default states when join / leave
-> `inventory`, `health`, `food level`, `exp`, `potion effects`, `glowing`, `hiding`, `game mode`  
-- If minigame changed things that MiniGameWorld can not manage, have to restore all changed things (with `runTaskBeforeFinish()`)
+- MiniGameWorld manages and restores player's states when join / leave
+> `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode`
+- If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `runTaskBeforeFinish()`
 
 ## Detectable Events
-- MiniGameWorld only passes detectable events that can get player from event
-- Detectable events only pass to player's playing minigame
-- Can use sub-event (e.g. EntityDamageEvent(o), EntityDamageByEntityEvent(o), EntityDamageByBlockEvent(o))
+- MiniGameWorld only passes detectable events that can extract players from a event
+- Detectable events are only passed to player's playing minigame
+- Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`...etc of `PlayerEvent`)
 - If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 - [Detectable Event List](detectable-event-list.md)
 
 ## Override
 - Almost overrided method shold have `super.method()`
+
+## Player Death
+- Player can't return to joined location from minigame location, if player is dead state when minigame finished (don't let the player die with using any other ways when minigame finished)
 
 ## Flow
 <img src="flow.png" width=50%></img>

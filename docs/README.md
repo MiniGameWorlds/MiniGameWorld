@@ -1,2 +1,2 @@
 # MiniGameWorld API
-- [See](index.html)
+- [JavaDoc](https://worldbiomusic.github.io/MiniGameWorld/)

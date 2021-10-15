@@ -16,7 +16,7 @@
 # How to set Dev Environment
 - [Paper]: Minecraft bukkit
 - [MiniGameWorld]: MiniGame Framework
-- [wbmMC]: Minecraft util library (not essential) 
+- [wbmMC]: Minecraft util library
 - Add build path libs
 - add `[MiniGameWorld]` to `depend` section in `plugin.yml`
 
@@ -26,19 +26,12 @@
 ## MiniGame
 - [making-minigame-guide](making-minigame-guide.md)
 
-## Thirdy party plugin
+## Third party plugin
 - [making-3rd-party-guide](making-3rd-party-guide.md)
 
 
 
-# Tutorial
-- [Tutorial]()
-
-
-
-
-[MiniGameWorld]: ../devWiki/MiniGameWorld-home.md
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC
+[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html

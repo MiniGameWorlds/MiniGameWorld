@@ -1,5 +1,9 @@
 # TODO
-- Make Youtube tutorial (in new brand channel)
+- Minigame maker shold notify using bukkit (paper event cannot be used in spigot)
+- Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
+- Export base minigames to each jar file (before release)
+- Spigot forum
+- Put javadoc in `docs` dir
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
