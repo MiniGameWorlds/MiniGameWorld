@@ -4,10 +4,10 @@
 
 
 # Tutorial
-<a href="https://youtu.be/">
+<a href="https://youtu.be/hMLBDydXo_E">
 <img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
 </a>
-- In making...
+
 
 ---
 
