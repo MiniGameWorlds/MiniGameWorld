@@ -1,4 +1,5 @@
 # TODO
+- Minigame maker shold notify using bukkit (paper event cannot be used in spigot)
 - Make Youtube tutorial (in new brand channel)
 - Export base minigames to each jar file (before release)
 - Spigot forum
