@@ -1,6 +1,6 @@
 # TODO
 - Minigame maker shold notify using bukkit (paper event cannot be used in spigot)
-- Make Youtube tutorial (in new brand channel)
+- Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Export base minigames to each jar file (before release)
 - Spigot forum
 - Put javadoc in `docs` dir
