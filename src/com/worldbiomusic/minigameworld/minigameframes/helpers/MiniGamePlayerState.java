@@ -38,7 +38,7 @@ public class MiniGamePlayerState {
 
 	public void savePlayerState() {
 		// joined location
-		this.joinedLocation = this.player.getLocation();
+		this.joinedLocation = this.player.getLocation().clone();
 
 		// health scale
 		this.healthScale = this.player.getHealthScale();

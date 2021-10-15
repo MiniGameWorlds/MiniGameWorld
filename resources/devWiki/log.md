@@ -4,6 +4,7 @@
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` option to `Menu`
 - Add `Scoreboard` to minigame (also managed in PlayerState)
+- Add permission node
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -323,7 +324,7 @@ if(!this.isMinPlayersLive()) {
 - Put javadoc in `docs` dir
 
 # 2021-10-11
-- Release MobMiniGames.jar
+- Release MobMiniGames.jar with fix
 - Make user tutorial video
 
 

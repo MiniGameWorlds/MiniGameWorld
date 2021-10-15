@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wbm.plugin.util.BlockTool;
@@ -45,11 +46,6 @@ public class FallingBlock extends SoloBattleMiniGame {
 					}
 
 					Location pLoc = p.getLocation();
-
-					// check fell
-					if (hasFallen(p)) {
-						processFallenPlayer(p);
-					}
 
 					// check removingBlock
 					Block belowBlock = pLoc.subtract(0, 1, 0).getBlock();
@@ -143,6 +139,15 @@ public class FallingBlock extends SoloBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
+		if (event instanceof PlayerMoveEvent) {
+			PlayerMoveEvent e = (PlayerMoveEvent) event;
+			Player p = e.getPlayer();
+
+			// check has fallen
+			if (hasFallen(p)) {
+				processFallenPlayer(p);
+			}
+		}
 	}
 
 }
