@@ -19,11 +19,15 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
+/**
+ * [IMPORTANT]<br>
+ * - (Only for MiniGameWorld) Menu icon must be executed with command, because of
+ * command permission (Join-Game menu = make player run
+ * {@code "/minigame join <title>"})
+ */
 public class MiniGameMenu {
-	/*
-	 * Menu Inventory
-	 */
 	private Player player;
 	private MiniGameManager minigameManager;
 	private Inventory inv;
@@ -174,7 +178,6 @@ public class MiniGameMenu {
 		return this.inv.equals(inv);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void processClickEvent(InventoryClickEvent e) {
 		// suppose inventory has only 1 viewer
 		ItemStack ClickedItem = e.getCurrentItem();
@@ -185,8 +188,7 @@ public class MiniGameMenu {
 		Player p = (Player) e.getViewers().get(0);
 		if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
 			this.minigameManager.leaveGame(p);
-		} else if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
-			this.minigameManager.leaveGame(p);
+			p.performCommand("/minigame leave");
 		} else if (ClickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
@@ -197,7 +199,8 @@ public class MiniGameMenu {
 			}
 		} else if (this.isMiniGameIconSlot(e.getSlot())) {
 			ItemStack item = e.getCurrentItem();
-			this.minigameManager.joinGame(p, item.getItemMeta().getDisplayName());
+			String minigameTitle = ((TextComponent) item.getItemMeta().displayName()).content();
+			p.performCommand("/minigame join " + minigameTitle);
 		}
 	}
 

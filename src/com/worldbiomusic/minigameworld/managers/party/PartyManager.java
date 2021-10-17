@@ -145,7 +145,7 @@ public class PartyManager {
 			msg.setBold(true);
 			msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 					new ComponentBuilder("Click to join the party").create()));
-			msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party accept " + inviter.getName()));
+			msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minigame party accept " + inviter.getName()));
 			Party.sendMessage(invitee, msg);
 		} else {
 			Party.sendMessage(inviter, "You have already invited " + invitee.getName());
@@ -223,7 +223,7 @@ public class PartyManager {
 		msg.setUnderlined(true);
 		msg.setHoverEvent(
 				new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to allow to join").create()));
-		msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party allow " + asker.getName()));
+		msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minigame party allow " + asker.getName()));
 		Party.sendMessage(partyMember, msg);
 	}
 
@@ -332,7 +332,7 @@ public class PartyManager {
 			playerList.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 					new ComponentBuilder("Click to kickvote " + ChatColor.BOLD + member.getName()).create()));
 			playerList.setClickEvent(
-					new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mg party kickvote " + member.getName()));
+					new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minigame party kickvote " + member.getName()));
 
 			msg.addExtra(playerList);
 		}
