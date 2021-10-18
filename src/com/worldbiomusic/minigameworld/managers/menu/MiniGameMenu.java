@@ -19,12 +19,11 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 
 /**
  * [IMPORTANT]<br>
- * - (Only for MiniGameWorld) Menu icon must be executed with command, because of
- * command permission (Join-Game menu = make player run
+ * - (Only for MiniGameWorld) Menu icon must be executed with command, because
+ * of command permission (Join-Game menu = make player run
  * {@code "/minigame join <title>"})
  */
 public class MiniGameMenu {
@@ -187,8 +186,7 @@ public class MiniGameMenu {
 
 		Player p = (Player) e.getViewers().get(0);
 		if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
-			this.minigameManager.leaveGame(p);
-			p.performCommand("/minigame leave");
+			p.performCommand("minigame leave");
 		} else if (ClickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
@@ -199,8 +197,9 @@ public class MiniGameMenu {
 			}
 		} else if (this.isMiniGameIconSlot(e.getSlot())) {
 			ItemStack item = e.getCurrentItem();
-			String minigameTitle = ((TextComponent) item.getItemMeta().displayName()).content();
-			p.performCommand("/minigame join " + minigameTitle);
+			@SuppressWarnings("deprecation")
+			String minigameTitle = item.getItemMeta().getDisplayName();
+			p.performCommand("minigame join " + minigameTitle);
 		}
 	}
 
