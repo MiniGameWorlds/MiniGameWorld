@@ -5,6 +5,7 @@
 # Link
 - [Info]
 - [Structure]
+- [Ad](ad.md)
 
 # Log
 - [Log]
