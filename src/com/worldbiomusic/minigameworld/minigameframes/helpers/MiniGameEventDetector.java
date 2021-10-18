@@ -31,16 +31,22 @@ import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.event.world.GenericGameEvent;
+import org.bukkit.event.world.LootGenerateEvent;
+import org.bukkit.event.world.PortalCreateEvent;
+import org.bukkit.event.world.WorldEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import com.destroystokyo.paper.event.entity.EnderDragonFireballHitEvent;
 import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
+import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 
 import io.papermc.paper.event.block.BellRingEvent;
 import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
@@ -63,10 +69,10 @@ import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
  * <br>
  * 
  * [Detailed Event list]<br>
- * - {@link #getPlayersFromBlockEvent}<br>
- * - {@link #getPlayersFromEntityEvent}<br>
- * - {@link #getPlayersFromVehicleEvent}<br>
- * - {@link #getPlayersFromUnknownCommandEvent}<br>
+ * - BlockEvent<br>
+ * - EntityEvent<br>
+ * - VehicleEvent<br>
+ * - UnknownCommandEvent<br>
  */
 public class MiniGameEventDetector {
 	/**
@@ -93,6 +99,8 @@ public class MiniGameEventDetector {
 		this.detectableEventList.add(InventoryEvent.class);
 		this.detectableEventList.add(InventoryMoveItemEvent.class);
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
+		this.detectableEventList.add(AsyncTabCompleteEvent.class);
+		this.detectableEventList.add(TabCompleteEvent.class);
 	}
 
 	/**
@@ -157,6 +165,14 @@ public class MiniGameEventDetector {
 			}
 		} else if (e instanceof PlayerLeashEntityEvent) {
 			eventPlayers.add(((PlayerLeashEntityEvent) e).getPlayer());
+		} else if (e instanceof AsyncTabCompleteEvent) {
+			if (((AsyncTabCompleteEvent) e).getSender() instanceof Player) {
+				eventPlayers.add((Player) ((AsyncTabCompleteEvent) e).getSender());
+			}
+		} else if (e instanceof TabCompleteEvent) {
+			if (((TabCompleteEvent) e).getSender() instanceof Player) {
+				eventPlayers.add((Player) ((TabCompleteEvent) e).getSender());
+			}
 		}
 
 		return eventPlayers;
@@ -179,6 +195,8 @@ public class MiniGameEventDetector {
 			this.getPlayersFromVehicleEvent((VehicleEvent) event, eventPlayers);
 		} else if (event instanceof UnknownCommandEvent) {
 			this.getPlayersFromUnknownCommandEvent((UnknownCommandEvent) event, eventPlayers);
+		} else if (event instanceof WorldEvent) {
+			this.getPlayersFromWorldEvent((WorldEvent) event, eventPlayers);
 		}
 
 		return !eventPlayers.isEmpty();
@@ -312,6 +330,25 @@ public class MiniGameEventDetector {
 	private void getPlayersFromUnknownCommandEvent(UnknownCommandEvent event, List<Player> eventPlayers) {
 		if (event.getSender() instanceof Player) {
 			eventPlayers.add((Player) event.getSender());
+		}
+	}
+
+	private void getPlayersFromWorldEvent(WorldEvent event, List<Player> eventPlayers) {
+		if (event instanceof GenericGameEvent) {
+			GenericGameEvent e = (GenericGameEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof LootGenerateEvent) {
+			LootGenerateEvent e = (LootGenerateEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
+		} else if (event instanceof PortalCreateEvent) {
+			PortalCreateEvent e = (PortalCreateEvent) event;
+			if (e.getEntity() instanceof Player) {
+				eventPlayers.add((Player) e.getEntity());
+			}
 		}
 	}
 
