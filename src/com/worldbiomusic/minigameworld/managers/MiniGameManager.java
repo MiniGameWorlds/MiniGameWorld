@@ -86,11 +86,6 @@ public class MiniGameManager implements YamlMember {
 			this.settings.put(Setting.SETTINGS_MINIGAME_SIGN, true);
 		}
 
-		// minigameCommand
-		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_COMMAND)) {
-			this.settings.put(Setting.SETTINGS_MINIGAME_COMMAND, true);
-		}
-
 		// messagePrefix
 		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
 			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET);
