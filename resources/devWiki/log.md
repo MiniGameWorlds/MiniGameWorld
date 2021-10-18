@@ -1,19 +1,30 @@
 # TODO
-- Minigame maker shold notify using bukkit (paper event cannot be used in spigot)
+- Test in Spigot bukkit
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
-- Export base minigames to each jar file (before release)
-- Spigot forum
-- Put javadoc in `docs` dir
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
-- Add `party` option to `Menu`
-- Add `Scoreboard` to minigame (also managed in PlayerState)
-- Add permission node
+- Add `party` icon to Menu
+- Add `bossbar`, `Scoreboard` to minigame (also managed in PlayerState) (manage in setting.yml)
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
 - Add detailed event while searching
 ```
+
+---
+
+# Version Changes
+## Next API
+- Change `MiniGameWorld.VERSION` > `MiniGameWorld.API_VERSION`
+
+## Next Build
+- Make API_VERSION managed by `version` of `plugin.yml` automatically
+- Make config data save in immediately when plugin first loaded
+- Add permission nodes
+
+## 0.0.1
+- 2021-10-10
+- First Beta
 
 ---
 
@@ -331,14 +342,18 @@ if(!this.isMinPlayersLive()) {
 - Release MobMiniGames.jar with fix
 - Make user tutorial video
 
+# 2021-10-15
+- Add `UpDown` minigame
+- Make a `MiniGame Dev Tutorial` video
 
+# 2021-10-16
+- Let Minigame maker should notify required bukkit when sharing a minigame(i.e. paper event cannot be used in spigot)
 
-
-
-
-
-
-
+# 2021-10-17
+- Add permission node
+- Make All menu icon must be executed with a command
+- Improve EventDetector: add basic event(AsyncTabCompleteEvent, TabCompleteEvent), detailed event(WorldEvent (GenericGameEvent, LootGenerateEvent, PortalCreateEvent), EntityEvent)
+- remove `minigame-command` in `settings.yml`
 
 
 

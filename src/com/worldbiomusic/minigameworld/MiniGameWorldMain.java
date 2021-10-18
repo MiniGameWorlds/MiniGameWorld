@@ -22,6 +22,7 @@ import com.worldbiomusic.minigameworld.minigameframes.games.RemoveBlock;
 import com.worldbiomusic.minigameworld.minigameframes.games.RockScissorPaper;
 import com.worldbiomusic.minigameworld.minigameframes.games.ScoreClimbing;
 import com.worldbiomusic.minigameworld.minigameframes.games.SuperMob;
+import com.worldbiomusic.minigameworld.minigameframes.games.UpDown;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -107,6 +108,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		minigameWorld.registerMiniGame(new SuperMob());
 		minigameWorld.registerMiniGame(new PassMob());
 		minigameWorld.registerMiniGame(new FallingBlock());
+		minigameWorld.registerMiniGame(new UpDown());
 	}
 
 	private void processRemainedPlayersWhenServerStart() {

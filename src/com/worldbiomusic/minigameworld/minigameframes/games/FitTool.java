@@ -109,6 +109,7 @@ public class FitTool extends SoloMiniGame {
 			p.getInventory().addItem(new ItemStack(Material.IRON_AXE));
 			p.getInventory().addItem(new ItemStack(Material.IRON_SHOVEL));
 		}
+
 	}
 
 	@Override
@@ -118,5 +119,5 @@ public class FitTool extends SoloMiniGame {
 		tutorial.add("Breaking block: +1");
 		return tutorial;
 	}
-	
+
 }

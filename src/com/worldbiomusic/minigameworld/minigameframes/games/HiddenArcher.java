@@ -65,7 +65,6 @@ public class HiddenArcher extends TeamBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
-
 		if (event instanceof EntityDamageEvent) {
 			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 			damageEvent.setCancelled(true);
@@ -111,8 +110,8 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		this.sendTitle(victim, ChatColor.RED + "DIE", "");
 		victim.setGameMode(GameMode.SPECTATOR);
 		this.setLive(victim, false);
-		
-		if(!this.isMinPlayersLive()) {
+
+		if (!this.isMinPlayersLive()) {
 			this.finishGame();
 		}
 	}
@@ -130,6 +129,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		// give tools
 		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.BOW));
 		InventoryTool.addItemToPlayers(getPlayers(), new ItemStack(Material.ARROW, 5));
+
 	}
 
 }
