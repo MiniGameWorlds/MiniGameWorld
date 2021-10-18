@@ -1,11 +1,14 @@
 # Commands
-- aliases: `/mg`
+- aliases: `/mw`
+
+
 ## General
 - `/minigame join <title>`: join `<title>` minigame
 - `/minigame leave`: leave current playing minigame (when only waiting)
 - `/minigame list`: print minigame list
 - `/minigame menu`: open menu
 - `/minigame reload`: reload all configs
+
 ## Party
 - `/minigame party invite <player>`: invite `<player>` to your party
 - `/minigame party accept <player>`: accept `<player>`'s invitation
@@ -15,6 +18,8 @@
 - `/minigame party kickvote <player>`: vote `<player>` that you want to kick from your party
 - `/minigame party msg <player>`: send message to player
 - `/minigame party list`: show party member list
+
+
 ## Config
 ### settings
 - set plugin settinsg in `settings.yml` config  
