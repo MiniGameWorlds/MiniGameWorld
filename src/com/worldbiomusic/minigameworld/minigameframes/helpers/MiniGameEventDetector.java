@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -22,7 +21,6 @@ import org.bukkit.event.block.BlockReceiveGameEvent;
 import org.bukkit.event.block.BlockShearEntityEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.command.UnknownCommandEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -42,14 +40,6 @@ import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.event.world.WorldEvent;
 import org.bukkit.inventory.Inventory;
-
-import com.destroystokyo.paper.event.block.TNTPrimeEvent;
-import com.destroystokyo.paper.event.entity.EnderDragonFireballHitEvent;
-import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
-import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
-
-import io.papermc.paper.event.block.BellRingEvent;
-import io.papermc.paper.event.entity.ElderGuardianAppearanceEvent;
 
 /**
  * Event detector to send Minigames<br>
@@ -99,7 +89,6 @@ public class MiniGameEventDetector {
 		this.detectableEventList.add(InventoryEvent.class);
 		this.detectableEventList.add(InventoryMoveItemEvent.class);
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
-		this.detectableEventList.add(AsyncTabCompleteEvent.class);
 		this.detectableEventList.add(TabCompleteEvent.class);
 	}
 
@@ -165,10 +154,6 @@ public class MiniGameEventDetector {
 			}
 		} else if (e instanceof PlayerLeashEntityEvent) {
 			eventPlayers.add(((PlayerLeashEntityEvent) e).getPlayer());
-		} else if (e instanceof AsyncTabCompleteEvent) {
-			if (((AsyncTabCompleteEvent) e).getSender() instanceof Player) {
-				eventPlayers.add((Player) ((AsyncTabCompleteEvent) e).getSender());
-			}
 		} else if (e instanceof TabCompleteEvent) {
 			if (((TabCompleteEvent) e).getSender() instanceof Player) {
 				eventPlayers.add((Player) ((TabCompleteEvent) e).getSender());
@@ -193,8 +178,6 @@ public class MiniGameEventDetector {
 			this.getPlayersFromEntityEvent((EntityEvent) event, eventPlayers);
 		} else if (event instanceof VehicleEvent) {
 			this.getPlayersFromVehicleEvent((VehicleEvent) event, eventPlayers);
-		} else if (event instanceof UnknownCommandEvent) {
-			this.getPlayersFromUnknownCommandEvent((UnknownCommandEvent) event, eventPlayers);
 		} else if (event instanceof WorldEvent) {
 			this.getPlayersFromWorldEvent((WorldEvent) event, eventPlayers);
 		}
@@ -209,12 +192,7 @@ public class MiniGameEventDetector {
 	 * @param eventPlayers Players from event
 	 */
 	private void getPlayersFromBlockEvent(BlockEvent event, List<Player> eventPlayers) {
-		if (event instanceof BellRingEvent) {
-			BellRingEvent e = (BellRingEvent) event;
-			if (e.getEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getEntity());
-			}
-		} else if (event instanceof BlockBreakEvent) {
+		if (event instanceof BlockBreakEvent) {
 			eventPlayers.add(((BlockBreakEvent) event).getPlayer());
 		} else if (event instanceof BlockDamageEvent) {
 			eventPlayers.add(((BlockDamageEvent) event).getPlayer());
@@ -243,11 +221,6 @@ public class MiniGameEventDetector {
 			}
 		} else if (event instanceof SignChangeEvent) {
 			eventPlayers.add(((SignChangeEvent) event).getPlayer());
-		} else if (event instanceof TNTPrimeEvent) {
-			TNTPrimeEvent e = (TNTPrimeEvent) event;
-			if (e.getPrimerEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getPrimerEntity());
-			}
 		}
 	}
 
@@ -275,18 +248,6 @@ public class MiniGameEventDetector {
 					eventPlayers.add((Player) proj.getShooter());
 				}
 			}
-		} else if (event instanceof ElderGuardianAppearanceEvent) {
-			ElderGuardianAppearanceEvent e = (ElderGuardianAppearanceEvent) event;
-			eventPlayers.add(e.getAffectedPlayer());
-		} else if (event instanceof EnderDragonFireballHitEvent) {
-			EnderDragonFireballHitEvent e = (EnderDragonFireballHitEvent) event;
-			for (LivingEntity entity : e.getTargets()) {
-				if (entity instanceof Player) {
-					eventPlayers.add((Player) entity);
-				}
-			}
-		} else if (event instanceof EndermanAttackPlayerEvent) {
-			eventPlayers.add(((EndermanAttackPlayerEvent) event).getPlayer());
 		}
 
 	}
@@ -318,18 +279,6 @@ public class MiniGameEventDetector {
 			if (e.getExited() instanceof Player) {
 				eventPlayers.add(((Player) e.getExited()));
 			}
-		}
-	}
-
-	/**
-	 * Gets players from UnknownCommand event
-	 * 
-	 * @param event        Event to get player
-	 * @param eventPlayers Players from event
-	 */
-	private void getPlayersFromUnknownCommandEvent(UnknownCommandEvent event, List<Player> eventPlayers) {
-		if (event.getSender() instanceof Player) {
-			eventPlayers.add((Player) event.getSender());
 		}
 	}
 

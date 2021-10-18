@@ -8,10 +8,11 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
@@ -28,7 +29,6 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 		super("ScoreClimbing", 2, 4, 60, 10);
 		this.chance = new HashMap<Player, Integer>();
 		this.getCustomOption().set(Option.SCORE_NOTIFYING, false);
-
 
 		this.registerTasks();
 
@@ -77,20 +77,21 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 
 	@Override
 	protected void processEvent(Event event) {
-		if (event instanceof PlayerJumpEvent) {
-			// jump: check current graph score
-			PlayerJumpEvent e = (PlayerJumpEvent) event;
-			Player p = e.getPlayer();
-			int leftChance = this.chance.get(p);
-			if (leftChance > 0) {
-				int score = this.getScore(p);
-				this.sendMessage(p, "Current Score: " + score);
-				// chance -1
-				this.chance.put(p, leftChance - 1);
-			} else if (leftChance == 0) {
-				this.sendMessage(p, "You has no more score checking chance");
-			} else if (hasStopped(p)) {
-				this.sendMessage(p, "You can't check score until game end");
+		if (event instanceof PlayerInteractEvent) {
+			PlayerInteractEvent e = (PlayerInteractEvent) event;
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				Player p = e.getPlayer();
+				int leftChance = this.chance.get(p);
+				if (leftChance > 0) {
+					int score = this.getScore(p);
+					this.sendMessage(p, "Current Score: " + score);
+					// chance -1
+					this.chance.put(p, leftChance - 1);
+				} else if (leftChance == 0) {
+					this.sendMessage(p, "You has no more score checking chance");
+				} else if (hasStopped(p)) {
+					this.sendMessage(p, "You can't check score until game end");
+				}
 			}
 		} else if (event instanceof PlayerToggleSneakEvent) {
 			// sneak: stop my score
@@ -104,7 +105,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 			this.chance.put(p, -1);
 
 			// check if all player stopped own score
-			if(!this.isMinPlayersLive()) {
+			if (!this.isMinPlayersLive()) {
 				this.finishGame();
 			}
 		} else if (event instanceof EntityDamageByEntityEvent) {
@@ -120,7 +121,7 @@ public class ScoreClimbing extends SoloBattleMiniGame {
 	protected List<String> registerTutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Every 1 sec: score get to plus until random time and then score get to minus until game end");
-		tutorial.add("Jump: check current score(max: 3)");
+		tutorial.add("Right-Click: check current score(max: 3)");
 		tutorial.add("Sneak: stop Game and check score");
 		return tutorial;
 	}

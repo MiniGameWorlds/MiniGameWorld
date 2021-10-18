@@ -18,8 +18,6 @@ import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
-import net.kyori.adventure.text.Component;
-
 /**
  * [IMPORTANT]<br>
  * - (Only for MiniGameWorld) Menu icon must be executed with command, because
@@ -66,7 +64,7 @@ public class MiniGameMenu {
 	}
 
 	private void makeBaseIcons() {
-		this.inv = Bukkit.createInventory(null, 9 * 6, Component.text(Setting.MENU_INV_TITLE));
+		this.inv = Bukkit.createInventory(null, 9 * 6, Setting.MENU_INV_TITLE);
 
 		// player head
 		ItemStack playerHead = this.getPlayerHead(this.player);
@@ -89,7 +87,7 @@ public class MiniGameMenu {
 	private ItemStack getPlayerHead(Player p) {
 		ItemStack item = PlayerTool.getPlayerHead(this.player);
 		ItemMeta meta = item.getItemMeta();
-		meta.displayName(Component.text("" + ChatColor.YELLOW + ChatColor.BOLD + "INFO"));
+		meta.setDisplayName("" + ChatColor.YELLOW + ChatColor.BOLD + "INFO");
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -101,18 +99,18 @@ public class MiniGameMenu {
 		String title = (playingMinigame == null) ? "None" : playingMinigame.getTitle();
 
 		ItemMeta meta = playerHead.getItemMeta();
-		List<Component> lore = new ArrayList<>();
-		lore.add(Component.text(ChatColor.WHITE + "- Minigame: " + title));
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.WHITE + "- Minigame: " + title);
 
 		// add party members
-		lore.add(Component.text(""));
-		lore.add(Component.text("" + ChatColor.YELLOW + ChatColor.BOLD + "Party"));
+		lore.add("");
+		lore.add("" + ChatColor.YELLOW + ChatColor.BOLD + "Party");
 		List<Player> partyMembers = this.minigameManager.getPartyManager().getMembers(this.player);
 		for (Player member : partyMembers) {
-			lore.add(Component.text(ChatColor.WHITE + "- " + member.getName()));
+			lore.add(ChatColor.WHITE + "- " + member.getName());
 		}
 
-		meta.lore(lore);
+		meta.setLore(lore);
 		playerHead.setItemMeta(meta);
 	}
 
@@ -197,7 +195,6 @@ public class MiniGameMenu {
 			}
 		} else if (this.isMiniGameIconSlot(e.getSlot())) {
 			ItemStack item = e.getCurrentItem();
-			@SuppressWarnings("deprecation")
 			String minigameTitle = item.getItemMeta().getDisplayName();
 			p.performCommand("minigame join " + minigameTitle);
 		}

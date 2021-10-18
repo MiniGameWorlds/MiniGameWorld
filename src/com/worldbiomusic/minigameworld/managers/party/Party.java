@@ -279,7 +279,6 @@ public class Party {
 		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE + msg);
 	}
 
-	@SuppressWarnings("deprecation")
 	/**
 	 * Sends message with Component
 	 * 

@@ -34,8 +34,6 @@ import com.worldbiomusic.minigameworld.util.Utils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 
 public class CommonEventListener implements Listener {
 	/*
@@ -49,31 +47,46 @@ public class CommonEventListener implements Listener {
 		this.registerAllEventListener();
 	}
 
+	/**
+	 * Register all events<br>
+	 * - Spigot doesn't need other setup<be>
+	 * - Paper needs additional setup like below<br>
+	 * 
+	 */
 	private void registerAllEventListener() {
 //		Utils.info("[ Register EventHandler ]");
 //		Utils.info("wait for all EventHandler registration...");
 //		Utils.info("Event class name: " + Event.class.getName());
 //		long startTime = System.currentTimeMillis();
 
+		boolean isPaper = false;
+		if (Utils.getServerFile("cache").exists()) {
+			isPaper = true;
+		}
+
 		// set cache directory can be found
 		List<URL> cacheDirJarURLs = new ArrayList<>();
-		for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
-			File cpFile = new File(cpEntry);
-			if (cpFile.canRead()) {
-				File cachedDir = new File(cpFile.isDirectory() ? cpFile : cpFile.getParentFile(), "cache");
-				if (cachedDir.canRead() && cachedDir.isDirectory()) {
-					try {
-						for (File cachedDirJar : cachedDir.listFiles()) {
-							if (cachedDirJar.getName().toLowerCase().endsWith(".jar")) {
-								cacheDirJarURLs.add(cachedDirJar.toURI().toURL());
+		if (isPaper) {
+			for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
+				File cpFile = new File(cpEntry);
+				if (cpFile.canRead()) {
+					File cachedDir = new File(cpFile.isDirectory() ? cpFile : cpFile.getParentFile(), "cache");
+					if (cachedDir.canRead() && cachedDir.isDirectory()) {
+						try {
+							for (File cachedDirJar : cachedDir.listFiles()) {
+								if (cachedDirJar.getName().toLowerCase().endsWith(".jar")) {
+									cacheDirJarURLs.add(cachedDirJar.toURI().toURL());
+								}
 							}
+						} catch (MalformedURLException e) {
+							// Ignore
 						}
-					} catch (MalformedURLException e) {
-						// Ignore
 					}
 				}
 			}
 		}
+		
+		
 		ClassGraph classGraph = new ClassGraph();
 		if (!cacheDirJarURLs.isEmpty()) {
 			classGraph.addClassLoader(new URLClassLoader(cacheDirJarURLs.toArray(new URL[0])));
@@ -146,7 +159,6 @@ public class CommonEventListener implements Listener {
 
 		// minigame exception
 		MiniGame.Exception exception = MiniGame.Exception.PLAYER_QUIT_SERVER;
-		exception.setDetailedReason(e.getReason().name());
 		exception.setDetailedObj(e);
 
 		this.minigameManager.handleException(p, exception);
@@ -180,9 +192,9 @@ public class CommonEventListener implements Listener {
 		if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
-				List<Component> lines = sign.lines();
-				String minigame = ((TextComponent) lines.get(0)).content();
-				String title = ((TextComponent) lines.get(1)).content();
+				String[] lines = sign.getLines();
+				String minigame = lines[0];
+				String title = lines[0];
 
 				// check minigameSign option
 				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);

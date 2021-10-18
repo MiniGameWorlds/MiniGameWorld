@@ -26,7 +26,6 @@ public class Utils {
 		p.sendMessage(getMessagePrefixString() + msg);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void sendMsg(Player p, BaseComponent compo) {
 		TextComponent msg = new TextComponent(getMessagePrefixString());
 		msg.addExtra(compo);
@@ -45,7 +44,6 @@ public class Utils {
 		info(ChatColor.RED + "[DEBUG] " + msg);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void broadcast(String msg) {
 		Bukkit.broadcastMessage(getMessagePrefixString() + msg);
 	}
@@ -56,5 +54,9 @@ public class Utils {
 
 	public static boolean checkPerm(Player p, String permission) {
 		return p.hasPermission("minigameworld." + permission);
+	}
+
+	public static File getServerFile(String file) {
+		return new File(main.getServer().getWorldContainer(), file);
 	}
 }

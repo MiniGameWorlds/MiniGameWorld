@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.minigameframes.games;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.worldbiomusic.minigameworld.minigameframes.SoloBattleMiniGame;
 
-@SuppressWarnings("deprecation")
 public class RockScissorPaper extends SoloBattleMiniGame {
 	/*
 	 * Rock Scissor Paper game

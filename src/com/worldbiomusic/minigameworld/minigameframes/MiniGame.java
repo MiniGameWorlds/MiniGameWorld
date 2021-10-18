@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
@@ -30,9 +31,6 @@ import com.worldbiomusic.minigameworld.observer.MiniGameEventNotifier;
 import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
-
-import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.TextComponent;
 
 /**
  * <b>MiniGame class of all minigames</b> <br>
@@ -241,8 +239,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.customOption.processEvent(event);
 
 		// chat event
-		if (event instanceof AsyncChatEvent) {
-			this.isProcessChatting((AsyncChatEvent) event);
+		if (event instanceof AsyncPlayerChatEvent) {
+			this.isProcessChatting((AsyncPlayerChatEvent) event);
 		}
 
 		// process event when minigame started
@@ -257,7 +255,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 * @param e Chat event
 	 */
-	private void isProcessChatting(AsyncChatEvent e) {
+	private void isProcessChatting(AsyncPlayerChatEvent e) {
 		// cancel event
 		e.setCancelled(true);
 
@@ -271,9 +269,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 * @param e Chat event
 	 */
-	protected void processChatting(AsyncChatEvent e) {
+	protected void processChatting(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		String msg = ((TextComponent) e.message()).content();
+		String msg = e.getMessage();
 		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 
@@ -836,7 +834,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param stay     Stay time (tick)
 	 * @param fadeOut  Fade out time (tick)
 	 */
-	@SuppressWarnings("deprecation")
 	public void sendTitle(Player p, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		p.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
 	}
@@ -848,7 +845,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param title    Title string
 	 * @param subTitle Subtitle string
 	 */
-	@SuppressWarnings("deprecation")
 	public void sendTitle(Player p, String title, String subTitle) {
 		p.sendTitle(title, subTitle, 4, 12, 4);
 	}

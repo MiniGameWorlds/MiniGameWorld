@@ -123,7 +123,7 @@ public class HiddenArcher extends TeamBattleMiniGame {
 		// hide player from other teams
 		for (Player p : this.getPlayers()) {
 			p.addPotionEffect(
-					new PotionEffect(PotionEffectType.INVISIBILITY, 20 * this.getTimeLimit(), 1).withParticles(false));
+					new PotionEffect(PotionEffectType.INVISIBILITY, 20 * this.getTimeLimit(), 1, false, false));
 		}
 
 		// give tools

@@ -1,10 +1,11 @@
 # TODO
-- Test in Spigot bukkit
+- Fix `classgraph` for add classpath with `spigot` or `paper`
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` icon to Menu
 - Add `bossbar`, `Scoreboard` to minigame (also managed in PlayerState) (manage in setting.yml)
+- Write javadoc
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -15,16 +16,28 @@
 
 # Version Changes
 ## Next API
-- Change `MiniGameWorld.VERSION` > `MiniGameWorld.API_VERSION`
 
 ## Next Build
-- Make API_VERSION managed by `version` of `plugin.yml` automatically
-- Make config data save in immediately when plugin first loaded
-- Add permission nodes
+
 
 ## 0.0.1
-- 2021-10-10
+### API Changes
 - First Beta
+### Build Changes
+
+## 0.1.0
+### API Changes
+- Change `MiniGameWorld.VERSION` > `MiniGameWorld.API_VERSION`
+### Build Changes
+- Make API_VERSION managed by `version` of `plugin.yml` automatically
+- Make config data save in immediately when plugin is first loaded
+- Add permission nodes
+
+## 0.1.1
+### API Changes
+
+### Build Changes
+- **Change all things to fit with `spigot` bukkit**
 
 ---
 
@@ -355,9 +368,11 @@ if(!this.isMinPlayersLive()) {
 - Improve EventDetector: add basic event(AsyncTabCompleteEvent, TabCompleteEvent), detailed event(WorldEvent (GenericGameEvent, LootGenerateEvent, PortalCreateEvent), EntityEvent)
 - remove `minigame-command` in `settings.yml`
 
-
-
-
+# 2021-10-18
+- Release `0.1.0`
+- Remove `UpDown` minigame (require paper bukkit)
+- **Change all things to fit with `spigot` bukkit**
+- Change dev bukkit to `spigot` from `paper`
 
 
 

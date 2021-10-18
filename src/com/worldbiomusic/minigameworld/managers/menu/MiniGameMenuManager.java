@@ -14,8 +14,6 @@ import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 
-import net.kyori.adventure.text.Component;
-
 public class MiniGameMenuManager {
 	/*
 	 * Manage MiniGameMenu List, because player's personal data will show in MiniGameMenu
@@ -57,9 +55,9 @@ public class MiniGameMenuManager {
 		// manage Inventory Events
 		if (event instanceof InventoryClickEvent) {
 			InventoryClickEvent e = (InventoryClickEvent) event;
-			
+
 			// check title
-			if (this.isMiniGameWorldMenu(e.getView().title())) {
+			if (this.isMiniGameWorldMenu(e.getView().getTitle())) {
 				e.setCancelled(true);
 
 				// process inventory event
@@ -69,7 +67,7 @@ public class MiniGameMenuManager {
 			}
 		} else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
-			if (this.isMiniGameWorldMenu(e.getView().title())) {
+			if (this.isMiniGameWorldMenu(e.getView().getTitle())) {
 				this.menuList.remove(e.getPlayer());
 			}
 		}
@@ -84,8 +82,8 @@ public class MiniGameMenuManager {
 		return null;
 	}
 
-	private boolean isMiniGameWorldMenu(Component component) {
-		return Component.text(Setting.MENU_INV_TITLE).equals(component);
+	private boolean isMiniGameWorldMenu(String title) {
+		return Setting.MENU_INV_TITLE.equals(title);
 	}
 }
 //
