@@ -18,7 +18,7 @@ public class Setting {
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
-	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
+//	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
 	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
 	public static final String SETTINGS_LOBBY = "lobby";
 

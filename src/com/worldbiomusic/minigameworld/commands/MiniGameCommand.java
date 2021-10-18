@@ -12,7 +12,6 @@ import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
-import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {
@@ -51,11 +50,6 @@ public class MiniGameCommand implements CommandExecutor {
 			// menu
 			String menu = args[0];
 
-			// check permit
-			if (!this.canUseCommand(p, menu)) {
-				return true;
-			}
-
 			switch (menu) {
 			case "join":
 				return this.join(p, args);
@@ -82,32 +76,15 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean canUseCommand(Player p, String menu) {
-		switch (menu) {
-		case "join":
-		case "leave":
-		case "list":
-		case "menu":
-		case "party":
-			// check minigameCommand is true(setting.yml)
-			if (!this.canCommandUse()) {
-				Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_COMMAND + " option is false in \"setting.yml\" file");
-				return false;
-			}
-			break;
-		}
-
-		return true;
-	}
-
-	private boolean canCommandUse() {
-		return (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_COMMAND);
-	}
-
 	private boolean join(Player p, String[] args) throws Exception {
 		/*
 		 * minigame join <title>
 		 */
+
+		// check permission
+		if (!Utils.checkPerm(p, "play.join")) {
+			return true;
+		}
 
 		String title = args[1];
 		this.minigameManager.joinGame(p, title);
@@ -119,11 +96,20 @@ public class MiniGameCommand implements CommandExecutor {
 		 * minigame leave
 		 */
 
+		// check permission
+		if (!Utils.checkPerm(p, "play.leave")) {
+			return true;
+		}
+
 		this.minigameManager.leaveGame(p);
 		return true;
 	}
 
 	private boolean list(Player p, String[] args) throws Exception {
+		// check permission
+		if (!Utils.checkPerm(p, "play.list")) {
+			return true;
+		}
 
 		List<MiniGame> games = this.minigameManager.getMiniGameList();
 
@@ -153,6 +139,10 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean menu(Player p, String[] args) {
+		// check permission
+		if (!Utils.checkPerm(p, "menu")) {
+			return true;
+		}
 
 		MiniGameMenuManager menuManager = this.minigameManager.getMiniGameMenuManager();
 		menuManager.openMenu(p);
@@ -160,14 +150,15 @@ public class MiniGameCommand implements CommandExecutor {
 	}
 
 	private boolean reloadConfig(Player p, String[] args) throws Exception {
-		// OP
-		if (!p.isOp()) {
+		// check permission
+		if (!Utils.checkPerm(p, "config.reload")) {
 			return true;
 		}
 
 		// reload "setting.yml", "minigames.yml"
 		this.minigameManager.reload();
-		Utils.sendMsg(p, "" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
+
+		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
 		p.sendMessage("- " + this.minigameManager.getFileName());
 		this.minigameManager.getMiniGameList().forEach(m -> {
 			p.sendMessage("- " + m.getTitleWithClassName());

@@ -28,7 +28,8 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	public boolean minigames(Player p, String[] args) throws Exception {
-		if (!p.isOp()) {
+		// check permission
+		if (!Utils.checkPerm(p, "config.minigames")) {
 			return true;
 		}
 

@@ -20,7 +20,8 @@ public class MiniGameSettingsConfigCommand {
 	}
 
 	public boolean settings(Player p, String[] args) throws Exception {
-		if (!p.isOp()) {
+		// check permission
+		if (!Utils.checkPerm(p, "config.settings")) {
 			return true;
 		}
 
@@ -28,7 +29,6 @@ public class MiniGameSettingsConfigCommand {
 		if (args.length == 2) {
 			this.printValue(p, args);
 		} else {
-
 			// /mg settings <key> <value>
 			String key = args[1];
 			switch (key) {
@@ -37,9 +37,6 @@ public class MiniGameSettingsConfigCommand {
 				break;
 			case Setting.SETTINGS_MINIGAME_SIGN:
 				this.minigame_sign(p, args);
-				break;
-			case Setting.SETTINGS_MINIGAME_COMMAND:
-				this.minigame_command(p, args);
 				break;
 			}
 
@@ -89,13 +86,6 @@ public class MiniGameSettingsConfigCommand {
 		boolean value = Boolean.parseBoolean(args[2]);
 
 		this.setKeyValue(p, Setting.SETTINGS_MINIGAME_SIGN, value);
-		return true;
-	}
-
-	private boolean minigame_command(Player p, String[] args) throws Exception {
-		boolean value = Boolean.parseBoolean(args[2]);
-
-		this.setKeyValue(p, Setting.SETTINGS_MINIGAME_COMMAND, value);
 		return true;
 	}
 }

@@ -23,8 +23,6 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		// /mg settings <key> <value>
-		// /mg minigames <classname> <key> <value>
 		this.candidates.clear();
 		int length = args.length;
 
@@ -45,11 +43,12 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 				this.setMiniGamesKeyCandidates();
 			}
 		}
-		
+
 		// add player names
 		if (this.candidates.isEmpty()) {
 			Bukkit.getOnlinePlayers().forEach(p -> candidates.add(p.getName()));
 		}
+
 		return this.candidates;
 	}
 
@@ -65,10 +64,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void setJoinCandidates() {
-		for (MiniGame minigame : this.minigameManager.getMiniGameList()) {
-			String title = minigame.getTitle();
-			this.candidates.add(title);
-		}
+		this.minigameManager.getMiniGameList().forEach(game -> this.candidates.add(game.getTitle()));
 	}
 
 	private void setPartyCandidates() {
@@ -91,8 +87,10 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void setMiniGamesKeyCandidates() {
-		this.minigameManager.getMiniGameList().get(0).getDataManager().getData().keySet()
-				.forEach(key -> candidates.add(key));
+		List<MiniGame> minigames = this.minigameManager.getMiniGameList();
+		if (!minigames.isEmpty()) {
+			minigames.get(0).getDataManager().getData().keySet().forEach(key -> candidates.add(key));
+		}
 	}
 
 }

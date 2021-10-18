@@ -53,4 +53,8 @@ public class Utils {
 	public static File getMiniGamesFolder() {
 		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameDataManager.FOLDER_NAME);
 	}
+
+	public static boolean checkPerm(Player p, String permission) {
+		return p.hasPermission("minigameworld." + permission);
+	}
 }
