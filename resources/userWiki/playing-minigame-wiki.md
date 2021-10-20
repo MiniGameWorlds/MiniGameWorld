@@ -1,6 +1,6 @@
 # Description
 - This document describe how to use MiniGameWorld pluin in your server
-
+- Plugin works with `spigot`, `paper` bukkit
 
 
 # How to apply

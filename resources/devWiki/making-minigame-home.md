@@ -14,11 +14,11 @@
 
 
 # How to set Dev Environment
-- [Paper]: Minecraft bukkit
+- [Spigot] or [Paper]: Minecraft bukkit
 - [MiniGameWorld]: MiniGame Framework
 - [wbmMC]: Minecraft util library
-- Add build path libs
-- add `[MiniGameWorld]` to `depend` section in `plugin.yml`
+- Add build path jars
+- Add `[MiniGameWorld]` to `depend` section in `plugin.yml`
 
 
 
@@ -31,6 +31,7 @@
 
 
 
+[Spigot]: https://getbukkit.org/download/spigot
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC/releases

@@ -1,5 +1,4 @@
 # TODO
-- Fix `classgraph` for add classpath with `spigot` or `paper`
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
@@ -372,8 +371,8 @@ if(!this.isMinPlayersLive()) {
 - Release `0.1.0`
 - Remove `UpDown` minigame (require paper bukkit)
 - **Change all things to fit with `spigot` bukkit**
-- Change dev bukkit to `spigot` from `paper`
-
+- Change dev bukkit to `spigot` from `paper` (+ fixed `classgraph`)
+- Release `0.1.1`
 
 
 
