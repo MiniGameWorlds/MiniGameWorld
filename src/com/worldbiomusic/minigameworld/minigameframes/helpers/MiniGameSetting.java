@@ -11,87 +11,87 @@ import org.bukkit.Material;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameSetting {
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: minigame title, must be no blank in title
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: minigame title, must be no blank in title
 	 */
 	private String title;
 
-	/*
-	 * file control: O
-	 * init value: new Location(Bukkit.getWorld("world"), 0, 4, 0)
-	 * description: minigame playing location
+	/**
+	 * - File control: O
+	 * - Init value: new Location(Bukkit.getWorld("world"), 0, 4, 0)
+	 * - Description: minigame playing location
 	 */
 	private Location location;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: min participating players
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: min participating players
 	 */
 	private int minPlayerCount;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: max participating players
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: max participating players
 	 */
 	private int maxPlayerCount;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: waiting time for starting (sec)
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: waiting time for starting (sec)
 	 */
 	private int waitingTime;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: minigame running time (sec)
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: minigame running time (sec)
 	 */
 	private int timeLimit;
 
-	/*
-	 * file control: O
-	 * init value: true
-	 * description: whether minigame is active or not 
+	/**
+	 * - File control: O
+	 * - Init value: true
+	 * - Description: whether minigame is active or not 
 	 */
 	private boolean active;
 
-	/*
-	 * file control: X
-	 * init value: false
-	 * description: option for specific MiniGameSettings fix 
+	/**
+	 * - File control: X
+	 * - Init value: false
+	 * - Description: option for specific MiniGameSettings fix 
 	 */
 	private boolean settingFixed;
 
-	/*
-	 * file control: O
-	 * init value: none
-	 * description: tutorial
+	/**
+	 * - File control: O
+	 * - Init value: none
+	 * - Description: tutorial
 	 */
 	private List<String> tutorial;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: custom data
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: custom data
 	 */
 	private Map<String, Object> customData;
 
-	/*
-	 * file control: O
-	 * init value: setup value
-	 * description: icon item for GUI inventory
+	/**
+	 * - File control: O
+	 * - Init value: setup value
+	 * - Description: icon item for GUI inventory
 	 */
 	private Material icon;
 
-	/*
-	 * file control: X
-	 * init value: setup value
-	 * description: whether get all event without filtering player
+	/**
+	 * - File control: X
+	 * - Init value: setup value
+	 * - Description: whether get all event without filtering player
 	 */
 	private boolean passUndetectableEvent;
 
@@ -99,10 +99,10 @@ public class MiniGameSetting {
 		ASCENDING, DESCENDING;
 	}
 
-	/*
-	 * file control: X
-	 * init value: setup value
-	 * description: rank order
+	/**
+	 * - File control: X
+	 * - Init value: setup value
+	 * - Description: rank order
 	 */
 	private RankOrder rankOrder;
 
@@ -126,9 +126,9 @@ public class MiniGameSetting {
 	}
 
 	/**
-	 * file control: X<br>
-	 * init value: setup value<br>
-	 * description: Checked in "handleException()"
+	 * - File control: X<br>
+	 * - Init value: setup value<br>
+	 * - Description: Checked in "handleException()"
 	 */
 	private GameFinishCondition gameFinishCondition;
 

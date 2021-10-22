@@ -13,13 +13,42 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
+/**
+ * Below custom options are created in `custom-data` section by default
+ */
 public class MiniGameCustomOption {
-	/*
-	 * All options saved in "custom-data" section
-	 */
 	public enum Option {
-		CHATTING("chatting"), SCORE_NOTIFYING("score-notifying"), BLOCK_BREAK("block-break"),
-		BLOCK_PLACE("block-place"), PVP("pvp"), PVE("pve"), INVENTORY_SAVE("inventory-save"),
+		/**
+		 * Init: true
+		 */
+		CHATTING("chatting"),
+		/**
+		 * Init: true
+		 */
+		SCORE_NOTIFYING("score-notifying"),
+		/**
+		 * Init: false
+		 */
+		BLOCK_BREAK("block-break"),
+		/**
+		 * Init: false
+		 */
+		BLOCK_PLACE("block-place"),
+		/**
+		 * Init: false
+		 */
+		PVP("pvp"),
+		/**
+		 * Init: true
+		 */
+		PVE("pve"),
+		/**
+		 * Init: true
+		 */
+		INVENTORY_SAVE("inventory-save"),
+		/**
+		 * Init: true
+		 */
 		MINIGAME_RESPAWN("minigame-respawn");
 
 		private String keyString;
@@ -65,6 +94,10 @@ public class MiniGameCustomOption {
 		return this.getOptionData(option.getKeyString());
 	}
 
+	/**
+	 * Process event related with custom option before pass to a minigame<br>
+	 * @param event Event to set cancel or not with options
+	 */
 	public void processEvent(Event event) {
 		if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
@@ -140,7 +173,7 @@ public class MiniGameCustomOption {
 
 				// remove drops
 				e.getDrops().clear();
-			}else {
+			} else {
 				e.setKeepInventory(false);
 			}
 		} else if (event instanceof PlayerRespawnEvent) {
