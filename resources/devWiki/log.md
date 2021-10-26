@@ -1,10 +1,12 @@
 # TODO
+- Advertise with images
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` icon to Menu
 - Add `bossbar`, `Scoreboard` to minigame (also managed in PlayerState) (manage in setting.yml)
 - Write javadoc
+- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld` (API change)
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -374,6 +376,7 @@ if(!this.isMinPlayersLive()) {
 - Change dev bukkit to `spigot` from `paper` (+ fixed `classgraph`)
 - Release `0.1.1`
 
-
+# 2021-10-26
+- Make new dev tutorial video
 
 

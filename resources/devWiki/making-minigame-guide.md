@@ -1,10 +1,10 @@
 # Description
-- Make minigame with [API] document
+- Make a minigame with [API] docs
 
 
 
 # Tutorial
-<a href="https://youtu.be/hMLBDydXo_E">
+<a href="https://www.youtube.com/watch?v=ibilvmzcdzs&list=PLOyhTkb3nnYbBtEdS38nkIpyU8RM-pEZd&index=1">
 <img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
 </a>
 
@@ -17,21 +17,14 @@
 
 
 ## 2. Create class
-### Essential overriding methods
-- `initGameSetting()`: executed every time when minigame starts
-- `processEvent()`: executed when event is passed to minigame
-- `registerTutorial()`: tutorial string
+- Select a minigame frame
 
-### Frame class
-- Select with minigame features
-#### `SoloMiniGame`
-- Solo play
-##### Examples
+### `SoloMiniGame`
+- _Solo play_
 - [FitTool](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/FitTool.java)
 
-#### `SoloBattleMiniGame`
-- Individual battle play
-##### Examples
+### `SoloBattleMiniGame`
+- _Individual battle play_
 - [FallingBlock](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/FallingBlock.java)
 - [PVP](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PVP.java)
 - [RandomScore](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/RandomScore.java)
@@ -39,25 +32,30 @@
 - [ScoreClimbing](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/ScoreClimbing.java)
 - [SuperMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/SuperMob.java)
 
-#### `TeamMiniGame`
-- Cooperative play
-##### Examples
+### `TeamMiniGame`
+- _Cooperative play_
 - [BreedMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/BreedMob.java)
 - [RemoveBlock](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/RemoveBlock.java)
 
-#### `TeamBattleMiniGame`
-- Team battle play
-##### Examples
+### `TeamBattleMiniGame`
+- _Team battle play_
 - [HiddenArcher](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/HiddenArcher.java)
 - [MoreHit](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/MoreHit.java)
 - [PassMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PassMob.java)
 
 
-## 3. Set [Options](#Options)
+## 3. Override Essential methods
+- `initGameSetting()`: executed every time when minigame starts
+- `processEvent()`: executed when event is passed to minigame
+- `registerTutorial()`: tutorial string
+
+
+## 4. Set [Options](#Options)
 - Can set various options for minigame
 - You must check [custom options](#--minigamecustomoption)
 
-## 4.Register MiniGame
+
+## 5.Register MiniGame
 - Register MiniGame with registerMiniGame() of MiniGameWorld.create()
 ```java
 MiniGameWorld mw = MiniGameWorld.create();
@@ -68,7 +66,7 @@ mw.registerMiniGame(new FitTool());
 
 # Options
 ## - MiniGameSetting
-- Fundamental settings of minigame
+- Fundamental settings of minigame (See api doc for Init value)
 - `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
 - `passUndetectableEvent`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
 - `rankOrder`: rank order method by score
@@ -84,15 +82,15 @@ public PassMob() {
 ```
 
 ## - MiniGameCustomOption
-- All custom options are in `custom-data` section
-- `CHATTING`: whether chat event cancel (default: `true`)
-- `SCORE_NOTIFYING`: whether notify score change (default: `true`)
-- `BLOCK_BREAK`: whether player can break block (default: `false`)
-- `BLOCK_PLACE`: whether player can place block (default: `false`)
-- `PVP`: whether players can pvp (default: `false`)
-- `PVE`: whether players can damage entity (not player) (default: `true`)
-- `INVENTORY_SAVE`: whether inventory save (default: `true`)
-- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location (default: `true`)
+- Below custom options are created in `custom-data` section by default (See api doc for Init value)
+- `CHATTING`: whether chat event cancel
+- `SCORE_NOTIFYING`: whether notify score change
+- `BLOCK_BREAK`: whether player can break block
+- `BLOCK_PLACE`: whether player can place block
+- `PVP`: whether players can pvp
+- `PVE`: whether players can damage entity (not player)
+- `INVENTORY_SAVE`: whether inventory save
+- `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
 ### How to use
 ```java
 public PassMob() {
@@ -135,10 +133,37 @@ protected void processEvent(Event event) {
 
 ## - Exception handling
 - GameException: `PLAYER_QUIT_SERVER`, `CUSTOM`
-- Use `handleException()` with overriding
+- Use `handleGameException()` with overriding
 - Related player must leave the minigame
 
+### How to handle exception
+```java
+@Override
+protected void handleGameException(Player p, Exception exception) {
+	super.handleGameException(p, exception);
 
+	if (exception == Exception.PLAYER_QUIT_SERVER) {
+		// handle exception
+	} else if (exception == Exception.CUSTOM) {
+		String reason = exception.getDetailedReason();
+		Object obj = exception.getDetailedObj();
+
+		// handle exception
+
+	}
+}
+```
+
+### How to create exception
+```java
+public void createServerEvent(Player p) {
+	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
+	ex.setDetailedReason("SERVER_EVENT_TIME");
+	ex.setDetailedObj(something);
+ 	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+  	mw.createException(p, ex);
+ }
+```
 
 ## - Custom Data
 - Minigame Developer can add custom data
@@ -168,7 +193,7 @@ protected void loadCustomData() {
 }
 ```
 
-## - Reservation Task
+## - Task Reservation
 - `runTaskAfterStart()`: executed after minigame started
 - `runTaskBeforeFinish()`: executed before minigame finishes
 - `runTaskAfterFinish()`: executed after minigame finished

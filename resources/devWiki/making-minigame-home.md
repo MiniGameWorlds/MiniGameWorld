@@ -1,5 +1,5 @@
 # Description
-- This doucment describe how to make `Minigame plugin`, `Third-Party plugin`
+- This doucment describes how to make a `Minigame`, `Third-Party` plugin
 - About MiniGameWorld plugin's structure: [MiniGameWorld]
 
 
