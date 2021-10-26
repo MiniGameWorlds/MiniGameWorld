@@ -85,7 +85,7 @@ public class MiniGameWorld {
 			return true;
 		}
 		// MINER, MAJOR or null
-		Utils.debug("Version not matched");
+		Utils.debug("Version not matched (Try version: " + version + ")");
 		return false;
 	}
 

@@ -16,9 +16,8 @@
 
 # Version Changes
 ## Next API
-- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld`
+
 ## Next Build
-- Fix console color bugs
 
 ## 0.0.1
 ### API Changes
@@ -38,6 +37,12 @@
 
 ### Build Changes
 - **Change all things to fit with `spigot` bukkit**
+
+## 0.2.0
+## API Changes
+- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld`
+## Build Changes
+- Fix console color bugs
 
 ---
 
@@ -380,8 +385,8 @@ if(!this.isMinPlayersLive()) {
 - Devide to not add `bossbar`, `Scoreboard` to minigame, because almost servers are using own `bossbar`, `Scoreboard`, so may conflict with them
 - Fix console color bugs
 - Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld` (API change)
-
-
+- Notify total score when score is changed
+- Release `0.2.0`
 
 
 

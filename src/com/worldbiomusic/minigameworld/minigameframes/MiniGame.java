@@ -906,10 +906,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param amount Score amount
 	 */
 	protected void plusScore(Player p, int amount) {
-		this.getPlayerData(p).plusScore(amount);
+		MiniGamePlayerData pData = this.getPlayerData(p);
+		pData.plusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
-			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.RESET + amount);
+			String totalScore = " (" + ChatColor.GOLD + pData.getScore() + ChatColor.RESET + ")";
+			this.sendMessage(p, ChatColor.GREEN + "+" + ChatColor.RESET + amount + totalScore);
 		}
 	}
 
@@ -929,10 +931,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param amount Score amount
 	 */
 	protected void minusScore(Player p, int amount) {
-		this.getPlayerData(p).minusScore(amount);
+		MiniGamePlayerData pData = this.getPlayerData(p);
+		pData.minusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
-			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.RESET + amount);
+			String totalScore = " (" + ChatColor.GOLD + pData.getScore() + ChatColor.RESET + ")";
+			this.sendMessage(p, ChatColor.RED + "-" + ChatColor.RESET + amount + totalScore);
 		}
 	}
 

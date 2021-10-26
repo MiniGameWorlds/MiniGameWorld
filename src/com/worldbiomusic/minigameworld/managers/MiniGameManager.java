@@ -259,7 +259,7 @@ public class MiniGameManager implements YamlMember {
 		// add
 		this.minigames.add(newGame);
 
-		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.WHITE
+		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.RESET
 				+ " minigame is registered");
 		return true;
 	}

@@ -44,7 +44,7 @@
 - [PassMob](https://github.com/worldbiomusic/MiniGameWorld/blob/main/src/com/worldbiomusic/minigameworld/minigameframes/games/PassMob.java)
 
 
-## 3. Override Essential methods
+## 3. Essential methods
 - `initGameSetting()`: executed every time when minigame starts
 - `processEvent()`: executed when event is passed to minigame
 - `registerTutorial()`: tutorial string
@@ -52,7 +52,7 @@
 
 ## 4. Set [Options](#Options)
 - Can set various options for minigame
-- You must check [custom options](#--minigamecustomoption)
+- You must check [custom options](#--minigamecustomoption) for your minigame environment
 
 
 ## 5.Register MiniGame
