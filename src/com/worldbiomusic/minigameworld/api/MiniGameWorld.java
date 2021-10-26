@@ -126,8 +126,8 @@ public class MiniGameWorld {
 	 * @param p         Playing minigame player
 	 * @param exception Exception to send
 	 */
-	public void handleException(Player p, MiniGame.Exception exception) {
-		this.minigameManager.handleException(p, exception);
+	public void createException(Player p, MiniGame.Exception exception) {
+		this.minigameManager.createException(p, exception);
 	}
 
 	/**

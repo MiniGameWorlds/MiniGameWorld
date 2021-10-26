@@ -4,9 +4,8 @@
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` icon to Menu
-- Add `bossbar`, `Scoreboard` to minigame (also managed in PlayerState) (manage in setting.yml)
 - Write javadoc
-- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld` (API change)
+
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -17,9 +16,9 @@
 
 # Version Changes
 ## Next API
-
+- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld`
 ## Next Build
-
+- Fix console color bugs
 
 ## 0.0.1
 ### API Changes
@@ -378,5 +377,28 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-10-26
 - Make new dev tutorial video
+- Devide to not add `bossbar`, `Scoreboard` to minigame, because almost servers are using own `bossbar`, `Scoreboard`, so may conflict with them
+- Fix console color bugs
+- Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld` (API change)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

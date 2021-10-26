@@ -122,7 +122,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Executed when Minigame exception created
+	 * Executed when Minigame exception created<br>
+	 * {@link Exception}
 	 */
 	protected void handleGameException(Player p, Exception exception) {
 	}
@@ -597,7 +598,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
 	 * 	ex.setDetailedReason("SERVER_EVENT_TIME");
 	 * 	MiniGameWorld mw = MiniGameWorld.create("1.x.x");
-	 * 	mw.handleException(p, ex, null);
+	 * 	mw.handleException(p, ex);
 	 * }
 	 * </pre>
 	 * 

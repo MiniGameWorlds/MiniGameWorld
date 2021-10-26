@@ -1,9 +1,9 @@
 package com.worldbiomusic.minigameworld.util;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
@@ -16,7 +16,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class Utils {
 	public static String messagePrefix = "MiniGameWorld";
 	static MiniGameWorldMain main = MiniGameWorldMain.getInstance();
-	static Logger logger = main.getLogger();
+//	static Logger logger = main.getLogger();
+	static ConsoleCommandSender sender = main.getServer().getConsoleSender();
 
 	private static String getMessagePrefixString() {
 		return "[" + messagePrefix + "] ";
@@ -33,11 +34,11 @@ public class Utils {
 	}
 
 	public static void info(String msg) {
-		logger.info(msg);
+		sender.sendMessage(getMessagePrefixString() + msg);
 	}
 
 	public static void warning(String msg) {
-		logger.warning(msg);
+		sender.sendMessage(ChatColor.YELLOW + getMessagePrefixString() + msg);
 	}
 
 	public static void debug(String msg) {

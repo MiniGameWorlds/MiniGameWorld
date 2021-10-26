@@ -161,7 +161,7 @@ public class CommonEventListener implements Listener {
 		MiniGame.Exception exception = MiniGame.Exception.PLAYER_QUIT_SERVER;
 		exception.setDetailedObj(e);
 
-		this.minigameManager.handleException(p, exception);
+		this.minigameManager.createException(p, exception);
 	}
 
 	/*
