@@ -12,7 +12,11 @@
 - Add detailed event while searching
 ```
 
+
+
 ---
+
+
 
 # Version Changes
 ## Next API
@@ -34,7 +38,6 @@
 
 ## 0.1.1
 ### API Changes
-
 ### Build Changes
 - **Change all things to fit with `spigot` bukkit**
 
@@ -43,8 +46,13 @@
 - Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld`
 ## Build Changes
 - Fix console color bugs
+- Notify total score when score is changed
+
+
 
 ---
+
+
 
 # 2020-10 ~ 2021-03
 - See `Relay Escape Plugin` log (separate minigame module from `Relay Escape` server)

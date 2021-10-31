@@ -1,16 +1,14 @@
-<img src="resources/logo.png" width=30%></img>
-
 # MiniGameWorld
-- Minecraft MiniGame Framework
+Minecraft MiniGame Framework  
 
 
 
 # Wiki
-- [User Wiki](resources/userWiki/Home.md)
-- [Dev Wiki](resources/devWiki/Home.md)
+<a href="resources/userWiki/Home.md"><img src="resources/imgs/user-wiki.png"></a>
+<a href="resources/devWiki/Home.md"><img src="resources/imgs/dev-wiki.png"></a>
 
 
 
 # Community
-- [Github Community](https://github.com/worldbiomusic/MiniGameWorld/discussions)
-- [Discord](https://discord.com/invite/fJbxSy2EjA)
+<a href="https://discord.com/invite/fJbxSy2EjA"><img src="resources/imgs/Discord.png"></a>
+<a href="https://github.com/worldbiomusic/MiniGameWorld/discussions"><img src="resources/imgs/github-community.png"></a>
