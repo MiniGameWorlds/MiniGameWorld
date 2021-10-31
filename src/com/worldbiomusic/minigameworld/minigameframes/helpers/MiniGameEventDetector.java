@@ -17,7 +17,6 @@ import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.BlockReceiveGameEvent;
 import org.bukkit.event.block.BlockShearEntityEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -35,10 +34,6 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.bukkit.event.world.GenericGameEvent;
-import org.bukkit.event.world.LootGenerateEvent;
-import org.bukkit.event.world.PortalCreateEvent;
-import org.bukkit.event.world.WorldEvent;
 import org.bukkit.inventory.Inventory;
 
 /**
@@ -178,8 +173,6 @@ public class MiniGameEventDetector {
 			this.getPlayersFromEntityEvent((EntityEvent) event, eventPlayers);
 		} else if (event instanceof VehicleEvent) {
 			this.getPlayersFromVehicleEvent((VehicleEvent) event, eventPlayers);
-		} else if (event instanceof WorldEvent) {
-			this.getPlayersFromWorldEvent((WorldEvent) event, eventPlayers);
 		}
 
 		return !eventPlayers.isEmpty();
@@ -204,11 +197,6 @@ public class MiniGameEventDetector {
 			eventPlayers.add(((BlockIgniteEvent) event).getPlayer());
 		} else if (event instanceof BlockPlaceEvent) {
 			eventPlayers.add(((BlockPlaceEvent) event).getPlayer());
-		} else if (event instanceof BlockReceiveGameEvent) {
-			BlockReceiveGameEvent e = (BlockReceiveGameEvent) event;
-			if (e.getEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getEntity());
-			}
 		} else if (event instanceof BlockShearEntityEvent) {
 			BlockShearEntityEvent e = (BlockShearEntityEvent) event;
 			if (e.getEntity() instanceof Player) {
@@ -278,25 +266,6 @@ public class MiniGameEventDetector {
 			VehicleExitEvent e = (VehicleExitEvent) event;
 			if (e.getExited() instanceof Player) {
 				eventPlayers.add(((Player) e.getExited()));
-			}
-		}
-	}
-
-	private void getPlayersFromWorldEvent(WorldEvent event, List<Player> eventPlayers) {
-		if (event instanceof GenericGameEvent) {
-			GenericGameEvent e = (GenericGameEvent) event;
-			if (e.getEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getEntity());
-			}
-		} else if (event instanceof LootGenerateEvent) {
-			LootGenerateEvent e = (LootGenerateEvent) event;
-			if (e.getEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getEntity());
-			}
-		} else if (event instanceof PortalCreateEvent) {
-			PortalCreateEvent e = (PortalCreateEvent) event;
-			if (e.getEntity() instanceof Player) {
-				eventPlayers.add((Player) e.getEntity());
 			}
 		}
 	}
