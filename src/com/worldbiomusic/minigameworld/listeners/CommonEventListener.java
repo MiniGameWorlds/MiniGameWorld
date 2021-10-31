@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -189,12 +188,13 @@ public class CommonEventListener implements Listener {
 		if (block == null) {
 			return;
 		}
-		if (block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN) {
+		
+		if(block.getState() instanceof Sign) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
 				String minigame = lines[0];
-				String title = lines[0];
+				String title = lines[1];
 
 				// check minigameSign option
 				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
