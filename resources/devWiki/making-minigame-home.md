@@ -4,6 +4,15 @@
 
 
 
+# Guide
+## MiniGame
+- [making-minigame-guide](making-minigame-guide.md)
+
+## Third party plugin
+- [making-3rd-party-guide](making-3rd-party-guide.md)
+
+
+
 # API design
 <!-- <img src="api-design.png" width="49.5%"></img> -->
 ![](api-design.png)
@@ -22,12 +31,7 @@
 
 
 
-# How to make
-## MiniGame
-- [making-minigame-guide](making-minigame-guide.md)
 
-## Third party plugin
-- [making-3rd-party-guide](making-3rd-party-guide.md)
 
 
 

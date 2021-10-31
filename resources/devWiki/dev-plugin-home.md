@@ -1,15 +1,14 @@
 # Desciprion
-- Wiki for develop `MiniGameWorld`
-- Documents of `design` and `operation` of plugin
+- Development wiki for `MiniGameWorld`
+- Documents of `design` and `operation`
 
 # Link
 - [Info]
 - [Structure]
-- [Ad](ad.md)
-
-# Log
+- [Ad]
 - [Log]
 
 [Info]: plugin-info.md
 [Structure]: plugin-design.md
 [Log]: log.md
+[Ad]: ad.md

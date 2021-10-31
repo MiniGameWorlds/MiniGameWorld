@@ -3,12 +3,12 @@
 
 # Development environment
 - Window 10
-- Eclipse 2021-03
+- Eclipse
 - Git / Github
 - JDK 16
 
 # Library dependencies
-- [Paper]: Lastest version
+- [Spigot]: Minecraft server software
 - [wbmMC]: Minecraft util library
 - [classgraph]: Using for register all `Event` handlers
 
@@ -16,22 +16,27 @@
 ## With Maven
 - Download `shade` plugin
 - Run `mvn package` (uses `shade` plugin)
-### Paper
+### Spigot
 - Add repository, dependency
 ```xml
 <!-- repository -->
-<repository>
-    <id>papermc</id>
-    <url>https://papermc.io/repo/repository/maven-public/</url>
-</repository>
+<repositories>
+    <!-- This adds the Spigot Maven repository to the build -->
+    <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+</repositories>
 
-<!-- dependency -->
-<dependency>
-    <groupId>com.destroystokyo.paper</groupId>
-    <artifactId>paper-api</artifactId>
-    <version> "version" </version>
-    <scope>provided</scope>
-</dependency>
+<dependencies>
+    <!--This adds the Spigot API artifact to the build -->
+    <dependency>
+           <groupId>org.spigotmc</groupId>
+           <artifactId>spigot-api</artifactId>
+           <version>1.17.1-R0.1-SNAPSHOT</version>
+           <scope>provided</scope>
+    </dependency>
+</dependencies>
 ```
 
 ### wbmMC
@@ -58,7 +63,7 @@ Class-Path: . libs/classgraph.jar
 ```
 - Build jar with `MANIFEST.MF` setting
 
-### Paper
+### Spigot
 - Add build path
 
 ### WbmMC
@@ -76,7 +81,7 @@ Class-Path: . libs/classgraph.jar
 - Download `fat-jar` plugin
 - Export to `fat-jar` plugin with `classgraph`
 
-### Paper
+### Spigot
 - Add build path
 
 ### WbmMC
@@ -102,10 +107,10 @@ Class-Path: . libs/classgraph.jar
 
 ## With Fat-Jar
 1. Develop
-2. Export to `fat-jar` plugin with `classgraph`
+2. Export to `fat-jar` plugin with only `classgraph`
 3. Start server
 
 
-[Paper]: https://papermc.io/
+[Spigot]: https://getbukkit.org/download/spigot
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
 [classgraph]: https://github.com/classgraph/classgraph

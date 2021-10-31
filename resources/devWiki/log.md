@@ -1,6 +1,5 @@
 # TODO
 - Edit wiki (event detecting list)
-- Edit wiki (minigame examples in making a minigame wiki)
 - Add `Tested Minecraft Versions` to MiniGame distribute template in Github discussion
 - Advertise with images
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
@@ -9,11 +8,7 @@
 - Add `party` icon to Menu
 - Write javadoc
 - Update checker
-##### Event Detection
-```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
-- Add detailed event while searching
-```
 
 
 
@@ -46,15 +41,15 @@
 - **Change all things to fit with `spigot` bukkit**
 
 ## 0.2.0
-## API Changes
+### API Changes
 - Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld`
-## Build Changes
+### Build Changes
 - Fix console color bugs
 - Notify total score when score is changed
 
 ## 0.2.1
-## API Changes
-## Build Changes
+### API Changes
+### Build Changes
 - Test minecraft versions: `1.14`, `1.15`, `1.16`, `1.17` (not compatable with `1.12`, `1.13` for resource(`Material`, `Sound`))
 - Minimize Detailed MiniGame Event Detecting range
 - Fix sign block join bug
@@ -419,7 +414,9 @@ if(!this.isMinPlayersLive()) {
 - Release `0.2.1`
 - Update `wbmMC`
 
-
+# 2021-11-01
+- Create github organization
+- Edit wiki (minigame examples in making a minigame wiki)
 
 
 
