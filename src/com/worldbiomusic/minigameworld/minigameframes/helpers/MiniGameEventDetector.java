@@ -57,7 +57,6 @@ import org.bukkit.inventory.Inventory;
  * - BlockEvent<br>
  * - EntityEvent<br>
  * - VehicleEvent<br>
- * - UnknownCommandEvent<br>
  */
 public class MiniGameEventDetector {
 	/**

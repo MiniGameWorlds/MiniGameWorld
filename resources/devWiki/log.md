@@ -1,11 +1,14 @@
 # TODO
+- Edit wiki (event detecting list)
+- Edit wiki (minigame examples in making a minigame wiki)
+- Add `Tested Minecraft Versions` to MiniGame distribute template in Github discussion
 - Advertise with images
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Add `party` icon to Menu
 - Write javadoc
-
+- Update checker
 ##### Event Detection
 ```
 - Try to use other library, not `classgraph` (e.g. [reflections]())
@@ -22,6 +25,7 @@
 ## Next API
 
 ## Next Build
+
 
 ## 0.0.1
 ### API Changes
@@ -47,6 +51,15 @@
 ## Build Changes
 - Fix console color bugs
 - Notify total score when score is changed
+
+## 0.2.1
+## API Changes
+## Build Changes
+- Test minecraft versions: `1.14`, `1.15`, `1.16`, `1.17` (not compatable with `1.12`, `1.13` for resource(`Material`, `Sound`))
+- Minimize Detailed MiniGame Event Detecting range
+- Fix sign block join bug
+- Change all sign blocks can be used when join a minigame
+- Update `wbmMC` library
 
 
 
@@ -395,6 +408,17 @@ if(!this.isMinPlayersLive()) {
 - Change method name to `createException()` from `handleException()` in `MiniGameManager`, `MiniGameWorld` (API change)
 - Notify total score when score is changed
 - Release `0.2.0`
+
+# 2021-10-31
+- Remove inner minigames
+- Test minecraft versions: `1.14`, `1.15`, `1.16`, `1.17` (not compatable with `1.12`, `1.13` for resource(`Material`, `Sound`))
+- Change `api-version` of plugin.yml to `1.14`
+- Minimize MiniGame Event Detecting range
+- Fix sign block join bug
+- Change all sign blocks can be used when join a minigame
+- Release `0.2.1`
+- Update `wbmMC`
+
 
 
 

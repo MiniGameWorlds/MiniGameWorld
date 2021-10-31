@@ -97,10 +97,13 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void processRemainedPlayersWhenServerStop() {
-		// [PROBLEM] other .jar minigames instance already put down from JVM, so games
-		// class are not found
-		// See: {@link MiniGameManager#checkPluginStartToBeDisabled}
-//		this.minigameManager.getMiniGameList().forEach(game -> game.finishGame());
+		/**
+		 * [PROBLEM] other .jar minigames instance already put down from JVM, so games
+		 * class are not found <br>
+		 * See: {@link MiniGameManager#checkPluginStartToBeDisabled}
+		 * 
+		 * this.minigameManager.getMiniGameList().forEach(game -> game.finishGame());
+		 */
 
 		// process player quit work
 		Bukkit.getOnlinePlayers().forEach(p -> minigameManager.processPlayerQuitWorks(p));
