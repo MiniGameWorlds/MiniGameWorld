@@ -1,5 +1,7 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -14,42 +16,68 @@ import org.bukkit.projectiles.ProjectileSource;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
- * Below custom options are created in `custom-data` section by default
+ * Below custom options are created in `custom-data` section by default<br>
+ * Must serialize/deserialize value of each options in get(), set() method<br>
  */
 public class MiniGameCustomOption {
+
 	public enum Option {
 		/**
-		 * Init: true
+		 * Init: true<br>
+		 * Description: Chatting in minigame with players
 		 */
 		CHATTING("chatting"),
 		/**
-		 * Init: true
+		 * Init: true<br>
+		 * Description: Notify changed score
 		 */
 		SCORE_NOTIFYING("score-notifying"),
 		/**
-		 * Init: false
+		 * Init: false<br>
+		 * Description: Can break block if true
 		 */
 		BLOCK_BREAK("block-break"),
 		/**
-		 * Init: false
+		 * Init: false<br>
+		 * Description: Can place block if true
 		 */
 		BLOCK_PLACE("block-place"),
 		/**
-		 * Init: false
+		 * Init: false<br>
+		 * Description: Player can be hit by other player if true (contains damage by
+		 * projectile)
 		 */
 		PVP("pvp"),
 		/**
-		 * Init: true
+		 * Init: true<br>
+		 * Description: Player can be hit by other entitys, not by a player
 		 */
 		PVE("pve"),
 		/**
-		 * Init: true
+		 * Init: true<br>
+		 * Description: Not drops items when die if true
 		 */
 		INVENTORY_SAVE("inventory-save"),
 		/**
-		 * Init: true
+		 * Init: true<br>
+		 * Description: Will Respawn in location of minigame if true
 		 */
-		MINIGAME_RESPAWN("minigame-respawn");
+		MINIGAME_RESPAWN("minigame-respawn"),
+		/**
+		 * Init: Survival<br>
+		 * Description: GameMode when a player join minigame
+		 */
+		LIVE_GAMEMODE("live-gamemode"),
+		/**
+		 * Init: Spectator<br>
+		 * Description: GameMode when a player die {@codesetLive(false)}
+		 */
+		DEAD_GAMEMODE("dead-gamemode"),
+		/**
+		 * Init: RESET<br>
+		 * Description: MiniGame personal color
+		 */
+		COLOR("color");
 
 		private String keyString;
 
@@ -76,6 +104,11 @@ public class MiniGameCustomOption {
 		this.set(Option.PVE, true);
 		this.set(Option.INVENTORY_SAVE, true);
 		this.set(Option.MINIGAME_RESPAWN, true);
+		// used in MiniGamePlayerData, MiniGamePlayerState(makePureState())
+		this.set(Option.LIVE_GAMEMODE, GameMode.SURVIVAL);
+		// used in MiniGamePlayerData
+		this.set(Option.DEAD_GAMEMODE, GameMode.SPECTATOR);
+		this.set(Option.COLOR, ChatColor.RESET);
 	}
 
 	private void setOptionData(String option, Object data) {
@@ -87,15 +120,31 @@ public class MiniGameCustomOption {
 	}
 
 	public void set(Option option, Object value) {
+		// Serialize enum type to String
+		if (value instanceof Enum) {
+			value = ((Enum<?>) value).name();
+		}
 		this.setOptionData(option.getKeyString(), value);
 	}
 
 	public Object get(Option option) {
-		return this.getOptionData(option.getKeyString());
+		Object object = this.getOptionData(option.getKeyString());
+
+		// Deserialize string with fit type
+		switch (option) {
+		case LIVE_GAMEMODE:
+		case DEAD_GAMEMODE:
+			return GameMode.valueOf((String) object);
+		case COLOR:
+			return ChatColor.valueOf((String) object);
+		default:
+			return object;
+		}
 	}
 
 	/**
 	 * Process event related with custom option before pass to a minigame<br>
+	 * 
 	 * @param event Event to set cancel or not with options
 	 */
 	public void processEvent(Event event) {

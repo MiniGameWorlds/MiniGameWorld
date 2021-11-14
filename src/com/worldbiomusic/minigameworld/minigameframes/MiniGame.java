@@ -34,8 +34,8 @@ import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * <b>MiniGame class of all minigames</b> <br>
- * - Custom minigame frame can be made with extending this class - Message only
- * send to same minigame players
+ * - Custom minigame frame can be made with extending this class<br>
+ * - Message only send to same minigame players <br>
  */
 public abstract class MiniGame implements MiniGameEventNotifier {
 
@@ -99,7 +99,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	protected abstract List<String> registerTutorial();
 
-	// not necessary
+	// Not necessary
 	// protected void runTaskBeforeStart() {
 	// };
 
@@ -289,12 +289,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public final boolean joinGame(Player p) {
 		if (!this.isActive()) {
-			this.sendMessage(p, "game is not active");
+			this.sendMessage(p, "Minigame is not active");
 			return false;
 		}
 
 		if (this.started) {
-			this.sendMessage(p, "already started");
+			this.sendMessage(p, "Already started");
 			return false;
 		}
 
@@ -356,7 +356,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 
 		// send message everyone
-		Utils.broadcast(p.getName() + " leaved " + this.getTitle());
+		Utils.broadcast(p.getName() + " leaved " + this.getColoredTitle());
 
 		this.setupPlayerLeavingSettings(p, "Before start");
 
@@ -378,7 +378,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		if (reason != null) {
 			// notify other players to join the game
-			this.sendMessageToAllPlayers(p.getName() + " leaved " + this.getTitle() + "(Reason: " + reason + ")");
+			this.sendMessageToAllPlayers(
+					p.getName() + " leaved " + this.getColoredTitle() + "(Reason: " + reason + ")");
 		}
 
 		// setup player state
@@ -397,9 +398,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// print tutorial
 		this.printGameTutorial(p);
 
-		// notify other players to join the game
-		Utils.broadcast(p.getName() + " joined " + this.getTitle());
-//		this.sendMessageToAllPlayers(p.getName() + " joined " + this.getTitle());
+		// notify all players to join the game
+		Utils.broadcast(p.getName() + " joined " + this.getColoredTitle());
 	}
 
 	/**
@@ -409,9 +409,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void printGameTutorial(Player p) {
 		p.sendMessage("");
-		p.sendMessage("=================================");
-		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + this.getTitle() + ChatColor.RESET);
-		p.sendMessage("=================================");
+		p.sendMessage(ChatColor.GREEN + "=================================");
+		p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
 
 		// print rule
 		p.sendMessage("\n" + ChatColor.BOLD + "[Rule]");
@@ -423,6 +422,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 				p.sendMessage("- " + msg);
 			}
 		}
+
+		p.sendMessage(ChatColor.GREEN + "=================================");
 	}
 
 	/**
@@ -539,9 +540,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		for (Player p : this.getPlayers()) {
 			// break line
 			p.sendMessage("");
-			p.sendMessage("=================================");
-			p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + this.getTitle() + ChatColor.RESET);
-			p.sendMessage("=================================");
+			p.sendMessage(ChatColor.RED + "=================================");
+			p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
+			p.sendMessage("");
 		}
 
 		// send finish title
@@ -549,6 +550,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// print score
 		printScore();
+
+		this.getPlayers().forEach(p -> p.sendMessage(ChatColor.RED + "================================="));
 	}
 
 	/**
@@ -792,7 +795,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void addPlayer(Player p) {
 		// register player (score: 0, live: true)
-		this.players.add(new MiniGamePlayerData(p));
+		this.players.add(new MiniGamePlayerData(this, p));
 	}
 
 	/**
@@ -813,7 +816,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param msg message
 	 */
 	public void sendMessage(Player p, String msg) {
-		p.sendMessage(ChatColor.BOLD + "[" + this.getTitle() + "] " + ChatColor.RESET + msg);
+		p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
 	}
 
 	/**
@@ -1022,6 +1025,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public String getTitle() {
 		return this.getSetting().getTitle();
+	}
+
+	/**
+	 * Shortcut method
+	 * 
+	 * @return Colored minigame title
+	 */
+	public String getColoredTitle() {
+		ChatColor minigameColor = (ChatColor) this.getCustomOption().get(Option.COLOR);
+		return minigameColor + this.getTitle() + ChatColor.RESET;
 	}
 
 	/**
