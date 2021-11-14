@@ -65,12 +65,15 @@ public class MiniGameCustomOption {
 		MINIGAME_RESPAWN("minigame-respawn"),
 		/**
 		 * Init: Survival<br>
-		 * Description: GameMode when a player join minigame
+		 * Description: GameMode when a player join minigame (used in
+		 * {@link MiniGamePlayerData#setLive(boolean)},
+		 * {@link MiniGamePlayerState#makePureState()})
 		 */
 		LIVE_GAMEMODE("live-gamemode"),
 		/**
 		 * Init: Spectator<br>
-		 * Description: GameMode when a player die {@codesetLive(false)}
+		 * Description: GameMode when a player die (used in
+		 * {@link MiniGamePlayerData#setLive(boolean)})
 		 */
 		DEAD_GAMEMODE("dead-gamemode"),
 		/**
