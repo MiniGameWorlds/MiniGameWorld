@@ -1,7 +1,7 @@
 # TODO
-- Edit wiki (event detecting list)
-- Add `Tested Minecraft Versions` to MiniGame distribute template in Github discussion
-- Advertise with images
+- Add `NotAliveGameMode` to MiniGameCustomOption
+- Add `GameMode` to MiniGameCustomOption
+- Add `color` to MiniGameCustomOption
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
@@ -418,10 +418,9 @@ if(!this.isMinPlayersLive()) {
 - Create github organization
 - Edit wiki (minigame examples in making a minigame wiki)
 
-
-
-
-
+# 2021-11-07
+- Edit wiki (event detecting list)
+- Add `Available Minecraft Versions` to MiniGame distribute template in Github discussion
 
 
 

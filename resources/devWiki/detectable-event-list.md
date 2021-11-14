@@ -8,35 +8,43 @@
 - InventoryEvent
 - InventoryMoveItemEvent
 - PlayerLeashEntityEvent
+- TabCompleteEvent
 
 ---
 
 # Detailed Events
 - Detect event which `Base Event` can't detect
-- Detect event when a player is not subject of the event
+- Detect event when a player is not a origin of the event, but a related entity
 
 ## List
 
-### BlockEvent
-- BellRingEvent
+### - BlockEvent
 - BlockBreakEvent
 - BlockDamageEvent
 - BlockDropItemEvent
 - BlockFertilizeEvent
 - BlockIgniteEvent
 - BlockPlaceEvent
-- BlockReceiveGameEvent
 - BlockShearEntityEvent
 - CauldronLevelChangeEvent
 - SignChangeEvent
-- TNTPrimeEvent
 
-### EntityEvent
+### - EntityEvent
+- EntityDeathEvent (When killer is a player)
+- EntityDamageByEntityEvent (When `damager` or `projectile shooter` is a player))
 
+### - VehicleEvent
+- VehicleDamageEvent
+- VehicleDestroyEvent
+- VehicleEnterEvent
+- VehicleExitEvent
 
+---
 
-
-
+# Other Events
+- You can process **all events** about your bukkit (`Spigot` or `Paper`) in `processEvent()` method in `MiniGame` class, if follow below rules
+- Must set `passUndetectableEvent` to true of `MiniGameSetting` to make minigame can process events other than `Detailed Events`
+- If you try to handle a player, you need to make sure that player is playing your minigame, because undetectable event will pass the event to the minigame without checking if the player is playing the minigmae
 
 
 
