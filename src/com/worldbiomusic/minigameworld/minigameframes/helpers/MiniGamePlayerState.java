@@ -10,20 +10,29 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class MiniGamePlayerState {
 	private Player player;
 	private Location joinedLocation;
 	private double healthScale;
-	private double health; // full
-	private int foodLevel; // full
-	private int level; // 0
-	private float exp; // 0
-	private ItemStack[] inv; // empty
-	private Collection<PotionEffect> potionEffects; // remove all
-	private boolean isGlowing; // false
-	private List<Player> canNotSeePlayers; // hide
-	private GameMode gameMode; // survival
+	private double health;
+	private int foodLevel;
+	private int level;
+	private float exp;
+	private ItemStack[] inv;
+	private Collection<PotionEffect> potionEffects;
+	private boolean isGlowing;
+	private List<Player> canNotSeePlayers;
+	private GameMode gameMode;
+//	private boolean visualFire; // After 1.17 API
+	private int fireTicks;
+//	private int freezeTicks; // After 1.17 API
+	private boolean invulnerable;
+	private boolean silent;
+	private boolean gravity;
 
 	public MiniGamePlayerState(Player player) {
 		this.player = player;
@@ -67,6 +76,18 @@ public class MiniGamePlayerState {
 
 		// gamemode
 		this.gameMode = this.player.getGameMode();
+
+		// fire ticks
+		this.fireTicks = this.player.getFireTicks();
+
+		// invulnerable
+		this.invulnerable = this.player.isInvulnerable();
+
+		// silent
+		this.silent = this.player.isSilent();
+
+		// gravity
+		this.gravity = this.player.hasGravity();
 	}
 
 	public void restorePlayerState() {
@@ -103,6 +124,18 @@ public class MiniGamePlayerState {
 
 		// gamemode
 		this.player.setGameMode(this.gameMode);
+
+		// fire ticks
+		this.player.setFireTicks(this.fireTicks);
+
+		// invulnerable
+		this.player.setInvulnerable(this.invulnerable);
+
+		// silent
+		this.player.setSilent(this.silent);
+
+		// gravity
+		this.player.setGravity(this.gravity);
 	}
 
 	public void makePureState() {
@@ -135,7 +168,22 @@ public class MiniGamePlayerState {
 		PlayerTool.unhidePlayerFromEveryone(this.player);
 
 		// gamemode
-		this.player.setGameMode(GameMode.SURVIVAL);
+		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
+		MiniGameAccessor minigame = mw.getPlayingMiniGame(this.player);
+		GameMode liveGameMode = (GameMode) minigame.getCustomOption(Option.LIVE_GAMEMODE);
+		this.player.setGameMode(liveGameMode);
+
+		// fire ticks
+		this.player.setFireTicks(0);
+
+		// invulnerable
+		this.player.setInvulnerable(false);
+
+		// silent
+		this.player.setSilent(false);
+
+		// gravity
+		this.player.setGravity(true);
 	}
 
 	@Override
