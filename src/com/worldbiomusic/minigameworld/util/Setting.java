@@ -20,7 +20,6 @@ public class Setting {
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
 //	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
 	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
-	public static final String SETTINGS_LOBBY = "lobby";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

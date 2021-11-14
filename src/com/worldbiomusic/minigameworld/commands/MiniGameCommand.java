@@ -12,6 +12,7 @@ import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameCommand implements CommandExecutor {
@@ -69,10 +70,15 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.miniGameMinigamesConfigCommand.minigames(p, args);
 			}
 		} catch (Exception e) {
+			if (Setting.DEBUG_MODE) {
+				e.printStackTrace();
+			}
 
+			// print usage
+			Utils.debug("help");
+			this.minigameHelpCommand.printHelp(p, args);
 		}
-		// print usage
-		this.minigameHelpCommand.printHelp(p, args);
+
 		return true;
 	}
 
@@ -80,7 +86,6 @@ public class MiniGameCommand implements CommandExecutor {
 		/*
 		 * minigame join <title>
 		 */
-
 		// check permission
 		if (!Utils.checkPerm(p, "play.join")) {
 			return true;

@@ -1,13 +1,13 @@
 # TODO
-- Add `NotAliveGameMode` to MiniGameCustomOption
-- Add `GameMode` to MiniGameCustomOption
-- Add `color` to MiniGameCustomOption
+- Add `party` icon to Menu
+- Update checker
+- Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
+- Notify player count when join a minigmae (with minimum count for start)
+- Add written java doc class list to wiki
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
-- Add `party` icon to Menu
 - Write javadoc
-- Update checker
 - Try to use other library, not `classgraph` (e.g. [reflections]())
 
 
@@ -36,7 +36,6 @@
 - Add permission nodes
 
 ## 0.1.1
-### API Changes
 ### Build Changes
 - **Change all things to fit with `spigot` bukkit**
 
@@ -48,7 +47,6 @@
 - Notify total score when score is changed
 
 ## 0.2.1
-### API Changes
 ### Build Changes
 - Test minecraft versions: `1.14`, `1.15`, `1.16`, `1.17` (not compatable with `1.12`, `1.13` for resource(`Material`, `Sound`))
 - Minimize Detailed MiniGame Event Detecting range
@@ -57,6 +55,11 @@
 - Update `wbmMC` library
 
 
+## 0.2.2
+### Build Changes
+- Manage `visual fire`, `fire tick`, `freeze tick`, `invulnerable`, `silent`, `gravity`  in MiniGamePlayerStateManager
+- Add `live GameMode`, `dead GameMode`, `color` to MiniGameCustomOption
+- Restore missed keys of minigame data(yml) automatically
 
 ---
 
@@ -423,12 +426,11 @@ if(!this.isMinPlayersLive()) {
 - Add `Available Minecraft Versions` to MiniGame distribute template in Github discussion
 
 
-
-
-
-
-
-
+# 2021-11-15
+- Manage `fire tick`,  `invulnerable`, `silent`, `gravity`, ~~`visual fire`~~(After 1.17), ~~`freeze tick`~~(After 1.17) in MiniGamePlayerStateManager
+- Add `LIVE_GAMEMODE`, `DEAD_GAMEMODE`, `COLOR` to MiniGameCustomOption
+- Restore missed keys of minigame data(yml) automatically
+- Release `0.2.2`
 
 
 

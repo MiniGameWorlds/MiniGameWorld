@@ -111,6 +111,16 @@ Class-Path: . libs/classgraph.jar
 3. Start server
 
 
+
+# **Must check before release**
+- Increase `minor` version(`#.x.#`), if api changed in `plugin.yml`
+- Increase `build` version(`#.#.x`), if api not changed in `plugin.yml`
+- Test all compatible versions (can compile test with changing `spigot-x.x.x.jar` build path)
+- Regenerate `javadoc`
+- Set `Setting.DEBUG_MODE` to `false`
+
+
+
 [Spigot]: https://getbukkit.org/download/spigot
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
 [classgraph]: https://github.com/classgraph/classgraph

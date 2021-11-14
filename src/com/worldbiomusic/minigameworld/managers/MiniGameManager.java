@@ -112,10 +112,9 @@ public class MiniGameManager implements YamlMember {
 			// join with party members who is not playing game
 			for (Player member : members) {
 				if (!this.isPlayingMiniGame(member)) {
+					// join
+					game.joinGame(member);
 				}
-
-				// join
-				game.joinGame(member);
 			}
 		} else {
 			Utils.sendMsg(p, "You already joined other minigame");
@@ -252,7 +251,7 @@ public class MiniGameManager implements YamlMember {
 		} else {
 			newGame.getDataManager().createMiniGameData();
 		}
-		
+
 		// save config directly for first load (data saved in config)
 		this.yamlManager.save(newGame.getDataManager());
 
