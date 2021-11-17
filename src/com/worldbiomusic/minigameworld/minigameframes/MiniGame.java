@@ -382,11 +382,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 					p.getName() + " leaved " + this.getColoredTitle() + "(Reason: " + reason + ")");
 		}
 
+		// remove player from minigame
+		// [IMPORTANT] Must called before "setupPlayerWhenLeave()" to block cycle event
+		// processing
+		this.removePlayer(p);
+
 		// setup player state
 		this.setupPlayerWhenLeave(p);
 
-		// remove player from minigame
-		this.removePlayer(p);
 	}
 
 	/**
@@ -909,6 +912,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param amount Score amount
 	 */
 	protected void plusScore(Player p, int amount) {
+		if (!containsPlayer(p)) {
+			return;
+		}
+
 		MiniGamePlayerData pData = this.getPlayerData(p);
 		pData.plusScore(amount);
 		// check scoreNotifying
@@ -934,6 +941,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param amount Score amount
 	 */
 	protected void minusScore(Player p, int amount) {
+		if (!containsPlayer(p)) {
+			return;
+		}
+
 		MiniGamePlayerData pData = this.getPlayerData(p);
 		pData.minusScore(amount);
 		// check scoreNotifying
@@ -959,6 +970,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param live False to mark death
 	 */
 	protected void setLive(Player p, boolean live) {
+		if (!containsPlayer(p)) {
+			return;
+		}
+
 		this.getPlayerData(p).setLive(live);
 	}
 
@@ -969,6 +984,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @return True if player is live
 	 */
 	protected boolean isLive(Player p) {
+		if (!containsPlayer(p)) {
+			return false;
+		}
+
 		return this.getPlayerData(p).isLive();
 	}
 

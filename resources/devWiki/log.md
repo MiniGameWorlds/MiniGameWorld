@@ -1,6 +1,7 @@
 # TODO
 - Add `party` icon to Menu
 - Update checker
+- Move all project to `MiniGameWorlds` github organization
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
 - Notify player count when join a minigmae (with minimum count for start)
 - Add written java doc class list to wiki
@@ -433,7 +434,8 @@ if(!this.isMinPlayersLive()) {
 - Release `0.2.2`
 
 
-
+# 2021-11-17
+- Fix MiniGame logic bugs
 
 
 

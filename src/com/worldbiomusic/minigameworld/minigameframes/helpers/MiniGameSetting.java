@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameSetting {
@@ -107,12 +108,12 @@ public class MiniGameSetting {
 	private RankOrder rankOrder;
 
 	/**
-	 * Check condition when minigame finished
+	 * Check condition in {@link MiniGame#handleException()} 
 	 */
 	public enum GameFinishCondition {
 		/**
 		 * Check nothing<br>
-		 * Have to process in minigame with overriding "handleGameException()"
+		 * Have to process in minigame with overriding {@link MiniGame#handleException()} <br>
 		 */
 		NONE,
 		/**
@@ -127,8 +128,8 @@ public class MiniGameSetting {
 
 	/**
 	 * - File control: X<br>
-	 * - Init value: setup value<br>
-	 * - Description: Checked in "handleException()"
+	 * - Init value: MIN_PLAYERS_LIVE<br>
+	 * - Description: Checked in {@link MiniGame#handleException()} 
 	 */
 	private GameFinishCondition gameFinishCondition;
 
