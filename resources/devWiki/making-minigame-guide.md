@@ -13,7 +13,7 @@
 
 # Order
 ## 1. Setup dev environment
-- [Link](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
+- [Link](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
 
 
 ## 2. Create class

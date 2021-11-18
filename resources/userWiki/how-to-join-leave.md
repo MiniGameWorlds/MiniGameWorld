@@ -1,16 +1,17 @@
 # 1. Sign
+- Must set `minigame-sign` in `settings.yml` to true  
 <img src="sign-join.png" width="49%"></img>
 <img src="sign-leave.png" width="49%"></img>
-- Join
+## Join
 ```yaml
 [MiniGame]
  <title>
 ```
-- Leave
+## Leave
 ```yaml
 [Leave Minigame]
 ```
-- Must set `minigame-sign` in `settings.yml` to true
+
 
 # 2. Command
 - Join: `/minigame join <title>`

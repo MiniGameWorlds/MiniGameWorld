@@ -1,6 +1,8 @@
 # Description
 - This document describe how to use MiniGameWorld pluin in your server
 - Plugin works with `spigot`, `paper` bukkit
+- MiniGame types: `Solo`, `SoloBattle`, `Team`, `TeamBattle`
+
 
 
 # How to apply
@@ -12,22 +14,12 @@
 5-2. Update minigame location using `/minigame minigames <class-name> location <<player> | <x> <y> <z>>`  
 
 
-# How to join / leave
+
+# Link
 - [Join / Leave]
-
-
-
-# Types
-- Solo
-- SoloBattle
-- Team
-- Team Battle
-- Custom
-
-
-
-# Commands
 - [Commands]
+- [Config]
+- [Permissions]
 
 
 
@@ -39,17 +31,20 @@
 - Party members can join minigame `separately`
 
 
-# Plugins Download
+
+# Download
+- [MiniGameWorld]: MiniGameWorld Framework
+- [wbmMC]: Essential library
 - [MiniGames]: MiniGames made by some makers
 - [Third-Parties]: You can `give reward with rank `, `save rank data` and etc with third party plugins
 
 
 
-
 # Tutorial
-<a href="https://youtu.be/sE0vaj0xM8Q">
+<a href="https://www.youtube.com/watch?v=ibilvmzcdzs&list=PLOyhTkb3nnYbBtEdS38nkIpyU8RM-pEZd">
 <img src="youtube-user-tutorial-thumbnail.png" width="50%" ></img>
 </a>
+
 
 
 # Backup
@@ -65,15 +60,16 @@
 
 
 
-# Config
-- [Config](config.md)
 
 
 
-[MiniGameWorld]: https://github.com/worldbiomusic/MiniGameWorld/releases
+
+[MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
-[MiniGames]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/minigames
+[MiniGames]: https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/minigames
 [Commands]: commands.md
-[Third-Parties]: https://github.com/worldbiomusic/MiniGameWorld/discussions/categories/third-parties
+[Third-Parties]: https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/third-parties
 [Join / Leave]: how-to-join-leave.md
 [Youtube: User Tutorial]: https://youtu.be/sE0vaj0xM8Q
+[Config]: config.md
+[Permissions]: permissions.md

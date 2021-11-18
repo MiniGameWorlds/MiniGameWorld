@@ -1,27 +1,7 @@
-name: MiniGameWorld
-main: com.worldbiomusic.minigameworld.MiniGameWorldMain
-version: 0.2.2
-author: worldbiomusic
-website: https://github.com/MiniGameWorlds/MiniGameWorld
-description: Minecraft MiniGame Framework
-api-version: 1.14
-depend: [wbmMC]
+# Link
+- [plugin.yml](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/src/plugin.yml)
 
-commands:
-  minigame:
-    aliases: [mw]
-    usage: |
-      
-      USAGE
-      /<command> join <title>
-      /<command> leave
-      /<command> list
-      /<command> menu
-      /<command> party
-      /<command> reload
-      /<command> settings
-      /<command> minigames
-      
+```yaml
 permissions:
   minigameworld.*:
     description: Grants all permissions
@@ -103,28 +83,4 @@ permissions:
   minigameworld.config.minigames:
     description: Can set minigame config
     default: op
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+```

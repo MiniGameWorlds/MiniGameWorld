@@ -28,8 +28,8 @@
 
 
 # Usage
-- [User Wiki](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/userWiki/playing-minigame-wiki.md)
-- [Dev Wiki](https://github.com/worldbiomusic/MiniGameWorld/blob/main/resources/devWiki/Home.md)
+- [User Wiki](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/playing-minigame-wiki.md)
+- [Dev Wiki](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/Home.md)
 
 
 # Community

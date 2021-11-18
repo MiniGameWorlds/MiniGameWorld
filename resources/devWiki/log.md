@@ -1,4 +1,12 @@
 # TODO
+## Repository Move Plan
+- Rewrite Releases
+- Rewrite discussion
+- Edit ad in spigot, paper, bukkit forum for site url
+- Enable github pages (/docs)
+
+---
+
 - Add `party` icon to Menu
 - Update checker
 - Move all project to `MiniGameWorlds` github organization
@@ -18,10 +26,13 @@
 
 
 # Version Changes
-## Next API
 
-## Next Build
+## Next
+### Next API Changes
 
+### Next Build Changes
+
+---
 
 ## 0.0.1
 ### API Changes
@@ -433,9 +444,9 @@ if(!this.isMinPlayersLive()) {
 - Restore missed keys of minigame data(yml) automatically
 - Release `0.2.2`
 
-
 # 2021-11-17
 - Fix MiniGame logic bugs
 
-
+# 2021-11-18
+- Edit wiki
 

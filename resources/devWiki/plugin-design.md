@@ -9,3 +9,8 @@
 ![MiniGameWorld_plugin_design](inner-design.png)
 - All minigames managed by `MiniGameManager` after registered
 - Use YamlManager of `WbmMC` library for managing config
+
+
+
+# Caution
+- **Must** use `LinkedHashMap` instead of `HashMap` if it related with config operation to sort key order
