@@ -260,4 +260,4 @@ protected void runTaskAfterStart() {
 ## Flow
 <img src="flow.png" width=50%></img>
 
-[API]: https://worldbiomusic.github.io/MiniGameWorld/
+[API]: https://minigameworlds.github.io/MiniGameWorld/

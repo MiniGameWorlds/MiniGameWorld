@@ -18,7 +18,7 @@
 ![](api-design.png)
 - `Custom minigame` and `third-party` uses `MiniGameWorld` API
 ## Document
-- [MiniGameWorld API](https://worldbiomusic.github.io/MiniGameWorld/)
+- [MiniGameWorld API](https://minigameworlds.github.io/MiniGameWorld/)
 
 
 

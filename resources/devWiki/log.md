@@ -1,15 +1,8 @@
 # TODO
-## Repository Move Plan
-- Rewrite Releases
-- Rewrite discussion
-- Edit ad in spigot, paper, bukkit forum for site url
-- Enable github pages (/docs)
-
----
-
+- Release each minigame plugins to spigot forum
+- Upload `MiniGameWorld-Reward` to `MiniGameWorlds` organization
 - Add `party` icon to Menu
-- Update checker
-- Move all project to `MiniGameWorlds` github organization
+- Make Update checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
 - Notify player count when join a minigmae (with minimum count for start)
 - Add written java doc class list to wiki
@@ -449,4 +442,26 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-11-18
 - Edit wiki
+
+# 2021-11-20
+- Move github repository (from own to organization)
+- Release `FallingBlock`
+- Upload `AllMiniGames` project
+- Edit wiki
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
