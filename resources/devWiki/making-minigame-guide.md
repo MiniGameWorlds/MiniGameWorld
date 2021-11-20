@@ -21,27 +21,28 @@
 
 ### `SoloMiniGame`
 - _Solo play_
-- [FitTool](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/FitTool.java)
+- [FitTool](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solo/FitTool.java)
+
 
 ### `SoloBattleMiniGame`
 - _Individual battle play_
-- [FallingBlock](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/FallingBlock.java)
-- [PVP](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/PVP.java)
-- [RandomScore](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/RandomScore.java)
-- [RockScissorPaper](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/RockScissorPaper.java)
-- [ScoreClimbing](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/ScoreClimbing.java)
-- [SuperMob](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/SuperMob.java)
+- [FallingBlock](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/FallingBlock.java)
+- [PVP](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/PVP.java)
+- [RandomScore](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/RandomScore.java)
+- [RockScissorPaper](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/RockScissorPaper.java)
+- [ScoreClimbing](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/ScoreClimbing.java)
+- [SuperMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/SuperMob.java)
 
 ### `TeamMiniGame`
 - _Cooperative play_
-- [BreedMob](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/BreedMob.java)
-- [RemoveBlock](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/RemoveBlock.java)
+- [BreedMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/team/BreedMob.java)
+- [RemoveBlock](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/team/RemoveBlock.java)
 
 ### `TeamBattleMiniGame`
 - _Team battle play_
-- [HiddenArcher](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/HiddenArcher.java)
-- [MoreHit](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/MoreHit.java)
-- [PassMob](https://github.com/MiniGameWorlds/Example-MiniGames/blob/main/src/com/worldbiomusic/allgames/games/PassMob.java)
+- [HiddenArcher](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/HiddenArcher.java)
+- [MoreHit](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/MoreHit.java)
+- [PassMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/PassMob.java)
 
 
 ## 3. Essential methods
@@ -260,4 +261,4 @@ protected void runTaskAfterStart() {
 ## Flow
 <img src="flow.png" width=50%></img>
 
-[API]: https://minigameworlds.github.io/MiniGameWorld/
+[API]: https://worldbiomusic.github.io/MiniGameWorld/
