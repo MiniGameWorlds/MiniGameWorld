@@ -74,10 +74,9 @@ public class MiniGameCommand implements CommandExecutor {
 				e.printStackTrace();
 			}
 
-			// print usage
-			Utils.debug("help");
-			this.minigameHelpCommand.printHelp(p, args);
 		}
+		// print usage
+		this.minigameHelpCommand.printHelp(p, args);
 
 		return true;
 	}
@@ -143,7 +142,7 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean menu(Player p, String[] args) {
+	private boolean menu(Player p, String[] args) throws Exception{
 		// check permission
 		if (!Utils.checkPerm(p, "menu")) {
 			return true;

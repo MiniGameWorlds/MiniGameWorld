@@ -70,7 +70,6 @@ public class MiniGameHelpCommand {
 	private void printSettingsUsage(Player p) {
 		p.sendMessage(
 				"/minigame settings minigame-sign <true|false>: set activation of minigame sign block join / leave");
-		p.sendMessage("/minigame settings minigame-command <true|false>: set activation of minigame command");
 		p.sendMessage("/minigame settings message-prefix <value>: set plugin message prefix");
 	}
 
