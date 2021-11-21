@@ -67,7 +67,7 @@ public abstract class SoloMiniGame extends MiniGame {
 		// print just score
 		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 		int score = this.getScore();
-		BroadcastTool.sendMessage(this.getPlayers(), this.getSoloPlayer().getName() + ": " + score);
+		BroadcastTool.sendMessage(this.getPlayers(), this.getSoloPlayer().getName() + ": " + ChatColor.GOLD + score);
 	}
 
 }

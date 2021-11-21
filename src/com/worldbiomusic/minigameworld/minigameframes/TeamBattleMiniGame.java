@@ -138,6 +138,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
+	 * Registers teams to list
+	 * 
+	 * @param teams Teams to register
+	 */
+	protected void createTeam(Team... teams) {
+		for (Team team : teams) {
+			this.allTeams.add(team);
+		}
+	}
+
+	/**
 	 * Gets team
 	 * 
 	 * @param teamNumber Index of list
@@ -682,12 +693,22 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		// rank team by score
 		List<Entry<Team, Integer>> entries = this.getRank(leftTeams);
 		int rank = 1;
+		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
+
 		for (Entry<Team, Integer> entry : entries) {
 			int score = entry.getValue();
 			Team team = entry.getKey();
 			String memberString = team.getAllMemberNameString();
+
+			// rank string with color
+			String rankString = "[";
+			if (rank <= 3) {
+				rankString += rankColors[rank - 1];
+			}
+			rankString += rank + "" + ChatColor.RESET + "] ";
+
 			BroadcastTool.sendMessage(this.getPlayers(),
-					"[" + rank + "] " + "Team(" + memberString + ")" + ": " + score);
+					rankString + "Team(" + memberString + ")" + ": " + ChatColor.GOLD + score);
 			rank += 1;
 		}
 
@@ -732,6 +753,19 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.maxMemberCount = memberSize;
 			this.members = new ArrayList<>(memberSize);
 			this.color = ChatColor.WHITE;
+		}
+
+		/**
+		 * Member size is needed for calculating maxPlayerCount of minigame
+		 * 
+		 * @param teamName   Team name
+		 * @param memberSize Team max member size
+		 */
+		public Team(String teamName, int memberSize, ChatColor color) {
+			this.teamName = teamName;
+			this.maxMemberCount = memberSize;
+			this.members = new ArrayList<>(memberSize);
+			this.color = color;
 		}
 
 		/**

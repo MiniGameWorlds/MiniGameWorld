@@ -1,6 +1,5 @@
 # TODO
-- Release each minigame plugins to spigot forum
-- Upload `MiniGameWorld-Reward` to `MiniGameWorlds` organization
+- Add `debug-mode` to `settings.yml` (Setting.DEBUG_MODE)
 - Add `party` icon to Menu
 - Make Update checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
@@ -449,11 +448,11 @@ if(!this.isMinPlayersLive()) {
 - Upload `AllMiniGames` project
 - Edit wiki
 
-
-
-
-
-
+# 2021-11-21
+- Fix MiniGame logic
+- Upload `MiniGameWorld-Reward` to `MiniGameWorlds` organization
+- Fix command help message bug
+- Add rank color
 
 
 

@@ -54,7 +54,8 @@ public abstract class TeamMiniGame extends MiniGame {
 		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
 		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
-		BroadcastTool.sendMessage(this.getPlayers(), "Team(" + allPlayersName + ")" + ": " + getTeamScore());
+		BroadcastTool.sendMessage(this.getPlayers(),
+				"Team(" + allPlayersName + ")" + ": " + ChatColor.GOLD + getTeamScore());
 	}
 }
 

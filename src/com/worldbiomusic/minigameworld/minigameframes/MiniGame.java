@@ -499,6 +499,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return;
 		}
 
+		// [IMPORTANT] stop all active tasks immediately after finish
+		initTasks();
+
 		// runTaskBeforeFinish
 		runTaskBeforeFinish();
 
@@ -566,10 +569,20 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		List<Entry<Player, Integer>> entries = this.getRank(this.getPlayers());
 		int rank = 1;
+		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
+		
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
 			int score = entry.getValue();
-			BroadcastTool.sendMessage(this.getPlayers(), "[" + rank + "] " + p.getName() + ": " + score);
+			
+			// rank string with color
+			String rankString = "[";
+			if (rank <= 3) {
+				rankString += rankColors[rank - 1];
+			}
+			rankString += rank + "" + ChatColor.RESET + "] ";
+
+			BroadcastTool.sendMessage(this.getPlayers(), rankString + p.getName() + ": " + ChatColor.GOLD + score);
 			rank += 1;
 		}
 
