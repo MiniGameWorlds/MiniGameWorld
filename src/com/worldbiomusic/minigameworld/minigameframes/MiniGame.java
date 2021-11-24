@@ -236,6 +236,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 *              this minigame
 	 */
 	public final void passEvent(Event event) {
+		// notify observers when event passed to the minigame
+		notifyObservers(MiniGameEvent.EVENT_PASSED);
+
 		// pass event to custom option
 		this.customOption.processEvent(event);
 
@@ -570,11 +573,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		List<Entry<Player, Integer>> entries = this.getRank(this.getPlayers());
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
-		
+
 		for (Entry<Player, Integer> entry : entries) {
 			Player p = entry.getKey();
 			int score = entry.getValue();
-			
+
 			// rank string with color
 			String rankString = "[";
 			if (rank <= 3) {

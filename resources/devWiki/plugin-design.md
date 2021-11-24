@@ -14,3 +14,4 @@
 
 # Caution
 - **Must** use `LinkedHashMap` instead of `HashMap` if it related with config operation to sort key order
+- Minigame always processes `Event` in last (`Priority.HIGHEST`)

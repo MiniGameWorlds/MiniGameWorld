@@ -1,4 +1,5 @@
 # TODO
+- Change backup file name format like `2021-11-21T15;43;32`
 - Add `debug-mode` to `settings.yml` (Setting.DEBUG_MODE)
 - Add `party` icon to Menu
 - Make Update checker
@@ -453,9 +454,10 @@ if(!this.isMinPlayersLive()) {
 - Upload `MiniGameWorld-Reward` to `MiniGameWorlds` organization
 - Fix command help message bug
 - Add rank color
+- Change backup file name format to `yyyy-MM-dd'T'H;mm;ss` from `yyyy-MM-dd+H;mm;ss` (in wbmMC)
 
-
-
+# 2021-11-25
+- Add `EVENT_PASSED` to `MiniGameEventNotifier`
 
 
 

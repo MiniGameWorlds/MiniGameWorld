@@ -4,11 +4,11 @@
 
 # Link
 - [Info]
-- [Structure]
+- [Design]
 - [Ad]
 - [Log]
 
 [Info]: plugin-info.md
-[Structure]: plugin-design.md
+[Design]: plugin-design.md
 [Log]: log.md
 [Ad]: ad.md

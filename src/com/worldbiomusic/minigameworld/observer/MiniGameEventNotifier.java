@@ -21,7 +21,13 @@ public interface MiniGameEventNotifier {
 		/**
 		 * When minigame gets exception
 		 */
-		EXCEPTION;
+		EXCEPTION,
+		
+		/**
+		 * When event passed to the minigame<br>
+		 * But minigame still process event in last<br> 
+		 */
+		EVENT_PASSED;
 	}
 
 	/**
