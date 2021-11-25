@@ -132,7 +132,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param team Team to register
 	 */
 	protected void createTeam(Team team) {
-		this.allTeams.add(team);
+		if (!this.allTeams.contains(team)) {
+			this.allTeams.add(team);
+		}
 	}
 
 	/**
@@ -142,8 +144,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	protected void createTeam(Team... teams) {
 		for (Team team : teams) {
-			this.allTeams.add(team);
+			createTeam(team);
 		}
+	}
+
+	/**
+	 * Remove team from playing minigame
+	 * 
+	 * @param team Team to remove
+	 */
+	protected void removeTeam(Team team) {
+		this.allTeams.remove(team);
 	}
 
 	/**
@@ -450,7 +461,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Gets live teams count
 	 * 
-	 * @return
+	 * @return Live teams count
 	 */
 	protected int getLiveTeamCount() {
 		return this.getLiveTeamsList().size();
@@ -523,11 +534,22 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
-	 * Counting unit changed: "player" to "team"
+	 * Counting unit changed: "player" to "team"<br>
+	 * <b>[IMPORTANT]<b> Must override {@link MiniGame#isMinPlayersLive}, because
+	 * {@link MiniGame#checkGameFinishCondition} checks with this method <br>
 	 */
 	@Override
 	protected boolean isMinPlayersLive() {
 		return this.getLiveTeamCount() > 1;
+	}
+
+	/**
+	 * Same with the {@link TeamBattleMiniGame#isMinPlayersLive()}
+	 * 
+	 * @return True if min teams are live
+	 */
+	protected boolean isMinTeamsLive() {
+		return isMinPlayersLive();
 	}
 
 	@Override
@@ -734,6 +756,20 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return this.allTeams;
 	}
 
+	@Override
+	protected void handleGameException(Player p, Exception exception) {
+		super.handleGameException(p, exception);
+
+		// remove player from team
+		Team team = getTeam(p);
+		team.unregisterMember(p);
+
+		// remove team if empty to check "MiniGame.checkGameFinishCondition()"
+		if (team.isEmpty()) {
+			removeTeam(team);
+		}
+	}
+
 	/**
 	 * Team which used in TeamBattleMiniGame frame<br>
 	 * Manage: teamName, maxMemberCount, members, color
@@ -856,10 +892,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			// check teamSize
 			if (this.isFull()) {
 				return false;
-			} else {
-				this.members.add(p);
-				return true;
 			}
+
+			if (this.members.contains(p)) {
+				return false;
+			}
+
+			this.members.add(p);
+			return true;
+
 		}
 
 		/**
@@ -987,6 +1028,20 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		@Override
 		public List<Player> getPlayers() {
 			return getMembers();
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if (other == null) {
+				return false;
+			} else if (this == other) {
+				return true;
+			} else if (other instanceof Team) {
+				Team otherTeam = (Team) other;
+				return getName().equals(otherTeam.getName());
+			}
+
+			return false;
 		}
 	}
 }
