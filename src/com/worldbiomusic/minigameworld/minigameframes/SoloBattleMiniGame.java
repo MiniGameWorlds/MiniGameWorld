@@ -15,4 +15,8 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 	}
 
+	@Override
+	public String getType() {
+		return "SoloBattle";
+	}
 }

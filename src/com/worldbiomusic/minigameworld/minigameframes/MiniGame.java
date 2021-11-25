@@ -231,7 +231,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public final void passEvent(Event event) {
 		// notify observers when event passed to the minigame
-//		notifyObservers(MiniGameEvent.EVENT_PASSED);
+		notifyObservers(MiniGameEvent.EVENT_PASSED);
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
@@ -1235,6 +1235,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	public List<MiniGameObserver> getObserverList() {
 		return this.observerList;
+	}
+
+	/**
+	 * Gets minigame type (e.g. "Solo", "SoloBattle", "Team", "TeamBattle")<br>
+	 * Override this method for custom type<br>
+	 * 
+	 * @return Minigame type
+	 * @see SoloMiniGame, SoloBattleMiniGame, TeamMiniGame, TeamBattleMiniGame
+	 */
+	public String getType() {
+		return "MiniGame";
 	}
 
 	@Override

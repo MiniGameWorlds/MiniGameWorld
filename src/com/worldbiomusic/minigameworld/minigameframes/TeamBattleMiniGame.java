@@ -770,6 +770,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
+	@Override
+	public String getType() {
+		return "TeamBattle";
+	}
+
 	/**
 	 * Team which used in TeamBattleMiniGame frame<br>
 	 * Manage: teamName, maxMemberCount, members, color
