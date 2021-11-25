@@ -8,13 +8,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
-import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
 public class MiniGamePlayerState {
+	private MiniGame minigame;
+
 	private Player player;
 	private Location joinedLocation;
 	private double healthScale;
@@ -33,12 +35,18 @@ public class MiniGamePlayerState {
 	private boolean invulnerable;
 	private boolean silent;
 	private boolean gravity;
+	private boolean isFlying;
+	private Vector velocity;
+	private float walkSpeed;
+	private float flySpeed;
 
-	public MiniGamePlayerState(Player player) {
+	public MiniGamePlayerState(MiniGame minigame, Player player) {
+		this.minigame = minigame;
 		this.player = player;
 
 		// save player state
 		this.savePlayerState();
+
 	}
 
 	public boolean isSamePlayer(Player p) {
@@ -88,6 +96,18 @@ public class MiniGamePlayerState {
 
 		// gravity
 		this.gravity = this.player.hasGravity();
+
+		// flying
+		this.isFlying = this.player.isFlying();
+
+		// velocity
+		this.velocity = this.player.getVelocity().clone();
+
+		// walk speed
+		this.walkSpeed = this.player.getWalkSpeed();
+
+		// fly speed
+		this.flySpeed = this.player.getFlySpeed();
 	}
 
 	public void restorePlayerState() {
@@ -136,6 +156,18 @@ public class MiniGamePlayerState {
 
 		// gravity
 		this.player.setGravity(this.gravity);
+
+		// flying
+		this.player.setFlying(this.isFlying);
+
+		// velocity
+		this.player.setVelocity(this.velocity);
+
+		// walk speed
+		this.player.setWalkSpeed(this.walkSpeed);
+
+		// fly speed
+		this.player.setFlySpeed(this.flySpeed);
 	}
 
 	public void makePureState() {
@@ -168,9 +200,7 @@ public class MiniGamePlayerState {
 		PlayerTool.unhidePlayerFromEveryone(this.player);
 
 		// gamemode
-		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		MiniGameAccessor minigame = mw.getPlayingMiniGame(this.player);
-		GameMode liveGameMode = (GameMode) minigame.getCustomOption(Option.LIVE_GAMEMODE);
+		GameMode liveGameMode = (GameMode) minigame.getCustomOption().get(Option.LIVE_GAMEMODE);
 		this.player.setGameMode(liveGameMode);
 
 		// fire ticks
@@ -184,6 +214,18 @@ public class MiniGamePlayerState {
 
 		// gravity
 		this.player.setGravity(true);
+
+		// flying
+		this.player.setFlying(false);
+
+		// velocity
+		this.player.setVelocity(new Vector(0, 0, 0));
+
+		// walk speed
+		this.player.setWalkSpeed(0.2f);
+
+		// fly speed
+		this.player.setFlySpeed(0.1f);
 	}
 
 	@Override

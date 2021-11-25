@@ -5,18 +5,22 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+
 public class MiniGamePlayerStateManager {
 	/*
 	 * manage player state for enjoying minigame
 	 */
+	private MiniGame minigame;
 	private Set<MiniGamePlayerState> playerStates;
 
-	public MiniGamePlayerStateManager() {
+	public MiniGamePlayerStateManager(MiniGame minigame) {
+		this.minigame = minigame;
 		this.playerStates = new HashSet<>();
 	}
 
 	public void savePlayerState(Player p) {
-		this.playerStates.add(new MiniGamePlayerState(p));
+		this.playerStates.add(new MiniGamePlayerState(this.minigame, p));
 	}
 
 	public void restorePlayerState(Player p) {
