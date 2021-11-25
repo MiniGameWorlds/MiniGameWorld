@@ -5,7 +5,7 @@ import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 public class Setting {
 	public static final String API_VERSION = apiVersion();
 
-	public static final boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = false;
 
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
 
@@ -20,6 +20,7 @@ public class Setting {
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
 //	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
 	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
+	public static final String SETTINGS_DEBUG_MODE= "debug-mode";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

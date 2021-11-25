@@ -96,6 +96,12 @@ public class MiniGameManager implements YamlMember {
 			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET);
 		}
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
+
+		// debug-mode
+		if (!this.settings.containsKey(Setting.SETTINGS_DEBUG_MODE)) {
+			this.settings.put(Setting.SETTINGS_DEBUG_MODE, false);
+		}
+		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 	}
 
 	public void joinGame(Player p, String title) {
