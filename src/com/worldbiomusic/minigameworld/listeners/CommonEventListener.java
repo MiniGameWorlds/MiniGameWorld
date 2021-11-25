@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,8 +49,8 @@ public class CommonEventListener implements Listener {
 
 	/**
 	 * Register all events<br>
-	 * - Spigot doesn't need other setup<be>
-	 * - Paper needs additional setup like below<br>
+	 * - Spigot doesn't need other setup<be> - Paper needs additional setup like
+	 * below<br>
 	 * 
 	 */
 	private void registerAllEventListener() {
@@ -84,8 +85,7 @@ public class CommonEventListener implements Listener {
 				}
 			}
 		}
-		
-		
+
 		ClassGraph classGraph = new ClassGraph();
 		if (!cacheDirJarURLs.isEmpty()) {
 			classGraph.addClassLoader(new URLClassLoader(cacheDirJarURLs.toArray(new URL[0])));
@@ -139,6 +139,13 @@ public class CommonEventListener implements Listener {
 		/*
 		 * pass event
 		 */
+
+		// Set cancelled false: event must be proccessed independently in minigame
+		if (event instanceof Cancellable) {
+			((Cancellable) event).setCancelled(false);
+		}
+
+		// pass event
 		this.minigameManager.passEvent(event);
 		return null;
 	}
@@ -188,8 +195,8 @@ public class CommonEventListener implements Listener {
 		if (block == null) {
 			return;
 		}
-		
-		if(block.getState() instanceof Sign) {
+
+		if (block.getState() instanceof Sign) {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
