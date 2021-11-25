@@ -216,7 +216,7 @@ public class MiniGameWorld {
 	public void registerMiniGameObserver(MiniGameObserver observer) {
 		// register observer on All MiniGames
 		// ex. give reward with each minigames
-		this.minigameManager.getMiniGameList().forEach(minigame -> minigame.registerObserver(observer));
+		this.minigameManager.registerMiniGameObserver(observer);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class MiniGameWorld {
 	 */
 	public void unregisterMiniGameObserver(MiniGameObserver observer) {
 		// unregister observer from All MiniGames
-		this.minigameManager.getMiniGameList().forEach(minigame -> minigame.unregisterObserver(observer));
+		this.minigameManager.unregisterMiniGameObserver(observer);
 	}
 
 	/**

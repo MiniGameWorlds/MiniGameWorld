@@ -1,9 +1,9 @@
 package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +22,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
@@ -188,7 +189,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.minigameTaskManager.registerBasicTasks();
 
 		this.observerList = new ArrayList<MiniGameObserver>();
-		this.playerStateManager = new MiniGamePlayerStateManager();
+		this.playerStateManager = new MiniGamePlayerStateManager(this);
 		this.rankManager = new MiniGameRankManager(this);
 		this.minigameDataManager = new MiniGameDataManager(this);
 
@@ -237,7 +238,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public final void passEvent(Event event) {
 		// notify observers when event passed to the minigame
-		notifyObservers(MiniGameEvent.EVENT_PASSED);
+//		notifyObservers(MiniGameEvent.EVENT_PASSED);
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
@@ -325,11 +326,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param p Joined player
 	 */
 	private void setupPlayerJoinSettings(Player p) {
+		// setup player
+		// [IMPORTANT] must be processed before "addPlayer()" 
+		this.setupPlayerWhenJoin(p);
+
 		// add player to list
 		this.addPlayer(p);
-
-		// setup player
-		this.setupPlayerWhenJoin(p);
 
 		// notify info
 		this.notifyInfo(p);
@@ -514,7 +516,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		printEndInfo();
 
 		// save players for minigame finish event
-		List<Player> leavingPlayers = this.getPlayers();
+		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 
 		// setup player
 		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
@@ -523,9 +525,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// give reward(item) after state restored))
 
 		// [IMPORTANT] restore removed leaving players for a while
-		leavingPlayers.forEach(this::addPlayer);
+		this.players.addAll(leavingPlayers);
 		this.notifyObservers(MiniGameEvent.FINISH);
-		leavingPlayers.forEach(this::removePlayer);
+		this.players.clear();
 
 		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
@@ -570,13 +572,15 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected void printScore() {
 		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
-		List<Entry<Player, Integer>> entries = this.getRank(this.getPlayers());
+//		List<Entry<Player, Integer>> entries = this.getRank(this.players);
+		@SuppressWarnings("unchecked")
+		List<MiniGamePlayerData> rankList = (List<MiniGamePlayerData>) this.getRank();
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
 
-		for (Entry<Player, Integer> entry : entries) {
-			Player p = entry.getKey();
-			int score = entry.getValue();
+		for (MiniGamePlayerData ranking : rankList) {
+			Player p = ranking.getPlayer();
+			int score = ranking.getScore();
 
 			// rank string with color
 			String rankString = "[";
@@ -592,19 +596,20 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Get rank data with rank order (custom option)
+	 * Get rank data with RankOrder (custom option)
 	 * 
-	 * @param players Players ranked in order
 	 * @return Ordered data
+	 * @see RankOrder
 	 */
-	public List<Entry<Player, Integer>> getRank(List<Player> players) {
-		// return rank with MiniGame RankOrder setting
+	public List<? extends MiniGameRankComparable> getRank() {
+		Collections.sort(this.players);
+
 		RankOrder order = this.getSetting().getRankOrder();
-		if (order == RankOrder.ASCENDING) {
-			return this.rankManager.getAscendingScoreRanking(players);
-		} else { // if (order == RankOrder.DESCENDING) {
-			return this.rankManager.getDescendingScoreRanking(players);
+		if (order == RankOrder.DESCENDING) {
+			Collections.reverse(this.players);
 		}
+
+		return this.players;
 	}
 
 	/**
@@ -909,6 +914,15 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Get all player data list
+	 * 
+	 * @return PlayerData list
+	 */
+	public List<MiniGamePlayerData> getPlayerDataList() {
+		return this.players;
 	}
 
 	/**
@@ -1233,6 +1247,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());
 		return this.getPlayers().get(random);
+	}
+
+	public List<MiniGameObserver> getObserverList() {
+		return this.observerList;
 	}
 
 	@Override

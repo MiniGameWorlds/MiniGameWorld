@@ -1,12 +1,15 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
-public class MiniGamePlayerData {
+public class MiniGamePlayerData implements MiniGameRankComparable {
 	private MiniGame minigame;
 	private Player player;
 	private int score;
@@ -51,6 +54,13 @@ public class MiniGamePlayerData {
 		GameMode deadGameMode = (GameMode) this.minigame.getCustomOption().get(Option.DEAD_GAMEMODE);
 
 		this.player.setGameMode(live ? liveGameMode : deadGameMode);
+	}
+
+	@Override
+	public List<Player> getPlayers() {
+		List<Player> players = new ArrayList<>();
+		players.add(this.player);
+		return players;
 	}
 
 }

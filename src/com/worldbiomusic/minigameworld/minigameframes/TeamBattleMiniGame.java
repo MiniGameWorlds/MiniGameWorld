@@ -1,10 +1,8 @@
 package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -16,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
-import com.wbm.plugin.util.SortTool;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -420,7 +418,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 
 	 * @return Team list
 	 */
-	protected List<Team> getTeamList() {
+	public List<Team> getTeamList() {
 		return this.allTeams;
 	}
 
@@ -510,7 +508,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	protected int getTeamScore(int teamNumber) {
 		Team team = this.getTeam(teamNumber);
-		return team.getTeamScore();
+		return team.getScore();
 	}
 
 	/**
@@ -521,7 +519,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	protected int getTeamScore(Player p) {
 		Team team = this.getTeam(p);
-		return team.getTeamScore();
+		return team.getScore();
 	}
 
 	/**
@@ -539,6 +537,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void runTaskAfterStart() {
+		// register players to teams
 		switch (this.getTeamRegisterMode()) {
 		case NONE:
 			this.registerPlayersToTeam();
@@ -556,6 +555,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.registerPlayers_RANDOM();
 			break;
 		}
+
+		// remove empty teams
+		this.allTeams.removeIf(team -> team.isEmpty());
 	}
 
 	/**
@@ -576,7 +578,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * TeamBattleMiniGame.TeamRegisterMode = FAIR_FILL
 	 */
 	private void registerPlayers_FAIR_FILL() {
-		// [IMPORTANT] suppose that all teams has the same max player count
+		// [IMPORTANT] All teams must have the same max player count
 		int teamMemberCount = this.allTeams.get(0).maxCount();
 		int usingTeamCount = (int) Math.ceil((double) this.getPlayerCount() / teamMemberCount);
 		if (usingTeamCount == 1) {
@@ -682,22 +684,22 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
 		// left teams
-		Map<Team, Integer> leftTeams = new HashMap<Team, Integer>();
+		List<Team> leftTeams = new ArrayList<>();
 		for (Team team : this.allTeams) {
 			if (!team.isEmpty()) {
-				int teamScore = team.getTeamScore();
-				leftTeams.put(team, teamScore);
+				leftTeams.add(team);
 			}
 		}
 
 		// rank team by score
-		List<Entry<Team, Integer>> entries = this.getRank(leftTeams);
+		@SuppressWarnings("unchecked")
+		List<Team> entries = (List<Team>) this.getRank();
+
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
 
-		for (Entry<Team, Integer> entry : entries) {
-			int score = entry.getValue();
-			Team team = entry.getKey();
+		for (Team team : entries) {
+			int score = team.getScore();
 			String memberString = team.getAllMemberNameString();
 
 			// rank string with color
@@ -715,20 +717,21 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
-	 * Gets team rank
+	 * Gets team rank by RankOrder
 	 * 
-	 * @param leftTeams Team list to compare team score
 	 * @return Ordered team list by score with {@link RankOrder}
 	 * @see RankOrder
 	 */
-	public List<Entry<Team, Integer>> getRank(Map<Team, Integer> leftTeams) {
-		// return rank with MiniGame RankOrder setting
+	@Override
+	public List<? extends MiniGameRankComparable> getRank() {
+		Collections.sort(this.allTeams);
+
 		RankOrder order = this.getSetting().getRankOrder();
-		if (order == RankOrder.ASCENDING) {
-			return SortTool.getAscendingSortedList(leftTeams);
-		} else { // if (order == RankOrder.DESCENDING) {
-			return SortTool.getDescendingSortedList(leftTeams);
+		if (order == RankOrder.DESCENDING) {
+			Collections.reverse(this.allTeams);
 		}
+
+		return this.allTeams;
 	}
 
 	/**
@@ -736,7 +739,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Manage: teamName, maxMemberCount, members, color
 	 *
 	 */
-	public class Team {
+	public class Team implements MiniGameRankComparable {
 		private String teamName;
 		private int maxMemberCount;
 		private List<Player> members;
@@ -820,8 +823,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 * 
 		 * @return
 		 */
-		public int getTeamScore() {
-			return getScore(this.getRandomMember());
+		@Override
+		public int getScore() {
+			return TeamBattleMiniGame.this.getScore(this.getRandomMember());
 		}
 
 		/**
@@ -978,6 +982,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 */
 		public int maxCount() {
 			return this.maxMemberCount;
+		}
+
+		@Override
+		public List<Player> getPlayers() {
+			return getMembers();
 		}
 	}
 }

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 
 /**
  * MiniGameWorld plugin "MiniGame" wrapper api
@@ -126,13 +126,15 @@ public class MiniGameAccessor {
 	}
 
 	/**
-	 * Gets score rank list
+	 * Gets rank list by score
 	 * 
-	 * @return Score rank
+	 * @return Rank list
 	 */
-	public List<Entry<Player, Integer>> getScoreRank() {
+
+	public List<? extends MiniGameRankComparable> getRank() {
 		// copied
-		return new ArrayList<>(this.minigame.getRank(this.minigame.getPlayers()));
+		return new ArrayList<>(this.minigame.getRank());
+
 	}
 
 	public Class<?> getClassType() {
