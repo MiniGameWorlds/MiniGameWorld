@@ -23,7 +23,6 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManage
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
@@ -64,11 +63,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Player state manager (health, food level ...)
 	 */
 	private MiniGamePlayerStateManager playerStateManager;
-
-	/**
-	 * Rank manager
-	 */
-	private MiniGameRankManager rankManager;
 
 	/**
 	 * Whether game started or not
@@ -190,7 +184,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		this.observerList = new ArrayList<MiniGameObserver>();
 		this.playerStateManager = new MiniGamePlayerStateManager(this);
-		this.rankManager = new MiniGameRankManager(this);
 		this.minigameDataManager = new MiniGameDataManager(this);
 
 		// register tutorial
@@ -327,7 +320,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void setupPlayerJoinSettings(Player p) {
 		// setup player
-		// [IMPORTANT] must be processed before "addPlayer()" 
+		// [IMPORTANT] must be processed before "addPlayer()"
 		this.setupPlayerWhenJoin(p);
 
 		// add player to list
@@ -1210,15 +1203,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	protected TaskManager getTaskManager() {
 		return this.minigameTaskManager.getTaskManager();
-	}
-
-	/**
-	 * Get rank manager
-	 * 
-	 * @return Rank manager
-	 */
-	public MiniGameRankManager getMiniGameRankManager() {
-		return this.rankManager;
 	}
 
 	/**
