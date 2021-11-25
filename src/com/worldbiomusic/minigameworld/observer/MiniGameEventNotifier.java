@@ -2,7 +2,11 @@ package com.worldbiomusic.minigameworld.observer;
 
 /**
  * Event notifier with minigame phaze(MiniGameEvent)<br>
- * Already implemented in "MiniGame" class
+ * Already implemented in "MiniGame" class<br><br>
+ * 
+ * [IMPORTANT] Consider to change to use custom event <br>
+ * 
+ * 
  */
 public interface MiniGameEventNotifier {
 	/**

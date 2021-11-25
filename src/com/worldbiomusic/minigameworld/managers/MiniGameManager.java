@@ -20,6 +20,7 @@ import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -44,7 +45,10 @@ public class MiniGameManager implements YamlMember {
 	private PartyManager partyManager;
 
 	// yaml data manager
-	YamlManager yamlManager;
+	private YamlManager yamlManager;
+
+	// Minigame Observer
+	private List<MiniGameObserver> observers;
 
 	// use getInstance()
 	private MiniGameManager() {
@@ -56,6 +60,7 @@ public class MiniGameManager implements YamlMember {
 
 		this.guiManager = new MiniGameMenuManager(this);
 		this.partyManager = new PartyManager(this);
+		this.observers = new ArrayList<>();
 	}
 
 	public void processPlayerJoinWorks(Player p) {
@@ -245,6 +250,9 @@ public class MiniGameManager implements YamlMember {
 		// reigster member to YamlManager
 		this.yamlManager.registerMember(newGame.getDataManager());
 
+		// register missed observers
+		registerMissedMinigameObservers(newGame);
+
 		// check already existing data
 		if (newGame.getDataManager().isMinigameDataExists()) {
 			newGame.getDataManager().applyMiniGameDataToInstance();
@@ -255,7 +263,7 @@ public class MiniGameManager implements YamlMember {
 		// save config directly for first load (data saved in config)
 		this.yamlManager.save(newGame.getDataManager());
 
-		// add
+		// add to minigame list
 		this.minigames.add(newGame);
 
 		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.RESET
@@ -311,6 +319,34 @@ public class MiniGameManager implements YamlMember {
 		}
 	}
 
+	public int getNonPlayingPlayerCount(List<Player> players) {
+		int Count = 0;
+		for (Player p : players) {
+			if (!this.isPlayingMiniGame(p)) {
+				Count += 1;
+			}
+		}
+		return Count;
+	}
+
+	public void registerMiniGameObserver(MiniGameObserver observer) {
+		this.minigames.forEach(m -> m.registerObserver(observer));
+
+		if (!this.observers.contains(observer)) {
+			this.observers.add(observer);
+		}
+	}
+
+	public void unregisterMiniGameObserver(MiniGameObserver observer) {
+		this.minigames.forEach(m -> m.unregisterObserver(observer));
+
+		this.observers.remove(observer);
+	}
+
+	private void registerMissedMinigameObservers(MiniGame newGame) {
+		this.observers.forEach(obs -> newGame.registerObserver(obs));
+	}
+
 	public Map<String, Object> getSettings() {
 		return this.settings;
 	}
@@ -329,16 +365,6 @@ public class MiniGameManager implements YamlMember {
 
 	public YamlManager getYamlManager() {
 		return this.yamlManager;
-	}
-
-	public int getNonPlayingPlayerCount(List<Player> players) {
-		int Count = 0;
-		for (Player p : players) {
-			if (!this.isPlayingMiniGame(p)) {
-				Count += 1;
-			}
-		}
-		return Count;
 	}
 
 	@Override
