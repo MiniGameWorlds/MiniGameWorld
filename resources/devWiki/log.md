@@ -472,8 +472,8 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-11-27
 - Remove `RankOrder` from `MiniGameSetting` (Fixed to `Descending` order)
-
-
+- Remove not necessary keys in config when plugin starts (wbmMC)
+- Sync(align) config keys order when plugin stars (wbmMC)
 
 
 

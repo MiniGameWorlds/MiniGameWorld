@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
+import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -67,9 +68,10 @@ public class MiniGameDataManager implements YamlMember {
 	public void applyMiniGameDataToInstance() {
 		// Make copy of pure setting data
 		Map<String, Object> pureSettingData = new LinkedHashMap<String, Object>(minigame.getSetting().getFileSetting());
-		// Restore before apply to avoid error
-		restoreMissedKeys(this.data, pureSettingData);
-		
+
+		// sync map keys
+		syncMapKeys(this.data, pureSettingData);
+
 		// apply settings
 		this.minigame.getSetting().setFileSetting(this.data);
 
@@ -88,28 +90,19 @@ public class MiniGameDataManager implements YamlMember {
 			this.data.put(Setting.MINIGAMES_CUSTOM_DATA, this.minigame.getCustomData());
 		}
 
-		// Restore missed keys (i.e. keys for some updates)
-		restoreMissedKeys(this.data, pureSettingData);
-
 		// process exception
 		this.taskAfterDataSet();
 	}
 
-	@SuppressWarnings("unchecked")
-	private void restoreMissedKeys(Map<String, Object> missedTarget, Map<String, Object> fullTarget) {
-		// restore "missedTarget" < "fullTarget"
-		for (Entry<String, Object> entry : fullTarget.entrySet()) {
-			String key = entry.getKey();
-			Object value = entry.getValue();
-			if (!missedTarget.containsKey(key)) {
-				missedTarget.put(key, value);
-			}
+	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
+		// remove not necessary keys to avoid error (i.e. keys for some updates)
+		CollectionTool.removeNotNecessaryKeys(this.data, pureMap);
 
-			// for Map value
-			if (value instanceof Map) {
-				this.restoreMissedKeys((Map<String, Object>) missedTarget.get(key), (Map<String, Object>) value);
-			}
-		}
+		// Restore before apply to avoid error (i.e. keys for some updates)
+		CollectionTool.restoreMissedKeys(this.data, pureMap);
+
+		// sync map keys
+		CollectionTool.syncKeyOrder(this.data, pureMap);
 	}
 
 	private void taskAfterDataSet() {
