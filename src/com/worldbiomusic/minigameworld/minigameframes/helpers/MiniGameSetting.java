@@ -13,107 +13,83 @@ import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameSetting {
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: minigame title, must be no blank in title
+	 * - File control: O - Init value: setup value - Description: minigame title,
+	 * must be no blank in title
 	 */
 	private String title;
 
 	/**
-	 * - File control: O
-	 * - Init value: new Location(Bukkit.getWorld("world"), 0, 4, 0)
-	 * - Description: minigame playing location
+	 * - File control: O - Init value: new Location(Bukkit.getWorld("world"), 0, 4,
+	 * 0) - Description: minigame playing location
 	 */
 	private Location location;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: min participating players
+	 * - File control: O - Init value: setup value - Description: min participating
+	 * players
 	 */
 	private int minPlayerCount;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: max participating players
+	 * - File control: O - Init value: setup value - Description: max participating
+	 * players
 	 */
 	private int maxPlayerCount;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: waiting time for starting (sec)
+	 * - File control: O - Init value: setup value - Description: waiting time for
+	 * starting (sec)
 	 */
 	private int waitingTime;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: minigame running time (sec)
+	 * - File control: O - Init value: setup value - Description: minigame running
+	 * time (sec)
 	 */
 	private int timeLimit;
 
 	/**
-	 * - File control: O
-	 * - Init value: true
-	 * - Description: whether minigame is active or not 
+	 * - File control: O - Init value: true - Description: whether minigame is
+	 * active or not
 	 */
 	private boolean active;
 
 	/**
-	 * - File control: X
-	 * - Init value: false
-	 * - Description: option for specific MiniGameSettings fix 
+	 * - File control: X - Init value: false - Description: option for specific
+	 * MiniGameSettings fix
 	 */
 	private boolean settingFixed;
 
 	/**
-	 * - File control: O
-	 * - Init value: none
-	 * - Description: tutorial
+	 * - File control: O - Init value: none - Description: tutorial
 	 */
 	private List<String> tutorial;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: custom data
+	 * - File control: O - Init value: setup value - Description: custom data
 	 */
 	private Map<String, Object> customData;
 
 	/**
-	 * - File control: O
-	 * - Init value: setup value
-	 * - Description: icon item for GUI inventory
+	 * - File control: O - Init value: setup value - Description: icon item for GUI
+	 * inventory
 	 */
 	private Material icon;
 
 	/**
-	 * - File control: X
-	 * - Init value: setup value
-	 * - Description: whether get all event without filtering player
+	 * - File control: X - Init value: setup value - Description: whether get all
+	 * event without filtering player
 	 */
 	private boolean passUndetectableEvent;
 
-	public enum RankOrder {
-		ASCENDING, DESCENDING;
-	}
-
 	/**
-	 * - File control: X
-	 * - Init value: setup value
-	 * - Description: rank order
-	 */
-	private RankOrder rankOrder;
-
-	/**
-	 * Check condition in {@link MiniGame#handleException()} 
+	 * Check condition in {@link MiniGame#handleException()}
 	 */
 	public enum GameFinishCondition {
 		/**
 		 * Check nothing<br>
-		 * Have to process in minigame with overriding {@link MiniGame#handleException()} <br>
+		 * Have to process in minigame with overriding
+		 * {@link MiniGame#handleException()} <br>
 		 */
 		NONE,
 		/**
@@ -129,7 +105,7 @@ public class MiniGameSetting {
 	/**
 	 * - File control: X<br>
 	 * - Init value: MIN_PLAYERS_LIVE<br>
-	 * - Description: Checked in {@link MiniGame#handleException()} 
+	 * - Description: Checked in {@link MiniGame#handleException()}
 	 */
 	private GameFinishCondition gameFinishCondition;
 
@@ -148,7 +124,6 @@ public class MiniGameSetting {
 		this.customData = new LinkedHashMap<String, Object>();
 		this.icon = Material.STONE;
 		this.passUndetectableEvent = false;
-		this.rankOrder = RankOrder.DESCENDING;
 		this.gameFinishCondition = GameFinishCondition.MIN_PLAYERS_LIVE;
 	}
 
@@ -200,10 +175,6 @@ public class MiniGameSetting {
 
 	public void setPassUndetectableEvent(boolean passUndetectableEvent) {
 		this.passUndetectableEvent = passUndetectableEvent;
-	}
-
-	public void setRankOrder(RankOrder rankOrder) {
-		this.rankOrder = rankOrder;
 	}
 
 	public void setGameFinishCondition(GameFinishCondition gameFinishCondition) {
@@ -258,10 +229,6 @@ public class MiniGameSetting {
 
 	public boolean isPassUndetectableEvent() {
 		return passUndetectableEvent;
-	}
-
-	public RankOrder getRankOrder() {
-		return rankOrder;
 	}
 
 	public GameFinishCondition getGameFinishCondition() {

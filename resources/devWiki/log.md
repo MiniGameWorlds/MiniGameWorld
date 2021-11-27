@@ -471,7 +471,7 @@ if(!this.isMinPlayersLive()) {
 - Fix observer interface
 
 # 2021-11-27
-- 
+- Remove `RankOrder` from `MiniGameSetting` (Fixed to `Descending` order)
 
 
 

@@ -15,7 +15,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
@@ -739,20 +738,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
-	 * Gets team rank by RankOrder
+	 * Gets team rank
 	 * 
-	 * @return Ordered team list by score with {@link RankOrder}
-	 * @see RankOrder
+	 * @return Ordered team list by score
 	 */
 	@Override
 	public List<? extends MiniGameRankComparable> getRank() {
 		Collections.sort(this.allTeams);
-
-		RankOrder order = this.getSetting().getRankOrder();
-		if (order == RankOrder.DESCENDING) {
-			Collections.reverse(this.allTeams);
-		}
-
 		return this.allTeams;
 	}
 

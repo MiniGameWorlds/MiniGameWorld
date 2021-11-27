@@ -25,7 +25,6 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStat
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.RankOrder;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
 import com.worldbiomusic.minigameworld.observer.MiniGameEventNotifier;
 import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
@@ -559,7 +558,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Print scores to all players in rank order (custom option)<br>
+	 * Print scores to all players<br>
 	 * Can print format differently depending on game type
 	 */
 	protected void printScore() {
@@ -589,19 +588,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Get rank data with RankOrder (custom option)
+	 * Get rank data
 	 * 
 	 * @return Ordered data
-	 * @see RankOrder
 	 */
 	public List<? extends MiniGameRankComparable> getRank() {
 		Collections.sort(this.players);
-
-		RankOrder order = this.getSetting().getRankOrder();
-		if (order == RankOrder.DESCENDING) {
-			Collections.reverse(this.players);
-		}
-
 		return this.players;
 	}
 
