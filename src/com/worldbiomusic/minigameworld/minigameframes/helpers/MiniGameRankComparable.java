@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-public interface MiniGameRankComparable extends Comparable<MiniGameRankComparable> {
+public interface MiniGameRankComparable extends Comparable<MiniGameRankComparable>{
 
 	public List<Player> getPlayers();
 
@@ -20,4 +20,6 @@ public interface MiniGameRankComparable extends Comparable<MiniGameRankComparabl
 			return 0;
 		}
 	}
+
+	
 }

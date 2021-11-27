@@ -1267,10 +1267,12 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null) {
-			if (obj instanceof MiniGame) {
-				return this.getClass().getSimpleName().equals(((MiniGame) obj).getClassName());
-			}
+		if (this == obj) {
+			return true;
+		} else if (obj == null) {
+			return false;
+		} else if (getClass() == obj.getClass()) {
+			return this.getClassName().equals(((MiniGame) obj).getClassName());
 		}
 		return false;
 	}

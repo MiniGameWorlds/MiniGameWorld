@@ -151,6 +151,18 @@ public class MiniGameAccessor {
 	public Class<?> getClassType() {
 		return this.minigame.getClass();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj == null) {
+			return false;
+		} else if (getClass() == obj.getClass()) {
+			return this.minigame.equals(((MiniGameAccessor) obj).minigame);
+		}
+		return false;
+	}
 }
 //
 //

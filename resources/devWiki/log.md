@@ -1,10 +1,11 @@
 # TODO
-- Change backup file name format like `2021-11-21T15;43;32`
-- Add `debug-mode` to `settings.yml` (Setting.DEBUG_MODE)
+- Make MiniGame template pluing and upload to github organization
+- Make `MiniGame` implements `ConfigurationSerializable`
 - Add `party` icon to Menu
 - Make Update checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
-- Notify player count when join a minigmae (with minimum count for start)
+- Change to use custom event instead of `MiniGameObserver`
+- Notify player count when join a minigame (with minimum count for start)
 - Add written java doc class list to wiki
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
@@ -458,6 +459,32 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-11-25
 - Add `EVENT_PASSED` to `MiniGameEventNotifier`
+- Fix `MiniGameObserver` registration logic (Consider to change to use custom event)
+- Make use `MiniGameRankComparable` which used for comparing rank in minigame
+- Change API
+- Manage `isFlying`, `velocity`, `walkSpeed`, `flySpeed` in `MiniGamePlayerState`
+- Set cancelled to false in `onEvent()`, because minigame event must be processed independently
+- Add `debug-mode` to `settings.yml` (Setting.DEBUG_MODE)
+
+# 2021-11-26
+- Add `REGISTRATION`, `UNREGISTRATION` events to `MiniGameNotifier`
+- Fix observer interface
+
+# 2021-11-27
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

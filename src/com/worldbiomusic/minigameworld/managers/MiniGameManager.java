@@ -329,7 +329,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 
 		Utils.info("" + ChatColor.RED + ChatColor.BOLD + "[ Removed MiniGame List ]");
 		for (String removedGameTitle : removedGames) {
-			Utils.info(ChatColor.RED + removedGameTitle + " minigame file is deleted");
+			Utils.info(ChatColor.RED + removedGameTitle + " file is deleted");
 		}
 	}
 
