@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 
 /**
@@ -74,8 +75,18 @@ public class MiniGameAccessor {
 	 * @param p Target player
 	 * @return Player's score
 	 */
-	protected int getPlayerScore(Player p) {
+	public int getPlayerScore(Player p) {
 		return this.minigame.getScore(p);
+	}
+
+	/**
+	 * Gets PlayerData list in minigame
+	 * 
+	 * @return PlayerData list
+	 */
+	public List<MiniGamePlayerData> getPlayerDataList() {
+		// copied
+		return new ArrayList<>(this.minigame.getPlayerDataList());
 	}
 
 	/**

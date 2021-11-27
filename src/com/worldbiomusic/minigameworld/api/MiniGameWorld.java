@@ -209,24 +209,30 @@ public class MiniGameWorld {
 
 	/**
 	 * Registers minigame observer<br>
-	 * - Can reserve task with MiniGameEventNotifier.MiniGameEvent
+	 * [IMPORTANT] Observer must be registered with {@link MiniGameManager}, not
+	 * directly with MiniGame (only {@link MiniGameManager} can register to all
+	 * minigames)<br>
+	 * - Can reserve task with MiniGameEventNotifier.MiniGameEvent<br>
 	 * 
 	 * @param observer Observer to register
 	 */
 	public void registerMiniGameObserver(MiniGameObserver observer) {
 		// register observer on All MiniGames
 		// ex. give reward with each minigames
-		this.minigameManager.registerMiniGameObserver(observer);
+		this.minigameManager.registerObserver(observer);
 	}
 
 	/**
-	 * Unregisters minigame observer
+	 * Unregisters minigame observer<br>
+	 * [IMPORTANT] Observer must be registered with {@link MiniGameManager}, not
+	 * directly with MiniGame (only {@link MiniGameManager} can register to all
+	 * minigames)<br>
 	 * 
 	 * @param observer Observer to unregister
 	 */
 	public void unregisterMiniGameObserver(MiniGameObserver observer) {
 		// unregister observer from All MiniGames
-		this.minigameManager.unregisterMiniGameObserver(observer);
+		this.minigameManager.unregisterObserver(observer);
 	}
 
 	/**

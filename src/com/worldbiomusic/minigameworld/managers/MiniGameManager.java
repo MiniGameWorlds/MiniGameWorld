@@ -16,15 +16,17 @@ import com.google.common.io.Files;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.observer.MiniGameEventNotifier;
 import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
-public class MiniGameManager implements YamlMember {
+public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	// Singleton
 	private static MiniGameManager instance = new MiniGameManager();
 	private static boolean instanceCreated = false;
@@ -272,6 +274,9 @@ public class MiniGameManager implements YamlMember {
 		// add to minigame list
 		this.minigames.add(newGame);
 
+		// notify minigame registration to observers
+		notifyObservers(newGame, MiniGameEvent.REGISTRATION);
+
 		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.RESET
 				+ " minigame is registered");
 		return true;
@@ -295,6 +300,9 @@ public class MiniGameManager implements YamlMember {
 	public boolean unregisterMiniGame(MiniGame minigame) {
 		if (this.minigames.remove(minigame)) {
 			Utils.info(minigame.getTitleWithClassName() + " minigame is removed");
+
+			// notify minigame unregistration to observers
+			notifyObservers(minigame, MiniGameEvent.UNREGISTRATION);
 			return true;
 		} else {
 			return false;
@@ -333,24 +341,6 @@ public class MiniGameManager implements YamlMember {
 			}
 		}
 		return Count;
-	}
-
-	public void registerMiniGameObserver(MiniGameObserver observer) {
-		this.minigames.forEach(m -> m.registerObserver(observer));
-
-		if (!this.observers.contains(observer)) {
-			this.observers.add(observer);
-		}
-	}
-
-	public void unregisterMiniGameObserver(MiniGameObserver observer) {
-		this.minigames.forEach(m -> m.unregisterObserver(observer));
-
-		this.observers.remove(observer);
-	}
-
-	private void registerMissedMinigameObservers(MiniGame newGame) {
-		this.observers.forEach(obs -> newGame.registerObserver(obs));
 	}
 
 	public Map<String, Object> getSettings() {
@@ -398,6 +388,42 @@ public class MiniGameManager implements YamlMember {
 	@Override
 	public String getFileName() {
 		return "settings.yml";
+	}
+
+	/**
+	 * Register observer to minigames which will be registered in the future
+	 * 
+	 * @param newGame Minigame to register observer
+	 */
+	private void registerMissedMinigameObservers(MiniGame newGame) {
+		this.observers.forEach(obs -> newGame.registerObserver(obs));
+	}
+
+	@Override
+	public void registerObserver(MiniGameObserver observer) {
+		// register observer to former minigames
+		this.minigames.forEach(m -> {
+			m.registerObserver(observer);
+
+			// notify registration of former minigames
+			observer.update(new MiniGameAccessor(m), MiniGameEvent.REGISTRATION);
+		});
+
+		if (!this.observers.contains(observer)) {
+			this.observers.add(observer);
+		}
+	}
+
+	@Override
+	public void unregisterObserver(MiniGameObserver observer) {
+		this.minigames.forEach(m -> m.unregisterObserver(observer));
+
+		this.observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers(MiniGame minigame, MiniGameEvent event) {
+		this.observers.forEach(obs -> obs.update(new MiniGameAccessor(minigame), event));
 	}
 }
 //

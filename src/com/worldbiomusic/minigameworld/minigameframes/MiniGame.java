@@ -231,7 +231,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public final void passEvent(Event event) {
 		// notify observers when event passed to the minigame
-		notifyObservers(MiniGameEvent.EVENT_PASSED);
+		notifyObservers(this, MiniGameEvent.EVENT_PASS);
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
@@ -475,7 +475,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		runTaskAfterStart();
 
 		// notify start event to observers
-		this.notifyObservers(MiniGameEvent.START);
+		this.notifyObservers(this, MiniGameEvent.START);
 
 		// cancel task
 		this.minigameTaskManager.cancelWaitingTask();
@@ -519,7 +519,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// [IMPORTANT] restore removed leaving players for a while
 		this.players.addAll(leavingPlayers);
-		this.notifyObservers(MiniGameEvent.FINISH);
+		this.notifyObservers(this, MiniGameEvent.FINISH);
 		this.players.clear();
 
 		// runTaskAfterFinish (before initSetting())
@@ -687,7 +687,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.setupPlayerLeavingSettings(p, exception.name());
 
 		// notify EXCEPTION event to observers
-		this.notifyObservers(MiniGameEvent.EXCEPTION);
+		this.notifyObservers(this, MiniGameEvent.EXCEPTION);
 
 		// pass exception to implemented minigame
 		this.handleGameException(p, exception);
@@ -1261,8 +1261,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	@Override
-	public void notifyObservers(MiniGameEvent event) {
-		this.observerList.forEach(obs -> obs.update(event, new MiniGameAccessor(this)));
+	public void notifyObservers(MiniGame minigame, MiniGameEvent event) {
+		this.observerList.forEach(obs -> obs.update(new MiniGameAccessor(minigame), event));
 	}
 
 	@Override

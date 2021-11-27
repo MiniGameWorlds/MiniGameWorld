@@ -1,8 +1,11 @@
 package com.worldbiomusic.minigameworld.observer;
 
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+
 /**
  * Event notifier with minigame phaze(MiniGameEvent)<br>
- * Already implemented in "MiniGame" class<br><br>
+ * Already implemented in "MiniGame" class<br>
+ * <br>
  * 
  * [IMPORTANT] Consider to change to use custom event <br>
  * 
@@ -26,12 +29,22 @@ public interface MiniGameEventNotifier {
 		 * When minigame gets exception
 		 */
 		EXCEPTION,
-		
+
 		/**
 		 * When event passed to the minigame<br>
-		 * But minigame still process event in last<br> 
+		 * But minigame still process event in last<br>
 		 */
-		EVENT_PASSED;
+		EVENT_PASS,
+		
+		/**
+		 * When minigame is registered to MiniGameWolrd plugin
+		 */
+		REGISTRATION,
+		
+		/**
+		 * When minigame is unregistered from MiniGameWorld plugin
+		 */
+		UNREGISTRATION;
 	}
 
 	/**
@@ -51,7 +64,8 @@ public interface MiniGameEventNotifier {
 	/**
 	 * Notify phaze(MiniGameEvent) to observers
 	 * 
-	 * @param event
+	 * @param minigame Minigame to notify
+	 * @param event Minigame Event
 	 */
-	public void notifyObservers(MiniGameEvent event);
+	public void notifyObservers(MiniGame minigame, MiniGameEvent event);
 }

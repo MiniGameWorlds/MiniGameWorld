@@ -13,5 +13,5 @@ public interface MiniGameObserver {
 	 * @param event    Sended phaze(MiniGameEvent)
 	 * @param minigame MiniGame that sended event
 	 */
-	public void update(MiniGameEventNotifier.MiniGameEvent event, MiniGameAccessor minigame);
+	public void update(MiniGameAccessor minigame, MiniGameEventNotifier.MiniGameEvent event);
 }
