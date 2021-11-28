@@ -140,11 +140,6 @@ public class CommonEventListener implements Listener {
 		 * pass event
 		 */
 
-		// Set cancelled false: event must be proccessed independently in minigame
-		if (event instanceof Cancellable) {
-			((Cancellable) event).setCancelled(false);
-		}
-
 		// pass event
 		this.minigameManager.passEvent(event);
 		return null;

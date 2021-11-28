@@ -478,7 +478,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2021-11-28
 - Save backup data every few minutes
-
+- Remove cancelled to false in `onEvent()` (some problems occur)
 
 
 
