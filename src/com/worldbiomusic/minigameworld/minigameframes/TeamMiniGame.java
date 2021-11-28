@@ -1,9 +1,14 @@
 package com.worldbiomusic.minigameworld.minigameframes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
 
 /**
  * <b>[Info]</b><br>
@@ -59,8 +64,35 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
+	public List<? extends MiniGameRankComparable> getRank() {
+		List<MiniGameRankComparable> list = new ArrayList<>();
+		list.add(new OneTeam(getPlayers(), getTeamScore()));
+		return list;
+	}
+
+	@Override
 	public String getType() {
 		return "Team";
+	}
+
+	class OneTeam implements MiniGameRankComparable {
+		List<Player> players;
+		int score;
+
+		public OneTeam(List<Player> players, int score) {
+			this.players = players;
+			this.score = score;
+		}
+
+		@Override
+		public List<Player> getPlayers() {
+			return this.players;
+		}
+
+		@Override
+		public int getScore() {
+			return this.score;
+		}
 	}
 }
 

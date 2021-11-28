@@ -1,4 +1,5 @@
 # TODO
+- Use BackupData timer task 
 - Make MiniGame template pluing and upload to github organization
 - Make `MiniGame` implements `ConfigurationSerializable`
 - Add `party` icon to Menu
@@ -475,7 +476,8 @@ if(!this.isMinPlayersLive()) {
 - Remove not necessary keys in config when plugin starts (wbmMC)
 - Sync(align) config keys order when plugin stars (wbmMC)
 
-
+# 2021-11-28
+- Save backup data every few minutes
 
 
 

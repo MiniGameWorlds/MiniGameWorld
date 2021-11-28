@@ -145,7 +145,8 @@ public class PartyManager {
 			msg.setBold(true);
 			msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 					new ComponentBuilder("Click to join the party").create()));
-			msg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minigame party accept " + inviter.getName()));
+			msg.setClickEvent(
+					new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minigame party accept " + inviter.getName()));
 			Party.sendMessage(invitee, msg);
 		} else {
 			Party.sendMessage(inviter, "You have already invited " + invitee.getName());
@@ -316,7 +317,7 @@ public class PartyManager {
 	@SuppressWarnings("deprecation")
 	public void printList(Player p) {
 		// check target player is online
-		if (!PlayerTool.isPlayerOnline(p)) {
+		if (!PlayerTool.isOnlinePlayer(p)) {
 			return;
 		}
 
@@ -347,7 +348,7 @@ public class PartyManager {
 	 */
 	public List<Player> getMembers(Player p) {
 		// check target player is online
-		if (!PlayerTool.isPlayerOnline(p)) {
+		if (!PlayerTool.isOnlinePlayer(p)) {
 			return null;
 		}
 
@@ -364,12 +365,12 @@ public class PartyManager {
 	 */
 	private boolean checkPlayersOnline(Player notifyPlayer, Player targetPlayer) {
 		// check nofify player
-		if (!PlayerTool.isPlayerOnline(notifyPlayer)) {
+		if (!PlayerTool.isOnlinePlayer(notifyPlayer)) {
 			return false;
 		}
 
 		// check target player
-		if (!PlayerTool.isPlayerOnline(targetPlayer)) {
+		if (!PlayerTool.isOnlinePlayer(targetPlayer)) {
 			Party.sendMessage(notifyPlayer, "That player is not online");
 			return false;
 		}

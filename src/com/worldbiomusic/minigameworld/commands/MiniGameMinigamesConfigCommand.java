@@ -120,7 +120,7 @@ public class MiniGameMinigamesConfigCommand {
 	private boolean location(Player p, String[] args, Map<String, Object> data) throws Exception {
 		// /mg minigames <classname> location <<player>|<x> <y> <z>>
 		if (args.length == 4) {
-			if (!PlayerTool.isPlayerOnline(args[3])) {
+			if (!PlayerTool.isOnlinePlayer(args[3])) {
 				p.sendMessage(args[3] + " is not online or not exist");
 				return true;
 			}

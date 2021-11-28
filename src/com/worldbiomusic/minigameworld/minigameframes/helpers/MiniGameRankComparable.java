@@ -12,13 +12,7 @@ public interface MiniGameRankComparable extends Comparable<MiniGameRankComparabl
 
 	@Override
 	default int compareTo(MiniGameRankComparable other) {
-		if (getScore() > other.getScore()) {
-			return 1;
-		} else if (getScore() < other.getScore()) {
-			return -1;
-		} else {
-			return 0;
-		}
+		return other.getScore() - getScore();
 	}
 
 	
