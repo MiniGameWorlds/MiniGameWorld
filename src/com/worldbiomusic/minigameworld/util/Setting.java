@@ -9,6 +9,11 @@ public class Setting {
 
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
 
+	/**
+	 * Per minutes
+	 */
+	public static int BACKUP_DATA_SAVE_DELAY = 60;
+
 	// party
 	public static final int PARTY_INVITE_TIMEOUT = 60;
 	public static final int PARTY_ASK_TIMEOUT = 60;
@@ -20,7 +25,8 @@ public class Setting {
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
 //	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
 	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
-	public static final String SETTINGS_DEBUG_MODE= "debug-mode";
+	public static final String SETTINGS_DEBUG_MODE = "debug-mode";
+	public static final String SETTINGS_BACKUP_DATA_SAVE_DELAY = "backup-data-save-delay";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

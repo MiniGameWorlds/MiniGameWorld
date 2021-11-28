@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.wbm.plugin.util.instance.BackupDataManager;
+import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class DataManager {
@@ -18,6 +19,7 @@ public class DataManager {
 
 		// BackupDataManager
 		this.backupDataManager = new BackupDataManager(main);
+		this.backupDataManager.startSavingBackupDataTask(Setting.BACKUP_DATA_SAVE_DELAY);
 	}
 
 	public void registerYamlMember(YamlMember member) {

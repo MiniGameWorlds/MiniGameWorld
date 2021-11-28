@@ -83,10 +83,10 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		return null;
 	}
 
+	/**
+	 * Set basic setting.yml data
+	 */
 	private void initSettingData() {
-		/*
-		 * set basic setting.yml
-		 */
 
 		// minigameSign
 		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_SIGN)) {
@@ -95,15 +95,21 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 
 		// messagePrefix
 		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
-			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET);
+			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, Utils.messagePrefix);
 		}
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 
 		// debug-mode
 		if (!this.settings.containsKey(Setting.SETTINGS_DEBUG_MODE)) {
-			this.settings.put(Setting.SETTINGS_DEBUG_MODE, false);
+			this.settings.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
 		}
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
+
+		// backup-data-save-delay
+		if (!this.settings.containsKey(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY)) {
+			this.settings.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
+		}
+		Setting.BACKUP_DATA_SAVE_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY);
 	}
 
 	public void joinGame(Player p, String title) {
