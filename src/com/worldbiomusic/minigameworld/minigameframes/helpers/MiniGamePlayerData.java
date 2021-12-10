@@ -9,7 +9,8 @@ import org.bukkit.entity.Player;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
-public class MiniGamePlayerData implements MiniGameRankComparable {
+public class MiniGamePlayerData implements MiniGameRankComparable, Cloneable {
+
 	private MiniGame minigame;
 	private Player player;
 	private int score;
@@ -63,4 +64,13 @@ public class MiniGamePlayerData implements MiniGameRankComparable {
 		return players;
 	}
 
+	@Override
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

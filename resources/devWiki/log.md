@@ -1,7 +1,6 @@
 # TODO
-- Use BackupData timer task 
+- 1.18
 - Make MiniGame template pluing and upload to github organization
-- Make `MiniGame` implements `ConfigurationSerializable`
 - Add `party` icon to Menu
 - Make Update checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
@@ -480,8 +479,8 @@ if(!this.isMinPlayersLive()) {
 - Save backup data every few minutes
 - Remove cancelled to false in `onEvent()` (some problems occur)
 
-
-
+# 2021-12-11
+- Change shallow-copy to deep-copy of API (Cloneable) (Not perfect)
 
 
 

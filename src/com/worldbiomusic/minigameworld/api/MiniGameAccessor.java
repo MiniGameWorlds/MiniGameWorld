@@ -80,22 +80,27 @@ public class MiniGameAccessor {
 	}
 
 	/**
-	 * Gets PlayerData list in minigame
+	 * Gets copied PlayerData list in minigame (Data change will not be applied)
 	 * 
 	 * @return PlayerData list
 	 */
 	public List<MiniGamePlayerData> getPlayerDataList() {
 		// copied
-		return new ArrayList<>(this.minigame.getPlayerDataList());
+		List<MiniGamePlayerData> copiedMinigamePlayerData = new ArrayList<>();
+		for (MiniGamePlayerData minigamePData : this.minigame.getPlayerDataList()) {
+			copiedMinigamePlayerData.add((MiniGamePlayerData) minigamePData.clone());
+		}
+
+		return copiedMinigamePlayerData;
 	}
 
 	/**
-	 * Gets setting data
+	 * Gets setting data<br>
+	 * Will be return clone object in the future
 	 * 
 	 * @return Minigame setting data
 	 */
 	public Map<String, Object> getSettings() {
-		// copied
 		return new HashMap<>(this.minigame.getDataManager().getData());
 	}
 
@@ -137,14 +142,14 @@ public class MiniGameAccessor {
 	}
 
 	/**
-	 * Gets rank list by score
+	 * Gets rank list by score<br>
+	 * Will be return clone object in the future
 	 * 
 	 * @return Rank list
 	 */
 
 	public List<? extends MiniGameRankComparable> getRank() {
-		// copied
-		return new ArrayList<>(this.minigame.getRank());
+		return this.minigame.getRank();
 
 	}
 
