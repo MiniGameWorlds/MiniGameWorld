@@ -507,6 +507,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		printEndInfo();
 
+		notifyObservers(this, MiniGameEvent.BEFORE_FINISH);
+		
 		// save players for minigame finish event
 		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 

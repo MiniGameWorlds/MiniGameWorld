@@ -139,6 +139,6 @@ public class MiniGameDataManager implements YamlMember {
 	@Override
 	public String getFileName() {
 		// in "games" directory
-		return FOLDER_NAME + "/" + this.getClassName() + ".yml";
+		return FOLDER_NAME + File.separator + this.getClassName() + ".yml";
 	}
 }

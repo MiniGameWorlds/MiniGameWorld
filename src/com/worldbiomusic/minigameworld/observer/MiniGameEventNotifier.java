@@ -21,6 +21,10 @@ public interface MiniGameEventNotifier {
 		 */
 		START,
 		/**
+		 * Before minigame finished 
+		 */
+		BEFORE_FINISH,
+		/**
 		 * When minigame finished
 		 */
 		FINISH,

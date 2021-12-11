@@ -482,7 +482,9 @@ if(!this.isMinPlayersLive()) {
 # 2021-12-11
 - Change shallow-copy to deep-copy of API (Cloneable) (Not perfect)
 
-
+# 2021-12-12
+- Add `MiniGameEvent.BEFORE_FINISH`
+- Change "/" to `File.separator`
 
 
 
