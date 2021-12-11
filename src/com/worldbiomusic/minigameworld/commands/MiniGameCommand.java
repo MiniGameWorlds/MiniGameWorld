@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -24,13 +25,16 @@ public class MiniGameCommand implements CommandExecutor {
 	private MiniGameSettingsConfigCommand miniGameSettingsConfigCommand;
 	private MiniGameMinigamesConfigCommand miniGameMinigamesConfigCommand;
 	private MiniGameHelpCommand minigameHelpCommand;
+	private DataManager dataManager;
 
-	public MiniGameCommand(MiniGameManager minigameM) {
+	public MiniGameCommand(MiniGameManager minigameM, DataManager dataManager) {
 		this.minigameManager = minigameM;
+		this.dataManager = dataManager;
 
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
-		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager);
-		this.miniGameMinigamesConfigCommand = new MiniGameMinigamesConfigCommand(this.minigameManager);
+		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager, this.dataManager);
+		this.miniGameMinigamesConfigCommand = new MiniGameMinigamesConfigCommand(this.minigameManager,
+				this.dataManager);
 		this.minigameHelpCommand = new MiniGameHelpCommand();
 
 		// set tab completer
@@ -142,7 +146,7 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean menu(Player p, String[] args) throws Exception{
+	private boolean menu(Player p, String[] args) throws Exception {
 		// check permission
 		if (!Utils.checkPerm(p, "menu")) {
 			return true;
@@ -159,8 +163,8 @@ public class MiniGameCommand implements CommandExecutor {
 			return true;
 		}
 
-		// reload "setting.yml", "minigames.yml"
-		this.minigameManager.reload();
+		// reload "setting.yml", all minigames
+		this.dataManager.reloadAllData();
 
 		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
 		p.sendMessage("- " + this.minigameManager.getFileName());

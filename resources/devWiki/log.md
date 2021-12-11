@@ -1,4 +1,5 @@
 # TODO
+- Upload MiniGame overworld to github
 - 1.18
 - Make MiniGame template pluing and upload to github organization
 - Add `party` icon to Menu

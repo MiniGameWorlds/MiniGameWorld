@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -11,11 +12,13 @@ import com.worldbiomusic.minigameworld.util.Utils;
 public class MiniGameSettingsConfigCommand {
 
 	private MiniGameManager minigameManager;
+	private DataManager dataManager;
 	// setting.yml
 	private Map<String, Object> settings;
 
-	public MiniGameSettingsConfigCommand(MiniGameManager minigameManager) {
+	public MiniGameSettingsConfigCommand(MiniGameManager minigameManager, DataManager dataManager) {
 		this.minigameManager = minigameManager;
+		this.dataManager = dataManager;
 		this.settings = this.minigameManager.getSettings();
 	}
 
@@ -44,7 +47,7 @@ public class MiniGameSettingsConfigCommand {
 			this.minigameManager.getYamlManager().save(this.minigameManager);
 
 			// reload config
-			this.minigameManager.reload();
+			this.dataManager.reload(this.minigameManager);
 
 			// refer settings again (reload make new config and retarget settings)
 			this.settings = this.minigameManager.getSettings();

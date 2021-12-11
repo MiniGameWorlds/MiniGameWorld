@@ -370,14 +370,6 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	}
 
 	@Override
-	public void reload() {
-		this.yamlManager.reload(this);
-
-		// reload minigames
-		this.minigames.forEach(m -> m.getDataManager().reload());
-	}
-
-	@Override
 	public void setData(YamlManager yamlM, FileConfiguration config) {
 		this.yamlManager = yamlM;
 

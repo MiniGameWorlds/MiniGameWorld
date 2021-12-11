@@ -35,4 +35,12 @@ public class DataManager {
 		this.backupDataManager.saveBackupData();
 		Utils.info(ChatColor.BLUE + "Backup data saved");
 	}
+
+	public void reloadAllData() {
+		this.yamlManager.reloadAllData();
+	}
+
+	public void reload(YamlMember member) {
+		this.yamlManager.reload(member);
+	}
 }

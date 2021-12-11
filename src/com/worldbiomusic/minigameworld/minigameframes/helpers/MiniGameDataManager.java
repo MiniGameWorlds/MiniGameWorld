@@ -119,14 +119,6 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	@Override
-	public void reload() {
-		this.yamlManager.reload(this);
-
-		// apply file data to minigame
-		this.applyMiniGameDataToInstance();
-	}
-
-	@Override
 	public void setData(YamlManager yamlManager, FileConfiguration config) {
 		this.yamlManager = yamlManager;
 
@@ -134,6 +126,9 @@ public class MiniGameDataManager implements YamlMember {
 			this.data = YamlHelper.ObjectToMap(config.getConfigurationSection(this.getClassName()));
 		}
 		config.set(this.getClassName(), this.data);
+
+		// [IMPORTANT] This called after yaml reload (apply file data to minigame)
+		this.applyMiniGameDataToInstance();
 	}
 
 	@Override

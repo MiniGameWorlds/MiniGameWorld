@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
@@ -18,9 +19,11 @@ import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameMinigamesConfigCommand {
 	private MiniGameManager minigameManager;
+	private DataManager dataManager;
 
-	public MiniGameMinigamesConfigCommand(MiniGameManager minigameManager) {
+	public MiniGameMinigamesConfigCommand(MiniGameManager minigameManager, DataManager dataManager) {
 		this.minigameManager = minigameManager;
+		this.dataManager = dataManager;
 	}
 
 	private MiniGame getMiniGame(String className) {
@@ -82,7 +85,7 @@ public class MiniGameMinigamesConfigCommand {
 			this.minigameManager.getYamlManager().save(minigameData);
 
 			// reload config
-			minigameData.reload();
+			this.dataManager.reload(minigameData);
 		}
 
 		return true;
