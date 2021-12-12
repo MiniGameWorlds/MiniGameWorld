@@ -28,7 +28,6 @@ public class DataManager {
 
 	public void saveAllData() {
 		this.yamlManager.saveAllData();
-		Utils.info(ChatColor.GREEN + "All data saved");
 	}
 
 	public void saveBackupData() {

@@ -22,7 +22,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
@@ -380,8 +380,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		}
 
 		// remove player from minigame
-		// [IMPORTANT] Must called before "setupPlayerWhenLeave()" to block cycle event
-		// processing
+		// [IMPORTANT] Must be called before "setupPlayerWhenLeave()" to block cycle
+		// event processing
 		this.removePlayer(p);
 
 		// setup player state
@@ -508,7 +508,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		printEndInfo();
 
 		notifyObservers(this, MiniGameEvent.BEFORE_FINISH);
-		
+
 		// save players for minigame finish event
 		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 
@@ -594,7 +594,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 * @return Ordered data
 	 */
-	public List<? extends MiniGameRankComparable> getRank() {
+	public List<? extends MiniGameRankResult> getRank() {
 		Collections.sort(this.players);
 		return this.players;
 	}
@@ -1236,7 +1236,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Override this method for custom type<br>
 	 * 
 	 * @return Minigame type
-	 * @see SoloMiniGame, SoloBattleMiniGame, TeamMiniGame, TeamBattleMiniGame
+	 * @see SoloMiniGame
+	 * @see SoloBattleMiniGame
+	 * @see TeamMiniGame
+	 * @see TeamBattleMiniGame
 	 */
 	public String getType() {
 		return "MiniGame";

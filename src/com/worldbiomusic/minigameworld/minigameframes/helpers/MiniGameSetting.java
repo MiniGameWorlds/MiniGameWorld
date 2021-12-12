@@ -13,83 +13,99 @@ import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameSetting {
 	/**
-	 * - File control: O - Init value: setup value - Description: minigame title,
-	 * must be no blank in title
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: minigame title, must be no blank in title
 	 */
 	private String title;
 
 	/**
-	 * - File control: O - Init value: new Location(Bukkit.getWorld("world"), 0, 4,
-	 * 0) - Description: minigame playing location
+	 * - File control: O <br>
+	 * - Init value: new Location(Bukkit.getWorld("world"), 0, 4, 0) <br>
+	 * - Description: minigame playing location
 	 */
 	private Location location;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: min participating
-	 * players
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: min participating players
 	 */
 	private int minPlayerCount;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: max participating
-	 * players
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: max participating players
 	 */
 	private int maxPlayerCount;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: waiting time for
-	 * starting (sec)
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: waiting time for starting (sec)
 	 */
 	private int waitingTime;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: minigame running
-	 * time (sec)
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: minigame running time (sec)
 	 */
 	private int timeLimit;
 
 	/**
-	 * - File control: O - Init value: true - Description: whether minigame is
-	 * active or not
+	 * - File control: O <br>
+	 * - Init value: true <br>
+	 * - Description: whether minigame is active or not
 	 */
 	private boolean active;
 
 	/**
-	 * - File control: X - Init value: false - Description: option for specific
-	 * MiniGameSettings fix
+	 * - File control: X <br>
+	 * - Init value: false <br>
+	 * - Description: option for specific MiniGameSettings fix
 	 */
 	private boolean settingFixed;
 
 	/**
-	 * - File control: O - Init value: none - Description: tutorial
+	 * - File control: O <br>
+	 * - Init value: none <br>
+	 * - Description: tutorial
 	 */
 	private List<String> tutorial;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: custom data
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: custom data
 	 */
 	private Map<String, Object> customData;
 
 	/**
-	 * - File control: O - Init value: setup value - Description: icon item for GUI
-	 * inventory
+	 * - File control: O <br>
+	 * - Init value: setup value <br>
+	 * - Description: icon item for GUI inventory
 	 */
 	private Material icon;
 
 	/**
-	 * - File control: X - Init value: setup value - Description: whether get all
-	 * event without filtering player
+	 * - File control: X <br>
+	 * - Init value: setup value <br>
+	 * - Description: whether get all event without filtering player
 	 */
 	private boolean passUndetectableEvent;
 
 	/**
-	 * Check condition in {@link MiniGame#handleException()}
+	 * Check game finish condition
+	 * 
+	 * @see MiniGame#handleException
 	 */
 	public enum GameFinishCondition {
 		/**
 		 * Check nothing<br>
 		 * Have to process in minigame with overriding
-		 * {@link MiniGame#handleException()} <br>
+		 * {@link MiniGame#handleException} <br>
 		 */
 		NONE,
 		/**
@@ -105,7 +121,7 @@ public class MiniGameSetting {
 	/**
 	 * - File control: X<br>
 	 * - Init value: MIN_PLAYERS_LIVE<br>
-	 * - Description: Checked in {@link MiniGame#handleException()}
+	 * - Description: Checked in {@link MiniGame#handleException}
 	 */
 	private GameFinishCondition gameFinishCondition;
 

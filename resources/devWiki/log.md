@@ -1,11 +1,10 @@
 # TODO
 - Upload MiniGame overworld to github
-- 1.18
 - Make MiniGame template pluing and upload to github organization
 - Add `party` icon to Menu
 - Make Update checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
-- Change to use custom event instead of `MiniGameObserver`
+- Change to use custom event instead of `MiniGameObserver` (about to START, BEFORE_FINISH, FINISH)
 - Notify player count when join a minigame (with minimum count for start)
 - Add written java doc class list to wiki
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
@@ -68,12 +67,30 @@
 - Add `live GameMode`, `dead GameMode`, `color` to MiniGameCustomOption
 - Restore missed keys of minigame data(yml) automatically
 
+## 0.3.0
+### API Changes
+- Add `EVENT_PASSED`, `REGISTRATION`, `UNREGISTRATION`, `BEFORE_FINISH` to `MiniGameEventNotifier`
+- Now can get minigame result with `MiniGameAccessor.getRank()` (Use `MiniGameRankResult` interface)
+- Rank will be sorted only in descending order (remove RankOrder setting)
+
+### Build Changes
+- Add rank color
+- Change backup file name format
+- Fix bugs(minigame logic, observer)
+- Manage more player's state during minigame playing
+- Add `debug-mode` to `settings.yml` (for debugging when send errors)
+- Keys in all config will be managed automatically (auto-add, auto-remove, auto-sort in any situations)
+- Now will be saved backup data every 60 minutes
+- Works fine in `1.18`
+
+
+
 ---
 
 
 
 # 2020-10 ~ 2021-03
-- See `Relay Escape Plugin` log (separate minigame module from `Relay Escape` server)
+- See `Relay Escape Plugin` log (separated minigame module from `Relay Escape` server)
 
 # 2021-03 ~ 2021-05-09
 - developed without log
@@ -486,8 +503,8 @@ if(!this.isMinPlayersLive()) {
 # 2021-12-12
 - Add `MiniGameEvent.BEFORE_FINISH`
 - Change "/" to `File.separator`
-
-
+- Test with 1.18
+- Release 0.3.0
 
 
 

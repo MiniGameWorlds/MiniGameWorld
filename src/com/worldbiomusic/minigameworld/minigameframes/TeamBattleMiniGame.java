@@ -14,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
@@ -534,7 +534,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/**
 	 * Counting unit changed: "player" to "team"<br>
-	 * <b>[IMPORTANT]<b> Must override {@link MiniGame#isMinPlayersLive}, because
+	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isMinPlayersLive}, because
 	 * {@link MiniGame#checkGameFinishCondition} checks with this method <br>
 	 */
 	@Override
@@ -743,7 +743,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Ordered team list by score
 	 */
 	@Override
-	public List<? extends MiniGameRankComparable> getRank() {
+	public List<? extends MiniGameRankResult> getRank() {
 		Collections.sort(this.allTeams);
 		return this.allTeams;
 	}
@@ -772,7 +772,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Manage: teamName, maxMemberCount, members, color
 	 *
 	 */
-	public class Team implements MiniGameRankComparable {
+	public class Team implements MiniGameRankResult {
 		private String teamName;
 		private int maxMemberCount;
 		private List<Player> members;

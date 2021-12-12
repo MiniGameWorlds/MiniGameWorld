@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 
 /**
  * MiniGameWorld plugin "MiniGame" wrapper api
@@ -148,7 +148,7 @@ public class MiniGameAccessor {
 	 * @return Rank list
 	 */
 
-	public List<? extends MiniGameRankComparable> getRank() {
+	public List<? extends MiniGameRankResult> getRank() {
 		return this.minigame.getRank();
 
 	}

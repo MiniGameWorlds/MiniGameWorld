@@ -16,4 +16,5 @@
 - **Must** use `LinkedHashMap` instead of `HashMap` if it related with config operation to sort key order
 - Minigame always processes `Event` in last (`Priority.HIGHEST`) (Use `Priority.MONITOR` for important thing)
 - No Plugin can edit other MiniGame data (but inevitably, players can be accessed)
-- API returns not synced **copied** instance for data security
+- API returns not synced **clone** instance for data security (use Cloneable)
+- Don't use `scoreboard`, `bossbar`, because the almost servers are currently using them (can conflict)

@@ -42,7 +42,9 @@ public class Utils {
 	}
 
 	public static void debug(String msg) {
-		info(ChatColor.RED + "[DEBUG] " + msg);
+		if (Setting.DEBUG_MODE) {
+			info(ChatColor.RED + "[DEBUG] " + msg);
+		}
 	}
 
 	public static void broadcast(String msg) {

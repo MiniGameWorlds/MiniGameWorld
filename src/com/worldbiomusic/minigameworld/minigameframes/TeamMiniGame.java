@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankComparable;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 
 /**
  * <b>[Info]</b><br>
@@ -64,8 +64,8 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
-	public List<? extends MiniGameRankComparable> getRank() {
-		List<MiniGameRankComparable> list = new ArrayList<>();
+	public List<? extends MiniGameRankResult> getRank() {
+		List<MiniGameRankResult> list = new ArrayList<>();
 		list.add(new OneTeam(getPlayers(), getTeamScore()));
 		return list;
 	}
@@ -75,7 +75,7 @@ public abstract class TeamMiniGame extends MiniGame {
 		return "Team";
 	}
 
-	class OneTeam implements MiniGameRankComparable {
+	class OneTeam implements MiniGameRankResult {
 		List<Player> players;
 		int score;
 

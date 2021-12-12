@@ -9,7 +9,13 @@ import org.bukkit.entity.Player;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
-public class MiniGamePlayerData implements MiniGameRankComparable, Cloneable {
+/**
+ * Player data with score, live<br>
+ * [IMPORTANT] live is only valid in the minigame play (not related with
+ * player's health)
+ *
+ */
+public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 
 	private MiniGame minigame;
 	private Player player;
@@ -23,30 +29,64 @@ public class MiniGamePlayerData implements MiniGameRankComparable, Cloneable {
 		this.setLive(true);
 	}
 
+	/**
+	 * Gets a player
+	 * 
+	 * @return Player
+	 */
 	public Player getPlayer() {
 		return this.player;
 	}
 
+	/**
+	 * Check player are the same
+	 * 
+	 * @param other Other player
+	 * @return True if the same player
+	 */
 	public boolean isSamePlayer(Player other) {
 		return this.player.equals(other);
 	}
 
+	/**
+	 * Gets player's score
+	 */
 	public int getScore() {
 		return score;
 	}
 
+	/**
+	 * Plus player's score
+	 * 
+	 * @param amount Score amount
+	 */
 	public void plusScore(int amount) {
 		this.score += amount;
 	}
 
+	/**
+	 * Minus player's score
+	 * 
+	 * @param amount Score amount
+	 */
 	public void minusScore(int amount) {
 		this.score -= amount;
 	}
 
+	/**
+	 * Check player is live in the minigame play
+	 * 
+	 * @return True if alive
+	 */
 	public boolean isLive() {
 		return live;
 	}
 
+	/**
+	 * Sets player's live in the minigame player
+	 * 
+	 * @param live False if make death a player
+	 */
 	public void setLive(boolean live) {
 		this.live = live;
 
