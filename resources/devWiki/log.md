@@ -1,4 +1,5 @@
 # TODO
+- Minigame Perspective mode (spectator) (Sign: Sneak + Right Click, Cmd: /minigame watch <minigame>: teleport to minigame spawn location, /minigame leave (also exit from watching): back to joined location)
 - Upload MiniGame overworld to github
 - Make MiniGame template pluing and upload to github organization
 - Add `party` icon to Menu
@@ -78,8 +79,8 @@
 - Change backup file name format
 - Fix bugs(minigame logic, observer)
 - Manage more player's state during minigame playing
-- Add `debug-mode` to `settings.yml` (for debugging when send errors)
-- Keys in all config will be managed automatically (auto-add, auto-remove, auto-sort in any situations)
+- Add `debug-mode` to `settings.yml` (for debugging when sending errors)
+- Keys in all config will be managed automatically (auto-add, auto-remove, auto-sort in any situation)
 - Now will be saved backup data every 60 minutes
 - Works fine in `1.18`
 

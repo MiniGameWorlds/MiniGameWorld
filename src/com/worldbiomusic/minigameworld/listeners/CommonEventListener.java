@@ -136,10 +136,6 @@ public class CommonEventListener implements Listener {
 	}
 
 	private Object onEvent(Event event) {
-		/*
-		 * pass event
-		 */
-
 		// pass event
 		this.minigameManager.passEvent(event);
 		return null;

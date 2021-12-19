@@ -44,12 +44,6 @@ public class MiniGameCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		// only player
-		if (!(sender instanceof Player)) {
-			return true;
-		}
-
-		Player p = (Player) sender;
 
 		try {
 			// menu
@@ -57,21 +51,21 @@ public class MiniGameCommand implements CommandExecutor {
 
 			switch (menu) {
 			case "join":
-				return this.join(p, args);
+				return this.join(sender, args);
 			case "leave":
-				return this.leave(p, args);
+				return this.leave(sender, args);
 			case "list":
-				return this.list(p, args);
+				return this.list(sender, args);
 			case "menu":
-				return this.menu(p, args);
+				return this.menu(sender, args);
 			case "reload":
-				return this.reloadConfig(p, args);
+				return this.reloadConfig(sender, args);
 			case "party":
-				return this.miniGamePartyCommand.party(p, args);
+				return this.miniGamePartyCommand.party(sender, args);
 			case "settings":
-				return this.miniGameSettingsConfigCommand.settings(p, args);
+				return this.miniGameSettingsConfigCommand.settings(sender, args);
 			case "minigames":
-				return this.miniGameMinigamesConfigCommand.minigames(p, args);
+				return this.miniGameMinigamesConfigCommand.minigames(sender, args);
 			}
 		} catch (Exception e) {
 			if (Setting.DEBUG_MODE) {
@@ -80,15 +74,23 @@ public class MiniGameCommand implements CommandExecutor {
 
 		}
 		// print usage
-		this.minigameHelpCommand.printHelp(p, args);
+		this.minigameHelpCommand.printHelp(sender, args);
 
 		return true;
 	}
 
-	private boolean join(Player p, String[] args) throws Exception {
+	private boolean join(CommandSender sender, String[] args) throws Exception {
 		/*
 		 * minigame join <title>
 		 */
+
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
+			return true;
+		}
+		Player p = (Player) sender;
+
 		// check permission
 		if (!Utils.checkPerm(p, "play.join")) {
 			return true;
@@ -99,10 +101,17 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean leave(Player p, String[] args) throws Exception {
+	private boolean leave(CommandSender sender, String[] args) throws Exception {
 		/*
 		 * minigame leave
 		 */
+		
+		// only player
+				if (!(sender instanceof Player)) {
+					sender.sendMessage("Only Player");
+					return true;
+				}
+				Player p = (Player) sender;
 
 		// check permission
 		if (!Utils.checkPerm(p, "play.leave")) {
@@ -113,9 +122,9 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean list(Player p, String[] args) throws Exception {
+	private boolean list(CommandSender sender, String[] args) throws Exception {
 		// check permission
-		if (!Utils.checkPerm(p, "play.list")) {
+		if (!Utils.checkPerm(sender, "play.list")) {
 			return true;
 		}
 
@@ -126,27 +135,31 @@ public class MiniGameCommand implements CommandExecutor {
 		info += "\n" + "※ " + ChatColor.RED + "RED" + ChatColor.WHITE + ": already started";
 		info += "\n" + "※ " + ChatColor.GREEN + "GREEN" + ChatColor.WHITE + ": can join";
 		info += "\n" + "※ " + ChatColor.STRIKETHROUGH + "STRIKETHROUGH" + ChatColor.WHITE + ": inactive";
-		Utils.sendMsg(p, info);
+		sender.sendMessage(info);
 
 		// print mingames
 		for (MiniGame game : games) {
 			String gameTitle = game.getTitle();
 			if (!game.isActive()) {
-				Utils.sendMsg(p, "- " + ChatColor.STRIKETHROUGH + gameTitle);
+				sender.sendMessage("- " + ChatColor.STRIKETHROUGH + gameTitle);
 			} else if (game.isStarted()) {
-				Utils.sendMsg(p, "- " + ChatColor.RED + gameTitle);
+				sender.sendMessage("- " + ChatColor.RED + gameTitle);
 			} else if (!game.isStarted()) {
-				Utils.sendMsg(p, "- " + ChatColor.GREEN + gameTitle);
+				sender.sendMessage("- " + ChatColor.GREEN + gameTitle);
 			}
 		}
-
-		// test
-		p.setHealthScale(30);
 
 		return true;
 	}
 
-	private boolean menu(Player p, String[] args) throws Exception {
+	private boolean menu(CommandSender sender, String[] args) throws Exception {
+		// only player
+				if (!(sender instanceof Player)) {
+					sender.sendMessage("Only Player");
+					return true;
+				}
+				Player p = (Player) sender;
+		
 		// check permission
 		if (!Utils.checkPerm(p, "menu")) {
 			return true;
@@ -157,19 +170,19 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean reloadConfig(Player p, String[] args) throws Exception {
+	private boolean reloadConfig(CommandSender  sender, String[] args) throws Exception {
 		// check permission
-		if (!Utils.checkPerm(p, "config.reload")) {
+		if (!Utils.checkPerm(sender, "config.reload")) {
 			return true;
 		}
 
 		// reload "setting.yml", all minigames
 		this.dataManager.reloadAllData();
 
-		p.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
-		p.sendMessage("- " + this.minigameManager.getFileName());
+		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
+		sender.sendMessage("- " + this.minigameManager.getFileName());
 		this.minigameManager.getMiniGameList().forEach(m -> {
-			p.sendMessage("- " + m.getTitleWithClassName());
+			sender.sendMessage("- " + m.getTitleWithClassName());
 		});
 		return true;
 	}

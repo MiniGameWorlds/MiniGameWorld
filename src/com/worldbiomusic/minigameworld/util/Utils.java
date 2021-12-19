@@ -3,6 +3,7 @@ package com.worldbiomusic.minigameworld.util;
 import java.io.File;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,8 +24,8 @@ public class Utils {
 		return "[" + messagePrefix + "] ";
 	}
 
-	public static void sendMsg(Player p, String msg) {
-		p.sendMessage(getMessagePrefixString() + msg);
+	public static void sendMsg(CommandSender sender, String msg) {
+		sender.sendMessage(getMessagePrefixString() + msg);
 	}
 
 	public static void sendMsg(Player p, BaseComponent compo) {
@@ -55,8 +56,8 @@ public class Utils {
 		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameDataManager.FOLDER_NAME);
 	}
 
-	public static boolean checkPerm(Player p, String permission) {
-		return p.hasPermission("minigameworld." + permission);
+	public static boolean checkPerm(CommandSender sender, String permission) {
+		return sender.hasPermission("minigameworld." + permission);
 	}
 
 	public static File getServerFile(String file) {

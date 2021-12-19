@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
@@ -13,7 +14,7 @@ public class MiniGamePartyCommand {
 		this.partyManager = partyManager;
 	}
 
-	public boolean party(Player p, String[] args) throws Exception {
+	public boolean party(CommandSender sender, String[] args) throws Exception {
 		/*
 		 * - /mg party invite <player(invitee)>
 		 * - /mg party accept <player(inviter)>
@@ -24,6 +25,13 @@ public class MiniGamePartyCommand {
 		 * - /mg party msg <message>
 		 * - /mg party list
 		 */
+
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
+			return true;
+		}
+		Player p = (Player) sender;
 
 		String menu = args[1];
 		switch (menu) {

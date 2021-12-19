@@ -118,7 +118,7 @@ Class-Path: . libs/classgraph.jar
 - Test all compatible versions (can compile test with changing `spigot-x.x.x.jar` build path)
 - Regenerate `javadoc`
 - Set `Setting.DEBUG_MODE` to `false`
-
+- Change release file name with version like `MiniGameWorld-x.x.x.jar`
 
 
 [Spigot]: https://getbukkit.org/download/spigot
