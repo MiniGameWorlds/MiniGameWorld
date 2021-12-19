@@ -91,11 +91,6 @@ public class MiniGameCommand implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 
-		// check permission
-		if (!Utils.checkPerm(p, "play.join")) {
-			return true;
-		}
-
 		String title = args[1];
 		this.minigameManager.joinGame(p, title);
 		return true;
@@ -105,18 +100,13 @@ public class MiniGameCommand implements CommandExecutor {
 		/*
 		 * minigame leave
 		 */
-		
-		// only player
-				if (!(sender instanceof Player)) {
-					sender.sendMessage("Only Player");
-					return true;
-				}
-				Player p = (Player) sender;
 
-		// check permission
-		if (!Utils.checkPerm(p, "play.leave")) {
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
 			return true;
 		}
+		Player p = (Player) sender;
 
 		this.minigameManager.leaveGame(p);
 		return true;
@@ -154,23 +144,18 @@ public class MiniGameCommand implements CommandExecutor {
 
 	private boolean menu(CommandSender sender, String[] args) throws Exception {
 		// only player
-				if (!(sender instanceof Player)) {
-					sender.sendMessage("Only Player");
-					return true;
-				}
-				Player p = (Player) sender;
-		
-		// check permission
-		if (!Utils.checkPerm(p, "menu")) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
 			return true;
 		}
+		Player p = (Player) sender;
 
 		MiniGameMenuManager menuManager = this.minigameManager.getMiniGameMenuManager();
 		menuManager.openMenu(p);
 		return true;
 	}
 
-	private boolean reloadConfig(CommandSender  sender, String[] args) throws Exception {
+	private boolean reloadConfig(CommandSender sender, String[] args) throws Exception {
 		// check permission
 		if (!Utils.checkPerm(sender, "config.reload")) {
 			return true;

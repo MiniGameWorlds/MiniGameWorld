@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameMenuManager {
 	/*
@@ -42,7 +43,19 @@ public class MiniGameMenuManager {
 		}.runTaskTimer(MiniGameWorldMain.getInstance(), 0, 4);
 	}
 
+	/**
+	 * Open menu inventory to player
+	 * 
+	 * @param p Player who will open menu inventory
+	 * @return Inventory, but return null if player doesn't have
+	 *         "minigameworld.menu" permission
+	 */
 	public Inventory openMenu(Player p) {
+		// check permission
+		if (!Utils.checkPerm(p, "menu")) {
+			return null;
+		}
+
 		this.menuList.put(p, new MiniGameMenu(p, this.minigameManager));
 
 		// open 1 page menu

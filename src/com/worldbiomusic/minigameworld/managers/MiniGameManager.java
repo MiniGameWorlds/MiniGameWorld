@@ -113,6 +113,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	}
 
 	public void joinGame(Player p, String title) {
+		// check permission
+		if (!Utils.checkPerm(p, "play.join")) {
+			return;
+		}
+
 		// strip "color code"
 		title = ChatColor.stripColor(title);
 		MiniGame game = this.getMiniGameWithTitle(title);
@@ -141,6 +146,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	}
 
 	public void leaveGame(Player p) {
+		// check permission
+		if (!Utils.checkPerm(p, "play.leave")) {
+			return;
+		}
+
 		// leave party members
 		List<Player> members = this.partyManager.getMembers(p);
 
@@ -154,7 +164,6 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 					playingGame.leaveGame(member);
 				}
 			}
-
 		} else {
 			Utils.sendMsg(p, "You're not playing any minigame");
 		}

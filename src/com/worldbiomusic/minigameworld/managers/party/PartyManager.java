@@ -109,13 +109,18 @@ public class PartyManager {
 	}
 
 	/**
-	 * Invites player to own party
+	 * Invites player to own party<br>
+	 * Need "minigameworld.party.invite" permission
 	 * 
 	 * @param inviter Player who sent invitation
-	 * @param invitee Player to send invitation
+	 * @param invitee Player who gets a invitation from a inviter
 	 */
-	@SuppressWarnings("deprecation")
 	public void invitePlayer(Player inviter, Player invitee) {
+		// check permission
+		if (!Utils.checkPerm(inviter, "party.invite")) {
+			return;
+		}
+
 		// check target player is online
 		if (!this.checkPlayersOnline(inviter, invitee)) {
 			return;
@@ -154,12 +159,18 @@ public class PartyManager {
 	}
 
 	/**
-	 * Accepts invitation
+	 * Accepts invitation<br>
+	 * Need "minigameworld.party.accept" permission
 	 * 
-	 * @param invitee Player who get invitation from inviter
+	 * @param invitee Player who gets a invitation from a inviter
 	 * @param inviter Player who sent invitation
 	 */
 	public void acceptInvitation(Player invitee, Player inviter) {
+		// check permission
+		if (!Utils.checkPerm(invitee, "party.accept")) {
+			return;
+		}
+
 		// check target player is online
 		if (!this.checkPlayersOnline(inviter, invitee)) {
 			return;
@@ -171,30 +182,36 @@ public class PartyManager {
 		}
 	}
 
-	/**
-	 * Rejects invitation
-	 * 
-	 * @param inviter Player who sent invitation
-	 * @param invitee Player who get invitation from inviter
-	 */
-	public void rejectInvitation(Player inviter, Player invitee) {
-		// check target player is online
-		if (!this.checkPlayersOnline(inviter, invitee)) {
-			return;
-		}
+//	/**
+//	 * Rejects invitation<br>
+//	 * Need "minigameworld.party." permission
+//	 * 
+//	 * @param inviter Player who sent a invitation
+//	 * @param invitee Player who got invitation from a inviter
+//	 */
+//	public void rejectInvitation(Player inviter, Player invitee) {
+//		// check target player is online
+//		if (!this.checkPlayersOnline(inviter, invitee)) {
+//			return;
+//		}
+//
+//		Party party = this.getPlayerParty(inviter);
+//		party.rejectInvitation(inviter, invitee);
+//	}
 
-		Party party = this.getPlayerParty(inviter);
-		party.rejectInvitation(inviter, invitee);
-	}
-
 	/**
-	 * Asks to join player's party
+	 * Asks to join player's party<br>
+	 * Need "minigameworld.party.ask" permission
 	 * 
 	 * @param asker       Player who wants join party
 	 * @param partyMember Player to ask
 	 */
-	@SuppressWarnings("deprecation")
 	public void ask(Player asker, Player partyMember) {
+		// check permission
+		if (!Utils.checkPerm(asker, "party.ask")) {
+			return;
+		}
+
 		// check target player is online
 		if (!this.checkPlayersOnline(asker, partyMember)) {
 			return;
@@ -229,12 +246,18 @@ public class PartyManager {
 	}
 
 	/**
-	 * Allows asker can join own party
+	 * Allows asker can join own party<br>
+	 * Need "minigameworld.party.allow" permission
 	 * 
-	 * @param partyMember Player permit ask
-	 * @param asker       Player to join party
+	 * @param partyMember Player who allows ask
+	 * @param asker       Player who wants to join the party
 	 */
 	public void allow(Player partyMember, Player asker) {
+		// check permission
+		if (!Utils.checkPerm(partyMember, "party.allow")) {
+			return;
+		}
+
 		// check target player is online
 		if (!this.checkPlayersOnline(partyMember, asker)) {
 			return;
@@ -254,11 +277,17 @@ public class PartyManager {
 	}
 
 	/**
-	 * Leaves from party
+	 * Leaves from party<br>
+	 * Need "minigameworld.party.leave" permission
 	 * 
 	 * @param member Player to leave
 	 */
 	public void leaveParty(Player member) {
+		// check permission
+		if (!Utils.checkPerm(member, "party.leave")) {
+			return;
+		}
+
 		if (this.hasParty(member)) {
 			Party party = this.getPlayerParty(member);
 			party.leave(member);
@@ -274,12 +303,18 @@ public class PartyManager {
 	}
 
 	/**
-	 * Votes player to kick
+	 * Votes player to kick from the party<br>
+	 * Need "minigameworld.party.kickvote" permission
 	 * 
 	 * @param reporter Player who kickvoted
-	 * @param target   kickvoted player
+	 * @param target   Kickvoted player
 	 */
 	public void kickVote(Player reporter, Player target) {
+		// check permission
+		if (!Utils.checkPerm(reporter, "party.kickvote")) {
+			return;
+		}
+
 		// check target player is online
 		if (!this.checkPlayersOnline(reporter, target)) {
 			return;
@@ -299,23 +334,34 @@ public class PartyManager {
 	}
 
 	/**
-	 * Send message to party members
+	 * Send message to party members<br>
+	 * Need "minigameworld.party.msg" permission
 	 * 
 	 * @param p   Target player
 	 * @param msg Message to send
 	 */
 	public void sendMessageToPlayerPartyMembers(Player p, String msg) {
+		// check permission
+		if (!Utils.checkPerm(p, "party.msg")) {
+			return;
+		}
+
 		Party party = this.getPlayerParty(p);
 		party.sendMessageToAllMembers(msg);
 	}
 
 	/**
-	 * Print member list
+	 * Print member list<br>
+	 * Need "minigameworld.party.list" permission
 	 * 
 	 * @param p Target Player
 	 */
-	@SuppressWarnings("deprecation")
 	public void printList(Player p) {
+		// check permission
+		if (!Utils.checkPerm(p, "party.list")) {
+			return;
+		}
+
 		// check target player is online
 		if (!PlayerTool.isOnlinePlayer(p)) {
 			return;

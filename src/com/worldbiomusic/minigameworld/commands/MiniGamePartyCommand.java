@@ -57,11 +57,6 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean invite(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.invite")) {
-			return true;
-		}
-
 		String inviteePlayerName = args[2];
 		Player invitee = Bukkit.getPlayer(inviteePlayerName);
 		this.partyManager.invitePlayer(p, invitee);
@@ -69,11 +64,6 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean accept(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.accept")) {
-			return true;
-		}
-
 		String inviterPlayerName = args[2];
 		Player inviter = Bukkit.getPlayer(inviterPlayerName);
 		this.partyManager.acceptInvitation(p, inviter);
@@ -81,11 +71,6 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean ask(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.ask")) {
-			return true;
-		}
-
 		String memberPlayerName = args[2];
 		Player member = Bukkit.getPlayer(memberPlayerName);
 		this.partyManager.ask(p, member);
@@ -93,11 +78,6 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean allow(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.allow")) {
-			return true;
-		}
-
 		String askerName = args[2];
 		Player asker = Bukkit.getPlayer(askerName);
 		this.partyManager.allow(p, asker);
@@ -105,21 +85,11 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean leave(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.leave")) {
-			return true;
-		}
-
 		this.partyManager.leaveParty(p);
 		return true;
 	}
 
 	private boolean kickvote(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.kickvote")) {
-			return true;
-		}
-
 		String targetPlayerName = args[2];
 		Player targetPlayer = Bukkit.getPlayer(targetPlayerName);
 		this.partyManager.kickVote(p, targetPlayer);
@@ -127,22 +97,12 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean msg(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.msg")) {
-			return true;
-		}
-
 		String msg = args[2];
 		this.partyManager.sendMessageToPlayerPartyMembers(p, msg);
 		return true;
 	}
 
 	private boolean list(Player p, String[] args) throws Exception {
-		// check permission
-		if (!Utils.checkPerm(p, "party.list")) {
-			return true;
-		}
-
 		this.partyManager.printList(p);
 		return true;
 	}

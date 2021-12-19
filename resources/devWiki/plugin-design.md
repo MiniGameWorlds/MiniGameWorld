@@ -20,3 +20,4 @@
 - API returns **clone** instance for data security (use Cloneable)
 - Don't use `scoreboard`, `bossbar`, because the almost servers are currently using them (can conflict)
 - Most features should be considered for use as APIs
+- Check the permissions at the end of the process, not before the command with

@@ -507,8 +507,9 @@ if(!this.isMinPlayersLive()) {
 - Test with 1.18
 - Release 0.3.0
 
-
-
+# 2021-12-19
+- Now commands can be used in console
+- Check the permissions at the end of the process, not before the command with
 
 
 
