@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -236,7 +237,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
-
+		
 		// chat event
 		if (event instanceof AsyncPlayerChatEvent) {
 			this.isProcessChatting((AsyncPlayerChatEvent) event);
@@ -258,7 +259,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	private void processEventWhileWaiting(Event event) {
 		// prevent player hurt
 		if (event instanceof EntityDamageEvent) {
-			((EntityDamageEvent) event).setCancelled(true);
+			EntityDamageEvent e = (EntityDamageEvent) event;
+			e.setCancelled(true);
 		}
 	}
 

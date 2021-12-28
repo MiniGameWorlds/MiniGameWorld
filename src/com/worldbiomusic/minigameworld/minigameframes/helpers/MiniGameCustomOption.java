@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * Below custom options are created in `custom-data` section by default<br>
@@ -126,7 +127,7 @@ public class MiniGameCustomOption {
 		// used in MiniGamePlayerData
 		this.set(Option.DEAD_GAMEMODE, GameMode.SPECTATOR);
 		this.set(Option.COLOR, ChatColor.RESET);
-		this.set(Option.FOOD_LEVEL_CHANGE, false);
+		this.set(Option.FOOD_LEVEL_CHANGE, true);
 		this.set(Option.PLAYER_HURT, true);
 	}
 
@@ -171,68 +172,6 @@ public class MiniGameCustomOption {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {
 			((BlockPlaceEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
-		} else if (event instanceof EntityDamageByEntityEvent) {
-			/*
-			 * PVP
-			 */
-			if (!(boolean) this.get(Option.PVP)) {
-				// cancel damage by entity (
-				// when victim == minigame player && damager == minigame player
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-				Entity victim = e.getEntity();
-				Entity damager = e.getDamager();
-				if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
-
-					// direct damage
-					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
-						e.setCancelled(true);
-					}
-
-					// projectile damage
-					else if (damager instanceof Projectile) {
-						Projectile proj = (Projectile) damager;
-						ProjectileSource shooter = proj.getShooter();
-						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
-							e.setCancelled(true);
-						}
-					}
-				} else {
-
-					// set cancel false
-					e.setCancelled(false);
-				}
-			}
-
-			/*
-			 * PVE
-			 */
-			if (!(boolean) this.get(Option.PVE)) {
-				// cancel damage by entity when damager == minigame player && vicitm is not
-				// Player but entity
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-				Entity victim = e.getEntity();
-				Entity damager = e.getDamager();
-
-				// not only player
-				if (!(victim instanceof Player)) {
-					// direct damage
-					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
-						e.setCancelled(true);
-					}
-
-					// projectile damage
-					else if (damager instanceof Projectile) {
-						Projectile proj = (Projectile) damager;
-						ProjectileSource shooter = proj.getShooter();
-						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
-							e.setCancelled(true);
-						}
-					}
-				} else {
-					// set cancel false
-					e.setCancelled(false);
-				}
-			}
 		} else if (event instanceof PlayerDeathEvent) {
 			PlayerDeathEvent e = (PlayerDeathEvent) event;
 			if ((boolean) this.get(Option.INVENTORY_SAVE)) {
@@ -253,10 +192,62 @@ public class MiniGameCustomOption {
 			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
 			e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
 		} else if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			if (e.getEntity() instanceof Player) {
-				e.setCancelled(!(boolean) get(Option.PLAYER_HURT));
+			/*
+			 * PLAYER_HURT
+			 */
+			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
+			if (damageEvent.getEntity() instanceof Player) {
+				damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
 			}
+			
+			if (event instanceof EntityDamageByEntityEvent) {
+				/*
+				 * PVP
+				 */
+				// cancel damage by entity (
+				// when victim == minigame player && damager == minigame player
+				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
+				Entity victim = e.getEntity();
+				Entity damager = e.getDamager();
+				if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
+					// direct damage
+					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
+						e.setCancelled(!(boolean) this.get(Option.PVP));
+					}
+
+					// projectile damage
+					else if (damager instanceof Projectile) {
+						Projectile proj = (Projectile) damager;
+						ProjectileSource shooter = proj.getShooter();
+						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
+							e.setCancelled(!(boolean) this.get(Option.PVP));
+						}
+					}
+				}
+
+				/*
+				 * PVE
+				 */
+				// cancel damage by entity when damager == minigame player && vicitm is not
+				// Player but entity
+				// not only player
+				else if (!(victim instanceof Player)) {
+					// direct damage
+					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
+						e.setCancelled(!(boolean) this.get(Option.PVE));
+					}
+
+					// projectile damage
+					else if (damager instanceof Projectile) {
+						Projectile proj = (Projectile) damager;
+						ProjectileSource shooter = proj.getShooter();
+						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
+							e.setCancelled(!(boolean) this.get(Option.PVE));
+						}
+					}
+				}
+			}
+
 		}
 	}
 
