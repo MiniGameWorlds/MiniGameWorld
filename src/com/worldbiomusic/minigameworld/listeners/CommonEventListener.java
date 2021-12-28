@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -45,28 +44,34 @@ public class CommonEventListener implements Listener {
 		this.minigameManager = minigameManager;
 
 		this.registerAllEventListener();
+//		this.registerAllEventListener_Burningwave();
 	}
 
 	/**
 	 * Register all events<br>
-	 * - Spigot doesn't need other setup<be> - Paper needs additional setup like
-	 * below<br>
-	 * 
+	 * - Spigot doesn't need other setup<br>
+	 * - Paper needs additional setup like below<br>
 	 */
 	private void registerAllEventListener() {
-//		Utils.info("[ Register EventHandler ]");
-//		Utils.info("wait for all EventHandler registration...");
-//		Utils.info("Event class name: " + Event.class.getName());
-//		long startTime = System.currentTimeMillis();
-
-		boolean isPaper = false;
-		if (Utils.getServerFile("cache").exists()) {
-			isPaper = true;
-		}
-
 		// set cache directory can be found
 		List<URL> cacheDirJarURLs = new ArrayList<>();
-		if (isPaper) {
+
+		boolean isPapermc = false;
+
+		try {
+			isPapermc = Class.forName("com.destroystokyo.paper.utils.PaperPluginLogger") != null;
+		} catch (ClassNotFoundException exception) {
+			// ignore for not paper bukkit
+		}
+
+		String[] versionSrc = Bukkit.getBukkitVersion().split("\\.");
+		int version = Integer.parseInt(versionSrc[1]);
+
+		// Can use upper than 1.12
+		if (version < 12) {
+			Utils.warning("MiniGameWorld must be used upper than 1.12 version of bukkit");
+			return;
+		} else if (isPapermc && version < 18) {
 			for (String cpEntry : System.getProperty("java.class.path").split(File.pathSeparator)) {
 				File cpFile = new File(cpEntry);
 				if (cpFile.canRead()) {
@@ -122,17 +127,9 @@ public class CommonEventListener implements Listener {
 //			throw new AssertionError("Scanned class wasn't found", e);
 		}
 
-		// String[] eventNames = events.stream()
-		// .map(info -> info.getName().substring(info.getName().lastIndexOf('.') + 1))
-		// .toArray(String[]::new);
-		//
-		// Bukkit.getLogger().info("List of events: " + String.join(", ", eventNames));
-		// Bukkit.getLogger().info("registered EventHandler: " + eventCount);
-
-//		Utils.info("Events found: " + events.size());
-//		Utils.info("HandlerList size: " + HandlerList.getHandlerLists().size());
-//		long takenTime = System.currentTimeMillis() - startTime;
-//		Utils.info("Duration: " + takenTime / 1000 + " secs");
+		if (Setting.DEBUG_MODE) {
+			Utils.info("Events found: " + events.size());
+		}
 	}
 
 	private Object onEvent(Event event) {
@@ -216,6 +213,42 @@ public class CommonEventListener implements Listener {
 		}
 	}
 
+	// private void registerAllEventListener_Burningwave() {
+	// Collection<Class<?>> events = findEvents();
+	// Listener listener = new Listener() {};
+	// EventExecutor executor = (ignored, event) -> onEvent(event);
+	// try {
+	// for (Class<?> eventClass : events) {
+	// Bukkit.getPluginManager().registerEvent((Class<? extends Event>)eventClass,
+	// listener, EventPriority.HIGHEST, executor,
+	// MiniGameWorldMain.getInstance());
+	// System.out.println("class " + eventClass + " registered");
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// public Collection<Class<?>> findEvents() {
+	// ComponentSupplier componentSupplier = ComponentContainer.getInstance();
+	// ClassHunter classHunter = componentSupplier.getClassHunter();
+	//
+	//
+	// SearchConfig searchConfig = SearchConfig.byCriteria(
+	// ClassCriteria.create().allThoseThatMatch(currentScannedClass ->
+	// !Modifier.isAbstract(currentScannedClass.getModifiers()) &&
+	// Event.class.isAssignableFrom(currentScannedClass)
+	// ).and().byMembers(
+	// MethodCriteria.forEntireClassHierarchy().allThoseThatMatch((method) ->
+	// method.getParameterCount() == 0 && method.getName().equals("getHandlers")
+	// )
+	// )
+	// );
+	// try(org.burningwave.core.classes.ClassHunter.SearchResult searchResult =
+	// classHunter.loadInCache(searchConfig).find()) {
+	// return searchResult.getClasses();
+	// }
+	// }
 }
 //
 //
