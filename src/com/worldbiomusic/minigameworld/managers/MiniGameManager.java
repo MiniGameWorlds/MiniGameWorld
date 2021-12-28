@@ -13,6 +13,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
+import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -87,29 +88,32 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	 * Set basic setting.yml data
 	 */
 	private void initSettingData() {
+		Map<String, Object> pureData = new LinkedHashMap<>();
+		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Utils.messagePrefix);
+		pureData.put(Setting.SETTINGS_MINIGAME_SIGN, true);
+		pureData.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
+		pureData.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
+		pureData.put(Setting.SETTINGS_ISOLATED_CHAT, Setting.ISOLATED_CHAT);
+		pureData.put(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, Setting.ISOLATED_JOIN_QUIT_MESSAGE);
 
-		// minigameSign
-		if (!this.settings.containsKey(Setting.SETTINGS_MINIGAME_SIGN)) {
-			this.settings.put(Setting.SETTINGS_MINIGAME_SIGN, true);
-		}
+		syncMapKeys(this.settings, pureData);
 
-		// messagePrefix
-		if (!this.settings.containsKey(Setting.SETTINGS_MESSAGE_PREFIX)) {
-			this.settings.put(Setting.SETTINGS_MESSAGE_PREFIX, Utils.messagePrefix);
-		}
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
-
-		// debug-mode
-		if (!this.settings.containsKey(Setting.SETTINGS_DEBUG_MODE)) {
-			this.settings.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
-		}
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
-
-		// backup-data-save-delay
-		if (!this.settings.containsKey(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY)) {
-			this.settings.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
-		}
 		Setting.BACKUP_DATA_SAVE_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY);
+		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
+		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
+	}
+
+	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
+		// remove not necessary keys to avoid error (i.e. keys for some updates)
+		CollectionTool.removeNotNecessaryKeys(configMap, pureMap);
+
+		// Restore before apply to avoid error (i.e. keys for some updates)
+		CollectionTool.restoreMissedKeys(configMap, pureMap);
+
+		// sync map keys
+		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 
 	public void joinGame(Player p, String title) {

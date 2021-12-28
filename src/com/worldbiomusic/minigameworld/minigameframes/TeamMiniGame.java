@@ -66,7 +66,9 @@ public abstract class TeamMiniGame extends MiniGame {
 	@Override
 	public List<? extends MiniGameRankResult> getRank() {
 		List<MiniGameRankResult> list = new ArrayList<>();
-		list.add(new OneTeam(getPlayers(), getTeamScore()));
+		if (getPlayerCount() > 0) {
+			list.add(new OneTeam(getPlayers(), getTeamScore()));
+		}
 		return list;
 	}
 

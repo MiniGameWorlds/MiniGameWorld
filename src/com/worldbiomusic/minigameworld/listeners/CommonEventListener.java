@@ -6,7 +6,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -19,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -209,6 +212,22 @@ public class CommonEventListener implements Listener {
 					}
 
 				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		// Don't send message to players playing minigame from outside
+		Player p = e.getPlayer();
+		if (this.minigameManager.isPlayingMiniGame(p)) {
+			return;
+		}
+		
+		if (Setting.ISOLATED_CHAT) {
+			Set<Player> playingMinigamePlayers = e.getRecipients();
+			for (MiniGame m : this.minigameManager.getMiniGameList()) {
+				playingMinigamePlayers.removeAll(m.getPlayers());
 			}
 		}
 	}

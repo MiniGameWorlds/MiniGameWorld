@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
@@ -243,18 +245,36 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// process event when minigame started
 		if (this.started) {
 			this.processEvent(event);
+		} else {
+			processEventWhileWaiting(event);
+		}
+	}
+
+	/**
+	 * Processes events while players are waiting for start
+	 * 
+	 * @param event Passed Event
+	 */
+	private void processEventWhileWaiting(Event event) {
+		// prevent player hurt
+		if (event instanceof EntityDamageEvent) {
+			((EntityDamageEvent) event).setCancelled(true);
 		}
 	}
 
 	/**
 	 * Cancel chat event (set audiences only minigame players)<br>
-	 * Pass event to processChatting() when "CHATTING" custom option is true
+	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
+	 * true<br>
+	 * Pass event to processChatting() when "CHATTING" custom option is true<br>
 	 * 
 	 * @param e Chat event
 	 */
 	private void isProcessChatting(AsyncPlayerChatEvent e) {
-		// cancel event
-		e.setCancelled(true);
+		if (Setting.ISOLATED_CHAT) {
+			Set<Player> recipients = e.getRecipients();
+			recipients.removeAll(recipients.stream().filter(r -> !containsPlayer(r)).toList());
+		}
 
 		if ((boolean) this.getCustomOption().get(Option.CHATTING)) {
 			this.processChatting(e);
@@ -262,14 +282,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Change chat format for minigame frame
+	 * Change chat format for sub minigame frame
 	 * 
 	 * @param e Chat event
 	 */
 	protected void processChatting(AsyncPlayerChatEvent e) {
-		Player p = e.getPlayer();
-		String msg = e.getMessage();
-		this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + ": " + msg));
 	}
 
 	/**
@@ -352,9 +369,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			return false;
 		}
 
-		// send message everyone
-		Utils.broadcast(p.getName() + " leaved " + this.getColoredTitle());
-
 		this.setupPlayerLeavingSettings(p, "Before start");
 
 		// check game is emtpy
@@ -374,9 +388,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		if (reason != null) {
+			String msg = p.getName() + " leaved " + this.getColoredTitle() + " (Reason: " + reason + ")";
 			// notify other players to join the game
-			this.sendMessageToAllPlayers(
-					p.getName() + " leaved " + this.getColoredTitle() + "(Reason: " + reason + ")");
+			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
+				this.sendMessageToAllPlayers(msg);
+			} else {
+				Utils.broadcast(msg);
+			}
 		}
 
 		// remove player from minigame
@@ -402,11 +420,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		int needPlayersCount = getMinPlayerCount() - getPlayerCount();
 		String addition = "";
 		if (needPlayersCount > 0) {
-			addition = "need more " + ChatColor.RED + needPlayersCount + " players" + ChatColor.RESET;
+			addition = "need more " + ChatColor.RED + needPlayersCount + ChatColor.RESET + " players";
 		}
-		
-		Utils.broadcast(p.getName() + " joined " + this.getColoredTitle() + " (" + getPlayerCount() + "/"
-				+ getMaxPlayerCount() + ") \n" + addition);
+
+		String msg = p.getName() + " joined " + this.getColoredTitle() + " (" + getPlayerCount() + "/"
+				+ getMaxPlayerCount() + ") \n" + addition;
+
+		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
+			sendMessageToAllPlayers(msg);
+		} else {
+			Utils.broadcast(msg);
+		}
 	}
 
 	/**

@@ -41,6 +41,18 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_MINIGAME_SIGN:
 				this.minigame_sign(sender, args);
 				break;
+			case Setting.SETTINGS_DEBUG_MODE:
+				this.debug_mode(sender, args);
+				break;
+			case Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY:
+				this.backup_data_save_delay(sender, args);
+				break;
+			case Setting.SETTINGS_ISOLATED_CHAT:
+				this.isolated_chat(sender, args);
+				break;
+			case Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE:
+				this.isolated_join_quit_message(sender, args);
+				break;
 			}
 
 			// save config
@@ -91,4 +103,33 @@ public class MiniGameSettingsConfigCommand {
 		this.setKeyValue(sender, Setting.SETTINGS_MINIGAME_SIGN, value);
 		return true;
 	}
+
+	private boolean debug_mode(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_DEBUG_MODE, value);
+		return true;
+	}
+
+	private boolean backup_data_save_delay(CommandSender sender, String[] args) throws Exception {
+		int value = Integer.parseInt(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, value);
+		return true;
+	}
+
+	private boolean isolated_chat(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_ISOLATED_CHAT, value);
+		return true;
+	}
+
+	private boolean isolated_join_quit_message(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, value);
+		return true;
+	}
+
 }

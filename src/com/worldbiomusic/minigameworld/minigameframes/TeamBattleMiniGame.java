@@ -669,26 +669,27 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void processChatting(AsyncPlayerChatEvent e) {
 		if (!this.isStarted()) {
-			super.processChatting(e);
 			return;
 		}
 
 		// group chat
 		if (this.isGroupChat()) {
+			// cancel event
+			e.setCancelled(true);
+
 			Player sender = e.getPlayer();
 
 			// send message to only team members
 			Team team = this.getTeam(sender);
 			// ex. [Title] worldbiomusic: go go
-			team.sendTeamMessage(sender, e.getMessage());
+			team.sendTeamMessage(sender,
+					"(" + ChatColor.GOLD + "Group-Chat" + ChatColor.RESET + "): " + e.getMessage());
 		} else {
 			Player p = e.getPlayer();
 			String msg = e.getMessage();
-			Team team = this.getTeam(p);
-			String teamName = team.getName();
-			ChatColor color = team.getColor();
-			String teamString = "(" + color + teamName + ChatColor.WHITE + ")";
-			this.getPlayers().forEach(all -> this.sendMessage(all, p.getName() + teamString + ": " + msg));
+			Team team = getTeam(p);
+			String teamString = "(" + team.getColoredTeamName() + ")";
+			e.setMessage(teamString + ": " + msg);
 		}
 	}
 
@@ -983,6 +984,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 */
 		public String getName() {
 			return teamName;
+		}
+
+		public String getColoredTeamName() {
+			return this.color + this.teamName + ChatColor.RESET;
 		}
 
 		/**

@@ -20,13 +20,16 @@ public class Setting {
 
 	// Minigame
 	public static final int MINIGAME_LEAVE_MIN_TIME = 3;
+	public static boolean ISOLATED_CHAT = true;
+	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
-//	public static final String SETTINGS_MINIGAME_COMMAND = "minigame-command";
 	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
 	public static final String SETTINGS_DEBUG_MODE = "debug-mode";
 	public static final String SETTINGS_BACKUP_DATA_SAVE_DELAY = "backup-data-save-delay";
+	public static final String SETTINGS_ISOLATED_CHAT = "isolated-chat";
+	public static final String SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE = "isolated-join-quit-message";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";
