@@ -75,7 +75,10 @@ public class MiniGameMenuManager {
 
 				// process inventory event
 				if (e.getClickedInventory() != null) {
-					this.getClickedMenu(e.getClickedInventory()).processClickEvent(e);
+					MiniGameMenu menu = getClickedMenu(e.getClickedInventory());
+					if (menu != null) {
+						menu.processClickEvent(e);
+					}
 				}
 			}
 		} else if (event instanceof InventoryCloseEvent) {

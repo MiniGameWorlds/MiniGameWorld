@@ -1,5 +1,5 @@
 # MiniGameWorld
-Minecraft MiniGame Framework  
+Module-based Minecraft MiniGame Framework 
 
 
 

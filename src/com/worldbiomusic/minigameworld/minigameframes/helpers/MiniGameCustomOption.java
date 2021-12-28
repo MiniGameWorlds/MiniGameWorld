@@ -84,10 +84,11 @@ public class MiniGameCustomOption {
 		COLOR("color"),
 
 		/**
-		 * Init: RESET<br>
-		 * Description: MiniGame personal color
+		 * Init: false<br>
+		 * Description: Whether a player's food level changes 
 		 */
 		FOOD_LEVEL_CHANGE("food-level-change");
+
 
 		private String keyString;
 

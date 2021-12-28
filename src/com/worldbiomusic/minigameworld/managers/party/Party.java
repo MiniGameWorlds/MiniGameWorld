@@ -162,8 +162,6 @@ public class Party {
 
 		// kick vote & message
 		if (this.getPartyMember(target).kickVote(reporter)) {
-			PartyMember member = this.getPartyMember(target);
-			this.members.remove(member);
 			Party.sendMessage(reporter, "You kick voted " + target.getName());
 			Party.sendMessage(target, "You are kick voted by party member");
 		} else {

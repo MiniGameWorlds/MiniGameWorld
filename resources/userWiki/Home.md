@@ -5,6 +5,11 @@
 
 
 
+# Features
+- Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
+- Same minigame can be played in many different ways with custom config settings, maps made by users
+
+
 # How to apply
 1. Download [MiniGameWorld] and [wbmMC]
 2. Download [MiniGames] that you want to add to your server

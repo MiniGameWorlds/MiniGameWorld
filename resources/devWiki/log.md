@@ -1,19 +1,16 @@
 # TODO
-- Minigame Perspective mode (spectator) (Sign: Sneak + Right Click, Cmd: /minigame watch <minigame>: teleport to minigame spawn location, /minigame leave (also exit from watching): back to joined location)
-- Upload MiniGame overworld to github
+- Set team glowing color (glowing is only visibled to team members)
+- Add minigame `view` feature
 - Make MiniGame template pluing and upload to github organization
 - Add `party` icon to Menu
-- Make Update checker
+- Make Version Update Checker
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
+- Add `ScoreBoard` and `BossBar` elements to MiniGame (prevent elements changing by event.setCancelled())
 - Change to use custom event instead of `MiniGameObserver` (about to START, BEFORE_FINISH, FINISH)
-- Notify player count when join a minigame (with minimum count for start)
-- Add written java doc class list to wiki
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
-- Write javadoc
 - Try to use other library, not `classgraph` (e.g. [reflections]())
-
 
 
 ---
@@ -510,6 +507,33 @@ if(!this.isMinPlayersLive()) {
 # 2021-12-19
 - Now commands can be used in console
 - Check the permissions at the end of the process, not before the command with
+
+# 2021-12-28
+- Update for using correct class loader of various Bukkit types and versions (classgraph)
+- Change TeamBattleMiniGame team registration: Invoke CreateTeams() in initGameSettings()
+- Add `FOOD_LEVEL_CHANGE` option to MiniGameCustomOption
+- Notify player count when join a minigame
+- Add detectable events
+- Add `ISOLATED_CHAT` and `ISOLATED_JOIN_QUIT_MESSAGE` to settings.yml
+- Prevent player hurt while waiting minigame starts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

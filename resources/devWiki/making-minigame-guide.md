@@ -13,7 +13,7 @@
 
 # Order
 ## 1. Setup dev environment
-- [Link](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/making-minigame-wiki.md#how-to-set-dev-environment)
+- [Link](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-minigame-home.md#how-to-set-dev-environment)
 
 
 ## 2. Create class
@@ -90,6 +90,10 @@ public PassMob() {
 - `PVE`: whether players can damage entity (not player)
 - `INVENTORY_SAVE`: whether inventory save
 - `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
+- `LIVE_GAMEMODE`: gamemode when a player join a minigame
+- `DEAD_GAMEMODE`: gamemode when a player's live changed to false in a minigame
+- `COLOR`: minigame custom color
+- `FOOD_LEVEL_CHANGE`: whether player's food level(hunger) changes
 ### How to use
 ```java
 public PassMob() {

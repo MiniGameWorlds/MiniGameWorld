@@ -96,13 +96,13 @@ public class MiniGameDataManager implements YamlMember {
 
 	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
 		// remove not necessary keys to avoid error (i.e. keys for some updates)
-		CollectionTool.removeNotNecessaryKeys(this.data, pureMap);
+		CollectionTool.removeNotNecessaryKeys(configMap, pureMap);
 
 		// Restore before apply to avoid error (i.e. keys for some updates)
-		CollectionTool.restoreMissedKeys(this.data, pureMap);
+		CollectionTool.restoreMissedKeys(configMap, pureMap);
 
 		// sync map keys
-		CollectionTool.syncKeyOrder(this.data, pureMap);
+		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 
 	private void taskAfterDataSet() {
