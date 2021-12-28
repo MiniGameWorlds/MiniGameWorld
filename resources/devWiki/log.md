@@ -511,7 +511,7 @@ if(!this.isMinPlayersLive()) {
 # 2021-12-28
 - Update for using correct class loader of various Bukkit types and versions (classgraph)
 - Change TeamBattleMiniGame team registration: Invoke CreateTeams() in initGameSettings()
-- Add `FOOD_LEVEL_CHANGE` option to MiniGameCustomOption
+- Add `FOOD_LEVEL_CHANGE`, `PLAYER_HURT` option to MiniGameCustomOption
 - Notify player count when join a minigame
 - Add detectable events
 - Add `ISOLATED_CHAT` and `ISOLATED_JOIN_QUIT_MESSAGE` to settings.yml

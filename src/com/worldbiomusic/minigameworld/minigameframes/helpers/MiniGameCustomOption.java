@@ -9,6 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -78,17 +79,22 @@ public class MiniGameCustomOption {
 		 */
 		DEAD_GAMEMODE("dead-gamemode"),
 		/**
-		 * Init: RESET<br>
+		 * Init: ChatColor.RESET<br>
 		 * Description: MiniGame personal color
 		 */
 		COLOR("color"),
 
 		/**
 		 * Init: false<br>
-		 * Description: Whether a player's food level changes 
+		 * Description: Whether a player's food level changes
 		 */
-		FOOD_LEVEL_CHANGE("food-level-change");
+		FOOD_LEVEL_CHANGE("food-level-change"),
 
+		/**
+		 * Init: true<br>
+		 * Description: Whether a player damaged by something
+		 */
+		PLAYER_HURT("player-hurt");
 
 		private String keyString;
 
@@ -121,6 +127,7 @@ public class MiniGameCustomOption {
 		this.set(Option.DEAD_GAMEMODE, GameMode.SPECTATOR);
 		this.set(Option.COLOR, ChatColor.RESET);
 		this.set(Option.FOOD_LEVEL_CHANGE, false);
+		this.set(Option.PLAYER_HURT, true);
 	}
 
 	private void setOptionData(String option, Object data) {
@@ -245,6 +252,11 @@ public class MiniGameCustomOption {
 		} else if (event instanceof FoodLevelChangeEvent) {
 			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
 			e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
+		} else if (event instanceof EntityDamageEvent) {
+			EntityDamageEvent e = (EntityDamageEvent) event;
+			if (e.getEntity() instanceof Player) {
+				e.setCancelled(!(boolean) get(Option.PLAYER_HURT));
+			}
 		}
 	}
 
