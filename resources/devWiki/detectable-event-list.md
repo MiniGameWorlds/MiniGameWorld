@@ -32,6 +32,8 @@
 ### - EntityEvent
 - EntityDeathEvent (When killer is a player)
 - EntityDamageByEntityEvent (When `damager` or `projectile shooter` is a player))
+- EntityTargetEvent (When taget entity is a player)
+- ProjectileHitEvent (When hit entity is a player)
 
 ### - VehicleEvent
 - VehicleDamageEvent

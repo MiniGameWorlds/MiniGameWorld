@@ -23,7 +23,9 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -51,12 +53,13 @@ import org.bukkit.inventory.Inventory;
  * - InventoryEvent<br>
  * - InventoryMoveItemEvent<br>
  * - PlayerLeashEntityEvent<br>
+ * - TabCompleteEvent<br>
  * <br>
  * 
  * [Detailed Event list]<br>
- * - BlockEvent<br>
- * - EntityEvent<br>
- * - VehicleEvent<br>
+ * - Some of BlockEvent<br>
+ * - Some of EntityEvent<br>
+ * - Some of VehicleEvent<br>
  */
 public class MiniGameEventDetector {
 	/**
@@ -234,6 +237,17 @@ public class MiniGameEventDetector {
 				if (proj.getShooter() instanceof Player) {
 					eventPlayers.add((Player) proj.getShooter());
 				}
+			}
+		} else if (event instanceof EntityTargetEvent) {
+			EntityTargetEvent e = (EntityTargetEvent) event;
+			if (e.getTarget() instanceof Player) {
+				eventPlayers.add((Player) e.getTarget());
+			}
+		} else if (event instanceof ProjectileHitEvent) {
+			ProjectileHitEvent e = (ProjectileHitEvent) event;
+			Entity hitEntity = e.getHitEntity();
+			if (hitEntity != null && hitEntity instanceof Player) {
+				eventPlayers.add((Player) hitEntity);
 			}
 		}
 
