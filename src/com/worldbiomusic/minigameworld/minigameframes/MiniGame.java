@@ -399,7 +399,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.printGameTutorial(p);
 
 		// notify all players to join the game
-		Utils.broadcast(p.getName() + " joined " + this.getColoredTitle());
+		int needPlayersCount = getMinPlayerCount() - getPlayerCount();
+		String addition = "";
+		if (needPlayersCount > 0) {
+			addition = "need more " + ChatColor.RED + needPlayersCount + " players" + ChatColor.RESET;
+		}
+		
+		Utils.broadcast(p.getName() + " joined " + this.getColoredTitle() + " (" + getPlayerCount() + "/"
+				+ getMaxPlayerCount() + ") \n" + addition);
 	}
 
 	/**
