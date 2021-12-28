@@ -9,6 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
@@ -80,7 +81,13 @@ public class MiniGameCustomOption {
 		 * Init: RESET<br>
 		 * Description: MiniGame personal color
 		 */
-		COLOR("color");
+		COLOR("color"),
+
+		/**
+		 * Init: RESET<br>
+		 * Description: MiniGame personal color
+		 */
+		FOOD_LEVEL_CHANGE("food-level-change");
 
 		private String keyString;
 
@@ -112,6 +119,7 @@ public class MiniGameCustomOption {
 		// used in MiniGamePlayerData
 		this.set(Option.DEAD_GAMEMODE, GameMode.SPECTATOR);
 		this.set(Option.COLOR, ChatColor.RESET);
+		this.set(Option.FOOD_LEVEL_CHANGE, false);
 	}
 
 	private void setOptionData(String option, Object data) {
@@ -233,6 +241,9 @@ public class MiniGameCustomOption {
 				PlayerRespawnEvent e = (PlayerRespawnEvent) event;
 				e.setRespawnLocation(this.minigame.getLocation());
 			}
+		} else if (event instanceof FoodLevelChangeEvent) {
+			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
+			e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
 		}
 	}
 
