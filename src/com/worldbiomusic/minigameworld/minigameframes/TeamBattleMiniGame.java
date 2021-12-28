@@ -114,15 +114,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 		this.getSetting().setMaxPlayerCount(allMemberCount);
 
-		// set team register mode
+		// set team register FAIR_FILL as a default mode
 		this.setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
-	}
-
-	/**
-	 * Inits all team settings
-	 */
-	private void initAllTeams() {
-		this.allTeams.forEach(t -> t.init());
 	}
 
 	/**
@@ -535,7 +528,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Counting unit changed: "player" to "team"<br>
 	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isMinPlayersLive}, because
-	 * {@link MiniGame#checkGameFinishCondition} checks with this method <br>
+	 * {@link MiniGame#checkGameFinishCondition} will checks with this method <br>
 	 */
 	@Override
 	protected boolean isMinPlayersLive() {
@@ -553,7 +546,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void initGameSettings() {
-		this.initAllTeams();
+		createTeams();
 	}
 
 	@Override
@@ -704,14 +697,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		// print team score in descending order
 		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
 
-		// left teams
-		List<Team> leftTeams = new ArrayList<>();
-		for (Team team : this.allTeams) {
-			if (!team.isEmpty()) {
-				leftTeams.add(team);
-			}
-		}
-
 		// rank team by score
 		@SuppressWarnings("unchecked")
 		List<Team> entries = (List<Team>) this.getRank();
@@ -744,21 +729,24 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	@Override
 	public List<? extends MiniGameRankResult> getRank() {
-		Collections.sort(this.allTeams);
-		return this.allTeams;
+		List<Team> notEmptyTeams = new ArrayList<>();
+		for (Team t : this.allTeams) {
+			if (!t.isEmpty()) {
+				notEmptyTeams.add(t);
+			}
+		}
+		Collections.sort(notEmptyTeams);
+		return notEmptyTeams;
 	}
 
 	@Override
 	protected void handleGameException(Player p, Exception exception) {
 		super.handleGameException(p, exception);
 
-		// remove player from team
-		Team team = getTeam(p);
-		team.unregisterMember(p);
-
-		// remove team if empty to check "MiniGame.checkGameFinishCondition()"
-		if (team.isEmpty()) {
-			removeTeam(team);
+		if (isStarted()) {
+			// remove player from team
+			Team team = getTeam(p);
+			team.unregisterMember(p);
 		}
 	}
 
@@ -802,13 +790,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			this.maxMemberCount = memberSize;
 			this.members = new ArrayList<>(memberSize);
 			this.color = color;
-		}
-
-		/**
-		 * Inits instance
-		 */
-		public void init() {
-			this.members.clear();
 		}
 
 		/**
