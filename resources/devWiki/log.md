@@ -81,6 +81,14 @@
 - Now will be saved backup data every 60 minutes
 - Works fine in `1.18`
 
+## 0.3.1
+### Build Changes
+- Now commands can be used in console
+- Update for using correct class loader of various Bukkit types and versions (classgraph)
+- Add `FOOD_LEVEL_CHANGE`, `PLAYER_HURT` option to MiniGameCustomOption
+- Notify player count when join a minigame
+- Add `ISOLATED_CHAT` and `ISOLATED_JOIN_QUIT_MESSAGE` to settings.yml
+
 
 
 ---
@@ -502,7 +510,7 @@ if(!this.isMinPlayersLive()) {
 - Add `MiniGameEvent.BEFORE_FINISH`
 - Change "/" to `File.separator`
 - Test with 1.18
-- Release 0.3.0
+- Release `0.3.0`
 
 # 2021-12-19
 - Now commands can be used in console
@@ -516,8 +524,7 @@ if(!this.isMinPlayersLive()) {
 - Add detectable events
 - Add `ISOLATED_CHAT` and `ISOLATED_JOIN_QUIT_MESSAGE` to settings.yml
 - Prevent player hurt while waiting minigame starts
-
-
+- Release `0.3.1`
 
 
 

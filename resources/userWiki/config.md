@@ -8,48 +8,59 @@
 - Plugin settings
 ```yml
 settings:
-  message-prefix: MiniGameWorld
+  message-prefix: §lMiniGameWorld§r
+  backup-data-save-delay: 60
   minigame-sign: true
+  debug-mode: false
+  isolated-chat: true
+  isolated-join-quit-message: true
 ```
 - `message-prefix`: System message of `MiniGameWorld` plugin
-- `minigame-sign`: Whether you can join or leave minigame with right-click sign (true / false)
-
+- `backup-data-save-delay`: Delay of saving backup data
+- `minigame-sign`: Whether you can join or leave 
+minigame with right-click sign (true / false)
+- `debug-mode`: print debug logs
+- `isolated-chat`: Playing minigame players can only chat with each other
+- `isolated-join-quit-message`: Minigame join/quit message only notify in minigame
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings
 ```yml
 PVP:
-  title: BattleRoyale
+  title: PVP
   min-player-count: 2
   max-player-count: 5
-  waiting-time: 10
-  time-limit: 180
+  waiting-time: 30
+  time-limit: 120
   active: true
   icon: STONE_SWORD
   location:
     ==: org.bukkit.Location
     world: world
-    x: 0.0
-    y: 4.0
-    z: 0.0
-    pitch: 0.0
-    yaw: 0.0
+    x: -24.495412277481673
+    y: 160.0
+    z: 12.42264804369194
+    pitch: 7.8000712
+    yaw: 88.20009
   tutorial:
   - 'kill: +1'
-  - 'death: respawn'
   custom-data:
     health: 30
     items:
     - ==: org.bukkit.inventory.ItemStack
-      v: 2730
+      v: 2865
       type: STONE_SWORD
     - ==: org.bukkit.inventory.ItemStack
-      v: 2730
+      v: 2865
       type: BOW
     - ==: org.bukkit.inventory.ItemStack
-      v: 2730
+      v: 2865
       type: ARROW
       amount: 32
+    - ==: org.bukkit.inventory.ItemStack
+      v: 2865
+      type: COOKED_PORKCHOP
+      amount: 10
     chatting: true
     score-notifying: true
     block-break: false
@@ -60,7 +71,9 @@ PVP:
     minigame-respawn: true
     live-gamemode: SURVIVAL
     dead-gamemode: SPECTATOR
-    color: GOLD    
+    color: RED
+    food-level-change: false
+    player-hurt: true
 ```
 - `title`: Minigame title (can be different with Class Name)
 - `min-player-count`: Minimun player for playing game
@@ -71,15 +84,18 @@ PVP:
 - `icon`: Material which show in menu (Material)
 - `location`: Minigame join location
 - `tutorial`: Tutorials
-- `custom-data`: Custom data added by developer
-- `custom-data.chatting`: Whether players can chat (true/false)
-- `custom-data.score-notifying`: Whether score change notifies to players (true/false)
-- `custom-data.block-break`: Whether players can break block (true/false)
-- `custom-data.block-place`: Whether players can place block (true/false)
-- `custom-data.pvp`: Whether players can damage to each other (true/false)
-- `custom-data.pve`: Whether players can damage to living entity (not player) (true/false)
-- `custom-data.inventory-save`: Whether player's inventory saving when death (true/false)
-- `custom-data.minigame-respawn`: Whether player respawn in `location` (true/false)
-- `custom-data.live-gamemode`: GameMode when a player join minigame (`CREATIVE`, `SURVIVAL`, `ADVENTURE`, `SPECTATOR`)
-- `custom-data.dead-gamemode`: GameMode when a player is dead as a minigame player (Not literally dead) (`CREATIVE`, `SURVIVAL`, `ADVENTURE`, `SPECTATOR`)
-- `custom-data.color`: Minigame color (`BLACK`, `DARK_BLUE`, `DARK_GREEN`, `DARK_AQUA`, `DARK_RED`, `DARK_PURPLE`, `GOLD`, `GRAY`, `DARK_GRAY`, `BLUE`, `GREEN`, `AQUA`, `RED`, `LIGHT_PURPLE`, `YELLOW`, `WHITE`, `MAGIC`, `BOLD`, `STRIKETHROUGH`, `UNDERLINE`, `ITALIC`, `RESET`)
+- `custom-data`: Custom data created by developer or default custom options
+#### Default custom-data options
+- `chatting`: Whether players can chat (true/false)
+- `score-notifying`: Whether score change notifies to players (true/false)
+- `block-break`: Whether players can break block (true/false)
+- `block-place`: Whether players can place block (true/false)
+- `pvp`: Whether players can damage to each other (true/false)
+- `pve`: Whether players can damage to living entity (not player) (true/false)
+- `inventory-save`: Whether player's inventory saving when death (true/false)
+- `minigame-respawn`: Whether player respawn in `location` (true/false)
+- `live-gamemode`: GameMode when a player join minigame (`CREATIVE`, `SURVIVAL`, `ADVENTURE`, `SPECTATOR`)
+- `dead-gamemode`: GameMode when a player is dead as a minigame player (Not literally dead) (`CREATIVE`, `SURVIVAL`, `ADVENTURE`, `SPECTATOR`)
+- `color`: Minigame color (`BLACK`, `DARK_BLUE`, `DARK_GREEN`, `DARK_AQUA`, `DARK_RED`, `DARK_PURPLE`, `GOLD`, `GRAY`, `DARK_GRAY`, `BLUE`, `GREEN`, `AQUA`, `RED`, `LIGHT_PURPLE`, `YELLOW`, `WHITE`, `MAGIC`, `BOLD`, `STRIKETHROUGH`, `UNDERLINE`, `ITALIC`, `RESET`)
+- `food-level-change`: Whether a player's food level(hunger) changes (true/false)
+- `player-hurt`: Whether a player damaged by something (true/false)

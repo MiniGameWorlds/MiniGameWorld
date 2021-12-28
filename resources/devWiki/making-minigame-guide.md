@@ -94,11 +94,12 @@ public PassMob() {
 - `DEAD_GAMEMODE`: gamemode when a player's live changed to false in a minigame
 - `COLOR`: minigame custom color
 - `FOOD_LEVEL_CHANGE`: whether player's food level(hunger) changes
+- `PLAYER_HURT`: whether a player damaged by something 
 ### How to use
 ```java
 public PassMob() {
   super("PassMob", 2, 60 * 3, 10);
-  // options
+  // custom options
   this.getCustomOption().set(Option.MINIGAME_RESPAWN, false);
 }
 ```
