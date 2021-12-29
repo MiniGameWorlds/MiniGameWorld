@@ -91,6 +91,10 @@
 - Notify player count when join a minigame
 - Add `ISOLATED_CHAT` and `ISOLATED_JOIN_QUIT_MESSAGE` to settings.yml
 
+## 0.3.2
+### Build Changes
+- Add `MiniGameEventExternalDetector` to detect other events by default
+- Change observer directory
 
 
 ---
