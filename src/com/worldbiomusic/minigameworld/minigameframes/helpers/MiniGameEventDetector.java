@@ -2,6 +2,7 @@ package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +39,10 @@ import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.Inventory;
 
+import com.worldbiomusic.minigameworld.api.MiniGameEventExternalDetector;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+
 /**
  * Event detector to send Minigames<br>
  * <br>
@@ -66,10 +71,16 @@ public class MiniGameEventDetector {
 	 * Default detectable event list
 	 */
 	private Set<Class<? extends Event>> detectableEventList;
+	private List<MiniGameEventExternalDetector> externalDetectors;
+	private MiniGameManager minigameManager;
 
-	public MiniGameEventDetector() {
+	public MiniGameEventDetector(MiniGameManager minigameManager) {
+		this.minigameManager = minigameManager;
+
 		// register detectable events
 		this.registerDetectableEvent();
+
+		this.externalDetectors = new ArrayList<>();
 	}
 
 	/**
@@ -115,13 +126,14 @@ public class MiniGameEventDetector {
 	 * @param e Event to get players
 	 * @return Players from event
 	 */
-	public List<Player> getPlayersFromEvent(Event e) {
-		List<Player> eventPlayers = new ArrayList<>();
+	public Set<Player> getPlayersFromEvent(Event e) {
+		Set<Player> eventPlayers = new HashSet<>();
 
 		// check detailed events
-		if (this.getPlayersFromDetailedEvent(e, eventPlayers)) {
-			return eventPlayers;
-		}
+		getPlayersFromDetailedEvent(e, eventPlayers);
+
+		// check external detectors
+		getPlayersFromExternalDetectors(e, eventPlayers);
 
 		// get players from each Event
 		if (e instanceof PlayerEvent) {
@@ -157,6 +169,9 @@ public class MiniGameEventDetector {
 			}
 		}
 
+		// leave only one player in the same minigame event
+		leavePlayerPlayingTheSameMiniGame(eventPlayers);
+
 		return eventPlayers;
 	}
 
@@ -167,7 +182,7 @@ public class MiniGameEventDetector {
 	 * @param eventPlayers Players from event
 	 * @return False if no players from event
 	 */
-	private boolean getPlayersFromDetailedEvent(Event event, List<Player> eventPlayers) {
+	private void getPlayersFromDetailedEvent(Event event, Set<Player> eventPlayers) {
 		// several case
 		if (event instanceof BlockEvent) {
 			this.getPlayersFromBlockEvent((BlockEvent) event, eventPlayers);
@@ -176,8 +191,6 @@ public class MiniGameEventDetector {
 		} else if (event instanceof VehicleEvent) {
 			this.getPlayersFromVehicleEvent((VehicleEvent) event, eventPlayers);
 		}
-
-		return !eventPlayers.isEmpty();
 	}
 
 	/**
@@ -186,7 +199,7 @@ public class MiniGameEventDetector {
 	 * @param event        Event to get player
 	 * @param eventPlayers Players from event
 	 */
-	private void getPlayersFromBlockEvent(BlockEvent event, List<Player> eventPlayers) {
+	private void getPlayersFromBlockEvent(BlockEvent event, Set<Player> eventPlayers) {
 		if (event instanceof BlockBreakEvent) {
 			eventPlayers.add(((BlockBreakEvent) event).getPlayer());
 		} else if (event instanceof BlockDamageEvent) {
@@ -220,7 +233,7 @@ public class MiniGameEventDetector {
 	 * @param event        Event to get player
 	 * @param eventPlayers Players from event
 	 */
-	private void getPlayersFromEntityEvent(EntityEvent event, List<Player> eventPlayers) {
+	private void getPlayersFromEntityEvent(EntityEvent event, Set<Player> eventPlayers) {
 		if (event instanceof EntityDeathEvent) {
 			Player killer = ((EntityDeathEvent) event).getEntity().getKiller();
 			if (killer != null) {
@@ -259,7 +272,7 @@ public class MiniGameEventDetector {
 	 * @param event        Event to get player
 	 * @param eventPlayers Players from event
 	 */
-	private void getPlayersFromVehicleEvent(VehicleEvent event, List<Player> eventPlayers) {
+	private void getPlayersFromVehicleEvent(VehicleEvent event, Set<Player> eventPlayers) {
 		if (event instanceof VehicleDamageEvent) {
 			VehicleDamageEvent e = (VehicleDamageEvent) event;
 			if (e.getAttacker() instanceof Player) {
@@ -281,6 +294,65 @@ public class MiniGameEventDetector {
 				eventPlayers.add(((Player) e.getExited()));
 			}
 		}
+	}
+
+	private void getPlayersFromExternalDetectors(Event event, Set<Player> eventPlayers) {
+		this.externalDetectors.forEach(d -> eventPlayers.addAll(d.getPlayersFromEvent(event)));
+	}
+
+	public void registerExternalDetector(MiniGameEventExternalDetector detector) {
+		if (!this.externalDetectors.contains(detector)) {
+			this.externalDetectors.add(detector);
+		}
+	}
+
+	public void unregisterExternalDetector(MiniGameEventExternalDetector detector) {
+		this.externalDetectors.remove(detector);
+	}
+
+	/**
+	 * Leave only one player in the same minigame event
+	 * 
+	 * @param eventPlayers Players related with event
+	 */
+	private void leavePlayerPlayingTheSameMiniGame(Set<Player> eventPlayers) {
+		if (eventPlayers.isEmpty()) {
+			return;
+		}
+
+		Set<Player> removingPlayers = new HashSet<>();
+
+		// Pick standard minigame player
+		Iterator<Player> it = eventPlayers.iterator();
+		Player firstP = null;
+
+		while (it.hasNext()) {
+			Player tmpP = it.next();
+			if (this.minigameManager.isPlayingMiniGame(tmpP)) {
+				firstP = tmpP;
+			}
+		}
+
+		if (firstP == null) {
+			return;
+		}
+		MiniGame firstPMiniGame = this.minigameManager.getPlayingMiniGame(firstP);
+
+		// remove duplicated player playing the same minigame
+		for (Player p : eventPlayers) {
+			if (firstP.equals(p)) {
+				continue;
+			}
+
+			if (this.minigameManager.isPlayingMiniGame(p)) {
+				MiniGame pMiniGame = this.minigameManager.getPlayingMiniGame(p);
+				if (firstPMiniGame.equals(pMiniGame)) {
+					removingPlayers.add(p);
+				}
+			}
+
+		}
+		eventPlayers.removeAll(removingPlayers);
 	}
 
 }

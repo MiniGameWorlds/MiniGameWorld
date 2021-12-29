@@ -6,11 +6,11 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 import com.worldbiomusic.minigameworld.util.VersionChecker;
@@ -254,6 +254,28 @@ public class MiniGameWorld {
 	 */
 	public PartyManager getPartyManager() {
 		return this.minigameManager.getPartyManager();
+	}
+
+	/**
+	 * Registers custom minigame event external detector<br>
+	 * Event detected by detector will be able to be passed processEvent() of
+	 * minigame
+	 * 
+	 * @param detector Registering Detector 
+	 * @see MiniGameEventExternalDetector
+	 */
+	public void registerMiniGameEventExternalDetector(MiniGameEventExternalDetector detector) {
+		this.minigameManager.getMiniGameEventDetector().registerExternalDetector(detector);
+	}
+
+	/**
+	 * Unregisters custom minigame event external detector<br>
+	 * 
+	 * @param detector Unregistering Detector
+	 * @see MiniGameEventExternalDetector
+	 */
+	public void unregisterMiniGameEventExternalDetector(MiniGameEventExternalDetector detector) {
+		this.minigameManager.getMiniGameEventDetector().unregisterExternalDetector(detector);
 	}
 }
 //
