@@ -48,7 +48,7 @@ public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
 ---
 
 # Minigame Exception
-- Can process various exception
+- Can process various exceptions
 ## Example
 - Send custom exception to minigames
 ```java
@@ -141,12 +141,18 @@ public void onPlayerAskPartyJoin(PlayerInteractAtEntityEvent e) {
 # Observer System
 - Observer can reserve tasks with event of MiniGame
 ## MiniGameEvent
-- `START`: fired when minigame started
-- `FINISH`: fired when minigame finished
-- `EXCEPTION`: fired when exception created
+- `START`: When minigame started
+- `BEFORE_FINISH`: Before minigame finished (Used for saving rank data)
+- `FINISH`: When minigame finished
+- `EXCEPTION`: When exception created
+- `EVENT_PASS`: When event passed to the minigame
+- `REGISTRATION`: When minigame is registered to MiniGameWorld plugin
+- `UNREGISTRATION`: When minigame is unregistered from MiniGameWorld plugin
+
 
 ## Examples
-### 1. Reward System
+### Reward System
+- [Example Plugin: MiniGameWorld-Reward](https://github.com/MiniGameWorlds/MiniGameWorld-Reward)
 - Give reward when minigame finished
 - Can distinguish with `class name` or `title` of minigame
 ```java
@@ -156,67 +162,99 @@ class RewardManager implements MiniGameObserver {
 		mw.registerMiniGameObserver(this);
 	}
 
-	@Override
-	public void update(MiniGameEvent event, MiniGameAccessor minigame) {
+		@Override
+	public void update(MiniGameAccessor minigame, MiniGameEvent event) {
+		// give rewards when finish
 		if (event == MiniGameEvent.FINISH) {
-			List<Entry<Player, Integer>> rankList = minigame.getScoreRank();
-			if (rankList.isEmpty()) {
-				return;
-			}
+			List<? extends MiniGameRankResult> rankList = minigame.getRank();
 
-			for (int rank = 1; rank <= 3; rank++) {
-				Player p = rankList.get(rank - 1).getKey();
-
-				// give reward: diamonds
-				int diamondAmount = 4 - rank;
-				ItemStack diamond = new ItemStack(Material.DIAMOND, diamondAmount);
-				p.getInventory().addItem(diamond);
-
-				// msg
-				p.sendMessage("You got " + diamondAmount + " diamonds for " + rank + " rank");
+			for (int i = 0; i < 3; i++) {
+				MiniGameRankResult rankResult = rankList.get(i);
+				for (Player p : rankResult.getPlayers()) {
+					// give rewards
+					p.getInventory().addItem(new ItemStack(Material.OAK_WOOD, 10 - i));
+				}
 			}
 		}
 	}
 }
 ```
-### 2. Save Rank Data
+### Save Rank Data
+- [Example Plugin: MiniGameWorld-Rank](https://github.com/MiniGameWorlds/MiniGameWorld-Rank)
 - Save rank data to config
 ```java
-class RankDataManager implements MiniGameObserver {
+@Override
+public void update(MiniGameAccessor minigame, MiniGameEvent event) {
+	if (event == MiniGameEvent.FINISH) {
+		
+		List<? extends MiniGameRankResult> rankResult = minigame.getRank();
 
-	private JavaPlugin plugin;
+		// check rank is empty
+		if (rankResult.isEmpty()) {
+			return;
+		}
 
-	public RankDataManager(MiniGameWorld mw, JavaPlugin plugin) {
-		mw.registerMiniGameObserver(this);
-		this.plugin = plugin;
-	}
-
-	@Override
-	public void update(MiniGameEvent event, MiniGameAccessor minigame) {
-		if (event == MiniGameEvent.FINISH) {
-			List<Entry<Player, Integer>> rankList = minigame.getScoreRank();
-
-			// check rank is empty
-			if (rankList.isEmpty()) {
-				return;
-			}
-
-			// get minigame data section
-			String minigameClassName = minigame.getClassName();
-			ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
-			
-			for (Entry<Player, Integer> e : rankList) {
+		// get minigame data section
+		String minigameClassName = minigame.getClassName();
+		ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
+		
+		for(MiniGameRankResult result : rankResult) {
+			int score = result.getScore();
+			for(Player p : result.getPlayers()) {
 				// get player's name, score
-				String playerName = e.getKey().getName();
-				int score = e.getValue();
+				String playerName = p.getName();
 
 				// set data
 				section.set(playerName, score);
 			}
-
-			// save config
-			plugin.saveConfig();
 		}
+		
+		// save config
+		plugin.saveConfig();
+	}
+}
+```
+
+
+---
+
+
+# Custom minigame event detector
+- `Event` passed to minigame is filtered by player's minigame in the default MiniGameEventDetector.
+- But with custom detector, you can make some event can pass directly to all minigames without the `passUndetectableEvent` option of MiniGameSetting
+
+## Example
+1. Create custom detector
+```java
+class MyCustomEventDetector implements MiniGameEventExternalDetector {
+
+	@Override
+	public Set<Player> getPlayersFromEvent(Event event) {
+		Set<Player> players = new HashSet<>();
+
+		// Make ProjectileLaunchEvent event pass to all minigames if shooter is a player
+		if (event instanceof ProjectileLaunchEvent) {
+			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
+			Projectile proj = e.getEntity();
+			if (proj.getShooter() instanceof Player) {
+				Player shooter = (Player) proj.getShooter();
+				players.add(shooter);
+			}
+		}
+		return players;
+	}
+}
+```
+
+2. Register detector to `MiniGameWorld`
+```java
+public class MyPluginMain extends JavaPlugin {
+	@Override
+	public void onEnable() {
+		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+		
+		// register custom detector
+		mw.registerMiniGameEventExternalDetector(new MyCustomEventDetector());
 	}
 }
 ```

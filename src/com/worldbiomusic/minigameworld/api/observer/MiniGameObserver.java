@@ -1,4 +1,4 @@
-package com.worldbiomusic.minigameworld.observer;
+package com.worldbiomusic.minigameworld.api.observer;
 
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 

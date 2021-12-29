@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,12 +19,13 @@ import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier.MiniGameEvent;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.worldbiomusic.minigameworld.observer.MiniGameEventNotifier;
-import com.worldbiomusic.minigameworld.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -59,7 +61,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		this.minigames = new ArrayList<>();
 		this.settings = new LinkedHashMap<String, Object>();
 		this.initSettingData();
-		this.minigameEventDetector = new MiniGameEventDetector();
+		this.minigameEventDetector = new MiniGameEventDetector(this);
 
 		this.guiManager = new MiniGameMenuManager(this);
 		this.partyManager = new PartyManager(this);
@@ -194,7 +196,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		if (this.minigameEventDetector.isDetectableEvent(e)) {
 
 			// get players
-			List<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
+			Set<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
 
 			// check empty
 			if (players.isEmpty()) {

@@ -59,7 +59,7 @@
 ## 5.Register MiniGame
 - Register MiniGame with registerMiniGame() of MiniGameWorld.create()
 ```java
-MiniGameWorld mw = MiniGameWorld.create();
+MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 mw.registerMiniGame(new FitTool());
 ```
 

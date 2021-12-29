@@ -1,4 +1,6 @@
 # TODO
+- Support Script can use java plugin
+- Register to maven repo
 - Set team glowing color (glowing is only visibled to team members)
 - Add minigame `view` feature
 - Make MiniGame template pluing and upload to github organization
@@ -526,9 +528,10 @@ if(!this.isMinPlayersLive()) {
 - Prevent player hurt while waiting minigame starts
 - Release `0.3.1`
 
-
-
-
+# 2021-12-29
+- Add `MiniGameEventExternalDetector` to detect other events by default
+- Change observer directory
+- Edit wiki
 
 
 
