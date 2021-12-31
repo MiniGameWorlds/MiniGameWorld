@@ -441,7 +441,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	protected List<Team> getLiveTeamsList() {
 		List<Team> liveTeams = new ArrayList<>();
-		liveTeams.forEach(t -> {
+		this.allTeams.forEach(t -> {
 			if (t.isTeamLive()) {
 				liveTeams.add(t);
 			}
@@ -945,8 +945,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 * @return True if any member is live, or false if all of members are death
 		 */
 		public boolean isTeamLive() {
+//			for (Player member : this.members) {
+//				if (!getLivePlayers().contains(member)) {
+//					return false;
+//				}
+//			}
+//			return true;
+
 			for (Player member : this.members) {
-				if (!getLivePlayers().contains(member)) {
+				if (!isLive(member)) {
 					return false;
 				}
 			}
