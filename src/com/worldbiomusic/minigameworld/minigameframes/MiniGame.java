@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
@@ -237,7 +238,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
-		
+
 		// chat event
 		if (event instanceof AsyncPlayerChatEvent) {
 			this.isProcessChatting((AsyncPlayerChatEvent) event);
@@ -257,9 +258,13 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param event Passed Event
 	 */
 	private void processEventWhileWaiting(Event event) {
-		// prevent player hurt
 		if (event instanceof EntityDamageEvent) {
+			// prevent player hurts
 			EntityDamageEvent e = (EntityDamageEvent) event;
+			e.setCancelled(true);
+		} else if (event instanceof FoodLevelChangeEvent) {
+			// prevent player hunger changes
+			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
 			e.setCancelled(true);
 		}
 	}
