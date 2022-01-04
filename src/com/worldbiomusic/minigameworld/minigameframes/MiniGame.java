@@ -731,8 +731,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	/**
 	 * Check game finish condition
-	 * 
-	 * @param condition Game finish condition
 	 */
 	public void checkGameFinishCondition() {
 		GameFinishCondition condition = this.getSetting().getGameFinishCondition();
@@ -756,7 +754,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (this.isEmpty()) {
 			needToFinish = true;
 		}
-		
+
 		if (needToFinish) {
 			this.finishGame();
 		}
@@ -1082,7 +1080,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Check {@link #getLivePlayersCount()} is less than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getLivePlayersCount()} <
+	 * @return True if {@link #getLivePlayersCount()} is less than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isLessThanPlayersLive() {
@@ -1093,7 +1091,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Check {@link #getLivePlayersCount()} is more than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getLivePlayersCount()} >
+	 * @return True if {@link #getLivePlayersCount()} is more than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isMoreThanPlayersLive() {
@@ -1104,7 +1102,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Check {@link #getPlayerCount()} is less than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getPlayerCount()} <
+	 * @return True if {@link #getPlayerCount()} is less than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isLessThanPlayersLeft() {
