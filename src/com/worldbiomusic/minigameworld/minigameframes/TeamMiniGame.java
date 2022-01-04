@@ -25,6 +25,9 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	public TeamMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
+		
+		// Even one player can play game
+		getSetting().setGameFinishConditionPlayerCount(1);
 	}
 
 	/**

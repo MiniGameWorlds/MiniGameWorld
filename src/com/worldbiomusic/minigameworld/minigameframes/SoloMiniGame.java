@@ -24,6 +24,8 @@ public abstract class SoloMiniGame extends MiniGame {
 	 */
 	public SoloMiniGame(String title, int timeLimit, int waitingTime) {
 		super(title, 1, 1, timeLimit, waitingTime);
+		
+		getSetting().setGameFinishConditionPlayerCount(1);
 	}
 
 	/**
@@ -69,7 +71,7 @@ public abstract class SoloMiniGame extends MiniGame {
 		int score = this.getScore();
 		BroadcastTool.sendMessage(this.getPlayers(), this.getSoloPlayer().getName() + ": " + ChatColor.GOLD + score);
 	}
-	
+
 	@Override
 	public String getType() {
 		return "Solo";

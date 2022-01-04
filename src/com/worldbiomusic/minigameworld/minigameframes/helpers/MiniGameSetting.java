@@ -104,26 +104,45 @@ public class MiniGameSetting {
 	public enum GameFinishCondition {
 		/**
 		 * Check nothing<br>
-		 * Have to process in minigame with overriding
-		 * {@link MiniGame#handleException} <br>
+		 * Have to process in minigame with overriding {@link MiniGame#handleException}
+		 * <br>
 		 */
 		NONE,
+
 		/**
-		 * Finish minigame if min players are not live
+		 * Finish minigame if live player are less than
+		 * {@link #gameFinishConditionPlayerCount}
 		 */
-		MIN_PLAYERS_LIVE,
+		LESS_THAN_PLAYERS_LIVE,
+
 		/**
-		 * Finish minigame if min players are not left
+		 * Finish minigame if live players are more than
+		 * {@link #gameFinishConditionPlayerCount}
 		 */
-		MIN_PLAYERS_LEFT;
+		MORE_THAN_PLAYERS_LIVE,
+
+		/**
+		 * Finish minigame if left players are less than
+		 * {@link #gameFinishConditionPlayerCount}<br>
+		 * Contains also dead(not live) players
+		 */
+		LESS_THAN_PLAYERS_LEFT;
 	}
 
 	/**
 	 * - File control: X<br>
-	 * - Init value: MIN_PLAYERS_LIVE<br>
-	 * - Description: Checked in {@link MiniGame#handleException}
+	 * - Init value: LESS_THAN_PLAYERS_LIVE<br>
+	 * - Description: Checked in {@link MiniGame#handleException} and
+	 * {@link MiniGamePlayerData#setLive(boolean)}
 	 */
 	private GameFinishCondition gameFinishCondition;
+
+	/**
+	 * - File control: X<br>
+	 * - Init value: 2<br>
+	 * - Description: Variable used with {@link #gameFinishCondition}
+	 */
+	private int gameFinishConditionPlayerCount;
 
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
@@ -140,7 +159,8 @@ public class MiniGameSetting {
 		this.customData = new LinkedHashMap<String, Object>();
 		this.icon = Material.STONE;
 		this.passUndetectableEvent = false;
-		this.gameFinishCondition = GameFinishCondition.MIN_PLAYERS_LIVE;
+		this.gameFinishCondition = GameFinishCondition.LESS_THAN_PLAYERS_LIVE;
+		this.gameFinishConditionPlayerCount = 2;
 	}
 
 	// set
@@ -197,6 +217,10 @@ public class MiniGameSetting {
 		this.gameFinishCondition = gameFinishCondition;
 	}
 
+	public int getGameFinishConditionPlayerCount() {
+		return gameFinishConditionPlayerCount;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -249,6 +273,10 @@ public class MiniGameSetting {
 
 	public GameFinishCondition getGameFinishCondition() {
 		return gameFinishCondition;
+	}
+
+	public void setGameFinishConditionPlayerCount(int gameFinishConditionPlayerCount) {
+		this.gameFinishConditionPlayerCount = gameFinishConditionPlayerCount;
 	}
 
 	// file (only file control)

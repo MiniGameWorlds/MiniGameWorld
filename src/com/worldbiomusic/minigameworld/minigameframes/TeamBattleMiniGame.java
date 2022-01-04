@@ -14,7 +14,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
@@ -220,6 +222,19 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected Team getRandomTeam(List<Team> teams) {
 		int randomIndex = (int) (Math.random() * this.getTeamCount());
 		return teams.get(randomIndex);
+	}
+
+	/**
+	 * Returns not empty(exist one or more players) team list
+	 * 
+	 * @return Not empty team list
+	 */
+	protected List<Team> notEmptyTeamList() {
+//		List<Team> notEmptyTeams = new ArrayList<Team>();
+//		this.allTeams.stream().filter(t -> !t.isEmpty()).forEach(notEmptyTeams::add);
+//		return notEmptyTeams;
+
+		return this.allTeams.stream().filter(t -> !t.isEmpty()).toList();
 	}
 
 	/**
@@ -527,21 +542,65 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/**
 	 * Counting unit changed: "player" to "team"<br>
-	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isMinPlayersLive}, because
-	 * {@link MiniGame#checkGameFinishCondition} will checks with this method <br>
+	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isLessThanPlayersLive},
+	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
+	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
 	 */
 	@Override
-	protected boolean isMinPlayersLive() {
-		return this.getLiveTeamCount() > 1;
+	protected boolean isLessThanPlayersLive() {
+		return getLiveTeamCount() < getSetting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
-	 * Same with the {@link TeamBattleMiniGame#isMinPlayersLive()}
+	 * Same with the {@link TeamBattleMiniGame#isLessThanPlayersLive()}
 	 * 
-	 * @return True if min teams are live
+	 * @return True if live teams are less than
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
-	protected boolean isMinTeamsLive() {
-		return isMinPlayersLive();
+	protected boolean isLessThanTeamsLive() {
+		return isLessThanPlayersLive();
+	}
+
+	/**
+	 * Counting unit changed: "player" to "team"<br>
+	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isMoreThanPlayersLive},
+	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
+	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
+	 */
+	@Override
+	protected boolean isMoreThanPlayersLive() {
+		return getLiveTeamCount() > getSetting().getGameFinishConditionPlayerCount();
+	}
+
+	/**
+	 * Same with the {@link TeamBattleMiniGame#isMoreThanPlayersLive()}
+	 * 
+	 * @return True if live teams are more than
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
+	 */
+	protected boolean isMoreThanTeamsLive() {
+		return isMoreThanPlayersLive();
+	}
+
+	/**
+	 * Counting unit changed: "player" to "team"<br>
+	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isLessThanPlayersLeft},
+	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
+	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
+	 */
+	@Override
+	protected boolean isLessThanPlayersLeft() {
+		return notEmptyTeamList().size() < getSetting().getGameFinishConditionPlayerCount();
+	}
+
+	/**
+	 * Same with the {@link TeamBattleMiniGame#isLessThanPlayersLeft()}
+	 * 
+	 * @return True if left teams are less than
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
+	 */
+	protected boolean isLessThanTeamsLeft() {
+		return isLessThanPlayersLeft();
 	}
 
 	@Override

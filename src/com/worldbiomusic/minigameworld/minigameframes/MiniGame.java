@@ -21,7 +21,6 @@ import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier.MiniGameEvent;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
@@ -522,6 +521,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
+	 * <b> [IMPORTANT] Use finishGame() for endpoint of a minigame, never run
+	 * anything after finishGame()</b><br>
 	 * Finish minigame<br>
 	 * Notify FINISH to observers<br>
 	 * 
@@ -725,7 +726,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.handleGameException(p, exception);
 
 		// check GameFinishExceptionMode
-		this.checkGameFinishCondition(this.getSetting().getGameFinishCondition());
+		this.checkGameFinishCondition();
 	}
 
 	/**
@@ -733,22 +734,29 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 * @param condition Game finish condition
 	 */
-	protected void checkGameFinishCondition(GameFinishCondition condition) {
+	public void checkGameFinishCondition() {
+		GameFinishCondition condition = this.getSetting().getGameFinishCondition();
 		boolean needToFinish = false;
+
 		switch (condition) {
 		case NONE:
 			break;
-		case MIN_PLAYERS_LIVE:
-			needToFinish = !this.isMinPlayersLive();
+		case LESS_THAN_PLAYERS_LIVE:
+			needToFinish = isLessThanPlayersLive();
 			break;
-		case MIN_PLAYERS_LEFT:
-			needToFinish = !this.isMinPlayersLeft();
+		case MORE_THAN_PLAYERS_LIVE:
+			needToFinish = isMoreThanPlayersLive();
+			break;
+		case LESS_THAN_PLAYERS_LEFT:
+			needToFinish = isLessThanPlayersLeft();
 			break;
 		}
+
 		// must finish the game
 		if (this.isEmpty()) {
 			needToFinish = true;
 		}
+		
 		if (needToFinish) {
 			this.finishGame();
 		}
@@ -1071,21 +1079,36 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Check <b>live players</b> is bigger than <b>min player count</b> or equals
+	 * Check {@link #getLivePlayersCount()} is less than
+	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if "live players" >= "min player count"
+	 * @return True if {@link #getLivePlayersCount()} <
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
-	protected boolean isMinPlayersLive() {
-		return this.getLivePlayersCount() >= this.getMinPlayerCount();
+	protected boolean isLessThanPlayersLive() {
+		return getLivePlayersCount() < getSetting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
-	 * Check <b>remain players</b> is bigger than <b>min player count</b>
+	 * Check {@link #getLivePlayersCount()} is more than
+	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return "remain players" >= "min player count"
+	 * @return True if {@link #getLivePlayersCount()} >
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
-	protected boolean isMinPlayersLeft() {
-		return this.getPlayerCount() >= this.getMinPlayerCount();
+	protected boolean isMoreThanPlayersLive() {
+		return getLivePlayersCount() > getSetting().getGameFinishConditionPlayerCount();
+	}
+
+	/**
+	 * Check {@link #getPlayerCount()} is less than
+	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
+	 * 
+	 * @return True if {@link #getPlayerCount()} <
+	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
+	 */
+	protected boolean isLessThanPlayersLeft() {
+		return this.getPlayerCount() < getSetting().getGameFinishConditionPlayerCount();
 	}
 
 	/*

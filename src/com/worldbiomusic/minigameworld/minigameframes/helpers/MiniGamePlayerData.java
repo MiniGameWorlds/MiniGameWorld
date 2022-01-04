@@ -83,7 +83,8 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 	}
 
 	/**
-	 * Sets player's live in the minigame player
+	 * Sets player's live in the minigame player<br>
+	 * This method will check {@link MiniGame#checkGameFinishCondition()}
 	 * 
 	 * @param live False if make death a player
 	 */
@@ -95,6 +96,9 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 		GameMode deadGameMode = (GameMode) this.minigame.getCustomOption().get(Option.DEAD_GAMEMODE);
 
 		this.player.setGameMode(live ? liveGameMode : deadGameMode);
+
+		// [IMPORTANT] Must be called after change player's gamemode
+		this.minigame.checkGameFinishCondition();
 	}
 
 	@Override
