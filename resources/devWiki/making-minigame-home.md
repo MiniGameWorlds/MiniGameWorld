@@ -36,6 +36,11 @@
 
 
 
+# Using Library
+- This project uses [classgraph](https://github.com/classgraph/classgraph) library licensed from MIT to register all events in  Minecraft bukkit
+
+
+
 [Spigot]: https://getbukkit.org/download/spigot
 [Paper]: https://papermc.io/
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases

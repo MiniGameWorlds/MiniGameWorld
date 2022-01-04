@@ -72,12 +72,12 @@ PVP:
     live-gamemode: SURVIVAL
     dead-gamemode: SPECTATOR
     color: RED
-    food-level-change: false
+    food-level-change: true
     player-hurt: true
 ```
 - `title`: Minigame title (can be different with Class Name)
-- `min-player-count`: Minimun player for playing game
-- `max-player-count`: Maximun player for playing game
+- `min-player-count`: Minimun player count for start game
+- `max-player-count`: Maximun player count for playing game
 - `waiting-time`: Waiting time (sec)
 - `time-limit`: Minigame playing time limit (sec)
 - `active`: Whether this minigame is active in the server(true/false)
@@ -85,7 +85,7 @@ PVP:
 - `location`: Minigame join location
 - `tutorial`: Tutorials
 - `custom-data`: Custom data created by developer or default custom options
-#### Default custom-data options
+#### **Default custom-data options**
 - `chatting`: Whether players can chat (true/false)
 - `score-notifying`: Whether score change notifies to players (true/false)
 - `block-break`: Whether players can break block (true/false)

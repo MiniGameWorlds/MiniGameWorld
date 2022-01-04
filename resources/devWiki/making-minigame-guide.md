@@ -68,8 +68,35 @@ mw.registerMiniGame(new FitTool());
 # Options
 ## - MiniGameSetting
 - Fundamental settings of minigame (See api doc for Init value)
-- `settingFixed`: fix value: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
-- `passUndetectableEvent`: pass all event to minigame (must check event in detail (e.g. check player from event is playing current minigame))
+
+- `title`: Minigame title (can be different with Class Name)
+- `location`: Minigame join location
+- `minPlayerCount`: Minimun player count for start game
+- `maxPlayerCount`: Maximun player count for playing game
+- `waiting_Time`: Waiting time (sec)
+- `timeLimit`: Minigame playing time limit (sec)
+- `active`: Whether this minigame is active in the server(true/false)
+- `settingFixed`: fix setting to prevent to edit by user: `minPlayerCount`, `maxPlayerCount`, `timeLimit`, `customData` (can't edit in config)
+- `tutorial`: Tutorials
+- `customData`: Custom data created by developer or default custom options
+- `icon`: Material which show in menu (Material)
+- `passUndetectableEvent`: Pass all event to minigame even not related with the minigame (must check event in 
+detail (e.g. check player from event is playing current minigame))
+- `gameFinishCondition`: Game finish condition 
+> e.g. game will finish in these condition
+> - `- GameFinishCondition = LESS_THAN_PLAYERS_LIVE`  
+`- gameFinishConditionPlayerCount = 2`  
+`- live players count = 1`  
+> - `- GameFinishCondition = MORE_THAN_PLAYERS_LIVE`  
+`- gameFinishConditionPlayerCount = 5`  
+`- live players count = 6`  
+> - `- GameFinishCondition = LESS_THAN_PLAYERS_LEFT`  
+`- gameFinishConditionPlayerCount = 4`  
+`- left players count = 3`  
+- `gameFinishConditionPlayerCount`: Used with `gameFinishCondition`
+
+
+
 ### How to use
 ```java
 public PassMob() {
@@ -172,6 +199,7 @@ public void createServerEvent(Player p) {
 ## - Custom Data
 - Minigame Developer can add custom data
 - Minigame User can play and edit custom data
+- Must use `register` and `load` together
 ### How to register
 - Override `registerCustomData()` and add data
 ```java
@@ -235,7 +263,7 @@ protected void runTaskAfterStart() {
 
 
 ## - etc
-- `finishGame()`: finish minigame
+- `finishGame()`: finish minigame, **Must be used for endpoint of a minigame, never run anything after finishGame()**
 - `getLeftWaitingTime()`: get left waiting time (sec)
 - `getLeftFinishTime()`: get left time to finish (sec)
 
@@ -252,7 +280,7 @@ protected void runTaskAfterStart() {
 - MiniGameWorld only passes detectable events that can extract players from a event
 - Detectable events are only passed to player's playing minigame
 - Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`...etc of `PlayerEvent`)
-- If **needs not related with player event**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
+- If **needs event not related with player**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 - [Detectable Event List](detectable-event-list.md)
 
 ## Override
@@ -260,6 +288,11 @@ protected void runTaskAfterStart() {
 
 ## Player Death
 - Player can't return to joined location from minigame location, if player is dead state when minigame finished (don't let the player die with using any other ways when minigame finished)
+
+## GameFinishCondition Auto Checking Point
+- When `MiniGame.handleException()`, `<minigame>.handleGameException()` executes
+- When `MiniGamePlayerData.setLive()`, `MiniGame.setLive()` executes
+- Do **NOT** run anything about a player after `<minigame>.handleGameException()` and `MiniGamePlayerData.setLive()` or game finished
 
 ## Flow
 <img src="flow.png" width=50%></img>

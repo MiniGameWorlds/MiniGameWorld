@@ -1,5 +1,4 @@
 # TODO
-- Support Script can use java plugin
 - Register to maven repo
 - Set team glowing color (glowing is only visibled to team members)
 - Add minigame `view` feature
@@ -13,20 +12,12 @@
 - Make Github issue template
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Try to use other library, not `classgraph` (e.g. [reflections]())
-
+- Support Script Addon
 
 ---
-
 
 
 # Version Changes
-
-## Next
-### Next API Changes
-
-### Next Build Changes
-
----
 
 ## 0.0.1
 ### API Changes
@@ -96,6 +87,10 @@
 - Add `MiniGameEventExternalDetector` to detect other events by default
 - Change observer directory
 
+## 0.3.3
+### Build Changes
+- Prevent player food level(hunger) change while waiting minigame starts
+- Improve GameFinishCondition features in MiniGameSetting
 
 ---
 
@@ -536,10 +531,15 @@ if(!this.isMinPlayersLive()) {
 - Add `MiniGameEventExternalDetector` to detect other events by default
 - Change observer directory
 - Edit wiki
+- Release `0.3.2`
 
 
+# 2022-01-01
+- Prevent player food level(hunger) change while waiting minigame starts
 
-
+# 2022-01-04
+- Improve GameFinishCondition features in MiniGameSetting
+- Release `0.3.3`
 
 
 
