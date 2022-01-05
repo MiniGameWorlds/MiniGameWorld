@@ -230,10 +230,6 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Not empty team list
 	 */
 	protected List<Team> notEmptyTeamList() {
-//		List<Team> notEmptyTeams = new ArrayList<Team>();
-//		this.allTeams.stream().filter(t -> !t.isEmpty()).forEach(notEmptyTeams::add);
-//		return notEmptyTeams;
-
 		return this.allTeams.stream().filter(t -> !t.isEmpty()).toList();
 	}
 
@@ -243,13 +239,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Not fulled random team
 	 */
 	private Team getNotFulledRandomTeams() {
-		List<Team> notFulledTeams = new ArrayList<>();
-		for (Team team : this.allTeams) {
-			if (!team.isFull()) {
-				notFulledTeams.add(team);
-			}
-		}
-		return this.getRandomTeam(notFulledTeams);
+		return this.getRandomTeam(this.allTeams.stream().filter(t -> !t.isFull()).toList());
 	}
 
 	/**
@@ -264,6 +254,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				minTeam = team;
 			}
 		}
+		
 		return minTeam;
 	}
 
@@ -455,14 +446,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Live teams
 	 */
 	protected List<Team> getLiveTeamsList() {
-		List<Team> liveTeams = new ArrayList<>();
-		this.allTeams.forEach(t -> {
-			if (t.isTeamLive()) {
-				liveTeams.add(t);
-			}
-		});
-
-		return liveTeams;
+		return this.allTeams.stream().filter(t -> t.isTeamLive()).toList();
 	}
 
 	/**
@@ -637,14 +621,24 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * TeamBattleMiniGame.TeamRegisterMode = FAIR
 	 */
 	private void registerPlayers_FAIR() {
-		this.getPlayers().forEach(p -> this.registerPlayerToMinPlayerCountTeam(p));
+		// shuffle player list
+		List<Player> players = new ArrayList<>();
+		getPlayers().forEach(players::add);
+		Collections.shuffle(players);
+
+		players.forEach(p -> this.registerPlayerToMinPlayerCountTeam(p));
 	}
 
 	/**
 	 * TeamBattleMiniGame.TeamRegisterMode = FILL
 	 */
 	private void registerPlayers_FILL() {
-		this.getPlayers().forEach(p -> this.registerPlayerToMaxPlayerCountTeam(p));
+		// shuffle player list
+		List<Player> players = new ArrayList<>();
+		getPlayers().forEach(players::add);
+		Collections.shuffle(players);
+
+		players.forEach(p -> this.registerPlayerToMaxPlayerCountTeam(p));
 	}
 
 	/**
@@ -653,32 +647,38 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	private void registerPlayers_FAIR_FILL() {
 		// [IMPORTANT] All teams must have the same max player count
 		int teamMemberCount = this.allTeams.get(0).maxCount();
-		int usingTeamCount = (int) Math.ceil((double) this.getPlayerCount() / teamMemberCount);
-		if (usingTeamCount == 1) {
-			usingTeamCount += 1;
+		int maxTeamCount = (int) Math.ceil((double) this.getPlayerCount() / teamMemberCount);
+		if (maxTeamCount == 1) {
+			maxTeamCount += 1;
 		}
-		int memberCountPerTeam = this.getPlayerCount() / usingTeamCount;
+		int memberCountPerTeam = this.getPlayerCount() / maxTeamCount;
 
-		int teamNumber = 0;
-		int playerNumber = 0;
+		int createdTeamCount = 0;
+		int playerIndex = 0;
+		// shuffle player list
+		List<Player> players = new ArrayList<>();
+		getPlayers().forEach(players::add);
+		Collections.shuffle(players);
+
 		while (true) {
-			if (teamNumber >= usingTeamCount) {
+			if (createdTeamCount >= maxTeamCount) {
 				break;
 			}
-			Player p = this.getPlayers().get(playerNumber);
-			this.registerPlayerToTeam(p, teamNumber);
+			Player p = players.get(playerIndex);
+			this.registerPlayerToTeam(p, createdTeamCount);
 
-			playerNumber += 1;
-			if (playerNumber % memberCountPerTeam == 0) {
-				teamNumber += 1;
+			playerIndex += 1;
+
+			if (playerIndex % memberCountPerTeam == 0) {
+				createdTeamCount += 1;
 			}
 		}
 
 		// register remain players to `min player count teams`
-		while (playerNumber < this.getPlayerCount()) {
-			Player p = this.getPlayers().get(playerNumber);
+		while (playerIndex < this.getPlayerCount()) {
+			Player p = players.get(playerIndex);
 			this.registerPlayerToMinPlayerCountTeam(p);
-			playerNumber += 1;
+			playerIndex += 1;
 		}
 	}
 
@@ -759,12 +759,12 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 		// rank team by score
 		@SuppressWarnings("unchecked")
-		List<Team> entries = (List<Team>) this.getRank();
+		List<Team> teams = (List<Team>) this.getRank();
 
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
 
-		for (Team team : entries) {
+		for (Team team : teams) {
 			int score = team.getScore();
 			String memberString = team.getAllMemberNameString();
 
@@ -1004,12 +1004,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 * @return True if any member is live, or false if all of members are death
 		 */
 		public boolean isTeamLive() {
-//			for (Player member : this.members) {
-//				if (!getLivePlayers().contains(member)) {
-//					return false;
-//				}
-//			}
-//			return true;
+			if (isEmpty()) {
+				return false;
+			}
 
 			for (Player member : this.members) {
 				if (!isLive(member)) {
