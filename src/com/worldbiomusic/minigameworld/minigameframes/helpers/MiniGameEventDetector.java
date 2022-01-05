@@ -27,6 +27,7 @@ import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -38,6 +39,7 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.projectiles.ProjectileSource;
 
 import com.worldbiomusic.minigameworld.api.MiniGameEventExternalDetector;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
@@ -259,8 +261,20 @@ public class MiniGameEventDetector {
 		} else if (event instanceof ProjectileHitEvent) {
 			ProjectileHitEvent e = (ProjectileHitEvent) event;
 			Entity hitEntity = e.getHitEntity();
+			ProjectileSource shooter = e.getEntity().getShooter();
 			if (hitEntity != null && hitEntity instanceof Player) {
 				eventPlayers.add((Player) hitEntity);
+			}
+			if (shooter != null && shooter instanceof Player) {
+				eventPlayers.add((Player) shooter);
+			}
+
+		} else if (event instanceof ProjectileLaunchEvent) {
+			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
+			Projectile proj = e.getEntity();
+			ProjectileSource shooter = proj.getShooter();
+			if (shooter != null && shooter instanceof Player) {
+				eventPlayers.add((Player) shooter);
 			}
 		}
 
