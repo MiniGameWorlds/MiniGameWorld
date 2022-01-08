@@ -91,6 +91,12 @@
 - Prevent player food level(hunger) change while waiting minigame starts
 - Improve GameFinishCondition features in MiniGameSetting
 
+## 0.3.4
+### Build Changes
+- Add more detectable events
+- Fix FAIR_FILL team registration bug in TeamBattleMiniGame
+- Manage player's `allowFlight` state
+
 ---
 
 
@@ -541,12 +547,12 @@ if(!this.isMinPlayersLive()) {
 - Release `0.3.3`
 
 # 2022-01-05
-- Add detectable event
+- Add more detectable events
 - Fix FAIR_FILL team registration bug in TeamBattleMiniGame
 
 # 2022-01-08
 - Manage player's `allowFlight` state
-
+- Release `0.3.4`
 
 
 

@@ -1,6 +1,6 @@
 name: MiniGameWorld
 main: com.worldbiomusic.minigameworld.MiniGameWorldMain
-version: 0.3.3
+version: 0.3.4
 author: worldbiomusic
 website: https://github.com/MiniGameWorlds/MiniGameWorld
 description: Module-based Minecraft MiniGame Framework
