@@ -16,7 +16,6 @@
 
 ---
 
-
 # Version Changes
 
 ## 0.0.1
@@ -541,8 +540,12 @@ if(!this.isMinPlayersLive()) {
 - Improve GameFinishCondition features in MiniGameSetting
 - Release `0.3.3`
 
+# 2022-01-05
+- Add detectable event
+- Fix FAIR_FILL team registration bug in TeamBattleMiniGame
 
-
+# 2022-01-08
+- Manage player's `allowFlight` state
 
 
 

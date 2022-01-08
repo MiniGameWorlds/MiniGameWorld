@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGamePartyCommand {
 	private PartyManager partyManager;

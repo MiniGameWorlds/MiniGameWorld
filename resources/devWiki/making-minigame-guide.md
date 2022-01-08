@@ -82,7 +82,7 @@ mw.registerMiniGame(new FitTool());
 - `icon`: Material which show in menu (Material)
 - `passUndetectableEvent`: Pass all event to minigame even not related with the minigame (must check event in 
 detail (e.g. check player from event is playing current minigame))
-- `gameFinishCondition`: Game finish condition 
+- `gameFinishCondition`: Game finish condition (Init: LESS_THAN_PLAYERS_LIVE (2))
 > e.g. game will finish in these condition
 > - `- GameFinishCondition = LESS_THAN_PLAYERS_LIVE`  
 `- gameFinishConditionPlayerCount = 2`  
@@ -93,7 +93,7 @@ detail (e.g. check player from event is playing current minigame))
 > - `- GameFinishCondition = LESS_THAN_PLAYERS_LEFT`  
 `- gameFinishConditionPlayerCount = 4`  
 `- left players count = 3`  
-- `gameFinishConditionPlayerCount`: Used with `gameFinishCondition`
+- `gameFinishConditionPlayerCount`: Used with `gameFinishCondition` (Init: 2)
 
 
 
@@ -293,8 +293,15 @@ protected void runTaskAfterStart() {
 - When `MiniGame.handleException()`, `<minigame>.handleGameException()` executes
 - When `MiniGamePlayerData.setLive()`, `MiniGame.setLive()` executes
 - Do **NOT** run anything about a player after `<minigame>.handleGameException()` and `MiniGamePlayerData.setLive()` or game finished
+```yaml
+Default minigame setting will be finished less than... (If GameFinishCondition is LESS_THAN_PLAYERS_LIVE)
+- Solo: 1
+- SoloBattle: 2
+- Team: 1
+- TeamBattle: 2
+```
 
 ## Flow
 <img src="flow.png" width=50%></img>
 
-[API]: https://worldbiomusic.github.io/MiniGameWorld/
+[API]: https://minigameworlds.github.io/MiniGameWorld/

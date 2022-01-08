@@ -39,6 +39,7 @@ public class MiniGamePlayerState {
 	private Vector velocity;
 	private float walkSpeed;
 	private float flySpeed;
+	private boolean allowFlight;
 
 	public MiniGamePlayerState(MiniGame minigame, Player player) {
 		this.minigame = minigame;
@@ -108,6 +109,9 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.flySpeed = this.player.getFlySpeed();
+
+		// allow flight
+		this.allowFlight = this.player.getAllowFlight();
 	}
 
 	public void restorePlayerState() {
@@ -168,6 +172,9 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.player.setFlySpeed(this.flySpeed);
+
+		// allow flight
+		this.player.setAllowFlight(this.allowFlight);
 	}
 
 	public void makePureState() {
@@ -226,6 +233,11 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.player.setFlySpeed(0.1f);
+
+		// allow flight
+		if (liveGameMode == GameMode.SURVIVAL || liveGameMode == GameMode.ADVENTURE) {
+			this.player.setAllowFlight(false);
+		}
 	}
 
 	@Override
