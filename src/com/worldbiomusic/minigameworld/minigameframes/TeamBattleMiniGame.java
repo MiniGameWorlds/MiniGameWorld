@@ -254,7 +254,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				minTeam = team;
 			}
 		}
-		
+
 		return minTeam;
 	}
 
@@ -589,6 +589,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	@Override
 	protected void initGameSettings() {
+		this.allTeams.clear();
 		createTeams();
 	}
 
@@ -1074,6 +1075,15 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		@Override
 		public List<Player> getPlayers() {
 			return getMembers();
+		}
+
+		@Override
+		public String toString() {
+			String str = "[" + getColoredTeamName() + "]\n";
+			for (Player m : this.members) {
+				str += "- " + m.getName() + "\n";
+			}
+			return str;
 		}
 
 		@Override
