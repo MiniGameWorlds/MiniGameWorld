@@ -3,6 +3,7 @@ package com.worldbiomusic.minigameworld.minigameframes.helpers;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -15,8 +16,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * Below custom options are created in `custom-data` section by default<br>
@@ -47,13 +48,14 @@ public class MiniGameCustomOption {
 		BLOCK_PLACE("block-place"),
 		/**
 		 * Init: false<br>
-		 * Description: Player can be hit by other player if true (contains damage by
+		 * Description: Players can damage each other if true (contains damage by
 		 * projectile)
 		 */
 		PVP("pvp"),
 		/**
 		 * Init: true<br>
-		 * Description: Player can be hit by other entitys, not by a player
+		 * Description: Players and Mobs can damage each other if true (contains damage
+		 * by projectile)
 		 */
 		PVE("pve"),
 		/**
@@ -199,55 +201,73 @@ public class MiniGameCustomOption {
 			if (damageEvent.getEntity() instanceof Player) {
 				damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
 			}
-			
+
 			if (event instanceof EntityDamageByEntityEvent) {
-				/*
-				 * PVP
-				 */
 				// cancel damage by entity (
 				// when victim == minigame player && damager == minigame player
 				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-				Entity victim = e.getEntity();
-				Entity damager = e.getDamager();
-				if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
-					// direct damage
-					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
-						e.setCancelled(!(boolean) this.get(Option.PVP));
-					}
 
-					// projectile damage
-					else if (damager instanceof Projectile) {
-						Projectile proj = (Projectile) damager;
-						ProjectileSource shooter = proj.getShooter();
-						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
-							e.setCancelled(!(boolean) this.get(Option.PVP));
-						}
-					}
-				}
+				// PVP
+				processPVP(e);
 
-				/*
-				 * PVE
-				 */
-				// cancel damage by entity when damager == minigame player && vicitm is not
-				// Player but entity
-				// not only player
-				else if (!(victim instanceof Player)) {
-					// direct damage
-					if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
-						e.setCancelled(!(boolean) this.get(Option.PVE));
-					}
-
-					// projectile damage
-					else if (damager instanceof Projectile) {
-						Projectile proj = (Projectile) damager;
-						ProjectileSource shooter = proj.getShooter();
-						if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
-							e.setCancelled(!(boolean) this.get(Option.PVE));
-						}
-					}
-				}
+				// PVE
+				processPVE(e);
 			}
 
+		}
+	}
+
+	private void processPVP(EntityDamageByEntityEvent e) {
+		Entity victim = e.getEntity();
+		Entity damager = e.getDamager();
+		if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
+			// direct damage
+			if (damager instanceof Player && this.minigame.containsPlayer((Player) damager)) {
+				e.setCancelled(!(boolean) this.get(Option.PVP));
+			}
+
+			// projectile damage
+			else if (damager instanceof Projectile) {
+				Projectile proj = (Projectile) damager;
+				ProjectileSource shooter = proj.getShooter();
+				if (shooter instanceof Player && this.minigame.containsPlayer((Player) shooter)) {
+					e.setCancelled(!(boolean) this.get(Option.PVP));
+				}
+			}
+		}
+	}
+
+	private void processPVE(EntityDamageByEntityEvent e) {
+		Entity victim = e.getEntity();
+		Entity damager = e.getDamager();
+		if (victim instanceof Mob) {
+			// direct damage
+			if (damager instanceof Player) {
+				e.setCancelled(!(boolean) this.get(Option.PVE));
+			}
+
+			// projectile damage
+			else if (damager instanceof Projectile) {
+				Projectile proj = (Projectile) damager;
+				ProjectileSource shooter = proj.getShooter();
+				if (shooter instanceof Player) {
+					e.setCancelled(!(boolean) this.get(Option.PVE));
+				}
+			}
+		} else if (victim instanceof Player) {
+			// direct damage
+			if (damager instanceof Mob) {
+				e.setCancelled(!(boolean) this.get(Option.PVE));
+			}
+
+			// projectile damage
+			else if (damager instanceof Projectile) {
+				Projectile proj = (Projectile) damager;
+				ProjectileSource shooter = proj.getShooter();
+				if (shooter instanceof Mob) {
+					e.setCancelled(!(boolean) this.get(Option.PVE));
+				}
+			}
 		}
 	}
 
