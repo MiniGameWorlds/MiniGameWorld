@@ -20,7 +20,6 @@ import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier.MiniGameEvent;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
@@ -105,6 +104,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
 		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
+		
+		// create "minigames" directory
+		if(!Utils.getMiniGamesFolder().exists()) {
+			Utils.getMiniGamesFolder().mkdir();
+		}
 	}
 
 	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
