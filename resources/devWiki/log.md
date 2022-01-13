@@ -1,5 +1,5 @@
 # TODO
-- Register to maven repo
+- Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
 - Add minigame `view` feature
 - Make MiniGame template pluing and upload to github organization
@@ -94,7 +94,7 @@
 ## 0.3.4
 ### Build Changes
 - Add more detectable events
-- Fix FAIR_FILL team registration bug in TeamBattleMiniGame
+- Fix team registration bug in TeamBattleMiniGame
 - Manage player's `allowFlight` state
 
 ---
@@ -548,13 +548,16 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-01-05
 - Add more detectable events
-- Fix FAIR_FILL team registration bug in TeamBattleMiniGame
+- Fix team registration bug in TeamBattleMiniGame
 
 # 2022-01-08
 - Manage player's `allowFlight` state
 - Release `0.3.4`
 
-
+# 2022-01-13
+- Fix exception throwing when plugin is disabled with no minigames
+- Change `PVE` meaning
+- Release `0.3.5`
 
 
 

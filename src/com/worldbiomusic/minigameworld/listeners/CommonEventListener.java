@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -190,7 +191,7 @@ public class CommonEventListener implements Listener {
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Sign sign = (Sign) block.getState();
 				String[] lines = sign.getLines();
-				String minigame = lines[0];
+				String minigame = ChatColor.stripColor(lines[0]);
 				String title = lines[1];
 
 				// check minigameSign option
@@ -222,7 +223,7 @@ public class CommonEventListener implements Listener {
 		if (this.minigameManager.isPlayingMiniGame(p)) {
 			return;
 		}
-		
+
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> playingMinigamePlayers = e.getRecipients();
 			for (MiniGame m : this.minigameManager.getMiniGameList()) {

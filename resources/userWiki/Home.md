@@ -49,7 +49,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 # Caution
 - Not recommend to run `/reload` in the server console
 - A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode` are saved at the game start and restored when the game finished
-
+- If you have some problems in bungeecord server, use [BungeeGuard](https://www.spigotmc.org/resources/bungeeguard.79601/) plugin
 
 
 

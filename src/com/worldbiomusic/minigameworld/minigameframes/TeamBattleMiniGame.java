@@ -17,7 +17,6 @@ import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * <b>[Info]</b><br>
@@ -405,7 +404,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
-	 * Sets team pvp
+	 * Sets team pvp (contains projectile damage)<br>
+	 * If true, team members can damage each other<br>
+	 * If false, team members can NOT damage each other<br>
 	 * 
 	 * @param teamPvp groupChat
 	 */
@@ -693,35 +694,37 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void processEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
-			if (this.isTeamPvP()) {
+			processTeamPVP((EntityDamageByEntityEvent) event);
+		}
+	}
+
+	private void processTeamPVP(EntityDamageByEntityEvent e) {
+		// if team pvp is true, team members can damage each other
+		if (this.isTeamPvP()) {
+			return;
+		}
+
+		// cancel damage by entity
+		Entity victim = e.getEntity();
+		Entity damager = e.getDamager();
+		if (!(victim instanceof Player)) {
+			return;
+		}
+
+		// direct damage
+		if (damager instanceof Player) {
+			if (this.isSameTeam((Player) victim, (Player) damager)) {
+				e.setCancelled(true);
+			}
+		}
+		// projectile damage
+		else if (damager instanceof Projectile) {
+			Projectile proj = (Projectile) damager;
+			if (!(proj.getShooter() instanceof Player)) {
 				return;
 			}
-
-			// cancel damage by entity
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			Entity victim = e.getEntity();
-			Entity damager = e.getDamager();
-			if (!(victim instanceof Player)) {
-				return;
-			}
-
-			// direct damage
-			if (damager instanceof Player) {
-				if (this.isSameTeam((Player) victim, (Player) damager)) {
-					Utils.debug("cancel same team damage");
-					e.setCancelled(true);
-				}
-			}
-			// projectile damage
-			else if (damager instanceof Projectile) {
-				Projectile proj = (Projectile) damager;
-				if (!(proj.getShooter() instanceof Player)) {
-					return;
-				}
-				if (this.isSameTeam((Player) victim, (Player) proj.getShooter())) {
-					Utils.debug("cancel projectile event");
-					e.setCancelled(true);
-				}
+			if (this.isSameTeam((Player) victim, (Player) proj.getShooter())) {
+				e.setCancelled(true);
 			}
 		}
 	}

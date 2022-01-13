@@ -16,7 +16,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**

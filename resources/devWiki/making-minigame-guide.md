@@ -46,9 +46,14 @@
 
 
 ## 3. Essential methods
-- `initGameSetting()`: executed every time when minigame starts
-- `processEvent()`: executed when event is passed to minigame
-- `registerTutorial()`: tutorial string
+### `initGameSetting()`
+- Executed every time when minigame starts
+### `processEvent()`
+- Executed when event is passed to minigame
+- 
+### `registerTutorial()`
+- Return minigame tutorial string list
+- Strings in list will print when a player join a minigame
 
 
 ## 4. Set [Options](#Options)
@@ -113,8 +118,8 @@ public PassMob() {
 - `SCORE_NOTIFYING`: whether notify score change
 - `BLOCK_BREAK`: whether player can break block
 - `BLOCK_PLACE`: whether player can place block
-- `PVP`: whether players can pvp
-- `PVE`: whether players can damage entity (not player)
+- `PVP`: whether players can damage each other (contains Projectile)
+- `PVE`: whether player and mob can damage each other (contains Projectile)
 - `INVENTORY_SAVE`: whether inventory save
 - `MINIGAME_RESPAWN`: whether player will be respawn in minigame location
 - `LIVE_GAMEMODE`: gamemode when a player join a minigame
@@ -133,6 +138,7 @@ public PassMob() {
 
 ## - Task Management
 - Can manage task easily
+- Don't need cancellation
 - `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
 - `Run`: `getTaskManager().runTask("name");` in anywhere after register
 - Do not register/run system task(`_waitingTimer`, `_finishTimer`)
@@ -277,9 +283,9 @@ protected void runTaskAfterStart() {
 - If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `runTaskBeforeFinish()`
 
 ## Detectable Events
-- MiniGameWorld only passes detectable events that can extract players from a event
+- MiniGameWorld only passes detectable events that can extract players from a event, so you don't have to check the player is playing the minigame
 - Detectable events are only passed to player's playing minigame
-- Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`...etc of `PlayerEvent`)
+- Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`... of `PlayerEvent`)
 - If **needs event not related with player**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
 - [Detectable Event List](detectable-event-list.md)
 
@@ -300,6 +306,11 @@ Default minigame setting will be finished less than... (If GameFinishCondition i
 - Team: 1
 - TeamBattle: 2
 ```
+
+
+## How to use other custom Event
+- If you want to process custom event of another plugin in minigame, just make minigame implement `Listener` and add a `EventHandler method`
+
 
 ## Flow
 <img src="flow.png" width=50%></img>
