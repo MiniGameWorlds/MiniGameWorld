@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -169,7 +170,9 @@ public class MiniGameCustomOption {
 	 * @param event Event to set cancel or not with options
 	 */
 	public void processEvent(Event event) {
-		if (event instanceof BlockBreakEvent) {
+		if (event instanceof AsyncPlayerChatEvent) {
+			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHATTING));
+		} else if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {
 			((BlockPlaceEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));

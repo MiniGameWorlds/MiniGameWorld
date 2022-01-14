@@ -695,6 +695,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected void processEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			processTeamPVP((EntityDamageByEntityEvent) event);
+		} else if (event instanceof AsyncPlayerChatEvent) {
+			processChat((AsyncPlayerChatEvent) event);
 		}
 	}
 
@@ -729,12 +731,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
-	@Override
-	protected void processChatting(AsyncPlayerChatEvent e) {
-		if (!this.isStarted()) {
-			return;
-		}
-
+	private void processChat(AsyncPlayerChatEvent e) {
 		// group chat
 		if (this.isGroupChat()) {
 			// cancel event
@@ -837,10 +834,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 * @param memberSize Team max member size
 		 */
 		public Team(String teamName, int memberSize) {
-			this.teamName = teamName;
-			this.maxMemberCount = memberSize;
-			this.members = new ArrayList<>(memberSize);
-			this.color = ChatColor.WHITE;
+			this(teamName, memberSize, ChatColor.WHITE);
 		}
 
 		/**

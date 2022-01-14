@@ -21,12 +21,14 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 	private Player player;
 	private int score;
 	private boolean live;
+	private MiniGamePlayerState state;
 
 	public MiniGamePlayerData(MiniGame minigame, Player p) {
 		this.minigame = minigame;
 		this.player = p;
 		this.score = 0;
 		this.setLive(true);
+		this.state = new MiniGamePlayerState(minigame, p);
 	}
 
 	/**
@@ -99,6 +101,14 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 
 		// [IMPORTANT] Must be called after change player's gamemode
 		this.minigame.checkGameFinishCondition();
+	}
+	
+	/**
+	 * Gets player state instance
+	 * @return MiniGamePlayerState
+	 */
+	public MiniGamePlayerState getState() {
+		return this.state;
 	}
 
 	@Override

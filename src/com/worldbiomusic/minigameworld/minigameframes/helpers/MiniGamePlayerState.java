@@ -14,6 +14,12 @@ import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 
+/**
+ * Manage player's everything<br>
+ * - When join the game: save state and make pure state<br>
+ * - When quit the game: restore saved state<br>
+ *
+ */
 public class MiniGamePlayerState {
 	private MiniGame minigame;
 
@@ -47,7 +53,6 @@ public class MiniGamePlayerState {
 
 		// save player state
 		this.savePlayerState();
-
 	}
 
 	public boolean isSamePlayer(Player p) {

@@ -26,7 +26,6 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerStateManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
@@ -60,11 +59,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Task manager
 	 */
 	private MiniGameTaskManager minigameTaskManager;
-
-	/**
-	 * Player state manager (health, food level ...)
-	 */
-	private MiniGamePlayerStateManager playerStateManager;
 
 	/**
 	 * Whether game started or not
@@ -185,7 +179,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.minigameTaskManager.registerBasicTasks();
 
 		this.observerList = new ArrayList<MiniGameObserver>();
-		this.playerStateManager = new MiniGamePlayerStateManager(this);
 		this.minigameDataManager = new MiniGameDataManager(this);
 
 		// register tutorial
@@ -220,9 +213,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.players.clear();
 
 		this.initTasks();
-
-		// clear player data
-		this.playerStateManager.clearAllPlayers();
 	}
 
 	/**
@@ -240,7 +230,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// chat event
 		if (event instanceof AsyncPlayerChatEvent) {
-			this.isProcessChatting((AsyncPlayerChatEvent) event);
+			this.processChat((AsyncPlayerChatEvent) event);
 		}
 
 		// process event when minigame started
@@ -269,30 +259,16 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Cancel chat event (set audiences only minigame players)<br>
 	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
 	 * true<br>
-	 * Pass event to processChatting() when "CHATTING" custom option is true<br>
 	 * 
 	 * @param e Chat event
 	 */
-	private void isProcessChatting(AsyncPlayerChatEvent e) {
+	private void processChat(AsyncPlayerChatEvent e) {
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> recipients = e.getRecipients();
 			recipients.removeAll(recipients.stream().filter(r -> !containsPlayer(r)).toList());
 		}
-
-		if ((boolean) this.getCustomOption().get(Option.CHATTING)) {
-			this.processChatting(e);
-		}
-	}
-
-	/**
-	 * Change chat format for sub minigame frame
-	 * 
-	 * @param e Chat event
-	 */
-	protected void processChatting(AsyncPlayerChatEvent e) {
 	}
 
 	/**
@@ -341,12 +317,18 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * @param p Joined player
 	 */
 	private void setupPlayerJoinSettings(Player p) {
-		// setup player
-		// [IMPORTANT] must be processed before "addPlayer()"
-		this.setupPlayerWhenJoin(p);
-
 		// add player to list
-		this.addPlayer(p);
+		addPlayer(p);
+
+		// save player data
+		getPlayerData(p).getState().savePlayerState();
+
+		// make pure state
+		getPlayerData(p).getState().makePureState();
+
+		// tp to game location
+		// [IMPORTANT] must call after save player state (joinedLocation included)
+		p.teleport(this.getLocation());
 
 		// notify info
 		this.notifyInfo(p);
@@ -403,14 +385,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 			}
 		}
 
+		// restore player data
+		getPlayerData(p).getState().restorePlayerState();
+
 		// remove player from minigame
-		// [IMPORTANT] Must be called before "setupPlayerWhenLeave()" to block cycle
-		// event processing
 		this.removePlayer(p);
-
-		// setup player state
-		this.setupPlayerWhenLeave(p);
-
 	}
 
 	/**
@@ -758,32 +737,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		if (needToFinish) {
 			this.finishGame();
 		}
-	}
-
-	/**
-	 * Setup things when join (teleport, save state)
-	 * 
-	 * @param p Target player
-	 */
-	private void setupPlayerWhenJoin(Player p) {
-		// save player data
-		this.playerStateManager.savePlayerState(p);
-
-		// make pure state
-		this.playerStateManager.makePureState(p);
-
-		// tp to game location
-		p.teleport(this.getLocation());
-	}
-
-	/**
-	 * Setup things when leave (teleport, save state)
-	 * 
-	 * @param p
-	 */
-	private void setupPlayerWhenLeave(Player p) {
-		// restore player data
-		this.playerStateManager.restorePlayerState(p);
 	}
 
 	/**
