@@ -274,7 +274,7 @@ public class Party {
 	 * @param msg Message to send
 	 */
 	public static void sendMessage(Player p, String msg) {
-		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE + msg);
+		p.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.RESET + msg);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class Party {
 	 * @param compo Component to send
 	 */
 	public static void sendMessage(Player p, BaseComponent compo) {
-		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.WHITE);
+		TextComponent msg = new TextComponent("" + ChatColor.YELLOW + ChatColor.BOLD + "[Party] " + ChatColor.RESET);
 		msg.addExtra(compo);
 		p.spigot().sendMessage(msg);
 	}

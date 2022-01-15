@@ -157,6 +157,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			return;
 		}
 
+		// notify message to party members
+		if (this.partyManager.getPlayerParty(p).getSize() > 1) {
+			this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + " joined minigame with party");
+		}
+
 		List<Player> members = this.partyManager.getMembers(p);
 		// join with party member who is not playing or viewing a minigame now
 		for (Player member : members) {
@@ -185,6 +190,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		if (!isPlayingMiniGame(p)) {
 			Utils.sendMsg(p, "You're not playing a minigame");
 			return;
+		}
+
+		// notify message to party members
+		if (this.partyManager.getPlayerParty(p).getSize() > 1) {
+			this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + " left minigame with party");
 		}
 
 		MiniGame playingGame = getPlayingMiniGame(p);
