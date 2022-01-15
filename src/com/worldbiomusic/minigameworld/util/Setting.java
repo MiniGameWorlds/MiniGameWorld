@@ -42,6 +42,8 @@ public class Setting {
 	public static final String MINIGAMES_TUTORIAL = "tutorial";
 	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";
 	public static final String MINIGAMES_ICON = "icon";
+	public static final String MINIGAMES_VIEW = "view";
+	
 
 	private static String apiVersion() {
 		return MiniGameWorldMain.getInstance().getDescription().getVersion();

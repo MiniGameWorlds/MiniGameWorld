@@ -91,6 +91,12 @@ public class MiniGameViewManager {
 			return;
 		}
 
+		// check minigame view setting value
+		if (!this.minigame.getSetting().canView()) {
+			this.minigame.sendMessage(p, "You can't view this minigame");
+			return;
+		}
+
 		if (isViewing(p)) {
 			this.minigame.sendMessage(p, "You are already viewing this game");
 			return;

@@ -144,6 +144,13 @@ public class MiniGameSetting {
 	 */
 	private int gameFinishConditionPlayerCount;
 
+	/**
+	 * - File control: O<br>
+	 * - Init value: true<br>
+	 * - Description: Set players can view this minigame
+	 */
+	private boolean view;
+
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
 		this.title = title;
@@ -161,6 +168,7 @@ public class MiniGameSetting {
 		this.passUndetectableEvent = false;
 		this.gameFinishCondition = GameFinishCondition.LESS_THAN_PLAYERS_LIVE;
 		this.gameFinishConditionPlayerCount = 2;
+		this.view = true;
 	}
 
 	// set
@@ -221,6 +229,10 @@ public class MiniGameSetting {
 		return gameFinishConditionPlayerCount;
 	}
 
+	public boolean canView() {
+		return view;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -279,6 +291,10 @@ public class MiniGameSetting {
 		this.gameFinishConditionPlayerCount = gameFinishConditionPlayerCount;
 	}
 
+	public void setView(boolean view) {
+		this.view = view;
+	}
+
 	// file (only file control)
 
 	public Map<String, Object> getFileSetting() {
@@ -292,6 +308,7 @@ public class MiniGameSetting {
 		setting.put(Setting.MINIGAMES_TIME_LIMIT, this.timeLimit);
 		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
 		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
+		setting.put(Setting.MINIGAMES_VIEW, this.view);
 		setting.put(Setting.MINIGAMES_LOCATION, this.location);
 		setting.put(Setting.MINIGAMES_TUTORIAL, this.tutorial);
 		setting.put(Setting.MINIGAMES_CUSTOM_DATA, this.customData);
@@ -334,6 +351,9 @@ public class MiniGameSetting {
 
 		// display item
 		this.setIcon(Material.valueOf((String) setting.get(Setting.MINIGAMES_ICON)));
+
+		// view
+		this.setView((boolean) setting.get(Setting.MINIGAMES_VIEW));
 	}
 }
 //

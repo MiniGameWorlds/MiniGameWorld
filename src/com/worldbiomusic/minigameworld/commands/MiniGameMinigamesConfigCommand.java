@@ -80,6 +80,9 @@ public class MiniGameMinigamesConfigCommand {
 			case Setting.MINIGAMES_ICON:
 				this.icon(sender, args, data);
 				break;
+			case Setting.MINIGAMES_VIEW:
+				view(sender, args, data);
+				break;
 			}
 
 			// save config
@@ -92,7 +95,8 @@ public class MiniGameMinigamesConfigCommand {
 		return true;
 	}
 
-	private void printValue(CommandSender sender, String minigame, Map<String, Object> data, String[] args) throws Exception {
+	private void printValue(CommandSender sender, String minigame, Map<String, Object> data, String[] args)
+			throws Exception {
 		// /mg minigames <classname> <key>
 		String key = args[2];
 		if (data.containsKey(key)) {
@@ -141,7 +145,7 @@ public class MiniGameMinigamesConfigCommand {
 				return true;
 			}
 			Player p = (Player) sender;
-			
+
 			double x = Integer.parseInt(args[3]);
 			double y = Integer.parseInt(args[4]);
 			double z = Integer.parseInt(args[5]);
@@ -212,7 +216,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private void custom_data(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		Utils.sendMsg(sender, "custom-data is only can be fixed with file");
+		Utils.sendMsg(sender, "custom-data only can be fixed with config (after edit, need /mw reload)");
 	}
 
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
@@ -220,6 +224,11 @@ public class MiniGameMinigamesConfigCommand {
 		Material icon = Material.valueOf(str);
 		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_ICON, icon);
 		return true;
+	}
+
+	private void view(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		boolean active = Boolean.parseBoolean(args[3]);
+		setKeyValue(sender, args[1], data, Setting.MINIGAMES_VIEW, active);
 	}
 
 }
