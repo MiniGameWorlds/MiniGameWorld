@@ -180,7 +180,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	}
 
 	public void createException(Player p, MiniGame.Exception exception) {
-		// check player is playing minigame
+		// check player is playing a minigame
 		if (this.isPlayingMiniGame(p)) {
 			MiniGame playingGame = this.getPlayingMiniGame(p);
 			playingGame.handleException(p, exception);

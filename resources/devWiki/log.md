@@ -1,11 +1,13 @@
 # TODO
+- Add minigame `view` feature
+- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION` (extends MiniGameEvent)
+- update team battle games in AllMiniGames
+- update 3rd-parties (change observer pattern to custom event)
+- Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
-- Add minigame `view` feature
 - Make MiniGame template pluing and upload to github organization
-- Add `party` icon to Menu
 - Make Version Update Checker
-- Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
 - Add `ScoreBoard` and `BossBar` elements to MiniGame (prevent elements changing by event.setCancelled())
 - Change to use custom event instead of `MiniGameObserver` (about to START, BEFORE_FINISH, FINISH)
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
@@ -96,6 +98,11 @@
 - Add more detectable events
 - Fix team registration bug in TeamBattleMiniGame
 - Manage player's `allowFlight` state
+
+## 0.3.5
+### Build Changes
+- Fix exception throwing when plugin is disabled with no minigames
+- Change `PVE` meaning
 
 ---
 
@@ -560,9 +567,8 @@ if(!this.isMinPlayersLive()) {
 - Release `0.3.5`
 
 
-
-
-
-
+# 2022-01-14
+- Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
+- Minigame `processEvent()` Refactoring 
 
 

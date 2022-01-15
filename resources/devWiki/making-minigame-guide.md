@@ -140,9 +140,9 @@ public PassMob() {
 - Can manage task easily
 - Don't need cancellation
 - `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
-- `Run`: `getTaskManager().runTask("name");` in anywhere after register
+- `Run`: `getTaskManager().runTask("name");` in anywhere **after registration**
 - Do not register/run system task(`_waitingTimer`, `_finishTimer`)
-- Do not register task with `BukkitRunnable`
+- **Do not register a task with `BukkitRunnable`**, but with Runnable
 ### How to register
 ```java
 @Override
@@ -161,8 +161,11 @@ protected void registerTasks() {
 ```java
 @Override
 protected void processEvent(Event event) {
-  // code
   this.getTaskManager().runTask("task1");
+  // or
+  this.getTaskManager().runTaskLater("task1", 20 * 5);
+  // or
+  this.getTaskManager().runTaskTimer("task1", 0, 20);
 }
 ```
 
