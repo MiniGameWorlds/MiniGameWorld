@@ -30,6 +30,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -74,6 +75,11 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Third-party observer list
 	 */
 	private List<MiniGameObserver> observerList;
+
+	/**
+	 * Viewers manager
+	 */
+	private MiniGameViewManager viewManager;
 
 	/**
 	 * Executed every time when game starts
@@ -148,7 +154,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// [must setup once]
 		this.setupMiniGame();
 
-		// minigame setup
+		// Init settings on every start
 		this.initBaseSettings();
 	}
 
@@ -189,13 +195,15 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// custom option
 		this.customOption = new MiniGameCustomOption(this);
+
+		// setup view manager
+		this.viewManager = new MiniGameViewManager(this);
 	}
 
 	/**
 	 * Init(reset) minigame settings<br>
 	 * <b>[IMPORTANT]</b><br>
-	 * - Executed every game ready to start or ended
-	 * 
+	 * - Initialize settings on every start
 	 */
 	private void initSettings() {
 		this.initBaseSettings();
@@ -1227,6 +1235,14 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public MiniGameCustomOption getCustomOption() {
 		return this.customOption;
+	}
+	
+	/**
+	 * Get view manager
+	 * @return View manager
+	 */
+	public MiniGameViewManager getViewManager() {
+		return this.viewManager;
 	}
 
 	/**

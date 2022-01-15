@@ -25,6 +25,7 @@ import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -104,9 +105,9 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
 		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
-		
+
 		// create "minigames" directory
-		if(!Utils.getMiniGamesFolder().exists()) {
+		if (!Utils.getMiniGamesFolder().exists()) {
 			Utils.getMiniGamesFolder().mkdir();
 		}
 	}
@@ -122,13 +123,19 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 
+	/**
+	 * Join a minigame with party members who are available to join with
+	 * 
+	 * @param p     Player who tries to join
+	 * @param title Minigame title
+	 */
 	public void joinGame(Player p, String title) {
 		// check permission
 		if (!Utils.checkPerm(p, "play.join")) {
 			return;
 		}
 
-		// strip "color code"
+		// strip "color code" from title
 		title = ChatColor.stripColor(title);
 		MiniGame game = this.getMiniGameWithTitle(title);
 		if (game == null) {
@@ -140,21 +147,28 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			return;
 		}
 
-		// check player is not playing minigame
+		// check a player is playing or viewing a minigame
+		MiniGameViewManager viewManager = game.getViewManager();
+		if (isPlayingMiniGame(p) || viewManager.isViewing(p)) {
+			Utils.sendMsg(p, "You are already playing or viewing another minigame");
+			return;
+		}
+
 		List<Player> members = this.partyManager.getMembers(p);
-		if (!this.isPlayingMiniGame(p)) {
-			// join with party members who is not playing game
-			for (Player member : members) {
-				if (!this.isPlayingMiniGame(member)) {
-					// join
-					game.joinGame(member);
-				}
+		// join with party member who is not playing or viewing a minigame now
+		for (Player member : members) {
+			if (!(isPlayingMiniGame(member) || viewManager.isViewing(member))) {
+				// join
+				game.joinGame(member);
 			}
-		} else {
-			Utils.sendMsg(p, "You already joined other minigame");
 		}
 	}
 
+	/**
+	 * Leave a minigame with party members in the same minigame
+	 * 
+	 * @param p Player who tries to leave
+	 */
 	public void leaveGame(Player p) {
 		// check permission
 		if (!Utils.checkPerm(p, "play.leave")) {
@@ -165,18 +179,69 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		List<Player> members = this.partyManager.getMembers(p);
 
 		// check player is playing minigame
-		if (this.isPlayingMiniGame(p)) {
-			MiniGame playingGame = this.getPlayingMiniGame(p);
-
-			for (Player member : members) {
-				// leave with members who is playing the same minigame with "p"
-				if (playingGame.equals(this.getPlayingMiniGame(member))) {
-					playingGame.leaveGame(member);
-				}
-			}
-		} else {
-			Utils.sendMsg(p, "You're not playing any minigame");
+		if (!this.isPlayingMiniGame(p)) {
+			Utils.sendMsg(p, "You're not playing a minigame");
+			return;
 		}
+
+		MiniGame playingGame = getPlayingMiniGame(p);
+		for (Player member : members) {
+			// leave with members who is playing the same minigame with "p"
+			if (playingGame.equals(getPlayingMiniGame(member))) {
+				playingGame.leaveGame(member);
+			}
+		}
+	}
+
+	/**
+	 * View a minigame alone (without party members)
+	 * 
+	 * @param p     Player who tries to view minigame
+	 * @param title Minigame title
+	 */
+	public void viewGame(Player p, String title) {
+		// check permission
+		if (!Utils.checkPerm(p, "play.view")) {
+			return;
+		}
+
+		// strip "color code" from title
+		title = ChatColor.stripColor(title);
+		MiniGame game = this.getMiniGameWithTitle(title);
+		if (game == null) {
+			Utils.sendMsg(p, title + " minigame does not exist");
+			return;
+		}
+
+		// check a player is playing or viewing a minigame
+		MiniGameViewManager viewManager = game.getViewManager();
+		if (isPlayingMiniGame(p) || viewManager.isViewing(p)) {
+			Utils.sendMsg(p, "You are already playing or viewing another minigame");
+		}
+
+		// add the player as a viewer
+		game.getViewManager().addViewer(p);
+	}
+
+	/**
+	 * Unview(leave) from a minigame alone
+	 * 
+	 * @param p Player who tries to unview
+	 */
+	public void unviewGame(Player p) {
+		// check permission
+		if (!Utils.checkPerm(p, "play.unview")) {
+			return;
+		}
+
+		if (!isViewingMiniGame(p)) {
+			Utils.sendMsg(p, "You're not viewing a minigame");
+			return;
+		}
+
+		// unview (leave) from a minigame
+		MiniGame minigame = getViewingMiniGame(p);
+		minigame.getViewManager().removeViewer(p);
 	}
 
 	public void createException(Player p, MiniGame.Exception exception) {
@@ -241,6 +306,20 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 
 	public boolean isPlayingMiniGame(Player p) {
 		return this.getPlayingMiniGame(p) != null;
+	}
+
+	public MiniGame getViewingMiniGame(Player p) {
+		for (MiniGame minigame : this.minigames) {
+			if (minigame.getViewManager().isViewing(p)) {
+				return minigame;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean isViewingMiniGame(Player p) {
+		return this.getViewingMiniGame(p) != null;
 	}
 
 	public MiniGame getMiniGameWithTitle(String title) {

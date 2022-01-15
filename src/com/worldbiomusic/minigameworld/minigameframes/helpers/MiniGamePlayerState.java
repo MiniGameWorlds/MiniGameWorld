@@ -19,6 +19,8 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
  * - When join the game: save state and make pure state<br>
  * - When quit the game: restore saved state<br>
  *
+ * [IMPORATNT]<br>
+ * - If add a element, check that affects to viewer {@link MiniGameViewManager}
  */
 public class MiniGamePlayerState {
 	private MiniGame minigame;
@@ -244,10 +246,18 @@ public class MiniGamePlayerState {
 			this.player.setAllowFlight(false);
 		}
 	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
 
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof MiniGamePlayerState) {
+		if (this == other) {
+			return true;
+		} else if (other == null) {
+			return false;
+		} else if (getClass() == other.getClass()) {
 			return ((MiniGamePlayerState) other).isSamePlayer(this.player);
 		}
 
