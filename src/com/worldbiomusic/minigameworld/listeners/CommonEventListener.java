@@ -178,39 +178,53 @@ public class CommonEventListener implements Listener {
 	 * MiniGame Sign
 	 */
 	@EventHandler
-	private void checkPlayerTryingMiniGameSign(PlayerInteractEvent e) {
+	private void onPlayerInteractMiniGameSign(PlayerInteractEvent e) {
 		// check player is trying to join or leaving with sign
 		Player p = e.getPlayer();
-		// process
+
 		Block block = e.getClickedBlock();
 		if (block == null) {
 			return;
 		}
 
-		if (block.getState() instanceof Sign) {
+		// check clicked block is a Sign block
+		if (!(block.getState() instanceof Sign)) {
+			return;
+		}
+
+		Sign sign = (Sign) block.getState();
+		String[] lines = sign.getLines();
+		String minigame = ChatColor.stripColor(lines[0]);
+		String title = lines[1];
+
+		// check minigameSign option
+		boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
+
+		// check sign lines
+		if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
+			if (!minigameSign) {
+				Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
+				return;
+			}
+		}
+
+		// check sign
+		if (minigame.equals("[MiniGame]")) {
+			// join
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				Sign sign = (Sign) block.getState();
-				String[] lines = sign.getLines();
-				String minigame = ChatColor.stripColor(lines[0]);
-				String title = lines[1];
-
-				// check minigameSign option
-				boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
-
-				if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
-					if (!minigameSign) {
-						Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
-						return;
-					}
-					// check sign
-					if (minigame.equals("[MiniGame]")) {
-						// join
-						this.minigameManager.joinGame(p, title);
-					} else if (minigame.equals("[Leave MiniGame]")) {
-						// leave
-						this.minigameManager.leaveGame(p);
-					}
-
+				this.minigameManager.joinGame(p, title);
+			}
+			// view
+			else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
+				this.minigameManager.viewGame(p, title);
+			}
+		} else if (minigame.equals("[Leave MiniGame]")) {
+			// leave or unview
+			if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (this.minigameManager.isPlayingMiniGame(p)) {
+					this.minigameManager.leaveGame(p);
+				} else if (this.minigameManager.isViewingMiniGame(p)) {
+					this.minigameManager.unviewGame(p);
 				}
 			}
 		}

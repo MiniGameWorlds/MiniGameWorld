@@ -26,22 +26,22 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.clear();
 		int length = args.length;
 
-		if (length == 1) {
-			this.setLength1Candidates();
-		} else if (length == 2) {
-			if (args[0].equals("join")) {
-				this.setJoinCandidates();
-			} else if (args[0].equals("party")) {
-				this.setPartyCandidates();
-			} else if (args[0].equals("settings")) {
-				this.setSettingsCandidates();
-			} else if (args[0].equals("minigames")) {
-				this.setMiniGamesCandidates();
-			}
-		} else if (length == 3) {
+		if (length == 3) {
 			if (args[0].equals("minigames")) {
-				this.setMiniGamesKeyCandidates();
+				addMiniGameConfigKeyCandidates();
 			}
+		} else if (length == 2) {
+			if (args[0].equals("join") || args[0].equals("view")) {
+				addMiniGameTitleCandidates();
+			} else if (args[0].equals("party")) {
+				addPartyCandidates();
+			} else if (args[0].equals("settings")) {
+				addSettingsCandidates();
+			} else if (args[0].equals("minigames")) {
+				addMiniGameClassCandidates();
+			}
+		} else if (length == 1) {
+			addLength1Candidates();
 		}
 
 		// add player names
@@ -52,8 +52,9 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		return this.candidates;
 	}
 
-	private void setLength1Candidates() {
+	private void addLength1Candidates() {
 		this.candidates.add("join");
+		this.candidates.add("view");
 		this.candidates.add("leave");
 		this.candidates.add("list");
 		this.candidates.add("menu");
@@ -63,11 +64,11 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.add("minigames");
 	}
 
-	private void setJoinCandidates() {
+	private void addMiniGameTitleCandidates() {
 		this.minigameManager.getMiniGameList().forEach(game -> this.candidates.add(game.getTitle()));
 	}
 
-	private void setPartyCandidates() {
+	private void addPartyCandidates() {
 		this.candidates.add("invite");
 		this.candidates.add("accept");
 		this.candidates.add("ask");
@@ -78,15 +79,15 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.add("list");
 	}
 
-	private void setSettingsCandidates() {
+	private void addSettingsCandidates() {
 		this.minigameManager.getSettings().keySet().forEach(key -> candidates.add(key));
 	}
 
-	private void setMiniGamesCandidates() {
+	private void addMiniGameClassCandidates() {
 		this.minigameManager.getMiniGameList().forEach(m -> candidates.add(m.getClassName()));
 	}
 
-	private void setMiniGamesKeyCandidates() {
+	private void addMiniGameConfigKeyCandidates() {
 		List<MiniGame> minigames = this.minigameManager.getMiniGameList();
 		if (!minigames.isEmpty()) {
 			minigames.get(0).getDataManager().getData().keySet().forEach(key -> candidates.add(key));

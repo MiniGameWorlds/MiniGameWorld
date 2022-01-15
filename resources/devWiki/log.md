@@ -1,7 +1,8 @@
 # TODO
-- Add minigame `view` feature
+- Customize minigame start, finish sound in settings.yml 
+- Customize content of sign block (`[MiniGame]`, `[Leave MiniGame]`) in settings.yml 
 - Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION` (extends MiniGameEvent)
-- update team battle games in AllMiniGames
+- update all plugins
 - update 3rd-parties (change observer pattern to custom event)
 - Add `party` icon to Menu
 - Register to maven, gradle

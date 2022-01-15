@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -186,7 +187,13 @@ public class MiniGameMenu {
 
 		Player p = (Player) e.getViewers().get(0);
 		if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
-			p.performCommand("minigame leave");
+
+			// leave or unview
+			if (this.minigameManager.isPlayingMiniGame(p)) {
+				this.minigameManager.leaveGame(p);
+			} else if (this.minigameManager.isViewingMiniGame(p)) {
+				this.minigameManager.unviewGame(p);
+			}
 		} else if (ClickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
@@ -198,7 +205,15 @@ public class MiniGameMenu {
 		} else if (this.isMiniGameIconSlot(e.getSlot())) {
 			ItemStack item = e.getCurrentItem();
 			String minigameTitle = item.getItemMeta().getDisplayName();
-			p.performCommand("minigame join " + minigameTitle);
+
+			// join
+			if (e.getClick() == ClickType.LEFT) {
+				this.minigameManager.joinGame(p, minigameTitle);
+			}
+			// view
+			else if (e.getClick() == ClickType.RIGHT) {
+				this.minigameManager.viewGame(p, minigameTitle);
+			}
 		}
 	}
 

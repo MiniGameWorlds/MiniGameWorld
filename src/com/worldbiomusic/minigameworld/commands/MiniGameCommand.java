@@ -51,15 +51,17 @@ public class MiniGameCommand implements CommandExecutor {
 
 			switch (menu) {
 			case "join":
-				return this.join(sender, args);
+				return join(sender, args);
+			case "view":
+				return view(sender, args);
 			case "leave":
-				return this.leave(sender, args);
+				return leave(sender, args);
 			case "list":
-				return this.list(sender, args);
+				return list(sender, args);
 			case "menu":
-				return this.menu(sender, args);
+				return menu(sender, args);
 			case "reload":
-				return this.reloadConfig(sender, args);
+				return reloadConfig(sender, args);
 			case "party":
 				return this.miniGamePartyCommand.party(sender, args);
 			case "settings":
@@ -96,6 +98,24 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
+	private boolean view(CommandSender sender, String[] args) throws Exception {
+		/*
+		 * minigame view <title>
+		 */
+
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
+			return true;
+		}
+		Player p = (Player) sender;
+
+		String title = args[1];
+		this.minigameManager.viewGame(p, title);
+
+		return true;
+	}
+
 	private boolean leave(CommandSender sender, String[] args) throws Exception {
 		/*
 		 * minigame leave
@@ -108,7 +128,12 @@ public class MiniGameCommand implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 
-		this.minigameManager.leaveGame(p);
+		// leave or unview
+		if (this.minigameManager.isPlayingMiniGame(p)) {
+			this.minigameManager.leaveGame(p);
+		} else if (this.minigameManager.isViewingMiniGame(p)) {
+			this.minigameManager.unviewGame(p);
+		}
 		return true;
 	}
 

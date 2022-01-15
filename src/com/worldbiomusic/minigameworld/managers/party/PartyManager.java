@@ -441,7 +441,7 @@ public class PartyManager {
 
 		// check party size
 		if (nonPlayingGameMemberCount > leftSeats) {
-			Utils.sendMsg(p, "Party members are too many to join the game");
+			Utils.sendMsg(p, "Party members are too many to join the game together");
 			return false;
 		}
 

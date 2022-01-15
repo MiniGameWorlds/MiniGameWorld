@@ -384,7 +384,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		if (reason != null) {
-			String msg = p.getName() + " leaved " + this.getColoredTitle() + " (Reason: " + reason + ")";
+			String msg = p.getName() + " leaved " + this.getColoredTitle() + " (" + reason + ")";
 			// notify other players to join the game
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 				this.sendMessageToAllPlayers(msg);
@@ -398,6 +398,9 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		// remove player from minigame
 		this.removePlayer(p);
+
+		// send title
+		sendTitle(p, ChatColor.BOLD + "Leave", "");
 	}
 
 	/**

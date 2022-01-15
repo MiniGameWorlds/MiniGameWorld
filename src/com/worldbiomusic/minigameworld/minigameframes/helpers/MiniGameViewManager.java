@@ -5,16 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.worldbiomusic.minigameworld.customevents.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameViewManager {
 	private MiniGame minigame;
@@ -56,8 +55,6 @@ public class MiniGameViewManager {
 			processChat((AsyncPlayerChatEvent) event);
 		} else if (event instanceof PlayerRespawnEvent) {
 			processRespawn((PlayerRespawnEvent) event);
-		} else if (event instanceof EntityDamageEvent) {
-			processDamage((EntityDamageEvent) event);
 		}
 	}
 
@@ -83,15 +80,6 @@ public class MiniGameViewManager {
 	}
 
 	/**
-	 * Cancel damage to views
-	 * 
-	 * @param e event
-	 */
-	private void processDamage(EntityDamageEvent e) {
-		e.setCancelled(true);
-	}
-
-	/**
 	 * Add a player as a viewer in a minigmae<br>
 	 * 
 	 * @param p Viewer
@@ -99,15 +87,18 @@ public class MiniGameViewManager {
 	public void addViewer(Player p) {
 		// return if minigame is not active
 		if (!this.minigame.isActive()) {
-			Utils.sendMsg(p, "Minigame is not acitve");
+			this.minigame.sendMessage(p, "Minigame is not acitve");
+			return;
+		}
+
+		if (isViewing(p)) {
+			this.minigame.sendMessage(p, "You are already viewing this game");
 			return;
 		}
 
 		// add a viewer
 		MiniGamePlayerState viewer = new MiniGamePlayerState(minigame, p);
-		if (!isViewing(p)) {
-			this.viewers.add(viewer);
-		}
+		this.viewers.add(viewer);
 
 		// manage state
 		// [IMPORTANT] call before change a player's state to save origin state
@@ -119,6 +110,12 @@ public class MiniGameViewManager {
 
 		// teleport player
 		p.teleport(this.minigame.getLocation());
+
+		// send info
+		this.minigame.sendTitle(p, ChatColor.BOLD + "View", "");
+		this.minigame.sendMessage(p, "Input " + ChatColor.BOLD + "/mw leave " + ChatColor.RESET + "to leave view");
+		this.minigame.sendMessage(p,
+				"Input " + ChatColor.BOLD + "/mw menu and click leave icon " + ChatColor.RESET + "to leave view");
 	}
 
 	/**
@@ -133,6 +130,9 @@ public class MiniGameViewManager {
 
 			// [IMPORTANT] call after restore a player's state
 			this.viewers.remove(viewer);
+
+			// send title
+			this.minigame.sendTitle(p, ChatColor.BOLD + "Leave", "");
 		}
 	}
 

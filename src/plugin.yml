@@ -13,15 +13,15 @@ commands:
     usage: |
       
       USAGE
-      /<command> join <title>
-      /<command> view <title>
-      /<command> leave
-      /<command> list
-      /<command> menu
-      /<command> party
-      /<command> reload
-      /<command> settings
-      /<command> minigames
+      /<command> join <title>: join a minigame
+      /<command> view <title>: view a minigame
+      /<command> leave: leave/unview a minigame
+      /<command> list: show minigame list
+      /<command> menu: open GUI menu
+      /<command> party: party commands
+      /<command> reload: reload all configs
+      /<command> settings: setup settings.yml config
+      /<command> minigames: setup minigame configs
       
 permissions:
   minigameworld.*:

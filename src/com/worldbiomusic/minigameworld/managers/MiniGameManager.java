@@ -11,6 +11,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
@@ -157,7 +160,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		List<Player> members = this.partyManager.getMembers(p);
 		// join with party member who is not playing or viewing a minigame now
 		for (Player member : members) {
-			if (!(isPlayingMiniGame(member) || viewManager.isViewing(member))) {
+			if (!(isPlayingMiniGame(member) || isViewingMiniGame(member))) {
 				// join
 				game.joinGame(member);
 			}
@@ -179,7 +182,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		List<Player> members = this.partyManager.getMembers(p);
 
 		// check player is playing minigame
-		if (!this.isPlayingMiniGame(p)) {
+		if (!isPlayingMiniGame(p)) {
 			Utils.sendMsg(p, "You're not playing a minigame");
 			return;
 		}
@@ -217,6 +220,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		MiniGameViewManager viewManager = game.getViewManager();
 		if (isPlayingMiniGame(p) || viewManager.isViewing(p)) {
 			Utils.sendMsg(p, "You are already playing or viewing another minigame");
+			return;
 		}
 
 		// add the player as a viewer
@@ -257,7 +261,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	*/
 	public void passEvent(Event e) {
 		// check server down
-		if (this.checkPluginStartToBeDisabled(e)) {
+		if (checkPluginStartToBeDisabled(e)) {
+			return;
+		}
+
+		if (passEventToViewManager(e)) {
 			return;
 		}
 
@@ -294,6 +302,35 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean passEventToViewManager(Event event) {
+		Player p = null;
+		if (event instanceof AsyncPlayerChatEvent) {
+			p = ((AsyncPlayerChatEvent) event).getPlayer();
+		} else if (event instanceof PlayerRespawnEvent) {
+			p = ((PlayerRespawnEvent) event).getPlayer();
+		} else if (event instanceof EntityDamageEvent) {
+			EntityDamageEvent e = (EntityDamageEvent) event;
+			if (e.getEntity() instanceof Player) {
+				p = (Player) e.getEntity();
+			}
+		}
+
+		// check null
+		if (p == null) {
+			return false;
+		}
+
+		// check player is a viewer
+		if (!isViewingMiniGame(p)) {
+			return false;
+		}
+
+		// pass event to view manager
+		MiniGame minigame = getViewingMiniGame(p);
+		minigame.getViewManager().processEvent(event);
+		return true;
 	}
 
 	private void passUndetectableEventToMiniGame(Event e) {
