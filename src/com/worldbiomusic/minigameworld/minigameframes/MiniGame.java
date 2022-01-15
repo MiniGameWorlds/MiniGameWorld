@@ -1236,9 +1236,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	public MiniGameCustomOption getCustomOption() {
 		return this.customOption;
 	}
-	
+
 	/**
 	 * Get view manager
+	 * 
 	 * @return View manager
 	 */
 	public MiniGameViewManager getViewManager() {
@@ -1260,16 +1261,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Gets minigame type (e.g. "Solo", "SoloBattle", "Team", "TeamBattle")<br>
-	 * Override this method for custom type<br>
+	 * Gets minigame frame type (e.g. "Solo", "SoloBattle", "Team",
+	 * "TeamBattle")<br>
+	 * Override this method for custom frame minigame class<br>
 	 * 
-	 * @return Minigame type
+	 * @return Minigame frame type
 	 * @see SoloMiniGame
 	 * @see SoloBattleMiniGame
 	 * @see TeamMiniGame
 	 * @see TeamBattleMiniGame
 	 */
-	public String getType() {
+	public String getFrameType() {
 		return "MiniGame";
 	}
 

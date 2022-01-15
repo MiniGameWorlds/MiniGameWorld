@@ -73,7 +73,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getType() {
+	public String getFrameType() {
 		return "Solo";
 	}
 

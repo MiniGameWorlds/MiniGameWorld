@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 
@@ -147,14 +148,37 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Rank list
 	 */
-
 	public List<? extends MiniGameRankResult> getRank() {
 		return this.minigame.getRank();
 
 	}
 
+	/**
+	 * Get class
+	 * 
+	 * @return Class
+	 */
 	public Class<?> getClassType() {
 		return this.minigame.getClass();
+	}
+
+	/**
+	 * Get minigame frame type
+	 * 
+	 * @return Minigame frame type
+	 * @see MiniGame#getFrameType()
+	 */
+	public String getFrameType() {
+		return this.minigame.getFrameType();
+	}
+
+	/**
+	 * Get viewers
+	 * 
+	 * @return Viewers
+	 */
+	public Set<Player> getViewers() {
+		return this.minigame.getViewManager().getViewers();
 	}
 
 	@Override

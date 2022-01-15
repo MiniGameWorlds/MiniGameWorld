@@ -165,7 +165,7 @@ public class MiniGameMenu {
 		lore.add(ChatColor.WHITE + "- Players: " + minigame.getPlayerCount() + "/" + minigame.getMaxPlayerCount()
 				+ " (min:" + minigame.getMinPlayerCount() + ")");
 		lore.add(ChatColor.WHITE + "- Time Limit: " + minigame.getTimeLimit() + " secs");
-		lore.add(ChatColor.WHITE + "- Type: " + minigame.getType());
+		lore.add(ChatColor.WHITE + "- Type: " + minigame.getFrameType());
 
 		// apply
 		item = ItemStackTool.item(item.getType(), displayName, lore);

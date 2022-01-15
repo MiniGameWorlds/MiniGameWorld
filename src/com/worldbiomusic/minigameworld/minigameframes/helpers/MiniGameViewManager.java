@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +30,10 @@ public class MiniGameViewManager {
 	 * 
 	 * @return Viewers
 	 */
-	public List<MiniGamePlayerState> getViewers() {
-		return this.viewers;
+	public Set<Player> getViewers() {
+		Set<Player> players = new HashSet<>();
+		this.viewers.forEach(v -> players.add(v.getPlayer()));
+		return players;
 	}
 
 	/**

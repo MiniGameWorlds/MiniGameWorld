@@ -812,7 +812,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getType() {
+	public String getFrameType() {
 		return "TeamBattle";
 	}
 

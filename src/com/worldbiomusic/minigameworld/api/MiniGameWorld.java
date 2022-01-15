@@ -104,7 +104,7 @@ public class MiniGameWorld {
 	/**
 	 * Join player to minigame
 	 * 
-	 * @param p     Player who treis to join
+	 * @param p     Player who tries to join
 	 * @param title MiniGame title
 	 */
 	public void joinGame(Player p, String title) {
@@ -118,6 +118,25 @@ public class MiniGameWorld {
 	 */
 	public void leaveGame(Player p) {
 		this.minigameManager.leaveGame(p);
+	}
+
+	/**
+	 * Make the player view minigame
+	 * 
+	 * @param p     Player who tries to view
+	 * @param title MiniGame title
+	 */
+	public void viewGame(Player p, String title) {
+		this.minigameManager.viewGame(p, title);
+	}
+
+	/**
+	 * Unview(leave) player from viewing minigame
+	 * 
+	 * @param p Player who tries to unview
+	 */
+	public void unviewGame(Player p) {
+		this.minigameManager.unviewGame(p);
 	}
 
 	/**
@@ -142,13 +161,23 @@ public class MiniGameWorld {
 	}
 
 	/**
-	 * Checks a player is playing any minigame
+	 * Checks a player is playing any minigames
 	 * 
-	 * @param p Target player
-	 * @return True if player is playing any minigame
+	 * @param p Player to check
+	 * @return True if player is playing any minigames
 	 */
 	public boolean checkPlayerIsPlayingMiniGame(Player p) {
 		return this.minigameManager.isPlayingMiniGame(p);
+	}
+
+	/**
+	 * Check a player is viewing any minigames
+	 * 
+	 * @param p Player to check
+	 * @return True if a player is viewing any minigames
+	 */
+	public boolean checkPlayerIsViewingMiniGame(Player p) {
+		return this.minigameManager.isViewingMiniGame(p);
 	}
 
 	/**
@@ -165,11 +194,22 @@ public class MiniGameWorld {
 	/**
 	 * Gets player's playing minigame
 	 * 
-	 * @param p Playing minigame
-	 * @return Null if player is not playing any minigame
+	 * @param p Player to check
+	 * @return Null if a player is not playing any minigames
 	 */
 	public MiniGameAccessor getPlayingMiniGame(Player p) {
 		MiniGame minigame = this.minigameManager.getPlayingMiniGame(p);
+		return new MiniGameAccessor(minigame);
+	}
+
+	/**
+	 * Get player's viewing minigame
+	 * 
+	 * @param p Player to check
+	 * @return Null if a player is not viewing any minigames
+	 */
+	public MiniGameAccessor getViewingMiniGame(Player p) {
+		MiniGame minigame = this.minigameManager.getViewingMiniGame(p);
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -261,7 +301,7 @@ public class MiniGameWorld {
 	 * Event detected by detector will be able to be passed processEvent() of
 	 * minigame
 	 * 
-	 * @param detector Registering Detector 
+	 * @param detector Registering Detector
 	 * @see MiniGameEventExternalDetector
 	 */
 	public void registerMiniGameEventExternalDetector(MiniGameEventExternalDetector detector) {

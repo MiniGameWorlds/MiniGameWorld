@@ -76,7 +76,7 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getType() {
+	public String getFrameType() {
 		return "Team";
 	}
 

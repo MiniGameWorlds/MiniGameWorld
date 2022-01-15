@@ -571,4 +571,5 @@ if(!this.isMinPlayersLive()) {
 - Manage `MiniGamePlayerStateManager` in `MiniGamePlayerData`
 - Minigame `processEvent()` Refactoring 
 
-
+# 2022-01-15
+- Add `view` feature
