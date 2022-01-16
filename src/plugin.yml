@@ -28,12 +28,22 @@ permissions:
     description: Grants all permissions
     children: 
       minigameworld.menu: true
+      minigameworld.signblock: true
+      minigameworld.allcommands: true
       minigameworld.play.*: true
       minigameworld.party.*: true
       minigameworld.config.*: true
       
   minigameworld.menu:
     description: Can open a GUI menu (can access play, party)
+    default: true
+    
+  minigameworld.signblock:
+    description: Can play minigame with sign block (can access play, party)
+    default: true
+    
+  minigameworld.allcommands:
+    description: Can use all commands
     default: true
     
   minigameworld.play.*:
