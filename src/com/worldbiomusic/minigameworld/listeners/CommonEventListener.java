@@ -197,13 +197,10 @@ public class CommonEventListener implements Listener {
 		String minigame = ChatColor.stripColor(lines[0]);
 		String title = lines[1];
 
-		// check minigameSign option
-		boolean minigameSign = (boolean) this.minigameManager.getSettings().get(Setting.SETTINGS_MINIGAME_SIGN);
-
 		// check sign lines
 		if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
-			if (!minigameSign) {
-				Utils.sendMsg(p, Setting.SETTINGS_MINIGAME_SIGN + " option is false");
+			// check minigameSign option
+			if (!Utils.checkPerm(p, "signblock")) {
 				return;
 			}
 		}

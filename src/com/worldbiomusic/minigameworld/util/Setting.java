@@ -25,7 +25,6 @@ public class Setting {
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
-	public static final String SETTINGS_MINIGAME_SIGN = "minigame-sign";
 	public static final String SETTINGS_DEBUG_MODE = "debug-mode";
 	public static final String SETTINGS_BACKUP_DATA_SAVE_DELAY = "backup-data-save-delay";
 	public static final String SETTINGS_ISOLATED_CHAT = "isolated-chat";

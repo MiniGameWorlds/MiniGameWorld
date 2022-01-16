@@ -38,9 +38,6 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_MESSAGE_PREFIX:
 				this.message_prefix(sender, args);
 				break;
-			case Setting.SETTINGS_MINIGAME_SIGN:
-				this.minigame_sign(sender, args);
-				break;
 			case Setting.SETTINGS_DEBUG_MODE:
 				this.debug_mode(sender, args);
 				break;
@@ -95,13 +92,6 @@ public class MiniGameSettingsConfigCommand {
 		this.setKeyValue(sender, Setting.SETTINGS_MESSAGE_PREFIX, value);
 		return true;
 
-	}
-
-	private boolean minigame_sign(CommandSender sender, String[] args) throws Exception {
-		boolean value = Boolean.parseBoolean(args[2]);
-
-		this.setKeyValue(sender, Setting.SETTINGS_MINIGAME_SIGN, value);
-		return true;
 	}
 
 	private boolean debug_mode(CommandSender sender, String[] args) throws Exception {

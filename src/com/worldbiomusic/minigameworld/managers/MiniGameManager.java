@@ -96,7 +96,6 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		Map<String, Object> pureData = new LinkedHashMap<>();
 		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Utils.messagePrefix);
 		pureData.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
-		pureData.put(Setting.SETTINGS_MINIGAME_SIGN, true);
 		pureData.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
 		pureData.put(Setting.SETTINGS_ISOLATED_CHAT, Setting.ISOLATED_CHAT);
 		pureData.put(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, Setting.ISOLATED_JOIN_QUIT_MESSAGE);
