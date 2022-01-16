@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -194,11 +193,11 @@ public class CommonEventListener implements Listener {
 
 		Sign sign = (Sign) block.getState();
 		String[] lines = sign.getLines();
-		String minigame = ChatColor.stripColor(lines[0]);
+		String minigame = lines[0];
 		String title = lines[1];
 
 		// check sign lines
-		if (minigame.equals("[MiniGame]") || minigame.equals("[Leave MiniGame]")) {
+		if (minigame.equals(Setting.JOIN_SIGN_CAPTION) || minigame.equals(Setting.LEAVE_SIGN_CAPTION)) {
 			// check minigameSign option
 			if (!Utils.checkPerm(p, "signblock")) {
 				return;
@@ -206,7 +205,7 @@ public class CommonEventListener implements Listener {
 		}
 
 		// check sign
-		if (minigame.equals("[MiniGame]")) {
+		if (minigame.equals(Setting.JOIN_SIGN_CAPTION)) {
 			// join
 			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				this.minigameManager.joinGame(p, title);
@@ -215,7 +214,7 @@ public class CommonEventListener implements Listener {
 			else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				this.minigameManager.viewGame(p, title);
 			}
-		} else if (minigame.equals("[Leave MiniGame]")) {
+		} else if (minigame.equals(Setting.LEAVE_SIGN_CAPTION)) {
 			// leave or unview
 			if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (this.minigameManager.isPlayingMiniGame(p)) {

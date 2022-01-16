@@ -22,6 +22,8 @@ public class Setting {
 	public static final int MINIGAME_LEAVE_MIN_TIME = 3;
 	public static boolean ISOLATED_CHAT = true;
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
+	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
+	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -29,6 +31,8 @@ public class Setting {
 	public static final String SETTINGS_BACKUP_DATA_SAVE_DELAY = "backup-data-save-delay";
 	public static final String SETTINGS_ISOLATED_CHAT = "isolated-chat";
 	public static final String SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE = "isolated-join-quit-message";
+	public static final String SETTINGS_JOIN_SIGN_CAPTION= "join-sign-caption";
+	public static final String SETTINGS_LEAVE_SIGN_CAPTION = "leave-sign-caption";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

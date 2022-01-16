@@ -36,19 +36,25 @@ public class MiniGameSettingsConfigCommand {
 			String key = args[1];
 			switch (key) {
 			case Setting.SETTINGS_MESSAGE_PREFIX:
-				this.message_prefix(sender, args);
+				message_prefix(sender, args);
 				break;
 			case Setting.SETTINGS_DEBUG_MODE:
-				this.debug_mode(sender, args);
+				debug_mode(sender, args);
 				break;
 			case Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY:
-				this.backup_data_save_delay(sender, args);
+				backup_data_save_delay(sender, args);
 				break;
 			case Setting.SETTINGS_ISOLATED_CHAT:
-				this.isolated_chat(sender, args);
+				isolated_chat(sender, args);
 				break;
 			case Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE:
-				this.isolated_join_quit_message(sender, args);
+				isolated_join_quit_message(sender, args);
+				break;
+			case Setting.SETTINGS_JOIN_SIGN_CAPTION:
+				join_sign_caption(sender, args);
+				break;
+			case Setting.SETTINGS_LEAVE_SIGN_CAPTION:
+				leave_sign_caption(sender, args);
 				break;
 			}
 
@@ -119,6 +125,20 @@ public class MiniGameSettingsConfigCommand {
 		boolean value = Boolean.parseBoolean(args[2]);
 
 		this.setKeyValue(sender, Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, value);
+		return true;
+	}
+
+	private boolean join_sign_caption(CommandSender sender, String[] args) throws Exception {
+		String value = args[2];
+
+		setKeyValue(sender, Setting.SETTINGS_JOIN_SIGN_CAPTION, value);
+		return true;
+	}
+
+	private boolean leave_sign_caption(CommandSender sender, String[] args) throws Exception {
+		String value = args[2];
+
+		setKeyValue(sender, Setting.SETTINGS_LEAVE_SIGN_CAPTION, value);
 		return true;
 	}
 

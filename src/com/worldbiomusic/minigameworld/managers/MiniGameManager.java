@@ -99,6 +99,8 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		pureData.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
 		pureData.put(Setting.SETTINGS_ISOLATED_CHAT, Setting.ISOLATED_CHAT);
 		pureData.put(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, Setting.ISOLATED_JOIN_QUIT_MESSAGE);
+		pureData.put(Setting.SETTINGS_JOIN_SIGN_CAPTION, Setting.JOIN_SIGN_CAPTION);
+		pureData.put(Setting.SETTINGS_LEAVE_SIGN_CAPTION, Setting.LEAVE_SIGN_CAPTION);
 
 		syncMapKeys(this.settings, pureData);
 
@@ -107,6 +109,8 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
 		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
+		Setting.JOIN_SIGN_CAPTION = (String) this.settings.get(Setting.SETTINGS_JOIN_SIGN_CAPTION);
+		Setting.LEAVE_SIGN_CAPTION = (String) this.settings.get(Setting.SETTINGS_LEAVE_SIGN_CAPTION);
 
 		// create "minigames" directory
 		if (!Utils.getMiniGamesFolder().exists()) {

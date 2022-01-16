@@ -17,7 +17,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class Utils {
 	public static String messagePrefix = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 	static MiniGameWorldMain main = MiniGameWorldMain.getInstance();
-//	static Logger logger = main.getLogger();
 	static ConsoleCommandSender sender = main.getServer().getConsoleSender();
 
 	private static String getMessagePrefixString() {
