@@ -90,13 +90,6 @@ public class MiniGameSetting {
 	private Material icon;
 
 	/**
-	 * - File control: X <br>
-	 * - Init value: setup value <br>
-	 * - Description: whether get all event without filtering player
-	 */
-	private boolean passUndetectableEvent;
-
-	/**
 	 * Check game finish condition
 	 * 
 	 * @see MiniGame#handleException
@@ -165,7 +158,6 @@ public class MiniGameSetting {
 		this.tutorial = new ArrayList<String>();
 		this.customData = new LinkedHashMap<String, Object>();
 		this.icon = Material.STONE;
-		this.passUndetectableEvent = false;
 		this.gameFinishCondition = GameFinishCondition.LESS_THAN_PLAYERS_LIVE;
 		this.gameFinishConditionPlayerCount = 2;
 		this.view = true;
@@ -215,10 +207,6 @@ public class MiniGameSetting {
 
 	public void setIcon(Material icon) {
 		this.icon = icon;
-	}
-
-	public void setPassUndetectableEvent(boolean passUndetectableEvent) {
-		this.passUndetectableEvent = passUndetectableEvent;
 	}
 
 	public void setGameFinishCondition(GameFinishCondition gameFinishCondition) {
@@ -277,10 +265,6 @@ public class MiniGameSetting {
 
 	public Material getIcon() {
 		return this.icon;
-	}
-
-	public boolean isPassUndetectableEvent() {
-		return passUndetectableEvent;
 	}
 
 	public GameFinishCondition getGameFinishCondition() {

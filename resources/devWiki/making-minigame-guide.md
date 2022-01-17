@@ -85,7 +85,6 @@ mw.registerMiniGame(new FitTool());
 - `tutorial`: Tutorials
 - `customData`: Custom data created by developer or default custom options
 - `icon`: Material which show in menu (Material)
-- `passUndetectableEvent`: Pass all event to minigame even not related with the minigame (must check event in 
 detail (e.g. check player from event is playing current minigame))
 - `gameFinishCondition`: Game finish condition (Init: LESS_THAN_PLAYERS_LIVE (2))
 > e.g. game will finish in these condition
@@ -107,7 +106,6 @@ detail (e.g. check player from event is playing current minigame))
 public PassMob() {
   super("PassMob", 2, 60 * 3, 10);
   // settings
-  this.getSetting().setPassUndetectableEvent(true);
   this.getSetting().setIcon(Material.OAK_FENCE);
 }
 ```
@@ -289,7 +287,7 @@ protected void runTaskAfterStart() {
 - MiniGameWorld only passes detectable events that can extract players from a event, so you don't have to check the player is playing the minigame
 - Detectable events are only passed to player's playing minigame
 - Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`... of `PlayerEvent`)
-- If **needs event not related with player**, set `passUndetectableEvent` setting to true of `MiniGameSetting`
+- If **needs event not related with player** or **event is not passed to the minigame**, implements `Listener` and handle event with `event handler method`
 - [Detectable Event List](detectable-event-list.md)
 
 ## Override

@@ -221,7 +221,7 @@ public void update(MiniGameAccessor minigame, MiniGameEvent event) {
 
 # Custom minigame event detector
 - `Event` passed to minigame is filtered by player's minigame in the default MiniGameEventDetector.
-- But with custom detector, you can make some event can pass directly to all minigames without the `passUndetectableEvent` option of MiniGameSetting
+- However, custom detector allows you to pass event you want to all minigames
 
 ## Example
 1. Create custom detector

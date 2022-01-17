@@ -220,18 +220,11 @@ public abstract class MiniGame {
 
 	/**
 	 * Pass event to minigame after processing custom option, exception, chat event
-	 * [IMPORTANT] if PassUndetectableEvent option is true, all event will be passed
-	 * to here and be processed with below logic except for detectable events. So If
-	 * try to process event which is not detectable, must check player of event is
-	 * playing this game
 	 * 
 	 * @param event Passed event from "MiniGameManager" after check related with
 	 *              this minigame
 	 */
 	public final void passEvent(Event event) {
-		// call pass event
-		Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
-
 		// pass event to custom option
 		this.customOption.processEvent(event);
 
@@ -242,6 +235,10 @@ public abstract class MiniGame {
 
 		// process event when minigame started
 		if (this.started) {
+			// call pass event
+			Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
+
+			// pass event to process
 			this.processEvent(event);
 		} else {
 			processEventWhileWaiting(event);

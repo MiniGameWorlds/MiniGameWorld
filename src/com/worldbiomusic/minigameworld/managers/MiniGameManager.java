@@ -301,28 +301,26 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			return;
 		}
 
-		// detect event
-		if (this.minigameEventDetector.isDetectableEvent(e)) {
+		// check detectable event
+		if (!this.minigameEventDetector.isDetectableEvent(e)) {
+			return;
+		}
+		
+		// get players
+		Set<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
 
-			// get players
-			Set<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
+		// check empty
+		if (players.isEmpty()) {
+			return;
+		}
 
-			// check empty
-			if (players.isEmpty()) {
-				return;
+		// pass evnet to minigame
+		for (Player p : players) {
+			// check player is playing minigame
+			if (this.isPlayingMiniGame(p)) {
+				MiniGame playingGame = this.getPlayingMiniGame(p);
+				playingGame.passEvent(e);
 			}
-
-			// pass evnet to minigame
-			for (Player p : players) {
-				// check player is playing minigame
-				if (this.isPlayingMiniGame(p)) {
-					MiniGame playingGame = this.getPlayingMiniGame(p);
-					playingGame.passEvent(e);
-				}
-			}
-		} else {
-			// pass undetectable event to MiniGame which permit
-			this.passUndetectableEventToMiniGame(e);
 		}
 	}
 
@@ -363,14 +361,6 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		MiniGame minigame = getViewingMiniGame(p);
 		minigame.getViewManager().processEvent(event);
 		return true;
-	}
-
-	private void passUndetectableEventToMiniGame(Event e) {
-		for (MiniGame minigame : this.minigames) {
-			if (minigame.getSetting().isPassUndetectableEvent()) {
-				minigame.passEvent(e);
-			}
-		}
 	}
 
 	public boolean isPlayingMiniGame(Player p) {

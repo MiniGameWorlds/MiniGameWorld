@@ -584,9 +584,11 @@ if(!this.isMinPlayersLive()) {
 - Change `minigame-sign` option in settings.yml to `minigameworld.signblock` permission
 - Add caption of minigame sign block options(join-sign-caption(e.g.`[MiniGame]`), leave-sign-caption(e.g. `[Leave MiniGame]`)) in settings.yml
 - Add `minigameworld.allcommands` permission
-- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
 - Add `Multiverse-Core` dependency
-- Remove `passUndetectableEvent` option of MiniGameSetting
+- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
+
+# 2022-01-17
+- Remove `passUndetectableEvent` option of MiniGameSetting (Instead, implements Listener)
 
 
 
