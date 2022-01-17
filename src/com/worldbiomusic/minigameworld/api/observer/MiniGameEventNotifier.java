@@ -3,50 +3,21 @@ package com.worldbiomusic.minigameworld.api.observer;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
- * Event notifier with minigame phaze(MiniGameEvent)<br>
- * Already implemented in "MiniGame" class<br>
- * <br>
- * 
- * [IMPORTANT] Consider to change to use custom event <br>
- * 
+ * Event notifier for minigame event(MiniGameEvent)<br>
  * 
  */
 public interface MiniGameEventNotifier {
 	/**
-	 * MiniGame phaze
+	 * MiniGame event
 	 */
 	public enum MiniGameEvent {
 		/**
-		 * When minigame started
-		 */
-		START,
-		/**
-		 * Before minigame finished 
-		 */
-		BEFORE_FINISH,
-		/**
-		 * When minigame finished
-		 */
-		FINISH,
-
-		/**
-		 * When minigame gets exception
-		 */
-		EXCEPTION,
-
-		/**
-		 * When event passed to the minigame<br>
-		 * But minigame still process event in last<br>
-		 */
-		EVENT_PASS,
-		
-		/**
-		 * When minigame is registered to MiniGameWolrd plugin
+		 * When a minigame is registered to MiniGameWolrd plugin
 		 */
 		REGISTRATION,
-		
+
 		/**
-		 * When minigame is unregistered from MiniGameWorld plugin
+		 * When a minigame is unregistered from MiniGameWorld plugin
 		 */
 		UNREGISTRATION;
 	}
@@ -69,7 +40,7 @@ public interface MiniGameEventNotifier {
 	 * Notify phaze(MiniGameEvent) to observers
 	 * 
 	 * @param minigame Minigame to notify
-	 * @param event Minigame Event
+	 * @param event    Minigame Event
 	 */
 	public void notifyObservers(MiniGame minigame, MiniGameEvent event);
 }

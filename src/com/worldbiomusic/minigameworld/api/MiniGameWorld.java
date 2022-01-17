@@ -140,16 +140,6 @@ public class MiniGameWorld {
 	}
 
 	/**
-	 * Sends exception to minigame
-	 * 
-	 * @param p         Playing minigame player
-	 * @param exception Exception to send
-	 */
-	public void createException(Player p, MiniGame.Exception exception) {
-		this.minigameManager.createException(p, exception);
-	}
-
-	/**
 	 * Gets MiniGameEventDetector<br>
 	 * 
 	 * Can check specific event can be detected

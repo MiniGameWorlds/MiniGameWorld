@@ -12,7 +12,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.worldbiomusic.minigameworld.customevents.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameViewManager {
@@ -84,7 +84,7 @@ public class MiniGameViewManager {
 	 * 
 	 * @param p Viewer
 	 */
-	public void addViewer(Player p) {
+	public void viewGame(Player p) {
 		// return if minigame is not active
 		if (!this.minigame.isActive()) {
 			this.minigame.sendMessage(p, "Minigame is not acitve");
@@ -129,7 +129,7 @@ public class MiniGameViewManager {
 	 * 
 	 * @param p Viewer
 	 */
-	public void removeViewer(Player p) {
+	public void unviewGame(Player p) {
 		if (isViewing(p)) {
 			MiniGamePlayerState viewer = getViewerState(p);
 			viewer.restorePlayerState();
@@ -160,9 +160,17 @@ public class MiniGameViewManager {
 	 * 
 	 * @param event MiniGameExceptionEvent
 	 */
-	public void handleException(MiniGameExceptionEvent event) {
-		if (event.getReason().equalsIgnoreCase("player-quit-server")) {
-			this.viewers.forEach(v -> removeViewer(v.getPlayer()));
+	public void handleException(MiniGameExceptionEvent exception) {
+		if (exception.isPlayerException()) {
+			Player p = exception.getPlayer();
+			// make the player unview game
+			unviewGame(p);
+		}
+
+		// check event is server exception
+		else if (exception.isServerException()) {
+			// make all viewers unview game
+			this.viewers.forEach(v -> unviewGame(v.getPlayer()));
 		}
 	}
 }

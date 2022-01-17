@@ -19,9 +19,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
-import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameEventPassEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameFinishEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
@@ -39,7 +40,7 @@ import com.worldbiomusic.minigameworld.util.Utils;
  * - Custom minigame frame can be made with extending this class<br>
  * - Message only send to same minigame players <br>
  */
-public abstract class MiniGame implements MiniGameEventNotifier {
+public abstract class MiniGame {
 
 	/**
 	 * Basic data (e.g. title, location, time limit ...)
@@ -70,11 +71,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Minigame player data (score, live)
 	 */
 	private List<MiniGamePlayerData> players;
-
-	/**
-	 * Third-party observer list
-	 */
-	private List<MiniGameObserver> observerList;
 
 	/**
 	 * Viewers manager
@@ -122,7 +118,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * Executed when Minigame exception created<br>
 	 * {@link Exception}
 	 */
-	protected void handleGameException(Player p, Exception exception) {
+	protected void handleGameException(MiniGameExceptionEvent exception) {
 	}
 
 	/**
@@ -184,7 +180,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		this.minigameTaskManager = new MiniGameTaskManager(this);
 		this.minigameTaskManager.registerBasicTasks();
 
-		this.observerList = new ArrayList<MiniGameObserver>();
 		this.minigameDataManager = new MiniGameDataManager(this);
 
 		// register tutorial
@@ -225,13 +220,17 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 	/**
 	 * Pass event to minigame after processing custom option, exception, chat event
+	 * [IMPORTANT] if PassUndetectableEvent option is true, all event will be passed
+	 * to here and be processed with below logic except for detectable events. So If
+	 * try to process event which is not detectable, must check player of event is
+	 * playing this game
 	 * 
 	 * @param event Passed event from "MiniGameManager" after check related with
 	 *              this minigame
 	 */
 	public final void passEvent(Event event) {
-		// notify observers when event passed to the minigame
-		notifyObservers(this, MiniGameEvent.EVENT_PASS);
+		// call pass event
+		Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
 
 		// pass event to custom option
 		this.customOption.processEvent(event);
@@ -500,8 +499,8 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// runTaskAfterStart
 		runTaskAfterStart();
 
-		// notify start event to observers
-		this.notifyObservers(this, MiniGameEvent.START);
+		// call start event
+		Bukkit.getPluginManager().callEvent(new MiniGameStartEvent(this));
 
 		// cancel task
 		this.minigameTaskManager.cancelWaitingTask();
@@ -521,7 +520,7 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 * 
 	 */
 	public void finishGame() {
-		if (!this.isStarted()) {
+		if (!isStarted()) {
 			return;
 		}
 
@@ -536,8 +535,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 
 		printEndInfo();
 
-		notifyObservers(this, MiniGameEvent.BEFORE_FINISH);
-
 		// save players for minigame finish event
 		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 
@@ -547,9 +544,10 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		// notify finish event to observers (after setup player leaving settings (e.g.
 		// give reward(item) after state restored))
 
-		// [IMPORTANT] restore removed leaving players for a while
+		// [IMPORTANT] restore removed leaving players's PlayerData for a while
 		this.players.addAll(leavingPlayers);
-		this.notifyObservers(this, MiniGameEvent.FINISH);
+		// call finish event
+		Bukkit.getPluginManager().callEvent(new MiniGameFinishEvent(this));
 		this.players.clear();
 
 		// runTaskAfterFinish (before initSetting())
@@ -629,94 +627,55 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	}
 
 	/**
-	 * Minigame exceptions<br>
-	 * <br>
-	 * How to use "CUSTOM"<br>
-	 * <br>
-	 * 
-	 * <b>Create exception</b><br>
-	 * 
-	 * <pre>
-	 * public void processServerEvent(Player p) {
-	 * 	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
-	 * 	ex.setDetailedReason("SERVER_EVENT_TIME");
-	 * 	MiniGameWorld mw = MiniGameWorld.create("1.x.x");
-	 * 	mw.handleException(p, ex);
-	 * }
-	 * </pre>
-	 * 
-	 * <b>Handle exception</b><br>
-	 * 
-	 * <pre>
-	 * &#64;Override
-	 * protected void handleGameException(Player p, Exception exception, Object arg) {
-	 * 	super.handleGameException(p, exception);
-	 * 	if (exception == MiniGame.Exception.CUSTOM) {
-	 * 		String detailedReason = exception.getDetailedReason();
-	 * 		if (detailedReason.equals("SERVER_EVENT_TIME")) {
-	 * 			// process somethings
-	 * 		}
-	 * 	}
-	 * }
-	 * </pre>
-	 *
-	 */
-	public enum Exception {
-		PLAYER_QUIT_SERVER(""), CUSTOM("");
-
-		private String detailedReason;
-		private Object detailedObj;
-
-		private Exception(String detailedReason) {
-			this.detailedReason = detailedReason;
-			this.detailedObj = null;
-		}
-
-		public String getDetailedReason() {
-			return this.detailedReason;
-		}
-
-		public void setDetailedReason(String detailedReason) {
-			this.detailedReason = detailedReason;
-		}
-
-		public Object getDetailedObj() {
-			return detailedObj;
-		}
-
-		public void setDetailedObj(Object detailedObj) {
-			this.detailedObj = detailedObj;
-		}
-
-	}
-
-	/**
 	 * - Handle exception<br>
-	 * - Leave player<br>
-	 * - Notify observers<br>
-	 * - Check GameFinishCondition
+	 * - If <b>player exception</b><br>
+	 * - calls {@link #handleGameException()}<br>
+	 * - player will leave the game <br>
+	 * - checks {@link GameFinishCondition}<br>
+	 * <br>
+	 * - If <b>server exception</b><br>
+	 * - minigame will be finished<br>
 	 * 
-	 * @param p         Target player
 	 * @param exception Minigame exception
+	 * @see MiniGameExceptionEvent
 	 */
-	public final void handleException(Player p, Exception exception) {
-		// info
-		Utils.info("[" + p.getName() + "] handle exception: " + exception.name());
+	public final void handleException(MiniGameExceptionEvent exception) {
+		if (exception.isPlayerException()) {
+			Player p = exception.getPlayer();
 
-		// print reason
-		Utils.info("Detailed reason: " + exception.getDetailedReason());
+			// debug
+			Utils.debug("Handle player exception (" + p.getName() + ")");
+			Utils.debug("Reason: " + exception.getReason());
 
-		// setup leaving settings
-		this.setupPlayerLeavingSettings(p, exception.name());
+			sendMessage(p, "Exception: " + exception.getReason());
 
-		// notify EXCEPTION event to observers
-		this.notifyObservers(this, MiniGameEvent.EXCEPTION);
+			// check player is a viewer
+			if (getViewManager().isViewing(p)) {
+				getViewManager().handleException(exception);
+				return;
+			}
 
-		// pass exception to implemented minigame
-		this.handleGameException(p, exception);
+			// setup leaving settings
+			this.setupPlayerLeavingSettings(p, exception.getReason());
 
-		// check GameFinishExceptionMode
-		this.checkGameFinishCondition();
+			// pass exception to implemented minigame
+			this.handleGameException(exception);
+
+			// check GameFinishExceptionMode
+			this.checkGameFinishCondition();
+		}
+
+		// check event is server exception
+		else if (exception.isServerException()) {
+			// debug
+			Utils.debug("Handle server exception");
+			Utils.debug("Reason: " + exception.getReason());
+
+			sendMessageToAllPlayers("Exception: " + exception.getReason());
+
+			// finish game
+			finishGame();
+		}
 	}
 
 	/**
@@ -1259,10 +1218,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 		return this.getPlayers().get(random);
 	}
 
-	public List<MiniGameObserver> getObserverList() {
-		return this.observerList;
-	}
-
 	/**
 	 * Gets minigame frame type (e.g. "Solo", "SoloBattle", "Team",
 	 * "TeamBattle")<br>
@@ -1276,23 +1231,6 @@ public abstract class MiniGame implements MiniGameEventNotifier {
 	 */
 	public String getFrameType() {
 		return "MiniGame";
-	}
-
-	@Override
-	public void registerObserver(MiniGameObserver observer) {
-		if (!this.observerList.contains(observer)) {
-			this.observerList.add(observer);
-		}
-	}
-
-	@Override
-	public void unregisterObserver(MiniGameObserver observer) {
-		this.observerList.remove(observer);
-	}
-
-	@Override
-	public void notifyObservers(MiniGame minigame, MiniGameEvent event) {
-		this.observerList.forEach(obs -> obs.update(new MiniGameAccessor(minigame), event));
 	}
 
 	@Override

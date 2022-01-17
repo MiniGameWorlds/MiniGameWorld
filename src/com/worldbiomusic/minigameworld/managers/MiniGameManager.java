@@ -24,6 +24,7 @@ import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -237,7 +238,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		}
 
 		// add the player as a viewer
-		game.getViewManager().addViewer(p);
+		game.getViewManager().viewGame(p);
 	}
 
 	/**
@@ -258,14 +259,32 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 
 		// unview (leave) from a minigame
 		MiniGame minigame = getViewingMiniGame(p);
-		minigame.getViewManager().removeViewer(p);
+		minigame.getViewManager().unviewGame(p);
 	}
 
-	public void createException(Player p, MiniGame.Exception exception) {
-		// check player is playing a minigame
-		if (this.isPlayingMiniGame(p)) {
-			MiniGame playingGame = this.getPlayingMiniGame(p);
-			playingGame.handleException(p, exception);
+	public void handleException(MiniGameExceptionEvent exception) {
+		// check event is player exception
+		if (exception.isPlayerException()) {
+			Player p = exception.getPlayer();
+			if (!isInMiniGame(p)) {
+				return;
+			}
+
+			// get minigame
+			MiniGame minigame = null;
+			if (isPlayingMiniGame(p)) {
+				minigame = getPlayingMiniGame(p);
+			} else if (isViewingMiniGame(p)) {
+				minigame = getViewingMiniGame(p);
+			}
+
+			minigame.handleException(exception);
+		}
+
+		// check event is server exception
+		else if (exception.isServerException()) {
+			// send to all minigames and make finish game
+			this.minigames.forEach(m -> m.handleException(exception));
 		}
 	}
 
@@ -372,6 +391,15 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		return this.getViewingMiniGame(p) != null;
 	}
 
+	/**
+	 * Whether player is playing or viewing a minigame
+	 * 
+	 * @return True if player is playing or viewing minigame
+	 */
+	public boolean isInMiniGame(Player p) {
+		return isPlayingMiniGame(p) || isViewingMiniGame(p);
+	}
+
 	public MiniGame getMiniGameWithTitle(String title) {
 		for (MiniGame game : this.minigames) {
 			if (game.getTitle().equalsIgnoreCase(title)) {
@@ -411,9 +439,6 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 
 		// reigster member to YamlManager
 		this.yamlManager.registerMember(newGame.getDataManager());
-
-		// register missed observers
-		registerMissedMinigameObservers(newGame);
 
 		// check already existing data
 		if (newGame.getDataManager().isMinigameDataExists()) {
@@ -538,34 +563,21 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		return "settings.yml";
 	}
 
-	/**
-	 * Register observer to minigames which will be registered in the future
-	 * 
-	 * @param newGame Minigame to register observer
-	 */
-	private void registerMissedMinigameObservers(MiniGame newGame) {
-		this.observers.forEach(obs -> newGame.registerObserver(obs));
-	}
-
 	@Override
 	public void registerObserver(MiniGameObserver observer) {
-		// register observer to former minigames
-		this.minigames.forEach(m -> {
-			m.registerObserver(observer);
-
-			// notify registration of former minigames
-			observer.update(new MiniGameAccessor(m), MiniGameEvent.REGISTRATION);
-		});
-
 		if (!this.observers.contains(observer)) {
+			// register observer to former minigames
+			this.minigames.forEach(m -> {
+				// notify registration of former minigames
+				observer.update(new MiniGameAccessor(m), MiniGameEvent.REGISTRATION);
+			});
+
 			this.observers.add(observer);
 		}
 	}
 
 	@Override
 	public void unregisterObserver(MiniGameObserver observer) {
-		this.minigames.forEach(m -> m.unregisterObserver(observer));
-
 		this.observers.remove(observer);
 	}
 

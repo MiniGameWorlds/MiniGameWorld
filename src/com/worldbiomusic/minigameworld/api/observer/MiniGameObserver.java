@@ -3,15 +3,17 @@ package com.worldbiomusic.minigameworld.api.observer;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 
 /**
- * MiniGame phaze(MiniGameEvent) observer<br>
- * - Usage: see wiki
+ * MiniGame event observer<br>
+ * - Usage: 3rd-party wiki
+ * 
+ * @see MiniGameEventNotifier
  */
 public interface MiniGameObserver {
 	/**
-	 * Process sended minigame event
+	 * Process given minigame event
 	 * 
-	 * @param event    Sended phaze(MiniGameEvent)
-	 * @param minigame MiniGame that sended event
+	 * @param event    Given event
+	 * @param minigame Minigame related with the given event
 	 */
 	public void update(MiniGameAccessor minigame, MiniGameEventNotifier.MiniGameEvent event);
 }
