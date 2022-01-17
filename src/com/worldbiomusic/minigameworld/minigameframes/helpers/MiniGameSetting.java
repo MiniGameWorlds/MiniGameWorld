@@ -1,12 +1,15 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.Event;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -144,6 +147,13 @@ public class MiniGameSetting {
 	 */
 	private boolean view;
 
+	/**
+	 * - File control: X<br>
+	 * - Init value: empty<br>
+	 * - Description: events that will be passed to "processEvent()" of the minigame
+	 */
+	private Set<Class<? extends Event>> customDetectableEvents;
+
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
 		this.title = title;
@@ -161,6 +171,7 @@ public class MiniGameSetting {
 		this.gameFinishCondition = GameFinishCondition.LESS_THAN_PLAYERS_LIVE;
 		this.gameFinishConditionPlayerCount = 2;
 		this.view = true;
+		this.customDetectableEvents = new HashSet<>();
 	}
 
 	// set
@@ -217,8 +228,12 @@ public class MiniGameSetting {
 		return gameFinishConditionPlayerCount;
 	}
 
-	public boolean canView() {
-		return view;
+	public void setView(boolean view) {
+		this.view = view;
+	}
+
+	public void addCustomDetectableEvent(Class<? extends Event> event) {
+		this.customDetectableEvents.add(event);
 	}
 
 	// get
@@ -275,8 +290,12 @@ public class MiniGameSetting {
 		this.gameFinishConditionPlayerCount = gameFinishConditionPlayerCount;
 	}
 
-	public void setView(boolean view) {
-		this.view = view;
+	public boolean canView() {
+		return view;
+	}
+
+	public boolean isCustomDetectableEvent(Class<? extends Event> event) {
+		return this.customDetectableEvents.contains(event);
 	}
 
 	// file (only file control)

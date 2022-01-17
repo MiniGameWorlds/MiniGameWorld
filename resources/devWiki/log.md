@@ -1,4 +1,5 @@
 # TODO
+- Set player name color in TeamBatleMiniGame
 - Change method name of ViewManager.addViewer/removeViewer to ViewManager.viewGame/unviewGame
 - Add minigame start, finish sound options in settings.yml ()
 - update all plugins
@@ -588,8 +589,8 @@ if(!this.isMinPlayersLive()) {
 - Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
 
 # 2022-01-17
-- Remove `passUndetectableEvent` option of MiniGameSetting (Instead, implements Listener)
-
+- Remove `passUndetectableEvent` option of MiniGameSetting (Instead, use `implements Listener` or `custom detectable event`)
+- Add `customDetectableEvents` to MiniGameSetting
 
 
 

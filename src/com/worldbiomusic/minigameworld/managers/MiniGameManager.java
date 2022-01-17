@@ -293,7 +293,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	*/
 	public void passEvent(Event e) {
 		// check server down
-		if (checkPluginStartToBeDisabled(e)) {
+		if (checkPluginIsDisabled(e)) {
 			return;
 		}
 
@@ -302,29 +302,29 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		}
 
 		// check detectable event
-		if (!this.minigameEventDetector.isDetectableEvent(e)) {
-			return;
-		}
-		
-		// get players
-		Set<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
+		if (this.minigameEventDetector.isDetectableEvent(e)) {
+			// get players
+			Set<Player> players = this.minigameEventDetector.getPlayersFromEvent(e);
 
-		// check empty
-		if (players.isEmpty()) {
-			return;
-		}
-
-		// pass evnet to minigame
-		for (Player p : players) {
-			// check player is playing minigame
-			if (this.isPlayingMiniGame(p)) {
-				MiniGame playingGame = this.getPlayingMiniGame(p);
-				playingGame.passEvent(e);
+			// check empty
+			if (players.isEmpty()) {
+				return;
 			}
+
+			// pass evnet to minigame
+			for (Player p : players) {
+				// check player is playing minigame
+				if (this.isPlayingMiniGame(p)) {
+					MiniGame playingGame = this.getPlayingMiniGame(p);
+					playingGame.passEvent(e);
+				}
+			}
+		} else {
+			checkCustomDetectableEvent(e);
 		}
 	}
 
-	private boolean checkPluginStartToBeDisabled(Event e) {
+	private boolean checkPluginIsDisabled(Event e) {
 		if (e instanceof PluginDisableEvent) {
 			this.minigames.forEach(m -> {
 				m.finishGame();
@@ -361,6 +361,11 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		MiniGame minigame = getViewingMiniGame(p);
 		minigame.getViewManager().processEvent(event);
 		return true;
+	}
+
+	public void checkCustomDetectableEvent(Event e) {
+		this.minigames.stream().filter(m -> m.getSetting().isCustomDetectableEvent(e.getClass()))
+				.forEach(m -> m.passEvent(e));
 	}
 
 	public boolean isPlayingMiniGame(Player p) {

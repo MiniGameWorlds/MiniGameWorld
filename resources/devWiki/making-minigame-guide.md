@@ -284,14 +284,13 @@ protected void runTaskAfterStart() {
 - If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `runTaskBeforeFinish()`
 
 ## Detectable Events
-- MiniGameWorld only passes detectable events that can extract players from a event, so you don't have to check the player is playing the minigame
-- Detectable events are only passed to player's playing minigame
+- MiniGameWorld only passes detectable event to the minigame a player of event is playing now, so you don't have to check the player is playing the minigame
 - Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`... of `PlayerEvent`)
-- If **needs event not related with player** or **event is not passed to the minigame**, implements `Listener` and handle event with `event handler method`
-- [Detectable Event List](detectable-event-list.md)
+- If **needs event not related with player** or **event is not passed to the minigame**, add `customDetectableEvent` option or implement `Listener`
+- Check here: [Detectable Event List](detectable-event-list.md)
 
 ## Override
-- Almost overrided method shold have `super.method()`
+- Almost overrided method should maintain `super.method()`
 
 ## Player Death
 - Player can't return to joined location from minigame location, if player is dead state when minigame finished (don't let the player die with using any other ways when minigame finished)

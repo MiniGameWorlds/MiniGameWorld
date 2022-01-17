@@ -46,9 +46,31 @@
 
 # Undetectable Events
 - There are two ways to process undetectable events
-- If you try to handle a player from undetectable event, you need to make sure the player is playing your minigame, because undetectable event will be passed the event to the minigame even if the player of event is not playing your minigame
+- If you handle a undetectable event, you need to make sure the event is related with your minigame, because undetectable event will be passed the event to the minigame even if the event is not related with your minigame
+
 
 ## First method
+```java
+public class YourMiniGame extends SoloMiniGame implements Listener {
+	public YourMiniGame() {
+		super("YourMiniGame", 60, 10);
+
+        // add custom detectable event
+        getSetting().addCustomDetectableEvent(WeatherChangeEvent.class);
+	}
+
+	@Override
+	protected void processEvent(Event event) {
+		if (event instanceof WeatherChangeEvent) {
+			WeatherChangeEvent e = (WeatherChangeEvent) event;
+			e.getWorld().setWeatherDuration(1);
+		}
+	}
+}
+```
+
+
+## Second method
 - If pass a event to the `minigame.passEvent()` from the event listener, you can process the event you want in the `processEvent()` of your minigame class
 ```java
 public class CommonListener implements Listener {
@@ -74,7 +96,7 @@ public class CommonListener implements Listener {
 
 
 
-## Second method
+## Third method
 - Implements `Listener` and register to bukkit plugin manager and make event handler method in your minigame class, then pass event to `passEvent()`
 - **NEVER process event directly in event handler method**
 - **NEVER pass event directly to processEvent() in event handler method, but pass to only passEvent()**
@@ -86,10 +108,6 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 
         // register listener to plugin manager
         Bukkit.getPluginManager().registerEvents(this, YourPluginMain);
-	}
-
-	@Override
-	protected void initGameSettings() {
 	}
 
 	@Override
@@ -105,13 +123,6 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
         // NEVER process event here
 		// pass the event to passEvent() (NEVER pass to the processEvent() directly)
 		passEvent(e);
-	}
-
-	@Override
-	protected List<String> registerTutorial() {
-		List<String> tutorial = new ArrayList<>();
-		tutorial.add("your mingiame");
-		return tutorial;
 	}
 }
 ```
