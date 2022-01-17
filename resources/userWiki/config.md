@@ -2,7 +2,7 @@
 - Minigame has each files in `MiniGameWorld/minigames` folder
 - Deleted minigame file will be removed automatically when the server is stopped
 - Minigame config created with default values by developer's settings
-- Missed keys will be restored automatically when the server starts
+- Not neccessary or missed keys are managed automatically when the server starts
 
 ## `setting.yml`
 - Plugin settings
@@ -10,18 +10,21 @@
 settings:
   message-prefix: §lMiniGameWorld§r
   backup-data-save-delay: 60
-  minigame-sign: true
   debug-mode: false
   isolated-chat: true
   isolated-join-quit-message: true
+  join-sign-caption: '[MiniGame]'
+  leave-sign-caption: '[Leave MiniGame]'
 ```
-- `message-prefix`: System message of `MiniGameWorld` plugin
-- `backup-data-save-delay`: Delay of saving backup data
-- `minigame-sign`: Whether you can join or leave 
-minigame with right-click sign (true / false)
-- `debug-mode`: print debug logs
-- `isolated-chat`: Playing minigame players can only chat with each other
-- `isolated-join-quit-message`: Minigame join/quit message only notify in minigame
+- `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
+- `backup-data-save-delay`: Delay of saving backup data (per minute)
+- `debug-mode`: print debug logs (true/false)
+- `isolated-chat`: Playing minigame players can only chat with each other (true/false)
+- `isolated-join-quit-message`: Minigame join/quit message only notify in minigame (true/false)
+- `join-sign-caption`: Caption of join sign block (must surround the content with `'`)
+- `leave-sign-caption`: Caption of leave sign block (must surround the content with `'`)
+
+
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings
@@ -34,14 +37,15 @@ PVP:
   time-limit: 120
   active: true
   icon: STONE_SWORD
+  view: true
   location:
     ==: org.bukkit.Location
     world: world
-    x: -24.495412277481673
-    y: 160.0
-    z: 12.42264804369194
-    pitch: 7.8000712
-    yaw: 88.20009
+    x: 0.0
+    y: 4.0
+    z: 0.0
+    pitch: 0.0
+    yaw: 0.0
   tutorial:
   - 'kill: +1'
   custom-data:
@@ -75,13 +79,14 @@ PVP:
     food-level-change: true
     player-hurt: true
 ```
-- `title`: Minigame title (can be different with Class Name)
+- `title`: Minigame title (don't use color code, but `custom-data.color`)
 - `min-player-count`: Minimun player count for start game
 - `max-player-count`: Maximun player count for playing game
 - `waiting-time`: Waiting time (sec)
 - `time-limit`: Minigame playing time limit (sec)
 - `active`: Whether this minigame is active in the server(true/false)
 - `icon`: Material which show in menu (Material)
+- `view`: Whether a player can view a minigame
 - `location`: Minigame join location
 - `tutorial`: Tutorials
 - `custom-data`: Custom data created by developer or default custom options

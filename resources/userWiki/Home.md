@@ -8,6 +8,14 @@
 # Features
 - Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
 - Same minigame can be played in many different ways with custom config settings, maps made by users
+- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode` and etc are saved at the game start and restored when the game finished
+- GUI Menu
+- Party system
+- View system
+- Everything can be customized with config
+- Exists 3rd-party plugins (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank])
+- Auto data backup
+
 
 
 # How to apply
@@ -37,18 +45,16 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 
 
 # More
-- [Join / Leave]
+- [Join / View / Leave]
 - [Commands]
 - [Config]
 - [Permissions]
 - [Party]
 - [Backup]
-
-
+- [View]
+- [Menu]
 
 # Caution
-- Not recommend to run `/reload` in the server console
-- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode` are saved at the game start and restored when the game finished
 - If you have some problems in bungeecord server, use [BungeeGuard](https://www.spigotmc.org/resources/bungeeguard.79601/) plugin
 
 
@@ -58,9 +64,13 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [MiniGames]: https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/minigames
 [Commands]: commands.md
 [Third-Parties]: https://github.com/MiniGameWorlds/MiniGameWorld/discussions/categories/third-parties
-[Join / Leave]: how-to-join-leave.md
+[Join / View / Leave]: how-to-join-leave.md
 [Youtube: User Tutorial]: https://youtu.be/sE0vaj0xM8Q
 [Config]: config.md
 [Permissions]: permissions.md
 [Party]: party.md
 [Backup]: backup.md
+[MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
+[MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
+[View]: view.md
+[Menu]: menu.md

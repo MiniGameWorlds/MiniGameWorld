@@ -4,7 +4,8 @@
 
 ## General
 - `/minigame join <title>`: join `<title>` minigame
-- `/minigame leave`: leave current playing minigame (when only waiting)
+- `/minigame view <title>`: view `<title>` minigame
+- `/minigame leave`: leave current playing/viewing minigame
 - `/minigame list`: print minigame list
 - `/minigame menu`: open menu
 - `/minigame reload`: reload all configs
@@ -23,7 +24,6 @@
 ## Config
 ### settings
 - set plugin settings in `settings.yml` config  
-- `/minigame settings minigame-sign <true|false>`: set activation of minigame `sign block` join / leave
 - `/minigame settings minigame-command <true|false>`: set activation of minigame command
 - `/minigame settings message-prefix <value>`: set plugin message prefix
 

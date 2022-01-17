@@ -7,6 +7,8 @@ permissions:
     description: Grants all permissions
     children: 
       minigameworld.menu: true
+      minigameworld.signblock: true
+      minigameworld.allcommands: true
       minigameworld.play.*: true
       minigameworld.party.*: true
       minigameworld.config.*: true
@@ -15,17 +17,33 @@ permissions:
     description: Can open a GUI menu (can access play, party)
     default: true
     
+  minigameworld.signblock:
+    description: Can play minigame with sign block (can access play, party)
+    default: true
+    
+  minigameworld.allcommands:
+    description: Can use all commands (can access play, party)
+    default: true
+    
   minigameworld.play.*:
     description: Grants all play permissions
     children:
       minigameworld.play.join: true
       minigameworld.play.leave: true
+      minigameworld.play.view: true
+      minigameworld.play.unview: true
       minigameworld.play.list: true
   minigameworld.play.join:
     description: Can join a minigame
     default: true
   minigameworld.play.leave:
     description: Can leave a playing minigame
+    default: true
+  minigameworld.play.view:
+    description: Can view a minigame
+    default: true
+  minigameworld.play.unview:
+    description: Can leave a viewing minigame
     default: true
   minigameworld.play.list:
     description: Can print all minigame list

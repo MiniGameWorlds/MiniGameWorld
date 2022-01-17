@@ -1,7 +1,6 @@
 # TODO
-- Customize minigame start, finish sound in settings.yml 
-- Customize content of sign block (`[MiniGame]`, `[Leave MiniGame]`) in settings.yml 
-- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION` (extends MiniGameEvent)
+- Change method name of ViewManager.addViewer/removeViewer to ViewManager.viewGame/unviewGame
+- Add minigame start, finish sound options in settings.yml ()
 - update all plugins
 - update 3rd-parties (change observer pattern to custom event)
 - Add `party` icon to Menu
@@ -105,6 +104,9 @@
 - Fix exception throwing when plugin is disabled with no minigames
 - Change `PVE` meaning
 
+## 0.4.0
+### API Changes
+### Build Changes
 ---
 
 
@@ -573,4 +575,34 @@ if(!this.isMinPlayersLive()) {
 - Minigame `processEvent()` Refactoring 
 
 # 2022-01-15
-- Add `view` feature
+- Add `view` system
+- Add `view` option to MiniGameSetting
+- Send message to party members when join/leave a minigame
+- Add `getFrameType()` to MiniGameAccessor
+
+# 2022-01-16
+- Change `minigame-sign` option in settings.yml to `minigameworld.signblock` permission
+- Add caption of minigame sign block options(join-sign-caption(e.g.`[MiniGame]`), leave-sign-caption(e.g. `[Leave MiniGame]`)) in settings.yml
+- Add `minigameworld.allcommands` permission
+- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
+- Add `Multiverse-Core` dependency
+- Remove `passUndetectableEvent` option of MiniGameSetting
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
