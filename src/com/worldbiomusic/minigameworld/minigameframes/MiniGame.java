@@ -235,8 +235,10 @@ public abstract class MiniGame {
 
 		// process event when minigame started
 		if (this.started) {
-			// call pass event
-			Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
+			// call pass event (only synchronous)
+			if (!event.isAsynchronous()) {
+				Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
+			}
 
 			// pass event to process
 			this.processEvent(event);
