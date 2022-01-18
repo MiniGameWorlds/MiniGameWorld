@@ -7,7 +7,7 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 /**
  * Called when a event passed to a started minigame<br>
  * [IMPORTANT] minigame will process event in last<br>
- *
+ * [IMPORTANT] only synchronous events will be passed
  */
 public class MiniGameEventPassEvent extends MinigGameEvent {
 

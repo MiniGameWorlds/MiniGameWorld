@@ -5,20 +5,18 @@
 
 
 # Features for developers
-- Easy API
+- Simple API
 - Can Use all Events
-- Can add any type of custom data with `custom-data` section
-- Powerful Minigame util tools
+- Can add any type of custom data with `Map<String, Object>` which user can edit
+- Minigame util tools
 - Also can make 3rd-party with API
 
 
 
 # Guide
-## MiniGame
-- [making-minigame-guide](making-minigame-guide.md)
+- ## [minigame-guide](making-minigame-guide.md)
 
-## Third party plugin
-- [making-3rd-party-guide](making-3rd-party-guide.md)
+- ## [3rd-party-guide](making-3rd-party-guide.md)
 
 
 

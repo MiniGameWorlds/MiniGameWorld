@@ -50,6 +50,7 @@
 
 
 ## First method
+- Add `getSetting().addCustomDetectableEvent(EventYouWant.class);` in constructor
 ```java
 public class YourMiniGame extends SoloMiniGame implements Listener {
 	public YourMiniGame() {

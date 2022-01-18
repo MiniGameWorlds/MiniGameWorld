@@ -1,12 +1,12 @@
 # Description
 - Third party plugin can access/change below things
-```yaml
-- Join/Leave 
-- Minigame Exception
-- Menu
-- Party
-- Observer
-```
+- [Join / Leave / View](#Minigame-Join-/-Leave-/-View)
+- [Minigame Exception](#Minigame-Exception)
+- [Menu](#Menu)
+- [Party](#Party)
+- [Observer](#Observer-System)
+- [Custom Events](#Custom-Events)
+
 
 # Tutorial
 <a href="https://youtu.be/">
@@ -16,35 +16,70 @@
 
 ---
 
-# Minigame Join/Leave
-- Can change `Join/Leave` way 
+# Minigame Join / Leave / View
+- Can change `Join / Leave / View` way 
 ## Example
+- join with chat
 ```java
-// join minigame with portal
 @EventHandler
-public void onPlayerEnterPortal(EntityPortalEnterEvent e) {
-  if (e.getEntity() instanceof Player) {
-    Player p = (Player) e.getEntity();
-    MiniGameWorld mw = MiniGameWorld.create("x.x.x");
-    // join minigame
-    mw.joinGame(p, "Minigame-Title");
-  }
-}
+public void onPlayerChat(AsyncPlayerChatEvent e) {
+	Player p = e.getPlayer();
+	String msg = e.getMessage();
 
-// leave minigame with right-click block
-@EventHandler
-public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
-  Player p = e.getPlayer();
-  if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-    Block b = e.getClickedBlock();
-    if (b.getType() == Material.BEDROCK) {
-      MiniGameWorld mw = MiniGameWorld.create("x.x.x");
-      // leave minigame
-      mw.leaveGame(p);
-    }
-  }
+	String[] tokens = msg.split(" ");
+	if (tokens.length != 2) {
+		return;
+	}
+
+	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+	
+	String minigameTitle = tokens[1];
+	if (tokens[0].equals("join")) {
+		// join game
+		mw.joinGame(p, minigameTitle);
+	}
 }
 ```
+- leave minigame with right-click block
+```java
+@EventHandler
+public void onPlayerClickLeaveBlock(PlayerInteractEvent e) {
+	Player p = e.getPlayer();
+	if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		Block b = e.getClickedBlock();
+		if (b.getType() == Material.BEDROCK) {
+			MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+			// leave minigame
+			mw.leaveGame(p);
+		}
+	}
+}
+```
+- view/unview with chat
+```java
+@EventHandler
+public void onPlayerChat(AsyncPlayerChatEvent e) {
+	Player p = e.getPlayer();
+	String msg = e.getMessage();
+
+	String[] tokens = msg.split(" ");
+	if (tokens.length != 2) {
+		return;
+	}
+
+	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
+	
+	String minigameTitle = tokens[1];
+	if (tokens[0].equals("view")) {
+		// view game
+		mw.viewGame(p, minigameTitle);
+	} else if (tokens[0].equals("unview")) {
+		// unview(leave) game 
+		mw.unviewGame(p);
+	}
+}
+```
+
 ---
 
 # Minigame Exception
@@ -139,54 +174,96 @@ public void onPlayerAskPartyJoin(PlayerInteractAtEntityEvent e) {
 ---
 
 # Observer System
-- Observer can reserve tasks with event of MiniGame
-## MiniGameEvent
-- `START`: When minigame started
-- `BEFORE_FINISH`: Before minigame finished (Used for saving rank data)
-- `FINISH`: When minigame finished
-- `EXCEPTION`: When exception created
-- `EVENT_PASS`: When event passed to the minigame
+- Observer can reserve tasks with timing of MiniGame
+- Implements `update()` of `MiniGameObserver` interface to use
+
+## Timing
 - `REGISTRATION`: When minigame is registered to MiniGameWorld plugin
 - `UNREGISTRATION`: When minigame is unregistered from MiniGameWorld plugin
 
+## Examples
+- Used in [MiniGameWorld-Rank]
+```java
+@Override
+public void update(MiniGameAccessor minigame, Timing timing) {
+	// load exist minigame rank data (if not exist, create new config)
+	if (timing == Timing.REGISTRATION) {
+		MiniGameRank rank = new MiniGameRank(minigame);
+
+		this.rankList.add(rank);
+		this.yamlManager.registerMember(rank);
+
+		// sort rank orders
+		rank.sortRankOrders();
+	} else if (timing == Timing.UNREGISTRATION) {
+		MiniGameRank rank = null;
+		for (MiniGameRank r : this.rankList) {
+			if (r.getMinigame().equals(minigame)) {
+				rank = r;
+			}
+		}
+
+		// save data and unregister
+		if (rank != null) {
+			this.yamlManager.save(rank);
+			this.yamlManager.unregisterMember(rank);
+			this.rankList.remove(rank);
+		}
+	}
+}
+```
+
+---
+
+# Custom Events
+- There are some minigame timing events
+- Use `Listener` for handling events
+
+## MiniGameEvent
+- All minigame events extends `MiniGameEvent`
+- `MiniGameStartEvent`: Called when a minigame starts 
+- `MiniGameEventPassEvent`: Called when a event passed to a started minigame
+- `MiniGameFinishEvent`: Called when a minigame finished
+- `MiniGameExceptionEvent`: Called when a exception related with minigame has occurred
 
 ## Examples
 ### Reward System
-- [Example Plugin: MiniGameWorld-Reward](https://github.com/MiniGameWorlds/MiniGameWorld-Reward)
+- Used in [MiniGameWorld-Reward]
 - Give reward when minigame finished
 - Can distinguish with `class name` or `title` of minigame
 ```java
-class RewardManager implements MiniGameObserver {
+class RewardManager implements Listener {
 
-	public RewardManager(MiniGameWorld mw) {
-		mw.registerMiniGameObserver(this);
-	}
-
-		@Override
-	public void update(MiniGameAccessor minigame, MiniGameEvent event) {
+	@EventHandler
+	public void onMiniGameFinish(MiniGameFinishEvent e) {
+		MiniGameAccessor minigame = e.getMiniGame();
 		// give rewards when finish
-		if (event == MiniGameEvent.FINISH) {
-			List<? extends MiniGameRankResult> rankList = minigame.getRank();
+		List<? extends MiniGameRankResult> rankList = minigame.getRank();
 
-			for (int i = 0; i < 3; i++) {
-				MiniGameRankResult rankResult = rankList.get(i);
-				for (Player p : rankResult.getPlayers()) {
-					// give rewards
-					p.getInventory().addItem(new ItemStack(Material.OAK_WOOD, 10 - i));
-				}
+		for (int i = 0; i < 3; i++) {
+			MiniGameRankResult rankResult = rankList.get(i);
+			for (Player p : rankResult.getPlayers()) {
+				// give rewards
+				p.getInventory().addItem(new ItemStack(Material.OAK_WOOD, 10 - i));
 			}
 		}
 	}
 }
 ```
 ### Save Rank Data
-- [Example Plugin: MiniGameWorld-Rank](https://github.com/MiniGameWorlds/MiniGameWorld-Rank)
+- Used in [MiniGameWorld-Rank]
 - Save rank data to config
 ```java
-@Override
-public void update(MiniGameAccessor minigame, MiniGameEvent event) {
-	if (event == MiniGameEvent.FINISH) {
-		
+class RankManager implements Listener {
+
+	JavaPlugin plugin;
+	public RankManager(JavaPlugin plugin) {
+		this.plugin = plugin;
+	}
+
+	@EventHandler
+	public void onMiniGameFinish(MiniGameFinishEvent e) {
+		MiniGameAccessor minigame = e.getMiniGame();
 		List<? extends MiniGameRankResult> rankResult = minigame.getRank();
 
 		// check rank is empty
@@ -197,10 +274,10 @@ public void update(MiniGameAccessor minigame, MiniGameEvent event) {
 		// get minigame data section
 		String minigameClassName = minigame.getClassName();
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
-		
-		for(MiniGameRankResult result : rankResult) {
+
+		for (MiniGameRankResult result : rankResult) {
 			int score = result.getScore();
-			for(Player p : result.getPlayers()) {
+			for (Player p : result.getPlayers()) {
 				// get player's name, score
 				String playerName = p.getName();
 
@@ -208,7 +285,7 @@ public void update(MiniGameAccessor minigame, MiniGameEvent event) {
 				section.set(playerName, score);
 			}
 		}
-		
+
 		// save config
 		plugin.saveConfig();
 	}
@@ -219,7 +296,7 @@ public void update(MiniGameAccessor minigame, MiniGameEvent event) {
 ---
 
 
-# Custom minigame event detector
+# Custom event detector
 - `Event` passed to minigame is filtered by player's minigame in the default MiniGameEventDetector.
 - However, custom detector allows you to pass event you want to all minigames
 
@@ -258,3 +335,8 @@ public class MyPluginMain extends JavaPlugin {
 	}
 }
 ```
+
+
+
+[MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
+[MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank

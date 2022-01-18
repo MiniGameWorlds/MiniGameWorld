@@ -1,9 +1,6 @@
 # TODO
 - Set player name color in TeamBatleMiniGame
-- Change method name of ViewManager.addViewer/removeViewer to ViewManager.viewGame/unviewGame
-- Add minigame start, finish sound options in settings.yml ()
-- update all plugins
-- update 3rd-parties (change observer pattern to custom event)
+- Add minigame start, finish sound options in settings.yml
 - Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
@@ -107,7 +104,22 @@
 
 ## 0.4.0
 ### API Changes
+- Add `view` system
+- Add `getFrameType()` to MiniGameAccessor
+
 ### Build Changes
+- Send message to party members when join/leave a minigame
+- Add `view` option to MiniGameSetting
+- Delete `minigame-sign` option in settings.yml and add `minigameworld.signblock` permission
+- Add caption of minigame sign block options(`join-sign-caption`, `leave-sign-caption`) in settings.yml
+- Add `minigameworld.allcommands` permission
+- Add `Multiverse-Core` plugin dependency for multi worlds (just for after loading)
+- Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
+- Remove `passUndetectableEvent` option of MiniGameSetting (Instead, use `implements Listener` or `custom detectable event`)
+- Add `customDetectableEvents` to MiniGameSetting
+- Change `MiniGameEventNotifierMiniGameEvent` to `MiniGameTimingNotifier.Timing`
+
+
 ---
 
 
@@ -582,19 +594,22 @@ if(!this.isMinPlayersLive()) {
 - Add `getFrameType()` to MiniGameAccessor
 
 # 2022-01-16
-- Change `minigame-sign` option in settings.yml to `minigameworld.signblock` permission
-- Add caption of minigame sign block options(join-sign-caption(e.g.`[MiniGame]`), leave-sign-caption(e.g. `[Leave MiniGame]`)) in settings.yml
+- Delete `minigame-sign` option in settings.yml and add `minigameworld.signblock` permission
+- Add caption of minigame sign block options(`join-sign-caption`, `leave-sign-caption`) in settings.yml
 - Add `minigameworld.allcommands` permission
-- Add `Multiverse-Core` dependency
+- Add `Multiverse-Core` plugin dependency for multi worlds (just for after loading)
 - Change events of `MiniGameEventNotifier.MiniGameEvent` to **Custom Event** except for `REGISTRATION` and `UNREGISTRATION`
+- Remove `MiniGameEvent.BEFORE_FINISH`
 
 # 2022-01-17
 - Remove `passUndetectableEvent` option of MiniGameSetting (Instead, use `implements Listener` or `custom detectable event`)
 - Add `customDetectableEvents` to MiniGameSetting
 
 
-
-
+# 2022-01-19
+- `MiniGameEventPassEvent` will not be called when passing event is asynchronous
+- Change `MiniGameEventNotifierMiniGameEvent` to `MiniGameTimingNotifier.Timing`
+- Release `0.4.0`
 
 
 

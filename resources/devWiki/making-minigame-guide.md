@@ -71,7 +71,7 @@ mw.registerMiniGame(new FitTool());
 ---
 
 # Options
-## - MiniGameSetting
+## - **Setting**
 - Fundamental settings of minigame (See api doc for Init value)
 
 - `title`: Minigame title (can be different with Class Name)
@@ -110,7 +110,7 @@ public PassMob() {
 }
 ```
 
-## - MiniGameCustomOption
+## - **CustomOption**
 - Below custom options are created in `custom-data` section by default (See api doc for Init value)
 - `CHATTING`: whether chat event cancel
 - `SCORE_NOTIFYING`: whether notify score change
@@ -134,13 +134,14 @@ public PassMob() {
 }
 ```
 
-## - Task Management
+## - **Task Management**
 - Can manage task easily
 - Don't need cancellation
 - `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
 - `Run`: `getTaskManager().runTask("name");` in anywhere **after registration**
 - Do not register/run system task(`_waitingTimer`, `_finishTimer`)
 - **Do not register a task with `BukkitRunnable`**, but with Runnable
+- **If you use your own tasks, make sure that finish the tasks when the game finished using `MiniGame.runTaskBeforeFinish()`**
 ### How to register
 ```java
 @Override
@@ -169,41 +170,69 @@ protected void processEvent(Event event) {
 
 
 
-## - Exception handling
-- GameException: `PLAYER_QUIT_SERVER`, `CUSTOM`
-- Use `handleGameException()` with overriding
-- Related player must leave the minigame
+## - **Exception handling**
+- There are 2 types of exception
+1. `Player exception`: Only player related with exception will leave a playing minigame
+2. `Server exception`: All minigames in server will be finished (Also all players will leave minigame). Can be used for handling certain server event or finishing all minigames
 
-### How to handle exception
+### How to create exception
+- Player exception
 ```java
-@Override
-protected void handleGameException(Player p, Exception exception) {
-	super.handleGameException(p, exception);
-
-	if (exception == Exception.PLAYER_QUIT_SERVER) {
-		// handle exception
-	} else if (exception == Exception.CUSTOM) {
-		String reason = exception.getDetailedReason();
-		Object obj = exception.getDetailedObj();
-
-		// handle exception
-
-	}
+void teleportLotteryFirstPrize() {
+  Player firstPrizePlayer = Bukkit.getPlayer("lotteryMan");
+  // pass the player involved in the exception
+  MiniGameExceptionEvent exceptionEvent = new MiniGameExceptionEvent("lottery-1", firstPrizePlayer);
+  
+  // call minigame exception event
+  Bukkit.getServer().getPluginManager().callEvent(exceptionEvent);
 }
 ```
 
-### How to create exception
+- Server exception
 ```java
-public void createServerEvent(Player p) {
-	MiniGame.Exception ex = MiniGame.Exception.CUSTOM;
-	ex.setDetailedReason("SERVER_EVENT_TIME");
-	ex.setDetailedObj(something);
- 	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
-  	mw.createException(p, ex);
- }
+void startServerSundayEvent() {
+  MiniGameExceptionEvent exceptionEvent = new MiniGameExceptionEvent("server-sunday-event-time");
+  
+  // call minigame exception event
+  Bukkit.getServer().getPluginManager().callEvent(exceptionEvent);
+}
 ```
 
-## - Custom Data
+### How to handle exception
+- Player exception
+```java
+@EventHandler
+public void onMiniGameExceptionEvent(MiniGameExceptionEvent e) {
+  String reason = e.getReason();
+
+  // check event is player exception
+  if (e.isPlayerException()) {
+    if (reason.equals("lottery-1")) {
+      Player p = e.getPlayer();
+      p.teleport(ServerLotteryPlace);
+    }
+  }
+}
+```
+
+- Server exception
+```java
+@EventHandler
+public void onMiniGameExceptionEvent(MiniGameExceptionEvent e) {
+  String reason = e.getReason();
+  
+  // check event is server exception
+  if (e.isServerException()) {
+    if (reason.equals("server-sunday-event-time")) {
+      Bukkit.getOnlinePlayers().forEach(p -> p.teleport(ServerEventPlace));
+    }
+  }
+}
+```
+
+
+
+## - **Custom Data**
 - Minigame Developer can add custom data
 - Minigame User can play and edit custom data
 - Must use `register` and `load` together
@@ -232,7 +261,9 @@ protected void loadCustomData() {
 }
 ```
 
-## - Task Reservation
+
+
+## - **Task Reservation**
 - `runTaskAfterStart()`: executed after minigame started
 - `runTaskBeforeFinish()`: executed before minigame finishes
 - `runTaskAfterFinish()`: executed after minigame finished
@@ -242,7 +273,7 @@ protected void loadCustomData() {
 protected void runTaskAfterStart() {
   super.runTaskAfterStart();
   // give kits
-  for (Player p : this.getPlayers()) {
+  for (Player p : getPlayers()) {
     InventoryTool.addItemToPlayer(p, new ItemStack(Material.IRON_SWORD));
     InventoryTool.addItemToPlayer(p, new ItemStack(Material.BOW));
     InventoryTool.addItemToPlayer(p, new ItemStack(Material.ARROW, 64));
@@ -250,7 +281,7 @@ protected void runTaskAfterStart() {
 }
 ```
 
-## - Players
+## - **Players**
 - `containsPlayer()`: check player is contained
 - `getPlayers()`: get minigame participants List
 - `getPlayerCount()`: get participants count
@@ -260,7 +291,7 @@ protected void runTaskAfterStart() {
 - `sendTitle()`: send title to player
 
 
-## - PlayerData
+## - **PlayerData**
 - manage `score`, `live`
 - `getPlayerData()`: get player data of minigame (`score`, `live`)
 - `plusScore()`: plus player score
@@ -269,7 +300,7 @@ protected void runTaskAfterStart() {
 - `isLive()`: check player is live
 
 
-## - etc
+## - **etc**
 - `finishGame()`: finish minigame, **Must be used for endpoint of a minigame, never run anything after finishGame()**
 - `getLeftWaitingTime()`: get left waiting time (sec)
 - `getLeftFinishTime()`: get left time to finish (sec)
