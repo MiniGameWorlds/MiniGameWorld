@@ -2,7 +2,7 @@ com.worldbiomusic.minigameworld
 com.worldbiomusic.minigameworld.api
 com.worldbiomusic.minigameworld.api.observer
 com.worldbiomusic.minigameworld.commands
-com.worldbiomusic.minigameworld.customevent
+com.worldbiomusic.minigameworld.customevents.minigame
 com.worldbiomusic.minigameworld.listeners
 com.worldbiomusic.minigameworld.managers
 com.worldbiomusic.minigameworld.managers.menu

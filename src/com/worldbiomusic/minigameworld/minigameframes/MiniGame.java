@@ -628,7 +628,7 @@ public abstract class MiniGame {
 	/**
 	 * - Handle exception<br>
 	 * - If <b>player exception</b><br>
-	 * - calls {@link #handleGameException()}<br>
+	 * - calls {@link handleGameException}<br>
 	 * - player will leave the game <br>
 	 * - checks {@link GameFinishCondition}<br>
 	 * <br>

@@ -158,7 +158,7 @@ public class MiniGameViewManager {
 	/**
 	 * Handle a exception of a minigame
 	 * 
-	 * @param event MiniGameExceptionEvent
+	 * @param exception MiniGameExceptionEvent
 	 */
 	public void handleException(MiniGameExceptionEvent exception) {
 		if (exception.isPlayerException()) {
