@@ -3,17 +3,17 @@ package com.worldbiomusic.minigameworld.api.observer;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 
 /**
- * MiniGame event observer<br>
+ * MiniGame timing observer<br>
  * - Usage: 3rd-party wiki
  * 
- * @see MiniGameEventNotifier
+ * @see MiniGameTimingNotifier
  */
 public interface MiniGameObserver {
 	/**
-	 * Process given minigame event
+	 * Process given minigame timing
 	 * 
-	 * @param event    Given event
-	 * @param minigame Minigame related with the given event
+	 * @param timing    Given timing
+	 * @param minigame Minigame related with the given timing
 	 */
-	public void update(MiniGameAccessor minigame, MiniGameEventNotifier.MiniGameEvent event);
+	public void update(MiniGameAccessor minigame, MiniGameTimingNotifier.Timing timing);
 }

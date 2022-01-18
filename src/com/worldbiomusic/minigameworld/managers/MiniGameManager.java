@@ -22,7 +22,7 @@ import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameEventNotifier;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
@@ -33,7 +33,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManage
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
-public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
+public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	// Singleton
 	private static MiniGameManager instance = new MiniGameManager();
 	private static boolean instanceCreated = false;
@@ -449,7 +449,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 		this.minigames.add(newGame);
 
 		// notify minigame registration to observers
-		notifyObservers(newGame, MiniGameEvent.REGISTRATION);
+		notifyObservers(newGame, Timing.REGISTRATION);
 
 		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + newGame.getTitleWithClassName() + ChatColor.RESET
 				+ " minigame is registered");
@@ -476,7 +476,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			Utils.info(minigame.getTitleWithClassName() + " minigame is removed");
 
 			// notify minigame unregistration to observers
-			notifyObservers(minigame, MiniGameEvent.UNREGISTRATION);
+			notifyObservers(minigame, Timing.UNREGISTRATION);
 			return true;
 		} else {
 			return false;
@@ -564,7 +564,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 			// register observer to former minigames
 			this.minigames.forEach(m -> {
 				// notify registration of former minigames
-				observer.update(new MiniGameAccessor(m), MiniGameEvent.REGISTRATION);
+				observer.update(new MiniGameAccessor(m), Timing.REGISTRATION);
 			});
 
 			this.observers.add(observer);
@@ -577,7 +577,7 @@ public class MiniGameManager implements YamlMember, MiniGameEventNotifier {
 	}
 
 	@Override
-	public void notifyObservers(MiniGame minigame, MiniGameEvent event) {
+	public void notifyObservers(MiniGame minigame, Timing event) {
 		this.observers.forEach(obs -> obs.update(new MiniGameAccessor(minigame), event));
 	}
 }

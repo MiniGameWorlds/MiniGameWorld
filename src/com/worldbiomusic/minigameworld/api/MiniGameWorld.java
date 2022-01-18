@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -242,9 +243,10 @@ public class MiniGameWorld {
 	 * [IMPORTANT] Observer must be registered with {@link MiniGameManager}, not
 	 * directly with MiniGame (only {@link MiniGameManager} can register to all
 	 * minigames)<br>
-	 * - Can reserve task with MiniGameEventNotifier.MiniGameEvent<br>
 	 * 
 	 * @param observer Observer to register
+	 * @see MiniGameTimingNotifier
+	 * @see MiniGameObserver
 	 */
 	public void registerMiniGameObserver(MiniGameObserver observer) {
 		// register observer on All MiniGames
@@ -254,11 +256,13 @@ public class MiniGameWorld {
 
 	/**
 	 * Unregisters minigame observer<br>
-	 * [IMPORTANT] Observer must be registered with {@link MiniGameManager}, not
-	 * directly with MiniGame (only {@link MiniGameManager} can register to all
+	 * [IMPORTANT] Observer must be unregistered from {@link MiniGameManager}, not
+	 * directly from MiniGame (only {@link MiniGameManager} can unregister from all
 	 * minigames)<br>
 	 * 
 	 * @param observer Observer to unregister
+	 * @see MiniGameTimingNotifier
+	 * @see MiniGameObserver
 	 */
 	public void unregisterMiniGameObserver(MiniGameObserver observer) {
 		// unregister observer from All MiniGames

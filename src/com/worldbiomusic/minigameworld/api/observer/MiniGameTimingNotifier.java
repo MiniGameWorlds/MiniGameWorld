@@ -3,14 +3,14 @@ package com.worldbiomusic.minigameworld.api.observer;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
- * Event notifier for minigame event(MiniGameEvent)<br>
+ * Timing notifier for minigame<br>
  * 
  */
-public interface MiniGameEventNotifier {
+public interface MiniGameTimingNotifier {
 	/**
-	 * MiniGame event
+	 * MiniGame timing
 	 */
-	public enum MiniGameEvent {
+	public enum Timing {
 		/**
 		 * When a minigame is registered to MiniGameWolrd plugin
 		 */
@@ -37,10 +37,10 @@ public interface MiniGameEventNotifier {
 	public void unregisterObserver(MiniGameObserver observer);
 
 	/**
-	 * Notify phaze(MiniGameEvent) to observers
+	 * Notify timing to observers
 	 * 
 	 * @param minigame Minigame to notify
-	 * @param event    Minigame Event
+	 * @param timing   Minigame timing
 	 */
-	public void notifyObservers(MiniGame minigame, MiniGameEvent event);
+	public void notifyObservers(MiniGame minigame, Timing timing);
 }
