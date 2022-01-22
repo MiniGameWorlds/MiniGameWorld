@@ -643,8 +643,8 @@ public abstract class MiniGame {
 			Player p = exception.getPlayer();
 
 			// debug
-			Utils.debug("Handle player exception (" + p.getName() + ")");
-			Utils.debug("Reason: " + exception.getReason());
+			Utils.debug(getTitleWithClassName() + " handles player exception (" + p.getName() + ")");
+			Utils.debug("Reason: " + exception.getReason() + "\n");
 
 			sendMessage(p, "Exception: " + exception.getReason());
 
@@ -667,13 +667,24 @@ public abstract class MiniGame {
 		// check event is server exception
 		else if (exception.isServerException()) {
 			// debug
-			Utils.debug("Handle server exception");
-			Utils.debug("Reason: " + exception.getReason());
+			Utils.debug(getTitleWithClassName() + " handles server exception");
+			Utils.debug("Reason: " + exception.getReason() + "\n");
 
 			sendMessageToAllPlayers("Exception: " + exception.getReason());
 
-			// finish game
-			finishGame();
+			// check player is a viewer
+			getViewManager().handleException(exception);
+
+			// if started, finish game
+			if (isStarted()) {
+				// finish game
+				finishGame();
+			}
+			// if not started, leave waiting players
+			else {
+				// setup leaving settings
+				getPlayers().forEach(p -> setupPlayerLeavingSettings(p, exception.getReason()));
+			}
 		}
 	}
 

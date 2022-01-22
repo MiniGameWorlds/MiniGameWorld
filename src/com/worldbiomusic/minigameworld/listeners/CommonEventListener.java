@@ -21,9 +21,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
@@ -235,12 +237,6 @@ public class CommonEventListener implements Listener {
 		// Don't send message to players playing minigame from outside
 		Player p = e.getPlayer();
 
-		if (Setting.DEBUG_MODE) {
-			if (e.getMessage().equalsIgnoreCase("a")) {
-				Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server exception"));
-			}
-		}
-
 		if (this.minigameManager.isPlayingMiniGame(p)) {
 			return;
 		}
@@ -251,6 +247,44 @@ public class CommonEventListener implements Listener {
 				playingMinigamePlayers.removeAll(m.getPlayers());
 			}
 		}
+	}
+
+	@EventHandler
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+		String cmd = e.getMessage();
+		e.getPlayer().sendMessage("msg: " + cmd);
+
+		if (isStopCommand(cmd, true)) {
+			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-player"));
+		}
+	}
+
+	@EventHandler
+	public void onServerCommandProcess(ServerCommandEvent e) {
+		String cmd = e.getCommand();
+
+		e.getSender().sendMessage("cmd: " + cmd);
+
+		if (isStopCommand(cmd, false)) {
+			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-non-player"));
+		}
+	}
+
+	private boolean isStopCommand(String cmd, boolean withSlash) {
+		if (withSlash) {
+			cmd = cmd.substring(1);
+		}
+
+		Utils.broadcast("final CMD: " + cmd);
+		
+		switch (cmd) {
+		case "stop":
+		case "reload":
+		case "reload confirm":
+		case "restart":
+			return true;
+		}
+		return false;
 	}
 
 	// private void registerAllEventListener_Burningwave() {
