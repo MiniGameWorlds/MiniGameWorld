@@ -252,7 +252,6 @@ public class CommonEventListener implements Listener {
 	@EventHandler
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
 		String cmd = e.getMessage();
-		e.getPlayer().sendMessage("msg: " + cmd);
 
 		if (isStopCommand(cmd, true)) {
 			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-player"));
@@ -262,8 +261,6 @@ public class CommonEventListener implements Listener {
 	@EventHandler
 	public void onServerCommandProcess(ServerCommandEvent e) {
 		String cmd = e.getCommand();
-
-		e.getSender().sendMessage("cmd: " + cmd);
 
 		if (isStopCommand(cmd, false)) {
 			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-non-player"));
@@ -275,8 +272,6 @@ public class CommonEventListener implements Listener {
 			cmd = cmd.substring(1);
 		}
 
-		Utils.broadcast("final CMD: " + cmd);
-		
 		switch (cmd) {
 		case "stop":
 		case "reload":

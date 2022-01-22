@@ -121,6 +121,9 @@
 - Add `customDetectableEvents` to MiniGameSetting
 - Change `MiniGameEventNotifierMiniGameEvent` to `MiniGameTimingNotifier.Timing`
 
+## 0.4.1
+### Build Changes
+- Handle exception when server `stop`, `reload`
 
 ---
 
