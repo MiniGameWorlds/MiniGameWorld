@@ -19,7 +19,7 @@ public class Setting {
 	public static final int PARTY_ASK_TIMEOUT = 60;
 
 	// Minigame
-	public static final int MINIGAME_LEAVE_MIN_TIME = 3;
+	public static final int MINIGAME_MIN_LEAVE_TIME = 3;
 	public static boolean ISOLATED_CHAT = true;
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";

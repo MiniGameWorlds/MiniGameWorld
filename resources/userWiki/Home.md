@@ -55,6 +55,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [Menu]
 
 # Caution
+- If you `stop` or `reload` your server without player's command or server command, must make sure that all players are not joining any minigames
 - If you have some problems in bungeecord server, use [BungeeGuard](https://www.spigotmc.org/resources/bungeeguard.79601/) plugin
 
 

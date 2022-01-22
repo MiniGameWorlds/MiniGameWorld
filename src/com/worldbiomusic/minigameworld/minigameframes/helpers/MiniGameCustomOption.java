@@ -88,7 +88,7 @@ public class MiniGameCustomOption {
 		COLOR("color"),
 
 		/**
-		 * Init: false<br>
+		 * Init: true<br>
 		 * Description: Whether a player's food level changes
 		 */
 		FOOD_LEVEL_CHANGE("food-level-change"),

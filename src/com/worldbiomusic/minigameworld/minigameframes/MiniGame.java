@@ -358,7 +358,7 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		if (this.getLeftWaitingTime() <= Setting.MINIGAME_LEAVE_MIN_TIME) {
+		if (this.getLeftWaitingTime() <= Setting.MINIGAME_MIN_LEAVE_TIME) {
 			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
 			return false;
 		}

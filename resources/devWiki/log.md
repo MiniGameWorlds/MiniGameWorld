@@ -1,6 +1,8 @@
 # TODO
+- Add minigame unit to MiniGameExceptionEvent
 - Set player name color in TeamBatleMiniGame
-- Add minigame start, finish sound options in settings.yml
+- Add minigame `min-leave-time` option to settings.yml (Setting.MINIGAME_MIN_LEAVE_TIME)
+- Add minigame start, finish sound options to settings.yml
 - Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
@@ -611,7 +613,8 @@ if(!this.isMinPlayersLive()) {
 - Change `MiniGameEventNotifierMiniGameEvent` to `MiniGameTimingNotifier.Timing`
 - Release `0.4.0`
 
-
+# 2022-01-23
+- Handle exception when server `stop`, `reload`
 
 
 
