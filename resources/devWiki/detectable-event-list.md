@@ -1,4 +1,14 @@
-# Base Events
+# Description
+- Each event detectors have different priorities
+- After higher priority detector detected event, the lower priority detectors will not detect any event
+```yaml
+1. Basic
+2. Detailed
+3. External (exist in MiniGameWorld API)
+4. Custom Detectable
+```
+
+# Basic detector
 - Detect event when a player is only subject of the event
 
 ## List
@@ -12,8 +22,8 @@
 
 ---
 
-# Detailed Events
-- Detect event which `Base Event` can't detect
+# Detailed detector
+- Detect event which `Basic detector` can't detect
 - Detect event when a player is not a origin of the event, but a related entity
 
 ## List
@@ -44,7 +54,7 @@
 
 ---
 
-# Undetectable Events
+# Custom Detectable detector
 - There are two ways to process undetectable events
 - If you handle a undetectable event, you need to make sure the event is related with your minigame, because undetectable event will be passed the event to the minigame even if the event is not related with your minigame
 

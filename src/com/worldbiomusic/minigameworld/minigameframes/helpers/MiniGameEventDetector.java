@@ -131,13 +131,31 @@ public class MiniGameEventDetector {
 	public Set<Player> getPlayersFromEvent(Event e) {
 		Set<Player> eventPlayers = new HashSet<>();
 
+		// check basic events
+		getPlayersFromBasicEvent(e, eventPlayers);
+
 		// check detailed events
-		getPlayersFromDetailedEvent(e, eventPlayers);
+		if (isPlayersEmpty(eventPlayers)) {
+			getPlayersFromDetailedEvent(e, eventPlayers);
+		}
 
 		// check external detectors
-		getPlayersFromExternalDetectors(e, eventPlayers);
+		if (isPlayersEmpty(eventPlayers)) {
+			getPlayersFromExternalDetectors(e, eventPlayers);
+		}
 
-		// get players from each Event
+		// leave only one player in the same minigame event
+//		leavePlayerPlayingTheSameMiniGame(eventPlayers);
+
+		return eventPlayers;
+	}
+
+	private boolean isPlayersEmpty(Set<Player> eventPlayers) {
+		return eventPlayers.isEmpty();
+
+	}
+
+	private void getPlayersFromBasicEvent(Event e, Set<Player> eventPlayers) {
 		if (e instanceof PlayerEvent) {
 			eventPlayers.add(((PlayerEvent) e).getPlayer());
 		} else if (e instanceof EntityEvent) {
@@ -170,11 +188,6 @@ public class MiniGameEventDetector {
 				eventPlayers.add((Player) ((TabCompleteEvent) e).getSender());
 			}
 		}
-
-		// leave only one player in the same minigame event
-		leavePlayerPlayingTheSameMiniGame(eventPlayers);
-
-		return eventPlayers;
 	}
 
 	/**
