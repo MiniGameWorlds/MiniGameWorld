@@ -66,8 +66,8 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	public YourMiniGame() {
 		super("YourMiniGame", 60, 10);
 
-        // add custom detectable event
-        getSetting().addCustomDetectableEvent(WeatherChangeEvent.class);
+		// add custom detectable event
+		getSetting().addCustomDetectableEvent(WeatherChangeEvent.class);
 	}
 
 	@Override

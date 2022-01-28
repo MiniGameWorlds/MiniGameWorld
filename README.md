@@ -11,4 +11,3 @@ Module-based Minecraft MiniGame Framework
 
 # Community
 <a href="https://discord.com/invite/fJbxSy2EjA"><img src="resources/imgs/Discord.png"></a>
-<a href="https://github.com/MiniGameWorlds/MiniGameWorld/discussions"><img src="resources/imgs/github-community.png"></a>

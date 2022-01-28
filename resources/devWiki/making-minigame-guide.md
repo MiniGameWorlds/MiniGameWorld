@@ -4,11 +4,14 @@
 
 
 # Tutorial
+<!-- - [Solo Tutorial-Youtube](https://www.youtube.com/watch?v=ibilvmzcdzs&list=PLOyhTkb3nnYbBtEdS38nkIpyU8RM-pEZd&index=)  
 <a href="https://www.youtube.com/watch?v=ibilvmzcdzs&list=PLOyhTkb3nnYbBtEdS38nkIpyU8RM-pEZd&index=1">
 <img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
-</a>
-
-
+</a> -->
+- [Solo](solo-tutorial.md) (In making...)
+- [Solo Battle](solo-battle-tutorial.md)
+- [Team](team-tutorial.md) (In making...)
+- [Team Battle](team-battle-tutorial.md) (In making...)
 ---
 
 # Order
