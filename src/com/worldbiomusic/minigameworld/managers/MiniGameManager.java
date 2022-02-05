@@ -314,10 +314,18 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			// pass evnet to minigame
 			for (Player p : players) {
 				// check player is playing minigame
-				if (this.isPlayingMiniGame(p)) {
-					MiniGame playingGame = this.getPlayingMiniGame(p);
-					playingGame.passEvent(e);
+				if (!this.isPlayingMiniGame(p)) {
+					return;
 				}
+
+				MiniGame playingGame = this.getPlayingMiniGame(p);
+				
+				// check use of basic event detector
+				if (!playingGame.getSetting().isUseEventDetector()) {
+					return;
+				}
+
+				playingGame.passEvent(e);
 			}
 		} else {
 			checkCustomDetectableEvent(e);

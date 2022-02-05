@@ -154,6 +154,13 @@ public class MiniGameSetting {
 	 */
 	private Set<Class<? extends Event>> customDetectableEvents;
 
+	/**
+	 * - File control: X<br>
+	 * - Init value: false<br>
+	 * - Description: if false, no event will passed to the minigame (should implements event handler)
+	 */
+	private boolean useEventDetector;
+
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
 		this.title = title;
@@ -172,6 +179,7 @@ public class MiniGameSetting {
 		this.gameFinishConditionPlayerCount = 2;
 		this.view = true;
 		this.customDetectableEvents = new HashSet<>();
+		this.useEventDetector = true;
 	}
 
 	// set
@@ -236,6 +244,10 @@ public class MiniGameSetting {
 		this.customDetectableEvents.add(event);
 	}
 
+	public void setUseEventDetector(boolean useEventDetector) {
+		this.useEventDetector = useEventDetector;
+	}
+
 	// get
 
 	public String getTitle() {
@@ -296,6 +308,10 @@ public class MiniGameSetting {
 
 	public boolean isCustomDetectableEvent(Class<? extends Event> event) {
 		return this.customDetectableEvents.contains(event);
+	}
+
+	public boolean isUseEventDetector() {
+		return useEventDetector;
 	}
 
 	// file (only file control)
