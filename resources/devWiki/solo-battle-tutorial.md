@@ -56,7 +56,7 @@ public class OnePunch extends SoloBattleMiniGame {
 ```
 
 # 3. Setup info
-- Pass constant variables to `super()` after remove arguments in constructor(`OnePunch(arguments...)`)
+- Pass constants to `super()` after remove arguments in constructor(`OnePunch(arguments...)`)
 ```java
 public class OnePunch extends SoloBattleMiniGame {
 

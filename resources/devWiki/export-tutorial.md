@@ -32,7 +32,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 
 # 4. Share your minigame
 - Others can enjoy your minigame with your minigame plugin
-- However, you must inform others about your minigame like below
+- However, others can play your minigame better if you inform about your minigame like below
 
 ```yaml
 # <MiniGame Name>

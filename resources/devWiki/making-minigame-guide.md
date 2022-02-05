@@ -101,7 +101,9 @@ detail (e.g. check player from event is playing current minigame))
 `- gameFinishConditionPlayerCount = 4`  
 `- left players count = 3`  
 - `gameFinishConditionPlayerCount`: Used with `gameFinishCondition` (Init: 2)
-
+- `view`: If true, players can view the minigame
+- `customDetectableEvents`: Custom detectable event list ([Detectable Event List])
+- `useEventDetector`: If false, no events will be passed to the minigame ([Detectable Event List])
 
 
 ### How to use
@@ -321,7 +323,7 @@ protected void runTaskAfterStart() {
 - MiniGameWorld only passes detectable event to the minigame a player of event is playing now, so you don't have to check the player is playing the minigame
 - Can use all sub-events of detectable events (i.e.  `PlayerDeathEvent`, `PlayerJoinEvent`, `PlayerJumpEvent`... of `PlayerEvent`)
 - If **needs event not related with player** or **event is not passed to the minigame**, add `customDetectableEvent` option or implement `Listener`
-- Check here: [Detectable Event List](detectable-event-list.md)
+- Check here: [Detectable Event List]
 
 ## Override
 - Almost overrided method should maintain `super.method()`
@@ -350,3 +352,4 @@ Default minigame setting will be finished less than... (If GameFinishCondition i
 <img src="flow.png" width=50%></img>
 
 [API]: https://minigameworlds.github.io/MiniGameWorld/
+[Detectable Event List]: detectable-event-list.md

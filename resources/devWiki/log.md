@@ -1,5 +1,5 @@
 # TODO
-- Add `detect-all-events` options to settings.yml (if false, API never detects any events and each minigames have to implement Listener to handle events) (Suggested in spigot forum: https://www.spigotmc.org/threads/tutorial-how-to-make-minigames-easily.544385/#post-4353978)
+- Add `org.bukkit.scoreboard.Team` variable to `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add minigame unit to MiniGameExceptionEvent
 - Set player name color in TeamBatleMiniGame
@@ -126,6 +126,13 @@
 ## 0.4.1
 ### Build Changes
 - Handle exception when server `stop`, `reload`
+
+## 0.4.2
+### Build Changes
+- Add event detector priority
+- Add `WorldEdit` and `WorldGuard` as softdepend
+- Add `useEventDetector` option to MiniGameSetting
+
 
 ---
 
@@ -621,12 +628,17 @@ if(!this.isMinPlayersLive()) {
 # 2022-01-23
 - Change LICENSE to `GPL-3.0` from `MIT`
 - Handle exception when server `stop`, `reload`
+- Release `0.4.1`
 
 # 2022-01-26
 - Add event detector priority
 
+# 2022-02-04
+- Add `WorldEdit` and `WorldGuard` as softdepend
 
-
+# 2022-02-05
+- Add `useEventDetector` option to MiniGameSetting
+- Release `0.4.1`
 
 
 

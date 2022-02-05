@@ -57,6 +57,7 @@
 # Custom Detectable detector
 - There are two ways to process undetectable events
 - If you handle a undetectable event, you need to make sure the event is related with your minigame, because undetectable event will be passed the event to the minigame even if the event is not related with your minigame
+- If need event already detectable by `API event detector` for some reason(e.g. performance(e.g. PlayerMoveEvent)), make sure that `useEventDetector` setting to `false` (ref: `PlayerMoveEvent` of [Parkour](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/parkour/Parkour.java))
 
 
 ## First method
@@ -82,7 +83,8 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 
 
 ## Second method
-- If pass a event to the `minigame.passEvent()` from the event listener, you can process the event you want in the `processEvent()` of your minigame class
+- If a event passed to the `minigame.passEvent()` from the event listener, you can process the event you want in the `processEvent()` of your minigame class
+- **If event could contain any player, check the player is playing your minigame before pass event with `passEvent()`**
 ```java
 public class CommonListener implements Listener {
 	MiniGame minigame;
@@ -102,6 +104,25 @@ public class CommonListener implements Listener {
 		// pass undetectable event: event will be passed to the minigame.processEvent()
 		this.minigame.passEvent(e);
 	}
+	
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		// pass undetectable event: event will be passed to the minigame.processEvent()
+		this.minigame.passEvent(e);
+	}
+	
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		// check player if event could contains players 
+		if (e.getEntity().getShooter() instanceof Player) {
+			Player shooter = (Player) e.getEntity().getShooter();
+			
+			// check player is playing your minigame
+			if (minigame.containsPlayer(shooter)) {
+				this.minigame.passEvent(e);
+			}
+		}
+	}
 }
 ```
 
@@ -109,6 +130,7 @@ public class CommonListener implements Listener {
 
 ## Third method
 - Implements `Listener` and register to bukkit plugin manager and make event handler method in your minigame class, then pass event to `passEvent()`
+- **If event could contain any player, check the player is playing your minigame before pass event with `passEvent()`**
 - **NEVER process event directly in event handler method**
 - **NEVER pass event directly to processEvent() in event handler method, but pass to only passEvent()**
 ```java
@@ -126,6 +148,12 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 		if (event instanceof WeatherChangeEvent) {
 			WeatherChangeEvent e = (WeatherChangeEvent) event;
 			e.getWorld().setWeatherDuration(1);
+		} else if (event instanceof ProjectileHitEvent) {
+			ProjectileHitEvent e = (ProjectileHitEvent) event;
+			
+			// no need to check entity type, because entity checked before in "onProjectileHit()"
+			Player shooter = (Player) e.getEntity().getShooter();
+			shooter.sendMessage("You shoot something!");
 		}
 	}
 
@@ -135,6 +163,19 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 		// pass the event to passEvent() (NEVER pass to the processEvent() directly)
 		passEvent(e);
 	}
+	
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		// check player if event could contains players 
+		if (e.getEntity().getShooter() instanceof Player) {
+			Player shooter = (Player) e.getEntity().getShooter();
+			
+			// check player is playing your minigame
+			if (minigame.containsPlayer(shooter)) {
+				this.minigame.passEvent(e);
+			}
+		}
+	}
 }
 ```
 <!-- If process in event handler method or pass to the processEvent(), some problems are occurrs
@@ -142,12 +183,54 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 2. Can not check minigame has started
  -->
 
+---
 
+# For performance
+- `MiniGameWorld` default detector is a little slow because, detects almost events to pass to the minigames
+- For better performance, you have to follow below method
 
+## Example
+1. Set `useEventDetector` setting to **false** in the constructor
+2. Implements **Listener** and register
+```java
+public class Parkour extends SoloBattleMiniGame implements Listener {
 
+	public Parkour() {
+		super("Parkour", 2, 10, 60 * 5, 15);
 
+		// set "useEventDetector" setting to false
+		getSetting().setUseEventDetector(false);
+		
+		// register this listener to plugin manager
+		Bukkit.getServer().getPluginManager().registerEvents(this, AllMiniGamesMain.getInstance());
+	}
+}
+```
 
+3. Make event handler method for specific event
+(if player related with event need to process, check the player is playing your minigame)
+4. After then, **must** pass the event using `passEvent()` method
+```java
+@EventHandler
+public void onPlayerMove(PlayerMoveEvent event) {
+	PlayerMoveEvent e = (PlayerMoveEvent) event;
+	
+	// check player is playing this minigame
+	if (containsPlayer(e.getPlayer())) {
+		passEvent(event);
+	}
+}
+```
 
+5. Process event in `processEvent()` method with better performance
+```java
+@Override
+protected void processEvent(Event event) {
+	if (event instanceof PlayerMoveEvent) {
+		// process event with better performance
+	}
+}
+```
 
 
 
