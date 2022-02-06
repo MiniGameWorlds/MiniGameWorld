@@ -1,4 +1,7 @@
 # TODO
+
+- Add `settings.yml` api to MiniGameWorld
+- Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
 - Add `org.bukkit.scoreboard.Team` variable to `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add minigame unit to MiniGameExceptionEvent
@@ -640,8 +643,8 @@ if(!this.isMinPlayersLive()) {
 - Add `useEventDetector` option to MiniGameSetting
 - Release `0.4.1`
 
-
-
+# 2022-02-06
+- Manage `scoreboard` in MiniGamePlayerState
 
 
 

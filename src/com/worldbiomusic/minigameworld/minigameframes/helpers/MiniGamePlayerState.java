@@ -3,11 +3,13 @@ package com.worldbiomusic.minigameworld.minigameframes.helpers;
 import java.util.Collection;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
 import com.wbm.plugin.util.PlayerTool;
@@ -48,6 +50,7 @@ public class MiniGamePlayerState {
 	private float walkSpeed;
 	private float flySpeed;
 	private boolean allowFlight;
+	private Scoreboard scoreboard;
 
 	public MiniGamePlayerState(MiniGame minigame, Player player) {
 		this.minigame = minigame;
@@ -119,6 +122,9 @@ public class MiniGamePlayerState {
 
 		// allow flight
 		this.allowFlight = this.player.getAllowFlight();
+		
+		// scoreboard
+		this.scoreboard = this.player.getScoreboard();
 	}
 
 	public void restorePlayerState() {
@@ -182,6 +188,9 @@ public class MiniGamePlayerState {
 
 		// allow flight
 		this.player.setAllowFlight(this.allowFlight);
+		
+		// scoreboard
+		this.player.setScoreboard(this.scoreboard);
 	}
 
 	public void makePureState() {
@@ -245,6 +254,9 @@ public class MiniGamePlayerState {
 		if (liveGameMode == GameMode.SURVIVAL || liveGameMode == GameMode.ADVENTURE) {
 			this.player.setAllowFlight(false);
 		}
+		
+		// new scoreboard (= empty)
+		this.player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 	
 	public Player getPlayer() {
