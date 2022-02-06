@@ -26,8 +26,8 @@ public class MiniGameTaskManager {
 		this.taskManager.cancelAllTasks();
 
 		// timer counter
-		this.waitingCounter = new Counter(this.minigame.getWaitingTime());
-		this.finishCounter = new Counter(this.minigame.getTimeLimit());
+		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
+		this.finishCounter = new Counter(this.minigame.getTimeLimit() + 1);
 	}
 
 	public void runWaitingTask() {
@@ -52,6 +52,8 @@ public class MiniGameTaskManager {
 
 			@Override
 			public void run() {
+				waitingCounter.removeCount(1);
+
 				int waitTime = waitingCounter.getCount();
 
 				// end count down
@@ -75,8 +77,6 @@ public class MiniGameTaskManager {
 				if (waitTime <= 3) {
 					minigame.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
 				}
-
-				waitingCounter.removeCount(1);
 			}
 		});
 
@@ -85,6 +85,8 @@ public class MiniGameTaskManager {
 
 			@Override
 			public void run() {
+				finishCounter.removeCount(1);
+
 				int leftTime = finishCounter.getCount();
 				if (leftTime <= 0) {
 					minigame.finishGame();
@@ -99,13 +101,11 @@ public class MiniGameTaskManager {
 					} else if (leftTime == 1) {
 						time = ChatColor.RED + time;
 					}
-					minigame.sendTitleToAllPlayers("" + time, "", 4, 12, 4);
+					minigame.sendTitleToAllPlayers(time, "", 4, 12, 4);
 
 					// play sound
 					minigame.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
 				}
-
-				finishCounter.removeCount(1);
 			}
 		});
 	}
