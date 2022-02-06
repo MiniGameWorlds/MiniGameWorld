@@ -1,6 +1,7 @@
 # TODO
-
+- Descending player list in scoreboard by score
 - Add `settings.yml` api to MiniGameWorld
+- Make scoreboard frames of `Team`, `TeamBattle`
 - Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
 - Add `org.bukkit.scoreboard.Team` variable to `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
@@ -645,6 +646,26 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-02-06
 - Manage `scoreboard` in MiniGamePlayerState
+
+# 2022-02-07
+- Sync waiting and finish counter with thread timer
+- Add **Scoreboard** system (exist `waiting scoreboard` and `play scoreboard`)
+- Add `MiniGameScoreboardManager`, `MiniGameScoreboardUpdater`
+- Add `scoreboard` and `scoreboard-update-delay` options to settings.yml
+- Add `updateScoreboard()` hook method to MiniGame
+- Add `MiniGameScoreboardUpdateEvent`
+- Add `getScoreboard()` to MiniGameAccessor
+- Add description `left waiting time` and `left finish time` to menu icon
+
+
+
+
+
+
+
+
+
+
 
 
 

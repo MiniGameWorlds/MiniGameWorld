@@ -102,6 +102,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, Setting.ISOLATED_JOIN_QUIT_MESSAGE);
 		pureData.put(Setting.SETTINGS_JOIN_SIGN_CAPTION, Setting.JOIN_SIGN_CAPTION);
 		pureData.put(Setting.SETTINGS_LEAVE_SIGN_CAPTION, Setting.LEAVE_SIGN_CAPTION);
+		pureData.put(Setting.SETTINGS_SCOREBOARD, Setting.SCOREBOARD);
+		pureData.put(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, Setting.SCOREBOARD_UPDATE_DELAY);
 
 		syncMapKeys(this.settings, pureData);
 
@@ -112,6 +114,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
 		Setting.JOIN_SIGN_CAPTION = (String) this.settings.get(Setting.SETTINGS_JOIN_SIGN_CAPTION);
 		Setting.LEAVE_SIGN_CAPTION = (String) this.settings.get(Setting.SETTINGS_LEAVE_SIGN_CAPTION);
+		Setting.SCOREBOARD = (boolean) this.settings.get(Setting.SETTINGS_SCOREBOARD);
+		Setting.SCOREBOARD_UPDATE_DELAY = (int) this.settings.get(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY);
 
 		// create "minigames" directory
 		if (!Utils.getMiniGamesFolder().exists()) {
@@ -319,7 +323,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 				}
 
 				MiniGame playingGame = this.getPlayingMiniGame(p);
-				
+
 				// check use of basic event detector
 				if (!playingGame.getSetting().isUseEventDetector()) {
 					return;

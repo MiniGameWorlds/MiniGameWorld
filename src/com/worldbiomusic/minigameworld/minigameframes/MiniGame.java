@@ -30,6 +30,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -76,6 +77,11 @@ public abstract class MiniGame {
 	 * Viewers manager
 	 */
 	private MiniGameViewManager viewManager;
+
+	/**
+	 * Scoreboard manager
+	 */
+	private MiniGameScoreboardManager scoreboardManager;
 
 	/**
 	 * Executed every time when game starts
@@ -131,6 +137,13 @@ public abstract class MiniGame {
 	 * Load custom data with this method
 	 */
 	public void loadCustomData() {
+	}
+
+	/**
+	 * Update(fix) scoreboard<br>
+	 * Hook method
+	 */
+	public void updateScoreboard() {
 	}
 
 	/**
@@ -193,6 +206,9 @@ public abstract class MiniGame {
 
 		// setup view manager
 		this.viewManager = new MiniGameViewManager(this);
+
+		// setup scoreboard manager
+		this.scoreboardManager = new MiniGameScoreboardManager(this);
 	}
 
 	/**
@@ -216,6 +232,9 @@ public abstract class MiniGame {
 		this.players.clear();
 
 		this.initTasks();
+		
+		// init scoreboard 
+		this.scoreboardManager.setDefaultScoreboard();
 	}
 
 	/**
@@ -283,7 +302,7 @@ public abstract class MiniGame {
 	 * 1. active is true<br>
 	 * 2. started is false<br>
 	 * 3. not full<br>
-	 * Teleport player to plyaing location
+	 * Teleport player to minigame location
 	 * 
 	 * @param p Player who tries to join
 	 * @return Result of try to join
@@ -308,6 +327,7 @@ public abstract class MiniGame {
 		if (this.isEmpty()) {
 			this.initSettings();
 			this.minigameTaskManager.runWaitingTask();
+			this.scoreboardManager.startScoreboardUpdateTask();
 		}
 
 		// setup join settings
@@ -391,11 +411,11 @@ public abstract class MiniGame {
 			}
 		}
 
-		// restore player data
-		getPlayerData(p).getState().restorePlayerState();
-
 		// remove player from minigame
-		this.removePlayer(p);
+		MiniGamePlayerData pData = this.removePlayer(p);
+
+		// restore player data
+		pData.getState().restorePlayerState();
 
 		// send title
 		sendTitle(p, ChatColor.BOLD + "Leave", "");
@@ -791,10 +811,11 @@ public abstract class MiniGame {
 	 * 
 	 * @param p Leaved player
 	 */
-	private void removePlayer(Player p) {
-		if (this.containsPlayer(p)) {
-			this.players.remove(this.getPlayerData(p));
-		}
+	private MiniGamePlayerData removePlayer(Player p) {
+		MiniGamePlayerData pData = this.getPlayerData(p);
+		this.players.remove(pData);
+
+		return pData;
 	}
 
 	/**
@@ -1187,7 +1208,7 @@ public abstract class MiniGame {
 	 * 
 	 * @return Task manager
 	 */
-	protected TaskManager getTaskManager() {
+	public TaskManager getTaskManager() {
 		return this.minigameTaskManager.getTaskManager();
 	}
 
@@ -1216,6 +1237,15 @@ public abstract class MiniGame {
 	 */
 	public MiniGameViewManager getViewManager() {
 		return this.viewManager;
+	}
+
+	/**
+	 * Get scoreboard manager
+	 * 
+	 * @return Scoreboard manager
+	 */
+	public MiniGameScoreboardManager getScoreboardManager() {
+		return this.scoreboardManager;
 	}
 
 	/**

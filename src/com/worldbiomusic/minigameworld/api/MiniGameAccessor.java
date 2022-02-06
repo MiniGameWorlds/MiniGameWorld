@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
@@ -179,6 +180,14 @@ public class MiniGameAccessor {
 	 */
 	public Set<Player> getViewers() {
 		return this.minigame.getViewManager().getViewers();
+	}
+	
+	/**
+	 * Get scoreboard
+	 * @return Scoreboard
+	 */
+	public Scoreboard getScoreboard() {
+		return this.minigame.getScoreboardManager().getScoreboard();
 	}
 
 	@Override

@@ -24,6 +24,8 @@ public class Setting {
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
 	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
+	public static boolean SCOREBOARD = true;
+	public static int SCOREBOARD_UPDATE_DELAY = 4;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -31,8 +33,10 @@ public class Setting {
 	public static final String SETTINGS_BACKUP_DATA_SAVE_DELAY = "backup-data-save-delay";
 	public static final String SETTINGS_ISOLATED_CHAT = "isolated-chat";
 	public static final String SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE = "isolated-join-quit-message";
-	public static final String SETTINGS_JOIN_SIGN_CAPTION= "join-sign-caption";
+	public static final String SETTINGS_JOIN_SIGN_CAPTION = "join-sign-caption";
 	public static final String SETTINGS_LEAVE_SIGN_CAPTION = "leave-sign-caption";
+	public static final String SETTINGS_SCOREBOARD = "scoreboard";
+	public static final String SETTINGS_SCOREBOARD_UPDATE_DELAY = "scoreboard-update-delay";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";
@@ -46,7 +50,6 @@ public class Setting {
 	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";
 	public static final String MINIGAMES_ICON = "icon";
 	public static final String MINIGAMES_VIEW = "view";
-	
 
 	private static String apiVersion() {
 		return MiniGameWorldMain.getInstance().getDescription().getVersion();
