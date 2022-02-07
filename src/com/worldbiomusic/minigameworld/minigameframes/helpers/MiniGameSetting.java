@@ -11,9 +11,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.worldbiomusic.minigameworld.commands.MiniGameMinigamesConfigCommand;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
+/**
+ * If create option<br>
+ * - Add getter and setter<br>
+ * <br>
+ * Also if file control is true<br>
+ * - Add option in {@link #getFileSetting()} and
+ * {@link #setFileSetting(Map)}<br>
+ * - Add access method to {@link MiniGameMinigamesConfigCommand}<br>
+ */
 public class MiniGameSetting {
 	/**
 	 * - File control: O <br>
@@ -157,9 +167,17 @@ public class MiniGameSetting {
 	/**
 	 * - File control: X<br>
 	 * - Init value: false<br>
-	 * - Description: if false, no event will passed to the minigame (should implements event handler)
+	 * - Description: if false, no event will passed to the minigame (should
+	 * implements event handler)
 	 */
 	private boolean useEventDetector;
+
+	/**
+	 * - File control: O<br>
+	 * - Init value: true<br>
+	 * - Description: if false, scoreboard not works (also players can not see)
+	 */
+	private boolean scoreboard;
 
 	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
 			int waitingTime) {
@@ -180,6 +198,7 @@ public class MiniGameSetting {
 		this.view = true;
 		this.customDetectableEvents = new HashSet<>();
 		this.useEventDetector = true;
+		this.scoreboard = true;
 	}
 
 	// set
@@ -248,6 +267,9 @@ public class MiniGameSetting {
 		this.useEventDetector = useEventDetector;
 	}
 
+	public void setScoreboard(boolean scoreboard) {
+		this.scoreboard = scoreboard;
+	}
 	// get
 
 	public String getTitle() {
@@ -314,6 +336,10 @@ public class MiniGameSetting {
 		return useEventDetector;
 	}
 
+	public boolean isScoreboardEnabled() {
+		return scoreboard;
+	}
+
 	// file (only file control)
 
 	public Map<String, Object> getFileSetting() {
@@ -328,6 +354,7 @@ public class MiniGameSetting {
 		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
 		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
 		setting.put(Setting.MINIGAMES_VIEW, this.view);
+		setting.put(Setting.MINIGAMES_SCOREBOARD, this.scoreboard);
 		setting.put(Setting.MINIGAMES_LOCATION, this.location);
 		setting.put(Setting.MINIGAMES_TUTORIAL, this.tutorial);
 		setting.put(Setting.MINIGAMES_CUSTOM_DATA, this.customData);
@@ -373,6 +400,9 @@ public class MiniGameSetting {
 
 		// view
 		this.setView((boolean) setting.get(Setting.MINIGAMES_VIEW));
+
+		// scoreboard
+		this.setScoreboard((boolean) setting.get(Setting.MINIGAMES_SCOREBOARD));
 	}
 }
 //

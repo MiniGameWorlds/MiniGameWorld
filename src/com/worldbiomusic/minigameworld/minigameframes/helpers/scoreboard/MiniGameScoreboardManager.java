@@ -74,6 +74,11 @@ public class MiniGameScoreboardManager {
 			return;
 		}
 
+		// check minigame scoreboard setting option
+		if (!this.minigame.getSetting().isScoreboardEnabled()) {
+			return;
+		}
+
 		// start scoreboard update timer task
 		this.minigame.getTaskManager().runTaskTimer("_update-scoreboard", 0, Setting.SCOREBOARD_UPDATE_DELAY);
 	}

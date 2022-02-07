@@ -83,6 +83,9 @@ public class MiniGameMinigamesConfigCommand {
 			case Setting.MINIGAMES_VIEW:
 				view(sender, args, data);
 				break;
+			case Setting.MINIGAMES_SCOREBOARD:
+				scoreboard(sender, args, data);
+				break;
 			}
 
 			// save config
@@ -229,6 +232,11 @@ public class MiniGameMinigamesConfigCommand {
 	private void view(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
 		setKeyValue(sender, args[1], data, Setting.MINIGAMES_VIEW, active);
+	}
+
+	private void scoreboard(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		boolean active = Boolean.parseBoolean(args[3]);
+		setKeyValue(sender, args[1], data, Setting.MINIGAMES_SCOREBOARD, active);
 	}
 
 }
