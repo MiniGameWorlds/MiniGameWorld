@@ -233,8 +233,8 @@ public abstract class MiniGame {
 		this.players.clear();
 
 		this.initTasks();
-		
-		// init scoreboard 
+
+		// init scoreboard
 		this.scoreboardManager.setDefaultScoreboard();
 	}
 

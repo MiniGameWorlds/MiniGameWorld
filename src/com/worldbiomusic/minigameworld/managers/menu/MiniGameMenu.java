@@ -168,16 +168,15 @@ public class MiniGameMenu {
 		lore.add(ChatColor.WHITE + "- Time Limit: " + minigame.getTimeLimit() + " secs");
 		lore.add(ChatColor.WHITE + "- Type: " + minigame.getFrameType());
 
-		String leftWaitingTime = minigame.getLeftWaitingTime() <= 0 ? ChatColor.WHITE + "- Started"
-				: ChatColor.WHITE + "- Starting in... " + ChatColor.RED + ChatColor.BOLD
-						+ (minigame.getLeftWaitingTime() - 1);
-		lore.add(leftWaitingTime);
-
-		String leftFinishTime = minigame.getLeftFinishTime() >= minigame.getTimeLimit()
-				? ChatColor.WHITE + "- Not started"
-				: ChatColor.WHITE + "- Finish in... " + ChatColor.RED + ChatColor.BOLD
-						+ (minigame.getLeftFinishTime() - 1);
-		lore.add(leftFinishTime);
+		if (minigame.isStarted()) {
+			String leftFinishTime = ChatColor.WHITE + "- Finish in... " + ChatColor.RED + ChatColor.BOLD
+					+ (minigame.getLeftFinishTime() - 1);
+			lore.add(leftFinishTime);
+		} else {
+			String leftWaitingTime = ChatColor.WHITE + "- Starting in... " + ChatColor.RED + ChatColor.BOLD
+					+ (minigame.getLeftWaitingTime() - 1);
+			lore.add(leftWaitingTime);
+		}
 
 		// apply
 		item = ItemStackTool.item(item.getType(), displayName, lore);

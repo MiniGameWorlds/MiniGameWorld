@@ -56,6 +56,12 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_LEAVE_SIGN_CAPTION:
 				leave_sign_caption(sender, args);
 				break;
+			case Setting.SETTINGS_SCOREBOARD:
+				scoreboard(sender, args);
+				break;
+			case Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY:
+				scoreboard_update_delay(sender, args);
+				break;
 			}
 
 			// save config
@@ -139,6 +145,20 @@ public class MiniGameSettingsConfigCommand {
 		String value = args[2];
 
 		setKeyValue(sender, Setting.SETTINGS_LEAVE_SIGN_CAPTION, value);
+		return true;
+	}
+
+	private boolean scoreboard(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_SCOREBOARD, value);
+		return true;
+	}
+
+	private boolean scoreboard_update_delay(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, value);
 		return true;
 	}
 
