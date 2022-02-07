@@ -1,9 +1,8 @@
 # TODO
+- Add `scoreboard` option to MiniGameSetting
 - Descending player list in scoreboard by score
-- Add `settings.yml` api to MiniGameWorld
-- Make scoreboard frames of `Team`, `TeamBattle`
 - Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
-- Add `org.bukkit.scoreboard.Team` variable to `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
+- Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add minigame unit to MiniGameExceptionEvent
 - Set player name color in TeamBatleMiniGame
@@ -656,12 +655,10 @@ if(!this.isMinPlayersLive()) {
 - Add `MiniGameScoreboardUpdateEvent`
 - Add `getScoreboard()` to MiniGameAccessor
 - Add description `left waiting time` and `left finish time` to menu icon
+- Add `settings.yml` api to MiniGameWorld
 
-
-
-
-
-
+# 2022-02-08
+- Make custom scoreboard updater of `Team`, `TeamBattle`
 
 
 

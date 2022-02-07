@@ -5,10 +5,14 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 
 /**
  * <b>[Info]</b><br>
@@ -25,9 +29,12 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	public TeamMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
 		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
-		
+
 		// Even one player can play game
 		getSetting().setGameFinishConditionPlayerCount(1);
+
+		// set custom team scoreboard updater
+		getScoreboardManager().setPlayScoreboardUpdater(new TeamMiniGameScoreboardUpdater(this));
 	}
 
 	/**
@@ -99,6 +106,35 @@ public abstract class TeamMiniGame extends MiniGame {
 			return this.score;
 		}
 	}
+}
+
+class TeamMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdater {
+
+	public TeamMiniGameScoreboardUpdater(MiniGame minigame) {
+		super(minigame);
+	}
+
+	@Override
+	public void updateScoreboard() {
+		super.updateScoreboard();
+
+		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+
+		// team score
+		TeamMiniGame game = (TeamMiniGame) this.minigame;
+		String teamScoreStr = "Team Score: " + ChatColor.GOLD + ChatColor.BOLD + game.getTeamScore();
+		Score teamScore = sidebarObjective.getScore(teamScoreStr);
+		teamScore.setScore(sidebarScoreLine--);
+
+		// empty line
+		addEmptyLineToSiderbar();
+
+		// left time
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
+		Score leftTime = sidebarObjective.getScore(leftTimeStr);
+		leftTime.setScore(this.sidebarScoreLine--);
+	}
+
 }
 
 //

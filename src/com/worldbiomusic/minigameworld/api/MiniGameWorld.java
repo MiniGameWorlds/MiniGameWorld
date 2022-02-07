@@ -2,6 +2,7 @@ package com.worldbiomusic.minigameworld.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -288,6 +289,15 @@ public class MiniGameWorld {
 	 */
 	public PartyManager getPartyManager() {
 		return this.minigameManager.getPartyManager();
+	}
+
+	/**
+	 * Get MiniGameWorld API setting data of <b>settings.yml</b>
+	 * 
+	 * @return Setting data
+	 */
+	public Map<String, Object> getSettings() {
+		return this.minigameManager.getSettings();
 	}
 
 	/**

@@ -11,13 +11,18 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame.Team;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 
 /**
  * <b>[Info]</b><br>
@@ -99,6 +104,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 		// setup teams
 		this.initTeams();
+
+		// set custom team battle scoreboard updater
+		getScoreboardManager().setPlayScoreboardUpdater(new TeamBattleMiniGameScoreboardUpdater(this));
 	}
 
 	/**
@@ -1101,6 +1109,57 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 }
+
+class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdater {
+
+	public TeamBattleMiniGameScoreboardUpdater(MiniGame minigame) {
+		super(minigame);
+	}
+
+	@Override
+	public void updateScoreboard() {
+		super.updateScoreboard();
+
+		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+
+		TeamBattleMiniGame minigame = (TeamBattleMiniGame) this.minigame;
+
+		// Team list
+		for (Team team : minigame.getTeamList()) {
+			// team name
+			String teamNameStr = "[" + team.getColoredTeamName() + "]" + ": " + ChatColor.RESET + ChatColor.GOLD
+					+ ChatColor.BOLD + team.getScore();
+			Score teamName = sidebarObjective.getScore(teamNameStr);
+			teamName.setScore(sidebarScoreLine--);
+
+			// team member list
+			for (Player p : team.getMembers()) {
+				String playerStr = "- ";
+
+				MiniGamePlayerData pData = minigame.getPlayerData(p);
+				if (pData.isLive()) {
+					playerStr = playerStr + ChatColor.WHITE + p.getName();
+				} else {
+					playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName();
+				}
+
+				Score playerList = sidebarObjective.getScore(playerStr);
+				playerList.setScore(this.sidebarScoreLine--);
+
+			}
+
+			// empty line
+			addEmptyLineToSiderbar();
+		}
+
+		// left time
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
+		Score leftTime = sidebarObjective.getScore(leftTimeStr);
+		leftTime.setScore(this.sidebarScoreLine--);
+	}
+
+}
+
 //
 //
 //

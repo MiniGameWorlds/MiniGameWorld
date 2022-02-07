@@ -4,25 +4,20 @@ import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
-public class MiniGameWaitingScoreboard extends MiniGameScoreboardUpdater {
+public class MiniGameWaitingScoreboard extends MiniGameScoreboardSidebarUpdater {
 
-	public MiniGameWaitingScoreboard(Scoreboard scoreboard, MiniGame minigame) {
-		super(scoreboard, minigame);
+	public MiniGameWaitingScoreboard(MiniGame minigame) {
+		super(minigame);
 	}
 
 	@Override
 	public void updateScoreboard() {
-		// sidebar objective
-		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-		
-		// title
-		sidebarObjective.setDisplayName(minigame.getColoredTitle());
+		super.updateScoreboard();
 
-		this.sidebarScoreLine = 0;
+		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 
 		// player count
 		String playerCountStr = ChatColor.BOLD + "Players: " + ChatColor.RESET;
@@ -43,8 +38,7 @@ public class MiniGameWaitingScoreboard extends MiniGameScoreboardUpdater {
 		playerCount.setScore(sidebarScoreLine--);
 
 		// empty line
-		Score emptyScore2 = sidebarObjective.getScore("");
-		emptyScore2.setScore(sidebarScoreLine--);
+		addEmptyLineToSiderbar();
 
 		// left waiting time
 		String leftWaitingTimeStr = "Starting in... " + ChatColor.RED + minigame.getLeftWaitingTime();

@@ -5,26 +5,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 
-public class MiniGamePlayScoreboard extends MiniGameScoreboardUpdater {
+public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 
-	public MiniGamePlayScoreboard(Scoreboard scoreboard, MiniGame minigame) {
-		super(scoreboard, minigame);
+	public MiniGamePlayScoreboard(MiniGame minigame) {
+		super(minigame);
 	}
 
 	@Override
 	public void updateScoreboard() {
-		// sidebar objective
+		super.updateScoreboard();
+
 		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-
-		// title
-		sidebarObjective.setDisplayName(minigame.getColoredTitle());
-
-		this.sidebarScoreLine = 0;
 
 		// player list title
 		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Player List");
@@ -36,7 +31,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardUpdater {
 
 			MiniGamePlayerData pData = minigame.getPlayerData(p);
 			if (pData.isLive()) {
-				playerStr = playerStr + ChatColor.GREEN + p.getName();
+				playerStr = playerStr + ChatColor.WHITE + p.getName();
 			} else {
 				playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName();
 			}
@@ -48,8 +43,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardUpdater {
 		}
 
 		// empty line
-		Score emptyScore2 = sidebarObjective.getScore("");
-		emptyScore2.setScore(sidebarScoreLine--);
+		addEmptyLineToSiderbar();
 
 		// left time
 		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();

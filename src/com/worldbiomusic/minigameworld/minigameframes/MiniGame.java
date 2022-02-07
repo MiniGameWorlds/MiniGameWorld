@@ -209,6 +209,7 @@ public abstract class MiniGame {
 
 		// setup scoreboard manager
 		this.scoreboardManager = new MiniGameScoreboardManager(this);
+		this.scoreboardManager.registerDefaultUpdaters();
 	}
 
 	/**

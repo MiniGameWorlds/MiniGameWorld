@@ -43,11 +43,14 @@ public class MiniGameScoreboardManager {
 				"Title");
 		this.sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-		this.waitingScoreboardUpdater = new MiniGameWaitingScoreboard(scoreboard, minigame);
-		this.playScoreboardUpdater = new MiniGamePlayScoreboard(scoreboard, minigame);
-
 		// register update scoreboard task
 		registerScoreboardUpdateTask();
+	}
+
+	public void registerDefaultUpdaters() {
+		this.waitingScoreboardUpdater = new MiniGameWaitingScoreboard(minigame);
+		this.playScoreboardUpdater = new MiniGamePlayScoreboard(minigame);
+
 	}
 
 	/**
