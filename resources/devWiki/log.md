@@ -664,5 +664,5 @@ if(!this.isMinPlayersLive()) {
 - Change `MiniGameWorld.openMiniGameMenu()` to `MiniGameWorld.openMenu()`
 - Create `MiniGamePlayerEvent`, `MiniGamePlayerJoinEvent`, `MiniGamePlayerLeaveEvent`, `MiniGamePlayerViewEvent`, `MiniGamePlayerUnviewEvent`
 - Create `MiniGamePlayerExceptionEvent` which extends `MiniGameExceptionEvent`
-
+- Allow `MiniGameAccessor` to compare equality with `MiniGame`
 

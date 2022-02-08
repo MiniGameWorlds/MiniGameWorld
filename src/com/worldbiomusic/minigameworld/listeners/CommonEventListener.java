@@ -30,6 +30,7 @@ import org.bukkit.plugin.EventExecutor;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -157,7 +158,7 @@ public class CommonEventListener implements Listener {
 		this.minigameManager.processPlayerQuitWorks(p);
 
 		// call minigame exception event
-		MiniGameExceptionEvent exceptionEvent = new MiniGameExceptionEvent("player-quit-server", p);
+		MiniGameExceptionEvent exceptionEvent = new MiniGamePlayerExceptionEvent("player-quit-server", p);
 		Bukkit.getServer().getPluginManager().callEvent(exceptionEvent);
 	}
 
@@ -281,6 +282,17 @@ public class CommonEventListener implements Listener {
 		}
 		return false;
 	}
+
+//	@EventHandler
+//	public void onPlayerChat1(PlayerToggleSneakEvent e) {
+//		// Don't send message to players playing minigame from outside
+//		Player p = e.getPlayer();
+//
+//		MiniGame fitTool = this.minigameManager.getMiniGameList().stream()
+//				.filter(m -> m.getClassName().equals("FitTool")).toList().get(0);
+//
+//		Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent(fitTool, "TEST"));
+//	}
 
 //	@EventHandler
 //	public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {

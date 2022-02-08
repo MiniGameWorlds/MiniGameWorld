@@ -181,9 +181,10 @@ public class MiniGameAccessor {
 	public Set<Player> getViewers() {
 		return this.minigame.getViewManager().getViewers();
 	}
-	
+
 	/**
 	 * Get scoreboard
+	 * 
 	 * @return Scoreboard
 	 */
 	public Scoreboard getScoreboard() {
@@ -196,6 +197,8 @@ public class MiniGameAccessor {
 			return true;
 		} else if (obj == null) {
 			return false;
+		} else if (obj instanceof MiniGame) {
+			return this.minigame.equals(obj);
 		} else if (getClass() == obj.getClass()) {
 			return this.minigame.equals(((MiniGameAccessor) obj).minigame);
 		}

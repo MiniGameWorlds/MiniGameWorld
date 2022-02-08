@@ -19,9 +19,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameEventPassEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameFinishEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
@@ -680,8 +682,9 @@ public abstract class MiniGame {
 	 * @see MiniGameExceptionEvent
 	 */
 	public final void handleException(MiniGameExceptionEvent exception) {
-		if (exception.isPlayerException()) {
-			Player p = exception.getPlayer();
+		if (exception instanceof MiniGamePlayerExceptionEvent) {
+			MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
+			Player p = e.getPlayer();
 
 			// debug
 			Utils.debug(getTitleWithClassName() + " handles player exception (" + p.getName() + ")");
@@ -706,9 +709,9 @@ public abstract class MiniGame {
 		}
 
 		// check event is server exception
-		else if (exception.isServerException()) {
+		else {
 			// debug
-			Utils.debug(getTitleWithClassName() + " handles server exception");
+			Utils.debug(getTitleWithClassName() + " handles exception");
 			Utils.debug("Reason: " + exception.getReason() + "\n");
 
 			sendMessageToAllPlayers("Exception: " + exception.getReason());
@@ -1300,6 +1303,8 @@ public abstract class MiniGame {
 			return true;
 		} else if (obj == null) {
 			return false;
+		} else if (obj instanceof MiniGameAccessor) {
+			return ((MiniGameAccessor) obj).equals(this);
 		} else if (getClass() == obj.getClass()) {
 			return this.getClassName().equals(((MiniGame) obj).getClassName());
 		}

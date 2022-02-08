@@ -14,6 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -183,14 +184,16 @@ public class MiniGameViewManager {
 	 * @param exception MiniGameExceptionEvent
 	 */
 	public void handleException(MiniGameExceptionEvent exception) {
-		if (exception.isPlayerException()) {
-			Player p = exception.getPlayer();
+		if (exception instanceof MiniGamePlayerExceptionEvent) {
+			MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
+			Player p = e.getPlayer();
+
 			// make the player unview game
 			unviewGame(p);
 		}
 
 		// check event is server exception
-		else if (exception.isServerException()) {
+		else {
 			// make all viewers unview game
 			this.viewers.forEach(v -> unviewGame(v.getPlayer()));
 		}

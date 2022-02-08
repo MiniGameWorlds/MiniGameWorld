@@ -18,6 +18,7 @@ import org.bukkit.scoreboard.Score;
 import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame.Team;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
@@ -814,7 +815,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		super.handleGameException(exception);
 
 		// handleGameException() is called when exception is only about player exception
-		Player p = exception.getPlayer();
+		MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
+		Player p = e.getPlayer();
+
 		if (isStarted()) {
 			// remove player from team
 			Team team = getTeam(p);

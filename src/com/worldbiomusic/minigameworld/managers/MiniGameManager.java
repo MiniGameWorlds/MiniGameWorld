@@ -22,10 +22,12 @@ import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.worldbiomusic.minigameworld.commands.MiniGameMinigamesConfigCommand;
-import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -94,7 +96,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	/**
 	 * Set basic setting.yml data<br>
 	 * [IMPORTANT]<br>
-	 * - If add option, add access method to {@link MiniGameMinigamesConfigCommand}<br>
+	 * - If add option, add access method to
+	 * {@link MiniGameMinigamesConfigCommand}<br>
 	 */
 	private void initSettingData() {
 		Map<String, Object> pureData = new LinkedHashMap<>();
@@ -271,8 +274,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 	public void handleException(MiniGameExceptionEvent exception) {
 		// check event is player exception
-		if (exception.isPlayerException()) {
-			Player p = exception.getPlayer();
+		if (exception instanceof MiniGamePlayerExceptionEvent) {
+			MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
+			Player p = e.getPlayer();
+
 			if (!isInMiniGame(p)) {
 				return;
 			}
@@ -289,9 +294,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		// check event is server exception
-		else if (exception.isServerException()) {
+		else if (exception instanceof MiniGameServerExceptionEvent) {
 			// send to all minigames and make finish game
 			this.minigames.forEach(m -> m.handleException(exception));
+		} else {
+			this.minigames.stream().filter(m -> m.equals(exception.getMiniGame()))
+					.forEach(m -> m.handleException(exception));
 		}
 	}
 
