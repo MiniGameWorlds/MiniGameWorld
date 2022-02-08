@@ -282,6 +282,27 @@ public class CommonEventListener implements Listener {
 		return false;
 	}
 
+//	@EventHandler
+//	public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
+//		Player p = e.getPlayer();
+//		Inventory inv = p.getInventory();
+//		if (!inv.contains(Material.DIAMOND)) {
+//			p.sendMessage("You need diamond to join the minigame!");
+//			e.setCancelled(true);
+//			return;
+//		}
+//
+//		// remove 1 diamond
+//		for (ItemStack item : inv.getContents()) {
+//			if (item != null && item.getType() == Material.DIAMOND) {
+//				item.setAmount(item.getAmount() - 1);
+//				break;
+//			}
+//		}
+//		
+//		p.sendMessage("You pay 1 diamond to join this minigame!");
+//	}
+
 	// private void registerAllEventListener_Burningwave() {
 	// Collection<Class<?>> events = findEvents();
 	// Listener listener = new Listener() {};

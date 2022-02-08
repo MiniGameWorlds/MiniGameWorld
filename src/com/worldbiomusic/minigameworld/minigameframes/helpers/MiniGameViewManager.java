@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -13,6 +14,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameViewManager {
@@ -85,6 +88,15 @@ public class MiniGameViewManager {
 	 * @param p Viewer
 	 */
 	public void viewGame(Player p) {
+		// call player view event
+		MiniGamePlayerViewEvent viewEvent = new MiniGamePlayerViewEvent(this.minigame, p);
+		Bukkit.getServer().getPluginManager().callEvent(viewEvent);
+
+		// check event is cancelled
+		if (viewEvent.isCancelled()) {
+			return;
+		}
+
 		// return if minigame is not active
 		if (!this.minigame.isActive()) {
 			this.minigame.sendMessage(p, "Minigame is not acitve");
@@ -130,7 +142,17 @@ public class MiniGameViewManager {
 	 * @param p Viewer
 	 */
 	public void unviewGame(Player p) {
+		// check player is a viewer
 		if (isViewing(p)) {
+			// call player unview event
+			MiniGamePlayerUnviewEvent unviewEvent = new MiniGamePlayerUnviewEvent(this.minigame, p);
+			Bukkit.getServer().getPluginManager().callEvent(unviewEvent);
+
+			// check event is cancelled
+			if (unviewEvent.isCancelled()) {
+				return;
+			}
+
 			MiniGamePlayerState viewer = getViewerState(p);
 			viewer.restorePlayerState();
 

@@ -660,9 +660,9 @@ if(!this.isMinPlayersLive()) {
 - Make custom scoreboard updater of `Team`, `TeamBattle`
 - Add `scoreboard` option to MiniGameSetting
 
-
-
-
-
+# 2022-02-09
+- Change `MiniGameWorld.openMiniGameMenu()` to `MiniGameWorld.openMenu()`
+- Create `MiniGamePlayerEvent`, `MiniGamePlayerJoinEvent`, `MiniGamePlayerLeaveEvent`, `MiniGamePlayerViewEvent`, `MiniGamePlayerUnviewEvent`
+- Create `MiniGamePlayerExceptionEvent` which extends `MiniGameExceptionEvent`
 
 

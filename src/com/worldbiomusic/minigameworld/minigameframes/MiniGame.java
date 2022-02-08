@@ -23,6 +23,8 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameEventPassEv
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameFinishEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
@@ -30,9 +32,9 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -309,6 +311,15 @@ public abstract class MiniGame {
 	 * @return Result of try to join
 	 */
 	public final boolean joinGame(Player p) {
+		// call player join event
+		MiniGamePlayerJoinEvent joinEvent = new MiniGamePlayerJoinEvent(this, p);
+		Bukkit.getServer().getPluginManager().callEvent(joinEvent);
+
+		// check event is cancelled
+		if (joinEvent.isCancelled()) {
+			return false;
+		}
+
 		if (!this.isActive()) {
 			this.sendMessage(p, "Minigame is not active");
 			return false;
@@ -373,6 +384,15 @@ public abstract class MiniGame {
 		// check
 		// 1. game must not be started
 		// 2. game waitingTime counter must be upper than 3
+
+		// call player leave event
+		MiniGamePlayerLeaveEvent leaveEvent = new MiniGamePlayerLeaveEvent(this, p);
+		Bukkit.getServer().getPluginManager().callEvent(leaveEvent);
+
+		// check event is cancelled
+		if (leaveEvent.isCancelled()) {
+			return false;
+		}
 
 		if (this.started) {
 			this.sendMessage(p, "You can't leave game(Reason: game already has started)");
