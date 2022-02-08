@@ -277,7 +277,7 @@ public class MiniGameWorld {
 	 * @param p Player to show menu
 	 * @return Menu GUI invenotry instance
 	 */
-	public Inventory openMiniGameMenu(Player p) {
+	public Inventory openMenu(Player p) {
 		return this.minigameManager.getMiniGameMenuManager().openMenu(p);
 	}
 
