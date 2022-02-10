@@ -39,8 +39,7 @@ public class MiniGameScoreboardManager {
 		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
 		// init SIDEBAR objective
-		this.sidebarObjective = this.scoreboard.registerNewObjective(this.minigame.getClassName() + "-sidebar", "dummy",
-				"Title");
+		this.sidebarObjective = this.scoreboard.registerNewObjective("sidebar", "dummy", "Title");
 		this.sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
 		// register update scoreboard task

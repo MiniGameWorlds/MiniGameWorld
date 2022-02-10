@@ -31,6 +31,7 @@ import org.bukkit.plugin.EventExecutor;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -162,11 +163,6 @@ public class CommonEventListener implements Listener {
 		Bukkit.getServer().getPluginManager().callEvent(exceptionEvent);
 	}
 
-	@EventHandler
-	public void onMiniGameExceptionEvent(MiniGameExceptionEvent e) {
-		this.minigameManager.handleException(e);
-	}
-
 	/*
 	 * Inventory
 	 */
@@ -255,7 +251,7 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getMessage();
 
 		if (isStopCommand(cmd, true)) {
-			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-player"));
+			Bukkit.getServer().getPluginManager().callEvent(new MiniGameServerExceptionEvent("server-stop-by-player"));
 		}
 	}
 
@@ -264,7 +260,8 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getCommand();
 
 		if (isStopCommand(cmd, false)) {
-			Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent("server-stop-by-non-player"));
+			Bukkit.getServer().getPluginManager()
+					.callEvent(new MiniGameServerExceptionEvent("server-stop-by-non-player"));
 		}
 	}
 

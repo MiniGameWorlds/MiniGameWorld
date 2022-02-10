@@ -312,7 +312,7 @@ public abstract class MiniGame {
 	 * @param p Player who tries to join
 	 * @return Result of try to join
 	 */
-	public final boolean joinGame(Player p) {
+	public boolean joinGame(Player p) {
 		// call player join event
 		MiniGamePlayerJoinEvent joinEvent = new MiniGamePlayerJoinEvent(this, p);
 		Bukkit.getServer().getPluginManager().callEvent(joinEvent);
@@ -382,7 +382,7 @@ public abstract class MiniGame {
 	 * @param p leaving player
 	 * @return Result of try to leave
 	 */
-	public final boolean leaveGame(Player p) {
+	public boolean leaveGame(Player p) {
 		// check
 		// 1. game must not be started
 		// 2. game waitingTime counter must be upper than 3
@@ -517,6 +517,18 @@ public abstract class MiniGame {
 	 * Execute "runTaskAfterStart()"
 	 */
 	public void startGame() {
+		// call start event
+		MiniGameStartEvent startEvent = new MiniGameStartEvent(this);
+		Bukkit.getPluginManager().callEvent(startEvent);
+
+		// check start event is cancelled
+		if (startEvent.isCancelled()) {
+			// restart waiting task
+			this.restartWaitingTask();
+			
+			return;
+		}
+
 		// check min player count
 		if (this.getPlayerCount() < this.getMinPlayerCount()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
@@ -540,9 +552,6 @@ public abstract class MiniGame {
 
 		// runTaskAfterStart
 		runTaskAfterStart();
-
-		// call start event
-		Bukkit.getPluginManager().callEvent(new MiniGameStartEvent(this));
 
 		// cancel task
 		this.minigameTaskManager.cancelWaitingTask();

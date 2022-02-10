@@ -3,9 +3,12 @@ package com.worldbiomusic.minigameworld.customevents.minigame;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
- * Called when a exception related minigamae has occurred<br>
- * [IMPORTANT] This event is handled by all minigames<br>
- * [IMPORTANT] Server has to call this event to make exceptions<br>
+ * Called when a exception related minigame has occurred<br>
+ * [IMPORTANT] This event is passed to a only minigame which is passed with
+ * argument in this
+ * constructor{@link MiniGameExceptionEvent#MiniGameExceptionEvent(MiniGame, String)}<br>
+ * [IMPORTANT] Other plugin has to call this event to pass exception to a
+ * minigame<br>
  * <br>
  * 
  *
@@ -16,9 +19,9 @@ public class MiniGameExceptionEvent extends MinigGameEvent {
 
 	public MiniGameExceptionEvent(MiniGame minigame, String reason) {
 		super(minigame);
-		this.reason =reason;
+		this.reason = reason;
 	}
-	
+
 	public MiniGameExceptionEvent(String reason) {
 		this(null, reason);
 	}

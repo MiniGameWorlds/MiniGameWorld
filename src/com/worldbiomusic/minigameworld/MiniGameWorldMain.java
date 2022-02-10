@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
 import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
+import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -23,7 +24,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
 
-	private CommonEventListener commonLis;
+	private CommonEventListener commonListener;
+	private MiniGameEventListener miniGameEventListener;
 	private MiniGameCommand minigameCommand;
 
 	public static MiniGameWorldMain getInstance() {
@@ -65,8 +67,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void registerEventListeners() {
-		this.commonLis = new CommonEventListener(this.minigameManager);
-		getServer().getPluginManager().registerEvents(this.commonLis, this);
+		this.commonListener = new CommonEventListener(this.minigameManager);
+		this.miniGameEventListener = new MiniGameEventListener(this.minigameManager);
+		getServer().getPluginManager().registerEvents(this.commonListener, this);
+		getServer().getPluginManager().registerEvents(this.miniGameEventListener, this);
 	}
 
 	private void setCommandExecutors() {

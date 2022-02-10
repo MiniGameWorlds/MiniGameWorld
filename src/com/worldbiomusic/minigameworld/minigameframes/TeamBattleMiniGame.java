@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,9 +17,13 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
 import com.wbm.plugin.util.BroadcastTool;
+import com.wbm.plugin.util.ChatColorTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
+import com.worldbiomusic.minigameworld.managers.party.Party;
+import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame.Team;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
@@ -34,9 +39,12 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGam
  * <br>
  * 
  * <b>[Custom Option]</b><br>
- * - groupChat: If true, send message only to team members (default: true)<br>
- * - teamPVP: If true, team members can not attack each other(pvp option have to
- * be set to true), (default: true)<br>
+ * - group-chat: If true, send message only to team members (default: true)<br>
+ * - team-pvp: If true, team members can not attack each other(pvp option have
+ * to be set to true), (default: true)<br>
+ * - team-size: Related with {@link MiniGameSetting#getMaxPlayerCount()}, if
+ * "max-player-count" is 12 and "team-size" is 4 then, 3 teams are created
+ * automatically<br>
  * <br>
  * 
  * <b>[Team Register Mode]</b><br>
@@ -46,7 +54,10 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGam
  * 
  * <b>[Rule]</b><br>
  * - Create Teams with createTeams()<br>
- * - When use initGameSetting(), must call super.initGameSetting()<br>
+ * - When use initGameSettings(), must call super.initGameSettings()<br>
+ * - If need different team types, override {@link #createTeams()} without
+ * "super.createTeams()" and create custom teams (e.g. Boss player team vs
+ * challengers team) (recommended creating teams with teamSize())<br>
  * - If use TeamRegisterMode.NONE, should register players to team with
  * registerPlayersToTeam()<br>
  * 
@@ -72,20 +83,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 5, 3, 0)<br>
 	 * - FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)<br>
 	 * - RANDOM: random (e.g. ?, ?, ?, ?)<br>
+	 * - PARTY: party members have the same team (only "max-player-count /
+	 * team-size" party can join the game<br>
 	 */
 	public enum TeamRegisterMode {
-		NONE, FAIR, FILL, FAIR_FILL, RANDOM;
+		NONE, FAIR, FILL, FAIR_FILL, RANDOM, PARTY;
 	}
 
 	/**
 	 * Team list
 	 */
 	private List<Team> allTeams;
-
-	/**
-	 * Creates team with overriding this method
-	 */
-	protected abstract void createTeams();
 
 	/**
 	 * Registers players to team if TeamRegisterMode is NONE
@@ -96,37 +104,19 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * maxPlayerCount is sum of all teams member size
 	 */
-	public TeamBattleMiniGame(String title, int minPlayerCount, int timeLimit, int waitingTime) {
-		super(title, minPlayerCount, -1, timeLimit, waitingTime);
+	public TeamBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
+		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
 
-		// custom options
-		this.setGroupChat(true);
-		this.setTeamPVP(true);
+		this.allTeams = new ArrayList<Team>();
 
-		// setup teams
-		this.initTeams();
+		// set default value of custom options
+		setGroupChat(true);
+		setTeamPVP(false);
+		setTeamSize(2);
+		setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
 
 		// set custom team battle scoreboard updater
 		getScoreboardManager().setPlayScoreboardUpdater(new TeamBattleMiniGameScoreboardUpdater(this));
-	}
-
-	/**
-	 * Inits team settings just once
-	 */
-	private void initTeams() {
-		// create teams
-		this.allTeams = new ArrayList<Team>();
-		this.createTeams();
-
-		// set maxPlayerCount with sum of all team members
-		int allMemberCount = 0;
-		for (Team team : this.allTeams) {
-			allMemberCount += team.maxCount();
-		}
-		this.getSetting().setMaxPlayerCount(allMemberCount);
-
-		// set team register FAIR_FILL as a default mode
-		this.setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
 	}
 
 	/**
@@ -198,6 +188,16 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Check player has team or not
+	 * 
+	 * @param p Player to check
+	 * @return True if player has a team
+	 */
+	protected boolean hasTeam(Player p) {
+		return getTeam(p) != null;
 	}
 
 	/**
@@ -391,7 +391,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 
 	 * @return TeamRegisterMode
 	 */
-	protected TeamRegisterMode getTeamRegisterMode() {
+	public TeamRegisterMode getTeamRegisterMode() {
 		return TeamRegisterMode.valueOf((String) this.getCustomData().get("team-register-mode"));
 	}
 
@@ -431,6 +431,29 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	protected boolean isTeamPvP() {
 		return (boolean) this.getCustomData().get("team-pvp");
+	}
+
+	/**
+	 * Set team size<br>
+	 * Example) max-player-count: 10, team-size: 2 -> There are 5 teams<br>
+	 * 
+	 * @param teamSize Team size
+	 */
+	protected void setTeamSize(int teamSize) {
+		getCustomData().put("team-size", teamSize);
+	}
+
+	/**
+	 * Get team size
+	 * 
+	 * @return Team size
+	 */
+	public int getTeamSize() {
+		return (int) getCustomData().get("team-size");
+	}
+
+	public int getTeamCountLimit() {
+		return getMaxPlayerCount() / getTeamSize();
 	}
 
 	/**
@@ -604,24 +627,51 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		createTeams();
 	}
 
+	/**
+	 * Creates team with overriding this method
+	 */
+	protected void createTeams() {
+		List<ChatColor> colors = new ArrayList<ChatColor>();
+		colors.addAll(Arrays.asList(new ChatColor[] { ChatColor.RED, ChatColor.BLUE, ChatColor.GREEN, ChatColor.YELLOW,
+				ChatColor.BLACK, ChatColor.WHITE, ChatColor.GRAY, ChatColor.AQUA, ChatColor.GOLD, ChatColor.DARK_AQUA,
+				ChatColor.DARK_BLUE, ChatColor.DARK_GRAY, ChatColor.DARK_GREEN, ChatColor.DARK_PURPLE,
+				ChatColor.DARK_RED, }));
+
+		int teamCount = getMaxPlayerCount() / getTeamSize();
+		for (int i = 0; i < teamCount; i++) {
+			Team team;
+			if (i < colors.size()) {
+				ChatColor color = colors.get(i);
+				team = new Team(color.name(), getTeamSize(), color);
+			} else {
+				team = new Team("Team" + i, getTeamSize(), ChatColorTool.random());
+			}
+
+			createTeam(team);
+		}
+	}
+
 	@Override
 	protected void runTaskAfterStart() {
 		// register players to teams
 		switch (this.getTeamRegisterMode()) {
 		case NONE:
-			this.registerPlayersToTeam();
+			registerPlayersToTeam();
 			break;
 		case FAIR:
-			this.registerPlayers_FAIR();
+			registerPlayers_FAIR();
 			break;
 		case FILL:
-			this.registerPlayers_FILL();
+			registerPlayers_FILL();
 			break;
 		case FAIR_FILL:
-			this.registerPlayers_FAIR_FILL();
+			registerPlayers_FAIR_FILL();
 			break;
 		case RANDOM:
-			this.registerPlayers_RANDOM();
+			registerPlayers_RANDOM();
+			break;
+		case PARTY:
+			registerPlayers_PARTY();
 			break;
 		}
 
@@ -699,6 +749,25 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	private void registerPlayers_RANDOM() {
 		this.getPlayers().forEach(p -> this.registerPlayerToRandomTeam(p));
+	}
+
+	/**
+	 * TeamBattleMiniGame.TeamRegisterMode = PARTY
+	 */
+	private void registerPlayers_PARTY() {
+		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
+		PartyManager partyManager = mw.getPartyManager();
+		for (Team team : this.allTeams) {
+			for (Player p : getPlayers()) {
+				if (hasTeam(p)) {
+					continue;
+				}
+
+				Party party = partyManager.getPlayerParty(p);
+				party.getMembers().forEach(m -> registerPlayerToTeam(m, team));
+				break;
+			}
+		}
 	}
 
 	@Override

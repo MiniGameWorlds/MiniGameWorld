@@ -1,4 +1,5 @@
 # TODO
+- Add custom event of Party system
 - Descending player list in scoreboard by score
 - Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
@@ -665,4 +666,35 @@ if(!this.isMinPlayersLive()) {
 - Create `MiniGamePlayerEvent`, `MiniGamePlayerJoinEvent`, `MiniGamePlayerLeaveEvent`, `MiniGamePlayerViewEvent`, `MiniGamePlayerUnviewEvent`
 - Create `MiniGamePlayerExceptionEvent` which extends `MiniGameExceptionEvent`
 - Allow `MiniGameAccessor` to compare equality with `MiniGame`
+
+# 2022-02-10
+- Change custom-data option name of TeamBattleMiniGame
+
+# 2022-02-11
+- Enhance TeamBattleMiniGame team creation
+- Add `team-size` default custom data to TeamBattleMiniGame
+- Add `TeamRegisterMode.PARTY` to TeamBattleMiniGame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

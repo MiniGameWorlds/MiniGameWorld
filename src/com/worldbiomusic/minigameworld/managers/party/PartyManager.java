@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -446,6 +447,34 @@ public class PartyManager {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get party count between the players
+	 * 
+	 * @param players Players who has own party
+	 * @return Party count
+	 */
+	public static int getPartyCountBetweenPlayers(List<Player> players) {
+		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
+		PartyManager partyManager = mw.getPartyManager();
+
+		List<Party> parties = new ArrayList<>();
+
+		OUT: for (Player p : players) {
+			// check already listed party
+			for (Party party : parties) {
+				if (party.hasPlayer(p)) {
+					continue OUT;
+				}
+			}
+
+			// add party count
+			Party playerParty = partyManager.getPlayerParty(p);
+			parties.add(playerParty);
+		}
+
+		return parties.size();
 	}
 }
 //
