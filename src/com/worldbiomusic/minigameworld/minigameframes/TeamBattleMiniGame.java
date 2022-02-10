@@ -383,7 +383,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param teamRegisterMode TeamRegisterMode
 	 */
 	protected void setTeamRegisterMode(TeamRegisterMode teamRegisterMode) {
-		this.getCustomData().put("teamRegisterMode", teamRegisterMode.name());
+		this.getCustomData().put("team-register-mode", teamRegisterMode.name());
 	}
 
 	/**
@@ -392,7 +392,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return TeamRegisterMode
 	 */
 	protected TeamRegisterMode getTeamRegisterMode() {
-		return TeamRegisterMode.valueOf((String) this.getCustomData().get("teamRegisterMode"));
+		return TeamRegisterMode.valueOf((String) this.getCustomData().get("team-register-mode"));
 	}
 
 	/**
@@ -401,7 +401,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param groupChat groupChat
 	 */
 	protected void setGroupChat(boolean groupChat) {
-		this.getCustomData().put("groupChat", groupChat);
+		this.getCustomData().put("group-chat", groupChat);
 	}
 
 	/**
@@ -410,7 +410,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return True if enabled
 	 */
 	protected boolean isGroupChat() {
-		return (boolean) this.getCustomData().get("groupChat");
+		return (boolean) this.getCustomData().get("group-chat");
 	}
 
 	/**
@@ -421,7 +421,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param teamPvp groupChat
 	 */
 	protected void setTeamPVP(boolean teamPvp) {
-		this.getCustomData().put("teamPvp", teamPvp);
+		this.getCustomData().put("team-pvp", teamPvp);
 	}
 
 	/**
@@ -430,7 +430,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return True if enabled
 	 */
 	protected boolean isTeamPvP() {
-		return (boolean) this.getCustomData().get("teamPvp");
+		return (boolean) this.getCustomData().get("team-pvp");
 	}
 
 	/**
