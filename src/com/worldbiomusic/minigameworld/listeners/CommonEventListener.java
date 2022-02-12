@@ -280,38 +280,6 @@ public class CommonEventListener implements Listener {
 		return false;
 	}
 
-//	@EventHandler
-//	public void onPlayerChat1(PlayerToggleSneakEvent e) {
-//		// Don't send message to players playing minigame from outside
-//		Player p = e.getPlayer();
-//
-//		MiniGame fitTool = this.minigameManager.getMiniGameList().stream()
-//				.filter(m -> m.getClassName().equals("FitTool")).toList().get(0);
-//
-//		Bukkit.getServer().getPluginManager().callEvent(new MiniGameExceptionEvent(fitTool, "TEST"));
-//	}
-
-//	@EventHandler
-//	public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
-//		Player p = e.getPlayer();
-//		Inventory inv = p.getInventory();
-//		if (!inv.contains(Material.DIAMOND)) {
-//			p.sendMessage("You need diamond to join the minigame!");
-//			e.setCancelled(true);
-//			return;
-//		}
-//
-//		// remove 1 diamond
-//		for (ItemStack item : inv.getContents()) {
-//			if (item != null && item.getType() == Material.DIAMOND) {
-//				item.setAmount(item.getAmount() - 1);
-//				break;
-//			}
-//		}
-//		
-//		p.sendMessage("You pay 1 diamond to join this minigame!");
-//	}
-
 	// private void registerAllEventListener_Burningwave() {
 	// Collection<Class<?>> events = findEvents();
 	// Listener listener = new Listener() {};

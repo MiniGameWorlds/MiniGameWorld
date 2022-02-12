@@ -5,6 +5,10 @@ import org.bukkit.event.Cancellable;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
+/**
+ * Called when a player try to view a minigame
+ *
+ */
 public class MiniGamePlayerViewEvent extends MiniGamePlayerEvent implements Cancellable{
 	private boolean cancelled;
 

@@ -32,25 +32,25 @@ public class MiniGameTaskManager {
 
 	public void runWaitingTask() {
 		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
-		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
+		this.taskManager.runTaskTimer("_waiting-timer", 0, 20);
 	}
 
 	public void cancelWaitingTask() {
-		this.taskManager.cancelTask("_waitingTimer");
+		this.taskManager.cancelTask("_waiting-timer");
 	}
 
 	public void runFinishTask() {
 		this.finishCounter = new Counter(this.minigame.getTimeLimit() + 1);
-		this.taskManager.runTaskTimer("_finishTimer", 0, 20);
+		this.taskManager.runTaskTimer("_finish-timer", 0, 20);
 	}
 
 	public void cancelFinishTask() {
-		this.taskManager.cancelTask("_finishTimer");
+		this.taskManager.cancelTask("_finish-timer");
 	}
 
 	public void registerBasicTasks() {
 		// register waitingTimer task to taskManager
-		this.taskManager.registerTask("_waitingTimer", new Runnable() {
+		this.taskManager.registerTask("_waiting-timer", new Runnable() {
 
 			@Override
 			public void run() {
@@ -83,7 +83,7 @@ public class MiniGameTaskManager {
 		});
 
 		// register finishTimer task to taskManager
-		this.taskManager.registerTask("_finishTimer", new Runnable() {
+		this.taskManager.registerTask("_finish-timer", new Runnable() {
 
 			@Override
 			public void run() {

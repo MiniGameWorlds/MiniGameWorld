@@ -31,7 +31,7 @@ public abstract class MiniGameScoreboardUpdater {
 	 * 
 	 * @return Last score line of sidebar objective
 	 */
-	public int getLastSidebarScoreLine() {
+	public int getSidebarLastScoreLine() {
 		return this.sidebarScoreLine + 1;
 	}
 

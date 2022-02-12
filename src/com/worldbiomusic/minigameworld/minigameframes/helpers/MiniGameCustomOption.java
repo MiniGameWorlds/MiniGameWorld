@@ -30,7 +30,7 @@ public class MiniGameCustomOption {
 		 * Init: true<br>
 		 * Description: Chatting in minigame with players
 		 */
-		CHATTING("chatting"),
+		CHAT("chat"),
 		/**
 		 * Init: true<br>
 		 * Description: Notify changed score
@@ -116,7 +116,7 @@ public class MiniGameCustomOption {
 		this.minigame = minigame;
 
 		// init custom options
-		this.set(Option.CHATTING, true);
+		this.set(Option.CHAT, true);
 		this.set(Option.SCORE_NOTIFYING, true);
 		this.set(Option.BLOCK_BREAK, false);
 		this.set(Option.BLOCK_PLACE, false);
@@ -171,7 +171,7 @@ public class MiniGameCustomOption {
 	 */
 	public void processEvent(Event event) {
 		if (event instanceof AsyncPlayerChatEvent) {
-			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHATTING));
+			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHAT));
 		} else if (event instanceof BlockBreakEvent) {
 			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 		} else if (event instanceof BlockPlaceEvent) {

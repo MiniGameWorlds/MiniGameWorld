@@ -151,7 +151,7 @@ public class MiniGameWorld {
 	public MiniGameEventDetector getMiniGameEventDetector() {
 		return this.minigameManager.getMiniGameEventDetector();
 	}
-
+	
 	/**
 	 * Checks a player is playing any minigames
 	 * 

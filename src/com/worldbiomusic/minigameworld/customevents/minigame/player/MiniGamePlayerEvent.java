@@ -5,7 +5,11 @@ import org.bukkit.entity.Player;
 import com.worldbiomusic.minigameworld.customevents.minigame.MinigGameEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
-public class MiniGamePlayerEvent extends MinigGameEvent {
+/**
+ * Playing minigame player event
+ *
+ */
+public abstract class MiniGamePlayerEvent extends MinigGameEvent {
 	private Player player;
 
 	public MiniGamePlayerEvent(MiniGame minigame, Player player) {
@@ -16,5 +20,5 @@ public class MiniGamePlayerEvent extends MinigGameEvent {
 	public Player getPlayer() {
 		return this.player;
 	}
-	
+
 }
