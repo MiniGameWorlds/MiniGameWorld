@@ -1,5 +1,4 @@
 # TODO
-- Release `wbmMC`
 - Add custom event of Party system
 - Descending player list in scoreboard by score
 - Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
@@ -136,6 +135,20 @@
 - Add event detector priority
 - Add `WorldEdit` and `WorldGuard` as softdepend
 - Add `useEventDetector` option to MiniGameSetting
+
+## 0.5.0
+### API Changes
+- Add **Scoreboard** system
+- Add `settings.yml` api to MiniGameWorld
+- Add `scoreboard` and `scoreboard-update-delay` options to settings.yml
+- Create `MiniGamePlayerEvent`, `MiniGamePlayerJoinEvent`, `MiniGamePlayerLeaveEvent`, `MiniGamePlayerViewEvent`, `MiniGamePlayerUnviewEvent`, `MiniGameScoreboardUpdateEvent`
+- Update [wbmMC](https://github.com/worldbiomusic/wbmMC/releases)
+
+### Build Changes
+- Manage `scoreboard` in MiniGamePlayerState
+- Add description `left waiting time` and `left finish time` to menu icon
+- Add `scoreboard` option to MiniGameSetting
+- Enhance TeamBattleMiniGame team creation (add `team-size` default custom data to TeamBattleMiniGame, `TeamRegisterMode.PARTY` to TeamBattleMiniGame)
 
 
 ---
@@ -676,9 +689,12 @@ if(!this.isMinPlayersLive()) {
 - Add `team-size` default custom data to TeamBattleMiniGame
 - Add `TeamRegisterMode.PARTY` to TeamBattleMiniGame
 
+# 2022-02-12
+- Fix bugs
 
-
-
+# 2022-02-13
+- Update wiki
+- Release `0.5.0`
 
 
 

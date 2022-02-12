@@ -197,6 +197,13 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 - `MiniGameEventPassEvent`: Called when a event passed to a started minigame
 - `MiniGameFinishEvent`: Called when a minigame finished
 - `MiniGameExceptionEvent`: Called when a exception related with minigame has occurred
+- `MiniGameServerExceptionEvent`: Called when a exception related with server has occurred
+- `MiniGamePlayerExceptionEvent`: Called when a exception related with a playing player has occurred
+- `MiniGameScoreboardUpdateEvent`: Called when a scoreboard of minigame is updated 
+- `MiniGamePlayerJoinEvent`: Called when a player try to join a minigame
+- `MiniGamePlayerLeaveEvent`: Called when a player try to leave a minigame
+- `MiniGamePlayerViewEvent`: Called when a player try to view a minigame
+- `MiniGamePlayerUnviewEvent`: Called when a player try to unview a minigame
 
 ## Examples
 ### Reward System
@@ -263,7 +270,56 @@ class RankManager implements Listener {
 	}
 }
 ```
+### Fee for Join
+- Use cancellable `MiniGamePlayerJoinEvent`
+```java
+@EventHandler
+public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
+	Player p = e.getPlayer();
+	Inventory inv = p.getInventory();
+	
+	// check player has diamonds
+	if (!inv.contains(Material.DIAMOND)) {
+		p.sendMessage("You need diamond to join the minigame!");
+		// cancel join event
+		e.setCancelled(true);
+		return;
+	}
 
+	// remove 1 diamond
+	for (ItemStack item : inv.getContents()) {
+		if (item != null && item.getType() == Material.DIAMOND) {
+			item.setAmount(item.getAmount() - 1);
+			break;
+		}
+	}
+	
+	p.sendMessage("You pay 1 diamond to join this minigame!");
+}
+```
+
+### Exception
+- There are 3 exception types
+- `MiniGamePlayerException`: leave the player from the minigame
+```java
+// minigame player exception: playing player will leave from the minigame
+if (MiniGameWorld.create("x.x.x").checkPlayerIsPlayingMiniGame(p)) {
+	Bukkit.getServer().getPluginManager()
+			.callEvent(new MiniGamePlayerExceptionEvent("reason", p));
+}
+```
+- `MiniGameException`: finish the minigame
+```java
+// minigame exception: speific minigame will finish
+MiniGame minigame = this.minigameManager.getMiniGameList().get(0);
+Bukkit.getServer().getPluginManager()
+		.callEvent(new MiniGameExceptionEvent(minigame, "reason"));
+```
+- `MiniGameServerException`: finish all minigames
+```java
+// server exception: all minigames will finish
+Bukkit.getServer().getPluginManager().callEvent(new MiniGameServerExceptionEvent("reason"));
+```
 
 ---
 

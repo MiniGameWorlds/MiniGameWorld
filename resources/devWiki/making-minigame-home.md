@@ -8,7 +8,7 @@
 - Simple API
 - Can Use all Events
 - Can add any type of custom data with `Map<String, Object>` which user can edit
-- Minigame util tools
+- Minigame util tools (soreboard, live, task ...etc)
 - Also can make 3rd-party with API
 
 
@@ -41,7 +41,7 @@
 # ETC
 - [Patch Notes](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/log.md)
 - This project uses [classgraph](https://github.com/classgraph/classgraph) library licensed from MIT to register all events in  Minecraft bukkit
-
+- [Scoreboard Conflict]
 
 
 [Spigot]: https://getbukkit.org/download/spigot
@@ -49,3 +49,4 @@
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
 [wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
+[Scoreboard Conflict]: https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/scoreboard.md

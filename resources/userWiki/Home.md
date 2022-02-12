@@ -12,6 +12,7 @@
 - GUI Menu
 - Party system
 - View system
+- Scoreboard system
 - Everything can be customized with config
 - Exists 3rd-party plugins (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank])
 - Auto data backup
@@ -53,6 +54,8 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [Backup]
 - [View]
 - [Menu]
+- [Scoreboard]
+
 
 # Caution
 - If you `stop` or `reload` your server without player's command or server command, must make sure that all players are not joining any minigames
@@ -71,7 +74,8 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [Permissions]: permissions.md
 [Party]: party.md
 [Backup]: backup.md
-[MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
-[MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
 [View]: view.md
 [Menu]: menu.md
+[Scoreboard]: scoreboard.md
+[MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
+[MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank

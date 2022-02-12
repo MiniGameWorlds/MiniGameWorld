@@ -104,7 +104,7 @@ detail (e.g. check player from event is playing current minigame))
 - `view`: If true, players can view the minigame
 - `customDetectableEvents`: Custom detectable event list ([Detectable Event List])
 - `useEventDetector`: If false, no events will be passed to the minigame ([Detectable Event List])
-
+- `scoreboard`: If true, scoreboard will be shown to players (`scoreboard` option in settings.yml needed)
 
 ### How to use
 ```java
@@ -117,7 +117,7 @@ public PassMob() {
 
 ## - **CustomOption**
 - Below custom options are created in `custom-data` section by default (See api doc for Init value)
-- `CHATTING`: whether chat event cancel
+- `CHAT`: whether chat event cancel
 - `SCORE_NOTIFYING`: whether notify score change
 - `BLOCK_BREAK`: whether player can break block
 - `BLOCK_PLACE`: whether player can place block
@@ -144,7 +144,7 @@ public PassMob() {
 - Don't need cancellation
 - `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
 - `Run`: `getTaskManager().runTask("name");` in anywhere **after registration**
-- Do not register/run system task(`_waitingTimer`, `_finishTimer`)
+- Do not register/run system task(`_waiting-timer`, `_finish-timer`, `_update-scoreboard`)
 - **Do not register a task with `BukkitRunnable`**, but with Runnable
 - **If you use your own tasks, make sure that finish the tasks when the game finished using `MiniGame.runTaskBeforeFinish()`**
 ### How to register
@@ -286,6 +286,64 @@ protected void runTaskAfterStart() {
 }
 ```
 
+
+
+## - **Custom Scoreboard**
+- Each minigames can customize for own scoreboard
+### Using hook method
+- Override `updateScoreboard()` hook method in your minigame
+```java
+@Override
+public void updateScoreboard() {
+  super.updateScoreboard();
+
+  // update only play scoreboard
+  if (getScoreboardManager().getCurrentScoreboardType() == ScoreboardType.PLAY) {
+    MiniGameScoreboardUpdater updater = getScoreboardManager().getPlayScoreboardUpdater();
+    
+    // get scoreboard last line
+    int scoreLine = updater.getSidebarLastScoreLine();
+
+    // get objective
+    Objective obj = getScoreboardManager().getScoreboard().getObjective(DisplaySlot.SIDEBAR);
+    Score score = obj.getScore("test stat");
+    score.setScore(scoreLine - 1);
+  }
+}
+```
+
+### Using Custom Updater
+- Create a class extends `MiniGameSidebarScoreboardUpdater`
+```java
+class YourScoreboardUpdater extends MiniGameScoreboardSidebarUpdater {
+
+	public MiniGamePlayScoreboard(MiniGame minigame) {
+		super(minigame);
+	}
+
+	@Override
+	public void updateScoreboard() {
+		// DO if you want override default scores template 
+		super.updateScoreboard();
+
+		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
+
+		// custom stats
+		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Custom stats");
+		playerListTitle.setScore(sidebarScoreLine--);
+
+		// empty line
+		addEmptyLineToSiderbar();
+	}
+}
+```
+- After then, set updater in the minigame constructor
+```java
+//set custom scoreboard updater
+getScoreboardManager().setPlayScoreboardUpdater(new YourScoreboardUpdater(this));
+```
+
+
 ## - **Players**
 - `containsPlayer()`: check player is contained
 - `getPlayers()`: get minigame participants List
@@ -312,6 +370,7 @@ protected void runTaskAfterStart() {
 
 
 ---
+
 
 # Caution
 ## Player state management
