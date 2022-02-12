@@ -25,7 +25,7 @@ public class Setting {
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
 	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
 	public static boolean SCOREBOARD = true;
-	public static int SCOREBOARD_UPDATE_DELAY = 4;
+	public static int SCOREBOARD_UPDATE_DELAY = 10;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";

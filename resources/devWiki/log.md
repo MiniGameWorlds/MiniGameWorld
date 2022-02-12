@@ -1,4 +1,5 @@
 # TODO
+- Release `wbmMC`
 - Add custom event of Party system
 - Descending player list in scoreboard by score
 - Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)

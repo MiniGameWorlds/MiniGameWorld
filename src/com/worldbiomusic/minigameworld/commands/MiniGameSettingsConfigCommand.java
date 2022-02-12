@@ -156,7 +156,7 @@ public class MiniGameSettingsConfigCommand {
 	}
 
 	private boolean scoreboard_update_delay(CommandSender sender, String[] args) throws Exception {
-		boolean value = Boolean.parseBoolean(args[2]);
+		int value = Integer.parseInt(args[2]);
 
 		this.setKeyValue(sender, Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, value);
 		return true;

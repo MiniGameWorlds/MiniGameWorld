@@ -337,7 +337,7 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		// init setting when first player joins
+		// init setting when first player join
 		if (this.isEmpty()) {
 			this.initSettings();
 			this.minigameTaskManager.runWaitingTask();
@@ -506,7 +506,7 @@ public abstract class MiniGame {
 	 * count")
 	 */
 	private void restartWaitingTask() {
-		this.initTasks();
+		this.minigameTaskManager.cancelWaitingTask();
 		this.minigameTaskManager.runWaitingTask();
 	}
 
@@ -525,7 +525,7 @@ public abstract class MiniGame {
 		if (startEvent.isCancelled()) {
 			// restart waiting task
 			this.restartWaitingTask();
-			
+
 			return;
 		}
 

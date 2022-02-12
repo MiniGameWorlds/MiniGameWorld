@@ -31,6 +31,7 @@ public class MiniGameTaskManager {
 	}
 
 	public void runWaitingTask() {
+		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
 		this.taskManager.runTaskTimer("_waitingTimer", 0, 20);
 	}
 
@@ -39,6 +40,7 @@ public class MiniGameTaskManager {
 	}
 
 	public void runFinishTask() {
+		this.finishCounter = new Counter(this.minigame.getTimeLimit() + 1);
 		this.taskManager.runTaskTimer("_finishTimer", 0, 20);
 	}
 
