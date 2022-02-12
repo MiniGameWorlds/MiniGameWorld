@@ -3,10 +3,12 @@ com.worldbiomusic.minigameworld.api
 com.worldbiomusic.minigameworld.api.observer
 com.worldbiomusic.minigameworld.commands
 com.worldbiomusic.minigameworld.customevents.minigame
+com.worldbiomusic.minigameworld.customevents.minigame.player
 com.worldbiomusic.minigameworld.listeners
 com.worldbiomusic.minigameworld.managers
 com.worldbiomusic.minigameworld.managers.menu
 com.worldbiomusic.minigameworld.managers.party
 com.worldbiomusic.minigameworld.minigameframes
 com.worldbiomusic.minigameworld.minigameframes.helpers
+com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard
 com.worldbiomusic.minigameworld.util
