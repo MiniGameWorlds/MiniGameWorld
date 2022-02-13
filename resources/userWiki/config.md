@@ -17,6 +17,7 @@ settings:
   leave-sign-caption: '[Leave MiniGame]'
   scoreboard: true
   scoreboard-update-delay: 10
+  remove-not-necessary-keys: false
 ```
 - `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
 - `backup-data-save-delay`: Delay of saving backup data (per minute)
@@ -25,9 +26,9 @@ settings:
 - `isolated-join-quit-message`: Minigame join/quit message only notify in minigame (true/false)
 - `join-sign-caption`: Caption of join sign block (must surround the content with `'`)
 - `leave-sign-caption`: Caption of leave sign block (must surround the content with `'`)
-- `scoreboard`: If true, use scoreboard system
+- `scoreboard`: If true, use scoreboard system (true / false)
 - `scoreboard-update-delay`: Scoreboard update delay (tick (`20`tick = `1`second))
-
+- `remove-not-necessary-keys`: If true, not necessary config keys will be removed (Caution: Map data in `custom-data` of minigames could be initialized) (true / false)
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings

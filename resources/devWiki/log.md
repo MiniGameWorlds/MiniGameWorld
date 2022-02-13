@@ -694,11 +694,11 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-02-13
 - Update wiki
-- Release `0.5.0`
 - Adjust `bStats`
+- Release `0.5.0`
 
-
-
+# 2022-02-14
+- Add `remove-not-necessary-keys` option to settings.yml (Caution: if true, Map data in `custom-data` could be initialized)
 
 
 

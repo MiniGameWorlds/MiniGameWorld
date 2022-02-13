@@ -1,12 +1,14 @@
 package com.worldbiomusic.minigameworld.util;
 
 import java.io.File;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import com.wbm.plugin.util.CollectionTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 
@@ -61,6 +63,19 @@ public class Utils {
 
 	public static File getServerFile(String file) {
 		return new File(main.getServer().getWorldContainer(), file);
+	}
+
+	public static void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
+		// remove not necessary keys to avoid error (i.e. keys for some updates)
+		if (Setting.REMOVE_NOT_NECESSARY_KEYS) {
+			CollectionTool.removeNotNecessaryKeys(configMap, pureMap);
+		}
+
+		// Restore before apply to avoid error (i.e. keys for some updates)
+		CollectionTool.restoreMissedKeys(configMap, pureMap);
+
+		// sync map keys
+		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 }
 

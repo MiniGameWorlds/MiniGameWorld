@@ -33,6 +33,7 @@
 - `/minigame settings leave-sign-caption`: Caption of leave sign block
 - `/minigame settings scoreboard`: If true, use scoreboard system (true / false)
 - `/minigame settings scoreboard-update-delay`: Scoreboard update delay (tick (`20`tick = `1`second))
+- `/minigame settings remove-not-necessary-keys`: Set remove-not-necessary-keys (true / false)
 
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 

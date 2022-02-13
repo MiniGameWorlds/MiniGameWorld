@@ -28,6 +28,8 @@ public class Setting {
 	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
 	public static boolean SCOREBOARD = true;
 	public static int SCOREBOARD_UPDATE_DELAY = 10;
+	
+	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -39,6 +41,7 @@ public class Setting {
 	public static final String SETTINGS_LEAVE_SIGN_CAPTION = "leave-sign-caption";
 	public static final String SETTINGS_SCOREBOARD = "scoreboard";
 	public static final String SETTINGS_SCOREBOARD_UPDATE_DELAY = "scoreboard-update-delay";
+	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

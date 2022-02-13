@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
-import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -110,8 +109,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_LEAVE_SIGN_CAPTION, Setting.LEAVE_SIGN_CAPTION);
 		pureData.put(Setting.SETTINGS_SCOREBOARD, Setting.SCOREBOARD);
 		pureData.put(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, Setting.SCOREBOARD_UPDATE_DELAY);
+		pureData.put(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, Setting.REMOVE_NOT_NECESSARY_KEYS);
 
-		syncMapKeys(this.settings, pureData);
+		Utils.syncMapKeys(this.settings, pureData);
 
 		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 		Setting.BACKUP_DATA_SAVE_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY);
@@ -122,22 +122,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.LEAVE_SIGN_CAPTION = (String) this.settings.get(Setting.SETTINGS_LEAVE_SIGN_CAPTION);
 		Setting.SCOREBOARD = (boolean) this.settings.get(Setting.SETTINGS_SCOREBOARD);
 		Setting.SCOREBOARD_UPDATE_DELAY = (int) this.settings.get(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY);
+		Setting.REMOVE_NOT_NECESSARY_KEYS = (boolean) this.settings.get(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS);
 
 		// create "minigames" directory
 		if (!Utils.getMiniGamesFolder().exists()) {
 			Utils.getMiniGamesFolder().mkdir();
 		}
-	}
-
-	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
-		// remove not necessary keys to avoid error (i.e. keys for some updates)
-		CollectionTool.removeNotNecessaryKeys(configMap, pureMap);
-
-		// Restore before apply to avoid error (i.e. keys for some updates)
-		CollectionTool.restoreMissedKeys(configMap, pureMap);
-
-		// sync map keys
-		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 
 	/**

@@ -62,6 +62,9 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY:
 				scoreboard_update_delay(sender, args);
 				break;
+			case Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS:
+				remove_not_necessary_keys(sender, args);
+				break;
 			}
 
 			// save config
@@ -162,4 +165,10 @@ public class MiniGameSettingsConfigCommand {
 		return true;
 	}
 
+	private boolean remove_not_necessary_keys(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, value);
+		return true;
+	}
 }

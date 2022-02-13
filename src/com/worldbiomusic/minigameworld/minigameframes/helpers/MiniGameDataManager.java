@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
-import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
@@ -70,7 +69,7 @@ public class MiniGameDataManager implements YamlMember {
 		Map<String, Object> pureSettingData = new LinkedHashMap<String, Object>(minigame.getSetting().getFileSetting());
 
 		// sync map keys
-		syncMapKeys(this.data, pureSettingData);
+		Utils.syncMapKeys(this.data, pureSettingData);
 
 		// apply settings
 		this.minigame.getSetting().setFileSetting(this.data);
@@ -92,17 +91,6 @@ public class MiniGameDataManager implements YamlMember {
 
 		// process exception
 		this.taskAfterDataSet();
-	}
-
-	private void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
-		// remove not necessary keys to avoid error (i.e. keys for some updates)
-		CollectionTool.removeNotNecessaryKeys(configMap, pureMap);
-
-		// Restore before apply to avoid error (i.e. keys for some updates)
-		CollectionTool.restoreMissedKeys(configMap, pureMap);
-
-		// sync map keys
-		CollectionTool.syncKeyOrder(configMap, pureMap);
 	}
 
 	private void taskAfterDataSet() {
