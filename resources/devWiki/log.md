@@ -149,7 +149,7 @@
 - Add description `left waiting time` and `left finish time` to menu icon
 - Add `scoreboard` option to MiniGameSetting
 - Enhance TeamBattleMiniGame team creation (add `team-size` default custom data to TeamBattleMiniGame, `TeamRegisterMode.PARTY` to TeamBattleMiniGame)
-
+- Adjust `bStats`
 
 ---
 
@@ -695,7 +695,7 @@ if(!this.isMinPlayersLive()) {
 # 2022-02-13
 - Update wiki
 - Release `0.5.0`
-
+- Adjust `bStats`
 
 
 

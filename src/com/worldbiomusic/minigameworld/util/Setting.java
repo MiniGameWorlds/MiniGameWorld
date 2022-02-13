@@ -9,6 +9,8 @@ public class Setting {
 
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
 
+	public static final int BSTATS_PLUGIN_ID = 14291;
+
 	/**
 	 * Per minutes
 	 */

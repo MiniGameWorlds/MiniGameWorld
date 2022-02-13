@@ -11,6 +11,7 @@ import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.util.Metrics;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -58,6 +59,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// MiniGameWorld wrapper class: set MiniGameManager
 		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
+
+		// BStats
+		new Metrics(this, Setting.BSTATS_PLUGIN_ID);
 	}
 
 	private void setupData() {
