@@ -360,12 +360,6 @@ public abstract class MiniGame {
 		// add player to list
 		addPlayer(p);
 
-		// save player data
-		getPlayerData(p).getState().savePlayerState();
-
-		// make pure state
-		getPlayerData(p).getState().makePureState();
-
 		// tp to game location
 		// [IMPORTANT] must call after save player state (joinedLocation included)
 		p.teleport(this.getLocation());
@@ -435,10 +429,7 @@ public abstract class MiniGame {
 		}
 
 		// remove player from minigame
-		MiniGamePlayerData pData = this.removePlayer(p);
-
-		// restore player data
-		pData.getState().restorePlayerState();
+		this.removePlayer(p);
 
 		// send title
 		sendTitle(p, ChatColor.BOLD + "Leave", "");
@@ -830,7 +821,8 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Add player to minigame list
+	 * Add player to minigame list<br>
+	 * [IMPORTANT] Save(Store) player state
 	 * 
 	 * @param p Joined player
 	 */
@@ -840,12 +832,17 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Remove player from minigame list
+	 * Remove player from minigame list<br>
+	 * [IMPORTANT] Restore player state
 	 * 
 	 * @param p Leaved player
 	 */
 	private MiniGamePlayerData removePlayer(Player p) {
 		MiniGamePlayerData pData = this.getPlayerData(p);
+		// restore player state
+		pData.getState().restorePlayerState();
+
+		// remove from the list
 		this.players.remove(pData);
 
 		return pData;

@@ -150,6 +150,13 @@
 - Add `scoreboard` option to MiniGameSetting
 - Enhance TeamBattleMiniGame team creation (add `team-size` default custom data to TeamBattleMiniGame, `TeamRegisterMode.PARTY` to TeamBattleMiniGame)
 - Adjust `bStats`
+- Add `remove-not-necessary-keys` option to settings.yml
+
+
+## 0.5.1
+### Build Changes
+- Fix scoreboard bug (score name limit)
+- Fix logic bug (about restoring player gamemode)
 
 ---
 
@@ -695,16 +702,13 @@ if(!this.isMinPlayersLive()) {
 # 2022-02-13
 - Update wiki
 - Adjust `bStats`
+- Add `remove-not-necessary-keys` option to settings.yml
 - Release `0.5.0`
 
-# 2022-02-14
-- Add `remove-not-necessary-keys` option to settings.yml (Caution: if true, Map data in `custom-data` could be initialized)
-
-
-
-
-
-
+# 2022-02-15
+- Fix scoreboard bug (score name limit)
+- Fix logic bug (about restoring player gamemode)
+- Release `0.5.1`
 
 
 

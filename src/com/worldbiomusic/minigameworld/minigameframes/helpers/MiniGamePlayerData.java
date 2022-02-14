@@ -12,7 +12,8 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 /**
  * Player data with score, live<br>
  * [IMPORTANT] live is only valid in the minigame play (not related with
- * player's health)
+ * player's health)<br>
+ * [IMPORTANT] Player state saved when a instance is created (in constructor)
  *
  */
 public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
@@ -27,8 +28,17 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 		this.minigame = minigame;
 		this.player = p;
 		this.score = 0;
-		this.setLive(true);
+
 		this.state = new MiniGamePlayerState(minigame, p);
+		// save player data
+		this.state.savePlayerState();
+		// make pure state
+		this.state.makePureState();
+
+		// [IMPORTANT] setLive() must be called after "new MiniGamePlayerState(minigame,
+		// p);" because, will change player's gamemode (player gamemode has to be saved
+		// in MiniGamePlayerState before changed)
+		this.setLive(true);
 	}
 
 	/**
@@ -102,9 +112,10 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 		// [IMPORTANT] Must be called after change player's gamemode
 		this.minigame.checkGameFinishCondition();
 	}
-	
+
 	/**
 	 * Gets player state instance
+	 * 
 	 * @return MiniGamePlayerState
 	 */
 	public MiniGamePlayerState getState() {

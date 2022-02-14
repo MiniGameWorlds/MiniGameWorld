@@ -55,9 +55,6 @@ public class MiniGamePlayerState {
 	public MiniGamePlayerState(MiniGame minigame, Player player) {
 		this.minigame = minigame;
 		this.player = player;
-
-		// save player state
-		this.savePlayerState();
 	}
 
 	public boolean isSamePlayer(Player p) {
