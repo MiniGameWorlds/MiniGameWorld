@@ -13,7 +13,7 @@ public abstract class MiniGameScoreboardUpdater {
 	protected Scoreboard scoreboard;
 	protected MiniGame minigame;
 	protected int sidebarScoreLine;
-	private String emptyLineString;
+	protected String emptyLineString;
 
 	public MiniGameScoreboardUpdater(MiniGame minigame) {
 		this.minigame = minigame;
@@ -40,7 +40,9 @@ public abstract class MiniGameScoreboardUpdater {
 		Score emptyLine = objective.getScore(this.emptyLineString);
 		emptyLine.setScore(this.sidebarScoreLine--);
 
-		// make empty line string different 
-		this.emptyLineString += ChatColor.RESET;
+		// make empty line string different
+		if (this.emptyLineString.length() < 15) {
+			this.emptyLineString += ChatColor.RESET;
+		}
 	}
 }

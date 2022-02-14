@@ -31,12 +31,12 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 
 			MiniGamePlayerData pData = minigame.getPlayerData(p);
 			if (pData.isLive()) {
-				playerStr = playerStr + ChatColor.WHITE + p.getName();
+				playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
 			} else {
-				playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName();
+				playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName() + ChatColor.RESET;
 			}
 
-			playerStr += ": " + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD + pData.getScore();
+			playerStr += ": " + ChatColor.GOLD + ChatColor.BOLD + pData.getScore();
 
 			Score playerList = sidebarObjective.getScore(playerStr);
 			playerList.setScore(this.sidebarScoreLine--);

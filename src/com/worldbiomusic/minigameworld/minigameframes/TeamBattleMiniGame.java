@@ -1199,8 +1199,9 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 		// Team list
 		for (Team team : minigame.getTeamList()) {
 			// team name
-			String teamNameStr = "[" + team.getColoredTeamName() + "]" + ": " + ChatColor.RESET + ChatColor.GOLD
-					+ ChatColor.BOLD + team.getScore();
+			String coloredTeamName = team.isTeamLive() ? team.getColoredTeamName()
+					: ChatColor.STRIKETHROUGH + team.getColoredTeamName() + ChatColor.RESET;
+			String teamNameStr = "[" + coloredTeamName + "]" + ": " + ChatColor.GOLD + ChatColor.BOLD + team.getScore();
 			Score teamName = sidebarObjective.getScore(teamNameStr);
 			teamName.setScore(sidebarScoreLine--);
 
@@ -1210,9 +1211,9 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 
 				MiniGamePlayerData pData = minigame.getPlayerData(p);
 				if (pData.isLive()) {
-					playerStr = playerStr + ChatColor.WHITE + p.getName();
+					playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
 				} else {
-					playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName();
+					playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName() + ChatColor.RESET;
 				}
 
 				Score playerList = sidebarObjective.getScore(playerStr);

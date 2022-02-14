@@ -21,6 +21,9 @@ public class MiniGameScoreboardSidebarUpdater extends MiniGameScoreboardUpdater 
 
 		// init line
 		this.sidebarScoreLine = 0;
+		
+		// init empty line string
+		this.emptyLineString = "";
 
 		// empty line
 		addEmptyLineToSiderbar();
