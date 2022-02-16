@@ -92,26 +92,8 @@ public class MiniGameViewManager {
 		// call player view event
 		MiniGamePlayerViewEvent viewEvent = new MiniGamePlayerViewEvent(this.minigame, p);
 		Bukkit.getServer().getPluginManager().callEvent(viewEvent);
-
 		// check event is cancelled
 		if (viewEvent.isCancelled()) {
-			return;
-		}
-
-		// return if minigame is not active
-		if (!this.minigame.isActive()) {
-			this.minigame.sendMessage(p, "Minigame is not acitve");
-			return;
-		}
-
-		// check minigame view setting value
-		if (!this.minigame.getSetting().canView()) {
-			this.minigame.sendMessage(p, "You can't view this minigame");
-			return;
-		}
-
-		if (isViewing(p)) {
-			this.minigame.sendMessage(p, "You are already viewing this game");
 			return;
 		}
 
@@ -146,9 +128,8 @@ public class MiniGameViewManager {
 		// check player is a viewer
 		if (isViewing(p)) {
 			// call player unview event
-			MiniGamePlayerUnviewEvent unviewEvent = new MiniGamePlayerUnviewEvent(this.minigame, p);
+			MiniGamePlayerUnviewEvent unviewEvent = new MiniGamePlayerUnviewEvent(minigame, p);
 			Bukkit.getServer().getPluginManager().callEvent(unviewEvent);
-
 			// check event is cancelled
 			if (unviewEvent.isCancelled()) {
 				return;

@@ -100,6 +100,7 @@ public class MiniGameWorld {
 	public void setMiniGameManager(MiniGameManager minigameM) {
 		if (this.minigameManager == null) {
 			this.minigameManager = minigameM;
+			MiniGameWorldUtils.setMiniGameManager(minigameM);
 		}
 	}
 
@@ -150,59 +151,6 @@ public class MiniGameWorld {
 	 */
 	public MiniGameEventDetector getMiniGameEventDetector() {
 		return this.minigameManager.getMiniGameEventDetector();
-	}
-	
-	/**
-	 * Checks a player is playing any minigames
-	 * 
-	 * @param p Player to check
-	 * @return True if player is playing any minigames
-	 */
-	public boolean checkPlayerIsPlayingMiniGame(Player p) {
-		return this.minigameManager.isPlayingMiniGame(p);
-	}
-
-	/**
-	 * Check a player is viewing any minigames
-	 * 
-	 * @param p Player to check
-	 * @return True if a player is viewing any minigames
-	 */
-	public boolean checkPlayerIsViewingMiniGame(Player p) {
-		return this.minigameManager.isViewingMiniGame(p);
-	}
-
-	/**
-	 * Gets MiniGameAccessor with class name
-	 * 
-	 * @param className Minigame class name
-	 * @return Null if class name minigame not exist
-	 */
-	public MiniGameAccessor getMiniGameWithClassName(String className) {
-		MiniGame minigame = this.minigameManager.getMiniGameWithClassName(className);
-		return new MiniGameAccessor(minigame);
-	}
-
-	/**
-	 * Gets player's playing minigame
-	 * 
-	 * @param p Player to check
-	 * @return Null if a player is not playing any minigames
-	 */
-	public MiniGameAccessor getPlayingMiniGame(Player p) {
-		MiniGame minigame = this.minigameManager.getPlayingMiniGame(p);
-		return new MiniGameAccessor(minigame);
-	}
-
-	/**
-	 * Get player's viewing minigame
-	 * 
-	 * @param p Player to check
-	 * @return Null if a player is not viewing any minigames
-	 */
-	public MiniGameAccessor getViewingMiniGame(Player p) {
-		MiniGame minigame = this.minigameManager.getViewingMiniGame(p);
-		return new MiniGameAccessor(minigame);
 	}
 
 	/**

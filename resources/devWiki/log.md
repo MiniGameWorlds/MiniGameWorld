@@ -161,7 +161,6 @@
 ---
 
 
-
 # 2020-10 ~ 2021-03
 - See `Relay Escape Plugin` log (separated minigame module from `Relay Escape` server)
 
@@ -710,8 +709,9 @@ if(!this.isMinPlayersLive()) {
 - Fix logic bug (about restoring player gamemode)
 - Release `0.5.1`
 
-
-
+# 2022-02-17
+- Change custom event call timing (`MiniGamePlayerJoinEvent`,`MiniGamePlayerLeaveEvent`,`MiniGamePlayerViewEvent`,`MiniGamePlayerUnviewEvent`)
+- Create `MiniGameWorldUtils`
 
 
 

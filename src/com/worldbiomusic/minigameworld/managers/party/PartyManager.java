@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
-import com.worldbiomusic.minigameworld.managers.MiniGameManager;
-import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 import net.md_5.bungee.api.ChatColor;
@@ -30,11 +28,9 @@ import net.md_5.bungee.api.chat.TextComponent;
  */
 public class PartyManager {
 
-	private MiniGameManager miniGameManager;
 	private List<Party> parties;
 
-	public PartyManager(MiniGameManager miniGameManager) {
-		this.miniGameManager = miniGameManager;
+	public PartyManager() {
 		this.parties = new ArrayList<>();
 	}
 
@@ -421,31 +417,6 @@ public class PartyManager {
 			Party.sendMessage(notifyPlayer, "That player is not online");
 			return false;
 		}
-		return true;
-	}
-
-	/**
-	 * Check party members can join minigame
-	 * 
-	 * @param p    Target player
-	 * @param game MiniGame
-	 * @return True if can join, or false
-	 */
-	public boolean canPartyJoin(Player p, MiniGame game) {
-		if (!this.hasParty(p)) {
-			return true;
-		}
-
-		List<Player> members = this.getMembers(p);
-		int nonPlayingGameMemberCount = this.miniGameManager.getNonPlayingPlayerCount(members);
-		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
-
-		// check party size
-		if (nonPlayingGameMemberCount > leftSeats) {
-			Utils.sendMsg(p, "Party members are too many to join the game together");
-			return false;
-		}
-
 		return true;
 	}
 

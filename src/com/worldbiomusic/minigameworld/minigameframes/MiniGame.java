@@ -316,24 +316,8 @@ public abstract class MiniGame {
 		// call player join event
 		MiniGamePlayerJoinEvent joinEvent = new MiniGamePlayerJoinEvent(this, p);
 		Bukkit.getServer().getPluginManager().callEvent(joinEvent);
-
 		// check event is cancelled
 		if (joinEvent.isCancelled()) {
-			return false;
-		}
-
-		if (!this.isActive()) {
-			this.sendMessage(p, "Minigame is not active");
-			return false;
-		}
-
-		if (this.started) {
-			this.sendMessage(p, "Already started");
-			return false;
-		}
-
-		if (this.isFull()) {
-			this.sendMessage(p, "Player is full");
 			return false;
 		}
 
@@ -377,26 +361,11 @@ public abstract class MiniGame {
 	 * @return Result of try to leave
 	 */
 	public boolean leaveGame(Player p) {
-		// check
-		// 1. game must not be started
-		// 2. game waitingTime counter must be upper than 3
-
 		// call player leave event
 		MiniGamePlayerLeaveEvent leaveEvent = new MiniGamePlayerLeaveEvent(this, p);
 		Bukkit.getServer().getPluginManager().callEvent(leaveEvent);
-
 		// check event is cancelled
 		if (leaveEvent.isCancelled()) {
-			return false;
-		}
-
-		if (this.started) {
-			this.sendMessage(p, "You can't leave game(Reason: game already has started)");
-			return false;
-		}
-
-		if (this.getLeftWaitingTime() <= Setting.MINIGAME_MIN_LEAVE_TIME) {
-			this.sendMessage(p, "You can't leave game(Reason: game will start soon)");
 			return false;
 		}
 

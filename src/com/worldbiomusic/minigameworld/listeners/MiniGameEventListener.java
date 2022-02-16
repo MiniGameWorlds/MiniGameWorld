@@ -28,23 +28,30 @@ public class MiniGameEventListener implements Listener {
 		this.minigameManager.handleException(e);
 	}
 
+	/**
+	 * If minigame is TeamBattleMiniGame and team register mode is "PARTY", limit
+	 * party entrance
+	 */
 	@EventHandler
 	public void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
 		MiniGameAccessor game = e.getMiniGame();
 		MiniGame minigame = null;
 
+		// get minigame instance
 		for (MiniGame m : this.minigameManager.getMiniGameList()) {
 			if (game.equals(m)) {
 				minigame = m;
 			}
 		}
 
+		// check minigame is TeamBattleMiniGame
 		if (!(minigame instanceof TeamBattleMiniGame)) {
 			return;
 		}
 
 		TeamBattleMiniGame teamBattleMiniGame = (TeamBattleMiniGame) minigame;
 
+		// check team register mode is "PARTY"
 		if (teamBattleMiniGame.getTeamRegisterMode() == TeamRegisterMode.PARTY) {
 			Player p = e.getPlayer();
 

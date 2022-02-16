@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
+import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -265,6 +267,25 @@ public class Party {
 			return this.getPartyMember(p).getKickVotesCount();
 		}
 		return -1;
+	}
+	
+	/**
+	 * Check party members can join minigame
+	 * 
+	 * @param p    Target player
+	 * @param game MiniGame
+	 * @return True if can join, or false
+	 */
+	public boolean canJoinMiniGame(MiniGame game) {
+		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getNotInMiniGamePlayers(getMembers());
+		
+		// check party size
+		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
+		if (notInMiniGameMembers.size() > leftSeats) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

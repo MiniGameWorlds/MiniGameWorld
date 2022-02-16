@@ -20,3 +20,4 @@
 - API returns **clone** instance for data security (use Cloneable)
 - Most features should be considered for use as APIs
 - Check the permissions at the end of the process, not before the command with
+- A custom event is called when the action associated with the event is determined to be processed (e.g. `MiniGamePlayerJoinEvent` in `MiniGameManager`)

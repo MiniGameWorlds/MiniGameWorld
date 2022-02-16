@@ -21,6 +21,7 @@ import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.worldbiomusic.minigameworld.commands.MiniGameMinigamesConfigCommand;
@@ -28,10 +29,10 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEv
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
+import com.worldbiomusic.minigameworld.managers.party.Party;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -70,7 +71,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		this.minigameEventDetector = new MiniGameEventDetector(this);
 
 		this.guiManager = new MiniGameMenuManager(this);
-		this.partyManager = new PartyManager(this);
+		this.partyManager = new PartyManager();
 		this.observers = new ArrayList<>();
 	}
 
@@ -150,29 +151,40 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		if (!this.partyManager.canPartyJoin(p, game)) {
-			return;
-		}
-
 		// check a player is playing or viewing a minigame
-		MiniGameViewManager viewManager = game.getViewManager();
-		if (isPlayingMiniGame(p) || viewManager.isViewing(p)) {
+		if (isInMiniGame(p)) {
 			Utils.sendMsg(p, "You are already playing or viewing another minigame");
 			return;
 		}
 
-		// notify message to party members
-		if (this.partyManager.getPlayerParty(p).getSize() > 1) {
-			this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + " joined minigame with party");
+		if (!game.isActive()) {
+			Utils.sendMsg(p, "Minigame is not active");
+			return;
 		}
 
-		List<Player> members = this.partyManager.getMembers(p);
+		if (game.isStarted()) {
+			Utils.sendMsg(p, "Already started");
+			return;
+		}
+
+		if (game.isFull()) {
+			Utils.sendMsg(p, "Player is full");
+			return;
+		}
+
+		Party party = this.partyManager.getPlayerParty(p);
+		if (!party.canJoinMiniGame(game)) {
+			Utils.sendMsg(p, "Your party is too big to join the minigame together");
+			return;
+		}
+
 		// join with party member who is not playing or viewing a minigame now
-		for (Player member : members) {
-			if (!(isPlayingMiniGame(member) || isViewingMiniGame(member))) {
-				// join
-				game.joinGame(member);
-			}
+		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getNotInMiniGamePlayers(party.getMembers());
+		notInMiniGameMembers.forEach(game::joinGame);
+
+		// notify message to party members
+		if (party.getSize() > 1) {
+			party.sendMessageToAllMembers(p.getName() + " joined minigame with party");
 		}
 	}
 
@@ -192,21 +204,34 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check player is playing minigame
 		if (!isPlayingMiniGame(p)) {
-			Utils.sendMsg(p, "You're not playing a minigame");
+			Utils.sendMsg(p, "You're not playing any minigame to leave");
 			return;
 		}
 
-		// notify message to party members
-		if (this.partyManager.getPlayerParty(p).getSize() > 1) {
-			this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + " left minigame with party");
+		MiniGame playingGame = getPlayingMiniGame(p);
+
+		// check minigame is started
+		if (playingGame.isStarted()) {
+			Utils.sendMsg(p, "You can't leave game(Reason: game already has started)");
+			return;
 		}
 
-		MiniGame playingGame = getPlayingMiniGame(p);
+		// check left waiting time
+		if (playingGame.getLeftWaitingTime() <= Setting.MINIGAME_MIN_LEAVE_TIME) {
+			Utils.sendMsg(p, "You can't leave game(Reason: game will start soon)");
+			return;
+		}
+
 		for (Player member : members) {
 			// leave with members who is playing the same minigame with "p"
 			if (playingGame.equals(getPlayingMiniGame(member))) {
 				playingGame.leaveGame(member);
 			}
+		}
+
+		// notify message to party members
+		if (this.partyManager.getPlayerParty(p).getSize() > 1) {
+			this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + " left minigame with party");
 		}
 	}
 
@@ -230,9 +255,20 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
+		// return if minigame is not active
+		if (!game.isActive()) {
+			Utils.sendMsg(p, "Minigame is not acitve");
+			return;
+		}
+
+		// check minigame view setting value
+		if (!game.getSetting().canView()) {
+			Utils.sendMsg(p, "You can't view this minigame");
+			return;
+		}
+
 		// check a player is playing or viewing a minigame
-		MiniGameViewManager viewManager = game.getViewManager();
-		if (isPlayingMiniGame(p) || viewManager.isViewing(p)) {
+		if (isInMiniGame(p)) {
 			Utils.sendMsg(p, "You are already playing or viewing another minigame");
 			return;
 		}
@@ -257,7 +293,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		// unview (leave) from a minigame
+		// unview (leave) from the minigame
 		MiniGame minigame = getViewingMiniGame(p);
 		minigame.getViewManager().unviewGame(p);
 	}
@@ -399,6 +435,16 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		return this.getViewingMiniGame(p) != null;
 	}
 
+	public MiniGame getInMiniGame(Player p) {
+		if (isPlayingMiniGame(p)) {
+			return getPlayingMiniGame(p);
+		} else if (isViewingMiniGame(p)) {
+			return getViewingMiniGame(p);
+		}
+
+		return null;
+	}
+
 	/**
 	 * Whether player is playing or viewing a minigame
 	 * 
@@ -520,16 +566,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 				Utils.info(ChatColor.RED + removedGameTitle + " file is deleted");
 			}
 		}
-	}
-
-	public int getNonPlayingPlayerCount(List<Player> players) {
-		int Count = 0;
-		for (Player p : players) {
-			if (!this.isPlayingMiniGame(p)) {
-				Count += 1;
-			}
-		}
-		return Count;
 	}
 
 	public Map<String, Object> getSettings() {
