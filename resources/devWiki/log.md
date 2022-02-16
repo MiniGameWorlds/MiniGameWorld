@@ -711,7 +711,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-02-17
 - Change custom event call timing (`MiniGamePlayerJoinEvent`,`MiniGamePlayerLeaveEvent`,`MiniGamePlayerViewEvent`,`MiniGamePlayerUnviewEvent`)
-- Create `MiniGameWorldUtils`
+- Create `MiniGameWorldUtils` (Utilities for API)
 
 
 

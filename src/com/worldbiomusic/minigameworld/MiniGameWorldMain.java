@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
+import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
 import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
@@ -59,6 +60,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// MiniGameWorld wrapper class: set MiniGameManager
 		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
+		
+		// setup MiniGameWorldUtils
+		MiniGameWorldUtils.setMiniGameManager(minigameManager);
 
 		// BStats
 		new Metrics(this, Setting.BSTATS_PLUGIN_ID);

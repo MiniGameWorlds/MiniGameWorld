@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.CollectionTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -51,10 +50,6 @@ public class Utils {
 
 	public static void broadcast(String msg) {
 		Bukkit.broadcastMessage(getMessagePrefixString() + msg);
-	}
-
-	public static File getMiniGamesFolder() {
-		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameDataManager.FOLDER_NAME);
 	}
 
 	public static boolean checkPerm(CommandSender sender, String permission) {

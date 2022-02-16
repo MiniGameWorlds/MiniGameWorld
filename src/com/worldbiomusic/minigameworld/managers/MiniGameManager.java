@@ -126,8 +126,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.REMOVE_NOT_NECESSARY_KEYS = (boolean) this.settings.get(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS);
 
 		// create "minigames" directory
-		if (!Utils.getMiniGamesFolder().exists()) {
-			Utils.getMiniGamesFolder().mkdir();
+		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {
+			MiniGameWorldUtils.getMiniGamesDirectory().mkdir();
 		}
 	}
 
@@ -199,9 +199,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		// leave party members
-		List<Player> members = this.partyManager.getMembers(p);
-
 		// check player is playing minigame
 		if (!isPlayingMiniGame(p)) {
 			Utils.sendMsg(p, "You're not playing any minigame to leave");
@@ -212,16 +209,18 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check minigame is started
 		if (playingGame.isStarted()) {
-			Utils.sendMsg(p, "You can't leave game(Reason: game already has started)");
+			Utils.sendMsg(p, "You can't leave game (Reason: already has started)");
 			return;
 		}
 
 		// check left waiting time
 		if (playingGame.getLeftWaitingTime() <= Setting.MINIGAME_MIN_LEAVE_TIME) {
-			Utils.sendMsg(p, "You can't leave game(Reason: game will start soon)");
+			Utils.sendMsg(p, "You can't leave game (Reason: will start soon)");
 			return;
 		}
 
+		// leave party members
+		List<Player> members = this.partyManager.getMembers(p);
 		for (Player member : members) {
 			// leave with members who is playing the same minigame with "p"
 			if (playingGame.equals(getPlayingMiniGame(member))) {
@@ -549,7 +548,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		List<String> minigameStringList = new ArrayList<String>();
 		this.minigames.forEach(m -> minigameStringList.add(m.getClassName()));
 
-		File minigamesFolder = Utils.getMiniGamesFolder();
+		File minigamesFolder = MiniGameWorldUtils.getMiniGamesDirectory();
 		for (File minigameFile : minigamesFolder.listFiles()) {
 			String flieName = Files.getNameWithoutExtension(minigameFile.getName());
 			if (!minigameStringList.contains(flieName)) {

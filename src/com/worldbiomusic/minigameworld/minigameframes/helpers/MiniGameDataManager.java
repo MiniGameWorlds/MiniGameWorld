@@ -11,6 +11,7 @@ import com.google.common.io.Files;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
+import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -53,7 +54,7 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	public File getMiniGameFile() {
-		File gamesFolder = Utils.getMiniGamesFolder();
+		File gamesFolder = MiniGameWorldUtils.getMiniGamesDirectory();
 		for (File f : gamesFolder.listFiles()) {
 			String fileName = Files.getNameWithoutExtension(f.getName());
 			if (fileName.equals(this.getClassName())) {

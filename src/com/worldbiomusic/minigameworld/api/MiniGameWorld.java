@@ -100,7 +100,6 @@ public class MiniGameWorld {
 	public void setMiniGameManager(MiniGameManager minigameM) {
 		if (this.minigameManager == null) {
 			this.minigameManager = minigameM;
-			MiniGameWorldUtils.setMiniGameManager(minigameM);
 		}
 	}
 

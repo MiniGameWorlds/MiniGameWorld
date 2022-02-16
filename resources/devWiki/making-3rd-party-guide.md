@@ -101,7 +101,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 
 		// get opened menu inventory
-		Inventory inv = mw.openMiniGameMenu(p);
+		Inventory inv = mw.openMenu(p);
 
 		// custom slot
 		ItemStack customSlot = new ItemStack(Material.REDSTONE);
@@ -303,7 +303,7 @@ public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
 - `MiniGamePlayerException`: leave the player from the minigame
 ```java
 // minigame player exception: playing player will leave from the minigame
-if (MiniGameWorld.create("x.x.x").checkPlayerIsPlayingMiniGame(p)) {
+if (MiniGameWorldUtils.checkPlayerIsPlayingMiniGame(p)) {
 	Bukkit.getServer().getPluginManager()
 			.callEvent(new MiniGamePlayerExceptionEvent("reason", p));
 }
