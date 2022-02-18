@@ -15,8 +15,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
-import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
+import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerUnviewEvent;
+import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerViewEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameViewManager {

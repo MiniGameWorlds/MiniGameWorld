@@ -25,8 +25,8 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEv
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameFinishEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
-import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
-import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
+import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerJoinEvent;
+import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerLeaveEvent;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;

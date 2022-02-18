@@ -1,4 +1,4 @@
-package com.worldbiomusic.minigameworld.customevents.minigame.player;
+package com.worldbiomusic.minigameworld.customevents.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -6,13 +6,13 @@ import org.bukkit.event.Cancellable;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
- * Called when a player try to join a minigame<br>
+ * Called when a player try to view a minigame
  *
  */
-public class MiniGamePlayerJoinEvent extends MiniGamePlayerEvent implements Cancellable {
+public class MiniGamePlayerViewEvent extends MiniGamePlayerEvent implements Cancellable{
 	private boolean cancelled;
 
-	public MiniGamePlayerJoinEvent(MiniGame minigame, Player player) {
+	public MiniGamePlayerViewEvent(MiniGame minigame, Player player) {
 		super(minigame, player);
 		this.cancelled = false;
 	}
@@ -26,5 +26,6 @@ public class MiniGamePlayerJoinEvent extends MiniGamePlayerEvent implements Canc
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
+
 
 }
