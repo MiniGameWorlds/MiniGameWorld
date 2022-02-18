@@ -272,7 +272,6 @@ public class Party {
 	/**
 	 * Check party members can join minigame
 	 * 
-	 * @param p    Target player
 	 * @param game MiniGame
 	 * @return True if can join, or false
 	 */
