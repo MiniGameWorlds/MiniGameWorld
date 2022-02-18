@@ -21,14 +21,14 @@ public class Setting {
 	public static final int PARTY_ASK_TIMEOUT = 60;
 
 	// Minigame
-	public static final int MINIGAME_MIN_LEAVE_TIME = 3;
+	public static int MIN_LEAVE_TIME = 3;
 	public static boolean ISOLATED_CHAT = true;
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
 	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
 	public static boolean SCOREBOARD = true;
 	public static int SCOREBOARD_UPDATE_DELAY = 10;
-	
+
 	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
 
 	// settings.yml
@@ -42,6 +42,7 @@ public class Setting {
 	public static final String SETTINGS_SCOREBOARD = "scoreboard";
 	public static final String SETTINGS_SCOREBOARD_UPDATE_DELAY = "scoreboard-update-delay";
 	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
+	public static final String SETTINGS_MIN_LEAVE_TIME = "min-leave-time";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

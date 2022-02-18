@@ -65,6 +65,9 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS:
 				remove_not_necessary_keys(sender, args);
 				break;
+			case Setting.SETTINGS_MIN_LEAVE_TIME:
+				min_leave_time(sender, args);
+				break;
 			}
 
 			// save config
@@ -169,6 +172,13 @@ public class MiniGameSettingsConfigCommand {
 		boolean value = Boolean.parseBoolean(args[2]);
 
 		this.setKeyValue(sender, Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, value);
+		return true;
+	}
+
+	private boolean min_leave_time(CommandSender sender, String[] args) throws Exception {
+		int value = Integer.parseInt(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_MIN_LEAVE_TIME, value);
 		return true;
 	}
 }

@@ -18,6 +18,7 @@ settings:
   scoreboard: true
   scoreboard-update-delay: 10
   remove-not-necessary-keys: false
+  min-leave-time: 3
 ```
 - `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
 - `backup-data-save-delay`: Delay of saving backup data (per minute)
@@ -29,6 +30,7 @@ settings:
 - `scoreboard`: If true, use scoreboard system (true / false)
 - `scoreboard-update-delay`: Scoreboard update delay (tick (`20`tick = `1`second))
 - `remove-not-necessary-keys`: If true, not necessary config keys will be removed (Caution: Map data in `custom-data` of minigames could be initialized) (true / false)
+- `min-leave-time`: Minimun time to leave the minigame (sec)
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings

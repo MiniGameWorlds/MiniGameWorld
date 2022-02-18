@@ -111,6 +111,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_SCOREBOARD, Setting.SCOREBOARD);
 		pureData.put(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, Setting.SCOREBOARD_UPDATE_DELAY);
 		pureData.put(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, Setting.REMOVE_NOT_NECESSARY_KEYS);
+		pureData.put(Setting.SETTINGS_MIN_LEAVE_TIME, Setting.MIN_LEAVE_TIME);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
@@ -124,6 +125,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.SCOREBOARD = (boolean) this.settings.get(Setting.SETTINGS_SCOREBOARD);
 		Setting.SCOREBOARD_UPDATE_DELAY = (int) this.settings.get(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY);
 		Setting.REMOVE_NOT_NECESSARY_KEYS = (boolean) this.settings.get(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS);
+		Setting.MIN_LEAVE_TIME = (int) this.settings.get(Setting.SETTINGS_MIN_LEAVE_TIME);
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {
@@ -214,7 +216,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		// check left waiting time
-		if (playingGame.getLeftWaitingTime() <= Setting.MINIGAME_MIN_LEAVE_TIME) {
+		if (playingGame.getLeftWaitingTime() <= Setting.MIN_LEAVE_TIME) {
 			Utils.sendMsg(p, "You can't leave game (Reason: will start soon)");
 			return;
 		}

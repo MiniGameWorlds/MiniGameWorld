@@ -26,14 +26,15 @@
 - set plugin settings in `settings.yml` config
 - `/minigame settings message-prefix <value>`: set plugin message prefix
 - `/minigame settings backup-data-save-delay <value>`: set backup data save delay (min)
-- `/minigame settings debug-mode`: if true, console will print debug logs (true / false)
-- `/minigame settings isolated-chat`: Playing minigame players can only chat with each other (true / false)
-- `/minigame settings isolated-join-quit-message`: Minigame join/quit message only notify in minigame (true / false)
-- `/minigame settings join-sign-caption`: Caption of join sign block
-- `/minigame settings leave-sign-caption`: Caption of leave sign block
-- `/minigame settings scoreboard`: If true, use scoreboard system (true / false)
-- `/minigame settings scoreboard-update-delay`: Scoreboard update delay (tick (`20`tick = `1`second))
-- `/minigame settings remove-not-necessary-keys`: Set remove-not-necessary-keys (true / false)
+- `/minigame settings debug-mode <value>`: if true, console will print debug logs (true / false)
+- `/minigame settings isolated-chat <value>`: Playing minigame players can only chat with each other (true / false)
+- `/minigame settings isolated-join-quit-message <value>`: Minigame join/quit message only notify in minigame (true / false)
+- `/minigame settings join-sign-caption <value>`: Caption of join sign block
+- `/minigame settings leave-sign-caption <value>`: Caption of leave sign block
+- `/minigame settings scoreboard <value>`: If true, use scoreboard system (true / false)
+- `/minigame settings scoreboard-update-delay <value>`: Scoreboard update delay (tick (`20`tick = `1`second))
+- `/minigame settings remove-not-necessary-keys <value>`: Set remove-not-necessary-keys (true / false)
+- `/minigame settings min-leave-time <value>`: Set min-leave-time (sec)
 
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
