@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -101,7 +102,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	private void initSettingData() {
 		Map<String, Object> pureData = new LinkedHashMap<>();
-		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Utils.messagePrefix);
+		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Setting.MESSAGE_PREFIX);
 		pureData.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
 		pureData.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
 		pureData.put(Setting.SETTINGS_ISOLATED_CHAT, Setting.ISOLATED_CHAT);
@@ -112,10 +113,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, Setting.SCOREBOARD_UPDATE_DELAY);
 		pureData.put(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, Setting.REMOVE_NOT_NECESSARY_KEYS);
 		pureData.put(Setting.SETTINGS_MIN_LEAVE_TIME, Setting.MIN_LEAVE_TIME);
+		pureData.put(Setting.SETTINGS_START_SOUND, Setting.START_SOUND.name());
+		pureData.put(Setting.SETTINGS_FINISH_SOUND, Setting.FINISH_SOUND.name());
 
 		Utils.syncMapKeys(this.settings, pureData);
 
-		Utils.messagePrefix = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
+		Setting.MESSAGE_PREFIX = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
 		Setting.BACKUP_DATA_SAVE_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY);
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
@@ -126,6 +129,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.SCOREBOARD_UPDATE_DELAY = (int) this.settings.get(Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY);
 		Setting.REMOVE_NOT_NECESSARY_KEYS = (boolean) this.settings.get(Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS);
 		Setting.MIN_LEAVE_TIME = (int) this.settings.get(Setting.SETTINGS_MIN_LEAVE_TIME);
+		Setting.START_SOUND = Sound.valueOf(((String) this.settings.get(Setting.SETTINGS_START_SOUND)).toUpperCase());
+		Setting.FINISH_SOUND = Sound.valueOf(((String) this.settings.get(Setting.SETTINGS_FINISH_SOUND)).toUpperCase());
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {

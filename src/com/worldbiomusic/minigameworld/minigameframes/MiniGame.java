@@ -9,7 +9,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -509,7 +508,7 @@ public abstract class MiniGame {
 		this.started = true;
 
 		// play sound
-		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_END_PORTAL_SPAWN));
+		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
 
 		// starting title
 		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
@@ -546,7 +545,7 @@ public abstract class MiniGame {
 		runTaskBeforeFinish();
 
 		// play sound
-		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.ENTITY_ENDER_DRAGON_DEATH));
+		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.FINISH_SOUND));
 
 		printEndInfo();
 

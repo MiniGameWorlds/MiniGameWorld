@@ -22,7 +22,7 @@ public class MiniGameWorldUtils {
 	 * Do not use
 	 */
 	public static void setMiniGameManager(MiniGameManager minigameManager) {
-		if (minigameManager == null) {
+		if (MiniGameWorldUtils.minigameManager == null) {
 			MiniGameWorldUtils.minigameManager = minigameManager;
 		}
 	}

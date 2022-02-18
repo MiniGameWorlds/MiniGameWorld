@@ -19,6 +19,8 @@ settings:
   scoreboard-update-delay: 10
   remove-not-necessary-keys: false
   min-leave-time: 3
+  start-sound: BLOCK_END_PORTAL_SPAWN
+  finish-sound: ENTITY_ENDER_DRAGON_DEATH
 ```
 - `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
 - `backup-data-save-delay`: Delay of saving backup data (per minute)
@@ -31,6 +33,8 @@ settings:
 - `scoreboard-update-delay`: Scoreboard update delay (tick (`20`tick = `1`second))
 - `remove-not-necessary-keys`: If true, not necessary config keys will be removed (Caution: Map data in `custom-data` of minigames could be initialized) (true / false)
 - `min-leave-time`: Minimun time to leave the minigame (sec)
+- `start-sound`: Sound when a minigame starts (connect words with `_` of [Sound](https://www.digminecraft.com/lists/sound_list_pc.php))
+- `finish-sound`: Sound when a minigame finished (connect words with `_` of [Sound](https://www.digminecraft.com/lists/sound_list_pc.php))
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings
@@ -91,7 +95,7 @@ PVP:
 - `waiting-time`: Waiting time (sec)
 - `time-limit`: Minigame playing time limit (sec)
 - `active`: Whether this minigame is active in the server(true/false)
-- `icon`: Material which show in menu (Material)
+- `icon`: Material which show in menu (connect words with `_` of [Material](https://minecraftitemids.com/types/material))
 - `view`: Whether a player can view a minigame
 - `location`: Minigame join location
 - `tutorial`: Tutorials

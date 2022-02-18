@@ -1,9 +1,15 @@
 package com.worldbiomusic.minigameworld.util;
 
+import org.bukkit.Sound;
+
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class Setting {
 	public static final String API_VERSION = apiVersion();
+	
+	public static String MESSAGE_PREFIX = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 
 	public static boolean DEBUG_MODE = false;
 
@@ -21,13 +27,15 @@ public class Setting {
 	public static final int PARTY_ASK_TIMEOUT = 60;
 
 	// Minigame
-	public static int MIN_LEAVE_TIME = 3;
 	public static boolean ISOLATED_CHAT = true;
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
 	public static String LEAVE_SIGN_CAPTION = "[Leave MiniGame]";
 	public static boolean SCOREBOARD = true;
 	public static int SCOREBOARD_UPDATE_DELAY = 10;
+	public static int MIN_LEAVE_TIME = 3;
+	public static Sound START_SOUND = Sound.BLOCK_END_PORTAL_SPAWN;
+	public static Sound FINISH_SOUND = Sound.ENTITY_ENDER_DRAGON_DEATH;
 
 	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
 
@@ -43,6 +51,8 @@ public class Setting {
 	public static final String SETTINGS_SCOREBOARD_UPDATE_DELAY = "scoreboard-update-delay";
 	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
 	public static final String SETTINGS_MIN_LEAVE_TIME = "min-leave-time";
+	public static final String SETTINGS_START_SOUND = "start-sound";
+	public static final String SETTINGS_FINISH_SOUND = "finish-sound";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

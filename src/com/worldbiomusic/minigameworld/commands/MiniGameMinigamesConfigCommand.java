@@ -51,34 +51,34 @@ public class MiniGameMinigamesConfigCommand {
 
 			switch (key) {
 			case Setting.MINIGAMES_TITLE:
-				this.title(sender, args, data);
+				title(sender, args, data);
 				break;
 			case Setting.MINIGAMES_LOCATION:
-				this.location(sender, args, data);
+				location(sender, args, data);
 				break;
 			case Setting.MINIGAMES_MIN_PLAYER_COUNT:
-				this.min_player_count(sender, args, data);
+				min_player_count(sender, args, data);
 				break;
 			case Setting.MINIGAMES_MAX_PLAYER_COUNT:
-				this.max_player_count(sender, args, data);
+				max_player_count(sender, args, data);
 				break;
 			case Setting.MINIGAMES_WAITING_TIME:
-				this.waiting_time(sender, args, data);
+				waiting_time(sender, args, data);
 				break;
 			case Setting.MINIGAMES_TIME_LIMIT:
-				this.time_liimt(sender, args, data);
+				time_liimt(sender, args, data);
 				break;
 			case Setting.MINIGAMES_ACTIVE:
-				this.active(sender, args, data);
+				active(sender, args, data);
 				break;
 			case Setting.MINIGAMES_TUTORIAL:
-				this.tutorial(sender, args, data);
+				tutorial(sender, args, data);
 				break;
 			case Setting.MINIGAMES_CUSTOM_DATA: // can not process
-				this.custom_data(sender, args, data);
+				custom_data(sender, args, data);
 				break;
 			case Setting.MINIGAMES_ICON:
-				this.icon(sender, args, data);
+				icon(sender, args, data);
 				break;
 			case Setting.MINIGAMES_VIEW:
 				view(sender, args, data);
@@ -122,7 +122,13 @@ public class MiniGameMinigamesConfigCommand {
 
 	private boolean title(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		// /mg minigames <classname> title <value>
-		String title = args[3];
+		String title = "";
+		for (int i = 3; i < args.length; i++) {
+			title += args[i];
+			if (i < args.length - 1) {
+				title += " ";
+			}
+		}
 
 		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_TITLE, title);
 		return true;
@@ -200,7 +206,7 @@ public class MiniGameMinigamesConfigCommand {
 		// /mg minigames <classname> tutorial <line> <4> <5> <6> ...
 
 		String tutorialString = "";
-		for (int i = 4; i < args.length - 1; i++) {
+		for (int i = 4; i < args.length; i++) {
 			tutorialString += args[i];
 			if (i < args.length - 1) {
 				tutorialString += " ";
@@ -223,7 +229,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		String str = args[3];
+		String str = args[3].toUpperCase();
 		Material icon = Material.valueOf(str);
 		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_ICON, icon);
 		return true;

@@ -68,6 +68,12 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_MIN_LEAVE_TIME:
 				min_leave_time(sender, args);
 				break;
+			case Setting.SETTINGS_START_SOUND:
+				start_sound(sender, args);
+				break;
+			case Setting.SETTINGS_FINISH_SOUND:
+				finish_sound(sender, args);
+				break;
 			}
 
 			// save config
@@ -105,7 +111,13 @@ public class MiniGameSettingsConfigCommand {
 
 	private boolean message_prefix(CommandSender sender, String[] args) throws Exception {
 		// /mg settings <key> <value>
-		String value = args[2];
+		String value = "";
+		for (int i = 2; i < args.length; i++) {
+			value += args[i];
+			if (i < args.length - 1) {
+				value += " ";
+			}
+		}
 
 		this.setKeyValue(sender, Setting.SETTINGS_MESSAGE_PREFIX, value);
 		return true;
@@ -141,14 +153,26 @@ public class MiniGameSettingsConfigCommand {
 	}
 
 	private boolean join_sign_caption(CommandSender sender, String[] args) throws Exception {
-		String value = args[2];
+		String value = "";
+		for (int i = 2; i < args.length; i++) {
+			value += args[i];
+			if (i < args.length - 1) {
+				value += " ";
+			}
+		}
 
 		setKeyValue(sender, Setting.SETTINGS_JOIN_SIGN_CAPTION, value);
 		return true;
 	}
 
 	private boolean leave_sign_caption(CommandSender sender, String[] args) throws Exception {
-		String value = args[2];
+		String value = "";
+		for (int i = 2; i < args.length; i++) {
+			value += args[i];
+			if (i < args.length - 1) {
+				value += " ";
+			}
+		}
 
 		setKeyValue(sender, Setting.SETTINGS_LEAVE_SIGN_CAPTION, value);
 		return true;
@@ -179,6 +203,20 @@ public class MiniGameSettingsConfigCommand {
 		int value = Integer.parseInt(args[2]);
 
 		this.setKeyValue(sender, Setting.SETTINGS_MIN_LEAVE_TIME, value);
+		return true;
+	}
+
+	private boolean start_sound(CommandSender sender, String[] args) throws Exception {
+		String value = args[2].toUpperCase();
+
+		this.setKeyValue(sender, Setting.SETTINGS_START_SOUND, value);
+		return true;
+	}
+
+	private boolean finish_sound(CommandSender sender, String[] args) throws Exception {
+		String value = args[2].toUpperCase();
+
+		this.setKeyValue(sender, Setting.SETTINGS_FINISH_SOUND, value);
 		return true;
 	}
 }

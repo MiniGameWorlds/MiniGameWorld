@@ -24,28 +24,30 @@
 ## Config
 ### settings
 - set plugin settings in `settings.yml` config
-- `/minigame settings message-prefix <value>`: set plugin message prefix
+- `/minigame settings message-prefix <value1> [<value2> [<value3> [...]]]`: set plugin message prefix
 - `/minigame settings backup-data-save-delay <value>`: set backup data save delay (min)
 - `/minigame settings debug-mode <value>`: if true, console will print debug logs (true / false)
 - `/minigame settings isolated-chat <value>`: Playing minigame players can only chat with each other (true / false)
 - `/minigame settings isolated-join-quit-message <value>`: Minigame join/quit message only notify in minigame (true / false)
-- `/minigame settings join-sign-caption <value>`: Caption of join sign block
-- `/minigame settings leave-sign-caption <value>`: Caption of leave sign block
+- `/minigame settings join-sign-caption <value1> [<value2> [<value3> [...]]]`: Caption of join sign block
+- `/minigame settings leave-sign-caption <value1> [<value2> [<value3> [...]]]`: Caption of leave sign block
 - `/minigame settings scoreboard <value>`: If true, use scoreboard system (true / false)
 - `/minigame settings scoreboard-update-delay <value>`: Scoreboard update delay (tick (`20`tick = `1`second))
 - `/minigame settings remove-not-necessary-keys <value>`: Set remove-not-necessary-keys (true / false)
 - `/minigame settings min-leave-time <value>`: Set min-leave-time (sec)
+- `/minigame settings start-sound <value>`: Set start-sound (Sound)
+- `/minigame settings finish-sound <value>`: Set finish-sound (Sound)
 
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
-- `/minigame minigames <classname> title <value>`: set title (title)
+- `/minigame minigames <classname> title <value1> [<value2> [<value3> [...]]]`: set title (title)
 - `/minigame minigames <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location (without [<x> <y> <z>]: set player's location)
 - `/minigame minigames <classname> min-player-count <value>`: set min player count (number)
 - `/minigame minigames <classname> max-player-count <value>`: set max player count (number)
 - `/minigame minigames <classname> waiting-time <value>`: set waiting time (sec)
 - `/minigame minigames <classname> time-limit <value>`: set playing time limit (sec)
 - `/minigame minigames <classname> active <value>`: set activation of minigame (true / false)
-- `/minigame minigames <classname> tutorial <line> <tutorials>`: set tutorials at <line>
+- `/minigame minigames <classname> tutorial <line> <value1> [<value2> [<value3> [...]]]`: set tutorials at <line>
 - `/minigame minigames <classname> icon <value>`: set icon (uppercase of item)
 - `/minigame minigames <classname> view <value>`: set view allow (true / false)
 - `/minigame minigames <classname> scoreboard <value>`: use scoreboard system in minigame (true / false)

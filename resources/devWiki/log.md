@@ -4,7 +4,6 @@
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Set player name color in TeamBatleMiniGame
-- Add minigame start, finish sound options to settings.yml
 - Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
@@ -713,7 +712,7 @@ if(!this.isMinPlayersLive()) {
 # 2022-02-18
 - Fix custom event call timing
 - Make `MiniGameScoreboardUpdateEvent` and `MiniGameEventPassEvent` cancellable
-- Add `min-leave-time` option to settings.yml
+- Add `min-leave-time`,`start-sound` and `finish-sound` option to settings.yml
 
 
 

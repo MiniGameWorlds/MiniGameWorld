@@ -396,7 +396,7 @@ public class MiniGameSetting {
 		this.setTutorial((List<String>) setting.get(Setting.MINIGAMES_TUTORIAL));
 
 		// display item
-		this.setIcon(Material.valueOf((String) setting.get(Setting.MINIGAMES_ICON)));
+		this.setIcon(Material.valueOf(((String) setting.get(Setting.MINIGAMES_ICON)).toUpperCase()));
 
 		// view
 		this.setView((boolean) setting.get(Setting.MINIGAMES_VIEW));
