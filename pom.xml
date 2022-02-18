@@ -16,17 +16,20 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- spigot api -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- classgraph -->
 		<dependency>
 			<groupId>io.github.classgraph</groupId>
 			<artifactId>classgraph</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- github java api -->
 		<dependency>
 			<groupId>org.kohsuke</groupId>
 			<artifactId>github-api</artifactId>
@@ -35,7 +38,7 @@
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<!-- Make "src" directory can refer pom variables-->
+		<!-- Make "src" directory can refer pom variables -->
 		<resources>
 			<resource>
 				<directory>src</directory>
@@ -51,6 +54,7 @@
 					<target>1.16</target>
 				</configuration>
 			</plugin>
+			<!-- shade plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>

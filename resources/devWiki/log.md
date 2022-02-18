@@ -1,6 +1,5 @@
 # TODO
 - Add custom event of Party system
-- Insert discord link to console (`worldbiomusic#7075`, `https://discord.com/invite/fJbxSy2EjA`)
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Set player name color in TeamBatleMiniGame
@@ -718,3 +717,4 @@ if(!this.isMinPlayersLive()) {
 - Depend [`github-api`](https://github.com/hub4j/github-api) via maven
 - Upload `pom.xml`
 - Add Version Update Checker
+- Insert contact link to console (`worldbiomusic@gmail.com`, `https://discord.com/invite/fJbxSy2EjA`)
