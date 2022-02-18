@@ -152,6 +152,20 @@
 - Fix scoreboard bug (score name limit)
 - Fix logic bug (about restoring player gamemode)
 
+## 0.6.0
+### API Changes
+- Create `MiniGameWorldUtils` (Utilities API)
+
+### Build Changes
+- Fix custom events call timings
+- Make `MiniGameScoreboardUpdateEvent` and `MiniGameEventPassEvent` cancellable
+- Add `min-leave-time`,`start-sound` and `finish-sound` option to settings.yml
+- Change build method (fatjar > maven)
+- Depend [`github-api`](https://github.com/hub4j/github-api) via maven
+- Upload `pom.xml`
+- Add Version Update Checker
+- Insert contact link to console
+
 ---
 
 
@@ -705,7 +719,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-02-17
 - Fix custom event call timing (`MiniGamePlayerJoinEvent`,`MiniGamePlayerLeaveEvent`,`MiniGamePlayerViewEvent`,`MiniGamePlayerUnviewEvent`)
-- Create `MiniGameWorldUtils` (Utilities for API)
+- Create `MiniGameWorldUtils` (Utilities API)
 
 # 2022-02-18
 - Fix custom event call timing
@@ -718,3 +732,4 @@ if(!this.isMinPlayersLive()) {
 - Upload `pom.xml`
 - Add Version Update Checker
 - Insert contact link to console (`worldbiomusic@gmail.com`, `https://discord.com/invite/fJbxSy2EjA`)
+- Release `0.6.0`
