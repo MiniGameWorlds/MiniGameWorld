@@ -1,6 +1,5 @@
 package com.worldbiomusic.minigameworld.managers;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wbm.plugin.util.data.yaml.YamlManager;
@@ -28,11 +27,12 @@ public class DataManager {
 
 	public void saveAllData() {
 		this.yamlManager.saveAllData();
+		Utils.info(" - Server data saved");
 	}
 
 	public void saveBackupData() {
 		this.backupDataManager.saveBackupData();
-		Utils.info(ChatColor.BLUE + "Backup data saved");
+		Utils.info(" - Backup data created");
 	}
 
 	public void reloadAllData() {

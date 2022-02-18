@@ -8,8 +8,7 @@
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
 - Make MiniGame template pluing and upload to github organization
-- Make Version Update Checker
-- Add `ScoreBoard` and `BossBar` elements to MiniGame (prevent elements changing by event.setCancelled())
+- Add `BossBar` elements to MiniGame (prevent elements changing by event.setCancelled())
 - Change to use custom event instead of `MiniGameObserver` (about to START, BEFORE_FINISH, FINISH)
 - Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
 - Make Github issue template
@@ -714,5 +713,8 @@ if(!this.isMinPlayersLive()) {
 - Make `MiniGameScoreboardUpdateEvent` and `MiniGameEventPassEvent` cancellable
 - Add `min-leave-time`,`start-sound` and `finish-sound` option to settings.yml
 
-
-
+# 2022-02-19
+- Change build method (fatjar > maven)
+- Depend [`github-api`](https://github.com/hub4j/github-api) via maven
+- Upload `pom.xml`
+- Add Version Update Checker

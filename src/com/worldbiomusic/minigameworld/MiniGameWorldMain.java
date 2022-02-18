@@ -14,6 +14,7 @@ import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Metrics;
 import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.UpdateChecker;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameWorldMain extends JavaPlugin {
@@ -37,7 +38,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		Utils.info(ChatColor.GREEN + "================= MiniGameWorld =================");
+		Utils.info(ChatColor.GREEN + "=============================================");
+		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
+		Utils.info(ChatColor.GREEN + "=============================================");
 
 		// setup settings
 		this.setupSettings();
@@ -56,16 +59,20 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void setupSettings() {
+		// BStats
+		new Metrics(this, Setting.BSTATS_PLUGIN_ID);
+
+		// check update
+		UpdateChecker.check();
+
 		this.minigameManager = MiniGameManager.getInstance();
 		// MiniGameWorld wrapper class: set MiniGameManager
 		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
-		
+
 		// setup MiniGameWorldUtils
 		MiniGameWorldUtils.setMiniGameManager(minigameManager);
 
-		// BStats
-		new Metrics(this, Setting.BSTATS_PLUGIN_ID);
 	}
 
 	private void setupData() {
@@ -99,13 +106,18 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// remove not registered minigames setting data in minigames.yml
 		this.minigameManager.removeNotExistMiniGameData();
 
+		Utils.info(ChatColor.RED + "=============================================");
+		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
+		Utils.info(ChatColor.RED + "=============================================");
+		
+		Utils.info(ChatColor.RESET + "                Data Manager                 ");
 		// save all data
 		this.dataManager.saveAllData();
 
 		// save backup data
 		this.dataManager.saveBackupData();
 
-		Utils.info(ChatColor.RED + "================= MiniGameWorld =================");
+		Utils.info(ChatColor.RED + "=============================================");
 	}
 
 	/**

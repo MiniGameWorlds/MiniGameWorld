@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -135,7 +136,9 @@ public class CommonEventListener implements Listener {
 		}
 
 		if (Setting.DEBUG_MODE) {
-			Utils.info("Events found: " + events.size());
+			Utils.info("                Event Detector               ");
+			Utils.info(" - Events found: " + events.size());
+			Utils.info(ChatColor.GREEN + "=============================================");
 		}
 	}
 

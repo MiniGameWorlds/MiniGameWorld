@@ -1,6 +1,6 @@
 # Description
 - This document describe how to use MiniGameWorld pluin in your server
-- Plugin works on `spigot`, `paper` bukkit
+- Plugin works on `spigot`, `paper` bukkit with `1.14+` versions
 - MiniGame types: `Solo`, `SoloBattle`, `Team`, `TeamBattle` and `custom`
 
 
@@ -9,13 +9,14 @@
 - Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
 - Same minigame can be played in many different ways with custom config settings, maps made by users
 - A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode` and etc are saved at the game start and restored when the game finished
-- GUI Menu
+- GUI menu
 - Party system
 - View system
 - Scoreboard system
 - Everything can be customized with config
 - Exists 3rd-party plugins (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank])
 - Auto data backup
+- Update checker
 
 
 

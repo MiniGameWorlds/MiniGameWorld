@@ -15,43 +15,16 @@
 # How to build
 ## With Maven
 - Download `shade` plugin
-- Run `mvn package` (uses `shade` plugin)
-### Spigot
-- Add repository, dependency
-```xml
-<!-- repository -->
-<repositories>
-    <!-- This adds the Spigot Maven repository to the build -->
-    <repository>
-        <id>spigot-repo</id>
-        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    </repository>
-</repositories>
+- Run `mvn package` (uses `shade` plugin) using console in the project directory 
 
-<dependencies>
-    <!--This adds the Spigot API artifact to the build -->
-    <dependency>
-           <groupId>org.spigotmc</groupId>
-           <artifactId>spigot-api</artifactId>
-           <version>1.17.1-R0.1-SNAPSHOT</version>
-           <scope>provided</scope>
-    </dependency>
-</dependencies>
-```
+# pom.xml
+- Depends `spigot-api`, `classgraph` and `github-api`
+- Use `maven-shade-plugin`
 
 ### wbmMC
 - Add build path in eclipse 
 - Put in `plugins` directory
 
-### classgraph
-- Add dependency
-```xml
-<dependency>
-  <groupId>io.github.classgraph</groupId>
-  <artifactId>classgraph</artifactId>
-  <version>LATEST</version>
-</dependency>
-```
 ---
 
 ## With MANIFEST.MF
