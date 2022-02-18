@@ -709,11 +709,12 @@ if(!this.isMinPlayersLive()) {
 - Release `0.5.1`
 
 # 2022-02-17
-- Change custom event call timing (`MiniGamePlayerJoinEvent`,`MiniGamePlayerLeaveEvent`,`MiniGamePlayerViewEvent`,`MiniGamePlayerUnviewEvent`)
+- Fix custom event call timing (`MiniGamePlayerJoinEvent`,`MiniGamePlayerLeaveEvent`,`MiniGamePlayerViewEvent`,`MiniGamePlayerUnviewEvent`)
 - Create `MiniGameWorldUtils` (Utilities for API)
 
-
-
+# 2022-02-18
+- Fix custom event call timing
+- Make `MiniGameScoreboardUpdateEvent` and `MiniGameEventPassEvent` cancellable
 
 
 

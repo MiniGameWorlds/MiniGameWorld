@@ -1,5 +1,6 @@
 package com.worldbiomusic.minigameworld.customevents.minigame;
 
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
@@ -9,13 +10,14 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
  * [IMPORTANT] minigame will process event in last<br>
  * [IMPORTANT] only synchronous events will be passed
  */
-public class MiniGameEventPassEvent extends MinigGameEvent {
-
+public class MiniGameEventPassEvent extends MinigGameEvent implements Cancellable{
+	private boolean cancelled;
 	private Event passevent;
 
 	public MiniGameEventPassEvent(MiniGame minigame, Event passEvent) {
 		super(minigame);
 		this.passevent = passEvent;
+		this.cancelled = false;
 	}
 
 	/**
@@ -25,5 +27,15 @@ public class MiniGameEventPassEvent extends MinigGameEvent {
 	 */
 	public Event getPassEvent() {
 		return this.passevent;
+	}
+	
+	@Override
+	public boolean isCancelled() {
+		return this.cancelled;
+	}
+
+	@Override
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 }

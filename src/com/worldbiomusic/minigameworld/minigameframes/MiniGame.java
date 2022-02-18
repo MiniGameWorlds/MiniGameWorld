@@ -261,7 +261,12 @@ public abstract class MiniGame {
 		if (this.started) {
 			// call pass event (only synchronous)
 			if (!event.isAsynchronous()) {
-				Bukkit.getServer().getPluginManager().callEvent(new MiniGameEventPassEvent(this, event));
+				MiniGameEventPassEvent passEvent = new MiniGameEventPassEvent(this, event);
+				Bukkit.getServer().getPluginManager().callEvent(passEvent);
+				// check cancelled
+				if (passEvent.isCancelled()) {
+					return;
+				}
 			}
 
 			// pass event to process
@@ -477,24 +482,23 @@ public abstract class MiniGame {
 	 * Execute "runTaskAfterStart()"
 	 */
 	public void startGame() {
-		// call start event
-		MiniGameStartEvent startEvent = new MiniGameStartEvent(this);
-		Bukkit.getPluginManager().callEvent(startEvent);
-
-		// check start event is cancelled
-		if (startEvent.isCancelled()) {
-			// restart waiting task
-			this.restartWaitingTask();
-
-			return;
-		}
-
 		// check min player count
 		if (this.getPlayerCount() < this.getMinPlayerCount()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
 			// send message
 			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
 
+			// restart waiting task
+			this.restartWaitingTask();
+
+			return;
+		}
+
+		// call start event
+		MiniGameStartEvent startEvent = new MiniGameStartEvent(this);
+		Bukkit.getPluginManager().callEvent(startEvent);
+		// check start event is cancelled
+		if (startEvent.isCancelled()) {
 			// restart waiting task
 			this.restartWaitingTask();
 

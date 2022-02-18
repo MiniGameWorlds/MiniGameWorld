@@ -83,6 +83,14 @@ public class MiniGameScoreboardManager {
 	}
 
 	private void updateScoreboard() {
+		// call event
+		MiniGameScoreboardUpdateEvent scoreboardUpdateEvent = new MiniGameScoreboardUpdateEvent(this.minigame);
+		Bukkit.getPluginManager().callEvent(scoreboardUpdateEvent);
+		// check cancelled
+		if (scoreboardUpdateEvent.isCancelled()) {
+			return;
+		}
+
 		// reset scores in objective of scoreboard
 		resetAllPlayersScoreboard();
 
@@ -95,9 +103,6 @@ public class MiniGameScoreboardManager {
 
 		// run hook method of MiniGame
 		this.minigame.updateScoreboard();
-
-		// call event
-		Bukkit.getPluginManager().callEvent(new MiniGameScoreboardUpdateEvent(this.minigame));
 
 		// MiniGame.removePlayer() access critical section with another thread(main)
 		synchronized (this) {
