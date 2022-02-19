@@ -35,8 +35,7 @@ public class UpdateChecker {
 		if (!isLatest) {
 			Utils.warning("");
 			Utils.warning("Your version is " + currentVersionColor + "outdated");
-			Utils.warning("Download latest version: " + ChatColor.UNDERLINE
-					+ "https://github.com/MiniGameWorlds/MiniGameWorld/releases");
+			Utils.warning("Download latest version: " + "https://github.com/MiniGameWorlds/MiniGameWorld/releases");
 		}
 		Utils.info(ChatColor.GREEN + "=============================================");
 

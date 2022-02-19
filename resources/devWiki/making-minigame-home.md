@@ -10,6 +10,7 @@
 - Can add any type of custom data with `Map<String, Object>` which user can edit
 - Minigame util tools (soreboard, live, task ...etc)
 - Also can make 3rd-party with API
+- Custom Events
 
 
 

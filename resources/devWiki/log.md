@@ -733,3 +733,10 @@ if(!this.isMinPlayersLive()) {
 - Add Version Update Checker
 - Insert contact link to console (`worldbiomusic@gmail.com`, `https://discord.com/invite/fJbxSy2EjA`)
 - Release `0.6.0`
+
+# 2022-02-20
+- Send party message with sender name
+
+
+
+

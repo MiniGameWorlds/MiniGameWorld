@@ -96,8 +96,14 @@ public class MiniGamePartyCommand {
 	}
 
 	private boolean msg(Player p, String[] args) throws Exception {
-		String msg = args[2];
-		this.partyManager.sendMessageToPlayerPartyMembers(p, msg);
+		String msg = "";
+		for (int i = 2; i < args.length; i++) {
+			msg += args[i];
+			if (i < args.length - 1) {
+				msg += " ";
+			}
+		}
+		this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + ": " + msg);
 		return true;
 	}
 
