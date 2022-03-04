@@ -151,6 +151,17 @@ public class MiniGameWorldUtils {
 	}
 
 	/**
+	 * Get MiniGameAccessor with title
+	 * 
+	 * @param title Minigame title
+	 * @return Null if title minigmae is not exist
+	 */
+	public static MiniGameAccessor getMiniGameWithTitle(String title) {
+		MiniGame minigame = minigameManager.getMiniGameWithTitle(title);
+		return new MiniGameAccessor(minigame);
+	}
+
+	/**
 	 * Gets MiniGameAccessor with class name
 	 * 
 	 * @param className Minigame class name
