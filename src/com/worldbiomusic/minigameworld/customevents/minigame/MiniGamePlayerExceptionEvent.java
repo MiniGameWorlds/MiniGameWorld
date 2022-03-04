@@ -13,7 +13,7 @@ public class MiniGamePlayerExceptionEvent extends MiniGameExceptionEvent {
 	private Player player;
 
 	public MiniGamePlayerExceptionEvent(String reason, Player player) {
-		super(reason);
+		super(null, reason);
 		this.player = player;
 	}
 

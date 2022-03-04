@@ -18,6 +18,10 @@ public abstract class MinigGameEvent extends Event {
 		this.minigame = new MiniGameAccessor(minigame);
 	}
 
+	public MinigGameEvent(MiniGameAccessor minigame) {
+		this.minigame = minigame;
+	}
+
 	/**
 	 * Get minigame accessor
 	 * 

@@ -1,5 +1,6 @@
 package com.worldbiomusic.minigameworld.customevents.minigame;
 
+import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 /**
@@ -17,13 +18,9 @@ public class MiniGameExceptionEvent extends MinigGameEvent {
 
 	private String reason;
 
-	public MiniGameExceptionEvent(MiniGame minigame, String reason) {
+	public MiniGameExceptionEvent(MiniGameAccessor minigame, String reason) {
 		super(minigame);
 		this.reason = reason;
-	}
-
-	public MiniGameExceptionEvent(String reason) {
-		this(null, reason);
 	}
 
 	/**
