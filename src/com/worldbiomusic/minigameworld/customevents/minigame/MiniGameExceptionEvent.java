@@ -7,7 +7,7 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
  * Called when a exception related minigame has occurred<br>
  * [IMPORTANT] This event is passed to a only minigame which is passed with
  * argument in this
- * constructor{@link MiniGameExceptionEvent#MiniGameExceptionEvent(MiniGame, String)}<br>
+ * constructor<br>
  * [IMPORTANT] Other plugin has to call this event to pass exception to a
  * minigame<br>
  * <br>
