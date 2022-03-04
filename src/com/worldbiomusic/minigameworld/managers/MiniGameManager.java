@@ -304,6 +304,29 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		minigame.getViewManager().unviewGame(p);
 	}
 
+	public void startGame(String title) {
+		// strip "color code" from title
+		title = ChatColor.stripColor(title);
+		MiniGame game = this.getMiniGameWithTitle(title);
+		if (game == null) {
+			Utils.debug(title + " game is not exist");
+			return;
+		}
+
+		if (!game.isActive()) {
+			Utils.debug("Minigame is not active");
+			return;
+		}
+
+		if (game.isStarted()) {
+			Utils.debug("Already started");
+			return;
+		}
+
+		// start game
+		game.startGame();
+	}
+
 	public void handleException(MiniGameExceptionEvent exception) {
 		// check event is player exception
 		if (exception instanceof MiniGamePlayerExceptionEvent) {
@@ -315,12 +338,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			}
 
 			// get minigame
-			MiniGame minigame = null;
-			if (isPlayingMiniGame(p)) {
-				minigame = getPlayingMiniGame(p);
-			} else if (isViewingMiniGame(p)) {
-				minigame = getViewingMiniGame(p);
-			}
+			MiniGame minigame = getInMiniGame(p);
 
 			minigame.handleException(exception);
 		}

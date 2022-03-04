@@ -680,7 +680,7 @@ public abstract class MiniGame {
 			this.checkGameFinishCondition();
 		}
 
-		// check event is server exception
+		// check event is minigame or server exception
 		else {
 			// debug
 			Utils.debug(getTitleWithClassName() + " handles exception");

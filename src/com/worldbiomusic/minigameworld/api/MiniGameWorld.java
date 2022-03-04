@@ -67,7 +67,7 @@ public class MiniGameWorld {
 	 * @return True if version is compatible
 	 */
 	public static MiniGameWorld create(String version) {
-		if (checkCompatibleVersion(version)) {
+		if (checkVersion(version)) {
 			return instance;
 		}
 
@@ -80,7 +80,7 @@ public class MiniGameWorld {
 	 * @param version Using version
 	 * @return True if compatible
 	 */
-	public static boolean checkCompatibleVersion(String version) {
+	public static boolean checkVersion(String version) {
 		Different diff = VersionChecker.getDifferent(MiniGameWorld.API_VERSION, version);
 		// only return instance when diff is PATCH
 		if (diff == Different.PATCH) {
@@ -139,6 +139,15 @@ public class MiniGameWorld {
 	 */
 	public void unviewGame(Player p) {
 		this.minigameManager.unviewGame(p);
+	}
+
+	/**
+	 * Start minigame
+	 * 
+	 * @param title
+	 */
+	public void startGame(String title) {
+		this.minigameManager.startGame(title);
 	}
 
 	/**
