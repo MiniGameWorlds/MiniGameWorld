@@ -1,4 +1,7 @@
 # TODO
+- Move `UpdateChecker` to wbmMC
+- Remove custom event detector about EntityDamageEvent
+- Upload `wbmMc` to maven first, then upload `MiniGameWorld`
 - Add custom event of Party system
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
@@ -14,10 +17,13 @@
 - Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Try to use other library, not `classgraph` (e.g. [reflections]())
 - Support Script Addon
+- Language support
+- Instantiate System
+
 
 ---
 
-# Version Changes
+# Releases
 
 ## 0.0.1
 ### API Changes
@@ -165,6 +171,14 @@
 - Upload `pom.xml`
 - Add Version Update Checker
 - Insert contact link to console
+
+## 0.6.1
+### Build Changes
+- Send party message with sender name
+- Add `startGame()` to `MiniGameWorld`
+- Add `getMiniGameWithTitle()` to MiniGameWorldUtils
+- Notify players count in `leaveGame()` of MiniGame
+- Update [wbmMC](https://github.com/worldbiomusic/wbmMC/releases)
 
 ---
 
@@ -736,6 +750,34 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-02-20
 - Send party message with sender name
+
+# 2022-03-02
+- Rename `checkCompatibleVersion()` to `checkVersion()`
+- Add `startGame()` to `MiniGameWorld`
+
+# 2022-03-03
+- Add `getMiniGameWithTitle()` to MiniGameWorldUtils
+
+# 2022-03-04
+- Fix MiniGameExceptionEvent
+- Remove Metrics (use Metrics of wbmMC)
+- Notify players count in `leaveGame()` of MiniGame
+- Release `0.6.1`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

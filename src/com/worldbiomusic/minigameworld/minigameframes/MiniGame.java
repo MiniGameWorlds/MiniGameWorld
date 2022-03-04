@@ -393,6 +393,11 @@ public abstract class MiniGame {
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		if (reason != null) {
 			String msg = p.getName() + " leaved " + this.getColoredTitle() + " (" + reason + ")";
+
+			if (!isStarted()) {
+				msg += " (" + getPlayerCount() + "/" + getMaxPlayerCount() + ")";
+			}
+
 			// notify other players to join the game
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 				this.sendMessageToAllPlayers(msg);

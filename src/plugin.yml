@@ -3,7 +3,7 @@ main: com.worldbiomusic.minigameworld.MiniGameWorldMain
 version: ${project.version}
 author: worldbiomusic
 website: https://github.com/MiniGameWorlds/MiniGameWorld
-description: Module-based Minecraft MiniGame Framework
+description: Customizable Minecraft MiniGame Framework
 api-version: 1.14
 depend: [wbmMC]
 softdepend: [Multiverse-Core, WorldEdit, WorldGuard]
