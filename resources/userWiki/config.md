@@ -44,7 +44,7 @@ PVP:
   min-player-count: 2
   max-player-count: 5
   waiting-time: 30
-  time-limit: 120
+  play-time: 120
   active: true
   icon: STONE_SWORD
   view: true
@@ -93,7 +93,7 @@ PVP:
 - `min-player-count`: Minimun player count for start game
 - `max-player-count`: Maximun player count for playing game
 - `waiting-time`: Waiting time (sec)
-- `time-limit`: Minigame playing time limit (sec)
+- `play-time`: Minigame play time (sec)
 - `active`: Whether this minigame is active in the server(true/false)
 - `icon`: Material which show in menu (connect words with `_` of [Material](https://minecraftitemids.com/types/material))
 - `view`: Whether a player can view a minigame

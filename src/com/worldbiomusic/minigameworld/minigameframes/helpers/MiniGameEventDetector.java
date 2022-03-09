@@ -144,9 +144,6 @@ public class MiniGameEventDetector {
 			getPlayersFromExternalDetectors(e, eventPlayers);
 		}
 
-		// leave only one player in the same minigame event
-//		leavePlayerPlayingTheSameMiniGame(eventPlayers);
-
 		return eventPlayers;
 	}
 

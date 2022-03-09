@@ -27,7 +27,7 @@ public class MiniGameTaskManager {
 
 		// timer counter
 		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
-		this.finishCounter = new Counter(this.minigame.getTimeLimit() + 1);
+		this.finishCounter = new Counter(this.minigame.getPlayTime() + 1);
 	}
 
 	public void runWaitingTask() {
@@ -40,7 +40,7 @@ public class MiniGameTaskManager {
 	}
 
 	public void runFinishTask() {
-		this.finishCounter = new Counter(this.minigame.getTimeLimit() + 1);
+		this.finishCounter = new Counter(this.minigame.getPlayTime() + 1);
 		this.taskManager.runTaskTimer("_finish-timer", 0, 20);
 	}
 

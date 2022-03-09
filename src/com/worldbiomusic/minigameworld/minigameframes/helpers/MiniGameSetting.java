@@ -63,9 +63,9 @@ public class MiniGameSetting {
 	/**
 	 * - File control: O <br>
 	 * - Init value: setup value <br>
-	 * - Description: minigame running time (sec)
+	 * - Description: minigame play time (sec)
 	 */
-	private int timeLimit;
+	private int playTime;
 
 	/**
 	 * - File control: O <br>
@@ -179,14 +179,14 @@ public class MiniGameSetting {
 	 */
 	private boolean scoreboard;
 
-	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
+	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int playTime,
 			int waitingTime) {
 		this.title = title;
 		this.location = location;
 		this.minPlayerCount = minPlayerCount;
 		this.maxPlayerCount = maxPlayerCount;
 		this.waitingTime = waitingTime;
-		this.timeLimit = timeLimit;
+		this.playTime = playTime;
 
 		this.active = true;
 		this.settingFixed = false;
@@ -227,8 +227,8 @@ public class MiniGameSetting {
 		this.waitingTime = waitingTime;
 	}
 
-	public void setTimeLimit(int timeLimit) {
-		this.timeLimit = timeLimit;
+	public void setPlayTime(int playTime) {
+		this.playTime = playTime;
 	}
 
 	public void setActive(boolean active) {
@@ -292,8 +292,8 @@ public class MiniGameSetting {
 		return waitingTime;
 	}
 
-	public int getTimeLimit() {
-		return timeLimit;
+	public int getPlayTime() {
+		return playTime;
 	}
 
 	public boolean isActive() {
@@ -350,7 +350,7 @@ public class MiniGameSetting {
 		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayerCount);
 		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayerCount);
 		setting.put(Setting.MINIGAMES_WAITING_TIME, this.waitingTime);
-		setting.put(Setting.MINIGAMES_TIME_LIMIT, this.timeLimit);
+		setting.put(Setting.MINIGAMES_PLAY_TIME, this.playTime);
 		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
 		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
 		setting.put(Setting.MINIGAMES_VIEW, this.view);
@@ -381,8 +381,8 @@ public class MiniGameSetting {
 			// maxPlayerCount
 			this.setMaxPlayerCount((int) setting.get(Setting.MINIGAMES_MAX_PLAYER_COUNT));
 
-			// timeLimit
-			this.setTimeLimit((int) setting.get(Setting.MINIGAMES_TIME_LIMIT));
+			// playTime
+			this.setPlayTime((int) setting.get(Setting.MINIGAMES_PLAY_TIME));
 
 			// customData
 			this.setCustomData((Map<String, Object>) setting.get(Setting.MINIGAMES_CUSTOM_DATA));

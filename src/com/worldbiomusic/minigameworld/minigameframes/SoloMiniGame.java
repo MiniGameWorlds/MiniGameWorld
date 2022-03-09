@@ -22,8 +22,8 @@ public abstract class SoloMiniGame extends MiniGame {
 	/**
 	 * Sets minPlayerCount and maxPlayerCount to 1 automatically
 	 */
-	public SoloMiniGame(String title, int timeLimit, int waitingTime) {
-		super(title, 1, 1, timeLimit, waitingTime);
+	public SoloMiniGame(String title, int playTime, int waitingTime) {
+		super(title, 1, 1, playTime, waitingTime);
 		
 		getSetting().setGameFinishConditionPlayerCount(1);
 	}

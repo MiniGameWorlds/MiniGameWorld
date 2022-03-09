@@ -83,8 +83,8 @@ public class MiniGameDataManager implements YamlMember {
 			// maxPlayerCount
 			this.data.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.minigame.getMaxPlayerCount());
 
-			// timeLimit
-			this.data.put(Setting.MINIGAMES_TIME_LIMIT, this.minigame.getTimeLimit());
+			// playTime
+			this.data.put(Setting.MINIGAMES_PLAY_TIME, this.minigame.getPlayTime());
 
 			// customData
 			this.data.put(Setting.MINIGAMES_CUSTOM_DATA, this.minigame.getCustomData());

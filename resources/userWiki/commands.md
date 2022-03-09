@@ -45,7 +45,7 @@
 - `/minigame minigames <classname> min-player-count <value>`: set min player count (number)
 - `/minigame minigames <classname> max-player-count <value>`: set max player count (number)
 - `/minigame minigames <classname> waiting-time <value>`: set waiting time (sec)
-- `/minigame minigames <classname> time-limit <value>`: set playing time limit (sec)
+- `/minigame minigames <classname> play-time <value>`: set play time (sec)
 - `/minigame minigames <classname> active <value>`: set activation of minigame (true / false)
 - `/minigame minigames <classname> tutorial <line> <value1> [<value2> [<value3> [...]]]`: set tutorials at <line>
 - `/minigame minigames <classname> icon <value>`: set icon (uppercase of item)

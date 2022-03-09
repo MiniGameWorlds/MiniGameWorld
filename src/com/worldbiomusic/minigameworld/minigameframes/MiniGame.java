@@ -47,7 +47,7 @@ import com.worldbiomusic.minigameworld.util.Utils;
 public abstract class MiniGame {
 
 	/**
-	 * Basic data (e.g. title, location, time limit ...)
+	 * Basic data (e.g. title, location, play time ...)
 	 */
 	private MiniGameSetting setting;
 
@@ -156,12 +156,12 @@ public abstract class MiniGame {
 	 * @param location       Playing location
 	 * @param minPlayerCount Minimum player count to play
 	 * @param maxPlayerCount Maximum player count to play
-	 * @param timeLimit      Minigame playing time
+	 * @param playTime      Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
-	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int timeLimit,
+	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int playTime,
 			int waitingTime) {
-		this.setting = new MiniGameSetting(title, location, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
+		this.setting = new MiniGameSetting(title, location, minPlayerCount, maxPlayerCount, playTime, waitingTime);
 
 		// [must setup once]
 		this.setupMiniGame();
@@ -177,11 +177,11 @@ public abstract class MiniGame {
 	 * @param title          Used title in the server (different with class name)
 	 * @param minPlayerCount Minimum player count to play
 	 * @param maxPlayerCount Maximum player count to play
-	 * @param timeLimit      Minigame playing time
+	 * @param playTime      Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
-	protected MiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayerCount, maxPlayerCount, timeLimit,
+	protected MiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayerCount, maxPlayerCount, playTime,
 				waitingTime);
 	}
 
@@ -451,7 +451,7 @@ public abstract class MiniGame {
 
 		// print rule
 		p.sendMessage("\n" + ChatColor.BOLD + "[Rule]");
-		p.sendMessage("- Time Limit: " + this.getTimeLimit() + " sec");
+		p.sendMessage("- Play time: " + this.getPlayTime() + " sec");
 
 		// tutorial
 		if (this.getTutorial() != null) {
@@ -1114,10 +1114,10 @@ public abstract class MiniGame {
 	/**
 	 * Shortcut method
 	 * 
-	 * @return Minigame playing time limit
+	 * @return Minigame play time
 	 */
-	public int getTimeLimit() {
-		return this.getSetting().getTimeLimit();
+	public int getPlayTime() {
+		return this.getSetting().getPlayTime();
 	}
 
 	/**

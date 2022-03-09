@@ -65,7 +65,7 @@ public class MiniGameMinigamesConfigCommand {
 			case Setting.MINIGAMES_WAITING_TIME:
 				waiting_time(sender, args, data);
 				break;
-			case Setting.MINIGAMES_TIME_LIMIT:
+			case Setting.MINIGAMES_PLAY_TIME:
 				time_liimt(sender, args, data);
 				break;
 			case Setting.MINIGAMES_ACTIVE:
@@ -192,7 +192,7 @@ public class MiniGameMinigamesConfigCommand {
 
 	private boolean time_liimt(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int time = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_TIME_LIMIT, time);
+		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_PLAY_TIME, time);
 		return true;
 	}
 

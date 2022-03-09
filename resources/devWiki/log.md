@@ -1,25 +1,19 @@
 # TODO
 - Move `UpdateChecker` to wbmMC
 - Remove custom event detector about EntityDamageEvent
-- Upload `wbmMc` to maven first, then upload `MiniGameWorld`
 - Add custom event of Party system
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
-- Set player name color in TeamBatleMiniGame
 - Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visibled to team members)
 - Make MiniGame template pluing and upload to github organization
-- Add `BossBar` elements to MiniGame (prevent elements changing by event.setCancelled())
-- Change to use custom event instead of `MiniGameObserver` (about to START, BEFORE_FINISH, FINISH)
-- Make Youtube tutorial (in new brand channel) (minigame-dev-tutorial for each types (Solo, SoloBattle, Team, TeamBattle)
+- Add `BossBar` elements to MiniGame
 - Make Github issue template
-- Add various minigames (block hopscotch, block color, jump map, player boss raid, mob raid, defense, skill battle)
 - Try to use other library, not `classgraph` (e.g. [reflections]())
 - Support Script Addon
-- Language support
-- Instantiate System
-
+- Language support system
+- Instantiate system
 
 ---
 
@@ -414,7 +408,7 @@
 # 2021-09-29
 - Remove check `isMinPlayersLive()` in `setLive()` for low sequence sensitivity
 ``` 
-- minigame dont' have to use `live` always (can finish game with another condition(e.g. wait for time limit))
+- minigame dont' have to use `live` always (can finish game with another condition(e.g. wait for play time))
 - When player leave a minigame: `isMinPlayersLive()` is checked automatically
 // e.g.
 if(!this.isMinPlayersLive()) {
@@ -764,8 +758,8 @@ if(!this.isMinPlayersLive()) {
 - Notify players count in `leaveGame()` of MiniGame
 - Release `0.6.1`
 
-
-
+# 2022-03-10
+- Rename `time-limit` to `play-time` of `MiniGameSetting` (Spigot, AllMiniGames)
 
 
 

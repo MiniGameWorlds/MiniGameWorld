@@ -60,7 +60,7 @@ public class Setting {
 	public static final String MINIGAMES_MIN_PLAYER_COUNT = "min-player-count";
 	public static final String MINIGAMES_MAX_PLAYER_COUNT = "max-player-count";
 	public static final String MINIGAMES_WAITING_TIME = "waiting-time";
-	public static final String MINIGAMES_TIME_LIMIT = "time-limit";
+	public static final String MINIGAMES_PLAY_TIME = "play-time";
 	public static final String MINIGAMES_ACTIVE = "active";
 	public static final String MINIGAMES_TUTORIAL = "tutorial";
 	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";

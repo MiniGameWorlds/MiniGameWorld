@@ -104,8 +104,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * maxPlayerCount is sum of all teams member size
 	 */
-	public TeamBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int timeLimit, int waitingTime) {
-		super(title, minPlayerCount, maxPlayerCount, timeLimit, waitingTime);
+	public TeamBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
+		super(title, minPlayerCount, maxPlayerCount, playTime, waitingTime);
 
 		this.allTeams = new ArrayList<Team>();
 

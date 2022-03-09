@@ -80,7 +80,7 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame minigames <classname> min-player-count <value>: set min player count");
 		sender.sendMessage("/minigame minigames <classname> max-player-count <value>: set max player count");
 		sender.sendMessage("/minigame minigames <classname> waiting-time <value>: set waiting time (sec)");
-		sender.sendMessage("/minigame minigames <classname> time-limit <value>: set playing time limit (sec)");
+		sender.sendMessage("/minigame minigames <classname> play-time <value>: set play time (sec)");
 		sender.sendMessage("/minigame minigames <classname> active <value>: set activation of minigame");
 		sender.sendMessage("/minigame minigames <classname> tutorial <line> <tutorials>: set tutorials at");
 		sender.sendMessage("/minigame minigames <classname> icon <value>: set icon (uppercase of item)");
