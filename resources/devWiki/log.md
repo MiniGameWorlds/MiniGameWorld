@@ -1,6 +1,5 @@
 # TODO
 - Move `UpdateChecker` to wbmMC
-- Remove custom event detector about EntityDamageEvent
 - Add custom event of Party system
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
@@ -760,7 +759,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-03-10
 - Rename `time-limit` to `play-time` of `MiniGameSetting` (Spigot, AllMiniGames)
-
+- Fix detailed event detector
 
 
 

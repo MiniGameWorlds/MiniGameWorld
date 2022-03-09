@@ -271,12 +271,8 @@ public class MiniGameEventDetector {
 		} else if (event instanceof ProjectileHitEvent) {
 			ProjectileHitEvent e = (ProjectileHitEvent) event;
 			Entity hitEntity = e.getHitEntity();
-			ProjectileSource shooter = e.getEntity().getShooter();
 			if (hitEntity != null && hitEntity instanceof Player) {
 				eventPlayers.add((Player) hitEntity);
-			}
-			if (shooter != null && shooter instanceof Player) {
-				eventPlayers.add((Player) shooter);
 			}
 
 		} else if (event instanceof ProjectileLaunchEvent) {
