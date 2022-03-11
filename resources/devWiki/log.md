@@ -1,11 +1,18 @@
 # TODO
+## Release
+- MiniGameWorld
+- AllMiniGames
+- RisbeanMinigames
+
+---
+
 - Move `UpdateChecker` to wbmMC
 - Add custom event of Party system
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `party` icon to Menu
 - Register to maven, gradle
-- Set team glowing color (glowing is only visibled to team members)
+- Set team glowing color (glowing is only visible to team members)
 - Make MiniGame template pluing and upload to github organization
 - Add `BossBar` elements to MiniGame
 - Make Github issue template
@@ -761,7 +768,8 @@ if(!this.isMinPlayersLive()) {
 - Rename `time-limit` to `play-time` of `MiniGameSetting` (Spigot, AllMiniGames)
 - Fix detailed event detector
 
-
+# 2022-03-12
+- Fix `getSettings()` and add `getSettingsData()` to `MiniGameAccessor`
 
 
 

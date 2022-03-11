@@ -13,6 +13,7 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 
 /**
  * MiniGameWorld plugin "MiniGame" wrapper api
@@ -98,11 +99,19 @@ public class MiniGameAccessor {
 
 	/**
 	 * Gets setting data<br>
-	 * Will be return clone object in the future
 	 * 
-	 * @return Minigame setting data
+	 * @return MiniGameSetting setting data
 	 */
-	public Map<String, Object> getSettings() {
+	public MiniGameSetting getSettings() {
+		return this.minigame.getSetting();
+	}
+
+	/**
+	 * Gets settings data with Map<br>
+	 * 
+	 * @return Map setting data
+	 */
+	public Map<String, Object> getSettingsData() {
 		return new HashMap<>(this.minigame.getDataManager().getData());
 	}
 
