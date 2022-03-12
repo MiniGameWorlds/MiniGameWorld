@@ -19,36 +19,63 @@ public class Utils {
 	static MiniGameWorldMain main = MiniGameWorldMain.getInstance();
 	static ConsoleCommandSender sender = main.getServer().getConsoleSender();
 
-	private static String getMessagePrefixString() {
+	public static String getMessagePrefix() {
 		return "[" + Setting.MESSAGE_PREFIX + "] ";
 	}
 
 	public static void sendMsg(CommandSender sender, String msg) {
-		sender.sendMessage(getMessagePrefixString() + msg);
+		sendMsg(sender, msg, true);
+	}
+
+	public static void sendMsg(CommandSender sender, String msg, boolean prefix) {
+		if (prefix) {
+			msg = getMessagePrefix() + msg;
+		}
+		sender.sendMessage(msg);
+	}
+
+	public static void sendMsgToEveryone(String msg) {
+		sendMsgToEveryone(msg, true);
+	}
+
+	public static void sendMsgToEveryone(String msg, boolean prefix) {
+		Bukkit.getOnlinePlayers().forEach(p -> sendMsg(p, msg, prefix));
 	}
 
 	public static void sendMsg(Player p, BaseComponent compo) {
-		TextComponent msg = new TextComponent(getMessagePrefixString());
+		sendMsg(p, compo, true);
+	}
+
+	public static void sendMsg(Player p, BaseComponent compo, boolean prefix) {
+		TextComponent msg = new TextComponent();
+		if (prefix) {
+			msg.addExtra(getMessagePrefix());
+		}
+
 		msg.addExtra(compo);
 		p.spigot().sendMessage(msg);
 	}
 
+	public static void sendMsgToEveryone(BaseComponent compo) {
+		sendMsgToEveryone(compo, true);
+	}
+
+	public static void sendMsgToEveryone(BaseComponent compo, boolean prefix) {
+		Bukkit.getOnlinePlayers().forEach(p -> sendMsg(p, compo, prefix));
+	}
+
 	public static void info(String msg) {
-		sender.sendMessage(getMessagePrefixString() + msg);
+		sender.sendMessage(getMessagePrefix() + msg);
 	}
 
 	public static void warning(String msg) {
-		sender.sendMessage(ChatColor.YELLOW + getMessagePrefixString() + msg);
+		sender.sendMessage(ChatColor.YELLOW + getMessagePrefix() + msg);
 	}
 
 	public static void debug(String msg) {
 		if (Setting.DEBUG_MODE) {
 			info(ChatColor.RED + "[DEBUG] " + msg);
 		}
-	}
-
-	public static void broadcast(String msg) {
-		Bukkit.broadcastMessage(getMessagePrefixString() + msg);
 	}
 
 	public static boolean checkPerm(CommandSender sender, String permission) {
