@@ -1,0 +1,16 @@
+message:
+  MiniGame:
+    join-message: '<player> 이(가) <minigame>에 참여했습니다 (<player-count>/<max-player-count>)'
+    leave-message: <player> left the <minigame>
+    rule: 규칙
+    play-time-in-rule: '- 플레이 시간: <play-time> <sec>'
+  MiniGameViewManager:
+    view-title: 관전
+    view-tutorial: run <command> to leave
+  Party:
+    invite-message: Invitation has arrived from <player>
+    accept-message: Invitation has accepted by <player>
+  Common:
+    sec: 초
+    min: 분
+    hour: 시

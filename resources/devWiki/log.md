@@ -1,11 +1,17 @@
 # TODO
+
 ## Release
 - MiniGameWorld
 - AllMiniGames
 - RisbeanMinigames
+- MiniGameWorld-Controller
+- MiniGameWorld-Reward
+- LIBIBKK-MiniGames
 
 ---
 
+- Make LanguageManager
+- Bug: when left server while waiting, minigame waiting timer does not stop
 - Move `UpdateChecker` to wbmMC
 - Add custom event of Party system
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
@@ -20,6 +26,8 @@
 - Support Script Addon
 - Language support system
 - Instantiate system
+- Backup command (`backup <diretory>`) (support tab completer)
+- Upload feature videos(e.g. join, leave and view systems)
 
 ---
 
@@ -771,9 +779,12 @@ if(!this.isMinPlayersLive()) {
 # 2022-03-12
 - Fix `getSettings()` and add `getSettingsData()` to `MiniGameAccessor`
 
-
-
-
+# 2022-03-13
+- Add prefix option to `Utils.sendMsg()` 
+- Add [AdvancedMultiLanguage](https://github.com/smessie/AdvancedMultiLanguage) plugin as softdepend
+- Design language support system
+- Create `LangUtils` for multi languages
+- Add language files folder (`src/resources/messages`)
 
 
 

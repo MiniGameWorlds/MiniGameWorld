@@ -36,6 +36,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.Ga
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
+import com.worldbiomusic.minigameworld.util.LangUtils;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -156,7 +157,7 @@ public abstract class MiniGame {
 	 * @param location       Playing location
 	 * @param minPlayerCount Minimum player count to play
 	 * @param maxPlayerCount Maximum player count to play
-	 * @param playTime      Minigame playing time
+	 * @param playTime       Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
 	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int playTime,
@@ -177,7 +178,7 @@ public abstract class MiniGame {
 	 * @param title          Used title in the server (different with class name)
 	 * @param minPlayerCount Minimum player count to play
 	 * @param maxPlayerCount Maximum player count to play
-	 * @param playTime      Minigame playing time
+	 * @param playTime       Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
 	protected MiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
@@ -402,7 +403,7 @@ public abstract class MiniGame {
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 				this.sendMessageToAllPlayers(msg);
 			} else {
-				Utils.broadcast(msg);
+				Utils.sendMsgToEveryone(msg);
 			}
 		}
 
@@ -424,18 +425,20 @@ public abstract class MiniGame {
 
 		// notify all players to join the game
 		int needPlayersCount = getMinPlayerCount() - getPlayerCount();
-		String addition = "";
+		String needPlayers = "";
 		if (needPlayersCount > 0) {
-			addition = "need more " + ChatColor.RED + needPlayersCount + ChatColor.RESET + " players";
+			needPlayers = "need more " + ChatColor.RED + needPlayersCount + ChatColor.RESET + " players";
 		}
 
-		String msg = p.getName() + " joined " + this.getColoredTitle() + " (" + getPlayerCount() + "/"
-				+ getMaxPlayerCount() + ") \n" + addition;
+		String msg = LangUtils.getMsg(p, LangUtils.path(MiniGame.class) + "join-message", false,
+				new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
+						{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayerCount() } });
+		msg += "\n" + needPlayers;
 
 		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 			sendMessageToAllPlayers(msg);
 		} else {
-			Utils.broadcast(msg);
+			Utils.sendMsgToEveryone(msg);
 		}
 	}
 
@@ -450,8 +453,11 @@ public abstract class MiniGame {
 		p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
 
 		// print rule
-		p.sendMessage("\n" + ChatColor.BOLD + "[Rule]");
-		p.sendMessage("- Play time: " + this.getPlayTime() + " sec");
+		String ruleMsg = LangUtils.getMsg(p, LangUtils.path(MiniGame.class) + "rule", false, null);
+		p.sendMessage("\n" + ChatColor.BOLD + "[" + ruleMsg + "]");
+
+		LangUtils.sendMsg(p, LangUtils.path(MiniGame.class) + "play-time-in-rule", false,
+				new String[][] { { "play-time", "" + getPlayTime() } });
 
 		// tutorial
 		if (this.getTutorial() != null) {
@@ -835,13 +841,22 @@ public abstract class MiniGame {
 		p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
 	}
 
+//	public void sendMessage(Player p, String msg, boolean languageSupport) {
+//		if (languageSupport) {
+//			String msgKey = msg;
+//			LangUtils.sendMsg(p, msgKey, false);
+//		} else {
+//			p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
+//		}
+//	}
+
 	/**
 	 * Sendm message to all players with minigame title prefix
 	 * 
 	 * @param msg message
 	 */
 	public void sendMessageToAllPlayers(String msg) {
-		this.getPlayers().forEach(p -> this.sendMessage(p, msg));
+		this.getPlayers().forEach(p -> sendMessage(p, msg));
 	}
 
 	/**

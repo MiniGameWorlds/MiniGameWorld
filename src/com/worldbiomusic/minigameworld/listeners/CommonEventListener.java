@@ -41,6 +41,7 @@ import com.worldbiomusic.minigameworld.util.Utils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
+import me.smessie.MultiLanguage.bukkit.AdvancedMultiLanguageAPI;
 
 public class CommonEventListener implements Listener {
 	/*

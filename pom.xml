@@ -40,8 +40,15 @@
 		<sourceDirectory>src</sourceDirectory>
 		<!-- Make "src" directory can refer pom variables -->
 		<resources>
+			<!-- for plugin.yml file -->
+			<!-- for language files (can use properties of pom.xml (e.g. ${${project.version}})) -->
 			<resource>
-				<directory>src</directory>
+				<directory>src/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<!-- for wiki -->
+			<resource>
+				<directory>resources</directory>
 				<filtering>true</filtering>
 			</resource>
 		</resources>

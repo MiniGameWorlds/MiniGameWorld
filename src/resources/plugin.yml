@@ -6,7 +6,7 @@ website: https://github.com/MiniGameWorlds/MiniGameWorld
 description: Customizable Minecraft MiniGame Framework
 api-version: 1.14
 depend: [wbmMC]
-softdepend: [Multiverse-Core, WorldEdit, WorldGuard]
+softdepend: [Multiverse-Core, WorldEdit, WorldGuard, AdvancedMultiLanguage]
 
 commands:
   minigame:

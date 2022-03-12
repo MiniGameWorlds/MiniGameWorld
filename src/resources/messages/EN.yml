@@ -1,0 +1,21 @@
+# NOT editable 
+# Color code
+# Wrap with "'"
+# Each message has different placeholders
+# Common placeholders
+message:
+  MiniGame:
+    join-message: '<player> joined the <minigame> (<player-count>/<max-player-count>)'
+    leave-message: '<player> left the <minigame>'
+    rule: Rule
+    play-time-in-rule: '- Play time: <play-time> <sec>' 
+  MiniGameViewManager:
+    view-title: View
+    view-tutorial: run <command> to leave
+  Party:
+    invite-message: Invitation has arrived from <player>
+    accept-message: Invitation has accepted by <player>
+  Common:
+    sec: sec
+    min: min
+    hour: hour

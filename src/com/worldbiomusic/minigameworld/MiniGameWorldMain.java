@@ -1,5 +1,10 @@
 package com.worldbiomusic.minigameworld;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,10 +22,18 @@ import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.UpdateChecker;
 import com.worldbiomusic.minigameworld.util.Utils;
 
+import me.smessie.MultiLanguage.api.Language;
+
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {
 		// main Method for "Runnable Jar" option in Eclipse
 		System.out.println("MiniGameWorld launched");
+
+//		List<String> list = List.of("a", "b", "c", "d", "e", "f", "g", "h");
+//		System.out.println(list);
+//
+//		System.out.println(new String[][] { { "", "" }, { "", "" }, { "", "" }, { "", "" }, { "", "" } });
+
 	}
 
 	private static MiniGameWorldMain instance;
@@ -60,6 +73,24 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 		// process works for remained players
 		this.processRemainedPlayersWhenServerStart();
+
+		// TODO: Create LanguageManager class
+		// languages
+		try {
+			List<String> langs = new ArrayList<>();
+			Arrays.asList(Language.values()).forEach(lang -> langs.add(lang.toString()));
+			Utils.warning("Langs: " + langs);
+
+			langs.forEach(lang -> {
+				try {
+					saveResource("messages" + File.separator + lang + ".yml", true);
+				} catch (Exception e) {
+					Utils.warning(lang + " language file is not exist");
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setupSettings() {
@@ -113,7 +144,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(ChatColor.RED + "=============================================");
 		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
 		Utils.info(ChatColor.RED + "=============================================");
-		
+
 		Utils.info(ChatColor.RESET + "                Data Manager                 ");
 		// save all data
 		this.dataManager.saveAllData();
