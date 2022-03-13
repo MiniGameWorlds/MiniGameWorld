@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.wbm.plugin.util.ServerTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 
 import me.smessie.MultiLanguage.bukkit.AdvancedMultiLanguageAPI;
@@ -71,7 +72,7 @@ public class LangUtils {
 
 		String language = null;
 		// if AdvancedMultiLanguage plugin is not exist, use English
-		if (Bukkit.getServer().getPluginManager().isPluginEnabled("AdvancedMultiLanguage")) {
+		if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
 			String uuid = p.getUniqueId().toString();
 			String pluginName = MiniGameWorldMain.getInstance().getName();
 			message = AdvancedMultiLanguageAPI.getMessage(uuid, messageKey, pluginName);
@@ -89,8 +90,8 @@ public class LangUtils {
 		// replace placeholders
 		message = replace(message, replaces);
 
-		// replace common placeholders
-		message = replaceCommonPlaceholders(language, message);
+		// replace custom placeholders
+		message = replaceCustomPlaceholders(language, message);
 
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
@@ -101,13 +102,12 @@ public class LangUtils {
 		return YamlConfiguration.loadConfiguration(file);
 	}
 
-	public static String replaceCommonPlaceholders(String language, String message) {
+	public static String replaceCustomPlaceholders(String language, String message) {
 		YamlConfiguration yaml = getLangYaml(language);
-		ConfigurationSection commonSection = yaml.getConfigurationSection("message.Common");
-		Set<String> keys = commonSection.getKeys(true);
+		ConfigurationSection customSection = yaml.getConfigurationSection("message.custom");
+		Set<String> keys = customSection.getKeys(true);
 		for (String key : keys) {
-			String value = commonSection.getString(key);
-			Utils.warning(key + " : " + value);
+			String value = customSection.getString(key);
 			message = replace(message, key, value);
 		}
 
