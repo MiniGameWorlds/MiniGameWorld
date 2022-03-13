@@ -12,6 +12,7 @@ import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
 import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
+import com.worldbiomusic.minigameworld.managers.EventListenerManager;
 import com.worldbiomusic.minigameworld.managers.LanguageManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -21,19 +22,15 @@ import com.worldbiomusic.minigameworld.util.Utils;
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {
 		// main Method for "Runnable Jar" option in Eclipse
+		// TODO: Make JFrame
 		System.out.println("MiniGameWorld launched");
-
-//		List<String> list = List.of("a", "b", "c", "d", "e", "f", "g", "h");
-//		System.out.println(list);
-//
-//		System.out.println(new String[][] { { "", "" }, { "", "" }, { "", "" }, { "", "" }, { "", "" } });
-
 	}
 
 	private static MiniGameWorldMain instance;
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
 	private LanguageManager languageManager;
+	private EventListenerManager eventListenerManager;
 
 	private CommonEventListener commonListener;
 	private MiniGameEventListener miniGameEventListener;
@@ -46,6 +43,26 @@ public class MiniGameWorldMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+
+		printPluginInfo();
+
+		// setup settings
+		setupSettings();
+
+		// setup data
+		setupData();
+
+		// register listener
+		registerEventListeners();
+
+		// set command
+		setCommandExecutors();
+
+		// process works for remained players
+		processRemainedPlayersWhenServerStart();
+	}
+
+	private void printPluginInfo() {
 		Utils.info(ChatColor.GREEN + "=============================================");
 		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
 		Utils.info(ChatColor.GREEN + "=============================================");
@@ -53,21 +70,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(ChatColor.RESET + " - Discord: https://discord.com/invite/fJbxSy2EjA");
 		Utils.info(ChatColor.RESET + " - E-mail:  worldbiomusic@gmail.com");
 		Utils.info(ChatColor.GREEN + "=============================================");
-
-		// setup settings
-		this.setupSettings();
-
-		// setup data
-		this.setupData();
-
-		// register listener
-		this.registerEventListeners();
-
-		// set command
-		this.setCommandExecutors();
-
-		// process works for remained players
-		this.processRemainedPlayersWhenServerStart();
 	}
 
 	private void setupSettings() {
@@ -91,7 +93,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// yaml data manager
 		this.dataManager = new DataManager(this);
 		this.dataManager.registerYamlMember(this.minigameManager);
-		
+
 		// language files
 		this.languageManager = new LanguageManager();
 		this.languageManager.setupFiles();
@@ -102,6 +104,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.miniGameEventListener = new MiniGameEventListener(this.minigameManager);
 		getServer().getPluginManager().registerEvents(this.commonListener, this);
 		getServer().getPluginManager().registerEvents(this.miniGameEventListener, this);
+
+		this.eventListenerManager = new EventListenerManager(this.commonListener);
 	}
 
 	private void setCommandExecutors() {
