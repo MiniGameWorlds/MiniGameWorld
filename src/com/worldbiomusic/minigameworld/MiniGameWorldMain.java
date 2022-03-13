@@ -1,10 +1,5 @@
 package com.worldbiomusic.minigameworld;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,12 +12,11 @@ import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
 import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
+import com.worldbiomusic.minigameworld.managers.LanguageManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.UpdateChecker;
 import com.worldbiomusic.minigameworld.util.Utils;
-
-import me.smessie.MultiLanguage.api.Language;
 
 public class MiniGameWorldMain extends JavaPlugin {
 	public static void main(String[] args) {
@@ -39,6 +33,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private static MiniGameWorldMain instance;
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
+	private LanguageManager languageManager;
 
 	private CommonEventListener commonListener;
 	private MiniGameEventListener miniGameEventListener;
@@ -73,24 +68,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 		// process works for remained players
 		this.processRemainedPlayersWhenServerStart();
-
-		// TODO: Create LanguageManager class
-		// languages
-		try {
-			List<String> langs = new ArrayList<>();
-			Arrays.asList(Language.values()).forEach(lang -> langs.add(lang.toString()));
-			Utils.warning("Langs: " + langs);
-
-			langs.forEach(lang -> {
-				try {
-					saveResource("messages" + File.separator + lang + ".yml", true);
-				} catch (Exception e) {
-					Utils.warning(lang + " language file is not exist");
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void setupSettings() {
@@ -114,6 +91,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// yaml data manager
 		this.dataManager = new DataManager(this);
 		this.dataManager.registerYamlMember(this.minigameManager);
+		
+		// language files
+		this.languageManager = new LanguageManager();
+		this.languageManager.setupFiles();
 	}
 
 	private void registerEventListeners() {
