@@ -376,17 +376,11 @@ public abstract class MiniGame {
 
 		this.setupPlayerLeavingSettings(p, "Before start");
 
-		// check game is emtpy
-		if (this.isEmpty()) {
-			this.initBaseSettings();
-		}
-
 		return true;
 	}
 
 	/**
-	 * [IMPORTANT] After this method, isEmpty() must be checked and run
-	 * initSetting() (except for runFinishTask())
+	 * Process when a player leaves the miniagme
 	 * 
 	 * @param p      Leaving player
 	 * @param reason Leaving reason
@@ -412,6 +406,11 @@ public abstract class MiniGame {
 
 		// send title
 		sendTitle(p, ChatColor.BOLD + "Leave", "");
+
+		// check game is emtpy
+		if (this.isEmpty()) {
+			this.initBaseSettings();
+		}
 	}
 
 	/**
@@ -577,12 +576,6 @@ public abstract class MiniGame {
 
 		// runTaskAfterFinish (before initSetting())
 		runTaskAfterFinish();
-
-		// initSeting ([IMPORTANT] call after others done)
-		initBaseSettings();
-
-		// cancel finish task
-		this.minigameTaskManager.cancelFinishTask();
 	}
 
 	/**
@@ -684,8 +677,10 @@ public abstract class MiniGame {
 			// setup leaving settings
 			this.setupPlayerLeavingSettings(p, exception.getReason());
 
-			// pass exception to implemented minigame
-			this.handleGameException(exception);
+			// pass exception
+			if (isStarted()) {
+				this.handleGameException(exception);
+			}
 
 			// check GameFinishExceptionMode
 			this.checkGameFinishCondition();
@@ -704,6 +699,8 @@ public abstract class MiniGame {
 
 			// if started, finish game
 			if (isStarted()) {
+				// pass exception
+				this.handleGameException(exception);
 				// finish game
 				finishGame();
 			}
