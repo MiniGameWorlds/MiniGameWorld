@@ -1,6 +1,6 @@
 # Description
 - This doucment describes how to make a `Minigame`, `Third-Party` plugin
-- About MiniGameWorld plugin's structure: [MiniGameWorld]
+- MiniGameWorld plugin's structure: [MiniGameWorld]
 
 
 
@@ -11,7 +11,8 @@
 - Minigame util tools (soreboard, live, task ...etc)
 - Also can make 3rd-party with API
 - Custom Events
-
+- Update checker
+- Language support system
 
 
 # Guide

@@ -13,6 +13,7 @@ package com.worldbiomusic.minigameworld.minigameframes;
 public abstract class SoloBattleMiniGame extends MiniGame {
 	public SoloBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
 		super(title, minPlayerCount, maxPlayerCount, playTime, waitingTime);
+
 	}
 
 	@Override

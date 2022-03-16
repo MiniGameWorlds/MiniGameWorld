@@ -1,21 +1,24 @@
 # NOT editable 
-# Color code
-# Wrap with "'"
+# Support color code
+# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
 # Each message has different placeholders
-# Common placeholders
+# Each language file can has different custom placeholders
 message:
   MiniGame:
+    play-time-in-rule: 'Play time: <play-time> <sec>' 
+    need-players: 'need more <need-player-count> players'
     join-message: '<player> joined the <minigame> (<player-count>/<max-player-count>)'
-    leave-message: '<player> left the <minigame>'
+    leave-message: '<player> left the <minigame> (<player-count>/<max-player-count>) (Reason: <reason>)'
+    group-chat: Group-chat
+  common: 
+    score: Score
+    start: Start
+    finish: Finish
+    leave: Leave
     rule: Rule
-    play-time-in-rule: '- Play time: <play-time> <sec>' 
-  MiniGameViewManager:
-    view-title: View
-    view-tutorial: run <command> to leave
-  Party:
-    invite-message: Invitation has arrived from <player>
-    accept-message: Invitation has accepted by <player>
-  Common:
+    exception: Exception
+    team: Team
+  custom:
     sec: sec
     min: min
     hour: hour

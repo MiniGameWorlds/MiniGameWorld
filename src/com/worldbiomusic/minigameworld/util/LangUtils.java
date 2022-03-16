@@ -67,19 +67,23 @@ public class LangUtils {
 			return message;
 		}
 
-		// default first key
+		// add default first key
 		messageKey = "message." + messageKey;
 
-		String language = null;
-		// if AdvancedMultiLanguage plugin is not exist, use English
+		// default language
+		String language = "EN";
+
+		// if AdvancedMultiLanguage plugin is enabled, select player's language
 		if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
-			String uuid = p.getUniqueId().toString();
-			String pluginName = MiniGameWorldMain.getInstance().getName();
-			message = AdvancedMultiLanguageAPI.getMessage(uuid, messageKey, pluginName);
-			language = AdvancedMultiLanguageAPI.getLanguageOfUuid(uuid);
-		} else {
-			language = "EN";
-			message = getLangYaml(language).getString(messageKey);
+			language = AdvancedMultiLanguageAPI.getLanguageOfUuid(p.getUniqueId().toString());
+		}
+
+		// get message
+		message = getLangMessage(p, language, messageKey);
+
+		// check message is null (cause of message key is not exist in anywhere)
+		if (message == null) {
+			return message;
 		}
 
 		// check prefix
@@ -94,6 +98,58 @@ public class LangUtils {
 		message = replaceCustomPlaceholders(language, message);
 
 		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+
+	/**
+	 * [Check list]<br>
+	 * 1. className.msgKey<br>
+	 * 2. common.msgKey<br>
+	 * 3. className.msgKey in "EN.yml"<br>
+	 * 4. common.msgKey in "EN.yml"<br>
+	 * 
+	 * @param p
+	 * @param language
+	 * @param messageKey
+	 * @return
+	 */
+	private static String getLangMessage(Player p, String language, String messageKey) {
+		String message = null;
+		String[] keys = messageKey.split(".");
+		String commonMsgKey = "message.common." + keys[keys.length - 1];
+		try {
+			// search in the language flie
+			if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
+				if (isKeyExist(language, messageKey)) {
+					message = getMessage(language, messageKey);
+				} else if (isKeyExist(language, commonMsgKey)) {
+					message = getMessage(language, commonMsgKey);
+				}
+			}
+
+			// search in the EN.yml
+			if (message == null) {
+				language = "EN";
+				if (isKeyExist(language, messageKey)) {
+					message = getMessage(language, messageKey);
+				} else if (isKeyExist(language, commonMsgKey)) {
+					message = getMessage(language, commonMsgKey);
+				}
+			}
+		} catch (Exception e) {
+			if (Setting.DEBUG_MODE) {
+				e.printStackTrace();
+			}
+			return message;
+		}
+		return message;
+	}
+
+	private static boolean isKeyExist(String language, String msgKey) {
+		return getLangYaml(language).contains(msgKey);
+	}
+
+	private static String getMessage(String language, String msgKey) {
+		return getLangYaml(language).getString(msgKey);
 	}
 
 	private static YamlConfiguration getLangYaml(String language) {

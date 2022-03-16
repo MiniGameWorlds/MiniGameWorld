@@ -15,7 +15,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.TaskManager;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
@@ -37,6 +36,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManage
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameViewManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
 import com.worldbiomusic.minigameworld.util.LangUtils;
+import com.worldbiomusic.minigameworld.util.Messenger;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -86,6 +86,11 @@ public abstract class MiniGame {
 	 * Scoreboard manager
 	 */
 	private MiniGameScoreboardManager scoreboardManager;
+
+	/**
+	 * Language messenger
+	 */
+	protected Messenger messenger;
 
 	/**
 	 * Executed every time when game starts
@@ -192,6 +197,9 @@ public abstract class MiniGame {
 	private void setupMiniGame() {
 		// setup player list
 		this.players = new ArrayList<MiniGamePlayerData>();
+
+		// messenger
+		this.messenger = new Messenger(LangUtils.path(MiniGame.class));
 
 		// register basic tasks
 		this.minigameTaskManager = new MiniGameTaskManager(this);
@@ -387,11 +395,10 @@ public abstract class MiniGame {
 	 */
 	private void setupPlayerLeavingSettings(Player p, String reason) {
 		if (reason != null) {
-			String msg = p.getName() + " leaved " + this.getColoredTitle() + " (" + reason + ")";
-
-			if (!isStarted()) {
-				msg += " (" + getPlayerCount() + "/" + getMaxPlayerCount() + ")";
-			}
+			String msg = this.messenger.getMsg(p, "leave-message",
+					new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
+							{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayerCount() },
+							{ "reason", reason } });
 
 			// notify other players to join the game
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
@@ -405,7 +412,10 @@ public abstract class MiniGame {
 		this.removePlayer(p);
 
 		// send title
-		sendTitle(p, ChatColor.BOLD + "Leave", "");
+
+		String leaveMsg = this.messenger.getMsg(p, "leave");
+
+		sendTitle(p, ChatColor.BOLD + leaveMsg, "");
 
 		// check game is emtpy
 		if (this.isEmpty()) {
@@ -426,10 +436,11 @@ public abstract class MiniGame {
 		int needPlayersCount = getMinPlayerCount() - getPlayerCount();
 		String needPlayers = "";
 		if (needPlayersCount > 0) {
-			needPlayers = "need more " + ChatColor.RED + needPlayersCount + ChatColor.RESET + " players";
+			needPlayers = this.messenger.getMsg(p, "need-players", new String[][] {
+					{ "need-player-count", "" + ChatColor.RED + needPlayersCount + ChatColor.RESET } });
 		}
 
-		String msg = LangUtils.getMsg(p, LangUtils.path(MiniGame.class) + "join-message", false,
+		String msg = this.messenger.getMsg(p, "join-message",
 				new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
 						{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayerCount() } });
 		msg += "\n" + needPlayers;
@@ -452,11 +463,11 @@ public abstract class MiniGame {
 		p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
 
 		// print rule
-		String ruleMsg = LangUtils.getMsg(p, LangUtils.path(MiniGame.class) + "rule", false, null);
+		String ruleMsg = this.messenger.getMsg(p, "rule");
 		p.sendMessage("\n" + ChatColor.BOLD + "[" + ruleMsg + "]");
 
-		LangUtils.sendMsg(p, LangUtils.path(MiniGame.class) + "play-time-in-rule", false,
-				new String[][] { { "play-time", "" + getPlayTime() } });
+		p.sendMessage(this.messenger.getMsg(p, "play-time-in-rule",
+				new String[][] { { "play-time", "- " + getPlayTime() } }));
 
 		// tutorial
 		if (this.getTutorial() != null) {
@@ -495,7 +506,9 @@ public abstract class MiniGame {
 		if (this.getPlayerCount() < this.getMinPlayerCount()) {
 			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
 			// send message
-			this.sendMessageToAllPlayers("Game can't start: need " + needPlayerCount + " more player(s) to start");
+			sendMessageToAllPlayers(ChatColor.RED + "Game can not start");
+			this.messenger.sendMsg(getPlayers(), "need-players",
+					new String[][] { { "need-player-count", "" + ChatColor.RED + needPlayerCount + ChatColor.RESET } });
 
 			// restart waiting task
 			this.restartWaitingTask();
@@ -521,7 +534,9 @@ public abstract class MiniGame {
 		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
 
 		// starting title
-		sendTitleToAllPlayers("START", "", 4, 20 * 2, 4);
+		getPlayers().forEach(p -> {
+			sendTitle(p, this.messenger.getMsg(p, "start"), "", 4, 20 * 2, 4);
+		});
 
 		// runTaskAfterStart
 		runTaskAfterStart();
@@ -596,7 +611,9 @@ public abstract class MiniGame {
 		}
 
 		// send finish title
-		sendTitleToAllPlayers("FINISH", "", 4, 20 * 2, 4);
+		getPlayers().forEach(p -> {
+			sendTitle(p, this.messenger.getMsg(p, "finish"), "", 4, 20 * 2, 4);
+		});
 
 		// print score
 		printScore();
@@ -609,9 +626,8 @@ public abstract class MiniGame {
 	 * Can print format differently depending on game type
 	 */
 	protected void printScore() {
-		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
+		getPlayers().forEach(p -> sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
 
-//		List<Entry<Player, Integer>> entries = this.getRank(this.players);
 		@SuppressWarnings("unchecked")
 		List<MiniGamePlayerData> rankList = (List<MiniGamePlayerData>) this.getRank();
 		int rank = 1;
@@ -628,7 +644,7 @@ public abstract class MiniGame {
 			}
 			rankString += rank + "" + ChatColor.RESET + "] ";
 
-			BroadcastTool.sendMessage(this.getPlayers(), rankString + p.getName() + ": " + ChatColor.GOLD + score);
+			sendMessageToAllPlayers(rankString + p.getName() + ": " + ChatColor.GOLD + score);
 			rank += 1;
 		}
 
@@ -666,7 +682,7 @@ public abstract class MiniGame {
 			Utils.debug(getTitleWithClassName() + " handles player exception (" + p.getName() + ")");
 			Utils.debug("Reason: " + exception.getReason() + "\n");
 
-			sendMessage(p, "Exception: " + exception.getReason());
+			sendMessage(p, this.messenger.getMsg(p, "exception") + ": " + exception.getReason());
 
 			// check player is a viewer
 			if (getViewManager().isViewing(p)) {
@@ -692,7 +708,8 @@ public abstract class MiniGame {
 			Utils.debug(getTitleWithClassName() + " handles exception");
 			Utils.debug("Reason: " + exception.getReason() + "\n");
 
-			sendMessageToAllPlayers("Exception: " + exception.getReason());
+			getPlayers()
+					.forEach(p -> sendMessage(p, this.messenger.getMsg(p, "exception") + ": " + exception.getReason()));
 
 			// check player is a viewer
 			getViewManager().handleException(exception);
@@ -838,22 +855,13 @@ public abstract class MiniGame {
 		p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
 	}
 
-//	public void sendMessage(Player p, String msg, boolean languageSupport) {
-//		if (languageSupport) {
-//			String msgKey = msg;
-//			LangUtils.sendMsg(p, msgKey, false);
-//		} else {
-//			p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
-//		}
-//	}
-
 	/**
 	 * Sendm message to all players with minigame title prefix
 	 * 
 	 * @param msg message
 	 */
 	public void sendMessageToAllPlayers(String msg) {
-		this.getPlayers().forEach(p -> sendMessage(p, msg));
+		getPlayers().forEach(p -> sendMessage(p, msg));
 	}
 
 	/**
@@ -878,7 +886,7 @@ public abstract class MiniGame {
 	 * @param subTitle Subtitle string
 	 */
 	public void sendTitle(Player p, String title, String subTitle) {
-		p.sendTitle(title, subTitle, 4, 12, 4);
+		sendTitle(p, title, subTitle, 4, 12, 4);
 	}
 
 	/**
@@ -902,7 +910,7 @@ public abstract class MiniGame {
 	 * @param subTitle Subtitle string
 	 */
 	public void sendTitleToAllPlayers(String title, String subTitle) {
-		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, 4, 12, 4));
+		sendTitleToAllPlayers(title, subTitle, 4, 12, 4);
 	}
 
 	/**

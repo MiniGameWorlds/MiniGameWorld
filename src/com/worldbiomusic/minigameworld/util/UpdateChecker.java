@@ -1,11 +1,6 @@
 package com.worldbiomusic.minigameworld.util;
 
-import java.io.IOException;
-
 import org.bukkit.ChatColor;
-import org.kohsuke.github.GHRelease;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 /**
  * Check for updates with Github latest release tag
@@ -19,7 +14,7 @@ public class UpdateChecker {
 	 * @return True if current version is latest version
 	 */
 	public static boolean check() {
-		String latestReleaseTag = getLatestVersion();
+		String latestReleaseTag = com.wbm.plugin.util.UpdateChecker.getGithubLatestReleaseVersion(352097201);
 		boolean isLatest = false;
 
 		isLatest = Setting.API_VERSION.equals(latestReleaseTag);
@@ -42,28 +37,4 @@ public class UpdateChecker {
 		return isLatest;
 	}
 
-	/**
-	 * Get latest version
-	 * 
-	 * @return latest version
-	 */
-	public static String getLatestVersion() {
-		String version = "";
-
-		try {
-			// access github anonymously (not connect())
-			GitHub github = GitHub.connectAnonymously();
-			long repoId = 352097201;
-			GHRepository repo = github.getRepositoryById(repoId);
-			GHRelease release = repo.getLatestRelease();
-			version = release.getTagName();
-		} catch (IOException e) {
-			if (Setting.DEBUG_MODE) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		return version;
-	}
 }

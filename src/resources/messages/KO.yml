@@ -1,16 +1,26 @@
+# NOT editable 
+# Support color code
+# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
+# Each message has different placeholders
+# Each language file can has different custom placeholders
 message:
   MiniGame:
-    join-message: '<player> 이(가) <minigame>에 참여했습니다 (<player-count>/<max-player-count>)'
-    leave-message: <player> left the <minigame>
+    play-time-in-rule: '플레이 시간: <play-time> <sec>'
+    need-players: '<need-player-count>명이 더 필요합니다'
+    join-message: '<player><n> <minigame><o> 참여했습니다 (<player-count>/<max-player-count>)'
+    leave-message: '<player><n> <minigame>에서 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
+    group-chat: Group-chat
+  common: 
+    score: 점수
+    start: 시작
+    finish: 종료
+    leave: 퇴장
     rule: 규칙
-    play-time-in-rule: '- 플레이 시간: <play-time> <sec>'
-  MiniGameViewManager:
-    view-title: 관전
-    view-tutorial: run <command> to leave
-  Party:
-    invite-message: Invitation has arrived from <player>
-    accept-message: Invitation has accepted by <player>
-  Common:
+    exception: 예외
+    team: 팀
+  custom:
     sec: 초
     min: 분
     hour: 시
+    n: '이(가)'
+    o: '을(를)'

@@ -16,7 +16,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
-import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.ChatColorTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
@@ -821,8 +820,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			// send message to only team members
 			Team team = this.getTeam(sender);
 			// ex. [Title] worldbiomusic: go go
-			team.sendTeamMessage(sender,
-					"(" + ChatColor.GOLD + "Group-Chat" + ChatColor.RESET + "): " + e.getMessage());
+			team.sendTeamMessage(sender, "(" + ChatColor.GOLD + this.messenger.getMsg(sender, "group-chat")
+					+ ChatColor.RESET + "): " + e.getMessage());
 		} else {
 			Player p = e.getPlayer();
 			String msg = e.getMessage();
@@ -835,7 +834,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print team score in descending order
-		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
+		getPlayers().forEach(p -> {
+			sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
+		});
 
 		// rank team by score
 		@SuppressWarnings("unchecked")
@@ -855,8 +856,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 			rankString += rank + "" + ChatColor.RESET + "] ";
 
-			BroadcastTool.sendMessage(this.getPlayers(),
-					rankString + "Team(" + memberString + ")" + ": " + ChatColor.GOLD + score);
+			for (Player all : getPlayers()) {
+				sendMessage(all, rankString + this.messenger.getMsg(all, "team") + "(" + memberString + ")" + ": "
+						+ ChatColor.GOLD + score);
+			}
+			
 			rank += 1;
 		}
 
@@ -1226,6 +1230,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 		}
 
 		// left time
+		// TODO: change "Time left" to "<time-left>" and replace placeholder in scoreboard manager 
 		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);

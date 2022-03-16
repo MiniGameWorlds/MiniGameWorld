@@ -17,7 +17,7 @@
 - Exists 3rd-party plugins (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank])
 - Auto data backup
 - Update checker
-
+- Language support system
 
 
 # How to apply
@@ -56,7 +56,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [View]
 - [Menu]
 - [Scoreboard]
-
+- [Language Support]
 
 # Caution
 - If you `stop` or `reload` your server without player's command or server command, must make sure that all players are not joining any minigames
@@ -78,5 +78,6 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [View]: view.md
 [Menu]: menu.md
 [Scoreboard]: scoreboard.md
+[Language Support]: language-support.md
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank

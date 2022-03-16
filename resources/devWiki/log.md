@@ -1,19 +1,23 @@
 # TODO
 
-## Release
+<!-- ## Release
 - MiniGameWorld
 - AllMiniGames
 - RisbeanMinigames
 - MiniGameWorld-Controller
 - MiniGameWorld-Reward
-- LIBIBKK-MiniGames
+- LIBIBKK-MiniGames -->
 
----
-
-- Make LanguageManager
-- Bug: when left server while waiting, minigame waiting timer does not stop
-- Move `UpdateChecker` to wbmMC
+- Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
+- Add `fix-language-messages` option to settings.yml (if true, enforce saveResource(..., true))
+- Remove fallen blocks in the FallingBlock, fix bug if there are many players, blocks are not falling
+- Replace flowchart img with markdown [flowchart syntax](https://support.typora.io/Draw-Diagrams-With-Markdown/) in wiki pages
+- Support placeholders in tutorial (e.g. <title>, <play-time>, ... get placeholder value with MiniGame#getDataManager().getData().get(<placeholder-key>))
+- Language support system wiki
 - Add custom event of Party system
+- Reload backup file command (`/mw reload <backup-file>`) (support tab completer with list in `MiniGameWorld_backup`)
+- Backup command (`/mw backup`) (generate with current time) (use `DataManager#saveBackupData()`)
+- Upload feature videos(e.g. join, leave and view systems)
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `party` icon to Menu
@@ -26,8 +30,7 @@
 - Support Script Addon
 - Language support system
 - Instantiate system
-- Backup command (`backup <diretory>`) (support tab completer)
-- Upload feature videos(e.g. join, leave and view systems)
+
 
 ---
 
@@ -785,6 +788,18 @@ if(!this.isMinPlayersLive()) {
 - Design language support system
 - Create `LangUtils` for multi languages
 - Add language files folder (`src/resources/messages`)
+- Add LanguageManager
+- Separate event listener system
+- Fix bug (when left server while waiting, minigame waiting timer does not stop)
+- Add custom placeholder feature
+
+# 2022-03-14
+- Add Messenger
+- Add `common` message key to language file
+
+
+
+
 
 
 

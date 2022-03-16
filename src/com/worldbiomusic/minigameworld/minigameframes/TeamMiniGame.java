@@ -9,7 +9,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
-import com.wbm.plugin.util.BroadcastTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
@@ -66,11 +65,12 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	@Override
 	protected void printScore() {
-		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
-
 		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
-		BroadcastTool.sendMessage(this.getPlayers(),
-				"Team(" + allPlayersName + ")" + ": " + ChatColor.GOLD + getTeamScore());
+		getPlayers().forEach(p -> {
+			sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
+			sendMessage(p, this.messenger.getMsg(p, "team") + "(" + allPlayersName + ")" + ": " + ChatColor.GOLD
+					+ getTeamScore());
+		});
 	}
 
 	@Override

@@ -3,8 +3,6 @@ package com.worldbiomusic.minigameworld.minigameframes;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.wbm.plugin.util.BroadcastTool;
-
 /**
  * <b>[Info]</b><br>
  * - Minigame frame only 1 player can play<br>
@@ -24,8 +22,9 @@ public abstract class SoloMiniGame extends MiniGame {
 	 */
 	public SoloMiniGame(String title, int playTime, int waitingTime) {
 		super(title, 1, 1, playTime, waitingTime);
-		
+
 		getSetting().setGameFinishConditionPlayerCount(1);
+
 	}
 
 	/**
@@ -56,7 +55,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	}
 
 	/**
-	 * Gets solo player's score
+	 * Get solo player's score
 	 * 
 	 * @return Solo player's score
 	 */
@@ -67,9 +66,8 @@ public abstract class SoloMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print just score
-		BroadcastTool.sendMessage(this.getPlayers(), ChatColor.BOLD + "[Score]");
-		int score = this.getScore();
-		BroadcastTool.sendMessage(this.getPlayers(), this.getSoloPlayer().getName() + ": " + ChatColor.GOLD + score);
+		sendMessage(getSoloPlayer(), ChatColor.BOLD + "[" + this.messenger.getMsg(getSoloPlayer(), "score") + "]");
+		sendMessage(getSoloPlayer(), getSoloPlayer().getName() + ": " + ChatColor.GOLD + getScore());
 	}
 
 	@Override
