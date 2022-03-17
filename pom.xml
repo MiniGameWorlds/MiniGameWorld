@@ -7,6 +7,7 @@
 	<version>0.6.1</version>
 	<properties>
 		<plugin.test>Test</plugin.test>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>
 		<!-- This adds the Spigot Maven repository to the build -->
@@ -69,7 +70,6 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.0</version>
 				<configuration>
-					<!-- put your configurations here -->
 				</configuration>
 				<executions>
 					<execution>
