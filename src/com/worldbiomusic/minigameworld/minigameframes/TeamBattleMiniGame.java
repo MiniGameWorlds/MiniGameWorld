@@ -835,7 +835,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	protected void printScore() {
 		// print team score in descending order
 		getPlayers().forEach(p -> {
-			sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
+			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
 		});
 
 		// rank team by score
@@ -858,7 +858,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 			for (Player all : getPlayers()) {
 				sendMessage(all, rankString + this.messenger.getMsg(all, "team") + "(" + memberString + ")" + ": "
-						+ ChatColor.GOLD + score);
+						+ ChatColor.GOLD + score, false);
 			}
 			
 			rank += 1;

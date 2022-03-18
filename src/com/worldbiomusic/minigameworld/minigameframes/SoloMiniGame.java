@@ -66,8 +66,8 @@ public abstract class SoloMiniGame extends MiniGame {
 	@Override
 	protected void printScore() {
 		// print just score
-		sendMessage(getSoloPlayer(), ChatColor.BOLD + "[" + this.messenger.getMsg(getSoloPlayer(), "score") + "]");
-		sendMessage(getSoloPlayer(), getSoloPlayer().getName() + ": " + ChatColor.GOLD + getScore());
+		sendMessage(getSoloPlayer(), ChatColor.BOLD + "[" + this.messenger.getMsg(getSoloPlayer(), "score") + "]", false);
+		sendMessage(getSoloPlayer(), getSoloPlayer().getName() + ": " + ChatColor.GOLD + getScore(), false);
 	}
 
 	@Override

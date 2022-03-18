@@ -466,8 +466,8 @@ public abstract class MiniGame {
 		String ruleMsg = this.messenger.getMsg(p, "rule");
 		p.sendMessage("\n" + ChatColor.BOLD + "[" + ruleMsg + "]");
 
-		p.sendMessage(this.messenger.getMsg(p, "play-time-in-rule",
-				new String[][] { { "play-time", "- " + getPlayTime() } }));
+		p.sendMessage("- " + this.messenger.getMsg(p, "play-time-in-rule",
+				new String[][] { { "play-time", "" + getPlayTime() } }));
 
 		// tutorial
 		if (this.getTutorial() != null) {
@@ -626,7 +626,7 @@ public abstract class MiniGame {
 	 * Can print format differently depending on game type
 	 */
 	protected void printScore() {
-		getPlayers().forEach(p -> sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
+		getPlayers().forEach(p -> p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
 
 		@SuppressWarnings("unchecked")
 		List<MiniGamePlayerData> rankList = (List<MiniGamePlayerData>) this.getRank();
@@ -644,7 +644,7 @@ public abstract class MiniGame {
 			}
 			rankString += rank + "" + ChatColor.RESET + "] ";
 
-			sendMessageToAllPlayers(rankString + p.getName() + ": " + ChatColor.GOLD + score);
+			sendMessageToAllPlayers(rankString + p.getName() + ": " + ChatColor.GOLD + score, false);
 			rank += 1;
 		}
 
@@ -852,7 +852,15 @@ public abstract class MiniGame {
 	 * @param msg message
 	 */
 	public void sendMessage(Player p, String msg) {
-		p.sendMessage("[" + this.getColoredTitle() + "] " + msg);
+		sendMessage(p, msg, true);
+	}
+
+	public void sendMessage(Player p, String msg, boolean prefix) {
+		if (prefix) {
+			msg = "[" + this.getColoredTitle() + "] " + msg;
+		}
+
+		p.sendMessage(msg);
 	}
 
 	/**
@@ -861,7 +869,11 @@ public abstract class MiniGame {
 	 * @param msg message
 	 */
 	public void sendMessageToAllPlayers(String msg) {
-		getPlayers().forEach(p -> sendMessage(p, msg));
+		sendMessageToAllPlayers(msg, true);
+	}
+
+	public void sendMessageToAllPlayers(String msg, boolean prefix) {
+		getPlayers().forEach(p -> sendMessage(p, msg, prefix));
 	}
 
 	/**

@@ -67,9 +67,9 @@ public abstract class TeamMiniGame extends MiniGame {
 	protected void printScore() {
 		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
 		getPlayers().forEach(p -> {
-			sendMessage(p, ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
+			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
 			sendMessage(p, this.messenger.getMsg(p, "team") + "(" + allPlayersName + ")" + ": " + ChatColor.GOLD
-					+ getTeamScore());
+					+ getTeamScore(), false);
 		});
 	}
 
