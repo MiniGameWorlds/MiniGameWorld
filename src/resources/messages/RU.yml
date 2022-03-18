@@ -5,20 +5,20 @@
 # Each language file can has different custom placeholders
 message:
   MiniGame:
-    play-time-in-rule: 'Play time: <play-time> <sec>' 
-    need-players: 'need more <need-player-count> players'
-    join-message: '<player> joined the <minigame> (<player-count>/<max-player-count>)'
-    leave-message: '<player> left the <minigame> (<player-count>/<max-player-count>) (Reason: <reason>)'
-    group-chat: Group-chat
+    play-time-in-rule: 'Длительность игры: <play-time> <sec>' 
+    need-players: 'В игре должно быть более <need-player-count> игроков'
+    join-message: '<player> присоединился к <minigame> (<player-count>/<max-player-count>)'
+    leave-message: '<player> покинул <minigame> (<player-count>/<max-player-count>) (Причина: <reason>)'
+    group-chat: Групповой чат
   common: 
-    score: Score
-    start: Start
-    finish: Finish
-    leave: Leave
-    rule: Rule
-    exception: Exception
-    team: Team
+    score: Счёт
+    start: Старт
+    finish: Финиш
+    leave: Выход
+    rule: Правила
+    exception: Исключение
+    team: Команда
   custom:
-    sec: sec
-    min: min
-    hour: hour
+    sec: сек
+    min: мин
+    hour: час
