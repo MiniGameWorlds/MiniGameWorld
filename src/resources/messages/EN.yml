@@ -1,5 +1,4 @@
-# NOT editable 
-# Support color code
+# Support color code (e.g. '§c Hello §f')
 # Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
 # Each message has different placeholders
 # Each language file can has different custom placeholders

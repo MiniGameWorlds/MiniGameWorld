@@ -16,7 +16,7 @@
 
 
 # Commands
-- `/language <language>`: Change my laguage to `<language>` (`EN`, `KO`, `RU` ... etc)
+- `/language <language>`: Change laguage to `<language>` (`EN`, `KO`, `RU` ... etc)
 
 
 

@@ -1,6 +1,6 @@
 # Description
 - This document describe how to use MiniGameWorld pluin in your server
-- Plugin works on `spigot`, `paper` bukkit with `1.14+` versions
+- Plugin works on `spigot`, `paper`, `purpur` bukkit with `1.14+` versions
 - MiniGame types: `Solo`, `SoloBattle`, `Team`, `TeamBattle` and `custom`
 
 
@@ -20,14 +20,15 @@
 - Language support system
 
 
+
 # How to apply
 1. Download [MiniGameWorld] and [wbmMC]
 2. Download [MiniGames] that you want to add to your server
 3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
 4. Make a place for minigame yourself
-5. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload` (need OP)  
+5. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload` (OP required)  
 **`or`**  
-Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (need OP)  
+Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (OP required)  
 
 
 
@@ -36,6 +37,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [wbmMC]: Essential library
 - [MiniGames]: MiniGames made by some makers
 - [Third-Parties]: You can `give reward with rank `, `save rank data` and etc with third party plugins
+- [AdvancedMultiLanguage]: Support mulit languages
 
 
 
@@ -58,9 +60,11 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [Scoreboard]
 - [Language Support]
 
+
+
 # Caution
 - If you `stop` or `reload` your server without player's command or server command, must make sure that all players are not joining any minigames
-- If you have some problems in bungeecord server, use [BungeeGuard](https://www.spigotmc.org/resources/bungeeguard.79601/) plugin
+- If you have some problems with **bungeecord** server, use [BungeeGuard] plugin
 
 
 
@@ -81,3 +85,5 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [Language Support]: language-support.md
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
+[AdvancedMultiLanguage]: https://www.spigotmc.org/resources/advanced-multi-language.21338/
+[BungeeGuard]: https://www.spigotmc.org/resources/bungeeguard.79601/

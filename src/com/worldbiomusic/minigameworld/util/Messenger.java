@@ -1,5 +1,6 @@
 package com.worldbiomusic.minigameworld.util;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -137,4 +138,11 @@ public class Messenger {
 		message += LangUtils.getMsg(p, this.defaultMessageKey + msgKey, useUtilsPrefix, placeholders);
 		return message;
 	}
+
+	@Override
+	public String toString() {
+		return "Messenger [prefix=" + prefix + ", usePrefix=" + usePrefix + ", defaultMessageKey=" + defaultMessageKey
+				+ ", titleTimes=" + Arrays.toString(titleTimes) + "]";
+	}
+
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.wbm.plugin.util.ServerTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 import me.smessie.MultiLanguage.api.Language;
 
@@ -41,9 +40,9 @@ public class LanguageManager {
 		});
 
 		// print not exist language files
-		if (!notExistLangs.isEmpty()) {
-			Utils.warning("Not exist language files: " + notExistLangs.toString());
-		}
+//		if (!notExistLangs.isEmpty()) {
+//			Utils.warning("Not exist language files: " + notExistLangs.toString());
+//		}
 	}
 
 	private void setupDefaultLanguageFile() {

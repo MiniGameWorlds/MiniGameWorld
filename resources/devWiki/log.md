@@ -1,13 +1,4 @@
 # TODO
-
-<!-- ## Release
-- MiniGameWorld
-- AllMiniGames
-- RisbeanMinigames
-- MiniGameWorld-Controller
-- MiniGameWorld-Reward
-- LIBIBKK-MiniGames -->
-
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
 - Add `fix-language-messages` option to settings.yml (if true, enforce saveResource(..., true))
 - Remove fallen blocks in the FallingBlock, fix bug if there are many players, blocks are not falling
@@ -190,6 +181,20 @@
 - Add `getMiniGameWithTitle()` to MiniGameWorldUtils
 - Notify players count in `leaveGame()` of MiniGame
 - Update [wbmMC](https://github.com/worldbiomusic/wbmMC/releases)
+
+## 0.7.0
+### API Changes
+- Rename `time-limit` to `play-time` of `MiniGameSetting` (Spigot, AllMiniGames)
+- Fix `getSettings()` and add `getSettingsData()` to `MiniGameAccessor`
+- Add prefix option to `Utils.sendMsg()` 
+
+### Build Changes
+- **Add language support system**
+- Create `LangUtils` for multi languages
+- Add language files folder (`src/resources/messages`)
+- Add custom placeholder feature
+- Add Messenger
+- Add `common` message key to language file
 
 ---
 
@@ -785,7 +790,7 @@ if(!this.isMinPlayersLive()) {
 # 2022-03-13
 - Add prefix option to `Utils.sendMsg()` 
 - Add [AdvancedMultiLanguage](https://github.com/smessie/AdvancedMultiLanguage) plugin as softdepend
-- Design language support system
+- Add language support system
 - Create `LangUtils` for multi languages
 - Add language files folder (`src/resources/messages`)
 - Add LanguageManager
@@ -797,9 +802,9 @@ if(!this.isMinPlayersLive()) {
 - Add Messenger
 - Add `common` message key to language file
 
-
-
-
+# 2022-03-17
+- Support MiniGame languages and edit wiki
+- Encode with UTF-8 (maven)
 
 
 

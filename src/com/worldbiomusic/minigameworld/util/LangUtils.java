@@ -114,8 +114,10 @@ public class LangUtils {
 	 */
 	private static String getLangMessage(Player p, String language, String messageKey) {
 		String message = null;
-		String[] keys = messageKey.split(".");
-		String commonMsgKey = "message.common." + keys[keys.length - 1];
+		String[] keys = messageKey.split("\\.");
+
+		int lastKeyIndex = keys.length - 1;
+		String commonMsgKey = "message.common." + keys[lastKeyIndex];
 		try {
 			// search in the language flie
 			if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {

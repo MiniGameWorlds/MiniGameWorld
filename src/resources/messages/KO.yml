@@ -1,14 +1,13 @@
-# NOT editable 
-# Support color code
-# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
-# Each message has different placeholders
-# Each language file can has different custom placeholders
+# 색깔 코드를 지원합니다 (예. '§c 안녕하세요 §f')
+# 만약 메세지가 (,{,[,<,#,@ ... 등과 같은 기호를 포함하고 있다면 "'"로 감싸주세요
+# 각각의 메세지는 모두 다른 플레이스홀더를 가집니다 (EN.yml에서 확인해주세요)
+# 각각의 언어파일은 다른 custom 플레이스홀더를 만들어서 사용할 수 있습니다
 message:
   MiniGame:
     play-time-in-rule: '플레이 시간: <play-time> <sec>'
     need-players: '<need-player-count>명이 더 필요합니다'
     join-message: '<player><n> <minigame><o> 참여했습니다 (<player-count>/<max-player-count>)'
-    leave-message: '<player><n> <minigame>에서 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
+    leave-message: '<player><n> <minigame><o> 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
     group-chat: Group-chat
   common: 
     score: 점수
