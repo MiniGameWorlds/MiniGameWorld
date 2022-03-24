@@ -8,7 +8,7 @@ message:
     need-players: '<need-player-count>명이 더 필요합니다'
     join-message: '<player><n> <minigame><o> 참여했습니다 (<player-count>/<max-player-count>)'
     leave-message: '<player><n> <minigame><o> 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
-    group-chat: Group-chat
+    group-chat: 그룹채팅
   common: 
     score: 점수
     start: 시작

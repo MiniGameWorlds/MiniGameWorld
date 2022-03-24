@@ -62,9 +62,16 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 
 
 
-# Caution
-- If you `stop` or `reload` your server without player's command or server command, must make sure that all players are not joining any minigames
+# Trouble shootings
+## Server
+- If you `stop` or `reload` your server without command (i.e. `/stop` or `/reload` or `/reload confirm` or `/restart`), must make sure that all players are not joining any minigames
 - If you have some problems with **bungeecord** server, use [BungeeGuard] plugin
+
+## Plugin
+- If plugin is not loaded, try to change the `check-update` option in `settings.yml` config to **false** (update checker will not work if plugin is loaded too often (for github api rate limit))
+
+## Language Messages
+- If `edit-messages` option in `settings.yml` config is **false**, message changes will not be saved
 
 
 

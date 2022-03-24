@@ -38,6 +38,7 @@
 - `/minigame settings start-sound <value>`: Set start-sound (Sound)
 - `/minigame settings finish-sound <value>`: Set finish-sound (Sound)
 - `/minigame settings check-update <value>`: If true, check update when a plugin is loaded (true / false)
+- `/minigame settings edit-messages <value>`: If true, language message changes will be applied(saved) (true / false)
 
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 

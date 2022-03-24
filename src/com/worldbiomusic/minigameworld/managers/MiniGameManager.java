@@ -116,6 +116,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_START_SOUND, Setting.START_SOUND.name());
 		pureData.put(Setting.SETTINGS_FINISH_SOUND, Setting.FINISH_SOUND.name());
 		pureData.put(Setting.SETTINGS_CHECK_UPDATE, Setting.CHECK_UPDATE);
+		pureData.put(Setting.SETTINGS_EDIT_MESSAGES, Setting.EDIT_MESSAGES);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
@@ -133,6 +134,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.START_SOUND = Sound.valueOf(((String) this.settings.get(Setting.SETTINGS_START_SOUND)).toUpperCase());
 		Setting.FINISH_SOUND = Sound.valueOf(((String) this.settings.get(Setting.SETTINGS_FINISH_SOUND)).toUpperCase());
 		Setting.CHECK_UPDATE = (boolean) this.settings.get(Setting.SETTINGS_CHECK_UPDATE);
+		Setting.EDIT_MESSAGES = (boolean) this.settings.get(Setting.SETTINGS_EDIT_MESSAGES);
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {

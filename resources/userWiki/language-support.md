@@ -3,6 +3,8 @@
 - [Languages folder]
 - ❗ **Every messages are NOT yet translated (on working)**
 
+
+
 # Supported languages
 - English
 - Korean
@@ -20,10 +22,17 @@
 
 
 
+# How to edit
+- Change `edit-messages` option in `settings.yml` config to **false** and change messages of language configs in the `messages` folder
+- **Warning**: if messages updated with plugin update, you need to set `edit-messages` option to update messages (**all messages will be overwritten**)
+
+
+
 # How to contribute
 - You can contribute with translating the language files in **[Languages folder]** and pull request.
 - Each message key in language file belongs to its `Class file name` (search a class in the [javadoc API] and follow the package)
 - If your language file doesn't exist, create file with language name in the [list](#language-list) like `DE.yml` and copy and paste all the content of `EN.yml`, then you can translate any of them.
+
 
 
 # System
@@ -38,10 +47,12 @@
 - Each message has different placeholders with `<` and `>` (Search the placeholder used in EN.yml(**standard**))
 > e.g. `join-message: '<player> joined the <minigame>'`  
 > e.g. `play-time-in-rule: 'Play time: <play-time> <sec>' `
+
 ## Custom placeholder
 - Each language file can have different `custom` placeholders
 - Anyone can add own custom placeholders (do the pull request)
 - Custom placeholder can be used for language features like below examples
+
 ```yaml
 # [English]
 messages:

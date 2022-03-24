@@ -77,7 +77,9 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_CHECK_UPDATE:
 				check_update(sender, args);
 				break;
-
+			case Setting.SETTINGS_EDIT_MESSAGES:
+				edit_messages(sender, args);
+				break;
 			}
 
 			// save config
@@ -231,4 +233,10 @@ public class MiniGameSettingsConfigCommand {
 		return true;
 	}
 
+	private boolean edit_messages(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_EDIT_MESSAGES, value);
+		return true;
+	}
 }

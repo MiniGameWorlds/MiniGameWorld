@@ -26,7 +26,7 @@ public class Setting {
 	public static final int PARTY_INVITE_TIMEOUT = 60;
 	public static final int PARTY_ASK_TIMEOUT = 60;
 
-	// Minigame
+	// Minigame (default values)
 	public static boolean ISOLATED_CHAT = true;
 	public static boolean ISOLATED_JOIN_QUIT_MESSAGE = true;
 	public static String JOIN_SIGN_CAPTION = "[MiniGame]";
@@ -38,6 +38,7 @@ public class Setting {
 	public static Sound FINISH_SOUND = Sound.ENTITY_ENDER_DRAGON_DEATH;
 	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
 	public static boolean CHECK_UPDATE = true;
+	public static boolean EDIT_MESSAGES = false;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -54,6 +55,7 @@ public class Setting {
 	public static final String SETTINGS_FINISH_SOUND = "finish-sound";
 	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
 	public static final String SETTINGS_CHECK_UPDATE = "check-update";
+	public static final String SETTINGS_EDIT_MESSAGES = "edit-messages";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

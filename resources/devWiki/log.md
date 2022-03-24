@@ -811,7 +811,21 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-03-24
 - Add `check-update` to settings.yml (default: true) (useful for frequent server rebooting) (WbmMC, MiniGameWorld) (AllMiniGames use option of MiniGameWorld)
-- Add `edit-language-messages` option to settings.yml (if true, enforce saveResource(..., true))
+- Add `edit-messages` option to settings.yml (if false, enforce saveResource(..., true))
+- Add `Trouble Shootings` to wiki
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
