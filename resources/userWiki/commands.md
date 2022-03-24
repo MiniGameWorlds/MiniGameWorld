@@ -37,6 +37,7 @@
 - `/minigame settings min-leave-time <value>`: Set min-leave-time (sec)
 - `/minigame settings start-sound <value>`: Set start-sound (Sound)
 - `/minigame settings finish-sound <value>`: Set finish-sound (Sound)
+- `/minigame settings check-update <value>`: If true, check update when a plugin is loaded (true / false)
 
 ### minigames
 - set minigame settings in `minigames/<minigame>.yml` config 

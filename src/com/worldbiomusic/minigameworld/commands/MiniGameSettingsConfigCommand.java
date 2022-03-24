@@ -74,6 +74,10 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_FINISH_SOUND:
 				finish_sound(sender, args);
 				break;
+			case Setting.SETTINGS_CHECK_UPDATE:
+				check_update(sender, args);
+				break;
+
 			}
 
 			// save config
@@ -219,4 +223,12 @@ public class MiniGameSettingsConfigCommand {
 		this.setKeyValue(sender, Setting.SETTINGS_FINISH_SOUND, value);
 		return true;
 	}
+
+	private boolean check_update(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_CHECK_UPDATE, value);
+		return true;
+	}
+
 }

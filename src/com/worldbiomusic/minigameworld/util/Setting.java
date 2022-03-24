@@ -36,8 +36,8 @@ public class Setting {
 	public static int MIN_LEAVE_TIME = 3;
 	public static Sound START_SOUND = Sound.BLOCK_END_PORTAL_SPAWN;
 	public static Sound FINISH_SOUND = Sound.ENTITY_ENDER_DRAGON_DEATH;
-
 	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
+	public static boolean CHECK_UPDATE = true;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -49,10 +49,11 @@ public class Setting {
 	public static final String SETTINGS_LEAVE_SIGN_CAPTION = "leave-sign-caption";
 	public static final String SETTINGS_SCOREBOARD = "scoreboard";
 	public static final String SETTINGS_SCOREBOARD_UPDATE_DELAY = "scoreboard-update-delay";
-	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
 	public static final String SETTINGS_MIN_LEAVE_TIME = "min-leave-time";
 	public static final String SETTINGS_START_SOUND = "start-sound";
 	public static final String SETTINGS_FINISH_SOUND = "finish-sound";
+	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
+	public static final String SETTINGS_CHECK_UPDATE = "check-update";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

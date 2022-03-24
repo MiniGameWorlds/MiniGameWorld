@@ -21,6 +21,7 @@ settings:
   min-leave-time: 3
   start-sound: BLOCK_END_PORTAL_SPAWN
   finish-sound: ENTITY_ENDER_DRAGON_DEATH
+  check-update: true
 ```
 - `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
 - `backup-data-save-delay`: Delay of saving backup data (per minute)
@@ -35,6 +36,8 @@ settings:
 - `min-leave-time`: Minimun time to leave the minigame (sec)
 - `start-sound`: Sound when a minigame starts (connect words with `_` of [Sound](https://www.digminecraft.com/lists/sound_list_pc.php))
 - `finish-sound`: Sound when a minigame finished (connect words with `_` of [Sound](https://www.digminecraft.com/lists/sound_list_pc.php))
+- `check-update`: If true, check latest version update (true / false)
+
 
 ## `minigames/<MiniGame>.yml`
 - Minigame settings

@@ -76,9 +76,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// BStats
 		new Metrics(this, Setting.BSTATS_PLUGIN_ID);
 
-		// check update
-		UpdateChecker.check();
-
 		this.minigameManager = MiniGameManager.getInstance();
 		// MiniGameWorld wrapper class: set MiniGameManager
 		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
@@ -86,13 +83,17 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 		// setup MiniGameWorldUtils
 		MiniGameWorldUtils.setMiniGameManager(minigameManager);
-
 	}
 
 	private void setupData() {
 		// yaml data manager
 		this.dataManager = new DataManager(this);
 		this.dataManager.registerYamlMember(this.minigameManager);
+
+		// check update
+		if (Setting.CHECK_UPDATE) {
+			UpdateChecker.check();
+		}
 
 		// language files
 		this.languageManager = new LanguageManager();
