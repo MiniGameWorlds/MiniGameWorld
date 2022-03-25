@@ -1,5 +1,6 @@
 # Language Support
 - MiniGameWorld can supports various languages
+- Each players can select their language
 - [Languages folder]
 - ❗ **Every messages are NOT yet translated (on working)**
 

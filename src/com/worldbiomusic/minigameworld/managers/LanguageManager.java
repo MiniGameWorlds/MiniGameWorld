@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.wbm.plugin.util.ServerTool;
-import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.util.Setting;
 
@@ -53,9 +52,7 @@ public class LanguageManager {
 
 	private void createLanguageFile(String language) {
 		String fileName = "messages" + File.separator + language + ".yml";
-
 		boolean isExist = new File(MiniGameWorldMain.getInstance().getDataFolder(), fileName).exists();
-		Utils.warning(language + " is exist: " + isExist);
 
 		// if can edit messages and file is already exist, return
 		if (Setting.EDIT_MESSAGES && isExist) {

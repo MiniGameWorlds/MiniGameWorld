@@ -17,6 +17,8 @@ import com.wbm.plugin.util.ItemStackTool;
 import com.wbm.plugin.util.PlayerTool;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.LangUtils;
+import com.worldbiomusic.minigameworld.util.Messenger;
 import com.worldbiomusic.minigameworld.util.Setting;
 
 /**
@@ -32,6 +34,8 @@ public class MiniGameMenu {
 	private int currentPage;
 
 	private final int minigameIconListSize = 27;
+
+	private Messenger messenger;
 
 	private enum BaseIcon {
 		LEAVE_GAME(ItemStackTool.item(Material.OAK_DOOR, "Leave Game"), 1),
@@ -61,6 +65,8 @@ public class MiniGameMenu {
 		this.player = player;
 		this.minigameManager = minigameManager;
 		this.currentPage = 1;
+		this.messenger = new Messenger(LangUtils.path(MiniGameMenu.class));
+
 		this.makeBaseIcons();
 	}
 
@@ -88,7 +94,8 @@ public class MiniGameMenu {
 	private ItemStack getPlayerHead(Player p) {
 		ItemStack item = PlayerTool.getPlayerHead(this.player);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName("" + ChatColor.YELLOW + ChatColor.BOLD + "INFO");
+
+		meta.setDisplayName("" + ChatColor.YELLOW + ChatColor.BOLD + this.messenger.getMsg(player, "info"));
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -97,15 +104,17 @@ public class MiniGameMenu {
 		ItemStack playerHead = this.inv.getItem(0);
 
 		MiniGame playingMinigame = this.minigameManager.getPlayingMiniGame(this.player);
-		String title = (playingMinigame == null) ? "None" : playingMinigame.getTitle();
+		String noneStr = messenger.getMsg(player, "none");
+		String title = (playingMinigame == null) ? noneStr : playingMinigame.getTitle();
 
 		ItemMeta meta = playerHead.getItemMeta();
 		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.WHITE + "- Minigame: " + title);
+		String minigameStr = messenger.getMsg(player, "minigame");
+		lore.add(ChatColor.WHITE + "- " + minigameStr + ": " + title);
 
 		// add party members
 		lore.add("");
-		lore.add("" + ChatColor.YELLOW + ChatColor.BOLD + "Party");
+		lore.add("" + ChatColor.YELLOW + ChatColor.BOLD + messenger.getMsg(player, "party"));
 		List<Player> partyMembers = this.minigameManager.getPartyManager().getMembers(this.player);
 		for (Player member : partyMembers) {
 			lore.add(ChatColor.WHITE + "- " + member.getName());
@@ -163,18 +172,22 @@ public class MiniGameMenu {
 
 		// lore
 		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.WHITE + "- Players: " + minigame.getPlayerCount() + "/" + minigame.getMaxPlayerCount()
-				+ " (min:" + minigame.getMinPlayerCount() + ")");
-		lore.add(ChatColor.WHITE + "- Play time: " + minigame.getPlayTime() + " secs");
-		lore.add(ChatColor.WHITE + "- Type: " + minigame.getFrameType());
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "player") + ": " + minigame.getPlayerCount() + "/"
+				+ minigame.getMaxPlayerCount() + " (" + messenger.getMsg(player, "minimum") + ": "
+				+ minigame.getMinPlayerCount() + ")");
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "play-time") + ": " + minigame.getPlayTime() + " "
+				+ messenger.getMsg(player, "sec"));
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.getFrameType());
 
 		if (minigame.isStarted()) {
-			String leftFinishTime = ChatColor.WHITE + "- Finish in... " + ChatColor.RED + ChatColor.BOLD
-					+ (minigame.getLeftFinishTime() - 1);
+			String leftFinishTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftFinishTime() - 1);
+			String leftFinishTime = ChatColor.WHITE + "- "
+					+ messenger.getMsg(player, "finish-in-time", new String[][] { { "left-time", leftFinishTimer } });
 			lore.add(leftFinishTime);
 		} else {
-			String leftWaitingTime = ChatColor.WHITE + "- Starting in... " + ChatColor.RED + ChatColor.BOLD
-					+ (minigame.getLeftWaitingTime() - 1);
+			String leftWaitingTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftWaitingTime() - 1);
+			String leftWaitingTime = ChatColor.WHITE + "- "
+					+ messenger.getMsg(player, "start-in-time", new String[][] { { "left-time", leftWaitingTimer } });
 			lore.add(leftWaitingTime);
 		}
 
@@ -190,13 +203,13 @@ public class MiniGameMenu {
 
 	public void processClickEvent(InventoryClickEvent e) {
 		// suppose inventory has only 1 viewer
-		ItemStack ClickedItem = e.getCurrentItem();
-		if (ClickedItem == null) {
+		ItemStack clickedItem = e.getCurrentItem();
+		if (clickedItem == null) {
 			return;
 		}
 
 		Player p = (Player) e.getViewers().get(0);
-		if (ClickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
+		if (clickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
 
 			// leave or unview
 			if (this.minigameManager.isPlayingMiniGame(p)) {
@@ -204,11 +217,11 @@ public class MiniGameMenu {
 			} else if (this.minigameManager.isViewingMiniGame(p)) {
 				this.minigameManager.unviewGame(p);
 			}
-		} else if (ClickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
+		} else if (clickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
 			}
-		} else if (ClickedItem.equals(BaseIcon.NEXT_PAGE.getItem())) {
+		} else if (clickedItem.equals(BaseIcon.NEXT_PAGE.getItem())) {
 			if (this.currentPage < this.getMaxPageNumber()) {
 				this.currentPage += 1;
 			}

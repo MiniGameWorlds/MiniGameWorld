@@ -9,6 +9,9 @@ message:
     join-message: '<player> joined the <minigame> (<player-count>/<max-player-count>)'
     leave-message: '<player> left the <minigame> (<player-count>/<max-player-count>) (Reason: <reason>)'
     group-chat: Group-chat
+  MiniGameMenu:
+    start-in-time: 'Starting in... <left-time> <sec>'
+    finish-in: 'Finish in... <left-time> <sec>'
   common: 
     score: Score
     start: Start
@@ -17,6 +20,18 @@ message:
     rule: Rule
     exception: Exception
     team: Team
+    info: Info
+    none: None
+    minigame: Minigame
+    party: Party
+    player: Player
+    play-time: Play time
+    type: Type
+    sec: '<sec>'
+    min: '<min>'
+    hour: '<hour>'
+    minumum: minimum
+    maximum: maximum
   custom:
     sec: sec
     min: min

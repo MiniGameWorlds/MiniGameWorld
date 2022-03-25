@@ -1,8 +1,8 @@
 # TODO
+- Close inventory if title is Setting.MENU_INV_TITLE when server restarts (MiniGameManager#processPlayerQuitWorks())
 - Create wiki about how to use placeholder in minigame tutorial
 - Setup env to 1.18.2 (all) (pom.xml)
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
-
 - Remove fallen blocks in the FallingBlock, fix bug if there are many players, blocks are not falling
 - Replace flowchart img with markdown [flowchart syntax](https://support.typora.io/Draw-Diagrams-With-Markdown/) in wiki pages
 - Support placeholders in tutorial (e.g. <title>, <play-time>, ... get placeholder value with MiniGame#getDataManager().getData().get(<placeholder-key>))
@@ -23,6 +23,7 @@
 - Support Script Addon
 - Language support system
 - Instantiate system
+- Detach `AdvancedMultiLanguage` api and make simple system (also have reload system for performance)
 
 
 ---
@@ -814,9 +815,8 @@ if(!this.isMinPlayersLive()) {
 - Add `edit-messages` option to settings.yml (if false, enforce saveResource(..., true))
 - Add `Trouble Shootings` to wiki
 
-
-
-
+# 2022-03-25
+- Translate menu messages
 
 
 

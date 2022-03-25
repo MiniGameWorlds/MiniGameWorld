@@ -9,6 +9,9 @@ message:
     join-message: '<player><n> <minigame><o> 참여했습니다 (<player-count>/<max-player-count>)'
     leave-message: '<player><n> <minigame><o> 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
     group-chat: 그룹채팅
+  MiniGameMenu:
+    start-in-time: '게임 시작까지... <left-time><sec>'
+    finish-in: '게임 종료까지... <left-time><sec>'
   common: 
     score: 점수
     start: 시작
@@ -17,6 +20,18 @@ message:
     rule: 규칙
     exception: 예외
     team: 팀
+    info: 정보
+    none: 없음
+    minigame: 미니게임
+    party: 파티
+    player: 플레이어
+    play-time: 플레이 타임
+    type: 타입
+    sec: '<sec>'
+    min: '<min>'
+    hour: '<hour>'
+    minumum: 최소
+    maximum: 최대
   custom:
     sec: 초
     min: 분
