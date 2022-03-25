@@ -1,0 +1,23 @@
+# Support color code (e.g. '§c Hello §f')
+# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
+# Each message has different placeholders
+# Each language file can has different custom placeholders
+message:
+  MiniGame:
+    play-time-in-rule: 'Тривалість гри: <play-time> <sec>' 
+    need-players: 'У грі має бути більше <need-player-count> гравець'
+    join-message: '<player> приєднався до <minigame> (<player-count>/<max-player-count>)'
+    leave-message: '<player> покинувши <minigame> (<player-count>/<max-player-count>) (Причина: <reason>)'
+    group-chat: Груповий чат
+  common: 
+    score: Рахунок
+    start: Старт
+    finish: Фініш
+    leave: Вихід
+    rule: Правило
+    exception: Виняток
+    team: Команда
+  custom:
+    sec: сек
+    min: хвилина
+    hour: година
