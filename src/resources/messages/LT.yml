@@ -1,0 +1,23 @@
+# Support color code (e.g. '§c Hello §f')
+# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
+# Each message has different placeholders
+# Each language file can has different custom placeholders
+message:
+  MiniGame:
+    play-time-in-rule: 'Žaidimo laikas: <play-time> <sec>' 
+    need-players: 'reikia daugiau <need-player-count> grotuvai'
+    join-message: '<player> prisijungė prie <minigame> (<player-count>/<max-player-count>)'
+    leave-message: '<player> paliko <minigame> (<player-count>/<max-player-count>) (Priežastis: <reason>)'
+    group-chat: Grupės pokalbis
+  common: 
+    score: Rezultatas
+    start: Pradėti
+    finish: Baigti
+    leave: Palikti
+    rule: Taisyklė
+    exception: Išimtis
+    team: Komanda
+  custom:
+    sec: sek
+    min: min
+    hour: val
