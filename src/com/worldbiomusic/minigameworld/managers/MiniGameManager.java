@@ -84,6 +84,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// party
 		this.getPartyManager().leaveParty(p);
 		this.getPartyManager().deleteParty(p);
+		
+		// menu GUI
+		String invTitle = p.getOpenInventory().getTitle();
+		if(invTitle.equals(Setting.MENU_INV_TITLE)) {
+			p.closeInventory();
+		}
 	}
 
 	public static MiniGameManager getInstance() {
