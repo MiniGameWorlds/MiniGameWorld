@@ -177,8 +177,6 @@ public class CommonEventListener implements Listener {
 		}
 		return false;
 	}
-
-	
 }
 //
 //

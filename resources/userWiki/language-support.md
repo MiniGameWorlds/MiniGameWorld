@@ -1,5 +1,5 @@
 # Language Support
-- MiniGameWorld can supports various languages
+- MiniGameWorld supports various languages
 - Each players can select their language
 - [Languages folder]
 - ❗ **Every messages are NOT yet translated (on working)**
@@ -19,11 +19,11 @@
 
 
 # Commands
-- `/language <language>`: Change laguage to `<language>` (`EN`, `KO`, `RU` ... etc)
+- `/language <language>`: Change player's own laguage to `<language>` (`EN`, `KO`, `RU` ... etc)
 
 
 
-# How to edit
+# How to edit message
 - Change `edit-messages` option in `settings.yml` config to **false** and change messages of language configs in the `messages` folder
 - **Warning**: if messages updated with plugin update, you need to set `edit-messages` option to update messages (**all messages will be overwritten**)
 
