@@ -30,7 +30,7 @@ message:
     sec: '<sec>'
     min: '<min>'
     hour: '<hour>'
-    minumum: minimum
+    minimum: minimum
     maximum: maximum
   custom:
     sec: sec

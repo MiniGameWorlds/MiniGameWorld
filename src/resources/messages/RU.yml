@@ -1,7 +1,7 @@
-# Support color code (e.g. '§c Hello §f')
-# Wrap with "'", if message has some symbols like (,{,[,<,#,@ ... etc
-# Each message has different placeholders
-# Each language file can has different custom placeholders
+# Поддержка цветового кода (например, '§c Hello §f')
+# Обернуть "'", если сообщение содержит некоторые символы, такие как (,{,[,<,#,@ ... и т.д.
+# Каждое сообщение имеет разные заполнители
+# Каждый языковой файл может иметь разные пользовательские заполнители
 message:
   MiniGame:
     play-time-in-rule: 'Длительность игры: <play-time> <sec>' 
@@ -10,8 +10,8 @@ message:
     leave-message: '<player> покинул <minigame> (<player-count>/<max-player-count>) (Причина: <reason>)'
     group-chat: Групповой чат
   MiniGameMenu:
-    start-in-time: 'Starting in... <left-time> <sec>'
-    finish-in: 'Finish in... <left-time> <sec>'
+    start-in-time: 'Начало через... <left-time> <sec>'
+    finish-in: 'Завершить через... <left-time> <sec>'
   common: 
     score: Счёт
     start: Старт
@@ -20,18 +20,18 @@ message:
     rule: Правила
     exception: Исключение
     team: Команда
-    info: Info
-    none: None
-    minigame: Minigame
-    party: Party
-    player: Player
-    play-time: Play time
-    type: Type
+    info: информация
+    none: нет
+    minigame: мини-игра
+    party: вечеринка
+    player: игрок
+    play-time: время воспроизведения
+    type: Тип
     sec: '<sec>'
     min: '<min>'
     hour: '<hour>'
-    minumum: minimum
-    maximum: maximum
+    minimum: минимум
+    maximum: максимум
   custom:
     sec: сек
     min: мин

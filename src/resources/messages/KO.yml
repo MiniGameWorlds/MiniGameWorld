@@ -30,7 +30,7 @@ message:
     sec: '<sec>'
     min: '<min>'
     hour: '<hour>'
-    minumum: 최소
+    minimum: 최소
     maximum: 최대
   custom:
     sec: 초
