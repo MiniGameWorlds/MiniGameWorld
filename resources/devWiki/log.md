@@ -818,9 +818,8 @@ if(!this.isMinPlayersLive()) {
 # 2022-03-25
 - Translate menu messages
 
-
-
-
+# 2022-03-26
+- Enhance language support system performance
 
 
 

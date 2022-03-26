@@ -13,8 +13,8 @@ import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.EventListenerManager;
-import com.worldbiomusic.minigameworld.managers.LanguageManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.managers.language.LanguageManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.UpdateChecker;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -91,13 +91,14 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.dataManager.registerYamlMember(this.minigameManager);
 
 		// check update
+		// [IMPORTANT] run after DataManager init
 		if (Setting.CHECK_UPDATE) {
 			UpdateChecker.check();
 		}
 
 		// language files
-		this.languageManager = new LanguageManager();
-		this.languageManager.setupFiles();
+		// [IMPORTANT] run after DataManager init
+		this.languageManager = new LanguageManager(this.dataManager);
 	}
 
 	private void registerEventListeners() {

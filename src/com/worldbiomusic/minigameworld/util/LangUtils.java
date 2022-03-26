@@ -1,20 +1,22 @@
 package com.worldbiomusic.minigameworld.util;
 
-import java.io.File;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.wbm.plugin.util.ServerTool;
-import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.managers.language.LanguageManager;
 
+import me.smessie.MultiLanguage.api.Language;
 import me.smessie.MultiLanguage.bukkit.AdvancedMultiLanguageAPI;
 
 public class LangUtils {
+	public static LanguageManager languageManager;
+	
 	public static void sendMsg(Player p, String messageKey) {
 		sendMsg(p, messageKey, true);
 	}
@@ -67,15 +69,13 @@ public class LangUtils {
 			return message;
 		}
 
-		// add default first key
-		messageKey = "message." + messageKey;
-
 		// default language
-		String language = "EN";
+		Language language = Language.ENGLISH;
 
 		// if AdvancedMultiLanguage plugin is enabled, select player's language
 		if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
-			language = AdvancedMultiLanguageAPI.getLanguageOfUuid(p.getUniqueId().toString());
+			language = Language
+					.getLanguageFromString(AdvancedMultiLanguageAPI.getLanguageOfUuid(p.getUniqueId().toString()));
 		}
 
 		// get message
@@ -112,12 +112,12 @@ public class LangUtils {
 	 * @param messageKey
 	 * @return
 	 */
-	private static String getLangMessage(Player p, String language, String messageKey) {
+	private static String getLangMessage(Player p, Language language, String messageKey) {
 		String message = null;
 		String[] keys = messageKey.split("\\.");
 
 		int lastKeyIndex = keys.length - 1;
-		String commonMsgKey = "message.common." + keys[lastKeyIndex];
+		String commonMsgKey = "common." + keys[lastKeyIndex];
 		try {
 			// search in the language flie
 			if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
@@ -130,7 +130,7 @@ public class LangUtils {
 
 			// search in the EN.yml
 			if (message == null) {
-				language = "EN";
+				language = Language.ENGLISH;
 				if (isKeyExist(language, messageKey)) {
 					message = getMessage(language, messageKey);
 				} else if (isKeyExist(language, commonMsgKey)) {
@@ -146,23 +146,17 @@ public class LangUtils {
 		return message;
 	}
 
-	private static boolean isKeyExist(String language, String msgKey) {
-		return getLangYaml(language).contains(msgKey);
+	private static boolean isKeyExist(Language language, String msgKey) {
+		return getMessage(language, msgKey) != null;
 	}
 
-	private static String getMessage(String language, String msgKey) {
-		return getLangYaml(language).getString(msgKey);
+	private static String getMessage(Language language, String msgKey) {
+		return languageManager.getMessage(language, msgKey);
 	}
 
-	private static YamlConfiguration getLangYaml(String language) {
-		File file = new File(MiniGameWorldMain.getInstance().getDataFolder() + File.separator + "messages"
-				+ File.separator + language + ".yml");
-		return YamlConfiguration.loadConfiguration(file);
-	}
-
-	public static String replaceCustomPlaceholders(String language, String message) {
-		YamlConfiguration yaml = getLangYaml(language);
-		ConfigurationSection customSection = yaml.getConfigurationSection("message.custom");
+	public static String replaceCustomPlaceholders(Language language, String message) {
+		FileConfiguration config = languageManager.getLanguageFile(language).getConfig();
+		ConfigurationSection customSection = config.getConfigurationSection("message.custom");
 		Set<String> keys = customSection.getKeys(true);
 		for (String key : keys) {
 			String value = customSection.getString(key);
