@@ -6,6 +6,7 @@ com.worldbiomusic.minigameworld.customevents.minigame
 com.worldbiomusic.minigameworld.customevents.player
 com.worldbiomusic.minigameworld.listeners
 com.worldbiomusic.minigameworld.managers
+com.worldbiomusic.minigameworld.managers.language
 com.worldbiomusic.minigameworld.managers.menu
 com.worldbiomusic.minigameworld.managers.party
 com.worldbiomusic.minigameworld.minigameframes
