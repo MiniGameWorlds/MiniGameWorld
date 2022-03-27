@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import com.wbm.plugin.util.ServerTool;
 import com.worldbiomusic.minigameworld.managers.language.LanguageManager;
 
-import me.smessie.MultiLanguage.api.Language;
 import me.smessie.MultiLanguage.bukkit.AdvancedMultiLanguageAPI;
 
 public class LangUtils {
@@ -70,12 +69,12 @@ public class LangUtils {
 		}
 
 		// default language
-		Language language = Language.ENGLISH;
+		String language = "EN";
 
 		// if AdvancedMultiLanguage plugin is enabled, select player's language
 		if (ServerTool.isPluginEnabled("AdvancedMultiLanguage")) {
-			language = Language
-					.getLanguageFromString(AdvancedMultiLanguageAPI.getLanguageOfUuid(p.getUniqueId().toString()));
+			String uuid = p.getUniqueId().toString();
+			language = AdvancedMultiLanguageAPI.getLanguageOfUuid(uuid);
 		}
 
 		// get message
@@ -112,7 +111,7 @@ public class LangUtils {
 	 * @param messageKey
 	 * @return
 	 */
-	private static String getLangMessage(Player p, Language language, String messageKey) {
+	private static String getLangMessage(Player p, String language, String messageKey) {
 		String message = null;
 		String[] keys = messageKey.split("\\.");
 
@@ -130,7 +129,7 @@ public class LangUtils {
 
 			// search in the EN.yml
 			if (message == null) {
-				language = Language.ENGLISH;
+				language = "EN";
 				if (isKeyExist(language, messageKey)) {
 					message = getMessage(language, messageKey);
 				} else if (isKeyExist(language, commonMsgKey)) {
@@ -146,15 +145,15 @@ public class LangUtils {
 		return message;
 	}
 
-	private static boolean isKeyExist(Language language, String msgKey) {
+	private static boolean isKeyExist(String language, String msgKey) {
 		return getMessage(language, msgKey) != null;
 	}
 
-	private static String getMessage(Language language, String msgKey) {
+	private static String getMessage(String language, String msgKey) {
 		return languageManager.getMessage(language, msgKey);
 	}
 
-	public static String replaceCustomPlaceholders(Language language, String message) {
+	public static String replaceCustomPlaceholders(String language, String message) {
 		FileConfiguration config = languageManager.getLanguageFile(language).getConfig();
 		ConfigurationSection customSection = config.getConfigurationSection("message.custom");
 		Set<String> keys = customSection.getKeys(true);

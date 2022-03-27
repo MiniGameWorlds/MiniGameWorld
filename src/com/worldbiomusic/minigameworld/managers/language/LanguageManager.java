@@ -15,7 +15,7 @@ import me.smessie.MultiLanguage.api.Language;
 
 public class LanguageManager {
 	private DataManager dataManager;
-	private List<Language> loadedLanguages;
+	private List<String> loadedLanguages;
 	private List<LanguageFile> loadedLanguageFiles;
 
 	public LanguageManager(DataManager dataManager) {
@@ -55,8 +55,8 @@ public class LanguageManager {
 		// create language files
 		langs.forEach(lang -> {
 			try {
-				createLanguageFile(lang);
-				this.loadedLanguages.add(lang);
+				createLanguageFile(lang.toString());
+				this.loadedLanguages.add(lang.toString());
 			} catch (Exception e) {
 				notExistLangs.add(lang);
 			}
@@ -69,12 +69,12 @@ public class LanguageManager {
 	}
 
 	private void setupDefaultLanguageFile() {
-		createLanguageFile(Language.ENGLISH);
-		this.loadedLanguages.add(Language.ENGLISH);
+		createLanguageFile("EN");
+		this.loadedLanguages.add("EN");
 	}
 
-	private void createLanguageFile(Language language) {
-		String fileName = "messages" + File.separator + language.toString() + ".yml";
+	private void createLanguageFile(String language) {
+		String fileName = "messages" + File.separator + language + ".yml";
 		boolean isExist = new File(MiniGameWorldMain.getInstance().getDataFolder(), fileName).exists();
 
 		// if can edit messages and file is already exist, return
@@ -95,7 +95,7 @@ public class LanguageManager {
 		});
 	}
 
-	public String getMessage(Language lang, String msgKey) {
+	public String getMessage(String lang, String msgKey) {
 		LanguageFile file = getLanguageFile(lang);
 		if (file == null) {
 			return null;
@@ -104,7 +104,7 @@ public class LanguageManager {
 		return file.getMessage(msgKey);
 	}
 
-	public LanguageFile getLanguageFile(Language lang) {
+	public LanguageFile getLanguageFile(String lang) {
 		if (!this.loadedLanguages.contains(lang)) {
 			return null;
 		}

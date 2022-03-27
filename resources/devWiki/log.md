@@ -830,7 +830,9 @@ if(!this.isMinPlayersLive()) {
 - Close inventory if title is Setting.MENU_INV_TITLE when server restarts 
 - Release `0.7.1`
 
-
+# 2022-03-28
+- Hot fix about AdvancedMultiLanguage API dependency
+- Release `0.7.2`
 
 
 

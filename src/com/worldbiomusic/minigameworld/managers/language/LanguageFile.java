@@ -7,17 +7,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 
-import me.smessie.MultiLanguage.api.Language;
-
 public class LanguageFile implements YamlMember {
-	private Language language;
+	private String language;
 	private FileConfiguration config;
 
-	public LanguageFile(Language language) {
+	public LanguageFile(String language) {
 		this.language = language;
 	}
 
-	public Language getLanguage() {
+	public String getLanguage() {
 		return this.language;
 	}
 
