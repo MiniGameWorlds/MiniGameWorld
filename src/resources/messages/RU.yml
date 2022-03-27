@@ -9,6 +9,7 @@ message:
     join-message: '<player> присоединился к <minigame> (<player-count>/<max-player-count>)'
     leave-message: '<player> покинул <minigame> (<player-count>/<max-player-count>) (Причина: <reason>)'
     group-chat: Групповой чат
+    before-start: Перед стартом
   MiniGameMenu:
     start-in-time: 'Старт через... <left-time> <sec>'
     finish-in: 'Финиш через... <left-time> <sec>'

@@ -831,7 +831,7 @@ if(!this.isMinPlayersLive()) {
 - Release `0.7.1`
 
 # 2022-03-28
-- Hot fix about AdvancedMultiLanguage API dependency
+- Hot fix for AdvancedMultiLanguage API dependency
 - Release `0.7.2`
 
 

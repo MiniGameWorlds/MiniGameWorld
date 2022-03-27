@@ -382,7 +382,7 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		this.setupPlayerLeavingSettings(p, "Before start");
+		this.setupPlayerLeavingSettings(p, messenger.getMsg(p, "before-start"));
 
 		return true;
 	}

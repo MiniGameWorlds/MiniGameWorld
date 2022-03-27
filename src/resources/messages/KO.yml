@@ -9,6 +9,7 @@ message:
     join-message: '<player><n> <minigame><o> 참여했습니다 (<player-count>/<max-player-count>)'
     leave-message: '<player><n> <minigame><o> 퇴장했습니다 (<player-count>/<max-player-count>) (이유: <reason>)'
     group-chat: 그룹채팅
+    before-start: 시작 전
   MiniGameMenu:
     start-in-time: '게임 시작까지... <left-time><sec>'
     finish-in: '게임 종료까지... <left-time><sec>'
