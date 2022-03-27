@@ -10,8 +10,8 @@ message:
     leave-message: '<player> покинул <minigame> (<player-count>/<max-player-count>) (Причина: <reason>)'
     group-chat: Групповой чат
   MiniGameMenu:
-    start-in-time: 'Начало через... <left-time> <sec>'
-    finish-in: 'Завершить через... <left-time> <sec>'
+    start-in-time: 'Старт через... <left-time> <sec>'
+    finish-in: 'Финиш через... <left-time> <sec>'
   common: 
     score: Счёт
     start: Старт
@@ -25,7 +25,7 @@ message:
     minigame: мини-игра
     party: вечеринка
     player: игрок
-    play-time: время воспроизведения
+    play-time: время воспроизведения # 우리는 미니 게임의 기간에 대해 이야기하고 있습니까 ???
     type: Тип
     sec: '<sec>'
     min: '<min>'
