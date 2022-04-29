@@ -2,7 +2,7 @@
 - aliases: `/mw`
 
 
-## General
+# General
 - `/minigame join <title>`: join `<title>` minigame
 - `/minigame view <title>`: view `<title>` minigame
 - `/minigame leave`: leave current playing/viewing minigame
@@ -10,7 +10,8 @@
 - `/minigame menu`: open menu
 - `/minigame reload`: reload all configs
 
-## Party
+
+# Party
 - `/minigame party invite <player>`: invite `<player>` to your party
 - `/minigame party accept <player>`: accept `<player>`'s invitation
 - `/minigame party ask <player>`: ask to `<player>` if you can join
@@ -21,8 +22,8 @@
 - `/minigame party list`: show party member list
 
 
-## Config
-### settings
+# Config
+## settings
 - set plugin settings in `settings.yml` config
 - `/minigame settings message-prefix <value1> [<value2> [<value3> [...]]]`: set plugin message prefix
 - `/minigame settings backup-data-save-delay <value>`: set backup data save delay (min)
@@ -39,8 +40,10 @@
 - `/minigame settings finish-sound <value>`: Set finish-sound (Sound)
 - `/minigame settings check-update <value>`: If true, check update when a plugin is loaded (true / false)
 - `/minigame settings edit-messages <value>`: If true, language message changes will be applied(saved) (true / false)
+- `/minigame settings ingame-leave <value>`: If true, players can leave while playing (true / false)
 
-### minigames
+
+## minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
 - `/minigame minigames <classname> title <value1> [<value2> [<value3> [...]]]`: set title (title)
 - `/minigame minigames <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location (without [<x> <y> <z>]: set player's location)

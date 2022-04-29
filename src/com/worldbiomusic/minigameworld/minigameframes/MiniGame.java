@@ -368,7 +368,7 @@ public abstract class MiniGame {
 	/**
 	 * Leave player from minigame<br>
 	 * 1. not started<br>
-	 * 2. left waiting is under 3 or equals<br>
+	 * 2. left waiting second is under 3 or equals<br>
 	 * 
 	 * @param p leaving player
 	 * @return Result of try to leave

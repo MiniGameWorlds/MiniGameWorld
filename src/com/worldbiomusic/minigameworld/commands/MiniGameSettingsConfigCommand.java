@@ -80,6 +80,9 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_EDIT_MESSAGES:
 				edit_messages(sender, args);
 				break;
+			case Setting.SETTINGS_INGAME_LEAVE:
+				ingame_leave(sender, args);
+				break;
 			}
 
 			// save config
@@ -237,6 +240,13 @@ public class MiniGameSettingsConfigCommand {
 		boolean value = Boolean.parseBoolean(args[2]);
 
 		this.setKeyValue(sender, Setting.SETTINGS_EDIT_MESSAGES, value);
+		return true;
+	}
+
+	private boolean ingame_leave(CommandSender sender, String[] args) throws Exception {
+		boolean value = Boolean.parseBoolean(args[2]);
+
+		this.setKeyValue(sender, Setting.SETTINGS_INGAME_LEAVE, value);
 		return true;
 	}
 }

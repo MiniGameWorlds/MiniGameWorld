@@ -1,4 +1,20 @@
 # TODO
+- MiniGameWorld-Controller: GUI system with menu (MiniGameWorld.openMenu() 사용해서 이벤트 취소한다음(MenuEvent(custmo event만들기) cancel 사용)
+```yaml
+- join: left-click
+- view: right-click
+- leave: drop(Q)
+- unview: shift-drop
+- start: middle-click
+- finish: ctrl-drop
+
+- menu의 오른쪽 상단에 Start, Finish 아이콘 추가 (현재 플레이어가 접속한 게임 대상으로 실행) (MiniGameWorld.openMenu()로 inv가져와서 itemStack 추가)
+- 명령어 기반 실행이 아닌, 매니저 클래스 만들어서 클래스 기능 기반 실행으로 바꾸기 (API로도 제공)
+```
+- Add Use Case image to README.md
+- Add MenuEvent (custom event) (cancellable)
+- Add feature to RockScissorPaper (`stage` custom option for several play in a game)
+- Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
 - Create wiki about how to use placeholder in minigame tutorial
 - Setup env to 1.18.2 (all)
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
@@ -834,7 +850,8 @@ if(!this.isMinPlayersLive()) {
 - Hot fix for AdvancedMultiLanguage API dependency
 - Release `0.7.2`
 
-
+# 2022-04-29
+- Add `ingame-leave` option to settings.yml
 
 
 

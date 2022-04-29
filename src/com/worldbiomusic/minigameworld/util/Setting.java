@@ -39,6 +39,7 @@ public class Setting {
 	public static boolean REMOVE_NOT_NECESSARY_KEYS = false;
 	public static boolean CHECK_UPDATE = true;
 	public static boolean EDIT_MESSAGES = false;
+	public static boolean INGAME_LEAVE = false;
 
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
@@ -56,6 +57,7 @@ public class Setting {
 	public static final String SETTINGS_REMOVE_NOT_NECESSARY_KEYS = "remove-not-necessary-keys";
 	public static final String SETTINGS_CHECK_UPDATE = "check-update";
 	public static final String SETTINGS_EDIT_MESSAGES = "edit-messages";
+	public static final String SETTINGS_INGAME_LEAVE = "ingame-leave";
 
 	// minigames
 	public static final String MINIGAMES_TITLE = "title";

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -84,10 +85,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// party
 		this.getPartyManager().leaveParty(p);
 		this.getPartyManager().deleteParty(p);
-		
+
 		// menu GUI
 		String invTitle = p.getOpenInventory().getTitle();
-		if(invTitle.equals(Setting.MENU_INV_TITLE)) {
+		if (invTitle.equals(Setting.MENU_INV_TITLE)) {
 			p.closeInventory();
 		}
 	}
@@ -123,6 +124,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_FINISH_SOUND, Setting.FINISH_SOUND.name());
 		pureData.put(Setting.SETTINGS_CHECK_UPDATE, Setting.CHECK_UPDATE);
 		pureData.put(Setting.SETTINGS_EDIT_MESSAGES, Setting.EDIT_MESSAGES);
+		pureData.put(Setting.SETTINGS_INGAME_LEAVE, Setting.INGAME_LEAVE);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
@@ -141,6 +143,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.FINISH_SOUND = Sound.valueOf(((String) this.settings.get(Setting.SETTINGS_FINISH_SOUND)).toUpperCase());
 		Setting.CHECK_UPDATE = (boolean) this.settings.get(Setting.SETTINGS_CHECK_UPDATE);
 		Setting.EDIT_MESSAGES = (boolean) this.settings.get(Setting.SETTINGS_EDIT_MESSAGES);
+		Setting.INGAME_LEAVE = (boolean) this.settings.get(Setting.SETTINGS_INGAME_LEAVE);
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {
@@ -226,7 +229,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check minigame is started
 		if (playingGame.isStarted()) {
-			Utils.sendMsg(p, "You can't leave game (Reason: already has started)");
+			// check "ingame-leave" option
+			if (Setting.INGAME_LEAVE) {
+				Bukkit.getPluginManager().callEvent(new MiniGamePlayerExceptionEvent("ingame-leave", p));
+			} else {
+				Utils.sendMsg(p, "You can't leave game (Reason: already has started)");
+			}
 			return;
 		}
 
@@ -236,7 +244,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		// leave party members
+		// leave with party members
 		List<Player> members = this.partyManager.getMembers(p);
 		for (Player member : members) {
 			// leave with members who is playing the same minigame with "p"
