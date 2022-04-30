@@ -209,6 +209,11 @@
 - Enhance language support system performance
 - Close menu GUI inventory when server restarts
 
+## 0.7.2
+### Build Changes
+- Add `ingame-leave` option to settings.yml
+- Add MenuEvent (custom event)
+
 ---
 
 
