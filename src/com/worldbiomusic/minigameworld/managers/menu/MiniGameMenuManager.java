@@ -3,6 +3,7 @@ package com.worldbiomusic.minigameworld.managers.menu;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.customevents.menu.MenuCloseEvent;
+import com.worldbiomusic.minigameworld.customevents.menu.MenuOpenEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -48,7 +51,7 @@ public class MiniGameMenuManager {
 	 * 
 	 * @param p Player who will open menu inventory
 	 * @return Inventory, but return null if player doesn't have
-	 *         "minigameworld.menu" permission
+	 *         "minigameworld.menu" permission or {@link MenuOpenEvent} is cancelled
 	 */
 	public Inventory openMenu(Player p) {
 		// check permission
@@ -56,21 +59,31 @@ public class MiniGameMenuManager {
 			return null;
 		}
 
-		this.menuList.put(p, new MiniGameMenu(p, this.minigameManager));
+		MiniGameMenu menu = new MiniGameMenu(p, this.minigameManager);
+		Inventory inv = menu.createMenu(1);
+		
+		// call MenuOpenEvent
+		MenuOpenEvent menuOpenEvent = new MenuOpenEvent(inv, p);
+		Bukkit.getPluginManager().callEvent(menuOpenEvent);
+		if (menuOpenEvent.isCancelled()) {
+			return null;
+		}
+
+		this.menuList.put(p, menu);
 
 		// open 1 page menu
-		Inventory inv = this.menuList.get(p).createMenu(1);
 		p.openInventory(inv);
 		return inv;
 	}
 
 	public void processInventoryEvent(InventoryEvent event) {
-		// manage Inventory Events
+		// when menu clicked
 		if (event instanceof InventoryClickEvent) {
 			InventoryClickEvent e = (InventoryClickEvent) event;
 
 			// check title
 			if (this.isMiniGameWorldMenu(e.getView().getTitle())) {
+				// cancel click event
 				e.setCancelled(true);
 
 				// process inventory event
@@ -81,9 +94,19 @@ public class MiniGameMenuManager {
 					}
 				}
 			}
-		} else if (event instanceof InventoryCloseEvent) {
+		}
+		
+		// when menu closed
+		else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
 			if (this.isMiniGameWorldMenu(e.getView().getTitle())) {
+				// call MenuCloseEvent
+				MenuCloseEvent menuCloseEvent = new MenuCloseEvent(e.getInventory(), (Player) e.getPlayer());
+				Bukkit.getPluginManager().callEvent(menuCloseEvent);
+				if (menuCloseEvent.isCancelled()) {
+					return;
+				}
+
 				this.menuList.remove(e.getPlayer());
 			}
 		}

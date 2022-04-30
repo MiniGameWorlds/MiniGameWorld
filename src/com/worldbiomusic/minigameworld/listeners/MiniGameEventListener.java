@@ -8,7 +8,7 @@ import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
-import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerJoinEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.party.Party;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;

@@ -192,7 +192,7 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 - Use `Listener` for handling events
 
 ## MiniGameEvent
-- All minigame events extends `MiniGameEvent`
+- All minigame events extend `MiniGameEvent`
 - `MiniGameStartEvent`: Called when a minigame starts 
 - `MiniGameEventPassEvent`: Called when a event passed to a started minigame
 - `MiniGameFinishEvent`: Called when a minigame finished
@@ -204,6 +204,12 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 - `MiniGamePlayerLeaveEvent`: Called when a player try to leave a minigame
 - `MiniGamePlayerViewEvent`: Called when a player try to view a minigame
 - `MiniGamePlayerUnviewEvent`: Called when a player try to unview a minigame
+## MenuEvent
+- All menu events extend `MenuEvent`
+- `MenuOpenEvent`: Called when a player opens menu
+- `MenuCloseEvent`: Called when a player closes menu
+- `MenuClickEvent`: Called when menu is clicked
+
 
 ## Examples
 ### Reward System
@@ -270,7 +276,7 @@ class RankManager implements Listener {
 	}
 }
 ```
-### Fee for Join
+### Join fee
 - Use cancellable `MiniGamePlayerJoinEvent`
 ```java
 @EventHandler
@@ -321,6 +327,41 @@ Bukkit.getServer().getPluginManager()
 Bukkit.getServer().getPluginManager().callEvent(new MiniGameServerExceptionEvent("reason"));
 ```
 
+### Menu customizing
+- Example plugin: [MiniGameWorld-Controller]
+```java
+@EventHandler
+public void onMenuOpenEvent(MenuOpenEvent e) {
+	// get menu inventory
+	Inventory menu = e.getMenu();
+
+	// custom icon
+	ItemStack customIcon = new ItemStack(Material.RED_BED);
+	ItemMeta meta = customIcon.getItemMeta();
+	meta.setDisplayName("Custom Icon");
+	customIcon.setItemMeta(meta);
+
+	// insert custom icon to menu
+	menu.setItem(8, customIcon);
+}
+
+@EventHandler
+public void onMenuClickEvent(MenuClickEvent e) {
+	// cancel event
+	e.setCancelled(true);
+
+	// get clicked icon
+	ItemStack icon = e.getIcon();
+	if (icon == null) {
+		return;
+	}
+
+	// just print icon display name
+	Player p = e.getPlayer();
+	p.sendMessage("Clicked icon name: " + icon.getItemMeta().getDisplayName());
+}
+```
+
 ---
 
 
@@ -368,3 +409,4 @@ public class MyPluginMain extends JavaPlugin {
 
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
+[MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller

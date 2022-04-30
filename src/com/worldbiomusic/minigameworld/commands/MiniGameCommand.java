@@ -77,7 +77,6 @@ public class MiniGameCommand implements CommandExecutor {
 			if (Setting.DEBUG_MODE) {
 				e.printStackTrace();
 			}
-
 		}
 		// print usage
 		this.minigameHelpCommand.printHelp(sender, args);

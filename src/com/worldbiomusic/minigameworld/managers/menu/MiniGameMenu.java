@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.managers.menu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.wbm.plugin.util.ItemStackTool;
 import com.wbm.plugin.util.PlayerTool;
+import com.worldbiomusic.minigameworld.customevents.menu.MenuClickEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.LangUtils;
@@ -33,11 +35,12 @@ public class MiniGameMenu {
 	private Inventory inv;
 	private int currentPage;
 
-	private final int minigameIconListSize = 27;
+	private final int MINIGAME_ICON_LIST_SIZE = 27;
+	private final int MINIGAME_ICON_START_SLOT = 18;
 
 	private Messenger messenger;
 
-	private enum BaseIcon {
+	public enum BaseIcon {
 		LEAVE_GAME(ItemStackTool.item(Material.OAK_DOOR, "Leave Game"), 1),
 		HORIZON_LINE(ItemStackTool.item(Material.BARRIER, " "), 9),
 		PREVIOUS_PAGE(ItemStackTool.item(Material.REDSTONE_TORCH, "<"), 48),
@@ -58,6 +61,15 @@ public class MiniGameMenu {
 
 		public int getSlot() {
 			return this.slot;
+		}
+
+		public static boolean checkSlot(int slot) {
+			return !Arrays.asList(values()).stream().filter(icon -> icon.getSlot() == slot).toList().isEmpty();
+		}
+
+		public static boolean checkIcon(ItemStack targetIcon) {
+			return !Arrays.asList(values()).stream().filter(icon -> icon.getItem().equals(targetIcon)).toList()
+					.isEmpty();
 		}
 	}
 
@@ -125,7 +137,7 @@ public class MiniGameMenu {
 	}
 
 	private void emptyMiniGameIconList() {
-		for (int i = 18; i < 18 + minigameIconListSize; i++) {
+		for (int i = MINIGAME_ICON_START_SLOT; i < MINIGAME_ICON_START_SLOT + MINIGAME_ICON_LIST_SIZE; i++) {
 			this.inv.setItem(i, null);
 		}
 	}
@@ -141,10 +153,11 @@ public class MiniGameMenu {
 		this.emptyMiniGameIconList();
 
 		// slot: 18 ~ 44 (count: 27)
-		int minigameIndex = 0 + ((page - 1) * minigameIconListSize);
+		int minigameIndex = 0 + ((page - 1) * MINIGAME_ICON_LIST_SIZE);
 		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
 //		for (int i = 18; i < 45; i++, minigameIndex++) {
-		for (int i = 18; i < 18 + minigameIconListSize; i++, minigameIndex++) {
+		for (int i = MINIGAME_ICON_START_SLOT; i < MINIGAME_ICON_START_SLOT
+				+ MINIGAME_ICON_LIST_SIZE; i++, minigameIndex++) {
 			if (minigameIndex >= minigameList.size()) {
 				break;
 			}
@@ -201,8 +214,26 @@ public class MiniGameMenu {
 		return this.inv.equals(inv);
 	}
 
+	// suppose inventory has only 1 viewer
 	public void processClickEvent(InventoryClickEvent e) {
-		// suppose inventory has only 1 viewer
+		// call MenuClickEvent
+		String area = "";
+		int clickedSlot = e.getSlot();
+		boolean isBaseArea = BaseIcon.checkSlot(clickedSlot);
+
+		if (isBaseArea) {
+			area = "BASE";
+		} else if (MINIGAME_ICON_START_SLOT <= clickedSlot
+				&& clickedSlot <= MINIGAME_ICON_START_SLOT + MINIGAME_ICON_LIST_SIZE) {
+			area = "MINIGAME";
+		}
+
+		MenuClickEvent menuClickEvent = new MenuClickEvent(e, Setting.MENU_INV_TITLE + ":" + area);
+		Bukkit.getPluginManager().callEvent(menuClickEvent);
+		if (menuClickEvent.isCancelled()) {
+			return;
+		}
+
 		ItemStack clickedItem = e.getCurrentItem();
 		if (clickedItem == null) {
 			return;
@@ -241,16 +272,17 @@ public class MiniGameMenu {
 	}
 
 	private boolean isMiniGameIconSlot(int slot) {
-		return (18 <= slot) && (slot <= 18 + this.minigameIconListSize);
+		return (MINIGAME_ICON_START_SLOT <= slot) && (slot <= MINIGAME_ICON_START_SLOT + this.MINIGAME_ICON_LIST_SIZE);
 	}
 
 	private int getMaxPageNumber() {
 		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
-		return (int) Math.ceil(minigameList.size() / (double) minigameIconListSize);
+		return (int) Math.ceil(minigameList.size() / (double) MINIGAME_ICON_LIST_SIZE);
 	}
 
 	private void updateCurrentPageNumber() {
-		this.inv.setItem(49, ItemStackTool.item(BaseIcon.CURRENT_PAGE.getItem().getType(), "" + this.currentPage));
+		this.inv.setItem(BaseIcon.CURRENT_PAGE.getSlot(),
+				ItemStackTool.item(BaseIcon.CURRENT_PAGE.getItem().getType(), "" + this.currentPage));
 	}
 }
 //

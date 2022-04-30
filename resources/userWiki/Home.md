@@ -14,10 +14,10 @@
 - View system
 - Scoreboard system
 - Everything can be customized with config
-- Exists 3rd-party plugins (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank])
+- 3rd-parties (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank], [MiniGameWorld-Controller])
 - Auto data backup
 - Update checker
-- Language support system
+- Language support
 
 
 
@@ -27,7 +27,7 @@
 3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
 4. Make a place for minigame yourself
 5. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload` (OP required)  
-**`or`**  
+**`---or---`**  
 Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (OP required)  
 
 
@@ -35,9 +35,9 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 # Download
 - [MiniGameWorld]: MiniGameWorld Framework
 - [wbmMC]: Essential library
-- [MiniGames]: MiniGames made by some makers
-- [Third-Parties]: You can `give reward with rank `, `save rank data` and etc with third party plugins
-- [AdvancedMultiLanguage]: Support mulit languages
+- [MiniGames]: MiniGames made by some makers (optional)
+- [Third-Parties]: You can `give reward with rank `, `save rank data` and etc with third party plugins (optional)
+- [AdvancedMultiLanguage]: Support mulit languages (optional)
 
 
 
@@ -92,5 +92,6 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [Language Support]: language-support.md
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
+[MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller
 [AdvancedMultiLanguage]: https://www.spigotmc.org/resources/advanced-multi-language.21338/
 [BungeeGuard]: https://www.spigotmc.org/resources/bungeeguard.79601/

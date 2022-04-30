@@ -65,15 +65,15 @@ public class CommonEventListener implements Listener {
 	 * Inventory
 	 */
 	@EventHandler
-	private void checkPlayerClickMiniGameGUI(InventoryClickEvent e) {
+	private void onPlayerClickMenu(InventoryClickEvent e) {
 		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
 	}
 
 	@EventHandler
-	private void checkPlayerCloseMiniGameGUI(InventoryCloseEvent e) {
+	private void onPlayerCloseGUI(InventoryCloseEvent e) {
 		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
 	}
-
+	
 	/*
 	 * MiniGame Sign
 	 */

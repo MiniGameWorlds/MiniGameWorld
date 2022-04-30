@@ -340,6 +340,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			Utils.debug("Already started");
 			return;
 		}
+		
+		if(game.isEmpty()) {
+			Utils.debug("There are no players");
+			return;	
+		}
 
 		// start game
 		game.startGame();
@@ -497,6 +502,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public MiniGame getMiniGameWithTitle(String title) {
+		title = ChatColor.stripColor(title);
 		for (MiniGame game : this.minigames) {
 			if (game.getTitle().equalsIgnoreCase(title)) {
 				return game;
@@ -506,6 +512,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public MiniGame getMiniGameWithClassName(String className) {
+		className = ChatColor.stripColor(className);
 		for (MiniGame game : this.minigames) {
 			if (game.getClassName().equalsIgnoreCase(className)) {
 				return game;

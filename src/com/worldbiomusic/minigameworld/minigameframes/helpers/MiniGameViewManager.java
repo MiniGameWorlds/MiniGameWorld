@@ -1,9 +1,10 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,17 +16,17 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerUnviewEvent;
-import com.worldbiomusic.minigameworld.customevents.player.MiniGamePlayerViewEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
+import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameViewManager {
 	private MiniGame minigame;
-	private List<MiniGamePlayerState> viewers;
+	private Queue<MiniGamePlayerState> viewers;
 
 	public MiniGameViewManager(MiniGame minigame) {
 		this.minigame = minigame;
-		this.viewers = new ArrayList<>();
+		this.viewers = new ConcurrentLinkedQueue<>();
 	}
 
 	/**

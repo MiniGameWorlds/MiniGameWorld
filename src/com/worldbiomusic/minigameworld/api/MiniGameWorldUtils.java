@@ -158,6 +158,9 @@ public class MiniGameWorldUtils {
 	 */
 	public static MiniGameAccessor getMiniGameWithTitle(String title) {
 		MiniGame minigame = minigameManager.getMiniGameWithTitle(title);
+		if (minigame == null) {
+			return null;
+		}
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -169,6 +172,9 @@ public class MiniGameWorldUtils {
 	 */
 	public static MiniGameAccessor getMiniGameWithClassName(String className) {
 		MiniGame minigame = minigameManager.getMiniGameWithClassName(className);
+		if (minigame == null) {
+			return null;
+		}
 		return new MiniGameAccessor(minigame);
 	}
 

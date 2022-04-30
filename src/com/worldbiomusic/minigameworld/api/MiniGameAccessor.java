@@ -204,7 +204,7 @@ public class MiniGameAccessor {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		} else if (obj == null) {
+		} else if (obj == null || this.minigame == null) {
 			return false;
 		} else if (obj instanceof MiniGame) {
 			return this.minigame.equals(obj);

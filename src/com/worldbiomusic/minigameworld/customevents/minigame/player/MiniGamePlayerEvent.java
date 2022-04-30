@@ -1,4 +1,4 @@
-package com.worldbiomusic.minigameworld.customevents.player;
+package com.worldbiomusic.minigameworld.customevents.minigame.player;
 
 import org.bukkit.entity.Player;
 
