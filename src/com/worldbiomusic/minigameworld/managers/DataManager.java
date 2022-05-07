@@ -6,7 +6,6 @@ import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
 import com.wbm.plugin.util.instance.BackupDataManager;
 import com.worldbiomusic.minigameworld.util.Setting;
-import com.worldbiomusic.minigameworld.util.Utils;
 
 public class DataManager {
 	private YamlManager yamlManager;
@@ -27,12 +26,13 @@ public class DataManager {
 
 	public void saveAllData() {
 		this.yamlManager.saveAllData();
-		Utils.info(" - Server data saved");
 	}
 
 	public void saveBackupData() {
+		// save all data to file befre backup data
+		saveAllData();
+		
 		this.backupDataManager.saveBackupData();
-		Utils.info(" - Backup data created");
 	}
 
 	public void reloadAllData() {
