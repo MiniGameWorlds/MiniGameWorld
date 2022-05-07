@@ -85,6 +85,10 @@ public class Utils {
 	public static File getServerFile(String file) {
 		return new File(main.getServer().getWorldContainer(), file);
 	}
+	
+	public static File getDataFolder() {
+		return main.getDataFolder();
+	}
 
 	public static void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
 		// remove not necessary keys to avoid error (i.e. keys for some updates)

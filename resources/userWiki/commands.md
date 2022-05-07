@@ -1,6 +1,7 @@
 # Commands
 - aliases: `/mw`
-
+- `<>`: data
+- `[]`: optional
 
 # General
 - `/minigame join <title>`: join `<title>` minigame
@@ -8,7 +9,8 @@
 - `/minigame leave`: leave current playing/viewing minigame
 - `/minigame list`: print minigame list
 - `/minigame menu`: open menu
-- `/minigame reload`: reload all configs
+- `/minigame reload [<backup-folder>]`: reload all data
+- `/minigame backup [<backup-folder>]`: backup all data
 
 
 # Party

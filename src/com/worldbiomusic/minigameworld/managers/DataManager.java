@@ -1,5 +1,7 @@
 package com.worldbiomusic.minigameworld.managers;
 
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.wbm.plugin.util.data.yaml.YamlManager;
@@ -29,10 +31,26 @@ public class DataManager {
 	}
 
 	public void saveBackupData() {
+		saveBackupData(null);
+	}
+
+	public File saveBackupData(String directory) {
 		// save all data to file befre backup data
 		saveAllData();
-		
-		this.backupDataManager.saveBackupData();
+
+		return this.backupDataManager.saveBackupData(directory);
+	}
+
+	public boolean loadBackupData(String directory, File dstDir) {
+		return this.backupDataManager.loadBackupData(directory, dstDir);
+	}
+
+	public boolean existBackupData(String directory) {
+		return this.backupDataManager.existBackupData(directory);
+	}
+	
+	public File getBackupDir() {
+		return this.backupDataManager.getBackupDir();
 	}
 
 	public void reloadAllData() {

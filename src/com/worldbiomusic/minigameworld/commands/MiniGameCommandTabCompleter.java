@@ -1,6 +1,7 @@
 package com.worldbiomusic.minigameworld.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
@@ -15,9 +17,11 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 
 	private List<String> candidates;
 	private MiniGameManager minigameManager;
+	private DataManager dataManager;
 
-	public MiniGameCommandTabCompleter(MiniGameManager minigameManager) {
+	public MiniGameCommandTabCompleter(MiniGameManager minigameManager, DataManager dataManager) {
 		this.minigameManager = minigameManager;
+		this.dataManager = dataManager;
 		this.candidates = new ArrayList<>();
 	}
 
@@ -39,6 +43,8 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 				addSettingsCandidates();
 			} else if (args[0].equals("minigames")) {
 				addMiniGameClassCandidates();
+			} else if (args[0].equals("reload")) {
+				addBackupDataCandidates();
 			}
 		} else if (length == 1) {
 			addLength1Candidates();
@@ -60,6 +66,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.add("menu");
 		this.candidates.add("party");
 		this.candidates.add("reload");
+		this.candidates.add("backup");
 		this.candidates.add("settings");
 		this.candidates.add("minigames");
 	}
@@ -92,6 +99,10 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		if (!minigames.isEmpty()) {
 			minigames.get(0).getDataManager().getData().keySet().forEach(key -> candidates.add(key));
 		}
+	}
+
+	private void addBackupDataCandidates() {
+		Arrays.asList(this.dataManager.getBackupDir().listFiles()).forEach(f -> candidates.add(f.getName()));
 	}
 
 }

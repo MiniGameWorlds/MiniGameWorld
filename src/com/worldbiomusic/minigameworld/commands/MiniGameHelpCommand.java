@@ -47,7 +47,8 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame list");
 		sender.sendMessage("/minigame menu");
 		sender.sendMessage("/minigame party");
-		sender.sendMessage("/minigame reload");
+		sender.sendMessage("/minigame reload [<backup-folder>]");
+		sender.sendMessage("/minigame backup [<backup-folder>]");
 		sender.sendMessage("/minigame settings");
 		sender.sendMessage("/minigame minigames");
 	}

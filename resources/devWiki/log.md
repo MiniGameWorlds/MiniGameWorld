@@ -1,16 +1,14 @@
 # TODO
+- Cancel event when player in creative mode break the minigame sign block
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
 - Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
 - Create wiki about how to use placeholder in minigame tutorial
-- Setup env to 1.18.2 (all)
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
 - Replace flowchart img with markdown [flowchart syntax](https://support.typora.io/Draw-Diagrams-With-Markdown/) in wiki pages
 - Support placeholders in tutorial (e.g. <title>, <play-time>, ... get placeholder value with MiniGame#getDataManager().getData().get(<placeholder-key>))
 - Language support system wiki
 - Add custom event of Party system
-- Reload backup file command (`/mw reload <backup-file>`) (support tab completer with list in `MiniGameWorld_backup`)
-- Backup command (`/mw backup`) (generate with current time) (use `DataManager#saveBackupData()`)
 - Upload feature videos(e.g. join, leave and view systems)
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
@@ -849,3 +847,34 @@ if(!this.isMinPlayersLive()) {
 - Code refactoring
 - Add MenuEvent (custom event)
 - Add Control menu mode to `MiniGameWorld-Controller`
+- Release `0.7.3`
+
+# 2022-05-07
+- Fix critical TeamBattleMiniGame bug
+- Save server data before create backup data
+
+# 2022-05-08
+- Add backup command (`/mw backup [<backup-folder>]`)
+- Add reload backup folder option(`/mw reload [<backup-folder>]`)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

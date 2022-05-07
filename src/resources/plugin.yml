@@ -20,7 +20,8 @@ commands:
       /<command> list: show minigame list
       /<command> menu: open GUI menu
       /<command> party: party commands
-      /<command> reload: reload all configs
+      /<command> reload [<folder>]: reload data
+      /<command> backup [<folder>]: backup data
       /<command> settings: setup settings.yml config
       /<command> minigames: setup minigame configs
       
@@ -113,15 +114,19 @@ permissions:
       minigameworld.config.reload: true
       minigameworld.config.settings: true
       minigameworld.config.minigames: true
+      minigameworld.config.backup: true
   
   minigameworld.config.reload:
-    description: Can reload all configs
+    description: Can reload data
     default: op
   minigameworld.config.settings:
     description: Can set settings config
     default: op
   minigameworld.config.minigames:
     description: Can set minigame config
+    default: op
+  minigameworld.config.backup:
+    description: Can backup data
     default: op
   
   

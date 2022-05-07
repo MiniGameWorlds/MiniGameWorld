@@ -1,7 +1,24 @@
-# Link
-- [plugin.yml](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/src/plugin.yml)
+# Permissions
+- [plugin.yml](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/src/resources/plugin.yml)
 
 ```yaml
+commands:
+  minigame:
+    aliases: [mw]
+    usage: |
+      
+      USAGE
+      /<command> join <title>: join a minigame
+      /<command> view <title>: view a minigame
+      /<command> leave: leave/unview a minigame
+      /<command> list: show minigame list
+      /<command> menu: open GUI menu
+      /<command> party: party commands
+      /<command> reload [<backup-folder>]: reload data
+      /<command> backup [<backup-folder>]: backup data
+      /<command> settings: setup settings.yml config
+      /<command> minigames: setup minigame configs
+      
 permissions:
   minigameworld.*:
     description: Grants all permissions
@@ -22,7 +39,7 @@ permissions:
     default: true
     
   minigameworld.allcommands:
-    description: Can use all commands (can access play, party)
+    description: Can use all commands
     default: true
     
   minigameworld.play.*:
@@ -91,14 +108,18 @@ permissions:
       minigameworld.config.reload: true
       minigameworld.config.settings: true
       minigameworld.config.minigames: true
+      minigameworld.config.backup: true
   
   minigameworld.config.reload:
-    description: Can reload all configs
+    description: Can reload data
     default: op
   minigameworld.config.settings:
     description: Can set settings config
     default: op
   minigameworld.config.minigames:
     description: Can set minigame config
+    default: op
+  minigameworld.config.backup:
+    description: Can backup data
     default: op
 ```

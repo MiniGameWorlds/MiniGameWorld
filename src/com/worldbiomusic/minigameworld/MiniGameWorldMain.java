@@ -133,11 +133,12 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(ChatColor.RED + "=============================================");
 
 		Utils.info(ChatColor.RESET + "                Data Manager                 ");
-		// save all data
-		this.dataManager.saveAllData();
+
 
 		// save backup data
 		this.dataManager.saveBackupData();
+		Utils.info(" - Server data saved");
+		Utils.info(" - Backup data created");
 
 		Utils.info(ChatColor.RED + "=============================================");
 	}

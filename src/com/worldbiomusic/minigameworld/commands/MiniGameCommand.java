@@ -1,5 +1,6 @@
 package com.worldbiomusic.minigameworld.commands;
 
+import java.io.File;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.wbm.plugin.util.FileTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
@@ -38,7 +40,7 @@ public class MiniGameCommand implements CommandExecutor {
 		this.minigameHelpCommand = new MiniGameHelpCommand();
 
 		// set tab completer
-		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM);
+		this.tabCompleter = new MiniGameCommandTabCompleter(minigameM, dataManager);
 		MiniGameWorldMain.getInstance().getCommand("minigame").setTabCompleter(this.tabCompleter);
 	}
 
@@ -64,8 +66,10 @@ public class MiniGameCommand implements CommandExecutor {
 				return list(sender, args);
 			case "menu":
 				return menu(sender, args);
+			case "backup":
+				return backup(sender, args);
 			case "reload":
-				return reloadConfig(sender, args);
+				return reload(sender, args);
 			case "party":
 				return this.miniGamePartyCommand.party(sender, args);
 			case "settings":
@@ -183,10 +187,70 @@ public class MiniGameCommand implements CommandExecutor {
 		return true;
 	}
 
-	private boolean reloadConfig(CommandSender sender, String[] args) throws Exception {
+	// /mw backup [<backup-folder>]
+	private boolean backup(CommandSender sender, String[] args) throws Exception {
+		// check permission
+		if (!Utils.checkPerm(sender, "config.backup")) {
+			return true;
+		}
+
+		String backupDataDirName = null;
+		boolean isOverwrite = false;
+
+		// when backup folder is given
+		if (args.length == 2) {
+			backupDataDirName = args[1];
+
+			// [IMPORTATN] To overwriting, add wildcard in front of the dir name
+			// e.g. /mw backup *Today
+			String wildcard = "*";
+			isOverwrite = backupDataDirName.contains(wildcard);
+			backupDataDirName = backupDataDirName.replace(wildcard, "");
+
+			// check file name vaildation
+			if (!FileTool.isValidFileName(backupDataDirName)) {
+				sender.sendMessage(backupDataDirName + " is not vaild for folder name");
+				return true;
+			}
+
+			// check duplication
+			if (!isOverwrite && this.dataManager.existBackupData(backupDataDirName)) {
+				sender.sendMessage(backupDataDirName + " backup folder is already exist");
+				return true;
+			}
+		}
+
+		// create backup data directory
+		File backupDataFile = this.dataManager.saveBackupData(backupDataDirName);
+		backupDataDirName = backupDataFile.getName();
+
+		// send msg
+		sender.sendMessage("Backup folder " + ChatColor.GREEN + backupDataDirName + ChatColor.RESET
+				+ ((isOverwrite) ? " is overwritten" : " created"));
+
+		return true;
+	}
+
+	// mw reload [<folder>]
+	private boolean reload(CommandSender sender, String[] args) throws Exception {
 		// check permission
 		if (!Utils.checkPerm(sender, "config.reload")) {
 			return true;
+		}
+
+		// when backup folder is given
+		if (args.length == 2) {
+			String dataDirName = args[1];
+
+			// check backup dir is exist
+			if (!this.dataManager.existBackupData(dataDirName)) {
+				sender.sendMessage(dataDirName + " backup folder is not exist");
+				return true;
+			}
+
+			// load(copy) backup data
+			this.dataManager.loadBackupData(dataDirName, Utils.getDataFolder());
+			sender.sendMessage("Backup folder " + ChatColor.GREEN + dataDirName + ChatColor.RESET + " loaded");
 		}
 
 		// reload "setting.yml", all minigames
