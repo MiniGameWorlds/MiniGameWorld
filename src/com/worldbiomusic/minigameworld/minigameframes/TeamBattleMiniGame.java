@@ -75,7 +75,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * "registerPlayersToTeam()"<br>
 	 * <br>
 	 * - e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4<br>
-	 * - NONE: no divide (use registerPlayersToTeam())<br>
+	 * - NONE: no divide (use {@link #registerPlayersToTeam()})<br>
 	 * - FAIR: all teams have the same player count fairly(= maximun team count)
 	 * (e.g. 4, 3, 3, 3)<br>
 	 * - FILL: fulfill teams as possible from first (= minimum team count) (e.g. 5,
@@ -1092,13 +1092,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			if (isEmpty()) {
 				return false;
 			}
-
-			for (Player member : this.members) {
-				if (!isLive(member)) {
-					return false;
-				}
-			}
-			return true;
+			
+			return this.members.stream().filter(m -> isLive(m)).toList().size() > 0;
 		}
 
 		/**
