@@ -1,5 +1,4 @@
 # TODO
-- Cancel event when player in creative mode break the minigame sign block
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
 - Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
@@ -211,6 +210,17 @@
 ### Build Changes
 - Add `ingame-leave` option to settings.yml
 - Add MenuEvent (custom event)
+
+## 0.7.3
+### Build Changes
+- Add `ingame-leave` option to settings.yml
+- Add `MenuEvent` (custom event)
+
+## 0.7.4
+### Build Changes
+- Fix TeamBattleMiniGame bug
+- Add backup command (`/mw backup [<backup-folder>]`)
+- Add reload backup folder option (`/mw reload [<backup-folder>]`)
 
 ---
 
@@ -850,13 +860,13 @@ if(!this.isMinPlayersLive()) {
 - Release `0.7.3`
 
 # 2022-05-07
-- Fix critical TeamBattleMiniGame bug
+- Fix TeamBattleMiniGame bug
 - Save server data before create backup data
 
 # 2022-05-08
 - Add backup command (`/mw backup [<backup-folder>]`)
 - Add reload backup folder option(`/mw reload [<backup-folder>]`)
-
+- Release `0.7.4`
 
 
 

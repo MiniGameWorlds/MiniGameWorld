@@ -2,6 +2,7 @@
 ## With command
 - `/mw backup [<backup-folder>]`
 - If `[<backup-folder>]` argument is not given, backup folder name will be current date (e.g. `2022-05-07T19;59;46`)
+- Backup will be processed after current server data saved
 
 ## On server stops
 - Config automatically saved when server stopped
