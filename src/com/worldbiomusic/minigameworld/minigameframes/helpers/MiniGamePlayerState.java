@@ -51,6 +51,7 @@ public class MiniGamePlayerState {
 	private float flySpeed;
 	private boolean allowFlight;
 	private Scoreboard scoreboard;
+	private int heldItemSlot;
 
 	public MiniGamePlayerState(MiniGame minigame, Player player) {
 		this.minigame = minigame;
@@ -122,6 +123,9 @@ public class MiniGamePlayerState {
 
 		// scoreboard
 		this.scoreboard = this.player.getScoreboard();
+
+		// held item slot
+		this.heldItemSlot = this.player.getInventory().getHeldItemSlot();
 	}
 
 	public void restorePlayerState() {
@@ -188,6 +192,9 @@ public class MiniGamePlayerState {
 
 		// scoreboard
 		this.player.setScoreboard(this.scoreboard);
+
+		// held item slot
+		this.player.getInventory().setHeldItemSlot(this.heldItemSlot);
 	}
 
 	public void makePureState() {
@@ -254,6 +261,9 @@ public class MiniGamePlayerState {
 
 		// new scoreboard (= empty)
 		this.player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		
+		// held item slot
+		this.player.getInventory().setHeldItemSlot(0);
 	}
 
 	public Player getPlayer() {
