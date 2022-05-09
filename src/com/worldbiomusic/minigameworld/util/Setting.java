@@ -15,6 +15,10 @@ public class Setting {
 	public static final String MENU_INV_TITLE = "MiniGameWorld";
 
 	public static final int BSTATS_PLUGIN_ID = 14291;
+	
+	// url
+	public static final String URL_WIKI_README = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/README.md";
+	public static final String URL_WIKI_COMMAND = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/commands.md";
 
 	/**
 	 * Per minutes

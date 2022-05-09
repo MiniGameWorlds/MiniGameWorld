@@ -15,14 +15,15 @@ commands:
       
       USAGE
       /<command>: get Menu Opener
+      /<command> help: print usage
       /<command> join <title>: join a minigame
       /<command> view <title>: view a minigame
       /<command> leave: leave/unview a minigame
       /<command> list: show minigame list
       /<command> menu: open GUI menu
       /<command> party: party commands
-      /<command> reload [<folder>]: reload data
-      /<command> backup [<folder>]: backup data
+      /<command> reload [<backup-folder>]: reload data
+      /<command> backup [<backup-folder>]: backup data
       /<command> settings: setup settings.yml config
       /<command> minigames: setup minigame configs
       

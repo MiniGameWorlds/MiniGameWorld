@@ -59,6 +59,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void addLength1Candidates() {
+		this.candidates.add("help");
 		this.candidates.add("join");
 		this.candidates.add("view");
 		this.candidates.add("leave");

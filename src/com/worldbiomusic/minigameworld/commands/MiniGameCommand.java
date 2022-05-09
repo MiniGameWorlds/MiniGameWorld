@@ -62,6 +62,8 @@ public class MiniGameCommand implements CommandExecutor {
 			String menu = args[0];
 
 			switch (menu) {
+			case "help":
+				return help(sender, args);
 			case "join":
 				return join(sender, args);
 			case "view":
@@ -88,6 +90,7 @@ public class MiniGameCommand implements CommandExecutor {
 				e.printStackTrace();
 			}
 		}
+		
 		// print usage
 		this.minigameHelpCommand.printHelp(sender, args);
 
@@ -100,11 +103,17 @@ public class MiniGameCommand implements CommandExecutor {
 			sender.sendMessage("Only Player");
 			return true;
 		}
-		
+
 		// give menu opener
-		Player p = (Player)sender;
+		Player p = (Player) sender;
 		FunctionItem.giveAll(p);
-		
+
+		return true;
+	}
+
+	private boolean help(CommandSender sender, String[] args) throws Exception {
+		this.minigameHelpCommand.printUsage(sender);
+		this.minigameHelpCommand.printWikiUrl(sender);
 		return true;
 	}
 

@@ -3,13 +3,15 @@ package com.worldbiomusic.minigameworld.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.worldbiomusic.minigameworld.util.Setting;
+
 public class MiniGameHelpCommand {
 	public boolean printHelp(CommandSender sender, String[] args) {
 		if (!sender.isOp()) {
 			return true;
 		}
 
-		sender.sendMessage(ChatColor.BOLD + "USAGE");
+		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[USAGE]");
 
 		try {
 			// /mg <wrong>
@@ -20,6 +22,15 @@ public class MiniGameHelpCommand {
 				switch (menu) {
 				case "join":
 					this.printJoinUsage(sender);
+					break;
+				case "view":
+					this.printViewUsage(sender);
+					break;
+				case "reload":
+					this.printReloadUsage(sender);
+					break;
+				case "backup":
+					this.printBackupUsage(sender);
 					break;
 				case "party":
 					this.printPartyUsage(sender);
@@ -35,13 +46,20 @@ public class MiniGameHelpCommand {
 				}
 			}
 
+			// print wiki url
+			printWikiUrl(sender);
 		} catch (Exception e) {
 		}
 
 		return true;
 	}
 
-	private void printUsage(CommandSender sender) {
+	public void printWikiUrl(CommandSender sender) {
+		String url = "" + ChatColor.GREEN + ChatColor.UNDERLINE + Setting.URL_WIKI_COMMAND + ChatColor.RESET;
+		sender.sendMessage("" + ChatColor.AQUA + ChatColor.BOLD + "[Wiki] " + ChatColor.RESET + url);
+	}
+
+	public void printUsage(CommandSender sender) {
 		sender.sendMessage("/minigame join <title>");
 		sender.sendMessage("/minigame leave");
 		sender.sendMessage("/minigame list");
@@ -53,11 +71,23 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame minigames");
 	}
 
-	private void printJoinUsage(CommandSender sender) {
+	public void printJoinUsage(CommandSender sender) {
 		sender.sendMessage("/minigame join <title>: join <title> minigame");
 	}
 
-	private void printPartyUsage(CommandSender sender) {
+	public void printViewUsage(CommandSender sender) {
+		sender.sendMessage("/minigame view <title>: view <title> minigame");
+	}
+
+	public void printReloadUsage(CommandSender sender) {
+		sender.sendMessage("/minigame reload [<backup-folder>]: reload all data");
+	}
+
+	public void printBackupUsage(CommandSender sender) {
+		sender.sendMessage("/minigame backup [<backup-folder>]: backup all data");
+	}
+
+	public void printPartyUsage(CommandSender sender) {
 		sender.sendMessage("/minigame party invite <player>: invite <player> to your party");
 		sender.sendMessage("/minigame party accept <player>: accept <player>'s invitation");
 		sender.sendMessage("/minigame party ask <player>: ask to <player> if you can join");
@@ -68,23 +98,54 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame party list: show party member list");
 	}
 
-	private void printSettingsUsage(CommandSender sender) {
+	public void printSettingsUsage(CommandSender sender) {
 		sender.sendMessage(
-				"/minigame settings minigame-sign <true|false>: set activation of minigame sign block join / leave");
-		sender.sendMessage("/minigame settings message-prefix <value>: set plugin message prefix");
+				"/minigame settings message-prefix [<value>]: set plugin message prefix (can contain spaces)");
+		sender.sendMessage("/minigame settings backup-data-save-delay [<value>]: set backup data save delay (min)");
+		sender.sendMessage(
+				"/minigame settings debug-mode [<value>]: if true, console will print debug logs (true / false)");
+		sender.sendMessage(
+				"/minigame settings isolated-chat [<value>]: Playing minigame players can only chat with each other (true / false)");
+		sender.sendMessage(
+				"/minigame settings isolated-join-quit-message [<value>]: Minigame join/quit message only notify in minigame (true / false)");
+		sender.sendMessage(
+				"/minigame settings join-sign-caption [<value>]: Caption of join sign block (can contain spaces)");
+		sender.sendMessage(
+				"/minigame settings leave-sign-caption [<value>]: Caption of leave sign block (can contain spaces)");
+		sender.sendMessage("/minigame settings scoreboard [<value>]: If true, use scoreboard system (true / false)");
+		sender.sendMessage(
+				"/minigame settings scoreboard-update-delay [<value>]: Scoreboard update delay per tick (20tick = 1second)");
+		sender.sendMessage(
+				"/minigame settings remove-not-necessary-keys [<value>]: Set remove-not-necessary-keys (true / false)");
+		sender.sendMessage("/minigame settings min-leave-time [<value>]: Set min-leave-time (sec)");
+		sender.sendMessage("/minigame settings start-sound [<value>]: Set start-sound (Sound)");
+		sender.sendMessage("/minigame settings finish-sound [<value>]: Set finish-sound (Sound)");
+		sender.sendMessage(
+				"/minigame settings check-update [<value>]: If true, check update when a plugin is loaded (true / false)");
+		sender.sendMessage(
+				"/minigame settings edit-messages [<value>]: If true, language message changes will be applied(saved) (true / false)");
+		sender.sendMessage(
+				"/minigame settings ingame-leave [<value>]: If true, players can leave while playing (true / false)");
 	}
 
-	private void printMinigamesUsage(CommandSender sender) {
-		sender.sendMessage("/minigame minigames <classname> title <value>: set title");
+	public void printMinigamesUsage(CommandSender sender) {
+		sender.sendMessage("/minigame minigames <classname> title [<value>]: set title (can contain spaces)");
 		sender.sendMessage(
-				"/minigame minigames <classname> location [<x> <y> <z>]: set minigame spawn location (without [ ]: set player's location)");
-		sender.sendMessage("/minigame minigames <classname> min-player-count <value>: set min player count");
-		sender.sendMessage("/minigame minigames <classname> max-player-count <value>: set max player count");
-		sender.sendMessage("/minigame minigames <classname> waiting-time <value>: set waiting time (sec)");
-		sender.sendMessage("/minigame minigames <classname> play-time <value>: set play time (sec)");
-		sender.sendMessage("/minigame minigames <classname> active <value>: set activation of minigame");
-		sender.sendMessage("/minigame minigames <classname> tutorial <line> <tutorials>: set tutorials at");
-		sender.sendMessage("/minigame minigames <classname> icon <value>: set icon (uppercase of item)");
+				"/minigame minigames <classname> location <<player> | <x> <y> <z>>: set minigame spawn location");
+		sender.sendMessage("/minigame minigames <classname> min-player-count [<value>]: set min player count (number)");
+		sender.sendMessage("/minigame minigames <classname> max-player-count [<value>]: set max player count (number)");
+		sender.sendMessage("/minigame minigames <classname> waiting-time [<value>]: set waiting time (sec)");
+		sender.sendMessage("/minigame minigames <classname> play-time [<value>]: set play time (sec)");
+		sender.sendMessage(
+				"/minigame minigames <classname> active [<value>]: set activation of minigame (true / false)");
+		sender.sendMessage(
+				"/minigame minigames <classname> tutorial <line> [<value>]: set tutorials at line (set [<value>] with -` to remove line) (can contain spaces) (line: 1 ~ )");
+		sender.sendMessage("/minigame minigames <classname> icon [<value>]: set icon (Item])");
+		sender.sendMessage("/minigame minigames <classname> view [<value>]: set view allow (true / false)");
+		sender.sendMessage(
+				"/minigame minigames <classname> scoreboard [<value>]: use scoreboard system in minigame (true / false)");
+		sender.sendMessage("/minigame minigames <classname> custom-data: only print is available");
+
 	}
 
 }

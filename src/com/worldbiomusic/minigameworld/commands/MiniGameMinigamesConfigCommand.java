@@ -216,9 +216,26 @@ public class MiniGameMinigamesConfigCommand {
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
 		List<String> tutorial = minigame.getSetting().getTutorial();
-		int line = Integer.parseInt(args[3]);
+		int line = Integer.parseInt(args[3]); // 1 ~
 
-		tutorial.set(line, tutorialString);
+		// remove tutorial line
+		if (tutorialString.equals("-")) {
+			if (line <= tutorial.size()) {
+				tutorial.remove(line);
+			} else {
+				sender.sendMessage(line + "th tutorial is not exist");
+				return true;
+			}
+		} else {
+			// check line is exist
+			if (tutorial.size() < line) {
+				// add more lines
+				for (int i = tutorial.size(); i < line; i++) {
+					tutorial.add("");
+				}
+			}
+			tutorial.set(line - 1, tutorialString);
+		}
 
 		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_TUTORIAL, tutorial);
 		return true;

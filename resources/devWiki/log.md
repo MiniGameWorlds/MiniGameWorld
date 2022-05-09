@@ -30,7 +30,8 @@
 - Change `min/max-player-count` to `min/max-player`
 - Change `MiniGame.processEvent()` to `MiniGame.onEvent()`
 - Change `MiniGame.runTask_#_#` to `MiniGame.run_#_#`
-- Remove? ``MiniGame.initGameSettings()` (not sure)
+- Remove? `MiniGame.initGameSettings()` (not sure)
+- Change `/mw minigames ...` to `/mw games`
 ```
 
 ---

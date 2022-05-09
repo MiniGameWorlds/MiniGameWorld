@@ -1,14 +1,15 @@
 # Description
-- This document describe how to use MiniGameWorld pluin in your server
+- This document describes how to use MiniGameWorld pluin in your server
 - Plugin works on `spigot`, `paper`, `purpur` bukkit with `1.14+` versions
 - MiniGame types: `Solo`, `SoloBattle`, `Team`, `TeamBattle` and `custom`
 
-
+---
 
 # Features
+- **Works independently of other plugins** (Available for all types of servers: Economy, Survival, RPG, etc)
 - Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
 - Same minigame can be played in many different ways with custom config settings, maps made by users
-- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode` and etc are saved at the game start and restored when the game finished
+- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode and etc` are saved at the game start and restored when the game finished
 - GUI menu
 - Party system
 - View system
@@ -27,9 +28,9 @@
 2. Download [MiniGames] that you want to add to your server
 3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
 4. Make a place for minigame yourself
-5. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload` (OP required)  
+5. Setup minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file with `x, y, z` and run command `/minigame reload` (OP required)  
 **`---or---`**  
-Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (OP required)  
+Setup minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (OP required)  
 
 
 
@@ -47,7 +48,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 <img src="youtube-user-tutorial-thumbnail.png" width="50%" ></img>
 </a>
 
-
+---
 
 # More
 - [Join / View / Leave]
@@ -62,6 +63,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [Language Support]
 - [Function Item]
 
+---
 
 # Trouble shootings
 ## Server
