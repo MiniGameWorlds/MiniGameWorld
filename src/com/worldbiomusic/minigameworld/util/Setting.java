@@ -1,14 +1,13 @@
 package com.worldbiomusic.minigameworld.util;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 
-import net.md_5.bungee.api.ChatColor;
-
 public class Setting {
 	public static final String API_VERSION = apiVersion();
-	
+
 	public static String MESSAGE_PREFIX = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 
 	public static boolean DEBUG_MODE = false;

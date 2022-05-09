@@ -10,6 +10,7 @@ import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
 import com.worldbiomusic.minigameworld.listeners.CommonEventListener;
+import com.worldbiomusic.minigameworld.listeners.FunctionItemListener;
 import com.worldbiomusic.minigameworld.listeners.MiniGameEventListener;
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.EventListenerManager;
@@ -33,6 +34,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private EventListenerManager eventListenerManager;
 
 	private CommonEventListener commonListener;
+	private FunctionItemListener functionItemListener;
 	private MiniGameEventListener miniGameEventListener;
 	private MiniGameCommand minigameCommand;
 
@@ -104,8 +106,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private void registerEventListeners() {
 		this.commonListener = new CommonEventListener(this.minigameManager);
 		this.miniGameEventListener = new MiniGameEventListener(this.minigameManager);
+		this.functionItemListener = new FunctionItemListener(minigameManager);
 		getServer().getPluginManager().registerEvents(this.commonListener, this);
 		getServer().getPluginManager().registerEvents(this.miniGameEventListener, this);
+		getServer().getPluginManager().registerEvents(this.functionItemListener, this);
 
 		this.eventListenerManager = new EventListenerManager(this.commonListener);
 	}

@@ -73,7 +73,7 @@ public class CommonEventListener implements Listener {
 	private void onPlayerCloseGUI(InventoryCloseEvent e) {
 		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
 	}
-	
+
 	/*
 	 * MiniGame Sign
 	 */
@@ -177,6 +177,7 @@ public class CommonEventListener implements Listener {
 		}
 		return false;
 	}
+
 }
 //
 //

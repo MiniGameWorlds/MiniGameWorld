@@ -15,6 +15,7 @@ import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.menu.MiniGameMenuManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.FunctionItem;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -52,6 +53,11 @@ public class MiniGameCommand implements CommandExecutor {
 				return true;
 			}
 
+			// give function items if there are no args
+			if (args.length == 0) {
+				return giveFunctionItems(sender);
+			}
+
 			// menu
 			String menu = args[0];
 
@@ -85,6 +91,20 @@ public class MiniGameCommand implements CommandExecutor {
 		// print usage
 		this.minigameHelpCommand.printHelp(sender, args);
 
+		return true;
+	}
+
+	private boolean giveFunctionItems(CommandSender sender) throws Exception {
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
+			return true;
+		}
+		
+		// give menu opener
+		Player p = (Player)sender;
+		FunctionItem.giveAll(p);
+		
 		return true;
 	}
 

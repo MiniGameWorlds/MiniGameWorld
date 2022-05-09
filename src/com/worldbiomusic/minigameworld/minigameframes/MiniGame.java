@@ -88,6 +88,11 @@ public abstract class MiniGame {
 	private MiniGameScoreboardManager scoreboardManager;
 
 	/**
+	 * Invenory manager
+	 */
+	private MiniGameInventoryManager invManager;
+
+	/**
 	 * Language messenger
 	 */
 	protected Messenger messenger;
@@ -219,6 +224,9 @@ public abstract class MiniGame {
 		// setup view manager
 		this.viewManager = new MiniGameViewManager(this);
 
+		// setup inventory manager
+		this.invManager = new MiniGameInventoryManager();
+
 		// setup scoreboard manager
 		this.scoreboardManager = new MiniGameScoreboardManager(this);
 		this.scoreboardManager.registerDefaultUpdaters();
@@ -257,13 +265,7 @@ public abstract class MiniGame {
 	 *              this minigame
 	 */
 	public final void passEvent(Event event) {
-		// pass event to custom option
-		this.customOption.processEvent(event);
-
-		// chat event
-		if (event instanceof AsyncPlayerChatEvent) {
-			this.processChat((AsyncPlayerChatEvent) event);
-		}
+		processCommonEvent(event);
 
 		// process event when minigame started
 		if (this.started) {
@@ -278,10 +280,11 @@ public abstract class MiniGame {
 			}
 
 			// pass event to process
-			this.processEvent(event);
+			processEvent(event);
 		} else {
-			processEventWhileWaiting(event);
+			processEventOnWaiting(event);
 		}
+
 	}
 
 	/**
@@ -289,7 +292,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param event Passed Event
 	 */
-	private void processEventWhileWaiting(Event event) {
+	private void processEventOnWaiting(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			// prevent player hurts
 			EntityDamageEvent e = (EntityDamageEvent) event;
@@ -299,6 +302,24 @@ public abstract class MiniGame {
 			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
 			e.setCancelled(true);
 		}
+	}
+
+	/**
+	 * Process all events before passed to the minigame
+	 * 
+	 * @param event Passed Event
+	 */
+	private void processCommonEvent(Event event) {
+		// pass event to custom option
+		this.customOption.processEvent(event);
+
+		// chat event
+		if (event instanceof AsyncPlayerChatEvent) {
+			processChat((AsyncPlayerChatEvent) event);
+		}
+
+		// check inventory event
+		this.invManager.onEvent(event);
 	}
 
 	/**
@@ -357,9 +378,12 @@ public abstract class MiniGame {
 		// add player to list
 		addPlayer(p);
 
+		// setup inventory
+		this.invManager.setupOnJoin(p);
+
 		// tp to game location
 		// [IMPORTANT] must call after save player state (joinedLocation included)
-		p.teleport(this.getLocation());
+		p.teleport(getLocation());
 
 		// notify info
 		this.notifyInfo(p);

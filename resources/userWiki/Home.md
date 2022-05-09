@@ -18,6 +18,7 @@
 - Auto data backup
 - Update checker
 - Language support
+- Function items
 
 
 
@@ -59,7 +60,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 - [Menu]
 - [Scoreboard]
 - [Language Support]
-
+- [Function Item]
 
 
 # Trouble shootings
@@ -90,6 +91,7 @@ Update minigame location using command `/minigame minigames <class-name> locatio
 [Menu]: menu.md
 [Scoreboard]: scoreboard.md
 [Language Support]: language-support.md
+[Function Item]: function-item.md
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
 [MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller

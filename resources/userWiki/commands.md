@@ -1,9 +1,10 @@
 # Commands
-- aliases: `/mw`
+- aliases: `/mw` (`/minigame` = `/mw`)
 - `<>`: data
 - `[]`: optional
 
 # General
+- `/minigame`: get `Menu Opener`
 - `/minigame join <title>`: join `<title>` minigame
 - `/minigame view <title>`: view `<title>` minigame
 - `/minigame leave`: leave current playing/viewing minigame
@@ -58,3 +59,4 @@
 - `/minigame minigames <classname> icon <value>`: set icon (uppercase of item)
 - `/minigame minigames <classname> view <value>`: set view allow (true / false)
 - `/minigame minigames <classname> scoreboard <value>`: use scoreboard system in minigame (true / false)
+- ~~`/minigame minigames <classname> custom-data <value>`~~: can NOT use

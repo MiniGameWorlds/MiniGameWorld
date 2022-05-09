@@ -61,7 +61,7 @@ public class MiniGameMenuManager {
 
 		MiniGameMenu menu = new MiniGameMenu(p, this.minigameManager);
 		Inventory inv = menu.createMenu(1);
-		
+
 		// call MenuOpenEvent
 		MenuOpenEvent menuOpenEvent = new MenuOpenEvent(inv, p);
 		Bukkit.getPluginManager().callEvent(menuOpenEvent);
@@ -95,7 +95,7 @@ public class MiniGameMenuManager {
 				}
 			}
 		}
-		
+
 		// when menu closed
 		else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
@@ -124,6 +124,7 @@ public class MiniGameMenuManager {
 	private boolean isMiniGameWorldMenu(String title) {
 		return Setting.MENU_INV_TITLE.equals(title);
 	}
+
 }
 //
 //

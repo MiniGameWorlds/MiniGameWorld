@@ -14,6 +14,7 @@ commands:
     usage: |
       
       USAGE
+      /<command>: get Menu Opener
       /<command> join <title>: join a minigame
       /<command> view <title>: view a minigame
       /<command> leave: leave/unview a minigame

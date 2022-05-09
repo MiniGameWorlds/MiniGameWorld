@@ -1,4 +1,6 @@
 # TODO
+- Add `/mw help` command
+- Add `craft` option to Custom option (default: false)
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
 - Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
@@ -23,6 +25,13 @@
 - Instantiate system
 - Detach `AdvancedMultiLanguage` api and make simple system (also have reload system for performance)
 
+```yaml
+# API Changes
+- Change `min/max-player-count` to `min/max-player`
+- Change `MiniGame.processEvent()` to `MiniGame.onEvent()`
+- Change `MiniGame.runTask_#_#` to `MiniGame.run_#_#`
+- Remove? ``MiniGame.initGameSettings()` (not sure)
+```
 
 ---
 
@@ -868,8 +877,10 @@ if(!this.isMinPlayersLive()) {
 - Add reload backup folder option(`/mw reload [<backup-folder>]`)
 - Release `0.7.4`
 
-
-
+# 2022-05-09
+- Save/restore `held item slot` to MiniGamePlayerState
+- Add `FunctionItem`
+- Add `Menu opener` function item
 
 
 
