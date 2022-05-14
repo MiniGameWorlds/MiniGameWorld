@@ -1,11 +1,15 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -32,6 +36,8 @@ public class MiniGamePlayerState {
 	private double healthScale;
 	private double health;
 	private int foodLevel;
+	private float exhaustion;
+	private float saturation;
 	private int level;
 	private float exp;
 	private ItemStack[] inv;
@@ -52,6 +58,10 @@ public class MiniGamePlayerState {
 	private boolean allowFlight;
 	private Scoreboard scoreboard;
 	private int heldItemSlot;
+	private Location bedSpawnLocation;
+	private ItemStack[] enderChest;
+	private Map<Material, Integer> cooldownItems;
+	private int portalCooldown;
 
 	public MiniGamePlayerState(MiniGame minigame, Player player) {
 		this.minigame = minigame;
@@ -74,6 +84,12 @@ public class MiniGamePlayerState {
 
 		// food level
 		this.foodLevel = this.player.getFoodLevel();
+
+		// exhaustion
+		this.exhaustion = this.player.getExhaustion();
+
+		// saturation
+		this.saturation = this.player.getSaturation();
 
 		// exp
 		this.level = this.player.getLevel();
@@ -126,11 +142,31 @@ public class MiniGamePlayerState {
 
 		// held item slot
 		this.heldItemSlot = this.player.getInventory().getHeldItemSlot();
+
+		// bedSpawnLocation
+		if (this.player.getBedSpawnLocation() != null) {
+			this.bedSpawnLocation = this.player.getBedSpawnLocation().clone();
+		}
+
+		// ender chest
+		this.enderChest = this.player.getEnderChest().getContents();
+
+		// cooldown items
+		this.cooldownItems = new HashMap<>();
+		Arrays.asList(this.player.getInventory().getContents()).stream()
+				.filter(item -> item != null && player.hasCooldown(item.getType())).forEach(item -> {
+					int cooldown = player.getCooldown(item.getType());
+					cooldownItems.put(item.getType(), cooldown);
+				});
+
+		// portal cooldown
+		this.portalCooldown = this.player.getPortalCooldown();
+
 	}
 
 	public void restorePlayerState() {
 		// joined location
-		this.player.teleport(this.joinedLocation);
+		this.player.teleport(this.joinedLocation.clone());
 
 		// health scale
 		this.player.setHealthScale(this.healthScale);
@@ -140,6 +176,12 @@ public class MiniGamePlayerState {
 
 		// food level
 		this.player.setFoodLevel(this.foodLevel);
+
+		// exhaustion
+		this.player.setExhaustion(this.exhaustion);
+
+		// saturation
+		this.player.setSaturation(this.saturation);
 
 		// exp
 		this.player.setLevel(this.level);
@@ -195,6 +237,18 @@ public class MiniGamePlayerState {
 
 		// held item slot
 		this.player.getInventory().setHeldItemSlot(this.heldItemSlot);
+
+		// bedSpawnLocation
+		this.player.setBedSpawnLocation(this.bedSpawnLocation);
+
+		// ender chest
+		this.player.getEnderChest().setContents(this.enderChest);
+
+		// cooldown items
+		this.cooldownItems.forEach((type, cooldown) -> player.setCooldown(type, cooldown));
+
+		// portal cooldown
+		this.player.setPortalCooldown(this.portalCooldown);
 	}
 
 	public void makePureState() {
@@ -209,6 +263,12 @@ public class MiniGamePlayerState {
 
 		// set food level max
 		this.player.setFoodLevel(20);
+
+		// exhaustion
+		this.player.setExhaustion(4);
+
+		// saturation
+		this.player.setSaturation(5);
 
 		// set exp 0
 		this.player.setLevel(0);
@@ -261,9 +321,22 @@ public class MiniGamePlayerState {
 
 		// new scoreboard (= empty)
 		this.player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-		
-		// held item slot
+
+		// init held item slot
 		this.player.getInventory().setHeldItemSlot(0);
+
+		// set bedSpawnLocation to minigame location
+		this.player.setBedSpawnLocation(this.minigame.getLocation());
+
+		// clear ender chest
+		this.player.getEnderChest().clear();
+
+		// remove all items cooldown
+		Arrays.asList(this.player.getInventory().getContents()).stream().filter(item -> item != null)
+				.forEach(item -> player.setCooldown(item.getType(), 0));
+
+		// init portal cooldown
+		this.player.setPortalCooldown(0);
 	}
 
 	public Player getPlayer() {
