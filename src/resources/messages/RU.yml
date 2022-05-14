@@ -26,7 +26,7 @@ message:
     minigame: мини-игра
     party: вечеринка
     player: игрок
-    play-time: время воспроизведения # 우리는 미니 게임의 기간에 대해 이야기하고 있습니까 ???
+    play-time: время воспроизведения
     type: Тип
     sec: '<sec>'
     min: '<min>'

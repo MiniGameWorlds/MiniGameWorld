@@ -1,4 +1,5 @@
 # TODO
+- Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft` option to Custom option (default: false)
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
@@ -11,7 +12,6 @@
 - Add custom event of Party system
 - Upload feature videos(e.g. join, leave and view systems)
 - Use `org.bukkit.scoreboard.Team` in `TeamBattleMiniGame.Team` as composition (MiniGame will can use `org.bukkit.scoreboard.Team` features) ([Bukkit Team API doc](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scoreboard/Team.html))
-- Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `party` icon to Menu
 - Register to maven, gradle
 - Set team glowing color (glowing is only visible to team members)
@@ -230,6 +230,17 @@
 - Fix TeamBattleMiniGame bug
 - Add backup command (`/mw backup [<backup-folder>]`)
 - Add reload backup folder option (`/mw reload [<backup-folder>]`)
+
+
+## 0.7.4
+### Build Changes
+- Save/restore `held item slot` to MiniGamePlayerState
+- Add `FunctionItem` system (item to open menu)
+- Add `Menu opener` function item
+- Add `/mw help` command
+- Add minigame join, leave sound
+- Change default start, finish sound
+- Restore more player states (`bed spawn`, `ender chest`, `item cooldown`, `portal cooldown`)
 
 ---
 
@@ -886,7 +897,8 @@ if(!this.isMinPlayersLive()) {
 # 2022-05-15
 - Add minigame join, leave sound
 - Change default start, finish sound
-
+- Manage `bedSpawnLocation`, `enderChest`, `cooldownItems` and `portalCooldown` in MiniGamePlayerState
+- Release `0.7.5`
 
 
 
