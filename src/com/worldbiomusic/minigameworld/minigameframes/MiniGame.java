@@ -9,6 +9,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.SoundTool;
 import com.wbm.plugin.util.instance.TaskManager;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameEventPassEvent;
@@ -385,6 +387,9 @@ public abstract class MiniGame {
 		// [IMPORTANT] must call after save player state (joinedLocation included)
 		p.teleport(getLocation());
 
+		// sound
+		SoundTool.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
+
 		// notify info
 		this.notifyInfo(p);
 	}
@@ -436,10 +441,11 @@ public abstract class MiniGame {
 		this.removePlayer(p);
 
 		// send title
-
 		String leaveMsg = this.messenger.getMsg(p, "leave");
-
 		sendTitle(p, ChatColor.BOLD + leaveMsg, "");
+
+		// sound
+		SoundTool.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// check game is emtpy
 		if (this.isEmpty()) {

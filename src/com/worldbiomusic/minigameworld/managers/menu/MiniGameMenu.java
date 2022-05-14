@@ -178,9 +178,9 @@ public class MiniGameMenu {
 		// display name
 		String displayName = minigame.getTitle();
 		if (minigame.isStarted()) {
-			displayName = ChatColor.RED + displayName;
+			displayName = ChatColor.RED + displayName + ChatColor.RESET;
 		} else {
-			displayName = ChatColor.GREEN + displayName;
+			displayName = ChatColor.GREEN + displayName + ChatColor.RESET;
 		}
 
 		// lore

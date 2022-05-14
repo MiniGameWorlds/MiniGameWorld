@@ -1,5 +1,4 @@
 # TODO
-- Add `/mw help` command
 - Add `craft` option to Custom option (default: false)
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
@@ -882,8 +881,11 @@ if(!this.isMinPlayersLive()) {
 - Save/restore `held item slot` to MiniGamePlayerState
 - Add `FunctionItem`
 - Add `Menu opener` function item
+- Add `/mw help` command
 
-
+# 2022-05-15
+- Add minigame join, leave sound
+- Change default start, finish sound
 
 
 

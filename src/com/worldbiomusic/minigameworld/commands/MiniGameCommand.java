@@ -90,7 +90,7 @@ public class MiniGameCommand implements CommandExecutor {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// print usage
 		this.minigameHelpCommand.printHelp(sender, args);
 
@@ -287,6 +287,9 @@ public class MiniGameCommand implements CommandExecutor {
 
 		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
 		sender.sendMessage("- " + this.minigameManager.getFileName());
+		if (Setting.EDIT_MESSAGES) {
+			sender.sendMessage("- Language messages");
+		}
 		this.minigameManager.getMiniGameList().forEach(m -> {
 			sender.sendMessage("- " + m.getTitleWithClassName());
 		});
