@@ -2,6 +2,7 @@ package com.worldbiomusic.minigameworld.minigameframes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1299,6 +1300,21 @@ public abstract class MiniGame {
 	protected Player randomPlayer() {
 		int random = (int) (Math.random() * this.getPlayerCount());
 		return this.getPlayers().get(random);
+	}
+
+	/**
+	 * Get player who has the highest score of all
+	 * 
+	 * @return Null if there are no players
+	 */
+	protected Player topPlayer() {
+		List<MiniGamePlayerData> sortedPlayers = getPlayerDataList().stream()
+				.sorted(Comparator.comparing(MiniGamePlayerData::getScore).reversed()).toList();
+		if (sortedPlayers.isEmpty()) {
+			return null;
+		}
+
+		return sortedPlayers.get(0).getPlayer();
 	}
 
 	/**
