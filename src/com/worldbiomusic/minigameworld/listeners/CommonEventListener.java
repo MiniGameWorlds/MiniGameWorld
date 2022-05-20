@@ -57,8 +57,7 @@ public class CommonEventListener implements Listener {
 		this.minigameManager.processPlayerQuitWorks(p);
 
 		// call minigame exception event
-		MiniGameExceptionEvent exceptionEvent = new MiniGamePlayerExceptionEvent("player-quit-server", p);
-		Bukkit.getServer().getPluginManager().callEvent(exceptionEvent);
+		Utils.callEvent(new MiniGamePlayerExceptionEvent("player-quit-server", p));
 	}
 
 	/*
@@ -66,12 +65,12 @@ public class CommonEventListener implements Listener {
 	 */
 	@EventHandler
 	private void onPlayerClickMenu(InventoryClickEvent e) {
-		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
+		this.minigameManager.getMiniGameMenuManager().onInventoryEvent(e);
 	}
 
 	@EventHandler
 	private void onPlayerCloseGUI(InventoryCloseEvent e) {
-		this.minigameManager.getMiniGameMenuManager().processInventoryEvent(e);
+		this.minigameManager.getMiniGameMenuManager().onInventoryEvent(e);
 	}
 
 	/*
@@ -149,7 +148,7 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getMessage();
 
 		if (isStopCommand(cmd, true)) {
-			Bukkit.getServer().getPluginManager().callEvent(new MiniGameServerExceptionEvent("server-stop-by-player"));
+			Utils.callEvent(new MiniGameServerExceptionEvent("server-stop-by-player"));
 		}
 	}
 
@@ -158,8 +157,7 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getCommand();
 
 		if (isStopCommand(cmd, false)) {
-			Bukkit.getServer().getPluginManager()
-					.callEvent(new MiniGameServerExceptionEvent("server-stop-by-non-player"));
+			Utils.callEvent(new MiniGameServerExceptionEvent("server-stop-by-non-player"));
 		}
 	}
 

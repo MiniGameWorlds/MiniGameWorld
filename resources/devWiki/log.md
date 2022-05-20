@@ -898,7 +898,7 @@ if(!this.isMinPlayersLive()) {
 - Remove `MiniGame.runTaskAfterFinish()` (Refactoring)
 - Change `MiniGame.runTask(AfterStart/BeforeFinish)()` to `MiniGame.(onStart/onFinish)()` (Refactoring)
 - Change `/mw minigames` command to `/mw games` (Refactoring)
-
+- MiniGame.java refactoring (with `Utils.callEvent()`)
 
 
 

@@ -22,6 +22,7 @@ import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.LangUtils;
 import com.worldbiomusic.minigameworld.util.Messenger;
 import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * [IMPORTANT]<br>
@@ -228,9 +229,8 @@ public class MiniGameMenu {
 			area = "MINIGAME";
 		}
 
-		MenuClickEvent menuClickEvent = new MenuClickEvent(e, Setting.MENU_INV_TITLE + ":" + area);
-		Bukkit.getPluginManager().callEvent(menuClickEvent);
-		if (menuClickEvent.isCancelled()) {
+		// call player menu click event (check event is cancelled)
+		if (Utils.callEvent(new MenuClickEvent(e, Setting.MENU_INV_TITLE + ":" + area))) {
 			return;
 		}
 

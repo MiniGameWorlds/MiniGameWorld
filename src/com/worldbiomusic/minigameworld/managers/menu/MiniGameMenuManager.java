@@ -62,10 +62,8 @@ public class MiniGameMenuManager {
 		MiniGameMenu menu = new MiniGameMenu(p, this.minigameManager);
 		Inventory inv = menu.createMenu(1);
 
-		// call MenuOpenEvent
-		MenuOpenEvent menuOpenEvent = new MenuOpenEvent(inv, p);
-		Bukkit.getPluginManager().callEvent(menuOpenEvent);
-		if (menuOpenEvent.isCancelled()) {
+		// call MenuOpenEvent (check event is cancelled)
+		if (Utils.callEvent(new MenuOpenEvent(inv, p))) {
 			return null;
 		}
 
@@ -76,7 +74,7 @@ public class MiniGameMenuManager {
 		return inv;
 	}
 
-	public void processInventoryEvent(InventoryEvent event) {
+	public void onInventoryEvent(InventoryEvent event) {
 		// when menu clicked
 		if (event instanceof InventoryClickEvent) {
 			InventoryClickEvent e = (InventoryClickEvent) event;
@@ -100,14 +98,13 @@ public class MiniGameMenuManager {
 		else if (event instanceof InventoryCloseEvent) {
 			InventoryCloseEvent e = (InventoryCloseEvent) event;
 			if (this.isMiniGameWorldMenu(e.getView().getTitle())) {
-				// call MenuCloseEvent
-				MenuCloseEvent menuCloseEvent = new MenuCloseEvent(e.getInventory(), (Player) e.getPlayer());
-				Bukkit.getPluginManager().callEvent(menuCloseEvent);
-				if (menuCloseEvent.isCancelled()) {
+				Player p = (Player) e.getPlayer();
+				// call MenuCloseEvent (check event is cancelled)
+				if (Utils.callEvent(new MenuCloseEvent(e.getInventory(), p))) {
 					return;
 				}
 
-				this.menuList.remove(e.getPlayer());
+				this.menuList.remove(p);
 			}
 		}
 	}

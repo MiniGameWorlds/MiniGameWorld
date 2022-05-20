@@ -231,7 +231,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		if (playingGame.isStarted()) {
 			// check "ingame-leave" option
 			if (Setting.INGAME_LEAVE) {
-				Bukkit.getPluginManager().callEvent(new MiniGamePlayerExceptionEvent("ingame-leave", p));
+				Utils.callEvent(new MiniGamePlayerExceptionEvent("ingame-leave", p));
 			} else {
 				Utils.sendMsg(p, "You can't leave game (Reason: already has started)");
 			}

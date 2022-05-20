@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 
 import com.wbm.plugin.util.CollectionTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
@@ -85,7 +87,7 @@ public class Utils {
 	public static File getServerFile(String file) {
 		return new File(main.getServer().getWorldContainer(), file);
 	}
-	
+
 	public static File getDataFolder() {
 		return main.getDataFolder();
 	}
@@ -101,6 +103,23 @@ public class Utils {
 
 		// sync map keys
 		CollectionTool.syncKeyOrder(configMap, pureMap);
+	}
+
+	/**
+	 * Call event and return event is cancelled or not <br>
+	 * If event is not <b>Cancellable</b>, return always false
+	 * 
+	 * @param event Calling event
+	 * @return True if event is cancelled
+	 */
+	public static boolean callEvent(Event event) {
+		Bukkit.getServer().getPluginManager().callEvent(event);
+
+		if (event instanceof Cancellable) {
+			// check event is cancelled
+			return ((Cancellable) event).isCancelled();
+		}
+		return false;
 	}
 }
 

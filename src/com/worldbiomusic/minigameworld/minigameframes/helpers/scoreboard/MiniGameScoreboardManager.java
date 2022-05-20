@@ -8,6 +8,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameScoreboardUpdateEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 /**
  * Scoreboard manager<br>
@@ -83,11 +84,8 @@ public class MiniGameScoreboardManager {
 	}
 
 	private void updateScoreboard() {
-		// call event
-		MiniGameScoreboardUpdateEvent scoreboardUpdateEvent = new MiniGameScoreboardUpdateEvent(this.minigame);
-		Bukkit.getPluginManager().callEvent(scoreboardUpdateEvent);
-		// check cancelled
-		if (scoreboardUpdateEvent.isCancelled()) {
+		// call scoreboard update event (check event is cancelled)
+		if (Utils.callEvent(new MiniGameScoreboardUpdateEvent(this.minigame))) {
 			return;
 		}
 

@@ -57,7 +57,7 @@ public abstract class MiniGame {
 	/**
 	 * Settind data manager with config (using YamlManager)
 	 */
-	private MiniGameDataManager minigameDataManager;
+	private MiniGameDataManager dataManager;
 
 	/**
 	 * options like BLOCK_BREAK, INVENTORY_SAVE (nested in custom data section)
@@ -67,7 +67,7 @@ public abstract class MiniGame {
 	/**
 	 * Task manager
 	 */
-	private MiniGameTaskManager minigameTaskManager;
+	private MiniGameTaskManager taskManager;
 
 	/**
 	 * Whether game started or not
@@ -155,15 +155,14 @@ public abstract class MiniGame {
 	/**
 	 * Constructor with location
 	 * 
-	 * @param title          Used title in the server (different with class name)
-	 * @param location       Playing location
-	 * @param minPlayers Minimum player count to play
-	 * @param maxPlayers Maximum player count to play
-	 * @param playTime       Minigame playing time
-	 * @param waitingTime    Waiting time before join minigame
+	 * @param title       Used title in the server (different with class name)
+	 * @param location    Playing location
+	 * @param minPlayers  Minimum player count to play
+	 * @param maxPlayers  Maximum player count to play
+	 * @param playTime    Minigame playing time
+	 * @param waitingTime Waiting time before join minigame
 	 */
-	protected MiniGame(String title, Location location, int minPlayers, int maxPlayers, int playTime,
-			int waitingTime) {
+	protected MiniGame(String title, Location location, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
 		this.setting = new MiniGameSetting(title, location, minPlayers, maxPlayers, playTime, waitingTime);
 
 		// [must setup once]
@@ -177,15 +176,14 @@ public abstract class MiniGame {
 	 * Base constructor<br>
 	 * Location set to default (Bukkit.getWorld("world"))
 	 * 
-	 * @param title          Used title in the server (different with class name)
-	 * @param minPlayers Minimum player count to play
-	 * @param maxPlayers Maximum player count to play
-	 * @param playTime       Minigame playing time
-	 * @param waitingTime    Waiting time before join minigame
+	 * @param title       Used title in the server (different with class name)
+	 * @param minPlayers  Minimum player count to play
+	 * @param maxPlayers  Maximum player count to play
+	 * @param playTime    Minigame playing time
+	 * @param waitingTime Waiting time before join minigame
 	 */
 	protected MiniGame(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayers, maxPlayers, playTime,
-				waitingTime);
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayers, maxPlayers, playTime, waitingTime);
 	}
 
 	/**
@@ -199,10 +197,10 @@ public abstract class MiniGame {
 		this.messenger = new Messenger(LangUtils.path(MiniGame.class));
 
 		// register basic tasks
-		this.minigameTaskManager = new MiniGameTaskManager(this);
-		this.minigameTaskManager.registerBasicTasks();
+		this.taskManager = new MiniGameTaskManager(this);
+		this.taskManager.registerBasicTasks();
 
-		this.minigameDataManager = new MiniGameDataManager(this);
+		this.dataManager = new MiniGameDataManager(this);
 
 		// register tutorial
 		this.getSetting().setTutorial(this.registerTutorial());
@@ -257,16 +255,14 @@ public abstract class MiniGame {
 	 *              this minigame
 	 */
 	public final void passEvent(Event event) {
-		processCommonEvent(event);
+		onCommonEvent(event);
 
 		// process event when minigame started
 		if (this.started) {
 			// call pass event (only synchronous)
 			if (!event.isAsynchronous()) {
-				MiniGameEventPassEvent passEvent = new MiniGameEventPassEvent(this, event);
-				Bukkit.getServer().getPluginManager().callEvent(passEvent);
-				// check cancelled
-				if (passEvent.isCancelled()) {
+				// call MiniGameEventPassEvent (check event is cancelled)
+				if (Utils.callEvent(new MiniGameEventPassEvent(this, event))) {
 					return;
 				}
 			}
@@ -274,7 +270,7 @@ public abstract class MiniGame {
 			// pass event to process
 			onEvent(event);
 		} else {
-			processEventOnWaiting(event);
+			OnWaitingEvent(event);
 		}
 
 	}
@@ -284,7 +280,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param event Passed Event
 	 */
-	private void processEventOnWaiting(Event event) {
+	private void OnWaitingEvent(Event event) {
 		if (event instanceof EntityDamageEvent) {
 			// prevent player hurts
 			EntityDamageEvent e = (EntityDamageEvent) event;
@@ -301,13 +297,13 @@ public abstract class MiniGame {
 	 * 
 	 * @param event Passed Event
 	 */
-	private void processCommonEvent(Event event) {
+	private void onCommonEvent(Event event) {
 		// pass event to custom option
 		this.customOption.onEvent(event);
 
 		// chat event
 		if (event instanceof AsyncPlayerChatEvent) {
-			processChat((AsyncPlayerChatEvent) event);
+			onChat((AsyncPlayerChatEvent) event);
 		}
 
 		// check inventory event
@@ -320,7 +316,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param e Chat event
 	 */
-	private void processChat(AsyncPlayerChatEvent e) {
+	private void onChat(AsyncPlayerChatEvent e) {
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> recipients = e.getRecipients();
 			recipients.removeAll(recipients.stream().filter(r -> !containsPlayer(r)).toList());
@@ -339,18 +335,15 @@ public abstract class MiniGame {
 	 * @return Result of try to join
 	 */
 	public boolean joinGame(Player p) {
-		// call player join event
-		MiniGamePlayerJoinEvent joinEvent = new MiniGamePlayerJoinEvent(this, p);
-		Bukkit.getServer().getPluginManager().callEvent(joinEvent);
-		// check event is cancelled
-		if (joinEvent.isCancelled()) {
+		// call player join event (check event is cancelled)
+		if (Utils.callEvent(new MiniGamePlayerJoinEvent(this, p))) {
 			return false;
 		}
 
 		// init setting when first player join
 		if (this.isEmpty()) {
 			this.initSettings();
-			this.minigameTaskManager.runWaitingTask();
+			this.taskManager.runWaitingTask();
 			this.scoreboardManager.startScoreboardUpdateTask();
 		}
 
@@ -393,11 +386,8 @@ public abstract class MiniGame {
 	 * @return Result of try to leave
 	 */
 	public boolean leaveGame(Player p) {
-		// call player leave event
-		MiniGamePlayerLeaveEvent leaveEvent = new MiniGamePlayerLeaveEvent(this, p);
-		Bukkit.getServer().getPluginManager().callEvent(leaveEvent);
-		// check event is cancelled
-		if (leaveEvent.isCancelled()) {
+		// call player leave event (check event is cancelled)
+		if (Utils.callEvent(new MiniGamePlayerLeaveEvent(this, p))) {
 			return false;
 		}
 
@@ -503,7 +493,7 @@ public abstract class MiniGame {
 	 * Cancel all tasks and timer count (waitingTime task, finishTime task)
 	 */
 	private void initTasks() {
-		this.minigameTaskManager.init();
+		this.taskManager.init();
 	}
 
 	/**
@@ -511,8 +501,8 @@ public abstract class MiniGame {
 	 * count")
 	 */
 	private void restartWaitingTask() {
-		this.minigameTaskManager.cancelWaitingTask();
-		this.minigameTaskManager.runWaitingTask();
+		this.taskManager.cancelWaitingTask();
+		this.taskManager.runWaitingTask();
 	}
 
 	/**
@@ -536,14 +526,10 @@ public abstract class MiniGame {
 			return;
 		}
 
-		// call start event
-		MiniGameStartEvent startEvent = new MiniGameStartEvent(this);
-		Bukkit.getPluginManager().callEvent(startEvent);
-		// check start event is cancelled
-		if (startEvent.isCancelled()) {
+		// call start event (check event is cancelled)
+		if (Utils.callEvent(new MiniGameStartEvent(this))) {
 			// restart waiting task
 			this.restartWaitingTask();
-
 			return;
 		}
 
@@ -562,10 +548,10 @@ public abstract class MiniGame {
 		onStart();
 
 		// cancel task
-		this.minigameTaskManager.cancelWaitingTask();
+		this.taskManager.cancelWaitingTask();
 
 		// start finishsTimer
-		this.minigameTaskManager.runFinishTask();
+		this.taskManager.runFinishTask();
 	}
 
 	/**
@@ -604,8 +590,10 @@ public abstract class MiniGame {
 
 		// [IMPORTANT] restore removed leaving players's PlayerData for a while
 		this.players.addAll(leavingPlayers);
+
 		// call finish event
-		Bukkit.getPluginManager().callEvent(new MiniGameFinishEvent(this));
+		Utils.callEvent(new MiniGameFinishEvent(this));
+
 		this.players.clear();
 	}
 
@@ -1246,7 +1234,7 @@ public abstract class MiniGame {
 	 * @return Left waiting time
 	 */
 	public int getLeftWaitingTime() {
-		return this.minigameTaskManager.getLeftWaitingTime();
+		return this.taskManager.getLeftWaitingTime();
 	}
 
 	/**
@@ -1255,7 +1243,7 @@ public abstract class MiniGame {
 	 * @return Left finish time
 	 */
 	public int getLeftFinishTime() {
-		return this.minigameTaskManager.getLeftFinishTime();
+		return this.taskManager.getLeftFinishTime();
 	}
 
 	/**
@@ -1264,7 +1252,7 @@ public abstract class MiniGame {
 	 * @return Task manager
 	 */
 	public TaskManager getTaskManager() {
-		return this.minigameTaskManager.getTaskManager();
+		return this.taskManager.getTaskManager();
 	}
 
 	/**
@@ -1273,7 +1261,7 @@ public abstract class MiniGame {
 	 * @return Data manager
 	 */
 	public MiniGameDataManager getDataManager() {
-		return this.minigameDataManager;
+		return this.dataManager;
 	}
 
 	/**

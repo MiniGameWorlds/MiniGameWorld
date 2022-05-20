@@ -19,6 +19,7 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExcep
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameViewManager {
 	private MiniGame minigame;
@@ -90,11 +91,8 @@ public class MiniGameViewManager {
 	 * @param p Viewer
 	 */
 	public void viewGame(Player p) {
-		// call player view event
-		MiniGamePlayerViewEvent viewEvent = new MiniGamePlayerViewEvent(this.minigame, p);
-		Bukkit.getServer().getPluginManager().callEvent(viewEvent);
-		// check event is cancelled
-		if (viewEvent.isCancelled()) {
+		// call player view event (check event is cancelled)
+		if (Utils.callEvent(new MiniGamePlayerViewEvent(this.minigame, p))) {
 			return;
 		}
 
@@ -128,14 +126,11 @@ public class MiniGameViewManager {
 	public void unviewGame(Player p) {
 		// check player is a viewer
 		if (isViewing(p)) {
-			// call player unview event
-			MiniGamePlayerUnviewEvent unviewEvent = new MiniGamePlayerUnviewEvent(minigame, p);
-			Bukkit.getServer().getPluginManager().callEvent(unviewEvent);
-			// check event is cancelled
-			if (unviewEvent.isCancelled()) {
+			// call player unview event (check event is cancelled)
+			if (Utils.callEvent(new MiniGamePlayerUnviewEvent(minigame, p))) {
 				return;
 			}
-
+			
 			MiniGamePlayerState viewer = getViewerState(p);
 			viewer.restorePlayerState();
 
