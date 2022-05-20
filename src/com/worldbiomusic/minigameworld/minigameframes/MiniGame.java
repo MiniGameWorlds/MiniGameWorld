@@ -114,10 +114,6 @@ public abstract class MiniGame {
 	 */
 	protected abstract List<String> registerTutorial();
 
-	// Not necessary
-	// protected void runTaskBeforeStart() {
-	// };
-
 	/**
 	 * Executed immediately after game started
 	 */
@@ -523,7 +519,7 @@ public abstract class MiniGame {
 	 * Start minigame after check min player count<br>
 	 * Notify START to observers<br>
 	 * <br>
-	 * Execute "runTaskAfterStart()"
+	 * Execute "onStart()"
 	 */
 	public void startGame() {
 		// check min player count
@@ -562,7 +558,7 @@ public abstract class MiniGame {
 			sendTitle(p, this.messenger.getMsg(p, "start"), "", 4, 20 * 2, 4);
 		});
 
-		// runTaskAfterStart
+		// onStart
 		onStart();
 
 		// cancel task
@@ -578,7 +574,7 @@ public abstract class MiniGame {
 	 * Finish minigame<br>
 	 * Notify FINISH to observers<br>
 	 * 
-	 * Execute "runTaskBeforeFinish()" at first<br>
+	 * Execute "onFinish()" at first<br>
 	 * 
 	 */
 	public void finishGame() {
@@ -589,7 +585,7 @@ public abstract class MiniGame {
 		// [IMPORTANT] stop all active tasks immediately after finish
 		initTasks();
 
-		// runTaskBeforeFinish
+		// onFinish
 		onFinish();
 
 		// play sound

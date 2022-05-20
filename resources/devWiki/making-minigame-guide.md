@@ -146,7 +146,7 @@ public PassMob() {
 - `Run`: `getTaskManager().runTask("name");` in anywhere **after registration**
 - Do not register/run system task(`_waiting-timer`, `_finish-timer`, `_update-scoreboard`)
 - **Do not register a task with `BukkitRunnable`**, but with Runnable
-- **If you use your own tasks, make sure that finish the tasks when the game finished using `MiniGame.runTaskBeforeFinish()`**
+- **If you use your own tasks, make sure that finish the tasks when the game finished using `MiniGame.onFinish()`**
 ### How to register
 ```java
 @Override
@@ -269,14 +269,13 @@ protected void loadCustomData() {
 
 
 ## - **Task Reservation**
-- `runTaskAfterStart()`: executed after minigame started
-- `runTaskBeforeFinish()`: executed before minigame finishes
-- `runTaskAfterFinish()`: executed after minigame finished
+- `onStart()`: executed after minigame started
+- `onFinish()`: executed before minigame finishes
 ### Example
 ```java
 @Override
-protected void runTaskAfterStart() {
-  super.runTaskAfterStart();
+protected void onStart() {
+  super.onStart();
   // give kits
   for (Player p : getPlayers()) {
     InventoryTool.addItemToPlayer(p, new ItemStack(Material.IRON_SWORD));
@@ -376,7 +375,7 @@ getScoreboardManager().setPlayScoreboardUpdater(new YourScoreboardUpdater(this))
 ## Player state management
 - MiniGameWorld manages and restores player's states when join / leave
 > `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding` and `Game Mode`
-- If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `runTaskBeforeFinish()`
+- If the minigame has changed any of the unmanageable state in the list above, must to restore all the changed state at the game finished using `onFinish()`
 
 ## Detectable Events
 - MiniGameWorld only passes detectable event to the minigame a player of event is playing now, so you don't have to check the player is playing the minigame
