@@ -131,7 +131,7 @@ public abstract class MiniGame {
 	 * Executed when Minigame exception created<br>
 	 * {@link Exception}
 	 */
-	protected void handleGameException(MiniGameExceptionEvent exception) {
+	protected void onException(MiniGameExceptionEvent exception) {
 	}
 
 	/**
@@ -668,7 +668,7 @@ public abstract class MiniGame {
 	/**
 	 * - Handle exception<br>
 	 * - If <b>player exception</b><br>
-	 * - calls {@link handleGameException}<br>
+	 * - calls {@link #onException(MiniGameExceptionEvent)}<br>
 	 * - player will leave the game <br>
 	 * - checks {@link GameFinishCondition}<br>
 	 * <br>
@@ -700,7 +700,7 @@ public abstract class MiniGame {
 
 			// pass exception
 			if (isStarted()) {
-				this.handleGameException(exception);
+				this.onException(exception);
 			}
 
 			// check GameFinishExceptionMode
@@ -722,7 +722,7 @@ public abstract class MiniGame {
 			// if started, finish game
 			if (isStarted()) {
 				// pass exception
-				this.handleGameException(exception);
+				this.onException(exception);
 				// finish game
 				finishGame();
 			}

@@ -390,9 +390,9 @@ getScoreboardManager().setPlayScoreboardUpdater(new YourScoreboardUpdater(this))
 - Player can't return to joined location from minigame location, if player is dead state when minigame finished (don't let the player die with using any other ways when minigame finished)
 
 ## GameFinishCondition Auto Checking Point
-- When `MiniGame.handleException()`, `<minigame>.handleGameException()` executes
+- When `MiniGame.handleException()`, `<minigame>.onException()` executes
 - When `MiniGamePlayerData.setLive()`, `MiniGame.setLive()` executes
-- Do **NOT** run anything about a player after `<minigame>.handleGameException()` and `MiniGamePlayerData.setLive()` or game finished
+- Do **NOT** run anything about a player after `<minigame>.onException()` and `MiniGamePlayerData.setLive()` or game finished
 ```yaml
 Default minigame setting will be finished less than... (If GameFinishCondition is LESS_THAN_PLAYERS_LIVE)
 - Solo: 1

@@ -884,10 +884,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void handleGameException(MiniGameExceptionEvent exception) {
-		super.handleGameException(exception);
+	protected void onException(MiniGameExceptionEvent exception) {
+		super.onException(exception);
 
-		// handleGameException() is called when exception is only about player exception
+		// onException() is called when exception is only about player exception
 		MiniGamePlayerExceptionEvent e = (MiniGamePlayerExceptionEvent) exception;
 		Player p = e.getPlayer();
 

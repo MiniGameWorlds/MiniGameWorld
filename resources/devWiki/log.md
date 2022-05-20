@@ -903,6 +903,6 @@ if(!this.isMinPlayersLive()) {
 - Add `topPlayer()` to MiniGame
 - Change `MiniGame.send(Message/ToAllPlayers)()` to `MiniGame.send(Messages/Titles)()`
 - Change `MiniGame.registerTutorial()` to `MiniGame.tutorial()`
-
+- Change `MiniGame.handleGameException` to `MiniGame.onException`
 
 
