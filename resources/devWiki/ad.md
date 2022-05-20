@@ -38,7 +38,7 @@
 4. Make a place for minigame yourself
 5. Update minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run command `/minigame reload`  
 **`or`**  
-Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>`  
+Update minigame location using command `/minigame games <class-name> location <<player> | <x> <y> <z>>`  
 
 
 

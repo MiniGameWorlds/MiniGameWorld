@@ -31,7 +31,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		int length = args.length;
 
 		if (length == 3) {
-			if (args[0].equals("minigames")) {
+			if (args[0].equals("games")) {
 				addMiniGameConfigKeyCandidates();
 			}
 		} else if (length == 2) {
@@ -41,7 +41,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 				addPartyCandidates();
 			} else if (args[0].equals("settings")) {
 				addSettingsCandidates();
-			} else if (args[0].equals("minigames")) {
+			} else if (args[0].equals("games")) {
 				addMiniGameClassCandidates();
 			} else if (args[0].equals("reload")) {
 				addBackupDataCandidates();
@@ -69,7 +69,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 		this.candidates.add("reload");
 		this.candidates.add("backup");
 		this.candidates.add("settings");
-		this.candidates.add("minigames");
+		this.candidates.add("games");
 	}
 
 	private void addMiniGameTitleCandidates() {

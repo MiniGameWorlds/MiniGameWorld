@@ -62,19 +62,19 @@ public class Setting {
 	public static final String SETTINGS_EDIT_MESSAGES = "edit-messages";
 	public static final String SETTINGS_INGAME_LEAVE = "ingame-leave";
 
-	// minigames
-	public static final String MINIGAMES_TITLE = "title";
-	public static final String MINIGAMES_LOCATION = "location";
-	public static final String MINIGAMES_MIN_PLAYER_COUNT = "min-players";
-	public static final String MINIGAMES_MAX_PLAYER_COUNT = "max-players";
-	public static final String MINIGAMES_WAITING_TIME = "waiting-time";
-	public static final String MINIGAMES_PLAY_TIME = "play-time";
-	public static final String MINIGAMES_ACTIVE = "active";
-	public static final String MINIGAMES_TUTORIAL = "tutorial";
-	public static final String MINIGAMES_CUSTOM_DATA = "custom-data";
-	public static final String MINIGAMES_ICON = "icon";
-	public static final String MINIGAMES_VIEW = "view";
-	public static final String MINIGAMES_SCOREBOARD = "scoreboard";
+	// games
+	public static final String GAMES_TITLE = "title";
+	public static final String GAMES_LOCATION = "location";
+	public static final String GAMES_MIN_PLAYER_COUNT = "min-players";
+	public static final String GAMES_MAX_PLAYER_COUNT = "max-players";
+	public static final String GAMES_WAITING_TIME = "waiting-time";
+	public static final String GAMES_PLAY_TIME = "play-time";
+	public static final String GAMES_ACTIVE = "active";
+	public static final String GAMES_TUTORIAL = "tutorial";
+	public static final String GAMES_CUSTOM_DATA = "custom-data";
+	public static final String GAMES_ICON = "icon";
+	public static final String GAMES_VIEW = "view";
+	public static final String GAMES_SCOREBOARD = "scoreboard";
 
 	private static String apiVersion() {
 		return MiniGameWorldMain.getInstance().getDescription().getVersion();

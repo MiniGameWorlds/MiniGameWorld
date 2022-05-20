@@ -18,11 +18,11 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManage
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
-public class MiniGameMinigamesConfigCommand {
+public class MiniGameGamesConfigCommand {
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
 
-	public MiniGameMinigamesConfigCommand(MiniGameManager minigameManager, DataManager dataManager) {
+	public MiniGameGamesConfigCommand(MiniGameManager minigameManager, DataManager dataManager) {
 		this.minigameManager = minigameManager;
 		this.dataManager = dataManager;
 	}
@@ -31,13 +31,13 @@ public class MiniGameMinigamesConfigCommand {
 		return this.minigameManager.getMiniGameWithClassName(className);
 	}
 
-	public boolean minigames(CommandSender sender, String[] args) throws Exception {
+	public boolean games(CommandSender sender, String[] args) throws Exception {
 		// check permission
 		if (!Utils.checkPerm(sender, "config.minigames")) {
 			return true;
 		}
 
-		// /mg minigames <ClassName> <key> <value>
+		// /mg games <ClassName> <key> <value>
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
 		MiniGameDataManager minigameData = minigame.getDataManager();
@@ -50,40 +50,40 @@ public class MiniGameMinigamesConfigCommand {
 			String key = args[2];
 
 			switch (key) {
-			case Setting.MINIGAMES_TITLE:
+			case Setting.GAMES_TITLE:
 				title(sender, args, data);
 				break;
-			case Setting.MINIGAMES_LOCATION:
+			case Setting.GAMES_LOCATION:
 				location(sender, args, data);
 				break;
-			case Setting.MINIGAMES_MIN_PLAYER_COUNT:
+			case Setting.GAMES_MIN_PLAYER_COUNT:
 				min_player_count(sender, args, data);
 				break;
-			case Setting.MINIGAMES_MAX_PLAYER_COUNT:
+			case Setting.GAMES_MAX_PLAYER_COUNT:
 				max_player_count(sender, args, data);
 				break;
-			case Setting.MINIGAMES_WAITING_TIME:
+			case Setting.GAMES_WAITING_TIME:
 				waiting_time(sender, args, data);
 				break;
-			case Setting.MINIGAMES_PLAY_TIME:
+			case Setting.GAMES_PLAY_TIME:
 				time_liimt(sender, args, data);
 				break;
-			case Setting.MINIGAMES_ACTIVE:
+			case Setting.GAMES_ACTIVE:
 				active(sender, args, data);
 				break;
-			case Setting.MINIGAMES_TUTORIAL:
+			case Setting.GAMES_TUTORIAL:
 				tutorial(sender, args, data);
 				break;
-			case Setting.MINIGAMES_CUSTOM_DATA: // can not process
+			case Setting.GAMES_CUSTOM_DATA: // can not process
 				custom_data(sender, args, data);
 				break;
-			case Setting.MINIGAMES_ICON:
+			case Setting.GAMES_ICON:
 				icon(sender, args, data);
 				break;
-			case Setting.MINIGAMES_VIEW:
+			case Setting.GAMES_VIEW:
 				view(sender, args, data);
 				break;
-			case Setting.MINIGAMES_SCOREBOARD:
+			case Setting.GAMES_SCOREBOARD:
 				scoreboard(sender, args, data);
 				break;
 			}
@@ -100,7 +100,7 @@ public class MiniGameMinigamesConfigCommand {
 
 	private void printValue(CommandSender sender, String minigame, Map<String, Object> data, String[] args)
 			throws Exception {
-		// /mg minigames <classname> <key>
+		// /mg games <classname> <key>
 		String key = args[2];
 		if (data.containsKey(key)) {
 			Object value = data.get(key);
@@ -121,7 +121,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean title(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> title <value>
+		// /mg games <classname> title <value>
 		String title = "";
 		for (int i = 3; i < args.length; i++) {
 			title += args[i];
@@ -130,12 +130,12 @@ public class MiniGameMinigamesConfigCommand {
 			}
 		}
 
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_TITLE, title);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_TITLE, title);
 		return true;
 	}
 
 	private boolean location(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> location <<player>|<x> <y> <z>>
+		// /mg games <classname> location <<player>|<x> <y> <z>>
 		if (args.length == 4) {
 			if (!PlayerTool.isOnlinePlayer(args[3])) {
 				sender.sendMessage(args[3] + " is not online or not exist");
@@ -143,10 +143,10 @@ public class MiniGameMinigamesConfigCommand {
 			}
 			Player targetPlayer = Bukkit.getPlayer(args[3]);
 			Location playerLoc = targetPlayer.getLocation();
-			data.put(Setting.MINIGAMES_LOCATION, playerLoc);
+			data.put(Setting.GAMES_LOCATION, playerLoc);
 
 			// msg
-			Utils.sendMsg(sender, Setting.MINIGAMES_LOCATION + " set to your location");
+			Utils.sendMsg(sender, Setting.GAMES_LOCATION + " set to your location");
 		} else if (args.length == 6) {
 			// only player
 			if (!(sender instanceof Player)) {
@@ -160,11 +160,11 @@ public class MiniGameMinigamesConfigCommand {
 			double z = Integer.parseInt(args[5]);
 			World w = p.getLocation().getWorld();
 			Location loc = new Location(w, x, y, z);
-			data.put(Setting.MINIGAMES_LOCATION, loc);
+			data.put(Setting.GAMES_LOCATION, loc);
 
 			// msg
 			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
-			Utils.sendMsg(p, Setting.MINIGAMES_LOCATION + " set to (" + locString + ")");
+			Utils.sendMsg(p, Setting.GAMES_LOCATION + " set to (" + locString + ")");
 		} else {
 			return false;
 		}
@@ -172,38 +172,38 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean min_player_count(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> min-players <count>
+		// /mg games <classname> min-players <count>
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_MIN_PLAYER_COUNT, count);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_MIN_PLAYER_COUNT, count);
 		return true;
 	}
 
 	private boolean max_player_count(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_MAX_PLAYER_COUNT, count);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_MAX_PLAYER_COUNT, count);
 		return true;
 	}
 
 	private boolean waiting_time(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int time = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_WAITING_TIME, time);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_WAITING_TIME, time);
 		return true;
 	}
 
 	private boolean time_liimt(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int time = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_PLAY_TIME, time);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_PLAY_TIME, time);
 		return true;
 	}
 
 	private boolean active(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_ACTIVE, active);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_ACTIVE, active);
 		return true;
 	}
 
 	private boolean tutorial(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> tutorial <line> <4> <5> <6> ...
+		// /mg games <classname> tutorial <line> <4> <5> <6> ...
 
 		String tutorialString = "";
 		for (int i = 4; i < args.length; i++) {
@@ -237,7 +237,7 @@ public class MiniGameMinigamesConfigCommand {
 			tutorial.set(line - 1, tutorialString);
 		}
 
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_TUTORIAL, tutorial);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_TUTORIAL, tutorial);
 		return true;
 	}
 
@@ -248,18 +248,18 @@ public class MiniGameMinigamesConfigCommand {
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		String str = args[3].toUpperCase();
 		Material icon = Material.valueOf(str);
-		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_ICON, icon);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_ICON, icon);
 		return true;
 	}
 
 	private void view(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
-		setKeyValue(sender, args[1], data, Setting.MINIGAMES_VIEW, active);
+		setKeyValue(sender, args[1], data, Setting.GAMES_VIEW, active);
 	}
 
 	private void scoreboard(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
-		setKeyValue(sender, args[1], data, Setting.MINIGAMES_SCOREBOARD, active);
+		setKeyValue(sender, args[1], data, Setting.GAMES_SCOREBOARD, active);
 	}
 
 }

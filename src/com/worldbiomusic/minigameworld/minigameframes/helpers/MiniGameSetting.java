@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
-import com.worldbiomusic.minigameworld.commands.MiniGameMinigamesConfigCommand;
+import com.worldbiomusic.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
 
@@ -22,7 +22,7 @@ import com.worldbiomusic.minigameworld.util.Setting;
  * Also if file control is true<br>
  * - Add option in {@link #getFileSetting()} and
  * {@link #setFileSetting(Map)}<br>
- * - Add access method to {@link MiniGameMinigamesConfigCommand}<br>
+ * - Add access method to {@link MiniGameGamesConfigCommand}<br>
  */
 public class MiniGameSetting {
 	/**
@@ -346,18 +346,18 @@ public class MiniGameSetting {
 		// return settings that exist in minigames.yml
 		Map<String, Object> setting = new LinkedHashMap<String, Object>();
 
-		setting.put(Setting.MINIGAMES_TITLE, this.title);
-		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayers);
-		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayers);
-		setting.put(Setting.MINIGAMES_WAITING_TIME, this.waitingTime);
-		setting.put(Setting.MINIGAMES_PLAY_TIME, this.playTime);
-		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
-		setting.put(Setting.MINIGAMES_ICON, this.icon.name());
-		setting.put(Setting.MINIGAMES_VIEW, this.view);
-		setting.put(Setting.MINIGAMES_SCOREBOARD, this.scoreboard);
-		setting.put(Setting.MINIGAMES_LOCATION, this.location);
-		setting.put(Setting.MINIGAMES_TUTORIAL, this.tutorial);
-		setting.put(Setting.MINIGAMES_CUSTOM_DATA, this.customData);
+		setting.put(Setting.GAMES_TITLE, this.title);
+		setting.put(Setting.GAMES_MIN_PLAYER_COUNT, this.minPlayers);
+		setting.put(Setting.GAMES_MAX_PLAYER_COUNT, this.maxPlayers);
+		setting.put(Setting.GAMES_WAITING_TIME, this.waitingTime);
+		setting.put(Setting.GAMES_PLAY_TIME, this.playTime);
+		setting.put(Setting.GAMES_ACTIVE, this.active);
+		setting.put(Setting.GAMES_ICON, this.icon.name());
+		setting.put(Setting.GAMES_VIEW, this.view);
+		setting.put(Setting.GAMES_SCOREBOARD, this.scoreboard);
+		setting.put(Setting.GAMES_LOCATION, this.location);
+		setting.put(Setting.GAMES_TUTORIAL, this.tutorial);
+		setting.put(Setting.GAMES_CUSTOM_DATA, this.customData);
 
 		return setting;
 	}
@@ -365,44 +365,44 @@ public class MiniGameSetting {
 	@SuppressWarnings("unchecked")
 	public void setFileSetting(Map<String, Object> setting) {
 		// title
-		this.setTitle((String) setting.get(Setting.MINIGAMES_TITLE));
+		this.setTitle((String) setting.get(Setting.GAMES_TITLE));
 
 		// location
-		this.setLocation((Location) setting.get(Setting.MINIGAMES_LOCATION));
+		this.setLocation((Location) setting.get(Setting.GAMES_LOCATION));
 
 		// waitingTime
-		this.setWaitingTime((int) setting.get(Setting.MINIGAMES_WAITING_TIME));
+		this.setWaitingTime((int) setting.get(Setting.GAMES_WAITING_TIME));
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// minPlayers
-			this.setMinPlayers((int) setting.get(Setting.MINIGAMES_MIN_PLAYER_COUNT));
+			this.setMinPlayers((int) setting.get(Setting.GAMES_MIN_PLAYER_COUNT));
 
 			// maxPlayers
-			this.setMaxPlayers((int) setting.get(Setting.MINIGAMES_MAX_PLAYER_COUNT));
+			this.setMaxPlayers((int) setting.get(Setting.GAMES_MAX_PLAYER_COUNT));
 
 			// playTime
-			this.setPlayTime((int) setting.get(Setting.MINIGAMES_PLAY_TIME));
+			this.setPlayTime((int) setting.get(Setting.GAMES_PLAY_TIME));
 
 			// customData
-			this.setCustomData((Map<String, Object>) setting.get(Setting.MINIGAMES_CUSTOM_DATA));
+			this.setCustomData((Map<String, Object>) setting.get(Setting.GAMES_CUSTOM_DATA));
 
 		}
 
 		// active
-		this.setActive((boolean) setting.get(Setting.MINIGAMES_ACTIVE));
+		this.setActive((boolean) setting.get(Setting.GAMES_ACTIVE));
 
 		// tutorial
-		this.setTutorial((List<String>) setting.get(Setting.MINIGAMES_TUTORIAL));
+		this.setTutorial((List<String>) setting.get(Setting.GAMES_TUTORIAL));
 
 		// display item
-		this.setIcon(Material.valueOf(((String) setting.get(Setting.MINIGAMES_ICON)).toUpperCase()));
+		this.setIcon(Material.valueOf(((String) setting.get(Setting.GAMES_ICON)).toUpperCase()));
 
 		// view
-		this.setView((boolean) setting.get(Setting.MINIGAMES_VIEW));
+		this.setView((boolean) setting.get(Setting.GAMES_VIEW));
 
 		// scoreboard
-		this.setScoreboard((boolean) setting.get(Setting.MINIGAMES_SCOREBOARD));
+		this.setScoreboard((boolean) setting.get(Setting.GAMES_SCOREBOARD));
 	}
 }
 //

@@ -31,7 +31,7 @@
 4. Make a place for minigame yourself
 5. Setup minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file with `x, y, z` and run command `/minigame reload` (OP required)  
 **`---or---`**  
-Setup minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (OP required)  
+Setup minigame location using command `/minigame games <class-name> location <<player> | <x> <y> <z>>` (OP required)  
 
 
 

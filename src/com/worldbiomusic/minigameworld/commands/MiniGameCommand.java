@@ -26,7 +26,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 	private MiniGamePartyCommand miniGamePartyCommand;
 	private MiniGameSettingsConfigCommand miniGameSettingsConfigCommand;
-	private MiniGameMinigamesConfigCommand miniGameMinigamesConfigCommand;
+	private MiniGameGamesConfigCommand miniGameGamesConfigCommand;
 	private MiniGameHelpCommand minigameHelpCommand;
 	private DataManager dataManager;
 
@@ -36,7 +36,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
 		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager, this.dataManager);
-		this.miniGameMinigamesConfigCommand = new MiniGameMinigamesConfigCommand(this.minigameManager,
+		this.miniGameGamesConfigCommand = new MiniGameGamesConfigCommand(this.minigameManager,
 				this.dataManager);
 		this.minigameHelpCommand = new MiniGameHelpCommand();
 
@@ -82,8 +82,8 @@ public class MiniGameCommand implements CommandExecutor {
 				return this.miniGamePartyCommand.party(sender, args);
 			case "settings":
 				return this.miniGameSettingsConfigCommand.settings(sender, args);
-			case "minigames":
-				return this.miniGameMinigamesConfigCommand.minigames(sender, args);
+			case "games":
+				return this.miniGameGamesConfigCommand.games(sender, args);
 			}
 		} catch (Exception e) {
 			if (Setting.DEBUG_MODE) {

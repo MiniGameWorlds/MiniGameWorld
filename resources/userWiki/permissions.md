@@ -17,7 +17,7 @@ commands:
       /<command> reload [<backup-folder>]: reload data
       /<command> backup [<backup-folder>]: backup data
       /<command> settings: setup settings.yml config
-      /<command> minigames: setup minigame configs
+      /<command> games: setup minigame configs
       
 permissions:
   minigameworld.*:
@@ -107,7 +107,7 @@ permissions:
     children:
       minigameworld.config.reload: true
       minigameworld.config.settings: true
-      minigameworld.config.minigames: true
+      minigameworld.config.games: true
       minigameworld.config.backup: true
   
   minigameworld.config.reload:
@@ -116,7 +116,7 @@ permissions:
   minigameworld.config.settings:
     description: Can set settings config
     default: op
-  minigameworld.config.minigames:
+  minigameworld.config.games:
     description: Can set minigame config
     default: op
   minigameworld.config.backup:

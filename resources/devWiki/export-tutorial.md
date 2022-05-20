@@ -27,7 +27,7 @@ public class YourMiniGamePluginMain extends JavaPlugin {
 - If your minigame registered,  
 you **have to** setup minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run `/minigame reload` command (need OP)  
 **`or`**  
-Update minigame location using command `/minigame minigames <class-name> location <<player> | <x> <y> <z>>` (need OP)  
+Update minigame location using command `/minigame games <class-name> location <<player> | <x> <y> <z>>` (need OP)  
 - Now, players can enjoy your minigame! (try `/mw menu` command for GUI menu)
 
 # 4. Share your minigame

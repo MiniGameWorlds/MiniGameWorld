@@ -53,29 +53,29 @@
 
 ## minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
-- `/minigame minigames <classname> title [<value>]`: set title (can contain spaces)
-- `/minigame minigames <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location
+- `/minigame games <classname> title [<value>]`: set title (can contain spaces)
+- `/minigame games <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location
 ```yaml
-/minigame minigames GameA location wbm: set  wbm's location as a game location 
-/minigame minigames GameA location 100 50 100: set x(100), y(50), z(100) location as a GameA location
+/minigame games GameA location wbm: set  wbm's location as a game location 
+/minigame games GameA location 100 50 100: set x(100), y(50), z(100) location as a GameA location
 ```
-- `/minigame minigames <classname> min-players [<value>]`: set min player count (number)
-- `/minigame minigames <classname> max-players [<value>]`: set max player count (number)
-- `/minigame minigames <classname> waiting-time [<value>]`: set waiting time (sec)
-- `/minigame minigames <classname> play-time [<value>]`: set play time (sec)
-- `/minigame minigames <classname> active [<value>]`: set activation of minigame (true / false)
-- `/minigame minigames <classname> tutorial <line> [<value>]`: set tutorials at line (set `[<value>] with `-` to remove line) (can contain spaces) (line: 1 ~ )
+- `/minigame games <classname> min-players [<value>]`: set min player count (number)
+- `/minigame games <classname> max-players [<value>]`: set max player count (number)
+- `/minigame games <classname> waiting-time [<value>]`: set waiting time (sec)
+- `/minigame games <classname> play-time [<value>]`: set play time (sec)
+- `/minigame games <classname> active [<value>]`: set activation of minigame (true / false)
+- `/minigame games <classname> tutorial <line> [<value>]`: set tutorials at line (set `[<value>] with `-` to remove line) (can contain spaces) (line: 1 ~ )
 ```yaml
-/minigame minigames GameA tutorial 1 This is tutorial: Add "This is tutorial" to tutorial first line  
-/minigame minigames GameA tutorial 3 -: Remove tutorial third line
+/minigame games GameA tutorial 1 This is tutorial: Add "This is tutorial" to tutorial first line  
+/minigame games GameA tutorial 3 -: Remove tutorial third line
 ```
-- `/minigame minigames <classname> icon [<value>]`: set icon ([Item]])
+- `/minigame games <classname> icon [<value>]`: set icon ([Item]])
 ```yaml
-/minigame minigames GameA icon OAK_PLANKS
+/minigame games GameA icon OAK_PLANKS
 ```
-- `/minigame minigames <classname> view [<value>]`: set view allow (true / false)
-- `/minigame minigames <classname> scoreboard [<value>]`: use scoreboard system in minigame (true / false)
-- `/minigame minigames <classname> custom-data`: only print is available
+- `/minigame games <classname> view [<value>]`: set view allow (true / false)
+- `/minigame games <classname> scoreboard [<value>]`: use scoreboard system in minigame (true / false)
+- `/minigame games <classname> custom-data`: only print is available
 
 
 

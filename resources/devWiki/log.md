@@ -893,11 +893,11 @@ if(!this.isMinPlayersLive()) {
 - Add `Vault` as a soft dependency
 
 # 2022-05-21
-- Change min/max-player-count to min/max-players (refactoring)
-- Change MiniGame.processEvent() to MiniGame.onEvent() (Refactoring)
+- Change `min/max-player-count` to `min/max-players` (refactoring)
+- Change `MiniGame.processEvent()` to `MiniGame.onEvent()` (Refactoring)
 - Remove `MiniGame.runTaskAfterFinish()` (Refactoring)
 - Change `MiniGame.runTask(AfterStart/BeforeFinish)()` to `MiniGame.(onStart/onFinish)()` (Refactoring)
-
+- Change `/mw minigames` command to `/mw games` (Refactoring)
 
 
 

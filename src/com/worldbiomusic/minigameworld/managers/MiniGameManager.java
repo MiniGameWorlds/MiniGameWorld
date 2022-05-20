@@ -26,7 +26,7 @@ import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
 import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameObserver;
 import com.worldbiomusic.minigameworld.api.observer.MiniGameTimingNotifier;
-import com.worldbiomusic.minigameworld.commands.MiniGameMinigamesConfigCommand;
+import com.worldbiomusic.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
@@ -105,7 +105,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * Set basic setting.yml data<br>
 	 * [IMPORTANT]<br>
 	 * - If add option, add access method to
-	 * {@link MiniGameMinigamesConfigCommand}<br>
+	 * {@link MiniGameGamesConfigCommand}<br>
 	 */
 	private void initSettingData() {
 		Map<String, Object> pureData = new LinkedHashMap<>();

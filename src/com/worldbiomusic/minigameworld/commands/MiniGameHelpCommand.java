@@ -38,8 +38,8 @@ public class MiniGameHelpCommand {
 				case "settings":
 					this.printSettingsUsage(sender);
 					break;
-				case "minigames":
-					this.printMinigamesUsage(sender);
+				case "games":
+					this.printGamesUsage(sender);
 					break;
 				default:
 					this.printUsage(sender);
@@ -68,7 +68,7 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame reload [<backup-folder>]");
 		sender.sendMessage("/minigame backup [<backup-folder>]");
 		sender.sendMessage("/minigame settings");
-		sender.sendMessage("/minigame minigames");
+		sender.sendMessage("/minigame games");
 	}
 
 	public void printJoinUsage(CommandSender sender) {
@@ -128,23 +128,23 @@ public class MiniGameHelpCommand {
 				"/minigame settings ingame-leave [<value>]: If true, players can leave while playing (true / false)");
 	}
 
-	public void printMinigamesUsage(CommandSender sender) {
-		sender.sendMessage("/minigame minigames <classname> title [<value>]: set title (can contain spaces)");
+	public void printGamesUsage(CommandSender sender) {
+		sender.sendMessage("/minigame games <classname> title [<value>]: set title (can contain spaces)");
 		sender.sendMessage(
-				"/minigame minigames <classname> location <<player> | <x> <y> <z>>: set minigame spawn location");
-		sender.sendMessage("/minigame minigames <classname> min-players [<value>]: set min player count (number)");
-		sender.sendMessage("/minigame minigames <classname> max-players [<value>]: set max player count (number)");
-		sender.sendMessage("/minigame minigames <classname> waiting-time [<value>]: set waiting time (sec)");
-		sender.sendMessage("/minigame minigames <classname> play-time [<value>]: set play time (sec)");
+				"/minigame games <classname> location <<player> | <x> <y> <z>>: set minigame spawn location");
+		sender.sendMessage("/minigame games <classname> min-players [<value>]: set min player count (number)");
+		sender.sendMessage("/minigame games <classname> max-players [<value>]: set max player count (number)");
+		sender.sendMessage("/minigame games <classname> waiting-time [<value>]: set waiting time (sec)");
+		sender.sendMessage("/minigame games <classname> play-time [<value>]: set play time (sec)");
 		sender.sendMessage(
-				"/minigame minigames <classname> active [<value>]: set activation of minigame (true / false)");
+				"/minigame games <classname> active [<value>]: set activation of minigame (true / false)");
 		sender.sendMessage(
-				"/minigame minigames <classname> tutorial <line> [<value>]: set tutorials at line (set [<value>] with -` to remove line) (can contain spaces) (line: 1 ~ )");
-		sender.sendMessage("/minigame minigames <classname> icon [<value>]: set icon (Item])");
-		sender.sendMessage("/minigame minigames <classname> view [<value>]: set view allow (true / false)");
+				"/minigame games <classname> tutorial <line> [<value>]: set tutorials at line (set [<value>] with -` to remove line) (can contain spaces) (line: 1 ~ )");
+		sender.sendMessage("/minigame games <classname> icon [<value>]: set icon (Item])");
+		sender.sendMessage("/minigame games <classname> view [<value>]: set view allow (true / false)");
 		sender.sendMessage(
-				"/minigame minigames <classname> scoreboard [<value>]: use scoreboard system in minigame (true / false)");
-		sender.sendMessage("/minigame minigames <classname> custom-data: only print is available");
+				"/minigame games <classname> scoreboard [<value>]: use scoreboard system in minigame (true / false)");
+		sender.sendMessage("/minigame games <classname> custom-data: only print is available");
 
 	}
 
