@@ -54,7 +54,7 @@
 ### `onEvent()`
 - Executed when event is passed to minigame
 
-### `registerTutorial()`
+### `tutorial()`
 - Return minigame tutorial string list
 - Strings in list will print when a player join a minigame
 

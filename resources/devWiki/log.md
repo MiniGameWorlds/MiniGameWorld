@@ -901,8 +901,8 @@ if(!this.isMinPlayersLive()) {
 - MiniGame.java refactoring (with `Utils.callEvent()`)
 - Change `MiniGameRankResult` to `MiniGameRank`
 - Add `topPlayer()` to MiniGame
-- Change `MiniGame.send(Message/ToAllPlayers` to `MiniGame.send(Messages/Titles)`
-
+- Change `MiniGame.send(Message/ToAllPlayers)()` to `MiniGame.send(Messages/Titles)()`
+- Change `MiniGame.registerTutorial()` to `MiniGame.tutorial()`
 
 
 

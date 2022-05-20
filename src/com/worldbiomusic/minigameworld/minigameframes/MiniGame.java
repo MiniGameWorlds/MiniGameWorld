@@ -113,7 +113,7 @@ public abstract class MiniGame {
 	/**
 	 * Register minigame tutorial
 	 */
-	protected abstract List<String> registerTutorial();
+	protected abstract List<String> tutorial();
 
 	/**
 	 * Executed immediately after game started
@@ -204,7 +204,7 @@ public abstract class MiniGame {
 		this.dataManager = new MiniGameDataManager(this);
 
 		// register tutorial
-		this.getSetting().setTutorial(this.registerTutorial());
+		this.getSetting().setTutorial(this.tutorial());
 
 		// register custom data
 		this.registerCustomData();

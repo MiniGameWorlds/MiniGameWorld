@@ -48,7 +48,7 @@ public class OnePunch extends SoloBattleMiniGame {
 
 	// Register your minigame tutorial (Editable in config)
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		return null;
 	}
 	
@@ -93,7 +93,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	...
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Damager player: +1");
 		tutorial.add("Victim player: death");
@@ -219,7 +219,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected List<String> registerTutorial() {
+	protected List<String> tutorial() {
 		List<String> tutorial = new ArrayList<>();
 		tutorial.add("Damager player: +1");
 		tutorial.add("Victim player: death");
