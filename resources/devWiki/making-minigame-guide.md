@@ -49,7 +49,7 @@
 
 
 ## 3. Essential methods
-### `initGameSetting()`
+### `initGame()`
 - Executed every time when minigame starts
 ### `onEvent()`
 - Executed when event is passed to minigame

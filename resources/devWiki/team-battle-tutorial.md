@@ -1,1 +1,1 @@
-- Teams are always created new intances when game starts, so you have to setup teams and related things in `initGameSettings()` not in constructor
+- Teams are always created new intances when game starts, so you have to setup teams and related things in `initGame()` not in constructor

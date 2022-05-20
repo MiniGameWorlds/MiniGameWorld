@@ -893,16 +893,38 @@ if(!this.isMinPlayersLive()) {
 - Add `Vault` as a soft dependency
 
 # 2022-05-21
-- Change `min/max-player-count` to `min/max-players` (refactoring)
-- Change `MiniGame.processEvent()` to `MiniGame.onEvent()` (Refactoring)
-- Remove `MiniGame.runTaskAfterFinish()` (Refactoring)
-- Change `MiniGame.runTask(AfterStart/BeforeFinish)()` to `MiniGame.(onStart/onFinish)()` (Refactoring)
-- Change `/mw minigames` command to `/mw games` (Refactoring)
-- MiniGame.java refactoring (with `Utils.callEvent()`)
-- Change `MiniGameRankResult` to `MiniGameRank`
-- Add `topPlayer()` to MiniGame
-- Change `MiniGame.send(Message/ToAllPlayers)()` to `MiniGame.send(Messages/Titles)()`
-- Change `MiniGame.registerTutorial()` to `MiniGame.tutorial()`
-- Change `MiniGame.handleGameException()` to `MiniGame.onException()`
-- Change `MiniGame.registerCustomData()` to `initCustomData()`
+- Remove `MiniGame.runTaskAfterFinish()`
+- Add `MiniGame.topPlayer()`
+- Add `Utils.callEvent()`
+## Refactoring
+- `min/max-player-count` -> `min/max-players`
+- `MiniGame.processEvent()`->`MiniGame.onEvent()`
+- `MiniGame.runTask(AfterStart/BeforeFinish)()`->`MiniGame.(onStart/onFinish)()`
+- `/mw minigames` command->`/mw games`
+- `MiniGameRankResult`->`MiniGameRank`
+- `MiniGame.send(Message/ToAllPlayers)()`->`MiniGame.send(Messages/Titles)()`
+- `MiniGame.registerTutorial()`->`MiniGame.tutorial()`
+- `MiniGame.handleGameException()`->`MiniGame.onException()`
+- `MiniGame.registerCustomData()`->`initCustomData()`
+- `MiniGame.initGameSettings()`->`MiniGame.initGame()`
+- MiniGame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

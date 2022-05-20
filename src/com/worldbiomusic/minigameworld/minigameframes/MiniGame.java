@@ -103,7 +103,7 @@ public abstract class MiniGame {
 	/**
 	 * Executed every time when game starts
 	 */
-	protected abstract void initGameSettings();
+	protected abstract void initGame();
 
 	/**
 	 * Executed when event passed to minigame
@@ -232,7 +232,7 @@ public abstract class MiniGame {
 		this.initBaseSettings();
 
 		// init implemented minigame setting values
-		this.initGameSettings();
+		this.initGame();
 	}
 
 	/**

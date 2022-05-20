@@ -53,7 +53,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGam
  * 
  * <b>[Rule]</b><br>
  * - Create Teams with createTeams()<br>
- * - When use initGameSettings(), must call super.initGameSettings()<br>
+ * - When use initGame(), must call super.initGame()<br>
  * - If need different team types, override {@link #createTeams()} without
  * "super.createTeams()" and create custom teams (e.g. Boss player team vs
  * challengers team) (recommended creating teams with teamSize())<br>
@@ -621,7 +621,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 		this.allTeams.clear();
 		createTeams();
 	}

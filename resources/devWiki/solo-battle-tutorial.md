@@ -38,7 +38,7 @@ public class OnePunch extends SoloBattleMiniGame {
 
 	// Initialize settings(e.g. prepare floor in TNT-Run) in every minigame starts
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	// Process event (events will be passed to here without listener)
@@ -192,7 +192,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void initGameSettings() {
+	protected void initGame() {
 	}
 
 	@Override
