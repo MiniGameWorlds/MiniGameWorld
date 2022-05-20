@@ -899,9 +899,9 @@ if(!this.isMinPlayersLive()) {
 - Change `MiniGame.runTask(AfterStart/BeforeFinish)()` to `MiniGame.(onStart/onFinish)()` (Refactoring)
 - Change `/mw minigames` command to `/mw games` (Refactoring)
 - MiniGame.java refactoring (with `Utils.callEvent()`)
-- Change `MiniGameRankResult` -> `MiniGameRank`
+- Change `MiniGameRankResult` to `MiniGameRank`
 - Add `topPlayer()` to MiniGame
-
+- Change `MiniGame.send(Message/ToAllPlayers` to `MiniGame.send(Messages/Titles)`
 
 
 

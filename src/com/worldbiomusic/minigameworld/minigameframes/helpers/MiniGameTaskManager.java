@@ -73,7 +73,7 @@ public class MiniGameTaskManager {
 				} else if (waitTime == 1) {
 					time = ChatColor.RED + time;
 				}
-				minigame.sendTitleToAllPlayers(time, "", 4, 12, 4);
+				minigame.sendTitles(time, "", 4, 12, 4);
 
 				// play sound
 				if (waitTime <= 3) {
@@ -103,7 +103,7 @@ public class MiniGameTaskManager {
 					} else if (leftTime == 1) {
 						time = ChatColor.RED + time;
 					}
-					minigame.sendTitleToAllPlayers(time, "", 4, 12, 4);
+					minigame.sendTitles(time, "", 4, 12, 4);
 
 					// play sound
 					minigame.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));

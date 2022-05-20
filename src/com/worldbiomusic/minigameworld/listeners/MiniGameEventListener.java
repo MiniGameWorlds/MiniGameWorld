@@ -94,7 +94,7 @@ public class MiniGameEventListener implements Listener {
 		if (teamBattleMiniGame.getTeamRegisterMode() == TeamRegisterMode.PARTY) {
 			int partyCount = PartyManager.getPartyCountBetweenPlayers(teamBattleMiniGame.getPlayers());
 			if (partyCount <= 1) {
-				teamBattleMiniGame.sendMessageToAllPlayers("Game can't start with only one party(team)");
+				teamBattleMiniGame.sendMessages("Game can't start with only one party(team)");
 				e.setCancelled(true);
 			}
 		}

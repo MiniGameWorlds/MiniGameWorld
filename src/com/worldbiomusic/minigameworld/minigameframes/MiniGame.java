@@ -412,7 +412,7 @@ public abstract class MiniGame {
 
 			// notify other players to join the game
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
-				this.sendMessageToAllPlayers(msg);
+				this.sendMessages(msg);
 			} else {
 				Utils.sendMsgToEveryone(msg);
 			}
@@ -457,7 +457,7 @@ public abstract class MiniGame {
 		msg += "\n" + needPlayers;
 
 		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
-			sendMessageToAllPlayers(msg);
+			sendMessages(msg);
 		} else {
 			Utils.sendMsgToEveryone(msg);
 		}
@@ -517,7 +517,7 @@ public abstract class MiniGame {
 		if (this.getPlayerCount() < this.getMinPlayers()) {
 			int needPlayerCount = this.getMinPlayers() - this.getPlayerCount();
 			// send message
-			sendMessageToAllPlayers(ChatColor.RED + "Game can not start");
+			sendMessages(ChatColor.RED + "Game can not start");
 			this.messenger.sendMsg(getPlayers(), "need-players",
 					new String[][] { { "need-player-count", "" + ChatColor.RED + needPlayerCount + ChatColor.RESET } });
 
@@ -649,7 +649,7 @@ public abstract class MiniGame {
 			}
 			rankString += rank + "" + ChatColor.RESET + "] ";
 
-			sendMessageToAllPlayers(rankString + p.getName() + ": " + ChatColor.GOLD + score, false);
+			sendMessages(rankString + p.getName() + ": " + ChatColor.GOLD + score, false);
 			rank += 1;
 		}
 
@@ -869,15 +869,15 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Sendm message to all players with minigame title prefix
+	 * Send message to all players with minigame title prefix
 	 * 
 	 * @param msg message
 	 */
-	public void sendMessageToAllPlayers(String msg) {
-		sendMessageToAllPlayers(msg, true);
+	public void sendMessages(String msg) {
+		sendMessages(msg, true);
 	}
 
-	public void sendMessageToAllPlayers(String msg, boolean prefix) {
+	public void sendMessages(String msg, boolean prefix) {
 		getPlayers().forEach(p -> sendMessage(p, msg, prefix));
 	}
 
@@ -915,7 +915,7 @@ public abstract class MiniGame {
 	 * @param stay     Stay time (tick)
 	 * @param fadeOut  Fade out time (tick)
 	 */
-	public void sendTitleToAllPlayers(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+	public void sendTitles(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
 	}
 
@@ -926,8 +926,8 @@ public abstract class MiniGame {
 	 * @param title    Title string
 	 * @param subTitle Subtitle string
 	 */
-	public void sendTitleToAllPlayers(String title, String subTitle) {
-		sendTitleToAllPlayers(title, subTitle, 4, 12, 4);
+	public void sendTitles(String title, String subTitle) {
+		sendTitles(title, subTitle, 4, 12, 4);
 	}
 
 	/**
