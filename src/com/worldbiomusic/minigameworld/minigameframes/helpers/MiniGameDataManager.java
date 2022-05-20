@@ -78,10 +78,10 @@ public class MiniGameDataManager implements YamlMember {
 		// when settingFixed is true: restore fixed values to file
 		if (this.minigame.getSetting().isSettingFixed()) {
 			// minPlayers
-			this.data.put(Setting.GAMES_MIN_PLAYER_COUNT, this.minigame.getMinPlayers());
+			this.data.put(Setting.GAMES_MIN_PLAYERS, this.minigame.getMinPlayers());
 
 			// maxPlayers
-			this.data.put(Setting.GAMES_MAX_PLAYER_COUNT, this.minigame.getMaxPlayers());
+			this.data.put(Setting.GAMES_MAX_PLAYERS, this.minigame.getMaxPlayers());
 
 			// playTime
 			this.data.put(Setting.GAMES_PLAY_TIME, this.minigame.getPlayTime());

@@ -347,8 +347,8 @@ public class MiniGameSetting {
 		Map<String, Object> setting = new LinkedHashMap<String, Object>();
 
 		setting.put(Setting.GAMES_TITLE, this.title);
-		setting.put(Setting.GAMES_MIN_PLAYER_COUNT, this.minPlayers);
-		setting.put(Setting.GAMES_MAX_PLAYER_COUNT, this.maxPlayers);
+		setting.put(Setting.GAMES_MIN_PLAYERS, this.minPlayers);
+		setting.put(Setting.GAMES_MAX_PLAYERS, this.maxPlayers);
 		setting.put(Setting.GAMES_WAITING_TIME, this.waitingTime);
 		setting.put(Setting.GAMES_PLAY_TIME, this.playTime);
 		setting.put(Setting.GAMES_ACTIVE, this.active);
@@ -376,10 +376,10 @@ public class MiniGameSetting {
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// minPlayers
-			this.setMinPlayers((int) setting.get(Setting.GAMES_MIN_PLAYER_COUNT));
+			this.setMinPlayers((int) setting.get(Setting.GAMES_MIN_PLAYERS));
 
 			// maxPlayers
-			this.setMaxPlayers((int) setting.get(Setting.GAMES_MAX_PLAYER_COUNT));
+			this.setMaxPlayers((int) setting.get(Setting.GAMES_MAX_PLAYERS));
 
 			// playTime
 			this.setPlayTime((int) setting.get(Setting.GAMES_PLAY_TIME));

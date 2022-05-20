@@ -56,11 +56,11 @@ public class MiniGameGamesConfigCommand {
 			case Setting.GAMES_LOCATION:
 				location(sender, args, data);
 				break;
-			case Setting.GAMES_MIN_PLAYER_COUNT:
-				min_player_count(sender, args, data);
+			case Setting.GAMES_MIN_PLAYERS:
+				min_players(sender, args, data);
 				break;
-			case Setting.GAMES_MAX_PLAYER_COUNT:
-				max_player_count(sender, args, data);
+			case Setting.GAMES_MAX_PLAYERS:
+				max_players(sender, args, data);
 				break;
 			case Setting.GAMES_WAITING_TIME:
 				waiting_time(sender, args, data);
@@ -171,16 +171,16 @@ public class MiniGameGamesConfigCommand {
 		return true;
 	}
 
-	private boolean min_player_count(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean min_players(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		// /mg games <classname> min-players <count>
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_MIN_PLAYER_COUNT, count);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_MIN_PLAYERS, count);
 		return true;
 	}
 
-	private boolean max_player_count(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean max_players(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_MAX_PLAYER_COUNT, count);
+		this.setKeyValue(sender, args[1], data, Setting.GAMES_MAX_PLAYERS, count);
 		return true;
 	}
 

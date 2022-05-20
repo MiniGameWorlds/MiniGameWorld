@@ -65,8 +65,8 @@ public class Setting {
 	// games
 	public static final String GAMES_TITLE = "title";
 	public static final String GAMES_LOCATION = "location";
-	public static final String GAMES_MIN_PLAYER_COUNT = "min-players";
-	public static final String GAMES_MAX_PLAYER_COUNT = "max-players";
+	public static final String GAMES_MIN_PLAYERS = "min-players";
+	public static final String GAMES_MAX_PLAYERS = "max-players";
 	public static final String GAMES_WAITING_TIME = "waiting-time";
 	public static final String GAMES_PLAY_TIME = "play-time";
 	public static final String GAMES_ACTIVE = "active";
