@@ -12,7 +12,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 
 /**
@@ -158,7 +158,7 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Rank list
 	 */
-	public List<? extends MiniGameRankResult> getRank() {
+	public List<? extends MiniGameRank> getRank() {
 		return this.minigame.getRank();
 
 	}

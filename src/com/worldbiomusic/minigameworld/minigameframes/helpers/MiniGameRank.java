@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 /**
  * Interface for rank data
  */
-public interface MiniGameRankResult extends Comparable<MiniGameRankResult> {
+public interface MiniGameRank extends Comparable<MiniGameRank> {
 
 	/**
 	 * Gets rank players
@@ -24,7 +24,7 @@ public interface MiniGameRankResult extends Comparable<MiniGameRankResult> {
 	public int getScore();
 
 	@Override
-	default int compareTo(MiniGameRankResult other) {
+	default int compareTo(MiniGameRank other) {
 		return other.getScore() - getScore();
 	}
 

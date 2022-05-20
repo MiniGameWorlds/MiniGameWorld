@@ -25,7 +25,7 @@ import com.worldbiomusic.minigameworld.managers.party.Party;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.TeamBattleMiniGame.Team;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 
@@ -832,7 +832,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void printScore() {
+	protected void printScores() {
 		// print team score in descending order
 		getPlayers().forEach(p -> {
 			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
@@ -872,7 +872,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Ordered team list by score
 	 */
 	@Override
-	public List<? extends MiniGameRankResult> getRank() {
+	public List<? extends MiniGameRank> getRank() {
 		List<Team> notEmptyTeams = new ArrayList<>();
 		for (Team t : this.allTeams) {
 			if (!t.isEmpty()) {
@@ -908,7 +908,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Manage: teamName, maxMemberCount, members, color
 	 *
 	 */
-	public class Team implements MiniGameRankResult {
+	public class Team implements MiniGameRank {
 		private String teamName;
 		private int maxMemberCount;
 		private List<Player> members;

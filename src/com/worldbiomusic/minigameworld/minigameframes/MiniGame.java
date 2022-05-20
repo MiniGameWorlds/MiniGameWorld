@@ -31,7 +31,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameTaskManager;
@@ -341,14 +341,14 @@ public abstract class MiniGame {
 		}
 
 		// init setting when first player join
-		if (this.isEmpty()) {
-			this.initSettings();
+		if (isEmpty()) {
+			initSettings();
 			this.taskManager.runWaitingTask();
 			this.scoreboardManager.startScoreboardUpdateTask();
 		}
 
 		// setup join settings
-		this.setupPlayerJoinSettings(p);
+		onPlayerJoin(p);
 
 		// join success
 		return true;
@@ -359,7 +359,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param p Joined player
 	 */
-	private void setupPlayerJoinSettings(Player p) {
+	private void onPlayerJoin(Player p) {
 		// add player to list
 		addPlayer(p);
 
@@ -374,7 +374,7 @@ public abstract class MiniGame {
 		SoundTool.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// notify info
-		this.notifyInfo(p);
+		notifyInfo(p);
 	}
 
 	/**
@@ -391,7 +391,7 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		this.setupPlayerLeavingSettings(p, messenger.getMsg(p, "before-start"));
+		this.onPlayerLeave(p, messenger.getMsg(p, "before-start"));
 
 		return true;
 	}
@@ -402,7 +402,7 @@ public abstract class MiniGame {
 	 * @param p      Leaving player
 	 * @param reason Leaving reason
 	 */
-	private void setupPlayerLeavingSettings(Player p, String reason) {
+	private void onPlayerLeave(Player p, String reason) {
 		if (reason != null) {
 			String msg = this.messenger.getMsg(p, "leave-message",
 					new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
@@ -440,7 +440,7 @@ public abstract class MiniGame {
 	 */
 	private void notifyInfo(Player p) {
 		// print tutorial
-		this.printGameTutorial(p);
+		this.printInfo(p);
 
 		// notify all players to join the game
 		int needPlayersCount = getMinPlayers() - getPlayerCount();
@@ -467,7 +467,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param p Player to print tutorial
 	 */
-	private void printGameTutorial(Player p) {
+	private void printInfo(Player p) {
 		p.sendMessage("");
 		p.sendMessage(ChatColor.GREEN + "=================================");
 		p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
@@ -583,7 +583,7 @@ public abstract class MiniGame {
 		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 
 		// setup player
-		this.getPlayers().forEach(p -> this.setupPlayerLeavingSettings(p, null));
+		this.getPlayers().forEach(p -> this.onPlayerLeave(p, null));
 
 		// notify finish event to observers (after setup player leaving settings (e.g.
 		// give reward(item) after state restored))
@@ -620,7 +620,7 @@ public abstract class MiniGame {
 		});
 
 		// print score
-		printScore();
+		printScores();
 
 		this.getPlayers().forEach(p -> p.sendMessage(ChatColor.RED + "================================="));
 	}
@@ -629,7 +629,7 @@ public abstract class MiniGame {
 	 * Print scores to all players<br>
 	 * Can print format differently depending on game type
 	 */
-	protected void printScore() {
+	protected void printScores() {
 		getPlayers().forEach(p -> p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
 
 		@SuppressWarnings("unchecked")
@@ -659,7 +659,7 @@ public abstract class MiniGame {
 	 * 
 	 * @return Ordered data
 	 */
-	public List<? extends MiniGameRankResult> getRank() {
+	public List<? extends MiniGameRank> getRank() {
 		Collections.sort(this.players);
 		return this.players;
 	}
@@ -695,7 +695,7 @@ public abstract class MiniGame {
 			}
 
 			// setup leaving settings
-			this.setupPlayerLeavingSettings(p, exception.getReason());
+			this.onPlayerLeave(p, exception.getReason());
 
 			// pass exception
 			if (isStarted()) {
@@ -728,7 +728,7 @@ public abstract class MiniGame {
 			// if not started, leave waiting players
 			else {
 				// setup leaving settings
-				getPlayers().forEach(p -> setupPlayerLeavingSettings(p, exception.getReason()));
+				getPlayers().forEach(p -> onPlayerLeave(p, exception.getReason()));
 			}
 		}
 	}

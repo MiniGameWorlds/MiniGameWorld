@@ -16,7 +16,7 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOpti
  * [IMPORTANT] Player state saved when a instance is created (in constructor)
  *
  */
-public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
+public class MiniGamePlayerData implements MiniGameRank, Cloneable {
 
 	private MiniGame minigame;
 	private Player player;
@@ -63,6 +63,7 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 	/**
 	 * Gets player's score
 	 */
+	@Override
 	public int getScore() {
 		return score;
 	}
@@ -124,9 +125,7 @@ public class MiniGamePlayerData implements MiniGameRankResult, Cloneable {
 
 	@Override
 	public List<Player> getPlayers() {
-		List<Player> players = new ArrayList<>();
-		players.add(this.player);
-		return players;
+		return List.of(this.player);
 	}
 
 	@Override

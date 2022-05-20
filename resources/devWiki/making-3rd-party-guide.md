@@ -223,10 +223,10 @@ class RewardManager implements Listener {
 	public void onMiniGameFinish(MiniGameFinishEvent e) {
 		MiniGameAccessor minigame = e.getMiniGame();
 		// give rewards when finish
-		List<? extends MiniGameRankResult> rankList = minigame.getRank();
+		List<? extends MiniGameRank> rankList = minigame.getRank();
 
 		for (int i = 0; i < 3; i++) {
-			MiniGameRankResult rankResult = rankList.get(i);
+			MiniGameRank rankResult = rankList.get(i);
 			for (Player p : rankResult.getPlayers()) {
 				// give rewards
 				p.getInventory().addItem(new ItemStack(Material.OAK_WOOD, 10 - i));
@@ -249,7 +249,7 @@ class RankManager implements Listener {
 	@EventHandler
 	public void onMiniGameFinish(MiniGameFinishEvent e) {
 		MiniGameAccessor minigame = e.getMiniGame();
-		List<? extends MiniGameRankResult> rankResult = minigame.getRank();
+		List<? extends MiniGameRank> rankResult = minigame.getRank();
 
 		// check rank is empty
 		if (rankResult.isEmpty()) {
@@ -260,7 +260,7 @@ class RankManager implements Listener {
 		String minigameClassName = minigame.getClassName();
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
 
-		for (MiniGameRankResult result : rankResult) {
+		for (MiniGameRank result : rankResult) {
 			int score = result.getScore();
 			for (Player p : result.getPlayers()) {
 				// get player's name, score

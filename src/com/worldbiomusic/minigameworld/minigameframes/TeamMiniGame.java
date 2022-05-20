@@ -10,7 +10,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
 import com.wbm.plugin.util.PlayerTool;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRankResult;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 
 /**
@@ -64,7 +64,7 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void printScore() {
+	protected void printScores() {
 		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
 		getPlayers().forEach(p -> {
 			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
@@ -74,8 +74,8 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
-	public List<? extends MiniGameRankResult> getRank() {
-		List<MiniGameRankResult> list = new ArrayList<>();
+	public List<? extends MiniGameRank> getRank() {
+		List<MiniGameRank> list = new ArrayList<>();
 		if (getPlayerCount() > 0) {
 			list.add(new OneTeam(getPlayers(), getTeamScore()));
 		}
@@ -87,7 +87,7 @@ public abstract class TeamMiniGame extends MiniGame {
 		return "Team";
 	}
 
-	class OneTeam implements MiniGameRankResult {
+	class OneTeam implements MiniGameRank {
 		List<Player> players;
 		int score;
 
