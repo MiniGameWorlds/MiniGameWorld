@@ -107,7 +107,7 @@ public abstract class MiniGame {
 	/**
 	 * Executed when event passed to minigame
 	 */
-	protected abstract void processEvent(Event event);
+	protected abstract void onEvent(Event event);
 
 	/**
 	 * Register minigame tutorial
@@ -282,7 +282,7 @@ public abstract class MiniGame {
 			}
 
 			// pass event to process
-			processEvent(event);
+			onEvent(event);
 		} else {
 			processEventOnWaiting(event);
 		}
@@ -313,7 +313,7 @@ public abstract class MiniGame {
 	 */
 	private void processCommonEvent(Event event) {
 		// pass event to custom option
-		this.customOption.processEvent(event);
+		this.customOption.onEvent(event);
 
 		// chat event
 		if (event instanceof AsyncPlayerChatEvent) {

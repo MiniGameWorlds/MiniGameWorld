@@ -258,7 +258,7 @@ public class MiniGameWorld {
 
 	/**
 	 * Registers custom minigame event external detector<br>
-	 * Event detected by detector will be able to be passed processEvent() of
+	 * Event detected by detector will be able to be passed onEvent() of
 	 * minigame
 	 * 
 	 * @param detector Registering Detector

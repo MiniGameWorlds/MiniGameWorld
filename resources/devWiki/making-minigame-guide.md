@@ -51,9 +51,9 @@
 ## 3. Essential methods
 ### `initGameSetting()`
 - Executed every time when minigame starts
-### `processEvent()`
+### `onEvent()`
 - Executed when event is passed to minigame
-- 
+
 ### `registerTutorial()`
 - Return minigame tutorial string list
 - Strings in list will print when a player join a minigame
@@ -164,7 +164,7 @@ protected void registerTasks() {
 ### How to use
 ```java
 @Override
-protected void processEvent(Event event) {
+protected void onEvent(Event event) {
   this.getTaskManager().runTask("task1");
   // or
   this.getTaskManager().runTaskLater("task1", 20 * 5);

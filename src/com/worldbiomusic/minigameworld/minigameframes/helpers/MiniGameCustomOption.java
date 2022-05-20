@@ -169,7 +169,7 @@ public class MiniGameCustomOption {
 	 * 
 	 * @param event Event to set cancel or not with options
 	 */
-	public void processEvent(Event event) {
+	public void onEvent(Event event) {
 		if (event instanceof AsyncPlayerChatEvent) {
 			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHAT));
 		} else if (event instanceof BlockBreakEvent) {

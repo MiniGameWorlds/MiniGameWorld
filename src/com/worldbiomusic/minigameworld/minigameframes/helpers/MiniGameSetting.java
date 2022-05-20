@@ -160,7 +160,7 @@ public class MiniGameSetting {
 	/**
 	 * - File control: X<br>
 	 * - Init value: empty<br>
-	 * - Description: events that will be passed to "processEvent()" of the minigame
+	 * - Description: events that will be passed to "onEvent()" of the minigame
 	 */
 	private Set<Class<? extends Event>> customDetectableEvents;
 

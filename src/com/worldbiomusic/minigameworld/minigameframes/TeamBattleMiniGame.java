@@ -770,7 +770,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			processTeamPVP((EntityDamageByEntityEvent) event);
 		} else if (event instanceof AsyncPlayerChatEvent) {

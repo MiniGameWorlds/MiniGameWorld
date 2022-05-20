@@ -455,7 +455,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// pass event to view manager
 		MiniGame minigame = getViewingMiniGame(p);
-		minigame.getViewManager().processEvent(event);
+		minigame.getViewManager().onEvent(event);
 		return true;
 	}
 

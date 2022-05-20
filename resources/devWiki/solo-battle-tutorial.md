@@ -43,7 +43,7 @@ public class OnePunch extends SoloBattleMiniGame {
 
 	// Process event (events will be passed to here without listener)
 	@Override
-	protected void processEvent(Event paramEvent) {
+	protected void onEvent(Event paramEvent) {
 	}
 
 	// Register your minigame tutorial (Editable in config)
@@ -105,11 +105,11 @@ public class OnePunch extends SoloBattleMiniGame {
 ```
 
 # 4. Process events
-- All events related with a player playing your minigame will be passed to `processEvent()` (Details: [Detectable Event List](detectable-event-list.md))
+- All events related with a player playing your minigame will be passed to `onEvent()` (Details: [Detectable Event List](detectable-event-list.md))
 - We will use `EntityDamageByEntityEvent` to detect if a player has been hit by another player
 ```java
 @Override
-protected void processEvent(Event event) {
+protected void onEvent(Event event) {
     // check event type
     if (event instanceof EntityDamageByEntityEvent) {
         // cast Event to EntityDamageByEntityEvent
@@ -121,7 +121,7 @@ protected void processEvent(Event event) {
 - MiniGameWorld API checks if the entity in EntityDamageByEntityEvent is the playing minigame player, so we have to check if  `damager` is the player and playing this minigame
 ```java
 @Override
-protected void processEvent(Event event) {
+protected void onEvent(Event event) {
     if (event instanceof EntityDamageByEntityEvent) {
         EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
         
@@ -149,7 +149,7 @@ protected void processEvent(Event event) {
 - Set victim's live to false
 ```java
 @Override
-protected void processEvent(Event event) {
+protected void onEvent(Event event) {
     if (event instanceof EntityDamageByEntityEvent) {
         EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
         
@@ -196,7 +196,7 @@ public class OnePunch extends SoloBattleMiniGame {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 			

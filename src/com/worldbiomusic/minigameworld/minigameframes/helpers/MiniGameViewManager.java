@@ -55,7 +55,7 @@ public class MiniGameViewManager {
 	 * 
 	 * @param event event
 	 */
-	public void processEvent(Event event) {
+	public void onEvent(Event event) {
 		if (event instanceof AsyncPlayerChatEvent) {
 			processChat((AsyncPlayerChatEvent) event);
 		} else if (event instanceof PlayerRespawnEvent) {

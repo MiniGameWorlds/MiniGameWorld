@@ -72,7 +72,7 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof WeatherChangeEvent) {
 			WeatherChangeEvent e = (WeatherChangeEvent) event;
 			e.getWorld().setWeatherDuration(1);
@@ -83,7 +83,7 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 
 
 ## Second method
-- If a event passed to the `minigame.passEvent()` from the event listener, you can process the event you want in the `processEvent()` of your minigame class
+- If a event passed to the `minigame.passEvent()` from the event listener, you can process the event you want in the `onEvent()` of your minigame class
 - **If event could contain any player, check the player is playing your minigame before pass event with `passEvent()`**
 ```java
 public class CommonListener implements Listener {
@@ -101,13 +101,13 @@ public class CommonListener implements Listener {
 
 	@EventHandler
 	public void onWeatherChanged(WeatherChangeEvent e) {
-		// pass undetectable event: event will be passed to the minigame.processEvent()
+		// pass undetectable event: event will be passed to the minigame.onEvent()
 		this.minigame.passEvent(e);
 	}
 	
 	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e) {
-		// pass undetectable event: event will be passed to the minigame.processEvent()
+		// pass undetectable event: event will be passed to the minigame.onEvent()
 		this.minigame.passEvent(e);
 	}
 	
@@ -132,7 +132,7 @@ public class CommonListener implements Listener {
 - Implements `Listener` and register to bukkit plugin manager and make event handler method in your minigame class, then pass event to `passEvent()`
 - **If event could contain any player, check the player is playing your minigame before pass event with `passEvent()`**
 - **NEVER process event directly in event handler method**
-- **NEVER pass event directly to processEvent() in event handler method, but pass to only passEvent()**
+- **NEVER pass event directly to onEvent() in event handler method, but pass to only passEvent()**
 ```java
 public class YourMiniGame extends SoloMiniGame implements Listener {
 
@@ -144,7 +144,7 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	}
 
 	@Override
-	protected void processEvent(Event event) {
+	protected void onEvent(Event event) {
 		if (event instanceof WeatherChangeEvent) {
 			WeatherChangeEvent e = (WeatherChangeEvent) event;
 			e.getWorld().setWeatherDuration(1);
@@ -160,7 +160,7 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	@EventHandler
 	public void onWeatherChanged(WeatherChangeEvent e) {
         // NEVER process event here
-		// pass the event to passEvent() (NEVER pass to the processEvent() directly)
+		// pass the event to passEvent() (NEVER pass to the onEvent() directly)
 		passEvent(e);
 	}
 	
@@ -178,8 +178,8 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	}
 }
 ```
-<!-- If process in event handler method or pass to the processEvent(), some problems are occurrs
-1. Can not preprocess in processEvent() of frame class (super class)
+<!-- If process in event handler method or pass to the onEvent(), some problems are occurrs
+1. Can not preprocess in onEvent() of frame class (super class)
 2. Can not check minigame has started
  -->
 
@@ -222,10 +222,10 @@ public void onPlayerMove(PlayerMoveEvent event) {
 }
 ```
 
-5. Process event in `processEvent()` method with better performance
+5. Process event in `onEvent()` method with better performance
 ```java
 @Override
-protected void processEvent(Event event) {
+protected void onEvent(Event event) {
 	if (event instanceof PlayerMoveEvent) {
 		// process event with better performance
 	}
