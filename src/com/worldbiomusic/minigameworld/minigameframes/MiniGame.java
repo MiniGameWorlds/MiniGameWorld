@@ -135,9 +135,9 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Register custom data with this method
+	 * Init custom data with this method
 	 */
-	protected void registerCustomData() {
+	protected void initCustomData() {
 	}
 
 	/**
@@ -207,7 +207,7 @@ public abstract class MiniGame {
 		this.getSetting().setTutorial(this.tutorial());
 
 		// register custom data
-		this.registerCustomData();
+		this.initCustomData();
 
 		// custom option
 		this.customOption = new MiniGameCustomOption(this);

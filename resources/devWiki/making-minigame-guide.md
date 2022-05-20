@@ -242,10 +242,10 @@ public void onMiniGameExceptionEvent(MiniGameExceptionEvent e) {
 - Minigame User can play and edit custom data
 - Must use `register` and `load` together
 ### How to register
-- Override `registerCustomData()` and add data
+- Override `initCustomData()` and add data
 ```java
 @Override
-protected void registerCustomData() {
+protected void initCustomData() {
   Map<String, Object> customData = this.getCustomData();
   customData.put("health", 30);
   List<ItemStack> items = new ArrayList<>();
