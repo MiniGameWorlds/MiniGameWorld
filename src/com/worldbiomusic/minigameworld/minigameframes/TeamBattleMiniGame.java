@@ -651,7 +651,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	protected void runTaskAfterStart() {
+	protected void onStart() {
 		// register players to teams
 		switch (this.getTeamRegisterMode()) {
 		case NONE:

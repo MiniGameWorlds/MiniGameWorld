@@ -121,19 +121,13 @@ public abstract class MiniGame {
 	/**
 	 * Executed immediately after game started
 	 */
-	protected void runTaskAfterStart() {
+	protected void onStart() {
 	}
 
 	/**
 	 * Executed before game finishes (players remains)
 	 */
-	protected void runTaskBeforeFinish() {
-	}
-
-	/**
-	 * Executed after game finished (player doesn't remains)
-	 */
-	protected void runTaskAfterFinish() {
+	protected void onFinish() {
 	}
 
 	/**
@@ -569,7 +563,7 @@ public abstract class MiniGame {
 		});
 
 		// runTaskAfterStart
-		runTaskAfterStart();
+		onStart();
 
 		// cancel task
 		this.minigameTaskManager.cancelWaitingTask();
@@ -585,7 +579,6 @@ public abstract class MiniGame {
 	 * Notify FINISH to observers<br>
 	 * 
 	 * Execute "runTaskBeforeFinish()" at first<br>
-	 * Execute "runTaskAfterFinish" at last
 	 * 
 	 */
 	public void finishGame() {
@@ -597,7 +590,7 @@ public abstract class MiniGame {
 		initTasks();
 
 		// runTaskBeforeFinish
-		runTaskBeforeFinish();
+		onFinish();
 
 		// play sound
 		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.FINISH_SOUND));
@@ -618,9 +611,6 @@ public abstract class MiniGame {
 		// call finish event
 		Bukkit.getPluginManager().callEvent(new MiniGameFinishEvent(this));
 		this.players.clear();
-
-		// runTaskAfterFinish (before initSetting())
-		runTaskAfterFinish();
 	}
 
 	/**
