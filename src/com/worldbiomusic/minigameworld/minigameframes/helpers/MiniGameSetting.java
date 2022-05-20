@@ -44,14 +44,14 @@ public class MiniGameSetting {
 	 * - Init value: setup value <br>
 	 * - Description: min participating players
 	 */
-	private int minPlayerCount;
+	private int minPlayers;
 
 	/**
 	 * - File control: O <br>
 	 * - Init value: setup value <br>
 	 * - Description: max participating players
 	 */
-	private int maxPlayerCount;
+	private int maxPlayers;
 
 	/**
 	 * - File control: O <br>
@@ -179,12 +179,12 @@ public class MiniGameSetting {
 	 */
 	private boolean scoreboard;
 
-	public MiniGameSetting(String title, Location location, int minPlayerCount, int maxPlayerCount, int playTime,
+	public MiniGameSetting(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
 		this.title = title;
 		this.location = location;
-		this.minPlayerCount = minPlayerCount;
-		this.maxPlayerCount = maxPlayerCount;
+		this.minPlayers = minPlayers;
+		this.maxPlayers = maxPlayers;
 		this.waitingTime = waitingTime;
 		this.playTime = playTime;
 
@@ -215,12 +215,12 @@ public class MiniGameSetting {
 		this.location = location;
 	}
 
-	public void setMinPlayerCount(int minPlayerCount) {
-		this.minPlayerCount = minPlayerCount;
+	public void setMinPlayers(int minPlayers) {
+		this.minPlayers = minPlayers;
 	}
 
-	public void setMaxPlayerCount(int maxPlayerCount) {
-		this.maxPlayerCount = maxPlayerCount;
+	public void setMaxPlayers(int maxPlayers) {
+		this.maxPlayers = maxPlayers;
 	}
 
 	public void setWaitingTime(int waitingTime) {
@@ -280,12 +280,12 @@ public class MiniGameSetting {
 		return location;
 	}
 
-	public int getMinPlayerCount() {
-		return minPlayerCount;
+	public int getMinPlayers() {
+		return minPlayers;
 	}
 
-	public int getMaxPlayerCount() {
-		return maxPlayerCount;
+	public int getMaxPlayers() {
+		return maxPlayers;
 	}
 
 	public int getWaitingTime() {
@@ -347,8 +347,8 @@ public class MiniGameSetting {
 		Map<String, Object> setting = new LinkedHashMap<String, Object>();
 
 		setting.put(Setting.MINIGAMES_TITLE, this.title);
-		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayerCount);
-		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayerCount);
+		setting.put(Setting.MINIGAMES_MIN_PLAYER_COUNT, this.minPlayers);
+		setting.put(Setting.MINIGAMES_MAX_PLAYER_COUNT, this.maxPlayers);
 		setting.put(Setting.MINIGAMES_WAITING_TIME, this.waitingTime);
 		setting.put(Setting.MINIGAMES_PLAY_TIME, this.playTime);
 		setting.put(Setting.MINIGAMES_ACTIVE, this.active);
@@ -375,11 +375,11 @@ public class MiniGameSetting {
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
-			// minPlayerCount
-			this.setMinPlayerCount((int) setting.get(Setting.MINIGAMES_MIN_PLAYER_COUNT));
+			// minPlayers
+			this.setMinPlayers((int) setting.get(Setting.MINIGAMES_MIN_PLAYER_COUNT));
 
-			// maxPlayerCount
-			this.setMaxPlayerCount((int) setting.get(Setting.MINIGAMES_MAX_PLAYER_COUNT));
+			// maxPlayers
+			this.setMaxPlayers((int) setting.get(Setting.MINIGAMES_MAX_PLAYER_COUNT));
 
 			// playTime
 			this.setPlayTime((int) setting.get(Setting.MINIGAMES_PLAY_TIME));

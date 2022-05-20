@@ -41,8 +41,8 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGam
  * - group-chat: If true, send message only to team members (default: true)<br>
  * - team-pvp: If true, team members can not attack each other(pvp option have
  * to be set to true), (default: true)<br>
- * - team-size: Related with {@link MiniGameSetting#getMaxPlayerCount()}, if
- * "max-player-count" is 12 and "team-size" is 4 then, 3 teams are created
+ * - team-size: Related with {@link MiniGameSetting#getMaxPlayers()}, if
+ * "max-players" is 12 and "team-size" is 4 then, 3 teams are created
  * automatically<br>
  * <br>
  * 
@@ -82,7 +82,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 5, 3, 0)<br>
 	 * - FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)<br>
 	 * - RANDOM: random (e.g. ?, ?, ?, ?)<br>
-	 * - PARTY: party members have the same team (only "max-player-count /
+	 * - PARTY: party members have the same team (only "max-players /
 	 * team-size" party can join the game<br>
 	 */
 	public enum TeamRegisterMode {
@@ -101,10 +101,10 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	/**
-	 * maxPlayerCount is sum of all teams member size
+	 * maxPlayers is sum of all teams member size
 	 */
-	public TeamBattleMiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
-		super(title, minPlayerCount, maxPlayerCount, playTime, waitingTime);
+	public TeamBattleMiniGame(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
+		super(title, minPlayers, maxPlayers, playTime, waitingTime);
 
 		this.allTeams = new ArrayList<Team>();
 
@@ -434,7 +434,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 
 	/**
 	 * Set team size<br>
-	 * Example) max-player-count: 10, team-size: 2 -> There are 5 teams<br>
+	 * Example) max-players: 10, team-size: 2 -> There are 5 teams<br>
 	 * 
 	 * @param teamSize Team size
 	 */
@@ -452,7 +452,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	public int getTeamCountLimit() {
-		return getMaxPlayerCount() / getTeamSize();
+		return getMaxPlayers() / getTeamSize();
 	}
 
 	/**
@@ -636,7 +636,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				ChatColor.DARK_BLUE, ChatColor.DARK_GRAY, ChatColor.DARK_GREEN, ChatColor.DARK_PURPLE,
 				ChatColor.DARK_RED, }));
 
-		int teamCount = getMaxPlayerCount() / getTeamSize();
+		int teamCount = getMaxPlayers() / getTeamSize();
 		for (int i = 0; i < teamCount; i++) {
 			Team team;
 			if (i < colors.size()) {
@@ -915,7 +915,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		private ChatColor color;
 
 		/**
-		 * Member size is needed for calculating maxPlayerCount of minigame
+		 * Member size is needed for calculating maxPlayers of minigame
 		 * 
 		 * @param teamName   Team name
 		 * @param memberSize Team max member size
@@ -925,7 +925,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		/**
-		 * Member size is needed for calculating maxPlayerCount of minigame
+		 * Member size is needed for calculating maxPlayers of minigame
 		 * 
 		 * @param teamName   Team name
 		 * @param memberSize Team max member size

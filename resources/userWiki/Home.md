@@ -8,6 +8,7 @@
 # Features
 - **Works independently of other plugins** (Available for all types of servers: Economy, Survival, RPG, etc)
 - Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
+- Each minigames is isolated from each other (doesn't affect each other)
 - Same minigame can be played in many different ways with custom config settings, maps made by users
 - A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode and etc` are saved at the game start and restored when the game finished
 - GUI menu

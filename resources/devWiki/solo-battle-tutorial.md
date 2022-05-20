@@ -32,8 +32,8 @@ public class OnePunch extends SoloBattleMiniGame {
 public class OnePunch extends SoloBattleMiniGame {
 
 	// constructor: setup minigame info
-	public OnePunch(String title, int minPlayerCount, int maxPlayerCount, int playingTime, int waitingTime) {
-		super(title, minPlayerCount, maxPlayerCount, playingTime, waitingTime);
+	public OnePunch(String title, int minPlayers, int maxPlayers, int playingTime, int waitingTime) {
+		super(title, minPlayers, maxPlayers, playingTime, waitingTime);
 	}
 
 	// Initialize settings(e.g. prepare floor in TNT-Run) in every minigame starts

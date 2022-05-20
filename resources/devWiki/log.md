@@ -1,6 +1,6 @@
 # TODO
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
-- Add `craft` option to Custom option (default: false)
+- Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
 - Add Use Case image to README.md
 - Add feature to RockScissorPaper (`stage` custom option for several play in a game)
 - Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
@@ -20,18 +20,8 @@
 - Make Github issue template
 - Try to use other library, not `classgraph` (e.g. [reflections]())
 - Support Script Addon
-- Language support system
-- Instantiate system
+- Minigame Instantiate system
 - Detach `AdvancedMultiLanguage` api and make simple system (also have reload system for performance)
-
-```yaml
-# API Changes
-- Change `min/max-player-count` to `min/max-player`
-- Change `MiniGame.processEvent()` to `MiniGame.onEvent()`
-- Change `MiniGame.runTask_#_#` to `MiniGame.run_#_#`
-- Remove? `MiniGame.initGameSettings()` (not sure)
-- Change `/mw minigames ...` to `/mw games`
-```
 
 ---
 
@@ -234,13 +224,12 @@
 
 ## 0.7.4
 ### Build Changes
-- Save/restore `held item slot` to MiniGamePlayerState
 - Add `FunctionItem` system (item to open menu)
 - Add `Menu opener` function item
 - Add `/mw help` command
 - Add minigame join, leave sound
 - Change default start, finish sound
-- Restore more player states (`bed spawn`, `ender chest`, `item cooldown`, `portal cooldown`)
+- Restore more player states (`bed spawn`, `ender chest`, `item cooldown`, `portal cooldown`, `held item slot`)
 
 ---
 
@@ -900,6 +889,8 @@ if(!this.isMinPlayersLive()) {
 - Manage `bedSpawnLocation`, `enderChest`, `cooldownItems` and `portalCooldown` in MiniGamePlayerState
 - Release `0.7.5`
 
+# 2022-05-18
+- Add `Vault` as a soft dependency
 
 
 

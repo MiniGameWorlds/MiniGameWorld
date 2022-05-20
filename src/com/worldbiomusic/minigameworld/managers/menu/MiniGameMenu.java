@@ -186,8 +186,8 @@ public class MiniGameMenu {
 		// lore
 		List<String> lore = new ArrayList<>();
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "player") + ": " + minigame.getPlayerCount() + "/"
-				+ minigame.getMaxPlayerCount() + " (" + messenger.getMsg(player, "minimum") + ": "
-				+ minigame.getMinPlayerCount() + ")");
+				+ minigame.getMaxPlayers() + " (" + messenger.getMsg(player, "minimum") + ": "
+				+ minigame.getMinPlayers() + ")");
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "play-time") + ": " + minigame.getPlayTime() + " "
 				+ messenger.getMsg(player, "sec"));
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.getFrameType());

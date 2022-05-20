@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 public abstract class SoloMiniGame extends MiniGame {
 
 	/**
-	 * Sets minPlayerCount and maxPlayerCount to 1 automatically
+	 * Sets minPlayers and maxPlayers to 1 automatically
 	 */
 	public SoloMiniGame(String title, int playTime, int waitingTime) {
 		super(title, 1, 1, playTime, waitingTime);

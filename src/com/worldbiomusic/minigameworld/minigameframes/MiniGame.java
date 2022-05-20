@@ -167,14 +167,14 @@ public abstract class MiniGame {
 	 * 
 	 * @param title          Used title in the server (different with class name)
 	 * @param location       Playing location
-	 * @param minPlayerCount Minimum player count to play
-	 * @param maxPlayerCount Maximum player count to play
+	 * @param minPlayers Minimum player count to play
+	 * @param maxPlayers Maximum player count to play
 	 * @param playTime       Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
-	protected MiniGame(String title, Location location, int minPlayerCount, int maxPlayerCount, int playTime,
+	protected MiniGame(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
-		this.setting = new MiniGameSetting(title, location, minPlayerCount, maxPlayerCount, playTime, waitingTime);
+		this.setting = new MiniGameSetting(title, location, minPlayers, maxPlayers, playTime, waitingTime);
 
 		// [must setup once]
 		this.setupMiniGame();
@@ -188,13 +188,13 @@ public abstract class MiniGame {
 	 * Location set to default (Bukkit.getWorld("world"))
 	 * 
 	 * @param title          Used title in the server (different with class name)
-	 * @param minPlayerCount Minimum player count to play
-	 * @param maxPlayerCount Maximum player count to play
+	 * @param minPlayers Minimum player count to play
+	 * @param maxPlayers Maximum player count to play
 	 * @param playTime       Minigame playing time
 	 * @param waitingTime    Waiting time before join minigame
 	 */
-	protected MiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayerCount, maxPlayerCount, playTime,
+	protected MiniGame(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
+		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayers, maxPlayers, playTime,
 				waitingTime);
 	}
 
@@ -426,7 +426,7 @@ public abstract class MiniGame {
 		if (reason != null) {
 			String msg = this.messenger.getMsg(p, "leave-message",
 					new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
-							{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayerCount() },
+							{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayers() },
 							{ "reason", reason } });
 
 			// notify other players to join the game
@@ -463,7 +463,7 @@ public abstract class MiniGame {
 		this.printGameTutorial(p);
 
 		// notify all players to join the game
-		int needPlayersCount = getMinPlayerCount() - getPlayerCount();
+		int needPlayersCount = getMinPlayers() - getPlayerCount();
 		String needPlayers = "";
 		if (needPlayersCount > 0) {
 			needPlayers = this.messenger.getMsg(p, "need-players", new String[][] {
@@ -472,7 +472,7 @@ public abstract class MiniGame {
 
 		String msg = this.messenger.getMsg(p, "join-message",
 				new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
-						{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayerCount() } });
+						{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayers() } });
 		msg += "\n" + needPlayers;
 
 		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
@@ -533,8 +533,8 @@ public abstract class MiniGame {
 	 */
 	public void startGame() {
 		// check min player count
-		if (this.getPlayerCount() < this.getMinPlayerCount()) {
-			int needPlayerCount = this.getMinPlayerCount() - this.getPlayerCount();
+		if (this.getPlayerCount() < this.getMinPlayers()) {
+			int needPlayerCount = this.getMinPlayers() - this.getPlayerCount();
 			// send message
 			sendMessageToAllPlayers(ChatColor.RED + "Game can not start");
 			this.messenger.sendMsg(getPlayers(), "need-players",
@@ -805,7 +805,7 @@ public abstract class MiniGame {
 	 * @return True if players = max player count
 	 */
 	public boolean isFull() {
-		return this.getPlayerCount() == this.getMaxPlayerCount();
+		return this.getPlayerCount() == this.getMaxPlayers();
 	}
 
 	/**
@@ -862,7 +862,7 @@ public abstract class MiniGame {
 	 * Remove player from minigame list<br>
 	 * [IMPORTANT] Restore player state
 	 * 
-	 * @param p Leaved player
+	 * @param p leaving player
 	 */
 	private MiniGamePlayerData removePlayer(Player p) {
 		MiniGamePlayerData pData = this.getPlayerData(p);
@@ -1187,8 +1187,8 @@ public abstract class MiniGame {
 	 * 
 	 * @return Minigame max player count
 	 */
-	public int getMinPlayerCount() {
-		return this.getSetting().getMinPlayerCount();
+	public int getMinPlayers() {
+		return this.getSetting().getMinPlayers();
 	}
 
 	/**
@@ -1196,8 +1196,8 @@ public abstract class MiniGame {
 	 * 
 	 * @return Minigame min player count
 	 */
-	public int getMaxPlayerCount() {
-		return this.getSetting().getMaxPlayerCount();
+	public int getMaxPlayers() {
+		return this.getSetting().getMaxPlayers();
 	}
 
 	/**

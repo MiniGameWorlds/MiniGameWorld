@@ -23,15 +23,15 @@ public class MiniGameWaitingScoreboard extends MiniGameScoreboardSidebarUpdater 
 		String playerCountStr = ChatColor.BOLD + "Players: " + ChatColor.RESET;
 
 		int currentPlayerCount = minigame.getPlayerCount();
-		if (currentPlayerCount < minigame.getMinPlayerCount()) {
+		if (currentPlayerCount < minigame.getMinPlayers()) {
 			playerCountStr = playerCountStr + ChatColor.RED + currentPlayerCount + ChatColor.RESET;
 		} else {
 			playerCountStr = playerCountStr + ChatColor.GREEN + currentPlayerCount + ChatColor.RESET;
 		}
 
-		playerCountStr += " / " + minigame.getMaxPlayerCount();
+		playerCountStr += " / " + minigame.getMaxPlayers();
 
-		String minPlayerCountStr = " (Min: " + ChatColor.GOLD + minigame.getMinPlayerCount() + ChatColor.RESET + ")";
+		String minPlayerCountStr = " (Min: " + ChatColor.GOLD + minigame.getMinPlayers() + ChatColor.RESET + ")";
 		playerCountStr += minPlayerCountStr;
 
 		Score playerCount = sidebarObjective.getScore(playerCountStr);

@@ -132,8 +132,8 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame minigames <classname> title [<value>]: set title (can contain spaces)");
 		sender.sendMessage(
 				"/minigame minigames <classname> location <<player> | <x> <y> <z>>: set minigame spawn location");
-		sender.sendMessage("/minigame minigames <classname> min-player-count [<value>]: set min player count (number)");
-		sender.sendMessage("/minigame minigames <classname> max-player-count [<value>]: set max player count (number)");
+		sender.sendMessage("/minigame minigames <classname> min-players [<value>]: set min player count (number)");
+		sender.sendMessage("/minigame minigames <classname> max-players [<value>]: set max player count (number)");
 		sender.sendMessage("/minigame minigames <classname> waiting-time [<value>]: set waiting time (sec)");
 		sender.sendMessage("/minigame minigames <classname> play-time [<value>]: set play time (sec)");
 		sender.sendMessage(

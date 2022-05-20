@@ -172,7 +172,7 @@ public class MiniGameMinigamesConfigCommand {
 	}
 
 	private boolean min_player_count(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg minigames <classname> min-player-count <count>
+		// /mg minigames <classname> min-players <count>
 		int count = Integer.parseInt(args[3]);
 		this.setKeyValue(sender, args[1], data, Setting.MINIGAMES_MIN_PLAYER_COUNT, count);
 		return true;

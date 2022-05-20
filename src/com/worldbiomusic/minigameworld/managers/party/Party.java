@@ -279,7 +279,7 @@ public class Party {
 		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getNotInMiniGamePlayers(getMembers());
 		
 		// check party size
-		int leftSeats = game.getMaxPlayerCount() - game.getPlayerCount();
+		int leftSeats = game.getMaxPlayers() - game.getPlayerCount();
 		if (notInMiniGameMembers.size() > leftSeats) {
 			return false;
 		}

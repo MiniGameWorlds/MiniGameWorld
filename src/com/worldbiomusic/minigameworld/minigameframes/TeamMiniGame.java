@@ -26,8 +26,8 @@ import com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard.MiniGam
  */
 public abstract class TeamMiniGame extends MiniGame {
 
-	public TeamMiniGame(String title, int minPlayerCount, int maxPlayerCount, int playTime, int waitingTime) {
-		super(title, minPlayerCount, maxPlayerCount, playTime, waitingTime);
+	public TeamMiniGame(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
+		super(title, minPlayers, maxPlayers, playTime, waitingTime);
 
 		// Even one player can play game
 		getSetting().setGameFinishConditionPlayerCount(1);

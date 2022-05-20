@@ -47,8 +47,8 @@ settings:
 ```yml
 PVP:
   title: PVP
-  min-player-count: 2
-  max-player-count: 5
+  min-players: 2
+  max-players: 5
   waiting-time: 30
   play-time: 120
   active: true
@@ -96,8 +96,8 @@ PVP:
     player-hurt: true
 ```
 - `title`: Minigame title (don't use color code, but `custom-data.color`)
-- `min-player-count`: Minimun player count for start game
-- `max-player-count`: Maximun player count for playing game
+- `min-players`: Minimun player count for start game
+- `max-players`: Maximun player count for playing game
 - `waiting-time`: Waiting time (sec)
 - `play-time`: Minigame play time (sec)
 - `active`: Whether this minigame is active in the server(true/false)
@@ -125,7 +125,7 @@ PVP:
 - `group-chat`: If false, teams can only chat with members
 - `team-pvp`: If true, team members can damage to each others
 - `team-size`: Max team member size of one team
-> e.g. `max-player-count` is 12 and `team-size` is 4 then, there are can be up to 3 teams
+> e.g. `max-players` is 12 and `team-size` is 4 then, there are can be up to 3 teams
 - `team-register-mode`: Team member registration mode (`NONE`, `FAIR`, `FILL`, `FAIR_FILL`, `RANDOM`, `PARTY`)
 > - e.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4
 > - `NONE`: no divide (use registerPlayersToTeam())
@@ -133,4 +133,4 @@ PVP:
 > - `FILL`: fulfill teams as possible from first (= minimum team count) (e.g. 5, 5, 3, 0)
 > - `FAIR_FILL`: FILL fairly (e.g. 5, 4, 4, 0)
 > - `RANDOM`: random (e.g. ?, ?, ?, ?)
-> - `PARTY`: create teams with only party members (only "`max-player-count` / `team-size`" party can join the game)
+> - `PARTY`: create teams with only party members (only "`max-players` / `team-size`" party can join the game)

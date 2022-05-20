@@ -59,8 +59,8 @@
 /minigame minigames GameA location wbm: set  wbm's location as a game location 
 /minigame minigames GameA location 100 50 100: set x(100), y(50), z(100) location as a GameA location
 ```
-- `/minigame minigames <classname> min-player-count [<value>]`: set min player count (number)
-- `/minigame minigames <classname> max-player-count [<value>]`: set max player count (number)
+- `/minigame minigames <classname> min-players [<value>]`: set min player count (number)
+- `/minigame minigames <classname> max-players [<value>]`: set max player count (number)
 - `/minigame minigames <classname> waiting-time [<value>]`: set waiting time (sec)
 - `/minigame minigames <classname> play-time [<value>]`: set play time (sec)
 - `/minigame minigames <classname> active [<value>]`: set activation of minigame (true / false)

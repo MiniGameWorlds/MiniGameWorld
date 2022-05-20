@@ -79,12 +79,12 @@ mw.registerMiniGame(new FitTool());
 
 - `title`: Minigame title (can be different with Class Name)
 - `location`: Minigame join location
-- `minPlayerCount`: Minimun player count for start game
-- `maxPlayerCount`: Maximun player count for playing game
+- `minPlayers`: Minimun player count for start game
+- `maxPlayers`: Maximun player count for playing game
 - `waitingTime`: Waiting time (sec)
 - `playingTime`: Minigame play time (sec)
 - `active`: Whether this minigame is active in the server(true/false)
-- `settingFixed`: fix setting to prevent to edit by user: `minPlayerCount`, `maxPlayerCount`, `playingTime`, `customData` (can't edit in config)
+- `settingFixed`: fix setting to prevent to edit by user: `minPlayers`, `maxPlayers`, `playingTime`, `customData` (can't edit in config)
 - `tutorial`: Tutorials
 - `customData`: Custom data created by developer or default custom options
 - `icon`: Material which show in menu (Material)
