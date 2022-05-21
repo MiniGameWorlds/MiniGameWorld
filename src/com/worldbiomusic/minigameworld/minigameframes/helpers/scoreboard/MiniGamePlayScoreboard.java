@@ -1,7 +1,9 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers.scoreboard;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -22,23 +24,28 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 
 		// player list title
-		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Player List");
+		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Players");
 		playerListTitle.setScore(sidebarScoreLine--);
 
-		// player list
-		for (Player p : minigame.getPlayers()) {
-			String playerStr = "- ";
+		List<MiniGamePlayerData> playerDataList = minigame.getPlayerDataList();
+		// sort by score
+		Collections.sort(playerDataList);
 
-			MiniGamePlayerData pData = minigame.getPlayerData(p);
+		// player list
+		for (MiniGamePlayerData pData : playerDataList) {
+			String playerLine = "- ";
+			String pName = pData.getPlayer().getName();
+
+			// color
 			if (pData.isLive()) {
-				playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
+				playerLine = playerLine + ChatColor.WHITE + pName + ChatColor.RESET;
 			} else {
-				playerStr = playerStr + ChatColor.GRAY + ChatColor.STRIKETHROUGH + p.getName() + ChatColor.RESET;
+				playerLine = playerLine + ChatColor.GRAY + ChatColor.STRIKETHROUGH + pName + ChatColor.RESET;
 			}
 
-			playerStr += ": " + ChatColor.GOLD + ChatColor.BOLD + pData.getScore();
+			playerLine += ": " + ChatColor.GOLD + ChatColor.BOLD + pData.getScore();
 
-			Score playerList = sidebarObjective.getScore(playerStr);
+			Score playerList = sidebarObjective.getScore(playerLine);
 			playerList.setScore(this.sidebarScoreLine--);
 		}
 

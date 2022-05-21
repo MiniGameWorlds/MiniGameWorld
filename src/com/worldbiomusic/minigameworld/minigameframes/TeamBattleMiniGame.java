@@ -82,8 +82,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 5, 3, 0)<br>
 	 * - FAIR_FILL: FILL fairly (e.g. 5, 4, 4, 0)<br>
 	 * - RANDOM: random (e.g. ?, ?, ?, ?)<br>
-	 * - PARTY: party members have the same team (only "max-players /
-	 * team-size" party can join the game<br>
+	 * - PARTY: party members have the same team (only "max-players / team-size"
+	 * party can join the game<br>
 	 */
 	public enum TeamRegisterMode {
 		NONE, FAIR, FILL, FAIR_FILL, RANDOM, PARTY;
@@ -860,7 +860,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				sendMessage(all, rankString + this.messenger.getMsg(all, "team") + "(" + memberString + ")" + ": "
 						+ ChatColor.GOLD + score, false);
 			}
-			
+
 			rank += 1;
 		}
 
@@ -1092,7 +1092,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			if (isEmpty()) {
 				return false;
 			}
-			
+
 			return this.members.stream().filter(m -> isLive(m)).toList().size() > 0;
 		}
 
@@ -1195,8 +1195,14 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 
 		TeamBattleMiniGame minigame = (TeamBattleMiniGame) this.minigame;
 
+		List<Team> teamList = new ArrayList<>();
+		minigame.getTeamList().forEach(teamList::add);
+		
+		// sort by score
+		Collections.sort(teamList);
+
 		// Team list
-		for (Team team : minigame.getTeamList()) {
+		for (Team team : teamList) {
 			// team name
 			String coloredTeamName = team.isTeamLive() ? team.getColoredTeamName()
 					: ChatColor.STRIKETHROUGH + team.getColoredTeamName() + ChatColor.RESET;
@@ -1225,7 +1231,8 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 		}
 
 		// left time
-		// TODO: change "Time left" to "<time-left>" and replace placeholder in scoreboard manager 
+		// TODO: change "Time left" to "<time-left>" and replace placeholder in
+		// scoreboard manager
 		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);

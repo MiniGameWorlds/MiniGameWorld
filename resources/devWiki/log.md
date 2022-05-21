@@ -2,8 +2,6 @@
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
 - Add Use Case image to README.md
-- Add feature to RockScissorPaper (`stage` custom option for several play in a game)
-- Falling block bug (plus score some times until the stepped block falls) (how to fix: process `plusScore()` when the stepped block is disappeared)
 - Create wiki about how to use placeholder in minigame tutorial
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
 - Replace flowchart img with markdown [flowchart syntax](https://support.typora.io/Draw-Diagrams-With-Markdown/) in wiki pages
@@ -896,17 +894,19 @@ if(!this.isMinPlayersLive()) {
 - Remove `MiniGame.runTaskAfterFinish()`
 - Add `MiniGame.topPlayer()`
 - Add `Utils.callEvent()`
+- Sort scoreboard ranks by score
+
 ## Refactoring
 - `min/max-player-count` -> `min/max-players`
-- `MiniGame.processEvent()`->`MiniGame.onEvent()`
-- `MiniGame.runTask(AfterStart/BeforeFinish)()`->`MiniGame.(onStart/onFinish)()`
-- `/mw minigames` command->`/mw games`
-- `MiniGameRankResult`->`MiniGameRank`
-- `MiniGame.send(Message/ToAllPlayers)()`->`MiniGame.send(Messages/Titles)()`
-- `MiniGame.registerTutorial()`->`MiniGame.tutorial()`
-- `MiniGame.handleGameException()`->`MiniGame.onException()`
-- `MiniGame.registerCustomData()`->`initCustomData()`
-- `MiniGame.initGameSettings()`->`MiniGame.initGame()`
+- `MiniGame.processEvent()` -> `MiniGame.onEvent()`
+- `MiniGame.runTask(AfterStart/BeforeFinish)()` -> `MiniGame.(onStart/onFinish)()`
+- `/mw minigames` command -> `/mw games`
+- `MiniGameRankResult` -> `MiniGameRank`
+- `MiniGame.send(Message/Title)ToAllPlayers()` -> `MiniGame.send(Messages/Titles)()`
+- `MiniGame.registerTutorial()` -> `MiniGame.tutorial()`
+- `MiniGame.handleGameException()` -> `MiniGame.onException()`
+- `MiniGame.registerCustomData()` -> `initCustomData()`
+- `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
 - MiniGame
 
 

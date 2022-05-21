@@ -794,9 +794,9 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Get playing player list
+	 * Get copied player list
 	 * 
-	 * @return Player list
+	 * @return Copied Player list
 	 */
 	public List<Player> getPlayers() {
 		List<Player> players = new ArrayList<>();
