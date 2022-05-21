@@ -1,11 +1,12 @@
 # TODO
+- Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
 - Add Use Case image to README.md
 - Create wiki about how to use placeholder in minigame tutorial
 - Add usage of how to use UpateChecker and how to support multi languages with AdvanceMultiLanguage plugin and usage of `LangUtils` and `Messenger` to dev wiki
 - Replace flowchart img with markdown [flowchart syntax](https://support.typora.io/Draw-Diagrams-With-Markdown/) in wiki pages
-- Support placeholders in tutorial (e.g. <title>, <play-time>, ... get placeholder value with MiniGame#getDataManager().getData().get(<placeholder-key>))
+- Support placeholders in tutorial (e.g.`<title>, <play-time>`, ... get placeholder value with MiniGame#getDataManager().getData().get(<placeholder-key>))
 - Language support system wiki
 - Add custom event of Party system
 - Upload feature videos(e.g. join, leave and view systems)
@@ -220,7 +221,7 @@
 - Add reload backup folder option (`/mw reload [<backup-folder>]`)
 
 
-## 0.7.4
+## 0.7.5
 ### Build Changes
 - Add `FunctionItem` system (item to open menu)
 - Add `Menu opener` function item
@@ -228,6 +229,31 @@
 - Add minigame join, leave sound
 - Change default start, finish sound
 - Restore more player states (`bed spawn`, `ender chest`, `item cooldown`, `portal cooldown`, `held item slot`)
+
+## 0.8.0
+### API Changes
+- Make API more simple
+- **All minigames and 3rd party plugins needs update**
+- `min/max-player-count` changed to `min/max-players`
+- `/mw minigames` command changed to `/mw games`
+#### Many API changes for developers
+> - Remove `MiniGame.runTaskAfterFinish()`
+> - Add `MiniGame.topPlayer()`
+> - Add `Utils.callEvent()`
+> - `MiniGame.processEvent()` -> `MiniGame.onEvent()`
+> - `MiniGame.runTask(AfterStart/BeforeFinish)()` -> `MiniGame.(onStart/onFinish)()`
+> - `MiniGameRankResult` -> `MiniGameRank`
+> - `MiniGame.send(Message/Title)ToAllPlayers()` -> `MiniGame.send(Messages/Titles)()`
+> - `MiniGame.registerTutorial()` -> `MiniGame.tutorial()`
+> - `MiniGame.handleGameException()` -> `MiniGame.onException()`
+> - `MiniGame.registerCustomData()` -> `initCustomData()`
+> - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
+
+
+### Build Changes
+- Add `Vault` as a soft dependency
+- Sort scoreboard ranks by score
+
 
 ---
 
@@ -895,7 +921,7 @@ if(!this.isMinPlayersLive()) {
 - Add `MiniGame.topPlayer()`
 - Add `Utils.callEvent()`
 - Sort scoreboard ranks by score
-
+- Release `0.8.0`
 ## Refactoring
 - `min/max-player-count` -> `min/max-players`
 - `MiniGame.processEvent()` -> `MiniGame.onEvent()`

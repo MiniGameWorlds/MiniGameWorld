@@ -372,7 +372,7 @@ public abstract class MiniGame {
 		p.teleport(getLocation());
 
 		// sound
-		SoundTool.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
+		SoundTool.play(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// notify info
 		notifyInfo(p);
@@ -426,7 +426,7 @@ public abstract class MiniGame {
 		sendTitle(p, ChatColor.BOLD + leaveMsg, "");
 
 		// sound
-		SoundTool.playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
+		SoundTool.play(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// check game is emtpy
 		if (this.isEmpty()) {
