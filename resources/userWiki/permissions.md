@@ -25,7 +25,7 @@ permissions:
     children: 
       minigameworld.menu: true
       minigameworld.signblock: true
-      minigameworld.allcommands: true
+      minigameworld.command: true
       minigameworld.play.*: true
       minigameworld.party.*: true
       minigameworld.config.*: true
@@ -38,7 +38,7 @@ permissions:
     description: Can play minigame with sign block (can access play, party)
     default: true
     
-  minigameworld.allcommands:
+  minigameworld.command:
     description: Can use all commands
     default: true
     

@@ -49,7 +49,7 @@ public class MiniGameCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		try {
-			if (!Utils.checkPerm(sender, "allcommands")) {
+			if (!Utils.checkPerm(sender, "command")) {
 				return true;
 			}
 

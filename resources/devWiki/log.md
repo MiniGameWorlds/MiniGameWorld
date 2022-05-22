@@ -935,7 +935,8 @@ if(!this.isMinPlayersLive()) {
 - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
 - MiniGame
 
-
+# 2022-05-22
+- Change permission name `minigameworld.allcommands` to `minigameworld.command` 
 
 
 
