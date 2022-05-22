@@ -28,6 +28,8 @@ commands:
       /<command> games: setup minigame configs
       
 permissions:
+
+  # all
   minigameworld.*:
     description: Grants all permissions
     children: 
@@ -37,19 +39,32 @@ permissions:
       minigameworld.play.*: true
       minigameworld.party.*: true
       minigameworld.config.*: true
+      minigameworld.function-item.*: true
       
+      
+      
+  # menu
   minigameworld.menu:
     description: Can open a GUI menu (can access play, party)
     default: true
     
+    
+    
+  # signblock
   minigameworld.signblock:
     description: Can play minigame with sign block (can access play, party)
     default: true
-    
+  
+  
+  
+  # command
   minigameworld.command:
     description: Can use all commands
     default: true
     
+    
+    
+  # play
   minigameworld.play.*:
     description: Grants all play permissions
     children:
@@ -58,6 +73,7 @@ permissions:
       minigameworld.play.view: true
       minigameworld.play.unview: true
       minigameworld.play.list: true
+      
   minigameworld.play.join:
     description: Can join a minigame
     default: true
@@ -73,7 +89,10 @@ permissions:
   minigameworld.play.list:
     description: Can print all minigame list
     default: true
-    
+  
+  
+  
+  # party  
   minigameworld.party.*:
     description: Grants all party permissions
     children:
@@ -85,6 +104,7 @@ permissions:
       minigameworld.party.kickvote: true
       minigameworld.party.msg: true
       minigameworld.party.list: true
+      
   minigameworld.party.invite:
     description: Can invite a player
     default: true
@@ -110,6 +130,9 @@ permissions:
     description: Can print member list
     default: true
   
+  
+  
+  # config
   minigameworld.config.*:
     description: Grants all config permissions
     children:
@@ -132,6 +155,34 @@ permissions:
     default: op
   
   
+  
+  # function item
+  minigameworld.function-item.*:
+    description: Grants all function item permissions
+    children:
+      minigameworld.function-item.menu-opener: true
+      
+  minigameworld.function-item.menu-opener:
+    description: Can use menu opener 
+    default: true
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   
   
   

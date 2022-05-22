@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.util.FunctionItem;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class FunctionItemListener implements Listener {
 	private MiniGameManager minigameManager;
@@ -21,6 +22,7 @@ public class FunctionItemListener implements Listener {
 		this.minigameManager = minigameManager;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerClickInvWithFunctionItem(InventoryClickEvent e) {
 		ItemStack currentItem = e.getCurrentItem();
@@ -81,6 +83,11 @@ public class FunctionItemListener implements Listener {
 		e.setCancelled(true);
 
 		if (item.equals(FunctionItem.MENU_OPENER.item())) {
+			// check permission
+			if (!Utils.checkPerm(p, "function-item.menu-opener")) {
+				return;
+			}
+			
 			// open menu
 			this.minigameManager.getMiniGameMenuManager().openMenu(p);
 		}
