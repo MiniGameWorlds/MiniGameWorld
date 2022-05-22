@@ -168,8 +168,14 @@ permissions:
     
     
     
-    
-    
+  # etc groups
+  minigameworld.access.*:
+    description: Grants all minigame access permissions
+    children:
+      minigameworld.signblock: true
+      minigameworld.command: true
+      minigameworld.menu: true
+      minigameworld.function-item.*: true
     
     
     

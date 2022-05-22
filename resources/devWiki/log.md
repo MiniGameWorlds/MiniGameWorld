@@ -938,7 +938,7 @@ if(!this.isMinPlayersLive()) {
 # 2022-05-22
 - Change permission name `minigameworld.allcommands` to `minigameworld.command` 
 - Add `minigameworld.function-item` permission (with `menu-opener`)
-
+- Add `minigameworld.access` permission
 
 
 

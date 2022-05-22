@@ -1,25 +1,11 @@
 # Permissions
+- Each action needs own permissoin
 - [plugin.yml](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/src/resources/plugin.yml)
 
 ```yaml
-commands:
-  minigame:
-    aliases: [mw]
-    usage: |
-      
-      USAGE
-      /<command> join <title>: join a minigame
-      /<command> view <title>: view a minigame
-      /<command> leave: leave/unview a minigame
-      /<command> list: show minigame list
-      /<command> menu: open GUI menu
-      /<command> party: party commands
-      /<command> reload [<backup-folder>]: reload data
-      /<command> backup [<backup-folder>]: backup data
-      /<command> settings: setup settings.yml config
-      /<command> games: setup minigame configs
-      
 permissions:
+
+  # all
   minigameworld.*:
     description: Grants all permissions
     children: 
@@ -29,19 +15,32 @@ permissions:
       minigameworld.play.*: true
       minigameworld.party.*: true
       minigameworld.config.*: true
+      minigameworld.function-item.*: true
       
+      
+      
+  # menu
   minigameworld.menu:
     description: Can open a GUI menu (can access play, party)
     default: true
     
+    
+    
+  # signblock
   minigameworld.signblock:
     description: Can play minigame with sign block (can access play, party)
     default: true
-    
+  
+  
+  
+  # command
   minigameworld.command:
     description: Can use all commands
     default: true
     
+    
+    
+  # play
   minigameworld.play.*:
     description: Grants all play permissions
     children:
@@ -50,6 +49,7 @@ permissions:
       minigameworld.play.view: true
       minigameworld.play.unview: true
       minigameworld.play.list: true
+      
   minigameworld.play.join:
     description: Can join a minigame
     default: true
@@ -65,7 +65,10 @@ permissions:
   minigameworld.play.list:
     description: Can print all minigame list
     default: true
-    
+  
+  
+  
+  # party  
   minigameworld.party.*:
     description: Grants all party permissions
     children:
@@ -77,6 +80,7 @@ permissions:
       minigameworld.party.kickvote: true
       minigameworld.party.msg: true
       minigameworld.party.list: true
+      
   minigameworld.party.invite:
     description: Can invite a player
     default: true
@@ -102,6 +106,9 @@ permissions:
     description: Can print member list
     default: true
   
+  
+  
+  # config
   minigameworld.config.*:
     description: Grants all config permissions
     children:
@@ -122,4 +129,27 @@ permissions:
   minigameworld.config.backup:
     description: Can backup data
     default: op
+  
+  
+  
+  # function item
+  minigameworld.function-item.*:
+    description: Grants all function item permissions
+    children:
+      minigameworld.function-item.menu-opener: true
+      
+  minigameworld.function-item.menu-opener:
+    description: Can use menu opener 
+    default: true
+    
+    
+    
+  # etc groups
+  minigameworld.access.*:
+    description: Grants all minigame access permissions
+    children:
+      minigameworld.signblock: true
+      minigameworld.command: true
+      minigameworld.menu: true
+      minigameworld.function-item.*: true
 ```
