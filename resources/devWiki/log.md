@@ -236,7 +236,7 @@
 - **All minigames and 3rd party plugins needs update**
 - `min/max-player-count` changed to `min/max-players`
 - `/mw minigames` command changed to `/mw games`
-#### Many API changes for developers
+#### API changes for developers
 > - Remove `MiniGame.runTaskAfterFinish()`
 > - Add `MiniGame.topPlayer()`
 > - Add `Utils.callEvent()`
@@ -248,6 +248,7 @@
 > - `MiniGame.handleGameException()` -> `MiniGame.onException()`
 > - `MiniGame.registerCustomData()` -> `initCustomData()`
 > - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
+> - `minigameworld.allcommands` -> `minigameworld.command` (permission name)
 
 
 ### Build Changes
@@ -921,7 +922,6 @@ if(!this.isMinPlayersLive()) {
 - Add `MiniGame.topPlayer()`
 - Add `Utils.callEvent()`
 - Sort scoreboard ranks by score
-- Release `0.8.0`
 ## Refactoring
 - `min/max-player-count` -> `min/max-players`
 - `MiniGame.processEvent()` -> `MiniGame.onEvent()`
@@ -939,7 +939,7 @@ if(!this.isMinPlayersLive()) {
 - Change permission name `minigameworld.allcommands` to `minigameworld.command` 
 - Add `minigameworld.function-item` permission (with `menu-opener`)
 - Add `minigameworld.access` permission
-
+- Release `0.8.0`
 
 
 
