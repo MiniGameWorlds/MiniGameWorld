@@ -168,9 +168,6 @@ public abstract class MiniGame {
 
 		// [must setup once]
 		this.setupMiniGame();
-
-		// Init settings on every start
-		this.initBaseSettings();
 	}
 
 	/**
@@ -228,7 +225,7 @@ public abstract class MiniGame {
 	 * <b>[IMPORTANT]</b><br>
 	 * - Initialize settings on every start
 	 */
-	private void initSettings() {
+	public void initSettings() {
 		this.initBaseSettings();
 
 		// init implemented minigame setting values

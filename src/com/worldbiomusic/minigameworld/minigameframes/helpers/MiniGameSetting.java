@@ -386,7 +386,6 @@ public class MiniGameSetting {
 
 			// customData
 			this.setCustomData((Map<String, Object>) setting.get(Setting.GAMES_CUSTOM_DATA));
-
 		}
 
 		// active

@@ -35,7 +35,7 @@ public class MiniGameDataManager implements YamlMember {
 		}
 
 		// process exception
-		this.taskAfterDataSet();
+		this.taskAfterDataSetup();
 	}
 
 	public boolean isMinigameDataExists() {
@@ -91,12 +91,17 @@ public class MiniGameDataManager implements YamlMember {
 		}
 
 		// process exception
-		this.taskAfterDataSet();
+		// [IMPORTANT] this method needs for "/mw reload" (data reload)
+		this.taskAfterDataSetup();
 	}
 
-	private void taskAfterDataSet() {
+	private void taskAfterDataSetup() {
 		// load custom data
 		this.minigame.loadCustomData();
+		
+		// init settings
+		// [IMPORTANT] must be called after other settings(e.g. custom-data) setup
+		this.minigame.initSettings();
 	}
 
 	public String getClassName() {
