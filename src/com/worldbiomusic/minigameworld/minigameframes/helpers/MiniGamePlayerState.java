@@ -51,11 +51,11 @@ public class MiniGamePlayerState {
 	private boolean invulnerable;
 	private boolean silent;
 	private boolean gravity;
+	private boolean allowFlight; // [IMPORTANT] must setup before isFlying
 	private boolean isFlying;
 	private Vector velocity;
 	private float walkSpeed;
 	private float flySpeed;
-	private boolean allowFlight;
 	private Scoreboard scoreboard;
 	private int heldItemSlot;
 	private Location bedSpawnLocation;
@@ -122,6 +122,9 @@ public class MiniGamePlayerState {
 		// gravity
 		this.gravity = this.player.hasGravity();
 
+		// allow flight
+		this.allowFlight = this.player.getAllowFlight();
+
 		// flying
 		this.isFlying = this.player.isFlying();
 
@@ -133,9 +136,6 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.flySpeed = this.player.getFlySpeed();
-
-		// allow flight
-		this.allowFlight = this.player.getAllowFlight();
 
 		// scoreboard
 		this.scoreboard = this.player.getScoreboard();
@@ -217,6 +217,9 @@ public class MiniGamePlayerState {
 		// gravity
 		this.player.setGravity(this.gravity);
 
+		// allow flight
+		this.player.setAllowFlight(this.allowFlight);
+
 		// flying
 		this.player.setFlying(this.isFlying);
 
@@ -228,9 +231,6 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.player.setFlySpeed(this.flySpeed);
-
-		// allow flight
-		this.player.setAllowFlight(this.allowFlight);
 
 		// scoreboard
 		this.player.setScoreboard(this.scoreboard);
@@ -302,6 +302,11 @@ public class MiniGamePlayerState {
 		// gravity
 		this.player.setGravity(true);
 
+		// allow flight
+		if (liveGameMode == GameMode.SURVIVAL || liveGameMode == GameMode.ADVENTURE) {
+			this.player.setAllowFlight(false);
+		}
+
 		// flying
 		this.player.setFlying(false);
 
@@ -313,11 +318,6 @@ public class MiniGamePlayerState {
 
 		// fly speed
 		this.player.setFlySpeed(0.1f);
-
-		// allow flight
-		if (liveGameMode == GameMode.SURVIVAL || liveGameMode == GameMode.ADVENTURE) {
-			this.player.setAllowFlight(false);
-		}
 
 		// new scoreboard (= empty)
 		this.player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
