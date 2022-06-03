@@ -928,6 +928,25 @@ public abstract class MiniGame {
 	}
 
 	/**
+	 * Play sound to a player
+	 * 
+	 * @param p     Listener
+	 * @param sound to play
+	 */
+	public void playSound(Player p, Sound sound) {
+		SoundTool.play(p, sound);
+	}
+
+	/**
+	 * Play sound to all players
+	 * 
+	 * @param sound to play
+	 */
+	public void playSounds(Sound sound) {
+		getPlayers().forEach(p -> playSound(p, sound));
+	}
+
+	/**
 	 * Get PlayerData
 	 * 
 	 * @param p Target player

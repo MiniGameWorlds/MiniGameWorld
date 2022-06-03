@@ -1,6 +1,4 @@
 # TODO
-- Add `playSound(s)()` to `MiniGame`
-- Change `MiniGame.get<Setting|CustomOption|CustomData>()` to `MiniGame.<setting|customOption|customData>()` (find more)
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
@@ -954,7 +952,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-06-03
 - Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
-
+- Add `playSound(s)()` to `MiniGame`
 
 
 
