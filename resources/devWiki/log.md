@@ -1,4 +1,6 @@
 # TODO
+- Add `playSound(s)()` to `MiniGame`
+- Change `MiniGame.get<Setting|CustomOption|CustomData>()` to `MiniGame.<setting|customOption|customData>()` (find more)
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
@@ -18,11 +20,15 @@
 - Add `BossBar` elements to MiniGame
 - Make Github issue template
 - Try to use other library, not `classgraph` (e.g. [reflections]())
-- Support Script Addon
+- Support Skript Addon
 - Minigame Instantiate system
 - Detach `AdvancedMultiLanguage` api and make simple system (also have reload system for performance)
+- Improve scordboard performance (blink cause of reset scores and reuse the same scordboard instance in every update)
+
 
 ---
+
+
 
 # Releases
 
@@ -936,15 +942,15 @@ if(!this.isMinPlayersLive()) {
 - MiniGame
 
 # 2022-05-22
-- Change permission name `minigameworld.allcommands` to `minigameworld.command` 
+- Change permission name `minigameworld.allcommands` to `minigameworld.command`
 - Add `minigameworld.function-item` permission (with `menu-opener`)
 - Add `minigameworld.access` permission
 - Release `0.8.0`
 
 
-
-
-
+# 2022-05-29
+- Fix player flying bug (sequence problem)
+- Init settings (contains initBaseSettings() and initGame()) when minigame is registered
 
 
 

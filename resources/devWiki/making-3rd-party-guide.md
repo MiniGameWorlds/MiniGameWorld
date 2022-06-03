@@ -1,7 +1,7 @@
 # Description
 - Third party plugin can access/change below things
-- [Join / Leave / View](#Minigame-Join-/-Leave-/-View)
-- [Minigame Exception](#Minigame-Exception)
+- [Join / Leave / View](#Minigame-Access)
+- [Minigame Exception](#Exception)
 - [Menu](#Menu)
 - [Party](#Party)
 - [Observer](#Observer-System)
@@ -16,7 +16,7 @@
 
 ---
 
-# Minigame Join / Leave / View
+# Minigame Access
 - Can change `Join / Leave / View` way 
 ## Example
 - join with chat

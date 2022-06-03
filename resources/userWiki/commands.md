@@ -64,7 +64,7 @@
 - `/minigame games <classname> waiting-time [<value>]`: set waiting time (sec)
 - `/minigame games <classname> play-time [<value>]`: set play time (sec)
 - `/minigame games <classname> active [<value>]`: set activation of minigame (true / false)
-- `/minigame games <classname> tutorial <line> [<value>]`: set tutorials at line (set `[<value>] with `-` to remove line) (can contain spaces) (line: 1 ~ )
+- `/minigame games <classname> tutorial <line> [<value>]`: set tutorials at line (set `[<value>] with`-` to remove line) (can contain spaces) (line: 1 ~ )
 ```yaml
 /minigame games GameA tutorial 1 This is tutorial: Add "This is tutorial" to tutorial first line  
 /minigame games GameA tutorial 3 -: Remove tutorial third line

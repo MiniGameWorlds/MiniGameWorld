@@ -50,7 +50,6 @@ public class MiniGameScoreboardManager {
 	public void registerDefaultUpdaters() {
 		this.waitingScoreboardUpdater = new MiniGameWaitingScoreboard(minigame);
 		this.playScoreboardUpdater = new MiniGamePlayScoreboard(minigame);
-
 	}
 
 	/**
@@ -167,9 +166,6 @@ public class MiniGameScoreboardManager {
 	 */
 	public void resetAllPlayersScoreboard() {
 		this.scoreboard.getEntries().forEach(scoreboard::resetScores);
-//		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
-//		this.scoreboard.getObjective(DisplaySlot.SIDEBAR).
-//		this.sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
 
 }

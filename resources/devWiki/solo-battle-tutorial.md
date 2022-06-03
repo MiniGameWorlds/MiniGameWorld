@@ -8,9 +8,9 @@
 
 # 1. Sketch idea
 - Simple one punch minigame
-- Everyone will lose their lives by other player's one punch
-- Damager player: +1
-- Victim player: died
+- Players can kill other players with just hit
+- Plus 1 score to killer
+- Set player live to false when hit by others
 
 # 2. Create a class
 - Create a `OnePunch` minigame class in your package

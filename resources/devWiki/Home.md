@@ -32,7 +32,7 @@
 
 
 
-# How to set Dev Environment
+# How to setup Dev Environment
 - [Spigot] or [Paper]: Minecraft bukkit
 - [MiniGameWorld]: MiniGame Framework
 - [wbmMC]: Minecraft util library (optional)
@@ -42,7 +42,7 @@
 
 
 # ETC
-- [Patch Notes](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/log.md)
+- [Patch Note](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/log.md)
 - This project uses [classgraph](https://github.com/classgraph/classgraph) library licensed from MIT to register all events in  Minecraft bukkit
 - [Scoreboard Conflict]
 
@@ -54,7 +54,7 @@
 
 [Spigot]: https://getbukkit.org/download/spigot
 [Paper]: https://papermc.io/
-[MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
+[MiniGameWorld]: plugin-design.md
 [wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
 [Scoreboard Conflict]: https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/scoreboard.md

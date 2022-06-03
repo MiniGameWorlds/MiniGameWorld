@@ -6,7 +6,7 @@ public class YourMiniGamePluginMain extends JavaPlugin {
 		super.onEnable();
 
 		// register minigame
-		MiniGameWorld mw = MiniGameWorld.create("x.x.x"); // API version
+		MiniGameWorld mw = MiniGameWorld.create("x.x.x"); // API version (Latest: MiniGameWorld.API_VERSION)
 		mw.registerMiniGame(new YourMiniGame());
 	}
 
@@ -21,13 +21,12 @@ public class YourMiniGamePluginMain extends JavaPlugin {
 - Export your plugin to jar file
 
 # 3. Test
-- Locate your minigame plugin to `.../plugins` directory in your bukkit directory
-- `.../plugins` directory has to also contain [MiniGameWorld] and [wbmMC]
-- Run your server and check log in console
+- Put [MiniGameWorld] and [wbmMC] and your minigame in `.../plugins`
+- Run your server and check logs in the console
 - If your minigame registered,  
-you **have to** setup minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run `/minigame reload` command (need OP)  
+you **have to** setup minigame location in `plugins/MiniGameWorld/minigames/<class-name>.yml` file and run `/minigame reload` command (OP required)  
 **`or`**  
-Update minigame location using command `/minigame games <class-name> location <<player> | <x> <y> <z>>` (need OP)  
+Update minigame location using command `/minigame games <class-name> location <<player> | <x> <y> <z>>` (OP required)  
 - Now, players can enjoy your minigame! (try `/mw menu` command for GUI menu)
 
 # 4. Share your minigame

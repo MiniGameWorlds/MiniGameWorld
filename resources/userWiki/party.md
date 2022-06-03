@@ -1,5 +1,5 @@
 # Party System
-- Party have **NO** `leader`
+- Party have **NO Leader**
 - All members can `join` / `leave` minigames
 - All members can `invite` / `allow` players
 - Non members can `accept` invitation

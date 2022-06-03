@@ -87,8 +87,8 @@ Class-Path: . libs/classgraph.jar
 
 # **Must check before release**
 - Increase `minor` version(`#.x.#`), if api changed in `plugin.yml`
-- Increase `build` version(`#.#.x`), if api not changed in `plugin.yml`
-- Test all compatible versions (can compile test with changing `spigot-x.x.x.jar` build path)
+- Increase `patch` version(`#.#.x`), if api not changed in `plugin.yml`
+- Test all compatible versions (can compile test with changing `spigot-x.x.x.jar` patch path)
 - Regenerate `javadoc`
 - Change release file name with version like `MiniGameWorld-x.x.x.jar`
 

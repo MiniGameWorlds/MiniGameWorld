@@ -1,39 +1,36 @@
 # Before start
-- Check out **[Environment Setup Tutorial](environment-setup-tutorial.md)**
+- **[What is MiniGameWorld API](api-intro.md)**
+- Also check out **[Environment Setup Tutorial](environment-setup-tutorial.md)**
 
 ---
 
-# SoloBattle type
-- Only 1 player plays the game
-
-# Description
-- We will make a simple jumpmap minigame 
+# <game-type> type
+- 
 
 # 1. Rules
-- Click glowstone: finish game
-- When a game finished: gives `left time` score
+- 
 
 # 2. Create a class
-- Create a `JumpMap` minigame class in your package 
+- Create a `<minigame>` minigame class in your package 
 ```java
-public class JumpMap {
+public class <minigame> {
 	
 }
 ```
 
-- After create, extends `SoloBattle`
+- After create, extends `<game-type>`
 ```java
-public class JumpMap extends SoloBattle {
+public class <minigame> extends <game-type> {
 	
 }
 ```
 
 - Then, we need to add constructor and some overrided methods
 ```java
-public class JumpMap extends SoloBattle {
+public class <minigame> extends <game-type> {
 
 	// constructor: setup minigame info
-	public JumpMap(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
+	public <minigame>(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
 		super(title, minPlayers, maxPlayers, playTime, waitingTime);
 	}
 
@@ -62,11 +59,11 @@ public class JumpMap extends SoloBattle {
 - Unit of `playTime` and `waitingTime` is second
 
 ```java
-public class JumpMap extends SoloBattle {
+public class <minigame> extends <game-type> {
 
-	public JumpMap() {
+	public <minigame>() {
 		// title, min player, max player, play time, waiting time
-		super("JumpMap", 2, 10, 60, 10);
+		super("<minigame>", 2, 10, 60, 10);
 	}
 
 	...
@@ -75,10 +72,10 @@ public class JumpMap extends SoloBattle {
 
 - Setup minigame settings and options
 ```java
-public class JumpMap extends SoloBattle {
+public class <minigame> extends <game-type> {
 
-	public JumpMap() {
-		super("JumpMap", 2, 10, 60, 10);
+	public <minigame>() {
+		super("<minigame>", 2, 10, 60, 10);
 		
         // GUI menu icon
 		getSetting().setIcon(Material.GRASS);
@@ -93,7 +90,7 @@ public class JumpMap extends SoloBattle {
 
 - Register tutorial
 ```java
-public class JumpMap extends SoloBattle {
+public class <minigame> extends <game-type> {
 	...
 
 	@Override
