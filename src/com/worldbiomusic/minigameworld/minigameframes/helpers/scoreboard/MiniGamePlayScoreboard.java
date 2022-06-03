@@ -53,7 +53,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		addEmptyLineToSiderbar();
 
 		// left time
-		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftPlayTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);
 	}

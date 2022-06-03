@@ -1233,7 +1233,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 		// left time
 		// TODO: change "Time left" to "<time-left>" and replace placeholder in
 		// scoreboard manager
-		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftFinishTime();
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftPlayTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);
 	}

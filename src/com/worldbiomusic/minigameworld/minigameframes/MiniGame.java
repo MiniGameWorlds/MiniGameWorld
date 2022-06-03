@@ -1236,12 +1236,12 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Get left finish time (sec)
+	 * Get left play time (sec)
 	 * 
-	 * @return Left finish time
+	 * @return Left play time
 	 */
-	public int getLeftFinishTime() {
-		return this.taskManager.getLeftFinishTime();
+	public int getLeftPlayTime() {
+		return this.taskManager.getLeftPlayTime();
 	}
 
 	/**

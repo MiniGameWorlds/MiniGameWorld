@@ -120,7 +120,7 @@ public class MiniGameTaskManager {
 		return this.waitingCounter.getCount();
 	}
 
-	public int getLeftFinishTime() {
+	public int getLeftPlayTime() {
 		return this.finishCounter.getCount();
 	}
 }

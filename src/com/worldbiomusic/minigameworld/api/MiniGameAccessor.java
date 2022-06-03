@@ -144,12 +144,12 @@ public class MiniGameAccessor {
 	}
 
 	/**
-	 * Gets left time to finish minigame (sec)
+	 * Gets left play time (sec)
 	 * 
-	 * @return Left finish time
+	 * @return Left play time
 	 */
-	public int getLeftFinishTime() {
-		return this.minigame.getLeftFinishTime();
+	public int getLeftPlayTime() {
+		return this.minigame.getLeftPlayTime();
 	}
 
 	/**

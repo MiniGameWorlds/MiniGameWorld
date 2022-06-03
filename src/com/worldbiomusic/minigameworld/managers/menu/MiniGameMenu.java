@@ -194,10 +194,10 @@ public class MiniGameMenu {
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.getFrameType());
 
 		if (minigame.isStarted()) {
-			String leftFinishTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftFinishTime() - 1);
-			String leftFinishTime = ChatColor.WHITE + "- "
-					+ messenger.getMsg(player, "finish-in-time", new String[][] { { "left-time", leftFinishTimer } });
-			lore.add(leftFinishTime);
+			String leftPlayTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftPlayTime() - 1);
+			String leftPlayTime = ChatColor.WHITE + "- "
+					+ messenger.getMsg(player, "finish-in-time", new String[][] { { "left-time", leftPlayTimer } });
+			lore.add(leftPlayTime);
 		} else {
 			String leftWaitingTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftWaitingTime() - 1);
 			String leftWaitingTime = ChatColor.WHITE + "- "

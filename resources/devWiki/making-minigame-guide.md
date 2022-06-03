@@ -365,7 +365,7 @@ getScoreboardManager().setPlayScoreboardUpdater(new YourScoreboardUpdater(this))
 ## - **etc**
 - `finishGame()`: finish minigame, **Must be used for endpoint of a minigame, never run anything after finishGame()**
 - `getLeftWaitingTime()`: get left waiting time (sec)
-- `getLeftFinishTime()`: get left time to finish (sec)
+- `getLeftPlayTime()`: get let play time (sec)
 
 
 ---

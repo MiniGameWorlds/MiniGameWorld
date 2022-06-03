@@ -952,7 +952,8 @@ if(!this.isMinPlayersLive()) {
 - Fix player flying bug (sequence problem)
 - Init settings (contains initBaseSettings() and initGame()) when minigame is registered
 
-
+# 2022-06-03
+- Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
 
 
 
