@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>MiniGameWorld</groupId>
 	<artifactId>MiniGameWorld</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1</version>
 	<properties>
 		<plugin.test>Test</plugin.test>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

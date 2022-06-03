@@ -8,44 +8,29 @@
 <a href="https://www.youtube.com/watch?v=ibilvmzcdzs&list=PLOyhTkb3nnYbBtEdS38nkIpyU8RM-pEZd&index=1">
 <img src="youtube-minigame-dev-tutorial-thumbnail.png" width="50%" ></img>
 </a> -->
-- [Solo](solo-tutorial.md) (In making...)
-- [Solo Battle](solo-battle-tutorial.md)
-- [Team](team-tutorial.md) (In making...)
-- [Team Battle](team-battle-tutorial.md) (In making...)
+## Solo
+- [JumpMap](solo-JumpMap.md)
+## Solo Battle
+- [OnePunch](solobattle-OnePunch.md)
+- [HungryFishing](solobattle-HungryFishing.md)
+## Team
+- [.](.) (In making...)
+## Team Battle
+- [.](.) (In making...)
+
+
 ---
+
 
 # Order
 ## 1. Setup dev environment
 - [Link](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-minigame-home.md#how-to-set-dev-environment)
 
 
+
 ## 2. Create class
-- Select a minigame frame
+- Extend a minigame frame class
 
-### `SoloMiniGame`
-- _Solo play_
-- [FitTool](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solo/FitTool.java)
-
-
-### `SoloBattleMiniGame`
-- _Individual battle play_
-- [FallingBlock](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/FallingBlock.java)
-- [PVP](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/PVP.java)
-- [RandomScore](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/RandomScore.java)
-- [RockScissorPaper](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/RockScissorPaper.java)
-- [ScoreClimbing](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/ScoreClimbing.java)
-- [SuperMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/solobattle/SuperMob.java)
-
-### `TeamMiniGame`
-- _Cooperative play_
-- [BreedMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/team/BreedMob.java)
-- [RemoveBlock](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/team/RemoveBlock.java)
-
-### `TeamBattleMiniGame`
-- _Team battle play_
-- [HiddenArcher](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/HiddenArcher.java)
-- [MoreHit](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/MoreHit.java)
-- [PassMob](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/src/com/worldbiomusic/allgames/games/teambattle/PassMob.java)
 
 
 ## 3. Essential methods

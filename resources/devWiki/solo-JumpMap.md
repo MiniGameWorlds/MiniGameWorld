@@ -1,5 +1,5 @@
 # Before start
-- Check out **[Environment Setup Tutorial](environment-setup-tutorial.md)**
+Check out **[API Introduction]** and **[Setup guide]**
 
 ---
 
@@ -131,5 +131,20 @@ protected void onEvent(Event event) {
 
 ---
 
-# After finish
-- Check out **[How to export minigame](export-tutorial.md)**
+# After making
+Check out **[Build guide]**
+
+
+
+
+
+
+
+
+
+
+
+
+[API Introduction]: introduction.md
+[Setup guide]: setup.md
+[Build guide]: build.md

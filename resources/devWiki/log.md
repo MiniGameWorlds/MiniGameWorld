@@ -254,11 +254,16 @@
 > - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
 > - `minigameworld.allcommands` -> `minigameworld.command` (permission name)
 
-
 ### Build Changes
 - Add `Vault` as a soft dependency
 - Sort scoreboard ranks by score
 
+## 0.8.1
+### Build Changes
+- Fix player flying bug
+- Init settings (contains `initBaseSettings()` and `initGame()`) when a minigame is registered
+- Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
+- Add `playSound(s)()` to `MiniGame`
 
 ---
 
@@ -948,12 +953,12 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-05-29
 - Fix player flying bug (sequence problem)
-- Init settings (contains initBaseSettings() and initGame()) when minigame is registered
+- Init settings (contains initBaseSettings() and initGame()) when a minigame is registered
 
 # 2022-06-03
 - Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
 - Add `playSound(s)()` to `MiniGame`
-
+- Release `0.8.1`
 
 
 
