@@ -24,7 +24,7 @@
 
 # Order
 ## 1. Setup dev environment
-- [Link](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-minigame-home.md#how-to-set-dev-environment)
+- [setup.md](setup.md)
 
 
 

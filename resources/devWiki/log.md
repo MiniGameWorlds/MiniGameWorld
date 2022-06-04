@@ -260,7 +260,7 @@
 
 ## 0.8.1
 ### Build Changes
-- Fix player flying bug
+- Fix player state bug
 - Init settings (contains `initBaseSettings()` and `initGame()`) when a minigame is registered
 - Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
 - Add `playSound(s)()` to `MiniGame`
@@ -952,7 +952,7 @@ if(!this.isMinPlayersLive()) {
 
 
 # 2022-05-29
-- Fix player flying bug (sequence problem)
+- Fix player state bug (sequence problem)
 - Init settings (contains initBaseSettings() and initGame()) when a minigame is registered
 
 # 2022-06-03
