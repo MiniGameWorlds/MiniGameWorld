@@ -50,10 +50,6 @@ public abstract class FakeMiniGame extends MiniGame implements Listener {
 	protected abstract void onFakeJoin(Player p);
 
 	@Override
-	protected void initGame() {
-	}
-
-	@Override
 	protected void onEvent(Event event) {
 	}
 

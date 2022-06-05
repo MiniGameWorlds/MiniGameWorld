@@ -103,11 +103,6 @@ public abstract class MiniGame {
 	protected Messenger messenger;
 
 	/**
-	 * Executed every time when game starts
-	 */
-	protected abstract void initGame();
-
-	/**
 	 * Executed when event passed to minigame
 	 */
 	protected abstract void onEvent(Event event);
@@ -116,6 +111,12 @@ public abstract class MiniGame {
 	 * Register minigame tutorial
 	 */
 	protected abstract List<String> tutorial();
+
+	/**
+	 * Executed every time when game starts
+	 */
+	protected void initGame() {
+	};
 
 	/**
 	 * Executed immediately after game started
@@ -271,7 +272,7 @@ public abstract class MiniGame {
 		this.initBaseSettings();
 
 		// init implemented minigame setting values
-		this.initGame();
+		initGame();
 	}
 
 	/**

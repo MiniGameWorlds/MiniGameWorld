@@ -38,11 +38,11 @@
 
 
 
-## 3. Essential methods
+## 3. Methods
 ### `initGame()`
-- Executed every time when minigame starts
+- Called when the server starts and minigame starts 
 ### `onEvent()`
-- Executed when event is passed to minigame
+- Called when a event is passed to the minigame
 
 ### `tutorial()`
 - Return minigame tutorial string list
