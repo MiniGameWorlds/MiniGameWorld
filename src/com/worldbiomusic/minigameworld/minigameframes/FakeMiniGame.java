@@ -35,7 +35,11 @@ public abstract class FakeMiniGame extends MiniGame implements Listener {
 	public void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
 		// check joined minigame is fake minigame
 		MiniGameAccessor minigame = e.getMiniGame();
-		if (!FakeMiniGame.class.isAssignableFrom(minigame.getClassType())) {
+		/* [IMPORTANT] must compare with "getClass()" because the sub classes which will
+		 implement this class are all different to each other.
+		 (Do not compare with "FakeMiniGame.class")
+		 */
+		if (!getClass().isAssignableFrom(minigame.getClassType())) {
 			return;
 		}
 
