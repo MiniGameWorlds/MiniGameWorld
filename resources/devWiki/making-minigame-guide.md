@@ -10,14 +10,19 @@
 </a> -->
 ## Solo
 - [JumpMap](solo-JumpMap.md)
+
 ## Solo Battle
 - [OnePunch](solobattle-OnePunch.md)
 - [HungryFishing](solobattle-HungryFishing.md)
+
 ## Team
 - [.](.) (In making...)
+
 ## Team Battle
 - [.](.) (In making...)
 
+## Fake
+- [.](.) (In making...)
 
 ---
 

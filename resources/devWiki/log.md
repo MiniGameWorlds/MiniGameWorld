@@ -963,7 +963,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-06-06
 - Add `onJoin(Player)`, `onLeave(Player)`, `onView(Player)`, `onUnview(Player)` hook methods to `MiniGame`
-
+- Add new minigame frame class: `FakeMiniGame`
 
 
 

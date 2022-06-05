@@ -9,6 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 
 import com.wbm.plugin.util.CollectionTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
@@ -120,6 +121,10 @@ public class Utils {
 			return ((Cancellable) event).isCancelled();
 		}
 		return false;
+	}
+
+	public static void registerEventListener(Listener listener) {
+		main.getServer().getPluginManager().registerEvents(listener, main);
 	}
 }
 

@@ -107,9 +107,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.commonListener = new CommonEventListener(this.minigameManager);
 		this.miniGameEventListener = new MiniGameEventListener(this.minigameManager);
 		this.functionItemListener = new FunctionItemListener(minigameManager);
-		getServer().getPluginManager().registerEvents(this.commonListener, this);
-		getServer().getPluginManager().registerEvents(this.miniGameEventListener, this);
-		getServer().getPluginManager().registerEvents(this.functionItemListener, this);
+		Utils.registerEventListener(this.commonListener);
+		Utils.registerEventListener(this.miniGameEventListener);
+		Utils.registerEventListener(this.functionItemListener);
 
 		this.eventListenerManager = new EventListenerManager(this.commonListener);
 	}
