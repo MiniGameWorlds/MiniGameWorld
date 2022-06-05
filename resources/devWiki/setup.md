@@ -16,6 +16,7 @@ You also have to add [MiniGameWorld] as a dependency ([wbmMC] is optional)
 > - In IntelliJ: `File` -> `Project Structure` -> `Modules` -> `Dependencies` -> `+ button` -> `JARs or Directories` -> add `MiniGameWorld.jar` plugin
 
 
+
 # 3. plugin.yml
 **Add `MiniGameWorld` to `depend` in plugin.yml**
 ```yaml

@@ -6,7 +6,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -86,7 +85,7 @@ public class MiniGameViewManager {
 	}
 
 	/**
-	 * Add a player as a viewer in a minigmae<br>
+	 * Add player as a viewer to the minigame<br>
 	 * 
 	 * @param p Viewer
 	 */
@@ -116,6 +115,10 @@ public class MiniGameViewManager {
 		this.minigame.sendMessage(p, "Input " + ChatColor.BOLD + "/mw leave " + ChatColor.RESET + "to leave view");
 		this.minigame.sendMessage(p,
 				"Input " + ChatColor.BOLD + "/mw menu and click leave icon " + ChatColor.RESET + "to leave view");
+
+		/* hook method
+		 [IMPORTANT] must be called after the player state is isolated from the outside */
+		this.minigame.onView(p);
 	}
 
 	/**
@@ -130,7 +133,11 @@ public class MiniGameViewManager {
 			if (Utils.callEvent(new MiniGamePlayerUnviewEvent(minigame, p))) {
 				return;
 			}
-			
+
+			/* hook method
+			 [IMPORTANT] must be called when the player state is still isolated from the outside */
+			this.minigame.onUnview(p);
+
 			MiniGamePlayerState viewer = getViewerState(p);
 			viewer.restorePlayerState();
 

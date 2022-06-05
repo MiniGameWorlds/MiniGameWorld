@@ -4,6 +4,8 @@ MiniGameWorld is minigame play place for users and minigame creating framework f
 
 
 # Features
+The biggest feature is that preserve the state of the server and player, and works independently of other plugins, so it is **applicable regardless of the genre of the server**.
+
 ## 1. Minigame frame classes
 Minigame frame class manages settings, start, finish, player's scores, lives, events etc.
 
@@ -71,13 +73,13 @@ Center:
 
 
 ## 6. Custom events
-- There are custom events for 3rd party plugins ([details](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-3rd-party-guide.md)) (e.g. `MiniGameStartEvent`, `MiniGamePlayerJoinEvent`, `MenuClickEvent`)
+There are custom events for 3rd party plugins ([details](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-3rd-party-guide.md)) (e.g. `MiniGameStartEvent`, `MiniGamePlayerJoinEvent`, `MenuClickEvent`)
 
 
 
 ## 7. More
-- Util tools: party, backup, language, player state and APIs...
-- You can find more features([User Wiki], [Dev Wiki] and [API docs]) and [demo minigame source code](https://github.com/MiniGameWorlds/AllMiniGames) in these links.
+Util tools: party, backup, language, player state and APIs...
+You can find more features([User Wiki], [Dev Wiki] and [API docs]) and [demo minigame source code](https://github.com/MiniGameWorlds/AllMiniGames) in these links.
 
 
 

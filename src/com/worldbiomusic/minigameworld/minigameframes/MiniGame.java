@@ -28,9 +28,11 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExcep
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
+import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameInventoryManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
@@ -125,6 +127,46 @@ public abstract class MiniGame {
 	 * Executed before game finishes (players remains)
 	 */
 	protected void onFinish() {
+	}
+
+	/**
+	 * Called after the player joined after isolated from the outside<br>
+	 * [IMPORTANT] Player state is already saved and now pure state
+	 * 
+	 * @param p Joined player
+	 */
+	public void onJoin(Player p) {
+	}
+
+	/**
+	 * Called when the player leave this game before start<br>
+	 * [IMPORTANT] Player state is still isolated from the outside (player state
+	 * will be restored after this method)<br>
+	 * [IMPORTANT] Only called before the game starts
+	 * 
+	 * 
+	 * @param p Leaving player
+	 */
+	public void onLeave(Player p) {
+	}
+
+	/**
+	 * Called after the player enter viewing after isolated from the outside<br>
+	 * [IMPORTANT] Player state is already saved and now pure state
+	 * 
+	 * @param p Viewing player
+	 */
+	public void onView(Player p) {
+	}
+
+	/**
+	 * Called before the player unview this game<br>
+	 * [IMPORTANT] Player state is still isolated from the outside (player state
+	 * will be restored after this method)
+	 * 
+	 * @param p Unviewing player
+	 */
+	public void onUnview(Player p) {
 	}
 
 	/**
@@ -348,7 +390,11 @@ public abstract class MiniGame {
 		// setup join settings
 		onPlayerJoin(p);
 
-		// join success
+		/* hook method
+		 [IMPORTANT] must be called after the player state is isolated from the outside */
+		onJoin(p);
+
+		// joined
 		return true;
 	}
 
@@ -369,16 +415,18 @@ public abstract class MiniGame {
 		p.teleport(getLocation());
 
 		// sound
-		SoundTool.play(p, Sound.ENTITY_ENDERMAN_TELEPORT);
+		playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// notify info
 		notifyInfo(p);
 	}
 
 	/**
-	 * Leave player from minigame<br>
-	 * 1. not started<br>
-	 * 2. left waiting second is under 3 or equals<br>
+	 * Leave player from minigame <br>
+	 * [IMPORTANT] This method must be called by the
+	 * {@link MiniGameManager#leaveGame(Player)} ONLY. (If player needs to be left
+	 * in this MiniGame class, use {@link #onPlayerLeave(Player, String)})<br>
+	 * 
 	 * 
 	 * @param p leaving player
 	 * @return Result of try to leave
@@ -389,7 +437,11 @@ public abstract class MiniGame {
 			return false;
 		}
 
-		this.onPlayerLeave(p, messenger.getMsg(p, "before-start"));
+		/* hook method
+		 [IMPORTANT] must be called when the player state is still isolated from the outside */
+		onLeave(p);
+
+		onPlayerLeave(p, messenger.getMsg(p, "before-start"));
 
 		return true;
 	}
@@ -398,7 +450,7 @@ public abstract class MiniGame {
 	 * Process when a player leaves the miniagme
 	 * 
 	 * @param p      Leaving player
-	 * @param reason Leaving reason
+	 * @param reason for leaveing
 	 */
 	private void onPlayerLeave(Player p, String reason) {
 		if (reason != null) {
@@ -409,25 +461,25 @@ public abstract class MiniGame {
 
 			// notify other players to join the game
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
-				this.sendMessages(msg);
+				sendMessages(msg);
 			} else {
 				Utils.sendMsgToEveryone(msg);
 			}
 		}
 
 		// remove player from minigame
-		this.removePlayer(p);
+		removePlayer(p);
 
 		// send title
 		String leaveMsg = this.messenger.getMsg(p, "leave");
 		sendTitle(p, ChatColor.BOLD + leaveMsg, "");
 
 		// sound
-		SoundTool.play(p, Sound.ENTITY_ENDERMAN_TELEPORT);
+		playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
 		// check game is emtpy
-		if (this.isEmpty()) {
-			this.initBaseSettings();
+		if (isEmpty()) {
+			initBaseSettings();
 		}
 	}
 
@@ -438,7 +490,7 @@ public abstract class MiniGame {
 	 */
 	private void notifyInfo(Player p) {
 		// print tutorial
-		this.printInfo(p);
+		printInfo(p);
 
 		// notify all players to join the game
 		int needPlayersCount = getMinPlayers() - getPlayerCount();
@@ -478,7 +530,7 @@ public abstract class MiniGame {
 				new String[][] { { "play-time", "" + getPlayTime() } }));
 
 		// tutorial
-		if (this.getTutorial() != null) {
+		if (getTutorial() != null) {
 			for (String msg : this.getTutorial()) {
 				p.sendMessage("- " + msg);
 			}
@@ -511,15 +563,15 @@ public abstract class MiniGame {
 	 */
 	public void startGame() {
 		// check min player count
-		if (this.getPlayerCount() < this.getMinPlayers()) {
-			int needPlayerCount = this.getMinPlayers() - this.getPlayerCount();
+		if (getPlayerCount() < getMinPlayers()) {
+			int needPlayerCount = getMinPlayers() - getPlayerCount();
 			// send message
 			sendMessages(ChatColor.RED + "Game can not start");
 			this.messenger.sendMsg(getPlayers(), "need-players",
 					new String[][] { { "need-player-count", "" + ChatColor.RED + needPlayerCount + ChatColor.RESET } });
 
 			// restart waiting task
-			this.restartWaitingTask();
+			restartWaitingTask();
 
 			return;
 		}
@@ -527,7 +579,7 @@ public abstract class MiniGame {
 		// call start event (check event is cancelled)
 		if (Utils.callEvent(new MiniGameStartEvent(this))) {
 			// restart waiting task
-			this.restartWaitingTask();
+			restartWaitingTask();
 			return;
 		}
 
@@ -535,7 +587,7 @@ public abstract class MiniGame {
 		this.started = true;
 
 		// play sound
-		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
+		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
 
 		// starting title
 		getPlayers().forEach(p -> {
@@ -573,7 +625,7 @@ public abstract class MiniGame {
 		onFinish();
 
 		// play sound
-		this.getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.FINISH_SOUND));
+		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.FINISH_SOUND));
 
 		printEndInfo();
 
@@ -581,7 +633,7 @@ public abstract class MiniGame {
 		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
 
 		// setup player
-		this.getPlayers().forEach(p -> this.onPlayerLeave(p, null));
+		getPlayers().forEach(p -> onPlayerLeave(p, null));
 
 		// notify finish event to observers (after setup player leaving settings (e.g.
 		// give reward(item) after state restored))

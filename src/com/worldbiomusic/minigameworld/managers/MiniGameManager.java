@@ -162,7 +162,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		// strip "color code" from title
+		// strip "color code" of title
 		title = ChatColor.stripColor(title);
 		MiniGame game = this.getMiniGameWithTitle(title);
 		if (game == null) {
@@ -270,7 +270,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return;
 		}
 
-		// strip "color code" from title
+		// strip "color code" of title
 		title = ChatColor.stripColor(title);
 		MiniGame game = this.getMiniGameWithTitle(title);
 		if (game == null) {
@@ -322,7 +322,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public void startGame(String title) {
-		// strip "color code" from title
+		// strip "color code" of title
 		title = ChatColor.stripColor(title);
 		MiniGame game = this.getMiniGameWithTitle(title);
 		if (game == null) {

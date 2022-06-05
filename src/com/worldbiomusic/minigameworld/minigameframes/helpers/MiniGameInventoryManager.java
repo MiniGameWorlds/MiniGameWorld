@@ -1,4 +1,4 @@
-package com.worldbiomusic.minigameworld.minigameframes;
+package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

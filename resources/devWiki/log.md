@@ -1,4 +1,5 @@
 # TODO
+- Disable `_finish-timer` if `play-time` is 0
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
@@ -960,7 +961,8 @@ if(!this.isMinPlayersLive()) {
 - Add `playSound(s)()` to `MiniGame`
 - Release `0.8.1`
 
-
+# 2022-06-06
+- Add `onJoin(Player)`, `onLeave(Player)`, `onView(Player)`, `onUnview(Player)` hook methods to `MiniGame`
 
 
 
