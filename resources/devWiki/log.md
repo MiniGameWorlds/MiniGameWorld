@@ -966,4 +966,5 @@ if(!this.isMinPlayersLive()) {
 - Add new minigame frame class: `FakeMiniGame`
 - Change `MiniGame.initGame()` to hook method from abstract method
 
-
+# 2022-06-08
+- MiniGame and MiniGamePlayerState refactoring

@@ -408,13 +408,6 @@ public abstract class MiniGame {
 		// add player to list
 		addPlayer(p);
 
-		// setup inventory
-		this.invManager.setupOnJoin(p);
-
-		// tp to game location
-		// [IMPORTANT] must call after save player state (joinedLocation included)
-		p.teleport(getLocation());
-
 		// sound
 		playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
@@ -1359,6 +1352,15 @@ public abstract class MiniGame {
 	 */
 	public MiniGameScoreboardManager getScoreboardManager() {
 		return this.scoreboardManager;
+	}
+
+	/**
+	 * Get inventory manager
+	 * 
+	 * @return Inventory manager
+	 */
+	public MiniGameInventoryManager getInventoryManager() {
+		return this.invManager;
 	}
 
 	/**

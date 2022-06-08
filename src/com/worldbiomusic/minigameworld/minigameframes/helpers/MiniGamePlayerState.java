@@ -252,8 +252,9 @@ public class MiniGamePlayerState {
 	}
 
 	public void makePureState() {
-		// joined location
-		// nothing (tp to minigame location)
+		// joined location (tp to minigame location)
+		// [IMPORTANT] must call after player state saved
+		this.player.teleport(this.minigame.getSetting().getLocation());
 
 		// set normal health scale (20)
 		this.player.setHealthScale(20);
@@ -274,8 +275,9 @@ public class MiniGamePlayerState {
 		this.player.setLevel(0);
 		this.player.setExp(0);
 
-		// clear inv
+		// clear inv & setup inventory
 		this.player.getInventory().clear();
+		this.minigame.getInventoryManager().setupOnJoin(this.player);
 
 		// remove all potion effects
 		PlayerTool.removeAllPotionEffects(this.player);
