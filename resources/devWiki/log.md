@@ -968,3 +968,25 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-06-08
 - MiniGame and MiniGamePlayerState refactoring
+
+# 2022-06-21
+- Fix bukkit version extraction code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

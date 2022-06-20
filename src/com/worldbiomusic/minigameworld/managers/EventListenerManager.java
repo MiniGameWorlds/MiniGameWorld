@@ -51,7 +51,8 @@ public class EventListenerManager {
 			// ignore for not paper bukkit
 		}
 
-		String[] versionSrc = Bukkit.getBukkitVersion().split("\\.");
+		// extract version
+		String[] versionSrc = Bukkit.getBukkitVersion().split("\\.|-");
 		int version = Integer.parseInt(versionSrc[1]);
 
 		// Can use upper than 1.12
