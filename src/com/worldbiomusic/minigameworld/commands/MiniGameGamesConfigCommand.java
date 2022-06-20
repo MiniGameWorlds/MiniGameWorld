@@ -146,7 +146,8 @@ public class MiniGameGamesConfigCommand {
 			data.put(Setting.GAMES_LOCATION, playerLoc);
 
 			// msg
-			Utils.sendMsg(sender, Setting.GAMES_LOCATION + " set to your location");
+			Utils.sendMsg(sender, "[" + args[1] + "] " + Setting.GAMES_LOCATION + " set to " + targetPlayer.getName()
+					+ "'s location");
 		} else if (args.length == 6) {
 			// only player
 			if (!(sender instanceof Player)) {
@@ -247,7 +248,7 @@ public class MiniGameGamesConfigCommand {
 
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		String str = args[3].toUpperCase();
-		Material icon = Material.valueOf(str);
+		String icon = Material.valueOf(str).name();
 		this.setKeyValue(sender, args[1], data, Setting.GAMES_ICON, icon);
 		return true;
 	}

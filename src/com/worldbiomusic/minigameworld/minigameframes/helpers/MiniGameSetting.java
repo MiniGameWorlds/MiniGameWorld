@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -365,43 +366,43 @@ public class MiniGameSetting {
 	@SuppressWarnings("unchecked")
 	public void setFileSetting(Map<String, Object> setting) {
 		// title
-		this.setTitle((String) setting.get(Setting.GAMES_TITLE));
+		setTitle((String) setting.get(Setting.GAMES_TITLE));
 
 		// location
-		this.setLocation((Location) setting.get(Setting.GAMES_LOCATION));
+		setLocation((Location) setting.get(Setting.GAMES_LOCATION));
 
 		// waitingTime
-		this.setWaitingTime((int) setting.get(Setting.GAMES_WAITING_TIME));
+		setWaitingTime((int) setting.get(Setting.GAMES_WAITING_TIME));
 
 		// when settingFixed is false
 		if (!isSettingFixed()) {
 			// minPlayers
-			this.setMinPlayers((int) setting.get(Setting.GAMES_MIN_PLAYERS));
+			setMinPlayers((int) setting.get(Setting.GAMES_MIN_PLAYERS));
 
 			// maxPlayers
-			this.setMaxPlayers((int) setting.get(Setting.GAMES_MAX_PLAYERS));
+			setMaxPlayers((int) setting.get(Setting.GAMES_MAX_PLAYERS));
 
 			// playTime
-			this.setPlayTime((int) setting.get(Setting.GAMES_PLAY_TIME));
+			setPlayTime((int) setting.get(Setting.GAMES_PLAY_TIME));
 
 			// customData
-			this.setCustomData((Map<String, Object>) setting.get(Setting.GAMES_CUSTOM_DATA));
+			setCustomData((Map<String, Object>) setting.get(Setting.GAMES_CUSTOM_DATA));
 		}
 
 		// active
-		this.setActive((boolean) setting.get(Setting.GAMES_ACTIVE));
+		setActive((boolean) setting.get(Setting.GAMES_ACTIVE));
 
 		// tutorial
-		this.setTutorial((List<String>) setting.get(Setting.GAMES_TUTORIAL));
+		setTutorial((List<String>) setting.get(Setting.GAMES_TUTORIAL));
 
-		// display item
-		this.setIcon(Material.valueOf(((String) setting.get(Setting.GAMES_ICON)).toUpperCase()));
+		// menu icon
+		setIcon(Material.valueOf(((String) setting.get(Setting.GAMES_ICON)).toUpperCase()));
 
 		// view
-		this.setView((boolean) setting.get(Setting.GAMES_VIEW));
+		setView((boolean) setting.get(Setting.GAMES_VIEW));
 
 		// scoreboard
-		this.setScoreboard((boolean) setting.get(Setting.GAMES_SCOREBOARD));
+		setScoreboard((boolean) setting.get(Setting.GAMES_SCOREBOARD));
 	}
 }
 //

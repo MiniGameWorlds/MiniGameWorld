@@ -971,7 +971,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-06-21
 - Fix bukkit version extraction code
-
+- Fix game icon command
 
 
 
