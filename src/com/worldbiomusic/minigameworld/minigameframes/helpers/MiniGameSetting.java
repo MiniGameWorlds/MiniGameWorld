@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
-import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;

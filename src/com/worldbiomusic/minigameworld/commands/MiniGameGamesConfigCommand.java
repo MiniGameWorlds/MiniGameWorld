@@ -222,7 +222,7 @@ public class MiniGameGamesConfigCommand {
 		// remove tutorial line
 		if (tutorialString.equals("-")) {
 			if (line <= tutorial.size()) {
-				tutorial.remove(line);
+				tutorial.remove(line - 1);
 			} else {
 				sender.sendMessage(line + "th tutorial is not exist");
 				return true;

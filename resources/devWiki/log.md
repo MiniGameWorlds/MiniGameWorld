@@ -1,4 +1,6 @@
 # TODO
+- bossbar
+- scoreboard new object in every update
 - Disable `_finish-timer` if `play-time` is 0
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
@@ -265,6 +267,14 @@
 - Init settings (contains `initBaseSettings()` and `initGame()`) when a minigame is registered
 - Change `getLeftFinishTime()` to `getLeftPlayTime()` of `MiniGame`
 - Add `playSound(s)()` to `MiniGame`
+
+## 0.8.2
+### Build Changes
+- Add `onJoin(Player)`, `onLeave(Player)`, `onView(Player)`, `onUnview(Player)` hook methods to `MiniGame`
+- Add new minigame frame class: `FakeMiniGame`
+- Change `MiniGame.initGame()` to be optional, not required
+- Fix game icon command
+- Update for `1.19`
 
 ---
 
