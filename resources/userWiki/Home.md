@@ -7,22 +7,23 @@
 
 # Features
 - **Works independently of other plugins** (Available for all types of servers: Economy, Survival, RPG, etc)
-- Module-based (`MiniGameWorld`, `each minigames mady by various dev`, `minigame maps`, `minigame configs` and `3rd-party` work as modules)
 - Each minigames is isolated from each other (doesn't affect each other)
-- Same minigame can be played in many different ways with custom config settings, maps made by users
-- A player's `Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode and etc` are saved at the game start and restored when the game finished
-- GUI menu
-- Party system
-- View system
-- Scoreboard system
-- Everything can be customized with config
-- 3rd-parties (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank], [MiniGameWorld-Controller])
-- Auto data backup
+- Same minigame can be played in many different ways with custom config settings and custom maps 
+- A player's all state(`Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode and etc`) are saved at the game start and restored when the game finished
+- [Join / View / Leave]
+- [Menu] system
+- [Party] system
+- [View] system
+- [Scoreboard] system
+- [Permissions]
+- [Commands]
+- [Config] control
+- [Backup] system
 - Update checker
-- Language support
-- Function items
-
-
+- [Language Support]
+- [Function Item]
+- 3rd-parties (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank], [MiniGameWorld-Controller])
+- [Fake Minigame] system
 
 # How to apply
 1. Download [MiniGameWorld] and [wbmMC]
@@ -48,21 +49,6 @@ Setup minigame location using command `/minigame games <class-name> location <<p
 <a href="https://www.youtube.com/watch?v=sE0vaj0xM8Q">
 <img src="youtube-user-tutorial-thumbnail.png" width="50%" ></img>
 </a>
-
----
-
-# More
-- [Join / View / Leave]
-- [Commands]
-- [Config]
-- [Permissions]
-- [Party]
-- [Backup]
-- [View]
-- [Menu]
-- [Scoreboard]
-- [Language Support]
-- [Function Item]
 
 ---
 
@@ -95,6 +81,7 @@ Setup minigame location using command `/minigame games <class-name> location <<p
 [Scoreboard]: scoreboard.md
 [Language Support]: language-support.md
 [Function Item]: function-item.md
+[Fake Minigame]: fake-minigame.md
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
 [MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller

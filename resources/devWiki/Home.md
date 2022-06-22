@@ -16,10 +16,10 @@
 - Language support system
 
 
-# Guide
-- ## [minigame-guide](making-minigame-guide.md)
+# Tutorial
+- ## [how to create minigame](making-minigame-guide.md)
 
-- ## [3rd-party-guide](making-3rd-party-guide.md)
+- ## [how to create 3rd party](making-3rd-party-guide.md)
 
 
 
