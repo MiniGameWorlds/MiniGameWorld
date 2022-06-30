@@ -53,8 +53,11 @@ public class MiniGameGamesConfigCommand {
 			case Setting.GAMES_TITLE:
 				title(sender, args, data);
 				break;
-			case Setting.GAMES_LOCATION:
-				location(sender, args, data);
+			case Setting.GAMES_INSTANCE_WORLD:
+				instance_world(sender, args, data);
+				break;
+			case Setting.GAMES_LOCATIONS:
+				locations(sender, args, data);
 				break;
 			case Setting.GAMES_MIN_PLAYERS:
 				min_players(sender, args, data);
@@ -134,8 +137,17 @@ public class MiniGameGamesConfigCommand {
 		return true;
 	}
 
-	private boolean location(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg games <classname> location <<player>|<x> <y> <z>>
+	private void instance_world(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		boolean active = Boolean.parseBoolean(args[3]);
+		setKeyValue(sender, args[1], data, Setting.GAMES_INSTANCE_WORLD, active);
+	}
+
+	private boolean locations(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		// /mg games <classname> locations <<player>|<x> <y> <z>>
+
+		@SuppressWarnings("unchecked")
+		List<Location> locations = (List<Location>) data.get(Setting.GAMES_LOCATIONS);
+
 		if (args.length == 4) {
 			if (!PlayerTool.isOnlinePlayer(args[3])) {
 				sender.sendMessage(args[3] + " is not online or not exist");
@@ -143,10 +155,10 @@ public class MiniGameGamesConfigCommand {
 			}
 			Player targetPlayer = Bukkit.getPlayer(args[3]);
 			Location playerLoc = targetPlayer.getLocation();
-			data.put(Setting.GAMES_LOCATION, playerLoc);
+			locations.add(playerLoc);
 
 			// msg
-			Utils.sendMsg(sender, "[" + args[1] + "] " + Setting.GAMES_LOCATION + " set to " + targetPlayer.getName()
+			Utils.sendMsg(sender, "[" + args[1] + "] " + Setting.GAMES_LOCATIONS + " added " + targetPlayer.getName()
 					+ "'s location");
 		} else if (args.length == 6) {
 			// only player
@@ -161,11 +173,11 @@ public class MiniGameGamesConfigCommand {
 			double z = Integer.parseInt(args[5]);
 			World w = p.getLocation().getWorld();
 			Location loc = new Location(w, x, y, z);
-			data.put(Setting.GAMES_LOCATION, loc);
+			locations.add(loc);
 
 			// msg
 			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
-			Utils.sendMsg(p, Setting.GAMES_LOCATION + " set to (" + locString + ")");
+			Utils.sendMsg(p, Setting.GAMES_LOCATIONS + " added (" + locString + ")");
 		} else {
 			return false;
 		}

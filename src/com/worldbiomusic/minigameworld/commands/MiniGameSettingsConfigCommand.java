@@ -1,5 +1,7 @@
 package com.worldbiomusic.minigameworld.commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.command.CommandSender;
@@ -83,6 +85,9 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_INGAME_LEAVE:
 				ingame_leave(sender, args);
 				break;
+			case Setting.SETTINGS_TEMPLATE_WORLDS:
+				template_worlds(sender, args);
+				break;
 			}
 
 			// save config
@@ -128,7 +133,7 @@ public class MiniGameSettingsConfigCommand {
 			}
 		}
 
-		this.setKeyValue(sender, Setting.SETTINGS_MESSAGE_PREFIX, value);
+		setKeyValue(sender, Setting.SETTINGS_MESSAGE_PREFIX, value);
 		return true;
 
 	}
@@ -136,28 +141,28 @@ public class MiniGameSettingsConfigCommand {
 	private boolean debug_mode(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_DEBUG_MODE, value);
+		setKeyValue(sender, Setting.SETTINGS_DEBUG_MODE, value);
 		return true;
 	}
 
 	private boolean backup_data_save_delay(CommandSender sender, String[] args) throws Exception {
 		int value = Integer.parseInt(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, value);
+		setKeyValue(sender, Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, value);
 		return true;
 	}
 
 	private boolean isolated_chat(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_ISOLATED_CHAT, value);
+		setKeyValue(sender, Setting.SETTINGS_ISOLATED_CHAT, value);
 		return true;
 	}
 
 	private boolean isolated_join_quit_message(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, value);
+		setKeyValue(sender, Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, value);
 		return true;
 	}
 
@@ -190,63 +195,79 @@ public class MiniGameSettingsConfigCommand {
 	private boolean scoreboard(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_SCOREBOARD, value);
+		setKeyValue(sender, Setting.SETTINGS_SCOREBOARD, value);
 		return true;
 	}
 
 	private boolean scoreboard_update_delay(CommandSender sender, String[] args) throws Exception {
 		int value = Integer.parseInt(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, value);
+		setKeyValue(sender, Setting.SETTINGS_SCOREBOARD_UPDATE_DELAY, value);
 		return true;
 	}
 
 	private boolean remove_not_necessary_keys(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, value);
+		setKeyValue(sender, Setting.SETTINGS_REMOVE_NOT_NECESSARY_KEYS, value);
 		return true;
 	}
 
 	private boolean min_leave_time(CommandSender sender, String[] args) throws Exception {
 		int value = Integer.parseInt(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_MIN_LEAVE_TIME, value);
+		setKeyValue(sender, Setting.SETTINGS_MIN_LEAVE_TIME, value);
 		return true;
 	}
 
 	private boolean start_sound(CommandSender sender, String[] args) throws Exception {
 		String value = args[2].toUpperCase();
 
-		this.setKeyValue(sender, Setting.SETTINGS_START_SOUND, value);
+		setKeyValue(sender, Setting.SETTINGS_START_SOUND, value);
 		return true;
 	}
 
 	private boolean finish_sound(CommandSender sender, String[] args) throws Exception {
 		String value = args[2].toUpperCase();
 
-		this.setKeyValue(sender, Setting.SETTINGS_FINISH_SOUND, value);
+		setKeyValue(sender, Setting.SETTINGS_FINISH_SOUND, value);
 		return true;
 	}
 
 	private boolean check_update(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_CHECK_UPDATE, value);
+		setKeyValue(sender, Setting.SETTINGS_CHECK_UPDATE, value);
 		return true;
 	}
 
 	private boolean edit_messages(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_EDIT_MESSAGES, value);
+		setKeyValue(sender, Setting.SETTINGS_EDIT_MESSAGES, value);
 		return true;
 	}
 
 	private boolean ingame_leave(CommandSender sender, String[] args) throws Exception {
 		boolean value = Boolean.parseBoolean(args[2]);
 
-		this.setKeyValue(sender, Setting.SETTINGS_INGAME_LEAVE, value);
+		setKeyValue(sender, Setting.SETTINGS_INGAME_LEAVE, value);
+		return true;
+	}
+
+	private boolean template_worlds(CommandSender sender, String[] args) throws Exception {
+		// /mw settings template-world world1, world b, world-2
+		String allWorldsText = "";
+		for (int i = 2; i < args.length; i++) {
+			allWorldsText += args[i];
+		}
+
+		List<String> worlds = new ArrayList<>();
+		for (String world : allWorldsText.split(",")) {
+			worlds.add(world.strip());
+		}
+
+		setKeyValue(sender, Setting.SETTINGS_TEMPLATE_WORLDS, worlds);
 		return true;
 	}
 }

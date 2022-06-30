@@ -284,7 +284,11 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// reload "setting.yml", all minigames
 		this.dataManager.reloadAllData();
+		
+		// load template-worlds
+		Utils.loadTemplateWorlds();
 
+		// complete msg
 		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
 		sender.sendMessage("- " + this.minigameManager.getFileName());
 		if (Setting.EDIT_MESSAGES) {

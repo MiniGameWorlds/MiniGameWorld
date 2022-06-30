@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.WorldType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +15,9 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
+import com.onarandombox.MultiverseCore.utils.WorldManager;
 import com.wbm.plugin.util.CollectionTool;
+import com.wbm.plugin.util.WorldTool;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 
 import net.md_5.bungee.api.ChatColor;
@@ -126,6 +132,50 @@ public class Utils {
 	public static void registerEventListener(Listener listener) {
 		main.getServer().getPluginManager().registerEvents(listener, main);
 	}
+
+	public static Location getDefaultLocation() {
+		// check "world"
+		Location loc = new Location(null, 0, 4, 0);
+
+		// "world" world
+		World w = Bukkit.getWorld("world");
+		if (w != null) {
+			loc.setWorld(w);
+			return loc;
+		}
+
+		// check any overworld
+		for (World world : Bukkit.getWorlds()) {
+			if (world.getEnvironment() == Environment.NORMAL) {
+				loc.setWorld(world);
+				return loc;
+			}
+		}
+
+		// just first world
+		loc.setWorld(Bukkit.getWorlds().isEmpty() ? null : Bukkit.getWorlds().get(0));
+		return loc;
+	}
+
+	public static void loadTemplateWorlds() {
+		WorldManager worldManager = (WorldManager) MiniGameWorldMain.multiverseCore().getMVWorldManager();
+		// load if world is not loaded yet
+		worldManager.getPotentialWorlds().stream().filter(Setting.TEMPLATE_WORLDS::contains).forEach(w -> {
+			Utils.warning("world: " + w);
+			World loadedWorld = WorldTool.create(w);
+			Utils.warning("loaded: " + (loadedWorld != null));
+
+			Environment env = loadedWorld.getEnvironment();
+			String seed = "" + loadedWorld.getSeed();
+			WorldType type = loadedWorld.getWorldType();
+			boolean structure = loadedWorld.canGenerateStructures();
+			MiniGameWorldMain.multiverseCore().getMVWorldManager().addWorld(w, env, seed, type, structure, null);
+
+			boolean mvLoaded = MiniGameWorldMain.multiverseCore().getMVWorldManager().loadWorld(w);
+			Utils.warning("mvLoaded: " + mvLoaded);
+		});
+	}
+
 }
 
 //

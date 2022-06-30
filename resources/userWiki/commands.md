@@ -54,10 +54,10 @@
 ## minigames
 - set minigame settings in `minigames/<minigame>.yml` config 
 - `/minigame games <classname> title [<value>]`: set title (can contain spaces)
-- `/minigame games <classname> location <<player> | <x> <y> <z>>`: set minigame spawn location
+- `/minigame games <classname> locations <<player> | <x> <y> <z>>`: add minigame spawn location
 ```yaml
-/minigame games GameA location wbm: set  wbm's location as a game location 
-/minigame games GameA location 100 50 100: set x(100), y(50), z(100) location as a GameA location
+/minigame games GameA locations wbm: add wbm's location
+/minigame games GameA locations 100 50 100: add x(100), y(50), z(100) location as a GameA location
 ```
 - `/minigame games <classname> min-players [<value>]`: set min player count (number)
 - `/minigame games <classname> max-players [<value>]`: set max player count (number)

@@ -39,4 +39,4 @@ depend: [MiniGameWorld]
 [Paper]: https://papermc.io/
 [Purpur]: https://purpurmc.org/
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
+[wbmMC]: https://github.com/etc-repo/wbmMC/releases

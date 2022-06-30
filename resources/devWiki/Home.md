@@ -24,7 +24,6 @@
 
 
 # API design
-<!-- <img src="api-design.png" width="49.5%"></img> -->
 ![](api-design.png)
 - `Custom minigame` and `third-party` uses `MiniGameWorld` API
 ## Document
@@ -55,7 +54,7 @@
 [Spigot]: https://getbukkit.org/download/spigot
 [Paper]: https://papermc.io/
 [MiniGameWorld]: plugin-design.md
-[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
+[wbmMC]: https://github.com/etc-repo/wbmMC/releases
 [Paper API]: https://papermc.io/javadocs/paper/1.16/index.html?overview-summary.html
 [Scoreboard Conflict]: https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/scoreboard.md
 

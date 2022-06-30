@@ -5,8 +5,8 @@ author: worldbiomusic
 website: https://github.com/MiniGameWorlds/MiniGameWorld
 description: Customizable Minecraft MiniGame Framework
 api-version: 1.14
-depend: [wbmMC]
-softdepend: [Multiverse-Core, WorldEdit, WorldGuard, AdvancedMultiLanguage, Vault]
+depend: [wbmMC, Multiverse-Core]
+softdepend: [WorldEdit, WorldGuard, AdvancedMultiLanguage, Vault]
 
 commands:
   minigame:

@@ -41,8 +41,8 @@ After running the server, you will see the registered minigame in green letters 
 
 ## 3.2 Setup minigame spawn location
 Minigame spawn location must be setup before playing so select one of the below methods (OP required)
-> - method1: `/mw games <minigame> location <player>`: set `<player>`'s location as a minigame spawn location 
-> - method2: `/mw games <minigame> location <x> <y> <z>`: set `<x>` `<y>` `<z>` as a minigame spawn location
+> - method1: `/mw games <minigame> locations <player>`: add `<player>`'s location as a minigame spawn location 
+> - method2: `/mw games <minigame> locations <x> <y> <z>`: add `<x>` `<y>` `<z>` as a minigame spawn location
 > - method3: `/mw reload` command after editing the minigame spawn `location` in the config file (`plugins/MiniGameWorld/minigames/<minigame>.yml`)
 
 

@@ -73,7 +73,7 @@ Update minigame location using command `/minigame games <class-name> location <<
 
 
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
+[wbmMC]: https://github.com/etc-repo/wbmMC/releases
 [MiniGames]: https://github.com/MiniGameWorlds/AllMiniGames
 [Third-Parties]: https://github.com/MiniGameWorlds
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward

@@ -5,7 +5,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.wbm.plugin.util.Metrics;
+import com.wbm.plugin.util.ServerTool;
+import com.wbm.plugin.util.WorldTool;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
@@ -16,6 +19,8 @@ import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.EventListenerManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.managers.language.LanguageManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.LocationManager;
+import com.worldbiomusic.minigameworld.util.DependencyChecker;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.UpdateChecker;
 import com.worldbiomusic.minigameworld.util.Utils;
@@ -28,6 +33,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private static MiniGameWorldMain instance;
+	private static MultiverseCore multiverseCore;
+
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
 	private LanguageManager languageManager;
@@ -36,10 +43,15 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private CommonEventListener commonListener;
 	private FunctionItemListener functionItemListener;
 	private MiniGameEventListener miniGameEventListener;
+
 	private MiniGameCommand minigameCommand;
 
 	public static MiniGameWorldMain getInstance() {
 		return instance;
+	}
+
+	public static MultiverseCore multiverseCore() {
+		return multiverseCore;
 	}
 
 	@Override
@@ -47,6 +59,11 @@ public class MiniGameWorldMain extends JavaPlugin {
 		instance = this;
 
 		printPluginInfo();
+
+		// check all dependencies are installed
+		if (!checkDependencies()) {
+			return;
+		}
 
 		// setup settings
 		setupSettings();
@@ -72,6 +89,22 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(ChatColor.RESET + " - Discord: https://discord.com/invite/fJbxSy2EjA");
 		Utils.info(ChatColor.RESET + " - E-mail:  worldbiomusic@gmail.com");
 		Utils.info(ChatColor.GREEN + "=============================================");
+	}
+
+	private boolean checkDependencies() {
+		Utils.info(ChatColor.RESET + "                  Dependency                 ");
+		boolean dependencyCheck = new DependencyChecker().checkAll();
+		Utils.info(ChatColor.GREEN + "=============================================");
+
+		// check all dependencies exist
+		if (dependencyCheck) {
+			// setup dependency instance
+			multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+		} else {
+			Bukkit.getPluginManager().disablePlugin(MiniGameWorldMain.getInstance());
+		}
+
+		return dependencyCheck;
 	}
 
 	private void setupSettings() {
@@ -101,6 +134,13 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// language files
 		// [IMPORTANT] run after DataManager init
 		this.languageManager = new LanguageManager(this.dataManager);
+
+		// load all worlds (cause of world-instance-system requires worlds are pre
+		// loaded)
+		Utils.loadTemplateWorlds();
+
+		Utils.warning("@@@@@@@ Loaded worlds @@@@@@@@@");
+		Bukkit.getWorlds().forEach(w -> Utils.warning("world name: " + w.getName()));
 	}
 
 	private void registerEventListeners() {
@@ -138,13 +178,18 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 		Utils.info(ChatColor.RESET + "                Data Manager                 ");
 
-
 		// save backup data
 		this.dataManager.saveBackupData();
 		Utils.info(" - Server data saved");
 		Utils.info(" - Backup data created");
 
 		Utils.info(ChatColor.RED + "=============================================");
+
+		Utils.info("Deleting used instance worlds...");
+		LocationManager.getUsedLocations().forEach(w -> {
+			Utils.info("- " + w);
+			multiverseCore.getMVWorldManager().deleteWorld(w, true, true);
+		});
 	}
 
 	/**

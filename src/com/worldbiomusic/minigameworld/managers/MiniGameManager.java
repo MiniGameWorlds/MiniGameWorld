@@ -39,7 +39,7 @@ import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	// Singleton
-	private static MiniGameManager instance = new MiniGameManager();
+	private static final MiniGameManager instance = new MiniGameManager();
 	private static boolean instanceCreated = false;
 
 	// MiniGame List
@@ -103,9 +103,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	/**
 	 * Set basic setting.yml data<br>
 	 * [IMPORTANT]<br>
-	 * - If add option, add access method to
-	 * {@link MiniGameGamesConfigCommand}<br>
+	 * - If add option, add access method to {@link MiniGameGamesConfigCommand}<br>
 	 */
+	@SuppressWarnings("unchecked")
 	private void initSettingData() {
 		Map<String, Object> pureData = new LinkedHashMap<>();
 		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Setting.MESSAGE_PREFIX);
@@ -124,6 +124,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_CHECK_UPDATE, Setting.CHECK_UPDATE);
 		pureData.put(Setting.SETTINGS_EDIT_MESSAGES, Setting.EDIT_MESSAGES);
 		pureData.put(Setting.SETTINGS_INGAME_LEAVE, Setting.INGAME_LEAVE);
+		pureData.put(Setting.SETTINGS_TEMPLATE_WORLDS, Setting.TEMPLATE_WORLDS);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
@@ -143,6 +144,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.CHECK_UPDATE = (boolean) this.settings.get(Setting.SETTINGS_CHECK_UPDATE);
 		Setting.EDIT_MESSAGES = (boolean) this.settings.get(Setting.SETTINGS_EDIT_MESSAGES);
 		Setting.INGAME_LEAVE = (boolean) this.settings.get(Setting.SETTINGS_INGAME_LEAVE);
+		Setting.TEMPLATE_WORLDS = (List<String>) this.settings.get(Setting.SETTINGS_TEMPLATE_WORLDS);
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDirectory().exists()) {
@@ -188,6 +190,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		if (game.isFull()) {
 			Utils.sendMsg(p, "Player is full");
+			return;
+		}
+
+		if (game.isEmpty() && !game.getLocationManager().remainsExtra()) {
+			Utils.sendMsg(p, "All game worlds are in using");
 			return;
 		}
 
@@ -339,10 +346,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			Utils.debug("Already started");
 			return;
 		}
-		
-		if(game.isEmpty()) {
+
+		if (game.isEmpty()) {
 			Utils.debug("There are no players");
-			return;	
+			return;
 		}
 
 		// start game

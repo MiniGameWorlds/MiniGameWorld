@@ -11,6 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.wbm.plugin.util.CollectionTool;
+import com.wbm.plugin.util.CryptoTool;
 import com.worldbiomusic.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.util.Setting;
@@ -26,6 +28,13 @@ import com.worldbiomusic.minigameworld.util.Setting;
  */
 public class MiniGameSetting {
 	/**
+	 * - File control: X <br>
+	 * - Init value: hash value of current nano time <br>
+	 * - Description: useful for comparing different minigames
+	 */
+	private String id;
+
+	/**
 	 * - File control: O <br>
 	 * - Init value: setup value <br>
 	 * - Description: minigame title, must be no blank in title
@@ -33,11 +42,25 @@ public class MiniGameSetting {
 	private String title;
 
 	/**
-	 * - File control: O <br>
+	 * - File control: X <br>
 	 * - Init value: new Location(Bukkit.getWorld("world"), 0, 4, 0) <br>
 	 * - Description: minigame playing location
 	 */
 	private Location location;
+
+	/**
+	 * - File control: O <br>
+	 * - Init value: true <br>
+	 * - Description: If true, create new instance world per each game
+	 */
+	private boolean instanceWorld;
+
+	/**
+	 * - File control: O <br>
+	 * - Init value: [ new Location(Bukkit.getWorld("world"), 0, 4, 0) ] <br>
+	 * - Description: minigame playing location list
+	 */
+	private List<Location> locations;
 
 	/**
 	 * - File control: O <br>
@@ -181,8 +204,12 @@ public class MiniGameSetting {
 
 	public MiniGameSetting(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
+		this.id = CryptoTool.hashToHex(String.valueOf(System.nanoTime()).getBytes()).substring(0, 10);
 		this.title = title;
 		this.location = location;
+		this.instanceWorld = true;
+		this.locations = new ArrayList<>();
+		this.locations.add(location);
 		this.minPlayers = minPlayers;
 		this.maxPlayers = maxPlayers;
 		this.waitingTime = waitingTime;
@@ -201,8 +228,9 @@ public class MiniGameSetting {
 		this.scoreboard = true;
 	}
 
-	// set
-
+	/*
+	 * Setters
+	 */
 	public void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
 	}
@@ -213,6 +241,14 @@ public class MiniGameSetting {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public void setInstanceWorld(boolean instanceWorld) {
+		this.instanceWorld = instanceWorld;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
 	}
 
 	public void setMinPlayers(int minPlayers) {
@@ -251,8 +287,8 @@ public class MiniGameSetting {
 		this.gameFinishCondition = gameFinishCondition;
 	}
 
-	public int getGameFinishConditionPlayerCount() {
-		return gameFinishConditionPlayerCount;
+	public void setGameFinishConditionPlayerCount(int gameFinishConditionPlayerCount) {
+		this.gameFinishConditionPlayerCount = gameFinishConditionPlayerCount;
 	}
 
 	public void setView(boolean view) {
@@ -270,7 +306,14 @@ public class MiniGameSetting {
 	public void setScoreboard(boolean scoreboard) {
 		this.scoreboard = scoreboard;
 	}
-	// get
+
+	/* 
+	 * Getters
+	 */
+
+	public String getId() {
+		return id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -278,6 +321,22 @@ public class MiniGameSetting {
 
 	public Location getLocation() {
 		return location;
+	}
+
+	public boolean isInstanceWorld() {
+		return instanceWorld;
+	}
+
+	public Location getRandomLocation() {
+		return CollectionTool.random(this.locations).get();
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public List<Location> getNotUsingLocations() {
+		return locations.stream().filter(loc -> !LocationManager.getUsingLocations().contains(loc)).toList();
 	}
 
 	public int getMinPlayers() {
@@ -320,8 +379,8 @@ public class MiniGameSetting {
 		return gameFinishCondition;
 	}
 
-	public void setGameFinishConditionPlayerCount(int gameFinishConditionPlayerCount) {
-		this.gameFinishConditionPlayerCount = gameFinishConditionPlayerCount;
+	public int getGameFinishConditionPlayerCount() {
+		return gameFinishConditionPlayerCount;
 	}
 
 	public boolean canView() {
@@ -355,7 +414,8 @@ public class MiniGameSetting {
 		setting.put(Setting.GAMES_ICON, this.icon.name());
 		setting.put(Setting.GAMES_VIEW, this.view);
 		setting.put(Setting.GAMES_SCOREBOARD, this.scoreboard);
-		setting.put(Setting.GAMES_LOCATION, this.location);
+		setting.put(Setting.GAMES_INSTANCE_WORLD, this.instanceWorld);
+		setting.put(Setting.GAMES_LOCATIONS, this.locations);
 		setting.put(Setting.GAMES_TUTORIAL, this.tutorial);
 		setting.put(Setting.GAMES_CUSTOM_DATA, this.customData);
 
@@ -367,8 +427,11 @@ public class MiniGameSetting {
 		// title
 		setTitle((String) setting.get(Setting.GAMES_TITLE));
 
-		// location
-		setLocation((Location) setting.get(Setting.GAMES_LOCATION));
+		// instance world
+		setInstanceWorld((boolean) setting.get(Setting.GAMES_INSTANCE_WORLD));
+
+		// locations
+		setLocations((List<Location>) setting.get(Setting.GAMES_LOCATIONS));
 
 		// waitingTime
 		setWaitingTime((int) setting.get(Setting.GAMES_WAITING_TIME));

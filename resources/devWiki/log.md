@@ -150,7 +150,7 @@
 - Add `settings.yml` api to MiniGameWorld
 - Add `scoreboard` and `scoreboard-update-delay` options to settings.yml
 - Create `MiniGamePlayerEvent`, `MiniGamePlayerJoinEvent`, `MiniGamePlayerLeaveEvent`, `MiniGamePlayerViewEvent`, `MiniGamePlayerUnviewEvent`, `MiniGameScoreboardUpdateEvent`
-- Update [wbmMC](https://github.com/worldbiomusic/wbmMC/releases)
+- Update [wbmMC](https://github.com/etc-repo/wbmMC/releases)
 
 ### Build Changes
 - Manage `scoreboard` in MiniGamePlayerState
@@ -186,7 +186,7 @@
 - Add `startGame()` to `MiniGameWorld`
 - Add `getMiniGameWithTitle()` to MiniGameWorldUtils
 - Notify players count in `leaveGame()` of MiniGame
-- Update [wbmMC](https://github.com/worldbiomusic/wbmMC/releases)
+- Update [wbmMC](https://github.com/etc-repo/wbmMC/releases)
 
 ## 0.7.0
 ### API Changes
@@ -983,10 +983,14 @@ if(!this.isMinPlayersLive()) {
 - Fix bukkit version extraction code
 - Fix game icon command
 
+# 2022-06-26
+- Add Multiverse-Core as maven dependency
+- Multiverse-Core is now required for this plugin
+- Add DependencyChecker (wbmMC, Multiverse-Core)
+- Add `template-worlds` option to settings.yml
 
-
-
-
+# 2022-06-30
+- Create world-instance-system system
 
 
 

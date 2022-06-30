@@ -66,7 +66,7 @@ Setup minigame location using command `/minigame games <class-name> location <<p
 
 
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
-[wbmMC]: https://github.com/worldbiomusic/wbmMC/releases
+[wbmMC]: https://github.com/etc-repo/wbmMC/releases
 [MiniGames]: https://github.com/MiniGameWorlds/AllMiniGames
 [Commands]: commands.md
 [Third-Parties]: https://github.com/MiniGameWorlds

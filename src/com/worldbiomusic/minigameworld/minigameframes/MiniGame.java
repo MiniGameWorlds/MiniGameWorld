@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -29,6 +28,7 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.LocationManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameDataManager;
@@ -96,6 +96,11 @@ public abstract class MiniGame {
 	 * Invenory manager
 	 */
 	private MiniGameInventoryManager invManager;
+
+	/**
+	 * Location manager (+ world)
+	 */
+	private LocationManager locationManager;
 
 	/**
 	 * Language messenger
@@ -224,7 +229,7 @@ public abstract class MiniGame {
 	 * @param waitingTime Waiting time before join minigame
 	 */
 	protected MiniGame(String title, int minPlayers, int maxPlayers, int playTime, int waitingTime) {
-		this(title, new Location(Bukkit.getWorld("world"), 0, 4, 0), minPlayers, maxPlayers, playTime, waitingTime);
+		this(title, Utils.getDefaultLocation(), minPlayers, maxPlayers, playTime, waitingTime);
 	}
 
 	/**
@@ -240,8 +245,8 @@ public abstract class MiniGame {
 		// register basic tasks
 		this.taskManager = new MiniGameTaskManager(this);
 		this.taskManager.registerBasicTasks();
-
 		this.dataManager = new MiniGameDataManager(this);
+		this.locationManager = new LocationManager(this);
 
 		// register tutorial
 		this.getSetting().setTutorial(this.tutorial());
@@ -287,6 +292,8 @@ public abstract class MiniGame {
 
 		// init scoreboard
 		this.scoreboardManager.setDefaultScoreboard();
+
+		this.locationManager.reset();
 	}
 
 	/**
@@ -383,9 +390,11 @@ public abstract class MiniGame {
 
 		// init setting when first player join
 		if (isEmpty()) {
+			Utils.debug("isEmtpy()");
 			initSettings();
 			this.taskManager.runWaitingTask();
 			this.scoreboardManager.startScoreboardUpdateTask();
+			this.locationManager.init();
 		}
 
 		// setup join settings
@@ -1325,6 +1334,15 @@ public abstract class MiniGame {
 	 */
 	public MiniGameDataManager getDataManager() {
 		return this.dataManager;
+	}
+
+	/**
+	 * Get location manager
+	 * 
+	 * @return Location manager
+	 */
+	public LocationManager getLocationManager() {
+		return this.locationManager;
 	}
 
 	/**
