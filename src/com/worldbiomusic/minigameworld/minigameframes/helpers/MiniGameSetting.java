@@ -50,6 +50,13 @@ public class MiniGameSetting {
 
 	/**
 	 * - File control: O <br>
+	 * - Init value: 1 <br>
+	 * - Description: minigame instance amount
+	 */
+	private int instances;
+
+	/**
+	 * - File control: O <br>
 	 * - Init value: true <br>
 	 * - Description: If true, create new instance world per each game
 	 */
@@ -207,6 +214,7 @@ public class MiniGameSetting {
 		this.id = CryptoTool.hashToHex(String.valueOf(System.nanoTime()).getBytes()).substring(0, 10);
 		this.title = title;
 		this.location = location;
+		this.instances = 1;
 		this.instanceWorld = true;
 		this.locations = new ArrayList<>();
 		this.locations.add(location);
@@ -241,6 +249,10 @@ public class MiniGameSetting {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public void setInstances(int instances) {
+		this.instances = instances;
 	}
 
 	public void setInstanceWorld(boolean instanceWorld) {
@@ -321,6 +333,10 @@ public class MiniGameSetting {
 
 	public Location getLocation() {
 		return location;
+	}
+
+	public int getInstances() {
+		return instances;
 	}
 
 	public boolean isInstanceWorld() {
@@ -414,6 +430,7 @@ public class MiniGameSetting {
 		setting.put(Setting.GAMES_ICON, this.icon.name());
 		setting.put(Setting.GAMES_VIEW, this.view);
 		setting.put(Setting.GAMES_SCOREBOARD, this.scoreboard);
+		setting.put(Setting.GAMES_INSTANCES, this.instances);
 		setting.put(Setting.GAMES_INSTANCE_WORLD, this.instanceWorld);
 		setting.put(Setting.GAMES_LOCATIONS, this.locations);
 		setting.put(Setting.GAMES_TUTORIAL, this.tutorial);
@@ -426,6 +443,9 @@ public class MiniGameSetting {
 	public void setFileSetting(Map<String, Object> setting) {
 		// title
 		setTitle((String) setting.get(Setting.GAMES_TITLE));
+
+		// instances
+		setInstances((int) setting.get(Setting.GAMES_INSTANCES));
 
 		// instance world
 		setInstanceWorld((boolean) setting.get(Setting.GAMES_INSTANCE_WORLD));

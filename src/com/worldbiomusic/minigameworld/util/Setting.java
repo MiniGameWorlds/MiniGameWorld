@@ -9,7 +9,7 @@ import org.bukkit.Sound;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 
 public class Setting {
-	public static final String API_VERSION = apiVersion();
+	public static final String API_VERSION = MiniGameWorldMain.getInstance().getDescription().getVersion();
 
 	public static String MESSAGE_PREFIX = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 
@@ -66,6 +66,7 @@ public class Setting {
 
 	// games
 	public static final String GAMES_TITLE = "title";
+	public static final String GAMES_INSTANCES = "instances";
 	public static final String GAMES_INSTANCE_WORLD = "instance-world";
 	public static final String GAMES_LOCATIONS = "locations";
 	public static final String GAMES_MIN_PLAYERS = "min-players";
@@ -78,9 +79,4 @@ public class Setting {
 	public static final String GAMES_ICON = "icon";
 	public static final String GAMES_VIEW = "view";
 	public static final String GAMES_SCOREBOARD = "scoreboard";
-
-	private static String apiVersion() {
-		return MiniGameWorldMain.getInstance().getDescription().getVersion();
-	}
-
 }

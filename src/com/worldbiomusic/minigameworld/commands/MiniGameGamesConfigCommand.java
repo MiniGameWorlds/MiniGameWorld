@@ -53,6 +53,9 @@ public class MiniGameGamesConfigCommand {
 			case Setting.GAMES_TITLE:
 				title(sender, args, data);
 				break;
+			case Setting.GAMES_INSTANCES:
+				instances(sender, args, data);
+				break;
 			case Setting.GAMES_INSTANCE_WORLD:
 				instance_world(sender, args, data);
 				break;
@@ -137,9 +140,16 @@ public class MiniGameGamesConfigCommand {
 		return true;
 	}
 
-	private void instance_world(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean instances(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		int amount = Integer.parseInt(args[3]);
+		setKeyValue(sender, args[1], data, Setting.GAMES_INSTANCES, amount);
+		return true;
+	}
+
+	private boolean instance_world(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
 		setKeyValue(sender, args[1], data, Setting.GAMES_INSTANCE_WORLD, active);
+		return true;
 	}
 
 	private boolean locations(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
@@ -254,8 +264,9 @@ public class MiniGameGamesConfigCommand {
 		return true;
 	}
 
-	private void custom_data(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean custom_data(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		Utils.sendMsg(sender, "custom-data only can be fixed with config (after edit, need /mw reload)");
+		return true;
 	}
 
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
@@ -265,14 +276,16 @@ public class MiniGameGamesConfigCommand {
 		return true;
 	}
 
-	private void view(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean view(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
 		setKeyValue(sender, args[1], data, Setting.GAMES_VIEW, active);
+		return true;
 	}
 
-	private void scoreboard(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean scoreboard(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
 		setKeyValue(sender, args[1], data, Setting.GAMES_SCOREBOARD, active);
+		return true;
 	}
 
 }
