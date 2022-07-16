@@ -290,7 +290,7 @@ public class PartyManager {
 			party.leave(member);
 
 			// msg
-			Party.sendMessage(member, "You leaved a party");
+			Party.sendMessage(member, "You left the party");
 
 			// make a new party for member
 			this.createParty(member);

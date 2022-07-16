@@ -28,7 +28,7 @@ public class MiniGameGamesConfigCommand {
 	}
 
 	private MiniGame getMiniGame(String className) {
-		return this.minigameManager.getMiniGameWithClassName(className);
+		return this.minigameManager.getTemplateGame(className);
 	}
 
 	public boolean games(CommandSender sender, String[] args) throws Exception {

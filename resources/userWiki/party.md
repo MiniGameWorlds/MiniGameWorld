@@ -6,7 +6,7 @@
 - Non members can `ask` to join
 - All members can `kickvote` player 
 - [Full Commands](commands.md)
-
+- Party will be broken when server reloaded or stopped
 
 
 # When join a minigame

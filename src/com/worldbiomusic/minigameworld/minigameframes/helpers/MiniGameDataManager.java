@@ -17,7 +17,6 @@ import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
 public class MiniGameDataManager implements YamlMember {
-	public static final String FOLDER_NAME = "minigames";
 	private MiniGame minigame;
 	private YamlManager yamlManager;
 	private Map<String, Object> data;
@@ -40,21 +39,17 @@ public class MiniGameDataManager implements YamlMember {
 
 	public boolean isMinigameDataExists() {
 		// search minigame file in folder
-		File file = this.getMiniGameFile();
+		File file = getMiniGameFile();
 		if (file == null) {
 			return false;
 		}
 
 		// if file exist
-		if (this.data.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
+		return !this.data.isEmpty();
 	}
 
 	public File getMiniGameFile() {
-		File gamesFolder = MiniGameWorldUtils.getMiniGamesDirectory();
+		File gamesFolder = MiniGameWorldUtils.getMiniGamesDir();
 		for (File f : gamesFolder.listFiles()) {
 			String fileName = Files.getNameWithoutExtension(f.getName());
 			if (fileName.equals(this.getClassName())) {
@@ -75,7 +70,7 @@ public class MiniGameDataManager implements YamlMember {
 		// apply settings
 		this.minigame.getSetting().setFileSetting(this.data);
 
-		// when settingFixed is true: restore fixed values to file
+		// restore edited values to fixed values
 		if (this.minigame.getSetting().isSettingFixed()) {
 			// minPlayers
 			this.data.put(Setting.GAMES_MIN_PLAYERS, this.minigame.getMinPlayers());
@@ -98,7 +93,7 @@ public class MiniGameDataManager implements YamlMember {
 	private void taskAfterDataSetup() {
 		// load custom data
 		this.minigame.loadCustomData();
-		
+
 		// init settings
 		// [IMPORTANT] must be called after other settings(e.g. custom-data) setup
 		this.minigame.initSettings();
@@ -106,6 +101,10 @@ public class MiniGameDataManager implements YamlMember {
 
 	public String getClassName() {
 		return this.minigame.getClassName();
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
 	}
 
 	public Map<String, Object> getData() {
@@ -128,6 +127,6 @@ public class MiniGameDataManager implements YamlMember {
 	@Override
 	public String getFileName() {
 		// in "games" directory
-		return FOLDER_NAME + File.separator + this.getClassName() + ".yml";
+		return Setting.MINIGAMES_DIR + File.separator + this.getClassName() + ".yml";
 	}
 }

@@ -8,10 +8,10 @@ import org.bukkit.event.Event;
 /**
  * Custom event external detector
  *
- * @see MiniGameWorld#registerMiniGameEventExternalDetector(MiniGameEventExternalDetector)
- * @see MiniGameWorld#unregisterMiniGameEventExternalDetector(MiniGameEventExternalDetector)
+ * @see MiniGameWorld#registerExternalEventDetector(MiniGameEventExternalDetector)
+ * @see MiniGameWorld#unregisterExternalEventDetector(MiniGameEventExternalDetector)
  */
-public interface MiniGameEventExternalDetector {
+public interface MiniGameExternalEventDetector {
 	/**
 	 * Returns players related with event<br>
 	 * [IMPORTANT] Event will be passed to minigame if player list is not empty<br>

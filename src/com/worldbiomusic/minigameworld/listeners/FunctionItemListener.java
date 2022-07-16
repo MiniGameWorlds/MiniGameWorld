@@ -89,7 +89,7 @@ public class FunctionItemListener implements Listener {
 			}
 			
 			// open menu
-			this.minigameManager.getMiniGameMenuManager().openMenu(p);
+			this.minigameManager.getMenuManager().openMenu(p);
 		}
 	}
 }

@@ -33,8 +33,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return True if player is playing any minigames
 	 */
-	public static boolean checkPlayerIsPlayingMiniGame(Player p) {
-		return minigameManager.isPlayingMiniGame(p);
+	public static boolean isPlayingGame(Player p) {
+		return minigameManager.isPlayingGame(p);
 	}
 
 	/**
@@ -43,8 +43,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return True if a player is viewing any minigames
 	 */
-	public static boolean checkPlayerIsViewingMiniGame(Player p) {
-		return minigameManager.isViewingMiniGame(p);
+	public static boolean isViewingGame(Player p) {
+		return minigameManager.isViewingGame(p);
 	}
 
 	/**
@@ -53,8 +53,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return True if the player is playing or viewing any minigame
 	 */
-	public static boolean checkPlayerIsInMiniGame(Player p) {
-		return minigameManager.isInMiniGame(p);
+	public static boolean isInGame(Player p) {
+		return minigameManager.isInGame(p);
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return Null if a player is not playing any minigames
 	 */
-	public static MiniGameAccessor getPlayingMiniGame(Player p) {
-		MiniGame minigame = minigameManager.getPlayingMiniGame(p);
+	public static MiniGameAccessor getPlayingGame(Player p) {
+		MiniGame minigame = minigameManager.getPlayingGame(p);
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -74,8 +74,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return Null if a player is not viewing any minigames
 	 */
-	public static MiniGameAccessor getViewingMiniGame(Player p) {
-		MiniGame minigame = minigameManager.getViewingMiniGame(p);
+	public static MiniGameAccessor getViewingGame(Player p) {
+		MiniGame minigame = minigameManager.getViewingGame(p);
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -85,8 +85,8 @@ public class MiniGameWorldUtils {
 	 * @param p Player to check
 	 * @return Null if a player is not in(playing or viewing) any minigames
 	 */
-	public static MiniGameAccessor getInMiniGame(Player p) {
-		MiniGame minigame = minigameManager.getInMiniGame(p);
+	public static MiniGameAccessor getInGame(Player p) {
+		MiniGame minigame = minigameManager.getInGame(p);
 		return new MiniGameAccessor(minigame);
 	}
 
@@ -96,38 +96,43 @@ public class MiniGameWorldUtils {
 	 * @param players Players to check
 	 * @return Players who are playing a minigame
 	 */
-	public static List<Player> getPlayingMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> minigameManager.isPlayingMiniGame(p)).toList();
+	public static List<Player> getPlayingGamePlayers(List<Player> players) {
+		return getPlayingGamePlayers(players, false);
 	}
 
 	/**
-	 * Get players who are not playing a minigame
+	 * Get players who are playing a minigame (reverse option)
 	 * 
 	 * @param players Players to check
-	 * @return Players who are not playing a minigame
+	 * @param reverse If true, get not playing game players
+	 * @return Players who are playing a minigame
 	 */
-	public static List<Player> getNotPlayingMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> !minigameManager.isPlayingMiniGame(p)).toList();
+	public static List<Player> getPlayingGamePlayers(List<Player> players, boolean reverse) {
+		return players.stream()
+				.filter(p -> reverse ? !minigameManager.isPlayingGame(p) : minigameManager.isPlayingGame(p)).toList();
+
 	}
 
 	/**
-	 * Get players who are not viewing a minigame
-	 * 
-	 * @param players Players to check
-	 * @return Players who are not viewing a minigame
-	 */
-	public static List<Player> getViewingMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> minigameManager.isViewingMiniGame(p)).toList();
-	}
-
-	/**
-	 * Get players who are not viewing a minigame
+	 * Get players who are viewing a minigame
 	 * 
 	 * @param players Players to check
 	 * @return Players who are not viewing a minigame
 	 */
-	public static List<Player> getNotViewingMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> !minigameManager.isViewingMiniGame(p)).toList();
+	public static List<Player> getViewingGamePlayers(List<Player> players) {
+		return getViewingGamePlayers(players, false);
+	}
+
+	/**
+	 * Get players who are viewing a minigame (reverse option)
+	 * 
+	 * @param players Players to check
+	 * @param reverse If true, get not viewing game players
+	 * @return Players who are not viewing a minigame
+	 */
+	public static List<Player> getViewingGamePlayers(List<Player> players, boolean reverse) {
+		return players.stream()
+				.filter(p -> reverse ? !minigameManager.isViewingGame(p) : minigameManager.isViewingGame(p)).toList();
 	}
 
 	/**
@@ -136,18 +141,20 @@ public class MiniGameWorldUtils {
 	 * @param players Players to check
 	 * @return Players who are in(playing or viewing) a minigame
 	 */
-	public static List<Player> getInMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> minigameManager.isInMiniGame(p)).toList();
+	public static List<Player> getInGamePlayers(List<Player> players) {
+		return getInGamePlayers(players, false);
 	}
 
 	/**
-	 * Get players who are NOT in(playing or viewing) a minigame
+	 * Get players who are in(playing or viewing) a minigame (reverse option)
 	 * 
 	 * @param players Players to check
+	 * @param reverse If true, get not viewing game players
 	 * @return Players who are NOT in(playing or viewing) a minigame
 	 */
-	public static List<Player> getNotInMiniGamePlayers(List<Player> players) {
-		return players.stream().filter(p -> !minigameManager.isInMiniGame(p)).toList();
+	public static List<Player> getInGamePlayers(List<Player> players, boolean reverse) {
+		return players.stream().filter(p -> reverse ? !minigameManager.isInGame(p) : minigameManager.isInGame(p))
+				.toList();
 	}
 
 	/**
@@ -156,12 +163,9 @@ public class MiniGameWorldUtils {
 	 * @param title Minigame title
 	 * @return Null if title minigmae is not exist
 	 */
-	public static MiniGameAccessor getMiniGameWithTitle(String title) {
-		MiniGame minigame = minigameManager.getMiniGameWithTitle(title);
-		if (minigame == null) {
-			return null;
-		}
-		return new MiniGameAccessor(minigame);
+	public static MiniGameAccessor getTemplateGame(String title) {
+		MiniGame minigame = minigameManager.getTemplateGame(title);
+		return minigame == null ? null : new MiniGameAccessor(minigame);
 	}
 
 	/**
@@ -170,12 +174,34 @@ public class MiniGameWorldUtils {
 	 * @param className Minigame class name
 	 * @return Null if class name minigame not exist
 	 */
-	public static MiniGameAccessor getMiniGameWithClassName(String className) {
-		MiniGame minigame = minigameManager.getMiniGameWithClassName(className);
-		if (minigame == null) {
-			return null;
-		}
-		return new MiniGameAccessor(minigame);
+	public static MiniGameAccessor getTemplateGame(Class<?> c) {
+		MiniGame minigame = minigameManager.getTemplateGame(c);
+		return minigame == null ? null : new MiniGameAccessor(minigame);
+	}
+
+	/**
+	 * Get instance game with title and minigame id
+	 * 
+	 * @param title Minigame title
+	 * @param id    Minigame instance id
+	 * @return Null if there is no minigame matched
+	 * @throws ClassNotFoundException
+	 */
+	public static MiniGameAccessor getInstanceGame(String title, String id) {
+		MiniGame minigame = minigameManager.getInstanceGame(title, id);
+		return minigame == null ? null : new MiniGameAccessor(minigame);
+	}
+
+	/**
+	 * Get instance game with class simple name and minigame id
+	 * 
+	 * @param className Minigame class name
+	 * @param id        Minigame instance id
+	 * @return Null if there is no minigame matched
+	 */
+	public static MiniGameAccessor getInstanceGame(Class<?> c, String id) {
+		MiniGame minigame = minigameManager.getInstanceGame(c, id);
+		return minigame == null ? null : new MiniGameAccessor(minigame);
 	}
 
 	/**
@@ -183,8 +209,17 @@ public class MiniGameWorldUtils {
 	 * 
 	 * @return Directory which has minigame configs
 	 */
-	public static File getMiniGamesDirectory() {
-		return new File(MiniGameWorldMain.getInstance().getDataFolder(), MiniGameDataManager.FOLDER_NAME);
+	public static File getMiniGamesDir() {
+		return Utils.getMiniGamesDir();
+	}
+
+	/**
+	 * Get "plugins/MiniGameWorld/messages" directory
+	 * 
+	 * @return Directory which has language messages
+	 */
+	public static File getMessagesDir() {
+		return Utils.getMessagesDir();
 	}
 
 	/**

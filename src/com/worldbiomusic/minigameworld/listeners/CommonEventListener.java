@@ -2,7 +2,6 @@ package com.worldbiomusic.minigameworld.listeners;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -19,7 +18,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
@@ -48,13 +46,13 @@ public class CommonEventListener implements Listener {
 	 */
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		this.minigameManager.processPlayerJoinWorks(e.getPlayer());
+		this.minigameManager.todoOnPlayerJoin(e.getPlayer());
 	}
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		this.minigameManager.processPlayerQuitWorks(p);
+		this.minigameManager.todoOnPlayerQuit(p);
 
 		// call minigame exception event
 		Utils.callEvent(new MiniGamePlayerExceptionEvent("player-quit-server", p));
@@ -65,12 +63,12 @@ public class CommonEventListener implements Listener {
 	 */
 	@EventHandler
 	private void onPlayerClickMenu(InventoryClickEvent e) {
-		this.minigameManager.getMiniGameMenuManager().onInventoryEvent(e);
+		this.minigameManager.getMenuManager().onInventoryEvent(e);
 	}
 
 	@EventHandler
 	private void onPlayerCloseGUI(InventoryCloseEvent e) {
-		this.minigameManager.getMiniGameMenuManager().onInventoryEvent(e);
+		this.minigameManager.getMenuManager().onInventoryEvent(e);
 	}
 
 	/*
@@ -117,9 +115,9 @@ public class CommonEventListener implements Listener {
 		} else if (minigame.equals(Setting.LEAVE_SIGN_CAPTION)) {
 			// leave or unview
 			if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				if (this.minigameManager.isPlayingMiniGame(p)) {
+				if (this.minigameManager.isPlayingGame(p)) {
 					this.minigameManager.leaveGame(p);
-				} else if (this.minigameManager.isViewingMiniGame(p)) {
+				} else if (this.minigameManager.isViewingGame(p)) {
 					this.minigameManager.unviewGame(p);
 				}
 			}
@@ -131,13 +129,13 @@ public class CommonEventListener implements Listener {
 		// Don't send message to players playing minigame from outside
 		Player p = e.getPlayer();
 
-		if (this.minigameManager.isPlayingMiniGame(p)) {
+		if (this.minigameManager.isPlayingGame(p)) {
 			return;
 		}
 
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> playingMinigamePlayers = e.getRecipients();
-			for (MiniGame m : this.minigameManager.getMiniGameList()) {
+			for (MiniGame m : this.minigameManager.getTemplateGames()) {
 				playingMinigamePlayers.removeAll(m.getPlayers());
 			}
 		}
@@ -168,6 +166,7 @@ public class CommonEventListener implements Listener {
 
 		switch (cmd) {
 		case "stop":
+		case "end":
 		case "reload":
 		case "reload confirm":
 		case "restart":

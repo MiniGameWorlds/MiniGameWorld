@@ -99,6 +99,14 @@ public class Utils {
 		return main.getDataFolder();
 	}
 
+	public static File getMiniGamesDir() {
+		return new File(getDataFolder(), Setting.MINIGAMES_DIR);
+	}
+	
+	public static File getMessagesDir() {
+		return new File(getDataFolder(), Setting.MESSAGES_DIR);
+	}
+
 	public static void syncMapKeys(Map<String, Object> configMap, Map<String, Object> pureMap) {
 		// remove not necessary keys to avoid error (i.e. keys for some updates)
 		if (Setting.REMOVE_NOT_NECESSARY_KEYS) {
@@ -133,6 +141,11 @@ public class Utils {
 		main.getServer().getPluginManager().registerEvents(listener, main);
 	}
 
+	/**
+	 * Default minigame location
+	 * 
+	 * @return default minigame location
+	 */
 	public static Location getDefaultLocation() {
 		// check "world"
 		Location loc = new Location(null, 0, 4, 0);

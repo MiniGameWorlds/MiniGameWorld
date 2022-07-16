@@ -116,7 +116,7 @@ public class MiniGameMenu {
 	private void updatePlayerHead() {
 		ItemStack playerHead = this.inv.getItem(0);
 
-		MiniGame playingMinigame = this.minigameManager.getPlayingMiniGame(this.player);
+		MiniGame playingMinigame = this.minigameManager.getPlayingGame(this.player);
 		String noneStr = messenger.getMsg(player, "none");
 		String title = (playingMinigame == null) ? noneStr : playingMinigame.getTitle();
 
@@ -155,7 +155,7 @@ public class MiniGameMenu {
 
 		// slot: 18 ~ 44 (count: 27)
 		int minigameIndex = 0 + ((page - 1) * MINIGAME_ICON_LIST_SIZE);
-		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
+		List<MiniGame> minigameList = this.minigameManager.getTemplateGames();
 //		for (int i = 18; i < 45; i++, minigameIndex++) {
 		for (int i = MINIGAME_ICON_START_SLOT; i < MINIGAME_ICON_START_SLOT
 				+ MINIGAME_ICON_LIST_SIZE; i++, minigameIndex++) {
@@ -243,9 +243,9 @@ public class MiniGameMenu {
 		if (clickedItem.equals(BaseIcon.LEAVE_GAME.getItem())) {
 
 			// leave or unview
-			if (this.minigameManager.isPlayingMiniGame(p)) {
+			if (this.minigameManager.isPlayingGame(p)) {
 				this.minigameManager.leaveGame(p);
-			} else if (this.minigameManager.isViewingMiniGame(p)) {
+			} else if (this.minigameManager.isViewingGame(p)) {
 				this.minigameManager.unviewGame(p);
 			}
 		} else if (clickedItem.equals(BaseIcon.PREVIOUS_PAGE.getItem())) {
@@ -276,7 +276,7 @@ public class MiniGameMenu {
 	}
 
 	private int getMaxPageNumber() {
-		List<MiniGame> minigameList = this.minigameManager.getMiniGameList();
+		List<MiniGame> minigameList = this.minigameManager.getTemplateGames();
 		return (int) Math.ceil(minigameList.size() / (double) MINIGAME_ICON_LIST_SIZE);
 	}
 

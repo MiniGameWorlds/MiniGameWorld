@@ -38,7 +38,7 @@ public class MiniGameEventListener implements Listener {
 		MiniGame minigame = null;
 
 		// get minigame instance
-		for (MiniGame m : this.minigameManager.getMiniGameList()) {
+		for (MiniGame m : this.minigameManager.getTemplateGames()) {
 			if (game.equals(m)) {
 				minigame = m;
 			}
@@ -79,7 +79,7 @@ public class MiniGameEventListener implements Listener {
 		MiniGameAccessor game = e.getMiniGame();
 		MiniGame minigame = null;
 
-		for (MiniGame m : this.minigameManager.getMiniGameList()) {
+		for (MiniGame m : this.minigameManager.getTemplateGames()) {
 			if (game.equals(m)) {
 				minigame = m;
 			}

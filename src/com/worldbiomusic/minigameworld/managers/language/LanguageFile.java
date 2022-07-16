@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import com.wbm.plugin.util.data.yaml.YamlManager;
 import com.wbm.plugin.util.data.yaml.YamlMember;
+import com.worldbiomusic.minigameworld.util.Setting;
 
 public class LanguageFile implements YamlMember {
 	private String language;
@@ -29,7 +30,7 @@ public class LanguageFile implements YamlMember {
 
 	@Override
 	public String getFileName() {
-		return "messages" + File.separator + language.toString() + ".yml";
+		return Setting.MESSAGES_DIR + File.separator + language.toString() + ".yml";
 	}
 
 	@Override

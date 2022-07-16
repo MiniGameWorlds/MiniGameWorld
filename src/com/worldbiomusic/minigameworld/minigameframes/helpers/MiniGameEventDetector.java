@@ -41,7 +41,7 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.worldbiomusic.minigameworld.api.MiniGameEventExternalDetector;
+import com.worldbiomusic.minigameworld.api.MiniGameExternalEventDetector;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 
@@ -73,7 +73,7 @@ public class MiniGameEventDetector {
 	 * Default detectable event list
 	 */
 	private Set<Class<? extends Event>> detectableEventList;
-	private List<MiniGameEventExternalDetector> externalDetectors;
+	private List<MiniGameExternalEventDetector> externalDetectors;
 	private MiniGameManager minigameManager;
 
 	public MiniGameEventDetector(MiniGameManager minigameManager) {
@@ -320,13 +320,13 @@ public class MiniGameEventDetector {
 		this.externalDetectors.forEach(d -> eventPlayers.addAll(d.getPlayersFromEvent(event)));
 	}
 
-	public void registerExternalDetector(MiniGameEventExternalDetector detector) {
+	public void registerExternalDetector(MiniGameExternalEventDetector detector) {
 		if (!this.externalDetectors.contains(detector)) {
 			this.externalDetectors.add(detector);
 		}
 	}
 
-	public void unregisterExternalDetector(MiniGameEventExternalDetector detector) {
+	public void unregisterExternalDetector(MiniGameExternalEventDetector detector) {
 		this.externalDetectors.remove(detector);
 	}
 
@@ -348,7 +348,7 @@ public class MiniGameEventDetector {
 
 		while (it.hasNext()) {
 			Player tmpP = it.next();
-			if (this.minigameManager.isPlayingMiniGame(tmpP)) {
+			if (this.minigameManager.isPlayingGame(tmpP)) {
 				firstP = tmpP;
 			}
 		}
@@ -356,7 +356,7 @@ public class MiniGameEventDetector {
 		if (firstP == null) {
 			return;
 		}
-		MiniGame firstPMiniGame = this.minigameManager.getPlayingMiniGame(firstP);
+		MiniGame firstPMiniGame = this.minigameManager.getPlayingGame(firstP);
 
 		// remove duplicated player playing the same minigame
 		for (Player p : eventPlayers) {
@@ -364,8 +364,8 @@ public class MiniGameEventDetector {
 				continue;
 			}
 
-			if (this.minigameManager.isPlayingMiniGame(p)) {
-				MiniGame pMiniGame = this.minigameManager.getPlayingMiniGame(p);
+			if (this.minigameManager.isPlayingGame(p)) {
+				MiniGame pMiniGame = this.minigameManager.getPlayingGame(p);
 				if (firstPMiniGame.equals(pMiniGame)) {
 					removingPlayers.add(p);
 				}

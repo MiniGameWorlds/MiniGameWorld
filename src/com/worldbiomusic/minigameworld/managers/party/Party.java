@@ -268,7 +268,7 @@ public class Party {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Check party members can join minigame
 	 * 
@@ -276,15 +276,11 @@ public class Party {
 	 * @return True if can join, or false
 	 */
 	public boolean canJoinMiniGame(MiniGame game) {
-		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getNotInMiniGamePlayers(getMembers());
-		
+		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getInGamePlayers(getMembers(), true);
+
 		// check party size
 		int leftSeats = game.getMaxPlayers() - game.getPlayerCount();
-		if (notInMiniGameMembers.size() > leftSeats) {
-			return false;
-		}
-
-		return true;
+		return notInMiniGameMembers.size() <= leftSeats;
 	}
 
 	/**

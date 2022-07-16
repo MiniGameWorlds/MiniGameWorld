@@ -1,4 +1,10 @@
 # TODO
+- Pass `MiniGameFinishEvent` with player list event(as class member value) in `MiniGame` (rewrite  `MiniGameWorld-Reward`, `MiniGameWorld-Rank`)
+```java
+class MiniGameFinishEvent {
+	private List<MiniGamePlayerData> players;
+}
+```
 - bossbar
 - scoreboard new object in every update
 - Disable `_finish-timer` if `play-time` is 0
@@ -988,15 +994,69 @@ if(!this.isMinPlayersLive()) {
 - Multiverse-Core is now required for this plugin
 - Add DependencyChecker (wbmMC, Multiverse-Core)
 - Add `template-worlds` option to settings.yml
+- Change `location` to `locations` in MiniGameSetting
+- Add `world-instance` option to MiniGameSetting
 
 # 2022-06-30
-- Create world-instance-system system
+- Create world-instance-system frame
 
+# 2022-07-05
+- Add `instances` option to MiniGameSetting
+- Refactoring list
+```yaml
+- MiniGameManager: getMiniGameList() -> getTemplateGames()
+- MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
+- MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
+- MiniGameManager: hasSameMiniGame() -> existTemplateGame()
+- MiniGameManager: registerMiniGame() -> registerTemplateGame()
+- MiniGameManager: unregisterMiniGame() -> unregisterTemplateGame()
+- MiniGameManager: getMiniGameMenuManager() -> getMenuManager()
+- MiniGameManager: getMiniGameEventDetector() -> getEventDetector()
+- MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
+- MiniGameManager: isPlayingMiniGame() -> isPlayingGame()
+- MiniGameManager: getViewingMiniGame() -> getViewingGame()
+- MiniGameManager: isViewingMiniGame() -> isViewingGame()
+- MiniGameManager: getInMiniGame() -> getInGame()
+- MiniGameManager: isInMiniGame() -> isInGame()
+- MiniGameManager: removeNotExistMiniGameData() -> removeNotExistGameData()
 
+- MiniGameWorld: getMiniGameList() -> getTemplateGames()
+- MiniGameWorld: registerMiniGame() -> registerGame()
+- MiniGameWorld: unregisterMiniGame() -> unregisterGame()
+- MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
+- MiniGameWorld: registerMiniGameEventExternalDetector() -> registerExternalEventDetector()
+- MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
+- MiniGameWorld: registerMiniGameObserver() -> registerObserver()
+- MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
+- MiniGameWorld: () -> ()
+- MiniGameWorld: () -> ()
 
+- MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
+- MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
+- MiniGameManager: getMiniGamesDirectory() -> getMiniGamesDir()
+- MiniGameManager: checkPlayerIsPlayingMiniGame() -> isPlayingGame()
+- MiniGameManager: checkPlayerIsViewingMiniGame() -> isViewingGame()
+- MiniGameManager: checkPlayerIsInMiniGame() -> isInGame()
+- MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
+- MiniGameManager: getViewingMiniGame() -> getViewingGame()
+- MiniGameManager: getInMiniGame() -> getInGame()
+- MiniGameManager: getPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getNotPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(true))
+- MiniGameManager: getViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getNotViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(true))
+- MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
+- MiniGameManager: () -> ()
+- MiniGameManager: () -> ()
+- MiniGameManager: () -> ()
+- MiniGameManager: () -> ()
+```
 
+# 2022-07-08
+- Create game-instance-system frame
 
-
+# 2022-07-16
+- Improve game-instance-system
 
 
 

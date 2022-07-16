@@ -161,7 +161,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	private void processRemainedPlayersWhenServerStart() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.minigameManager.processPlayerJoinWorks(p);
+			this.minigameManager.todoOnPlayerJoin(p);
 		}
 	}
 
@@ -170,7 +170,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		this.processRemainedPlayersWhenServerStop();
 
 		// remove not registered minigames setting data in minigames.yml
-		this.minigameManager.removeNotExistMiniGameData();
+		this.minigameManager.removeNotExistGameData();
 
 		Utils.info(ChatColor.RED + "=============================================");
 		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
@@ -188,7 +188,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info("Deleting used instance worlds...");
 		LocationManager.getUsedLocations().forEach(w -> {
 			Utils.info("- " + w);
-			multiverseCore.getMVWorldManager().deleteWorld(w, true, true);
+			multiverseCore.getMVWorldManager().deleteWorld(w, true, false);
 		});
 	}
 
@@ -198,8 +198,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	 * See: {@link MiniGameManager#checkPluginIsDisabled}
 	 */
 	private void processRemainedPlayersWhenServerStop() {
-
 		// process player quit work
-		Bukkit.getOnlinePlayers().forEach(p -> minigameManager.processPlayerQuitWorks(p));
+		Bukkit.getOnlinePlayers().forEach(p -> minigameManager.todoOnPlayerQuit(p));
 	}
 }

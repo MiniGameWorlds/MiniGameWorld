@@ -21,6 +21,9 @@ public class Setting {
 
 	public static int BACKUP_DATA_SAVE_DELAY = 60; // min
 
+	public static String MINIGAMES_DIR = "minigames";
+	public static String MESSAGES_DIR = "messages";
+
 	// url
 	public static final String URL_WIKI_README = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/README.md";
 	public static final String URL_WIKI_COMMAND = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/commands.md";

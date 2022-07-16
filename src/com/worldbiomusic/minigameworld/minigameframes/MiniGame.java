@@ -20,6 +20,7 @@ import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.SoundTool;
 import com.wbm.plugin.util.instance.TaskManager;
 import com.worldbiomusic.minigameworld.api.MiniGameAccessor;
+import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameEventPassEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameFinishEvent;
@@ -28,6 +29,7 @@ import com.worldbiomusic.minigameworld.customevents.minigame.MiniGameStartEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.worldbiomusic.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.managers.party.Party;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.LocationManager;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
@@ -292,8 +294,6 @@ public abstract class MiniGame {
 
 		// init scoreboard
 		this.scoreboardManager.setDefaultScoreboard();
-
-		this.locationManager.reset();
 	}
 
 	/**
@@ -390,7 +390,6 @@ public abstract class MiniGame {
 
 		// init setting when first player join
 		if (isEmpty()) {
-			Utils.debug("isEmtpy()");
 			initSettings();
 			this.taskManager.runWaitingTask();
 			this.scoreboardManager.startScoreboardUpdateTask();
@@ -425,7 +424,7 @@ public abstract class MiniGame {
 	}
 
 	/**
-	 * Leave player from minigame <br>
+	 * When a player tries to leave minigame <b>before start</b><br>
 	 * [IMPORTANT] This method must be called by the
 	 * {@link MiniGameManager#leaveGame(Player)} ONLY. (If player needs to be left
 	 * in this MiniGame class, use {@link #onPlayerLeave(Player, String)})<br>
@@ -445,6 +444,12 @@ public abstract class MiniGame {
 		onLeave(p);
 
 		onPlayerLeave(p, messenger.getMsg(p, "before-start"));
+
+		// notify message to party members
+		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
+		if (party.getSize() > 1) {
+			party.sendMessageToAllMembers(p.getName() + " left " + getColoredTitle() + " minigame with party");
+		}
 
 		return true;
 	}
@@ -513,6 +518,12 @@ public abstract class MiniGame {
 		} else {
 			Utils.sendMsgToEveryone(msg);
 		}
+
+		// notify message to party members
+		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
+		if (party.getSize() > 1) {
+			party.sendMessageToAllMembers(p.getName() + " joined " + getColoredTitle() + " minigame with party");
+		}
 	}
 
 	/**
@@ -564,7 +575,7 @@ public abstract class MiniGame {
 	 * <br>
 	 * Execute "onStart()"
 	 */
-	public void startGame() {
+	public boolean startGame() {
 		// check min player count
 		if (getPlayerCount() < getMinPlayers()) {
 			int needPlayerCount = getMinPlayers() - getPlayerCount();
@@ -576,14 +587,14 @@ public abstract class MiniGame {
 			// restart waiting task
 			restartWaitingTask();
 
-			return;
+			return false;
 		}
 
 		// call start event (check event is cancelled)
 		if (Utils.callEvent(new MiniGameStartEvent(this))) {
 			// restart waiting task
 			restartWaitingTask();
-			return;
+			return false;
 		}
 
 		// start
@@ -605,6 +616,8 @@ public abstract class MiniGame {
 
 		// start finishsTimer
 		this.taskManager.runFinishTask();
+		
+		return true;
 	}
 
 	/**
@@ -648,6 +661,13 @@ public abstract class MiniGame {
 		Utils.callEvent(new MiniGameFinishEvent(this));
 
 		this.players.clear();
+
+		// [IMPORTANT] must called after all players left the location
+		this.locationManager.reset();
+
+		// remove this instance from MiniGameManager instance list
+		MiniGame thisInstance = MiniGameManager.getInstance().getInstanceGame(getTitle(), getSetting().getId());
+		MiniGameManager.getInstance().removeGameInstance(thisInstance);
 	}
 
 	/**

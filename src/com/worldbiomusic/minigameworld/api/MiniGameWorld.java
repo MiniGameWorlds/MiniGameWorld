@@ -104,22 +104,49 @@ public class MiniGameWorld {
 	}
 
 	/**
-	 * Join player to minigame
+	 * Join a minigame with party members who are available to join with<br>
+	 * - Join into already waiting instance game or create new game instance if need
 	 * 
 	 * @param p     Player who tries to join
 	 * @param title MiniGame title
+	 * @return False if player failed to join
 	 */
-	public void joinGame(Player p, String title) {
-		this.minigameManager.joinGame(p, title);
+	public boolean joinGame(Player p, String title) {
+		return this.minigameManager.joinGame(p, title);
+	}
+
+	/**
+	 * Join into minigame instance already created<br>
+	 * (NEVER create new game instance)
+	 * 
+	 * @param p     Player who tries to join
+	 * @param title MiniGame title
+	 * @param id    Minigame id
+	 * @return False if player failed to join
+	 */
+	public boolean joinGame(Player p, String title, String id) {
+		return this.minigameManager.joinGame(p, title, id);
 	}
 
 	/**
 	 * Leave player from playing minigame
 	 * 
 	 * @param p Player who tries to leave
+	 * @return False if player failed to leave
 	 */
-	public void leaveGame(Player p) {
-		this.minigameManager.leaveGame(p);
+	public boolean leaveGame(Player p) {
+		return this.minigameManager.leaveGame(p);
+	}
+
+	/**
+	 * Make the player view <b>random</b> minigame
+	 * 
+	 * @param p     Player who tries to view
+	 * @param title MiniGame title
+	 * @return False if player failed to view
+	 */
+	public boolean viewGame(Player p, String title) {
+		return this.minigameManager.viewGame(p, title);
 	}
 
 	/**
@@ -127,27 +154,32 @@ public class MiniGameWorld {
 	 * 
 	 * @param p     Player who tries to view
 	 * @param title MiniGame title
+	 * @param id    Minigame id
+	 * @return False if player failed to view
 	 */
-	public void viewGame(Player p, String title) {
-		this.minigameManager.viewGame(p, title);
+	public boolean viewGame(Player p, String title, String id) {
+		return this.minigameManager.viewGame(p, title, id);
 	}
 
 	/**
 	 * Unview(leave) player from viewing minigame
 	 * 
 	 * @param p Player who tries to unview
+	 * @return False if player failed to unview
 	 */
-	public void unviewGame(Player p) {
-		this.minigameManager.unviewGame(p);
+	public boolean unviewGame(Player p) {
+		return this.minigameManager.unviewGame(p);
 	}
 
 	/**
 	 * Start minigame
 	 * 
-	 * @param title
+	 * @param title Minigame title
+	 * @param id    instance id
+	 * @return False if minigame failed to start
 	 */
-	public void startGame(String title) {
-		this.minigameManager.startGame(title);
+	public boolean startGame(String title, String id) {
+		return this.minigameManager.startGame(title, id);
 	}
 
 	/**
@@ -157,42 +189,54 @@ public class MiniGameWorld {
 	 * 
 	 * @return Instance
 	 */
-	public MiniGameEventDetector getMiniGameEventDetector() {
-		return this.minigameManager.getMiniGameEventDetector();
+	public MiniGameEventDetector getEventDetector() {
+		return this.minigameManager.getEventDetector();
 	}
 
 	/**
-	 * Gets minigame list
+	 * Gets template minigame list
 	 * 
 	 * @return MiniGameAccessor list
 	 */
-	public List<MiniGameAccessor> getMiniGameList() {
-		List<MiniGame> minigames = this.minigameManager.getMiniGameList();
+	public List<MiniGameAccessor> getTemplateGames() {
+		List<MiniGame> minigames = this.minigameManager.getTemplateGames();
 		List<MiniGameAccessor> minigameAccessors = new ArrayList<MiniGameAccessor>();
 		minigames.forEach(game -> minigameAccessors.add(new MiniGameAccessor(game)));
 		return minigameAccessors;
 	}
 
 	/**
-	 * Registers new minigame to MiniGameWorld plugin<br>
+	 * Get instance minigame list
+	 * 
+	 * @return MiniGameAccessor list
+	 */
+	public List<MiniGameAccessor> getInstanceGames() {
+		List<MiniGame> minigames = this.minigameManager.getInstanceGames();
+		List<MiniGameAccessor> minigameAccessors = new ArrayList<MiniGameAccessor>();
+		minigames.forEach(game -> minigameAccessors.add(new MiniGameAccessor(game)));
+		return minigameAccessors;
+	}
+
+	/**
+	 * Registers new template minigame to MiniGameWorld plugin<br>
 	 * 
 	 * The Same class name minigame can't be registered in the same server
 	 * 
 	 * @param newGame Minigame to register
 	 * @return False if same class name minigame already exists
 	 */
-	public boolean registerMiniGame(MiniGame newGame) {
-		return this.minigameManager.registerMiniGame(newGame);
+	public boolean registerGame(MiniGame newGame) {
+		return this.minigameManager.registerTemplateGame(newGame);
 	}
 
 	/**
-	 * Unregisters minigame from server
+	 * Unregisters template minigame from server
 	 * 
 	 * @param minigame Minigame to unregister
 	 * @return False if not exist
 	 */
-	public boolean unregisterMiniGame(MiniGame minigame) {
-		return this.minigameManager.unregisterMiniGame(minigame);
+	public boolean unregisterGame(MiniGame minigame) {
+		return this.minigameManager.unregisterTemplateGame(minigame);
 	}
 
 	/**
@@ -205,7 +249,7 @@ public class MiniGameWorld {
 	 * @see MiniGameTimingNotifier
 	 * @see MiniGameObserver
 	 */
-	public void registerMiniGameObserver(MiniGameObserver observer) {
+	public void registerObserver(MiniGameObserver observer) {
 		// register observer on All MiniGames
 		// ex. give reward with each minigames
 		this.minigameManager.registerObserver(observer);
@@ -221,7 +265,7 @@ public class MiniGameWorld {
 	 * @see MiniGameTimingNotifier
 	 * @see MiniGameObserver
 	 */
-	public void unregisterMiniGameObserver(MiniGameObserver observer) {
+	public void unregisterObserver(MiniGameObserver observer) {
 		// unregister observer from All MiniGames
 		this.minigameManager.unregisterObserver(observer);
 	}
@@ -234,7 +278,7 @@ public class MiniGameWorld {
 	 * @return Menu GUI invenotry instance
 	 */
 	public Inventory openMenu(Player p) {
-		return this.minigameManager.getMiniGameMenuManager().openMenu(p);
+		return this.minigameManager.getMenuManager().openMenu(p);
 	}
 
 	/**
@@ -258,24 +302,23 @@ public class MiniGameWorld {
 
 	/**
 	 * Registers custom minigame event external detector<br>
-	 * Event detected by detector will be able to be passed onEvent() of
-	 * minigame
+	 * Event detected by detector will be able to be passed onEvent() of minigame
 	 * 
 	 * @param detector Registering Detector
-	 * @see MiniGameEventExternalDetector
+	 * @see MiniGameExternalEventDetector
 	 */
-	public void registerMiniGameEventExternalDetector(MiniGameEventExternalDetector detector) {
-		this.minigameManager.getMiniGameEventDetector().registerExternalDetector(detector);
+	public void registerExternalEventDetector(MiniGameExternalEventDetector detector) {
+		this.minigameManager.getEventDetector().registerExternalDetector(detector);
 	}
 
 	/**
 	 * Unregisters custom minigame event external detector<br>
 	 * 
 	 * @param detector Unregistering Detector
-	 * @see MiniGameEventExternalDetector
+	 * @see MiniGameExternalEventDetector
 	 */
-	public void unregisterMiniGameEventExternalDetector(MiniGameEventExternalDetector detector) {
-		this.minigameManager.getMiniGameEventDetector().unregisterExternalDetector(detector);
+	public void unregisterExternalEventDetector(MiniGameExternalEventDetector detector) {
+		this.minigameManager.getEventDetector().unregisterExternalDetector(detector);
 	}
 }
 //

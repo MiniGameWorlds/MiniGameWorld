@@ -89,10 +89,10 @@ public class MiniGameViewManager {
 	 * 
 	 * @param p Viewer
 	 */
-	public void viewGame(Player p) {
+	public boolean viewGame(Player p) {
 		// call player view event (check event is cancelled)
 		if (Utils.callEvent(new MiniGamePlayerViewEvent(this.minigame, p))) {
-			return;
+			return false;
 		}
 
 		// add a viewer
@@ -119,6 +119,7 @@ public class MiniGameViewManager {
 		/* hook method
 		 [IMPORTANT] must be called after the player state is isolated from the outside */
 		this.minigame.onView(p);
+		return true;
 	}
 
 	/**
@@ -126,12 +127,12 @@ public class MiniGameViewManager {
 	 * 
 	 * @param p Viewer
 	 */
-	public void unviewGame(Player p) {
+	public boolean unviewGame(Player p) {
 		// check player is a viewer
 		if (isViewing(p)) {
 			// call player unview event (check event is cancelled)
 			if (Utils.callEvent(new MiniGamePlayerUnviewEvent(minigame, p))) {
-				return;
+				return false;
 			}
 
 			/* hook method
@@ -146,7 +147,10 @@ public class MiniGameViewManager {
 
 			// send title
 			this.minigame.sendTitle(p, ChatColor.BOLD + "Leave", "");
+
+			return true;
 		}
+		return false;
 	}
 
 	/**

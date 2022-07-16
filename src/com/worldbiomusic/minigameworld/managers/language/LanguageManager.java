@@ -74,7 +74,7 @@ public class LanguageManager {
 	}
 
 	private void createLanguageFile(String language) {
-		String fileName = "messages" + File.separator + language + ".yml";
+		String fileName = Setting.MESSAGES_DIR + File.separator + language + ".yml";
 		boolean isExist = new File(MiniGameWorldMain.getInstance().getDataFolder(), fileName).exists();
 
 		// if can edit messages and file is already exist, return

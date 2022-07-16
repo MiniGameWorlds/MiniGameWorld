@@ -165,9 +165,9 @@ public class MiniGameCommand implements CommandExecutor {
 		Player p = (Player) sender;
 
 		// leave or unview
-		if (this.minigameManager.isPlayingMiniGame(p)) {
+		if (this.minigameManager.isPlayingGame(p)) {
 			this.minigameManager.leaveGame(p);
-		} else if (this.minigameManager.isViewingMiniGame(p)) {
+		} else if (this.minigameManager.isViewingGame(p)) {
 			this.minigameManager.unviewGame(p);
 		}
 		return true;
@@ -179,7 +179,7 @@ public class MiniGameCommand implements CommandExecutor {
 			return true;
 		}
 
-		List<MiniGame> games = this.minigameManager.getMiniGameList();
+		List<MiniGame> games = this.minigameManager.getTemplateGames();
 
 		// info
 		String info = "\n" + ChatColor.BOLD + "[MiniGame List]";
@@ -211,7 +211,7 @@ public class MiniGameCommand implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 
-		MiniGameMenuManager menuManager = this.minigameManager.getMiniGameMenuManager();
+		MiniGameMenuManager menuManager = this.minigameManager.getMenuManager();
 		menuManager.openMenu(p);
 		return true;
 	}
@@ -294,7 +294,7 @@ public class MiniGameCommand implements CommandExecutor {
 		if (Setting.EDIT_MESSAGES) {
 			sender.sendMessage("- Language messages");
 		}
-		this.minigameManager.getMiniGameList().forEach(m -> {
+		this.minigameManager.getTemplateGames().forEach(m -> {
 			sender.sendMessage("- " + m.getTitleWithClassName());
 		});
 		return true;
