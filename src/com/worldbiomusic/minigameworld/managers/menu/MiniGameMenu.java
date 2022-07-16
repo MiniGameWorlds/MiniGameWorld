@@ -186,24 +186,15 @@ public class MiniGameMenu {
 
 		// lore
 		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "player") + ": " + minigame.getPlayerCount() + "/"
-				+ minigame.getMaxPlayers() + " (" + messenger.getMsg(player, "minimum") + ": "
-				+ minigame.getMinPlayers() + ")");
+
+		List<MiniGame> instances = this.minigameManager.getInstanceGames().stream()
+				.filter(g -> minigame.getTitle().equals(g.getTitle())).toList();
+		String instanceCount = "" + ChatColor.GREEN + instances.stream().filter(g -> !g.isStarted()).toList().size()
+				+ ChatColor.WHITE + "/" + instances.size();
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "instance") + ": " + instanceCount);
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "play-time") + ": " + minigame.getPlayTime() + " "
 				+ messenger.getMsg(player, "sec"));
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.getFrameType());
-
-		if (minigame.isStarted()) {
-			String leftPlayTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftPlayTime() - 1);
-			String leftPlayTime = ChatColor.WHITE + "- "
-					+ messenger.getMsg(player, "finish-in-time", new String[][] { { "left-time", leftPlayTimer } });
-			lore.add(leftPlayTime);
-		} else {
-			String leftWaitingTimer = "" + ChatColor.RED + ChatColor.BOLD + (minigame.getLeftWaitingTime() - 1);
-			String leftWaitingTime = ChatColor.WHITE + "- "
-					+ messenger.getMsg(player, "start-in-time", new String[][] { { "left-time", leftWaitingTimer } });
-			lore.add(leftWaitingTime);
-		}
 
 		// apply
 		item = ItemStackTool.item(item.getType(), displayName, lore);

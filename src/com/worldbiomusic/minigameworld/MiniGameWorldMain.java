@@ -188,7 +188,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info("Deleting used instance worlds...");
 		LocationManager.getUsedLocations().forEach(w -> {
 			Utils.info("- " + w);
-			multiverseCore.getMVWorldManager().deleteWorld(w, true, false);
+			multiverseCore.getMVWorldManager().deleteWorld(w, false, false);
 		});
 	}
 

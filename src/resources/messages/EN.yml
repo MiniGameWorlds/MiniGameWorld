@@ -33,6 +33,7 @@ message:
     hour: '<hour>'
     minimum: minimum
     maximum: maximum
+    instance: instance
   custom:
     sec: sec
     min: min

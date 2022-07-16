@@ -33,6 +33,7 @@ message:
     hour: '<hour>'
     minimum: 최소
     maximum: 최대
+    instance: 게임
   custom:
     sec: 초
     min: 분
