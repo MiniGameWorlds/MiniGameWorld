@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import com.worldbiomusic.minigameworld.managers.DataManager;
 import com.worldbiomusic.minigameworld.managers.MiniGameManager;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -87,6 +88,9 @@ public class MiniGameSettingsConfigCommand {
 				break;
 			case Setting.SETTINGS_TEMPLATE_WORLDS:
 				template_worlds(sender, args);
+				break;
+			case Setting.SETTINGS_JOIN_PRIORITY:
+				join_priority(sender, args);
 				break;
 			}
 
@@ -268,6 +272,13 @@ public class MiniGameSettingsConfigCommand {
 		}
 
 		setKeyValue(sender, Setting.SETTINGS_TEMPLATE_WORLDS, worlds);
+		return true;
+	}
+
+	private boolean join_priority(CommandSender sender, String[] args) throws Exception {
+		MiniGameSetting.JOIN_PRIORITY value = MiniGameSetting.JOIN_PRIORITY.valueOf(args[2]);
+
+		setKeyValue(sender, Setting.SETTINGS_JOIN_PRIORITY, value);
 		return true;
 	}
 }

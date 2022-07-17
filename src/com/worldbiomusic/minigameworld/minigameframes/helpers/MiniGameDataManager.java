@@ -121,7 +121,7 @@ public class MiniGameDataManager implements YamlMember {
 		config.set(this.getClassName(), this.data);
 
 		// [IMPORTANT] This called after yaml reload (apply file data to minigame)
-		this.applyMiniGameDataToInstance();
+		applyMiniGameDataToInstance();
 	}
 
 	@Override

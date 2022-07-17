@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 
 public class Setting {
 	public static final String API_VERSION = MiniGameWorldMain.getInstance().getDescription().getVersion();
@@ -48,6 +49,8 @@ public class Setting {
 	public static boolean INGAME_LEAVE = false;
 	public static List<String> TEMPLATE_WORLDS = new ArrayList<>();
 
+	public static MiniGameSetting.JOIN_PRIORITY JOIN_PRIORITY = MiniGameSetting.JOIN_PRIORITY.MAX_PLAYERS;
+
 	// settings.yml
 	public static final String SETTINGS_MESSAGE_PREFIX = "message-prefix";
 	public static final String SETTINGS_DEBUG_MODE = "debug-mode";
@@ -66,6 +69,7 @@ public class Setting {
 	public static final String SETTINGS_EDIT_MESSAGES = "edit-messages";
 	public static final String SETTINGS_INGAME_LEAVE = "ingame-leave";
 	public static final String SETTINGS_TEMPLATE_WORLDS = "template-worlds";
+	public static final String SETTINGS_JOIN_PRIORITY = "join-priority";
 
 	// games
 	public static final String GAMES_TITLE = "title";

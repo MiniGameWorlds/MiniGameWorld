@@ -209,6 +209,10 @@ public class MiniGameSetting {
 	 */
 	private boolean scoreboard;
 
+	public enum JOIN_PRIORITY {
+		MAX_PLAYERS, MIN_PLAYERS, RANDOM;
+	}
+
 	public MiniGameSetting(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
 		this.id = CryptoTool.hashToHex(String.valueOf(System.nanoTime()).getBytes()).substring(0, 10);

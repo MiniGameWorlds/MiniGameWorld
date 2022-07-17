@@ -1,4 +1,6 @@
 # TODO
+- Add party invitation removing delay as settings.yml option
+- Refactoring Party, PartyManager methods
 - Pass `MiniGameFinishEvent` with player list event(as class member value) in `MiniGame` (rewrite  `MiniGameWorld-Reward`, `MiniGameWorld-Rank`)
 ```java
 class MiniGameFinishEvent {
@@ -1058,8 +1060,10 @@ if(!this.isMinPlayersLive()) {
 # 2022-07-16
 - Improve game-instance-system
 
-
-
+# 2022-07-17
+- Add isStarted() and minigame() to MiniGameAccessor (now can access MiniGame class using API)
+- Add getManager() to MiniGameWorld (now can access MiniGameManager class using API)
+- Add join-priority option to settings.yml
 
 
 

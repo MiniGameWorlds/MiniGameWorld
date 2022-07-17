@@ -36,8 +36,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		this.miniGamePartyCommand = new MiniGamePartyCommand(this.minigameManager.getPartyManager());
 		this.miniGameSettingsConfigCommand = new MiniGameSettingsConfigCommand(this.minigameManager, this.dataManager);
-		this.miniGameGamesConfigCommand = new MiniGameGamesConfigCommand(this.minigameManager,
-				this.dataManager);
+		this.miniGameGamesConfigCommand = new MiniGameGamesConfigCommand(this.minigameManager, this.dataManager);
 		this.minigameHelpCommand = new MiniGameHelpCommand();
 
 		// set tab completer
@@ -282,9 +281,13 @@ public class MiniGameCommand implements CommandExecutor {
 			sender.sendMessage("Backup folder " + ChatColor.GREEN + dataDirName + ChatColor.RESET + " loaded");
 		}
 
-		// reload "setting.yml", all minigames
+		// reload "setting.yml", all template game data
 		this.dataManager.reloadAllData();
-		
+
+		// update not started instance games data with updated template game data
+		this.minigameManager.getInstanceGames().stream().filter(g -> !g.isStarted())
+				.forEach(minigameManager::updateInstanceGameData);
+
 		// load template-worlds
 		Utils.loadTemplateWorlds();
 

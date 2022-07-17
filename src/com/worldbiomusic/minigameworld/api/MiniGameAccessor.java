@@ -54,6 +54,15 @@ public class MiniGameAccessor {
 	}
 
 	/**
+	 * Check minigame has started or not
+	 * 
+	 * @return True if already started, false if waiting players
+	 */
+	public boolean isStarted() {
+		return this.minigame.isStarted();
+	}
+
+	/**
 	 * Checks player is playing minigame
 	 * 
 	 * @param p Checking player
@@ -198,6 +207,15 @@ public class MiniGameAccessor {
 	 */
 	public Scoreboard getScoreboard() {
 		return this.minigame.getScoreboardManager().getScoreboard();
+	}
+
+	/**
+	 * Return minigame instance
+	 * 
+	 * @return Minigame instance
+	 */
+	public MiniGame minigame() {
+		return this.minigame;
 	}
 
 	@Override

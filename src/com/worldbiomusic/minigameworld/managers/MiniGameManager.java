@@ -2,6 +2,7 @@ package com.worldbiomusic.minigameworld.managers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.worldbiomusic.minigameworld.managers.party.Party;
 import com.worldbiomusic.minigameworld.managers.party.PartyManager;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
 import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameEventDetector;
+import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.worldbiomusic.minigameworld.util.Setting;
 import com.worldbiomusic.minigameworld.util.Utils;
 
@@ -136,6 +138,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_EDIT_MESSAGES, Setting.EDIT_MESSAGES);
 		pureData.put(Setting.SETTINGS_INGAME_LEAVE, Setting.INGAME_LEAVE);
 		pureData.put(Setting.SETTINGS_TEMPLATE_WORLDS, Setting.TEMPLATE_WORLDS);
+		pureData.put(Setting.SETTINGS_JOIN_PRIORITY, Setting.JOIN_PRIORITY);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
@@ -156,6 +159,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.EDIT_MESSAGES = (boolean) this.settings.get(Setting.SETTINGS_EDIT_MESSAGES);
 		Setting.INGAME_LEAVE = (boolean) this.settings.get(Setting.SETTINGS_INGAME_LEAVE);
 		Setting.TEMPLATE_WORLDS = (List<String>) this.settings.get(Setting.SETTINGS_TEMPLATE_WORLDS);
+		Setting.JOIN_PRIORITY = Setting.JOIN_PRIORITY
+				.valueOf((String) this.settings.get(Setting.SETTINGS_JOIN_PRIORITY));
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDir().exists()) {
@@ -173,21 +178,22 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public boolean joinGame(Player p, String rawTitle) {
 		String title = ChatColor.stripColor(rawTitle);
-		
+
 		if (!canJoinGame(p, title)) {
 			return false;
 		}
 
-		MiniGame templateGame = getTemplateGame(ChatColor.stripColor(title));
+		MiniGame templateGame = getTemplateGame(title);
 		MiniGame instanceGame = null;
 
 		Party party = this.partyManager.getPlayerParty(p);
 		List<MiniGame> waitingGames = this.instanceGames.stream().filter(g -> g.getTitle().equals(title))
 				.filter(Predicate.not(MiniGame::isStarted)).filter(party::canJoinMiniGame).toList();
 
-		Utils.debug("[Waiting gamse]");
+		Utils.debug("[Waiting games]");
 		waitingGames.forEach(g -> Utils.debug("Title: " + g.getTitle() + ", Id: " + g.getSetting().getId()));
 
+		// create new game instance
 		if (waitingGames.isEmpty()) {
 			// check instance count
 			int maxInstances = templateGame.getSetting().getInstances();
@@ -204,8 +210,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// check party can join new instance game
 			if (!party.canJoinMiniGame(templateGame)) {
-				Utils.sendMsg(p, "Your party(" + party.getSize() + ") is too big to join the minigame("
-						+ templateGame.getMaxPlayers() + ")");
+				Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
+						+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 				return false;
 			}
 
@@ -213,8 +219,19 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			instanceGame = createGameInstance(templateGame);
 			this.instanceGames.add(instanceGame);
 			Utils.debug("1");
-		} else {
-			instanceGame = waitingGames.get(0);
+		}
+
+		// join one of waiting(not started) games by join priority
+		else {
+			if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MAX_PLAYERS) {
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g2.getPlayerCount() - g1.getPlayerCount())
+						.toList().get(0);
+			} else if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MIN_PLAYERS) {
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g1.getPlayerCount() - g2.getPlayerCount())
+						.toList().get(0);
+			} else {// random
+				instanceGame = CollectionTool.random(waitingGames).get();
+			}
 			Utils.debug("2");
 		}
 
@@ -234,7 +251,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public boolean joinGame(Player p, String title, String id) {
 		title = ChatColor.stripColor(title);
-		
+
 		if (!canJoinGame(p, title)) {
 			return false;
 		}
@@ -245,7 +262,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		});
 		Utils.debug("\n");
 
-		MiniGame templateGame = getTemplateGame(ChatColor.stripColor(title));
+		MiniGame templateGame = getTemplateGame(title);
 
 		// search
 		MiniGame instanceGame = getInstanceGame(title, id);
@@ -260,8 +277,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// check party members can join or not
 		Party party = this.partyManager.getPlayerParty(p);
 		if (!party.canJoinMiniGame(instanceGame)) {
-			Utils.sendMsg(p, "Your party(" + party.getSize() + ") is too big to join the minigame("
-					+ templateGame.getMaxPlayers() + ")");
+			Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
+					+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 			return false;
 		}
 
@@ -354,7 +371,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public boolean viewGame(Player p, String rawTitle) {
 		String title = ChatColor.stripColor(rawTitle);
-		
+
 		// check active and view setting
 		List<MiniGame> candidates = this.instanceGames.stream()
 				.filter(g -> g.getTitle().equals(title) && g.isActive() && g.getSetting().canView()).toList();
@@ -364,7 +381,13 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			return false;
 		}
 
-		MiniGame randomGame = CollectionTool.random(candidates).get();
+		MiniGame randomGame = null;
+		List<MiniGame> startedGames = candidates.stream().filter(g -> g.isStarted()).toList();
+		if (startedGames.isEmpty()) {
+			randomGame = CollectionTool.random(candidates).get();
+		} else {
+			randomGame = CollectionTool.random(startedGames).get();
+		}
 		return viewGame(p, title, randomGame.getSetting().getId());
 	}
 
@@ -378,7 +401,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public boolean viewGame(Player p, String title, String id) {
 		title = ChatColor.stripColor(title);
-		
+
 		if (!canViewGame(p, title)) {
 			return false;
 		}
@@ -457,7 +480,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	public boolean startGame(String title, String id) {
 		// strip "color code" of title
 		title = ChatColor.stripColor(title);
-		
+
 		MiniGame templateGame = this.getTemplateGame(title);
 		if (templateGame == null) {
 			Utils.debug(title + " game is not exist");
@@ -668,7 +691,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public MiniGame getTemplateGame(String title) {
 		title = ChatColor.stripColor(title);
-		
+
 		for (MiniGame game : this.templateGames) {
 			if (game.getTitle().equals(title)) {
 				return game;
@@ -708,7 +731,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public MiniGame getInstanceGame(String title, String id) {
 		title = ChatColor.stripColor(title);
-		
+
 		for (MiniGame game : this.instanceGames) {
 			if (game.getTitle().equals(title) && game.getSetting().getId().equals(id)) {
 				return game;
@@ -854,8 +877,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			newInstance = templateGame.getClass().getDeclaredConstructor().newInstance();
 
 			// apply template minigame data to new instance data
-			newInstance.getDataManager().setData(templateGame.getDataManager().getData());
-			newInstance.getDataManager().applyMiniGameDataToInstance();
+			updateInstanceGameData(newInstance);
 		} catch (NoSuchMethodException e) {
 			Utils.warning(templateGame.getTitleWithClassName()
 					+ " doesn't have no arguments constructor! (Set \"debug-mode\" in settings.yml to true for details)");
@@ -874,6 +896,17 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			Utils.debug(templateGame.getTitleWithClassName() + " instance created");
 		}
 		return newInstance;
+	}
+
+	/**
+	 * Update instance game data with the template game data
+	 * 
+	 * @param instance game which will be updated
+	 */
+	public void updateInstanceGameData(MiniGame instance) {
+		MiniGame templateGame = getTemplateGame(instance.getClass());
+		instance.getDataManager().setData(templateGame.getDataManager().getData());
+		instance.getDataManager().applyMiniGameDataToInstance();
 	}
 
 	public void removeGameInstance(MiniGame instance) {

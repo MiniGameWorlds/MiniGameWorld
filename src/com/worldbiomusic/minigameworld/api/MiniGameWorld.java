@@ -292,6 +292,15 @@ public class MiniGameWorld {
 	}
 
 	/**
+	 * Get {@link MiniGameManager}
+	 * 
+	 * @return {@link MiniGameManager}
+	 */
+	public MiniGameManager getManager() {
+		return this.minigameManager;
+	}
+
+	/**
 	 * Get MiniGameWorld API setting data of <b>settings.yml</b>
 	 * 
 	 * @return Setting data
@@ -319,6 +328,15 @@ public class MiniGameWorld {
 	 */
 	public void unregisterExternalEventDetector(MiniGameExternalEventDetector detector) {
 		this.minigameManager.getEventDetector().unregisterExternalDetector(detector);
+	}
+
+	/**
+	 * Update instance minigame data with template minigame data
+	 * 
+	 * @param instance Minigame which will be updated
+	 */
+	public void updateInstanceGameData(MiniGame instance) {
+		this.minigameManager.updateInstanceGameData(instance);
 	}
 }
 //
