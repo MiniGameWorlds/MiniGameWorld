@@ -188,7 +188,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		Party party = this.partyManager.getPlayerParty(p);
 		List<MiniGame> waitingGames = this.instanceGames.stream().filter(g -> g.getTitle().equals(title))
-				.filter(Predicate.not(MiniGame::isStarted)).filter(party::canJoinMiniGame).toList();
+				.filter(Predicate.not(MiniGame::isStarted)).filter(party::canJoinGame).toList();
 
 		Utils.debug("[Waiting games]");
 		waitingGames.forEach(g -> Utils.debug("Title: " + g.getTitle() + ", Id: " + g.getSetting().getId()));
@@ -209,7 +209,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			}
 
 			// check party can join new instance game
-			if (!party.canJoinMiniGame(templateGame)) {
+			if (!party.canJoinGame(templateGame)) {
 				Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
 						+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 				return false;
@@ -276,7 +276,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check party members can join or not
 		Party party = this.partyManager.getPlayerParty(p);
-		if (!party.canJoinMiniGame(instanceGame)) {
+		if (!party.canJoinGame(instanceGame)) {
 			Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
 					+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 			return false;

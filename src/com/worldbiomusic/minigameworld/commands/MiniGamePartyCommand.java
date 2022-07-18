@@ -103,7 +103,7 @@ public class MiniGamePartyCommand {
 				msg += " ";
 			}
 		}
-		this.partyManager.sendMessageToPlayerPartyMembers(p, p.getName() + ": " + msg);
+		this.partyManager.sendMessageToPlayerParty(p, p.getName() + ": " + msg);
 		return true;
 	}
 

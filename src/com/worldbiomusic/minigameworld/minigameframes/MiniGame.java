@@ -448,7 +448,7 @@ public abstract class MiniGame {
 		// notify message to party members
 		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
 		if (party.getSize() > 1) {
-			party.sendMessageToAllMembers(p.getName() + " left " + getColoredTitle() + " minigame with party");
+			party.sendMessages(p.getName() + " left " + getColoredTitle() + " minigame with party");
 		}
 
 		return true;
@@ -522,7 +522,7 @@ public abstract class MiniGame {
 		// notify message to party members
 		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
 		if (party.getSize() > 1) {
-			party.sendMessageToAllMembers(p.getName() + " joined " + getColoredTitle() + " minigame with party");
+			party.sendMessages(p.getName() + " joined " + getColoredTitle() + " minigame with party");
 		}
 	}
 

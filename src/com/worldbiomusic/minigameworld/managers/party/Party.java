@@ -114,7 +114,7 @@ public class Party {
 			this.members.add(new PartyMember(invitee));
 
 			// message
-			this.sendMessageToAllMembers(invitee.getName() + " joined party");
+			this.sendMessages(invitee.getName() + " joined party");
 			return true;
 		} else {
 			Party.sendMessage(invitee, "You don't have a invitation for the party");
@@ -214,7 +214,7 @@ public class Party {
 		this.removeKickVotesByPlayer(p);
 		PartyMember member = this.getPartyMember(p);
 		this.members.remove(member);
-		this.sendMessageToAllMembers(p.getName() + " leave a party");
+		this.sendMessages(p.getName() + " leave a party");
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class Party {
 
 			// message
 			Party.sendMessage(asker, "You joined the party");
-			this.sendMessageToAllMembers(asker.getName() + " joined party");
+			this.sendMessages(asker.getName() + " joined party");
 			return true;
 		}
 		return false;
@@ -275,7 +275,7 @@ public class Party {
 	 * @param game MiniGame
 	 * @return True if can join, or false
 	 */
-	public boolean canJoinMiniGame(MiniGame game) {
+	public boolean canJoinGame(MiniGame game) {
 		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getInGamePlayers(getMembers(), true);
 
 		// check party size
@@ -310,7 +310,7 @@ public class Party {
 	 * 
 	 * @param msg Message to send
 	 */
-	public void sendMessageToAllMembers(String msg) {
+	public void sendMessages(String msg) {
 		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), msg));
 	}
 
@@ -319,7 +319,7 @@ public class Party {
 	 * 
 	 * @param compo Component to send
 	 */
-	public void sendMessageToAllMembers(BaseComponent compo) {
+	public void sendMessages(BaseComponent compo) {
 		this.members.forEach(m -> Party.sendMessage(m.getPlayer(), compo));
 	}
 }

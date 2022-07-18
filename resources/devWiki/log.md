@@ -1,6 +1,6 @@
 # TODO
+- Resolve low world-instance-system performance via help Multiverse core discord community
 - Add party invitation removing delay as settings.yml option
-- Refactoring Party, PartyManager methods
 - Pass `MiniGameFinishEvent` with player list event(as class member value) in `MiniGame` (rewrite  `MiniGameWorld-Reward`, `MiniGameWorld-Rank`)
 ```java
 class MiniGameFinishEvent {
@@ -1048,10 +1048,11 @@ if(!this.isMinPlayersLive()) {
 - MiniGameManager: getNotViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(true))
 - MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default: false))
 - MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
-- MiniGameManager: () -> ()
-- MiniGameManager: () -> ()
-- MiniGameManager: () -> ()
-- MiniGameManager: () -> ()
+
+- PartyManager: sendMessageToPlayerPartyMembers() -> ()
+- Party: sendMessageToAllMembers() -> sendMessages(String)
+- Party: sendMessageToAllMembers() -> sendMessages(Component)
+- Party: canJoinMiniGame() -> canJoinGame()
 ```
 
 # 2022-07-08
@@ -1065,6 +1066,6 @@ if(!this.isMinPlayersLive()) {
 - Add getManager() to MiniGameWorld (now can access MiniGameManager class using API)
 - Add join-priority option to settings.yml
 
-
-
+# 2022-07-18
+- Refactoring Party, PartyManager methods
 

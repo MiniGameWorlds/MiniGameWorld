@@ -337,14 +337,14 @@ public class PartyManager {
 	 * @param p   Target player
 	 * @param msg Message to send
 	 */
-	public void sendMessageToPlayerPartyMembers(Player p, String msg) {
+	public void sendMessageToPlayerParty(Player p, String msg) {
 		// check permission
 		if (!Utils.checkPerm(p, "party.msg")) {
 			return;
 		}
 
 		Party party = this.getPlayerParty(p);
-		party.sendMessageToAllMembers(msg);
+		party.sendMessages(msg);
 	}
 
 	/**
