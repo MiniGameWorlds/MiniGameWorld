@@ -101,7 +101,7 @@ public class MiniGameHelpCommand {
 	public void printSettingsUsage(CommandSender sender) {
 		sender.sendMessage(
 				"/minigame settings message-prefix [<value>]: set plugin message prefix (can contain spaces)");
-		sender.sendMessage("/minigame settings backup-data-save-delay [<value>]: set backup data save delay (min)");
+		sender.sendMessage("/minigame settings backup-delay [<value>]: set backup data save delay (min)");
 		sender.sendMessage(
 				"/minigame settings debug-mode [<value>]: if true, console will print debug logs (true / false)");
 		sender.sendMessage(

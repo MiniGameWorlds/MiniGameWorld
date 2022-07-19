@@ -1050,6 +1050,7 @@ if(!this.isMinPlayersLive()) {
 - MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
 
 - PartyManager: sendMessageToPlayerPartyMembers() -> ()
+
 - Party: sendMessageToAllMembers() -> sendMessages(String)
 - Party: sendMessageToAllMembers() -> sendMessages(Component)
 - Party: canJoinMiniGame() -> canJoinGame()
@@ -1068,4 +1069,36 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-07-18
 - Refactoring Party, PartyManager methods
+
+# 2022-07-19
+- Add "party-invite-timeout" and "party-ask-timeout" to settings.yml
+- Rename "backup-data-save-delay" to "backup-delay"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

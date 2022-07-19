@@ -19,7 +19,7 @@ public class DataManager {
 
 		// BackupDataManager
 		this.backupDataManager = new BackupDataManager(main);
-		this.backupDataManager.startSavingBackupDataTask(Setting.BACKUP_DATA_SAVE_DELAY);
+		this.backupDataManager.startSavingBackupDataTask(Setting.BACKUP_DELAY);
 	}
 
 	public void registerYamlMember(YamlMember member) {

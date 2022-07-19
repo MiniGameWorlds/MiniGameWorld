@@ -31,7 +31,7 @@
 ## settings
 - set plugin settings in `settings.yml` config
 - `/minigame settings message-prefix [<value>]`: set plugin message prefix (can contain spaces)
-- `/minigame settings backup-data-save-delay [<value>]`: set backup data save delay (min)
+- `/minigame settings backup-delay [<value>]`: set backup data save delay (min)
 - `/minigame settings debug-mode [<value>]`: if true, console will print debug logs (true / false)
 - `/minigame settings isolated-chat [<value>]`: Playing minigame players can only chat with each other (true / false)
 - `/minigame settings isolated-join-quit-message [<value>]`: Minigame join/quit message only notify in minigame (true / false)

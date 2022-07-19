@@ -122,7 +122,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	private void initSettingData() {
 		Map<String, Object> pureData = new LinkedHashMap<>();
 		pureData.put(Setting.SETTINGS_MESSAGE_PREFIX, Setting.MESSAGE_PREFIX);
-		pureData.put(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, Setting.BACKUP_DATA_SAVE_DELAY);
+		pureData.put(Setting.SETTINGS_BACKUP_DELAY, Setting.BACKUP_DELAY);
 		pureData.put(Setting.SETTINGS_DEBUG_MODE, Setting.DEBUG_MODE);
 		pureData.put(Setting.SETTINGS_ISOLATED_CHAT, Setting.ISOLATED_CHAT);
 		pureData.put(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE, Setting.ISOLATED_JOIN_QUIT_MESSAGE);
@@ -139,11 +139,13 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_INGAME_LEAVE, Setting.INGAME_LEAVE);
 		pureData.put(Setting.SETTINGS_TEMPLATE_WORLDS, Setting.TEMPLATE_WORLDS);
 		pureData.put(Setting.SETTINGS_JOIN_PRIORITY, Setting.JOIN_PRIORITY);
+		pureData.put(Setting.SETTINGS_PARTY_INVITE_TIMEOUT, Setting.PARTY_INVITE_TIMEOUT);
+		pureData.put(Setting.SETTINGS_PARTY_ASK_TIMEOUT, Setting.PARTY_ASK_TIMEOUT);
 
 		Utils.syncMapKeys(this.settings, pureData);
 
 		Setting.MESSAGE_PREFIX = (String) this.settings.get(Setting.SETTINGS_MESSAGE_PREFIX);
-		Setting.BACKUP_DATA_SAVE_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY);
+		Setting.BACKUP_DELAY = (int) this.settings.get(Setting.SETTINGS_BACKUP_DELAY);
 		Setting.DEBUG_MODE = (boolean) this.settings.get(Setting.SETTINGS_DEBUG_MODE);
 		Setting.ISOLATED_CHAT = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_CHAT);
 		Setting.ISOLATED_JOIN_QUIT_MESSAGE = (boolean) this.settings.get(Setting.SETTINGS_ISOLATED_JOIN_QUIT_MESSAGE);
@@ -159,8 +161,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.EDIT_MESSAGES = (boolean) this.settings.get(Setting.SETTINGS_EDIT_MESSAGES);
 		Setting.INGAME_LEAVE = (boolean) this.settings.get(Setting.SETTINGS_INGAME_LEAVE);
 		Setting.TEMPLATE_WORLDS = (List<String>) this.settings.get(Setting.SETTINGS_TEMPLATE_WORLDS);
-		Setting.JOIN_PRIORITY = Setting.JOIN_PRIORITY
+		Setting.JOIN_PRIORITY = MiniGameSetting.JOIN_PRIORITY
 				.valueOf((String) this.settings.get(Setting.SETTINGS_JOIN_PRIORITY));
+		Setting.PARTY_INVITE_TIMEOUT = (int) this.settings.get(Setting.SETTINGS_PARTY_INVITE_TIMEOUT);
+		Setting.PARTY_ASK_TIMEOUT = (int) this.settings.get(Setting.SETTINGS_PARTY_ASK_TIMEOUT);
 
 		// create "minigames" directory
 		if (!MiniGameWorldUtils.getMiniGamesDir().exists()) {

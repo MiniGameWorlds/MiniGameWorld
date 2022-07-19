@@ -9,7 +9,7 @@
 ```yml
 settings:
   message-prefix: §lMiniGameWorld§r
-  backup-data-save-delay: 60
+  backup-delay: 60
   debug-mode: false
   isolated-chat: true
   isolated-join-quit-message: true
@@ -26,7 +26,7 @@ settings:
   ingame-leave: false
 ```
 - `message-prefix`: System message prefix of `MiniGameWorld` plugin (must surround the content with `'`)
-- `backup-data-save-delay`: Delay of saving backup data (per minute)
+- `backup-delay`: Delay of saving backup data (per minute)
 - `debug-mode`: Print debug logs (true/false)
 - `isolated-chat`: Playing minigame players can only chat with each other (true/false)
 - `isolated-join-quit-message`: Minigame join/quit message only notify in minigame (true/false)

@@ -44,8 +44,8 @@ public class MiniGameSettingsConfigCommand {
 			case Setting.SETTINGS_DEBUG_MODE:
 				debug_mode(sender, args);
 				break;
-			case Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY:
-				backup_data_save_delay(sender, args);
+			case Setting.SETTINGS_BACKUP_DELAY:
+				backup_delay(sender, args);
 				break;
 			case Setting.SETTINGS_ISOLATED_CHAT:
 				isolated_chat(sender, args);
@@ -91,6 +91,12 @@ public class MiniGameSettingsConfigCommand {
 				break;
 			case Setting.SETTINGS_JOIN_PRIORITY:
 				join_priority(sender, args);
+				break;
+			case Setting.SETTINGS_PARTY_INVITE_TIMEOUT:
+				party_invite_timeout(sender, args);
+				break;
+			case Setting.SETTINGS_PARTY_ASK_TIMEOUT:
+				party_ask_timeout(sender, args);
 				break;
 			}
 
@@ -149,10 +155,10 @@ public class MiniGameSettingsConfigCommand {
 		return true;
 	}
 
-	private boolean backup_data_save_delay(CommandSender sender, String[] args) throws Exception {
+	private boolean backup_delay(CommandSender sender, String[] args) throws Exception {
 		int value = Integer.parseInt(args[2]);
 
-		setKeyValue(sender, Setting.SETTINGS_BACKUP_DATA_SAVE_DELAY, value);
+		setKeyValue(sender, Setting.SETTINGS_BACKUP_DELAY, value);
 		return true;
 	}
 
@@ -279,6 +285,20 @@ public class MiniGameSettingsConfigCommand {
 		MiniGameSetting.JOIN_PRIORITY value = MiniGameSetting.JOIN_PRIORITY.valueOf(args[2]);
 
 		setKeyValue(sender, Setting.SETTINGS_JOIN_PRIORITY, value);
+		return true;
+	}
+
+	private boolean party_invite_timeout(CommandSender sender, String[] args) throws Exception {
+		int value = Integer.parseInt(args[2]);
+
+		setKeyValue(sender, Setting.SETTINGS_PARTY_INVITE_TIMEOUT, value);
+		return true;
+	}
+
+	private boolean party_ask_timeout(CommandSender sender, String[] args) throws Exception {
+		int value = Integer.parseInt(args[2]);
+
+		setKeyValue(sender, Setting.SETTINGS_PARTY_ASK_TIMEOUT, value);
 		return true;
 	}
 }
