@@ -373,11 +373,6 @@ public abstract class MiniGame {
 
 	/**
 	 * Join player to minigame<br>
-	 * [Check List]<br>
-	 * 1. active is true<br>
-	 * 2. started is false<br>
-	 * 3. not full<br>
-	 * Teleport player to minigame location
 	 * 
 	 * @param p Player who tries to join
 	 * @return Result of try to join
@@ -616,7 +611,7 @@ public abstract class MiniGame {
 
 		// start finishsTimer
 		this.taskManager.runFinishTask();
-		
+
 		return true;
 	}
 
@@ -662,6 +657,10 @@ public abstract class MiniGame {
 
 		this.players.clear();
 
+		removeInstance();
+	}
+
+	public void removeInstance() {
 		// [IMPORTANT] must called after all players left the location
 		this.locationManager.reset();
 

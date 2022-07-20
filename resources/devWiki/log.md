@@ -1071,10 +1071,11 @@ if(!this.isMinPlayersLive()) {
 - Refactoring Party, PartyManager methods
 
 # 2022-07-19
-- Add "party-invite-timeout" and "party-ask-timeout" to settings.yml
-- Rename "backup-data-save-delay" to "backup-delay"
+- Add "party-invite-timeout" and "party-ask-timeout" options to settings.yml
+- Rename "backup-data-save-delay" option to "backup-delay"
 
-
+# 2022-07-21
+- Improve world-instance-system (world remove time reduced)
 
 
 

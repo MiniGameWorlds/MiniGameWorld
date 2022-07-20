@@ -1,23 +1,30 @@
 package com.worldbiomusic.minigameworld.minigameframes.helpers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.codehaus.plexus.util.FileUtils;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
+import com.onarandombox.MultiverseCore.utils.WorldManager;
 import com.wbm.plugin.util.CollectionTool;
-import com.wbm.plugin.util.Utils;
 import com.worldbiomusic.minigameworld.MiniGameWorldMain;
 import com.worldbiomusic.minigameworld.minigameframes.MiniGame;
+import com.worldbiomusic.minigameworld.util.Utils;
 
 public class LocationManager {
 	// Using locations by minigames which are not instance world
+	// when instance-world option is false
 	private static List<Location> usingLocations = new ArrayList<>();
 
 	// Used instances location(world) which will be removed
+	// when instance-world option is true
 	private static List<String> usedLocations = new ArrayList<>();
 
 	private MiniGame minigame;
@@ -104,22 +111,36 @@ public class LocationManager {
 	 * [IMPORTANT] Only work if {@code LocationManager#init() } is invoked
 	 */
 	public void reset() {
+		Utils.debug("reset()");
 		// check inited
 		if (!this.inited) {
 			return;
 		}
 
+		Utils.debug("reset() passed");
 		if (gameSetting.isInstanceWorld()) {
-			// remove instance world
-			multiverseCore.getMVWorldManager().deleteWorld(gameSetting.getLocation().getWorld().getName(), false,
-					false);
-
+			Utils.debug("usedLocations added");
 			// add used location
 			usedLocations.add(gameSetting.getLocation().getWorld().getName());
 
 			// let viewers get out of world
 			MiniGameViewManager viewM = minigame.getViewManager();
 			viewM.getViewers().forEach(viewM::unviewGame);
+
+			// remove instance world
+			String world = gameSetting.getLocation().getWorld().getName();
+			try {
+				// remove dir
+				Bukkit.unloadWorld(world, false);
+				FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer(), world));
+				Utils.debug(ChatColor.RED + world + " deleted\n");
+
+				// remove key from multiverse-core config
+				WorldManager worldManager = (WorldManager) this.multiverseCore.getMVWorldManager();
+				worldManager.removeWorldFromConfig(world);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} else {
 			// set other minigame can use this location
 			removeUsingLocation(gameSetting.getLocation());

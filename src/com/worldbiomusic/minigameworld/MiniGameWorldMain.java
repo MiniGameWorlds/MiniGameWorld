@@ -1,14 +1,16 @@
 package com.worldbiomusic.minigameworld;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.codehaus.plexus.util.FileUtils;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.wbm.plugin.util.Metrics;
-import com.wbm.plugin.util.ServerTool;
-import com.wbm.plugin.util.WorldTool;
 import com.worldbiomusic.minigameworld.api.MiniGameWorld;
 import com.worldbiomusic.minigameworld.api.MiniGameWorldUtils;
 import com.worldbiomusic.minigameworld.commands.MiniGameCommand;
@@ -167,7 +169,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		this.processRemainedPlayersWhenServerStop();
+		this.onRemainPlayers();
 
 		// remove not registered minigames setting data in minigames.yml
 		this.minigameManager.removeNotExistGameData();
@@ -183,13 +185,12 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(" - Server data saved");
 		Utils.info(" - Backup data created");
 
-		Utils.info(ChatColor.RED + "=============================================");
-
-		Utils.info("Deleting used instance worlds...");
-		LocationManager.getUsedLocations().forEach(w -> {
-			Utils.info("- " + w);
-			multiverseCore.getMVWorldManager().deleteWorld(w, false, false);
-		});
+//		Utils.info(ChatColor.RED + "=============================================");
+//
+//		Utils.info(ChatColor.RED + "Deleting used instance worlds...");
+//		LocationManager.getUsedLocations().forEach(w -> {
+//			Utils.info(ChatColor.RED + "- " + w);
+//		});
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	 * instances are not found <br>
 	 * See: {@link MiniGameManager#checkPluginIsDisabled}
 	 */
-	private void processRemainedPlayersWhenServerStop() {
+	private void onRemainPlayers() {
 		// process player quit work
 		Bukkit.getOnlinePlayers().forEach(p -> minigameManager.todoOnPlayerQuit(p));
 	}

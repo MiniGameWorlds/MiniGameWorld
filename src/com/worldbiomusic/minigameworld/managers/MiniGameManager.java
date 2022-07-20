@@ -2,7 +2,6 @@ package com.worldbiomusic.minigameworld.managers;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,7 +137,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		pureData.put(Setting.SETTINGS_EDIT_MESSAGES, Setting.EDIT_MESSAGES);
 		pureData.put(Setting.SETTINGS_INGAME_LEAVE, Setting.INGAME_LEAVE);
 		pureData.put(Setting.SETTINGS_TEMPLATE_WORLDS, Setting.TEMPLATE_WORLDS);
-		pureData.put(Setting.SETTINGS_JOIN_PRIORITY, Setting.JOIN_PRIORITY);
+		pureData.put(Setting.SETTINGS_JOIN_PRIORITY, Setting.JOIN_PRIORITY.name());
 		pureData.put(Setting.SETTINGS_PARTY_INVITE_TIMEOUT, Setting.PARTY_INVITE_TIMEOUT);
 		pureData.put(Setting.SETTINGS_PARTY_ASK_TIMEOUT, Setting.PARTY_ASK_TIMEOUT);
 
@@ -214,7 +213,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// check party can join new instance game
 			if (!party.canJoinGame(templateGame)) {
-				Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
+				Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true).size()
 						+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 				return false;
 			}
@@ -280,15 +279,15 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check party members can join or not
 		Party party = this.partyManager.getPlayerParty(p);
+		List<Player> notInGameMembers = MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true);
 		if (!party.canJoinGame(instanceGame)) {
-			Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true)
-					+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
+			Utils.sendMsg(p, "Your party(" + notInGameMembers.size() + ") is too big to join the minigame("
+					+ templateGame.getMaxPlayers() + ")");
 			return false;
 		}
 
 		// join with party member who is not playing or viewing a minigame now
-		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true);
-		notInMiniGameMembers.forEach(instanceGame::joinGame);
+		notInGameMembers.forEach(instanceGame::joinGame);
 		return true;
 	}
 
@@ -593,8 +592,13 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 	private boolean onPluginDisabled(Event e) {
 		if (e instanceof PluginDisableEvent) {
-			this.templateGames.forEach(m -> {
-				m.finishGame();
+			Utils.debug("passEvent() disabled");
+			this.instanceGames.forEach(g -> {
+				if (g.isStarted()) {
+					g.finishGame();
+				} else {
+					g.removeInstance();
+				}
 			});
 			return true;
 		}
