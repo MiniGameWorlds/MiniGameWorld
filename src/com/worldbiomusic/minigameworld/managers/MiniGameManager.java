@@ -771,6 +771,15 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @return False if the same minigame was registered already
 	 */
 	public boolean registerTemplateGame(MiniGame templateGame) {
+		// check class has no argument constructor
+		try {
+			templateGame.getClass().getDeclaredConstructor();
+		} catch (NoSuchMethodException e) {
+			Utils.warning(templateGame.getTitleWithClassName()
+					+ " can not be registered (Class doesn't have no argument constructor for game instance system)");
+			return false;
+		}
+
 		// can not register minigame which has same class name with others
 		if (this.existTemplateGame(templateGame)) {
 			Utils.warning(templateGame.getTitleWithClassName()
