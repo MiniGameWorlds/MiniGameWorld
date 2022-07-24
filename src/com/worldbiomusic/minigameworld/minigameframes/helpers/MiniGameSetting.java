@@ -219,7 +219,7 @@ public class MiniGameSetting {
 		this.title = title;
 		this.location = location;
 		this.instances = 1;
-		this.instanceWorld = true;
+		this.instanceWorld = false;
 		this.locations = new ArrayList<>();
 		this.locations.add(location);
 		this.minPlayers = minPlayers;

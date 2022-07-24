@@ -153,45 +153,85 @@ public class MiniGameGamesConfigCommand {
 	}
 
 	private boolean locations(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
-		// /mg games <classname> locations <<player>|<x> <y> <z>>
+		// /mw games <game> locations <[+] <<player> | <x> <y> <z>> | - <index>>
+
+		final String ADD = "+", REMOVE = "-";
+		String option = args[3];
 
 		@SuppressWarnings("unchecked")
 		List<Location> locations = (List<Location>) data.get(Setting.GAMES_LOCATIONS);
 
-		if (args.length == 4) {
-			if (!PlayerTool.isOnlinePlayer(args[3])) {
-				sender.sendMessage(args[3] + " is not online or not exist");
+		if (option.equals(ADD)) {
+			if (args.length == 5) {
+				String p = args[4];
+				addLocation(sender, p, locations);
+				return true;
+			} else if (args.length == 7) {
+				addLocation(sender, args[4], args[5], args[6], locations);
 				return true;
 			}
-			Player targetPlayer = Bukkit.getPlayer(args[3]);
-			Location playerLoc = targetPlayer.getLocation();
-			locations.add(playerLoc);
-
-			// msg
-			Utils.sendMsg(sender, "[" + args[1] + "] " + Setting.GAMES_LOCATIONS + " added " + targetPlayer.getName()
-					+ "'s location");
-		} else if (args.length == 6) {
-			// only player
-			if (!(sender instanceof Player)) {
-				sender.sendMessage("Only Player");
+		} else if (option.equals(REMOVE)) {
+			int index = Integer.parseInt(args[4]);
+			if (index > locations.size()) {
+				Utils.sendMsg(sender, index + " index doesn't exist");
 				return true;
 			}
-			Player p = (Player) sender;
 
-			double x = Integer.parseInt(args[3]);
-			double y = Integer.parseInt(args[4]);
-			double z = Integer.parseInt(args[5]);
-			World w = p.getLocation().getWorld();
-			Location loc = new Location(w, x, y, z);
-			locations.add(loc);
-
-			// msg
-			String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
-			Utils.sendMsg(p, Setting.GAMES_LOCATIONS + " added (" + locString + ")");
+			locations.remove(index - 1);
+			Utils.sendMsg(sender, index + " index location removed");
+			return true;
 		} else {
-			return false;
+			// /mw games <game> locations <<player> | <x> <y> <z>>
+
+			// reset
+			locations.clear();
+			Utils.sendMsg(sender, "Locations are reset");
+
+			// add new location
+			if (args.length == 4) {
+				String p = args[3];
+				addLocation(sender, p, locations);
+				return true;
+			} else if (args.length == 6) {
+				addLocation(sender, args[3], args[4], args[5], locations);
+				return true;
+			}
 		}
-		return true;
+		return false;
+	}
+
+	private void addLocation(CommandSender sender, String p, List<Location> locations) {
+		if (!PlayerTool.isOnlinePlayer(p)) {
+			sender.sendMessage(p + " is not online or not exist");
+			return;
+		}
+
+		Player targetPlayer = Bukkit.getPlayer(p);
+		Location playerLoc = targetPlayer.getLocation();
+		locations.add(playerLoc);
+
+		// msg
+		Utils.sendMsg(sender, "Added " + targetPlayer.getName() + "'s location");
+	}
+
+	private void addLocation(CommandSender sender, String xStr, String yStr, String zStr, List<Location> locations) {
+		// only player
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("Only Player");
+			return;
+		}
+		Player p = (Player) sender;
+
+		double x = Integer.parseInt(xStr);
+		double y = Integer.parseInt(yStr);
+		double z = Integer.parseInt(zStr);
+		World w = p.getLocation().getWorld();
+		Location loc = new Location(w, x, y, z);
+		locations.add(loc);
+
+		// msg
+		String locString = String.format("x: %.3f, y: %.3f, z: %.3f", x, y, z);
+		Utils.sendMsg(p, "Added (" + locString + ")");
 	}
 
 	private boolean min_players(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {

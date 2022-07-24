@@ -266,15 +266,10 @@ public class MiniGameSettingsConfigCommand {
 	}
 
 	private boolean template_worlds(CommandSender sender, String[] args) throws Exception {
-		// /mw settings template-world world1, world b, world-2
-		String allWorldsText = "";
-		for (int i = 2; i < args.length; i++) {
-			allWorldsText += args[i];
-		}
-
+		// /mw settings template-world world1 world-2 nether3
 		List<String> worlds = new ArrayList<>();
-		for (String world : allWorldsText.split(",")) {
-			worlds.add(world.strip());
+		for (int i = 2; i < args.length; i++) {
+			worlds.add(args[i]);
 		}
 
 		setKeyValue(sender, Setting.SETTINGS_TEMPLATE_WORLDS, worlds);

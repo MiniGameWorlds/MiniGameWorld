@@ -7,14 +7,9 @@ import com.worldbiomusic.minigameworld.util.Setting;
 
 public class MiniGameHelpCommand {
 	public boolean printHelp(CommandSender sender, String[] args) {
-		if (!sender.isOp()) {
-			return true;
-		}
-
 		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[USAGE]");
 
 		try {
-			// /mg <wrong>
 			if (args.length == 0) {
 				this.printUsage(sender);
 			} else {
@@ -126,24 +121,32 @@ public class MiniGameHelpCommand {
 				"/minigame settings edit-messages [<value>]: If true, language message changes will be applied(saved) (true / false)");
 		sender.sendMessage(
 				"/minigame settings ingame-leave [<value>]: If true, players can leave while playing (true / false)");
+		sender.sendMessage(
+				"/minigame settings template-worlds [<value>]: Set world list which will be used for instance world system");
+		sender.sendMessage("/minigame settings join-priority [<value>]: Set minigame join priority ");
+		sender.sendMessage("/minigame settings party-invite-timeout [<value>]: Set party invite timeout (sec)");
+		sender.sendMessage("/minigame settings party-ask-timeout [<value>]: Set party ask timeout (sec)");
 	}
 
 	public void printGamesUsage(CommandSender sender) {
 		sender.sendMessage("/minigame games <classname> title [<value>]: set title (can contain spaces)");
-		sender.sendMessage(
-				"/minigame games <classname> location <<player> | <x> <y> <z>>: set minigame spawn location");
 		sender.sendMessage("/minigame games <classname> min-players [<value>]: set min player count (number)");
 		sender.sendMessage("/minigame games <classname> max-players [<value>]: set max player count (number)");
 		sender.sendMessage("/minigame games <classname> waiting-time [<value>]: set waiting time (sec)");
 		sender.sendMessage("/minigame games <classname> play-time [<value>]: set play time (sec)");
-		sender.sendMessage(
-				"/minigame games <classname> active [<value>]: set activation of minigame (true / false)");
-		sender.sendMessage(
-				"/minigame games <classname> tutorial <line> [<value>]: set tutorials at line (set [<value>] with -` to remove line) (can contain spaces) (line: 1 ~ )");
+		sender.sendMessage("/minigame games <classname> active [<value>]: set activation of minigame (true / false)");
 		sender.sendMessage("/minigame games <classname> icon [<value>]: set icon (Item])");
 		sender.sendMessage("/minigame games <classname> view [<value>]: set view allow (true / false)");
 		sender.sendMessage(
 				"/minigame games <classname> scoreboard [<value>]: use scoreboard system in minigame (true / false)");
+		sender.sendMessage(
+				"/minigame games <classname> instances [<value>]: Set max number of game instances (`-1` <= `instances`) (`-1` is for infinite)");
+		sender.sendMessage(
+				"`/minigame games <classname> instance-world [<value>]: If true, copied `locations` worlds will be used for game play and be deleted automatically (**Place worlds folder in the bukkit server folder and list them in `template-worlds` in `settings.yml`**). If false, random location in `locations` will be used (true/false)");
+		sender.sendMessage(
+				"/minigame games <classname> locations <+ <<player> | <x> <y> <z>> | - <index>>: add or remove minigame spawn location (`+`: add, `-`: remove)");
+		sender.sendMessage(
+				"/minigame games <classname> tutorial <line> [<value>]: set tutorials at line (set [<value>] with -` to remove line) (can contain spaces) (line: 1 ~ )");
 		sender.sendMessage("/minigame games <classname> custom-data: only print is available");
 
 	}

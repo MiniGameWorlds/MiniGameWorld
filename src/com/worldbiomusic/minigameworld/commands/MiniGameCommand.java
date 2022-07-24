@@ -92,7 +92,6 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// print usage
 		this.minigameHelpCommand.printHelp(sender, args);
-
 		return true;
 	}
 

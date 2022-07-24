@@ -775,7 +775,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		try {
 			templateGame.getClass().getDeclaredConstructor();
 		} catch (NoSuchMethodException e) {
-			Utils.warning(templateGame.getTitleWithClassName()
+			Utils.warning(templateGame.getTitleWithClassName() + ChatColor.RED
 					+ " can not be registered (Class doesn't have no argument constructor for game instance system)");
 			return false;
 		}

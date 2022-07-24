@@ -23,9 +23,9 @@ public class LocationManager {
 	// when instance-world option is false
 	private static List<Location> usingLocations = new ArrayList<>();
 
-	// Used instances location(world) which will be removed
-	// when instance-world option is true
-	private static List<String> usedLocations = new ArrayList<>();
+//	// Used instances location(world) which will be removed
+//	// when instance-world option is true
+//	private static List<String> usedLocations = new ArrayList<>();
 
 	private MiniGame minigame;
 	private MiniGameSetting gameSetting;
@@ -57,16 +57,14 @@ public class LocationManager {
 		return usingLocations;
 	}
 
-	public static List<String> getUsedLocations() {
-		return usedLocations;
-	}
+//	public static List<String> getUsedLocations() {
+//		return usedLocations;
+//	}
 
 	public void init() {
-		Utils.debug("LocationManager.init() 1");
 		if (this.inited) {
 			return;
 		}
-		Utils.debug("LocationManager.init() 2");
 
 		if (!remainsExtra()) {
 			Utils.debug("LocationManager.init(): no extra location remains");
@@ -111,17 +109,14 @@ public class LocationManager {
 	 * [IMPORTANT] Only work if {@code LocationManager#init() } is invoked
 	 */
 	public void reset() {
-		Utils.debug("reset()");
 		// check inited
 		if (!this.inited) {
 			return;
 		}
 
-		Utils.debug("reset() passed");
 		if (gameSetting.isInstanceWorld()) {
-			Utils.debug("usedLocations added");
-			// add used location
-			usedLocations.add(gameSetting.getLocation().getWorld().getName());
+//			// add used location
+//			usedLocations.add(gameSetting.getLocation().getWorld().getName());
 
 			// let viewers get out of world
 			MiniGameViewManager viewM = minigame.getViewManager();
