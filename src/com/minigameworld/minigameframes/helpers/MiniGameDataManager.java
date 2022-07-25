@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
-import com.minigameworld.api.MiniGameWorldUtils;
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
@@ -49,7 +49,7 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	public File getMiniGameFile() {
-		File gamesFolder = MiniGameWorldUtils.getMiniGamesDir();
+		File gamesFolder = MwUtil.getMiniGamesDir();
 		for (File f : gamesFolder.listFiles()) {
 			String fileName = Files.getNameWithoutExtension(f.getName());
 			if (fileName.equals(this.getClassName())) {

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.api.MiniGameWorldUtils;
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 
@@ -276,7 +276,7 @@ public class Party {
 	 * @return True if can join, or false
 	 */
 	public boolean canJoinGame(MiniGame game) {
-		List<Player> notInMiniGameMembers = MiniGameWorldUtils.getInGamePlayers(getMembers(), true);
+		List<Player> notInMiniGameMembers = MwUtil.getInGamePlayers(getMembers(), true);
 
 		// check party size
 		int leftSeats = game.getMaxPlayers() - game.getPlayerCount();

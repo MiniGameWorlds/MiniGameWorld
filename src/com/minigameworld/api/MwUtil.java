@@ -15,15 +15,15 @@ import com.minigameworld.util.Utils;
 /**
  * MiniGameWorld Utility API<br>
  */
-public class MiniGameWorldUtils {
+public class MwUtil {
 	private static MiniGameManager minigameManager;
 
 	/**
 	 * Do not use
 	 */
 	public static void setMiniGameManager(MiniGameManager minigameManager) {
-		if (MiniGameWorldUtils.minigameManager == null) {
-			MiniGameWorldUtils.minigameManager = minigameManager;
+		if (MwUtil.minigameManager == null) {
+			MwUtil.minigameManager = minigameManager;
 		}
 	}
 
@@ -227,7 +227,7 @@ public class MiniGameWorldUtils {
 	 * <b>Example</b><br>
 	 * If want to check a player has "minigameworld.play.join" permission or not<br>
 	 * <code>
-		if (!MiniGameWorldUtils.checkPermission(p, "play.join")) {
+		if (!MwUtil.checkPermission(p, "play.join")) {
 			return;
 		}
 	 * </code>

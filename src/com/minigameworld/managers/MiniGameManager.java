@@ -20,7 +20,7 @@ import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.api.MiniGameWorldUtils;
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.api.observer.MiniGameObserver;
 import com.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.minigameworld.commands.MiniGameGamesConfigCommand;
@@ -166,8 +166,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		Setting.PARTY_ASK_TIMEOUT = (int) this.settings.get(Setting.SETTINGS_PARTY_ASK_TIMEOUT);
 
 		// create "minigames" directory
-		if (!MiniGameWorldUtils.getMiniGamesDir().exists()) {
-			MiniGameWorldUtils.getMiniGamesDir().mkdir();
+		if (!MwUtil.getMiniGamesDir().exists()) {
+			MwUtil.getMiniGamesDir().mkdir();
 		}
 	}
 
@@ -213,7 +213,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// check party can join new instance game
 			if (!party.canJoinGame(templateGame)) {
-				Utils.sendMsg(p, "Your party(" + MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true).size()
+				Utils.sendMsg(p, "Your party(" + MwUtil.getInGamePlayers(party.getMembers(), true).size()
 						+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
 				return false;
 			}
@@ -279,7 +279,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check party members can join or not
 		Party party = this.partyManager.getPlayerParty(p);
-		List<Player> notInGameMembers = MiniGameWorldUtils.getInGamePlayers(party.getMembers(), true);
+		List<Player> notInGameMembers = MwUtil.getInGamePlayers(party.getMembers(), true);
 		if (!party.canJoinGame(instanceGame)) {
 			Utils.sendMsg(p, "Your party(" + notInGameMembers.size() + ") is too big to join the minigame("
 					+ templateGame.getMaxPlayers() + ")");
@@ -861,7 +861,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		List<String> minigameStringList = new ArrayList<String>();
 		this.templateGames.forEach(m -> minigameStringList.add(m.getClassName()));
 
-		File minigamesFolder = MiniGameWorldUtils.getMiniGamesDir();
+		File minigamesFolder = MwUtil.getMiniGamesDir();
 		for (File minigameFile : minigamesFolder.listFiles()) {
 			String flieName = Files.getNameWithoutExtension(minigameFile.getName());
 			if (!minigameStringList.contains(flieName)) {

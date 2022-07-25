@@ -309,7 +309,7 @@ public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
 - `MiniGamePlayerException`: leave the player from the minigame
 ```java
 // minigame player exception: playing player will leave from the minigame
-if (MiniGameWorldUtils.checkPlayerIsPlayingMiniGame(p)) {
+if (MwUtil.checkPlayerIsPlayingMiniGame(p)) {
 	Bukkit.getServer().getPluginManager()
 			.callEvent(new MiniGamePlayerExceptionEvent("reason", p));
 }

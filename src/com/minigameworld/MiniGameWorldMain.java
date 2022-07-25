@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.codehaus.plexus.util.FileUtils;
 
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.api.MiniGameWorldUtils;
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.commands.MiniGameCommand;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.listeners.FunctionItemListener;
@@ -118,8 +118,8 @@ public class MiniGameWorldMain extends JavaPlugin {
 		MiniGameWorld minigameWorld = MiniGameWorld.create(Setting.API_VERSION);
 		minigameWorld.setMiniGameManager(this.minigameManager);
 
-		// setup MiniGameWorldUtils
-		MiniGameWorldUtils.setMiniGameManager(minigameManager);
+		// setup MwUtil
+		MwUtil.setMiniGameManager(minigameManager);
 	}
 
 	private void setupData() {
