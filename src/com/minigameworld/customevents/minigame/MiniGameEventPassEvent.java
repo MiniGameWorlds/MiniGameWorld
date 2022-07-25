@@ -10,7 +10,7 @@ import com.minigameworld.minigameframes.MiniGame;
  * [IMPORTANT] minigame will process event in last<br>
  * [IMPORTANT] only synchronous events will be passed
  */
-public class MiniGameEventPassEvent extends MinigGameEvent implements Cancellable{
+public class MiniGameEventPassEvent extends MiniGameEvent implements Cancellable{
 	private boolean cancelled;
 	private Event passevent;
 

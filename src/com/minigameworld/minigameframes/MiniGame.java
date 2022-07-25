@@ -23,21 +23,22 @@ import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameFinishEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameStartEvent;
+import com.minigameworld.customevents.minigame.instance.MiniGameInstanceRemoveEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.minigameframes.helpers.LocationManager;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
+import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.minigameworld.minigameframes.helpers.MiniGameInventoryManager;
 import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
 import com.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.minigameworld.minigameframes.helpers.MiniGameSetting;
+import com.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.minigameworld.minigameframes.helpers.MiniGameTaskManager;
 import com.minigameworld.minigameframes.helpers.MiniGameViewManager;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
 import com.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardManager;
 import com.minigameworld.util.LangUtils;
 import com.minigameworld.util.Messenger;
@@ -667,6 +668,9 @@ public abstract class MiniGame {
 		// remove this instance from MiniGameManager instance list
 		MiniGame thisInstance = MiniGameManager.getInstance().getInstanceGame(getTitle(), getSetting().getId());
 		MiniGameManager.getInstance().removeGameInstance(thisInstance);
+		
+		// call instance remove event
+		Utils.callEvent(new MiniGameInstanceRemoveEvent(this));
 	}
 
 	/**

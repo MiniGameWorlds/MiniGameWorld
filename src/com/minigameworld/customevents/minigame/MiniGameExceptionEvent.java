@@ -14,7 +14,7 @@ import com.minigameworld.minigameframes.MiniGame;
  * 
  *
  */
-public class MiniGameExceptionEvent extends MinigGameEvent {
+public class MiniGameExceptionEvent extends MiniGameEvent {
 
 	private String reason;
 

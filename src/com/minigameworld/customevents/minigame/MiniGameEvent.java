@@ -10,15 +10,15 @@ import com.minigameworld.minigameframes.MiniGame;
  * Event related with minigame
  *
  */
-public abstract class MinigGameEvent extends Event {
+public abstract class MiniGameEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
 	private MiniGameAccessor minigame;
 
-	public MinigGameEvent(MiniGame minigame) {
+	public MiniGameEvent(MiniGame minigame) {
 		this.minigame = new MiniGameAccessor(minigame);
 	}
 
-	public MinigGameEvent(MiniGameAccessor minigame) {
+	public MiniGameEvent(MiniGameAccessor minigame) {
 		this.minigame = minigame;
 	}
 

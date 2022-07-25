@@ -8,7 +8,7 @@ import com.minigameworld.minigameframes.MiniGame;
  * Called when a minigame starts
  *
  */
-public class MiniGameStartEvent extends MinigGameEvent implements Cancellable {
+public class MiniGameStartEvent extends MiniGameEvent implements Cancellable {
 
 	private boolean cancelled;
 

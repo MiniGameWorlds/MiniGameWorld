@@ -27,6 +27,7 @@ import com.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
+import com.minigameworld.customevents.minigame.instance.MiniGameInstanceCreateEvent;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
@@ -220,6 +221,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// create new instance
 			instanceGame = createGameInstance(templateGame);
+			if (instanceGame == null) {
+				return false;
+			}
+			
 			this.instanceGames.add(instanceGame);
 			Utils.debug("1");
 		}
@@ -887,6 +892,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @return Null if exception occurs
 	 */
 	private MiniGame createGameInstance(MiniGame templateGame) {
+		// call instance create event
+		if (Utils.callEvent(new MiniGameInstanceCreateEvent(templateGame))) {
+			return null;
+		}
+
 		MiniGame newInstance = null;
 		Exception exception = null;
 		try {

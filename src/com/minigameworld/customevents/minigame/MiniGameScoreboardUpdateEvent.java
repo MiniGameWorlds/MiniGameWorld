@@ -9,7 +9,7 @@ import com.minigameworld.minigameframes.MiniGame;
  * Called when a scoreboard of minigame is updated
  *
  */
-public class MiniGameScoreboardUpdateEvent extends MinigGameEvent implements Cancellable{
+public class MiniGameScoreboardUpdateEvent extends MiniGameEvent implements Cancellable{
 	private boolean cancelled;
 	
 	public MiniGameScoreboardUpdateEvent(MiniGame minigame) {
