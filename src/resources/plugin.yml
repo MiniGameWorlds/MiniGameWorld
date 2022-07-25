@@ -1,5 +1,5 @@
 name: MiniGameWorld
-main: com.worldbiomusic.minigameworld.MiniGameWorldMain
+main: com.minigameworld.MiniGameWorldMain
 version: ${project.version}
 author: worldbiomusic
 website: https://github.com/MiniGameWorlds/MiniGameWorld

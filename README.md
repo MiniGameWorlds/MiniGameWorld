@@ -1,6 +1,6 @@
 # MiniGameWorld
 Customizable Minecraft MiniGame Framework  
-> This plugin is in Beta! (not stable)
+> This plugin is in Beta (not stable)
 
 
 
