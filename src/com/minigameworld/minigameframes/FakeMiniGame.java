@@ -3,7 +3,6 @@ package com.minigameworld.minigameframes;
 import java.util.List;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -52,10 +51,6 @@ public abstract class FakeMiniGame extends MiniGame implements Listener {
 	}
 
 	protected abstract void onFakeJoin(Player p);
-
-	@Override
-	protected void onEvent(Event event) {
-	}
 
 	@Override
 	protected List<String> tutorial() {

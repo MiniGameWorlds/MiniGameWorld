@@ -5,7 +5,6 @@ import java.util.Set;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -16,6 +15,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
@@ -35,12 +35,6 @@ public class CommonEventListener implements Listener {
 		this.minigameManager = minigameManager;
 	}
 
-	public Object onEvent(Event event) {
-		// pass event
-		this.minigameManager.passEvent(event);
-		return null;
-	}
-
 	/*
 	 * Join / Quit
 	 */
@@ -56,6 +50,11 @@ public class CommonEventListener implements Listener {
 
 		// call minigame exception event
 		Utils.callEvent(new MiniGamePlayerExceptionEvent("player-quit-server", p));
+	}
+	
+	@EventHandler
+	public void onPluginDisableEvent(PluginDisableEvent e) {
+		this.minigameManager.onPluginDisabled(e);
 	}
 
 	/*

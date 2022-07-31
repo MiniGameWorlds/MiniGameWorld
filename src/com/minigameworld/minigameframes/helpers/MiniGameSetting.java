@@ -1,15 +1,12 @@
 package com.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.event.Event;
 
 import com.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.minigameworld.minigameframes.MiniGame;
@@ -188,21 +185,6 @@ public class MiniGameSetting {
 	private boolean view;
 
 	/**
-	 * - File control: X<br>
-	 * - Init value: empty<br>
-	 * - Description: events that will be passed to "onEvent()" of the minigame
-	 */
-	private Set<Class<? extends Event>> customDetectableEvents;
-
-	/**
-	 * - File control: X<br>
-	 * - Init value: false<br>
-	 * - Description: if false, no event will passed to the minigame (should
-	 * implements event handler)
-	 */
-	private boolean useEventDetector;
-
-	/**
 	 * - File control: O<br>
 	 * - Init value: true<br>
 	 * - Description: if false, scoreboard not works (also players can not see)
@@ -235,8 +217,6 @@ public class MiniGameSetting {
 		this.gameFinishCondition = GameFinishCondition.LESS_THAN_PLAYERS_LIVE;
 		this.gameFinishConditionPlayerCount = 2;
 		this.view = true;
-		this.customDetectableEvents = new HashSet<>();
-		this.useEventDetector = true;
 		this.scoreboard = true;
 	}
 
@@ -309,14 +289,6 @@ public class MiniGameSetting {
 
 	public void setView(boolean view) {
 		this.view = view;
-	}
-
-	public void addCustomDetectableEvent(Class<? extends Event> event) {
-		this.customDetectableEvents.add(event);
-	}
-
-	public void setUseEventDetector(boolean useEventDetector) {
-		this.useEventDetector = useEventDetector;
 	}
 
 	public void setScoreboard(boolean scoreboard) {
@@ -405,14 +377,6 @@ public class MiniGameSetting {
 
 	public boolean canView() {
 		return view;
-	}
-
-	public boolean isCustomDetectableEvent(Class<? extends Event> event) {
-		return this.customDetectableEvents.contains(event);
-	}
-
-	public boolean isUseEventDetector() {
-		return useEventDetector;
 	}
 
 	public boolean isScoreboardEnabled() {

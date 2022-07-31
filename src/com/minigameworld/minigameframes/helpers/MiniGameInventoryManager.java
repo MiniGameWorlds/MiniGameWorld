@@ -10,9 +10,18 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEventListener;
+import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.FunctionItem;
 
-public class MiniGameInventoryManager {
+public class MiniGameInventoryManager implements GameEventListener {
+	private MiniGame minigame;
+
+	public MiniGameInventoryManager(MiniGame minigame) {
+		this.minigame = minigame;
+	}
+
 	public void setupOnJoin(Player p) {
 		giveMinigameFunctionItems(p);
 	}
@@ -41,6 +50,7 @@ public class MiniGameInventoryManager {
 		p.getInventory().setItem(item.slot(), item.item());
 	}
 
+	@GameEvent
 	private void onPlayerDropItem(PlayerDropItemEvent e) {
 		// check item
 		if (FunctionItem.isFunctionItem(e.getItemDrop().getItemStack())) {
@@ -86,6 +96,11 @@ public class MiniGameInventoryManager {
 		if (FunctionItem.isFunctionItem(mainHandItem) || FunctionItem.isFunctionItem(offHandItem)) {
 			e.setCancelled(true);
 		}
+	}
+
+	@Override
+	public MiniGame minigame() {
+		return this.minigame;
 	}
 
 }

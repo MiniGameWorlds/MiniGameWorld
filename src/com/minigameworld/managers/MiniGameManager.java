@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
@@ -28,6 +24,8 @@ import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
 import com.minigameworld.customevents.minigame.instance.MiniGameInstanceCreateEvent;
+import com.minigameworld.customevents.minigame.instance.MiniGameInstanceRemoveEvent;
+import com.minigameworld.managers.event.EventHandlerManager;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
@@ -55,13 +53,15 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	private Map<String, Object> settings;
 
 	// event detector
-	private MiniGameEventDetector EventDetector;
+	private MiniGameEventDetector eventDetector;
 
 	// minigame gui manager
 	private MiniGameMenuManager menuManager;
 
 	// party
 	private PartyManager partyManager;
+
+	private EventHandlerManager eventHandlerManager;
 
 	// yaml data manager
 	private YamlManager yamlManager;
@@ -72,14 +72,15 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	// use getInstance()
 	private MiniGameManager() {
 		// init
-		this.templateGames = new ArrayList<>();
-		this.instanceGames = new ArrayList<>();
+		this.templateGames = new CopyOnWriteArrayList<>();
+		this.instanceGames = new CopyOnWriteArrayList<>();
 		this.settings = new LinkedHashMap<String, Object>();
 		this.initSettingData();
-		this.EventDetector = new MiniGameEventDetector(this);
+		this.eventDetector = new MiniGameEventDetector(this);
 
 		this.menuManager = new MiniGameMenuManager(this);
 		this.partyManager = new PartyManager();
+		this.eventHandlerManager = new EventHandlerManager(eventDetector);
 		this.observers = new ArrayList<>();
 	}
 
@@ -224,7 +225,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			if (instanceGame == null) {
 				return false;
 			}
-			
+
 			this.instanceGames.add(instanceGame);
 			Utils.debug("1");
 		}
@@ -520,7 +521,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		// start game
-		return templateGame.startGame();
+		return instanceGame.startGame();
 	}
 
 	public boolean handleException(MiniGameExceptionEvent exception) {
@@ -551,92 +552,17 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		return true;
 	}
 
-	/*
-	 * - check player is playing minigame and then process event to minigame
-	*/
-	public void passEvent(Event e) {
-		// check server down
-		if (onPluginDisabled(e)) {
-			return;
-		}
+	public boolean onPluginDisabled(PluginDisableEvent e) {
+		Utils.debug("passEvent() disabled");
 
-		if (onViewManagerEvent(e)) {
-			return;
-		}
-
-		// check detectable event
-		if (this.EventDetector.isDetectableEvent(e)) {
-			// get players
-			Set<Player> players = this.EventDetector.getPlayersFromEvent(e);
-
-			// check empty
-			if (players.isEmpty()) {
-				return;
+		this.instanceGames.forEach(g -> {
+			if (g.isStarted()) {
+				g.finishGame();
+			} else {
+				removeGameInstance(g);
 			}
-
-			// pass evnet to minigame
-			for (Player p : players) {
-				// check player is playing minigame
-				if (!this.isPlayingGame(p)) {
-					continue;
-				}
-
-				MiniGame playingGame = this.getPlayingGame(p);
-
-				// check use of basic event detector
-				if (!playingGame.getSetting().isUseEventDetector()) {
-					continue;
-				}
-
-				playingGame.passEvent(e);
-			}
-		} else {
-			checkCustomDetectableEvent(e);
-		}
-	}
-
-	private boolean onPluginDisabled(Event e) {
-		if (e instanceof PluginDisableEvent) {
-			Utils.debug("passEvent() disabled");
-			this.instanceGames.forEach(g -> {
-				if (g.isStarted()) {
-					g.finishGame();
-				} else {
-					g.removeInstance();
-				}
-			});
-			return true;
-		}
-		return false;
-	}
-
-	private boolean onViewManagerEvent(Event event) {
-		Player p = null;
-		if (event instanceof AsyncPlayerChatEvent) {
-			p = ((AsyncPlayerChatEvent) event).getPlayer();
-		} else if (event instanceof PlayerRespawnEvent) {
-			p = ((PlayerRespawnEvent) event).getPlayer();
-		} else if (event instanceof EntityDamageEvent) {
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			if (e.getEntity() instanceof Player) {
-				p = (Player) e.getEntity();
-			}
-		}
-
-		// check player is null or not a viewer
-		if (p == null || !isViewingGame(p)) {
-			return false;
-		}
-
-		// pass event to view manager
-		MiniGame minigame = getViewingGame(p);
-		minigame.getViewManager().onEvent(event);
+		});
 		return true;
-	}
-
-	public void checkCustomDetectableEvent(Event e) {
-		this.instanceGames.stream().filter(m -> m.getSetting().isCustomDetectableEvent(e.getClass()))
-				.forEach(m -> m.passEvent(e));
 	}
 
 	/**
@@ -787,7 +713,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// can not register minigame which has same class name with others
 		if (this.existTemplateGame(templateGame)) {
-			Utils.warning(templateGame.getTitleWithClassName()
+			Utils.warning(templateGame.getTitleWithClassName() + ChatColor.RED
 					+ " can not be registered (Same template minigame is already registered)");
 			return false;
 		}
@@ -905,6 +831,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// apply template minigame data to new instance data
 			updateInstanceGameData(newInstance);
+
+			// register game event handler
+			this.eventHandlerManager.registerGameListener(newInstance);
+			this.eventHandlerManager.registerGameListener(newInstance.getViewManager());
+			this.eventHandlerManager.registerGameListener(newInstance.getCustomOption());
+			this.eventHandlerManager.registerGameListener(newInstance.getInventoryManager());
 		} catch (NoSuchMethodException e) {
 			Utils.warning(templateGame.getTitleWithClassName()
 					+ " doesn't have no arguments constructor! (Set \"debug-mode\" in settings.yml to true for details)");
@@ -937,7 +869,20 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public void removeGameInstance(MiniGame instance) {
+		// [IMPORTANT] must called after all players left the location
+		instance.getLocationManager().reset();
+
+		// unregister game event handlers
+		this.eventHandlerManager.unregisterGameListener(instance);
+		this.eventHandlerManager.unregisterGameListener(instance.getViewManager());
+		this.eventHandlerManager.unregisterGameListener(instance.getCustomOption());
+		this.eventHandlerManager.unregisterGameListener(instance.getInventoryManager());
+
+		// remove
 		this.instanceGames.remove(instance);
+
+		// call instance remove event
+		Utils.callEvent(new MiniGameInstanceRemoveEvent(instance));
 	}
 
 	public int countInstances(MiniGame game) {
@@ -965,7 +910,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public MiniGameEventDetector getEventDetector() {
-		return this.EventDetector;
+		return this.eventDetector;
+	}
+
+	public EventHandlerManager getEventHandlerManager() {
+		return this.eventHandlerManager;
 	}
 
 	public YamlManager getYamlManager() {

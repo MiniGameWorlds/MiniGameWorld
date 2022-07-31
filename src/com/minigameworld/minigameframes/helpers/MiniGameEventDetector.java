@@ -2,7 +2,6 @@ package com.minigameworld.minigameframes.helpers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +42,6 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import com.minigameworld.api.MiniGameExternalEventDetector;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
 
 /**
  * Event detector to send Minigames<br>
@@ -78,11 +76,10 @@ public class MiniGameEventDetector {
 
 	public MiniGameEventDetector(MiniGameManager minigameManager) {
 		this.minigameManager = minigameManager;
+		this.externalDetectors = new ArrayList<>();
 
 		// register detectable events
 		this.registerDetectableEvent();
-
-		this.externalDetectors = new ArrayList<>();
 	}
 
 	/**
@@ -109,7 +106,7 @@ public class MiniGameEventDetector {
 	 * @return True if detectable event
 	 */
 	public boolean isDetectableEvent(Event event) {
-		return !this.getPlayersFromEvent(event).isEmpty();
+		return !this.detectPlayers(event).isEmpty();
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class MiniGameEventDetector {
 	 * @param e Event to get players
 	 * @return Players from event
 	 */
-	public Set<Player> getPlayersFromEvent(Event e) {
+	public Set<Player> detectPlayers(Event e) {
 		Set<Player> eventPlayers = new HashSet<>();
 
 		// check basic events
@@ -329,52 +326,6 @@ public class MiniGameEventDetector {
 	public void unregisterExternalDetector(MiniGameExternalEventDetector detector) {
 		this.externalDetectors.remove(detector);
 	}
-
-	/**
-	 * Leave only one player in the same minigame event
-	 * 
-	 * @param eventPlayers Players related with event
-	 */
-	private void leavePlayerPlayingTheSameMiniGame(Set<Player> eventPlayers) {
-		if (eventPlayers.isEmpty()) {
-			return;
-		}
-
-		Set<Player> removingPlayers = new HashSet<>();
-
-		// Pick standard minigame player
-		Iterator<Player> it = eventPlayers.iterator();
-		Player firstP = null;
-
-		while (it.hasNext()) {
-			Player tmpP = it.next();
-			if (this.minigameManager.isPlayingGame(tmpP)) {
-				firstP = tmpP;
-			}
-		}
-
-		if (firstP == null) {
-			return;
-		}
-		MiniGame firstPMiniGame = this.minigameManager.getPlayingGame(firstP);
-
-		// remove duplicated player playing the same minigame
-		for (Player p : eventPlayers) {
-			if (firstP.equals(p)) {
-				continue;
-			}
-
-			if (this.minigameManager.isPlayingGame(p)) {
-				MiniGame pMiniGame = this.minigameManager.getPlayingGame(p);
-				if (firstPMiniGame.equals(pMiniGame)) {
-					removingPlayers.add(p);
-				}
-			}
-
-		}
-		eventPlayers.removeAll(removingPlayers);
-	}
-
 }
 //
 //

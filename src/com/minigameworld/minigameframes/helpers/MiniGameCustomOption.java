@@ -17,13 +17,17 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEvent.State;
+import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.minigameframes.MiniGame;
+import com.wbm.plugin.util.Utils;
 
 /**
  * Below custom options are created in `custom-data` section by default<br>
  * Must serialize/deserialize value of each options in get(), set() method<br>
  */
-public class MiniGameCustomOption {
+public class MiniGameCustomOption implements GameEventListener {
 
 	public enum Option {
 		/**
@@ -164,12 +168,30 @@ public class MiniGameCustomOption {
 		}
 	}
 
+	@GameEvent(state = State.ALL)
+	private void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+		Utils.warning("chat message!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		e.setCancelled(!(boolean) get(Option.CHAT));
+	}
+
+	@GameEvent(state = State.ALL)
+	private void onBlockBreakEvent(BlockBreakEvent e) {
+		Utils.warning("BlockBreakEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		e.setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
+	}
+
+	@GameEvent(state = State.ALL)
+	private void onBlockPlaceEvent(BlockPlaceEvent e) {
+		Utils.warning("BlockPlaceEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		e.setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
+	}
+
 	/**
 	 * Process event related with custom option before pass to a minigame<br>
 	 * 
 	 * @param event Event to set cancel or not with options
 	 */
-	public void onEvent(Event event) {
+	public void onEvent1(Event event) {
 		if (event instanceof AsyncPlayerChatEvent) {
 			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHAT));
 		} else if (event instanceof BlockBreakEvent) {
@@ -210,16 +232,16 @@ public class MiniGameCustomOption {
 				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
 
 				// PVP
-				processPVP(e);
+				onPvp(e);
 
 				// PVE
-				processPVE(e);
+				onPve(e);
 			}
 
 		}
 	}
 
-	private void processPVP(EntityDamageByEntityEvent e) {
+	private void onPvp(EntityDamageByEntityEvent e) {
 		Entity victim = e.getEntity();
 		Entity damager = e.getDamager();
 		if (victim instanceof Player && this.minigame.containsPlayer((Player) victim)) {
@@ -239,7 +261,7 @@ public class MiniGameCustomOption {
 		}
 	}
 
-	private void processPVE(EntityDamageByEntityEvent e) {
+	private void onPve(EntityDamageByEntityEvent e) {
 		Entity victim = e.getEntity();
 		Entity damager = e.getDamager();
 		if (victim instanceof Mob) {
@@ -271,6 +293,11 @@ public class MiniGameCustomOption {
 				}
 			}
 		}
+	}
+
+	@Override
+	public MiniGame minigame() {
+		return this.minigame;
 	}
 
 }

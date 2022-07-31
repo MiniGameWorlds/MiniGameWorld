@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -17,10 +16,12 @@ import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 
-public class MiniGameViewManager {
+public class MiniGameViewManager implements GameEventListener{
 	private MiniGame minigame;
 	private Queue<MiniGamePlayerState> viewers;
 
@@ -50,25 +51,14 @@ public class MiniGameViewManager {
 		return !this.viewers.stream().filter(v -> v.isSamePlayer(p)).toList().isEmpty();
 	}
 
-	/**
-	 * Process event related with viewers
-	 * 
-	 * @param event event
-	 */
-	public void onEvent(Event event) {
-		if (event instanceof AsyncPlayerChatEvent) {
-			processChat((AsyncPlayerChatEvent) event);
-		} else if (event instanceof PlayerRespawnEvent) {
-			processRespawn((PlayerRespawnEvent) event);
-		}
-	}
 
 	/**
 	 * Only viewers in the same minigame can read a message
 	 * 
 	 * @param e Chat event
 	 */
-	private void processChat(AsyncPlayerChatEvent e) {
+	@GameEvent
+	private void onChat(AsyncPlayerChatEvent e) {
 		Set<Player> recipients = e.getRecipients();
 
 		List<Player> nonViewers = recipients.stream().filter(r -> !isViewing(r)).toList();
@@ -80,7 +70,12 @@ public class MiniGameViewManager {
 	 * 
 	 * @param e event
 	 */
-	private void processRespawn(PlayerRespawnEvent e) {
+	@GameEvent
+	private void onRespawn(PlayerRespawnEvent e) {
+		if (!isViewing(e.getPlayer())) {
+			return;
+		}
+
 		e.setRespawnLocation(this.minigame.getLocation());
 	}
 
@@ -185,6 +180,11 @@ public class MiniGameViewManager {
 			// make all viewers unview game
 			this.viewers.forEach(v -> unviewGame(v.getPlayer()));
 		}
+	}
+
+	@Override
+	public MiniGame minigame() {
+		return this.minigame;
 	}
 }
 //

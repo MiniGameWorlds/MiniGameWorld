@@ -1,25 +1,20 @@
 package com.minigameworld;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.codehaus.plexus.util.FileUtils;
 
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.api.MwUtil;
 import com.minigameworld.commands.MiniGameCommand;
+import com.minigameworld.dev.TestGame;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.listeners.FunctionItemListener;
 import com.minigameworld.listeners.MiniGameEventListener;
 import com.minigameworld.managers.DataManager;
-import com.minigameworld.managers.EventListenerManager;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.language.LanguageManager;
-import com.minigameworld.minigameframes.helpers.LocationManager;
 import com.minigameworld.util.DependencyChecker;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.UpdateChecker;
@@ -40,7 +35,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
 	private LanguageManager languageManager;
-	private EventListenerManager eventListenerManager;
 
 	private CommonEventListener commonListener;
 	private FunctionItemListener functionItemListener;
@@ -80,7 +74,9 @@ public class MiniGameWorldMain extends JavaPlugin {
 		setCommandExecutors();
 
 		// process works for remained players
-		processRemainedPlayersWhenServerStart();
+		onServerRestart();
+
+		dev();
 	}
 
 	private void printPluginInfo() {
@@ -152,8 +148,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.registerEventListener(this.commonListener);
 		Utils.registerEventListener(this.miniGameEventListener);
 		Utils.registerEventListener(this.functionItemListener);
-
-		this.eventListenerManager = new EventListenerManager(this.commonListener);
 	}
 
 	private void setCommandExecutors() {
@@ -161,10 +155,20 @@ public class MiniGameWorldMain extends JavaPlugin {
 		getCommand("minigame").setExecutor(this.minigameCommand);
 	}
 
-	private void processRemainedPlayersWhenServerStart() {
+	private void onServerRestart() {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.minigameManager.todoOnPlayerJoin(p);
 		}
+	}
+
+	private void dev() {
+		// only in debug
+		if (!Setting.DEBUG_MODE) {
+			return;
+		}
+		
+		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
+		mw.registerGame(new TestGame());
 	}
 
 	@Override
@@ -185,7 +189,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(" - Server data saved");
 		Utils.info(" - Backup data created");
 
-//		Utils.info(ChatColor.RED + "=============================================");
+		Utils.info(ChatColor.RED + "=============================================");
 //
 //		Utils.info(ChatColor.RED + "Deleting used instance worlds...");
 //		LocationManager.getUsedLocations().forEach(w -> {

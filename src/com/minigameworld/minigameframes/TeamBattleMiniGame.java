@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -19,6 +18,7 @@ import org.bukkit.scoreboard.Score;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.TeamBattleMiniGame.Team;
@@ -428,7 +428,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * 
 	 * @return True if enabled
 	 */
-	protected boolean isTeamPvP() {
+	protected boolean isTeamPvp() {
 		return (boolean) this.getCustomData().get("team-pvp");
 	}
 
@@ -769,18 +769,27 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
-	@Override
-	protected void onEvent(Event event) {
-		if (event instanceof EntityDamageByEntityEvent) {
-			processTeamPVP((EntityDamageByEntityEvent) event);
-		} else if (event instanceof AsyncPlayerChatEvent) {
-			processChat((AsyncPlayerChatEvent) event);
-		}
-	}
+//	@Override
+//	protected void onEvent(Event event) {
+//		if (event instanceof EntityDamageByEntityEvent) {
+//
+//		} else if (event instanceof AsyncPlayerChatEvent) {
+//			processChat((AsyncPlayerChatEvent) event);
+//		}
+//	}
+//
+//	public void onTeamPvp(EntityDamageByEntityEvent event) {
+//		processTeamPvp(event);
+//	}
+//
+//	public void onChat(AsyncPlayerChatEvent event) {
+//		processChat(event);
+//	}
 
-	private void processTeamPVP(EntityDamageByEntityEvent e) {
+	@GameEvent
+	private void onTeamPvp(EntityDamageByEntityEvent e) {
 		// if team pvp is true, team members can damage each other
-		if (this.isTeamPvP()) {
+		if (isTeamPvp()) {
 			return;
 		}
 
@@ -809,7 +818,8 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 	}
 
-	private void processChat(AsyncPlayerChatEvent e) {
+	@GameEvent
+	private void onChat(AsyncPlayerChatEvent e) {
 		// group chat
 		if (this.isGroupChat()) {
 			// cancel event
@@ -1197,7 +1207,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 
 		List<Team> teamList = new ArrayList<>();
 		minigame.getTeamList().forEach(teamList::add);
-		
+
 		// sort by score
 		Collections.sort(teamList);
 

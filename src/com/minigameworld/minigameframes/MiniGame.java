@@ -23,10 +23,12 @@ import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameFinishEvent;
 import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.MiniGameStartEvent;
-import com.minigameworld.customevents.minigame.instance.MiniGameInstanceRemoveEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
 import com.minigameworld.managers.MiniGameManager;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEventListener;
+import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.minigameframes.helpers.LocationManager;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
@@ -53,7 +55,7 @@ import com.wbm.plugin.util.instance.TaskManager;
  * - Custom minigame frame can be made with extending this class<br>
  * - Message only send to same minigame players <br>
  */
-public abstract class MiniGame {
+public abstract class MiniGame implements GameEventListener {
 
 	/**
 	 * Basic data (e.g. title, location, play time ...)
@@ -109,11 +111,6 @@ public abstract class MiniGame {
 	 * Language messenger
 	 */
 	protected Messenger messenger;
-
-	/**
-	 * Executed when event passed to minigame
-	 */
-	protected abstract void onEvent(Event event);
 
 	/**
 	 * Register minigame tutorial
@@ -264,7 +261,7 @@ public abstract class MiniGame {
 		this.viewManager = new MiniGameViewManager(this);
 
 		// setup inventory manager
-		this.invManager = new MiniGameInventoryManager();
+		this.invManager = new MiniGameInventoryManager(this);
 
 		// setup scoreboard manager
 		this.scoreboardManager = new MiniGameScoreboardManager(this);
@@ -303,61 +300,65 @@ public abstract class MiniGame {
 	 * @param event Passed event from "MiniGameManager" after check related with
 	 *              this minigame
 	 */
-	public final void passEvent(Event event) {
-		onCommonEvent(event);
-
+	public final boolean passEvent(Event event) {
 		// process event when minigame started
-		if (this.started) {
-			// call pass event (only synchronous)
-			if (!event.isAsynchronous()) {
-				// call MiniGameEventPassEvent (check event is cancelled)
-				if (Utils.callEvent(new MiniGameEventPassEvent(this, event))) {
-					return;
-				}
+		if (isStarted()) {
+			// call only synchronous MiniGameEventPassEvent (check event is cancelled)
+			if (!event.isAsynchronous() && Utils.callEvent(new MiniGameEventPassEvent(this, event))) {
+				return false;
 			}
-
-			// pass event to process
-			onEvent(event);
-		} else {
-			OnWaitingEvent(event);
+			return true;
 		}
-
+		return false;
 	}
 
-	/**
-	 * Processes events while players are waiting for start
-	 * 
-	 * @param event Passed Event
+//	/**
+//	 * Processes events while players are waiting for start
+//	 * 
+//	 * @param event Passed Event
+//	 */
+//	private void onWaitingEvent(Event event) {
+//		if (event instanceof EntityDamageEvent) {
+//			// prevent player hurts
+//			EntityDamageEvent e = (EntityDamageEvent) event;
+//			e.setCancelled(true);
+//		} else if (event instanceof FoodLevelChangeEvent) {
+//			// prevent player hunger changes
+//			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
+//			e.setCancelled(true);
+//		}
+//	}
+
+	/*
+	 * Waiting handlers
 	 */
-	private void OnWaitingEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			// prevent player hurts
-			EntityDamageEvent e = (EntityDamageEvent) event;
-			e.setCancelled(true);
-		} else if (event instanceof FoodLevelChangeEvent) {
-			// prevent player hunger changes
-			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
-			e.setCancelled(true);
-		}
+	@GameEvent(state = State.WAIT)
+	private void onEntityDamageEvent(EntityDamageEvent e) {
+		e.setCancelled(true);
 	}
 
-	/**
-	 * Process all events before passed to the minigame
-	 * 
-	 * @param event Passed Event
-	 */
-	private void onCommonEvent(Event event) {
-		// pass event to custom option
-		this.customOption.onEvent(event);
-
-		// chat event
-		if (event instanceof AsyncPlayerChatEvent) {
-			onChat((AsyncPlayerChatEvent) event);
-		}
-
-		// check inventory event
-		this.invManager.onEvent(event);
+	@GameEvent(state = State.WAIT)
+	private void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+		e.setCancelled(true);
 	}
+
+//	/**
+//	 * Process all events before passed to the minigame
+//	 * 
+//	 * @param event Passed Event
+//	 */
+//	private void onCommonEvent(Event event) {
+//		// pass event to custom option
+//		this.customOption.onEvent(event);
+//
+//		// chat event
+//		if (event instanceof AsyncPlayerChatEvent) {
+//			onChat((AsyncPlayerChatEvent) event);
+//		}
+//
+//		// check inventory event
+//		this.invManager.onEvent(event);
+//	}
 
 	/**
 	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
@@ -365,6 +366,7 @@ public abstract class MiniGame {
 	 * 
 	 * @param e Chat event
 	 */
+	@GameEvent(state = State.ALL)
 	private void onChat(AsyncPlayerChatEvent e) {
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> recipients = e.getRecipients();
@@ -658,19 +660,8 @@ public abstract class MiniGame {
 
 		this.players.clear();
 
-		removeInstance();
-	}
-
-	public void removeInstance() {
-		// [IMPORTANT] must called after all players left the location
-		this.locationManager.reset();
-
-		// remove this instance from MiniGameManager instance list
-		MiniGame thisInstance = MiniGameManager.getInstance().getInstanceGame(getTitle(), getSetting().getId());
-		MiniGameManager.getInstance().removeGameInstance(thisInstance);
-		
-		// call instance remove event
-		Utils.callEvent(new MiniGameInstanceRemoveEvent(this));
+		// remove self instance
+		MiniGameManager.getInstance().removeGameInstance(this);
 	}
 
 	/**
@@ -886,15 +877,6 @@ public abstract class MiniGame {
 	 */
 	public int getPlayerCount() {
 		return this.getPlayers().size();
-	}
-
-	/**
-	 * Check minigame has started
-	 * 
-	 * @return True if minigame already started
-	 */
-	public boolean isStarted() {
-		return this.started;
 	}
 
 	/**
@@ -1281,6 +1263,24 @@ public abstract class MiniGame {
 	/**
 	 * Shortcut method
 	 * 
+	 * @return minigame id
+	 */
+	public String id() {
+		return this.getSetting().getId();
+	}
+
+	/**
+	 * Shortcut method
+	 * 
+	 * @return True if minigame has started
+	 */
+	public boolean isStarted() {
+		return this.started;
+	}
+
+	/**
+	 * Shortcut method
+	 * 
 	 * @return Minigame tutorial list
 	 */
 	public List<String> getTutorial() {
@@ -1456,6 +1456,11 @@ public abstract class MiniGame {
 			return this.getClassName().equals(((MiniGame) obj).getClassName());
 		}
 		return false;
+	}
+
+	@Override
+	public MiniGame minigame() {
+		return this;
 	}
 }
 
