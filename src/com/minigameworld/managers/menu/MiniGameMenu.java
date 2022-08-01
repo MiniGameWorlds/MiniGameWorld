@@ -188,7 +188,7 @@ public class MiniGameMenu {
 		List<String> lore = new ArrayList<>();
 
 		List<MiniGame> instances = this.minigameManager.getInstanceGames().stream()
-				.filter(g -> minigame.getTitle().equals(g.getTitle())).toList();
+				.filter(g -> g.isSameTemplate(minigame)).toList();
 		String instanceCount = "" + ChatColor.GREEN + instances.stream().filter(g -> !g.isStarted()).toList().size()
 				+ ChatColor.WHITE + "/" + instances.size();
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "instance") + ": " + instanceCount);

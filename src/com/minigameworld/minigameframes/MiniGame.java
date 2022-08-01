@@ -1444,6 +1444,20 @@ public abstract class MiniGame implements GameEventListener {
 		return "MiniGame";
 	}
 
+	/**
+	 * Check two games drived from the same template game or not
+	 * 
+	 * @param game Checking game
+	 * @return True if two games are derived from the same template game
+	 */
+	public boolean isSameTemplate(MiniGame game) {
+		return getClass().getName().equals(game.getClass().getName());
+	}
+
+	/**
+	 * Compare with {@link #isSameTemplate(MiniGame)} and
+	 * {@link MiniGameSetting#getId()}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -1451,9 +1465,10 @@ public abstract class MiniGame implements GameEventListener {
 		} else if (obj == null) {
 			return false;
 		} else if (obj instanceof MiniGameAccessor) {
-			return ((MiniGameAccessor) obj).equals(this);
+			return equals(((MiniGameAccessor) obj).minigame());
 		} else if (getClass() == obj.getClass()) {
-			return this.getClassName().equals(((MiniGame) obj).getClassName());
+			MiniGame other = (MiniGame) obj;
+			return isSameTemplate(other) && id().equals(other.id());
 		}
 		return false;
 	}

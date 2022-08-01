@@ -34,15 +34,7 @@ public class MiniGameEventListener implements Listener {
 	 */
 	@EventHandler
 	public void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
-		MiniGameAccessor game = e.getMiniGame();
-		MiniGame minigame = null;
-
-		// get minigame instance
-		for (MiniGame m : this.minigameManager.getTemplateGames()) {
-			if (game.equals(m)) {
-				minigame = m;
-			}
-		}
+		MiniGame minigame = e.getMiniGame().minigame();
 
 		// check minigame is TeamBattleMiniGame
 		if (!(minigame instanceof TeamBattleMiniGame)) {
@@ -52,38 +44,33 @@ public class MiniGameEventListener implements Listener {
 		TeamBattleMiniGame teamBattleMiniGame = (TeamBattleMiniGame) minigame;
 
 		// check team register mode is "PARTY"
-		if (teamBattleMiniGame.getTeamRegisterMode() == TeamRegisterMode.PARTY) {
-			Player p = e.getPlayer();
+		if (teamBattleMiniGame.getTeamRegisterMode() != TeamRegisterMode.PARTY) {
+			return;
+		}
 
-			// check entered party count
-			int playersPartyCount = PartyManager.getPartyCountOfPlayers(teamBattleMiniGame.getPlayers());
-			if (playersPartyCount >= teamBattleMiniGame.getTeamCountLimit()) {
-				teamBattleMiniGame.sendMessage(p, teamBattleMiniGame.getTitle() + " already has full parties");
-				e.setCancelled(true);
-				return;
-			}
+		Player p = e.getPlayer();
 
-			// check party member count
-			MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-			Party party = mw.getPartyManager().getPlayerParty(p);
-			if (party.getMembers().size() > teamBattleMiniGame.getTeamSize()) {
-				teamBattleMiniGame.sendMessage(p,
-						"This game allows only " + teamBattleMiniGame.getTeamSize() + " or below party members");
-				e.setCancelled(true);
-			}
+		// check entered party count
+		int playersPartyCount = PartyManager.getPartyCountOfPlayers(teamBattleMiniGame.getPlayers());
+		if (playersPartyCount >= teamBattleMiniGame.getTeamCountLimit()) {
+			teamBattleMiniGame.sendMessage(p, teamBattleMiniGame.getTitle() + " already has full parties");
+			e.setCancelled(true);
+			return;
+		}
+
+		// check party member count
+		Party party = this.minigameManager.getPartyManager().getPlayerParty(p);
+		if (party.getSize() > teamBattleMiniGame.getTeamSize()) {
+			teamBattleMiniGame.sendMessage(p,
+					"This party game allows only " + teamBattleMiniGame.getTeamSize() + " or below party members");
+			e.setCancelled(true);
+			return;
 		}
 	}
 
 	@EventHandler
 	public void onMiniGameStart(MiniGameStartEvent e) {
-		MiniGameAccessor game = e.getMiniGame();
-		MiniGame minigame = null;
-
-		for (MiniGame m : this.minigameManager.getTemplateGames()) {
-			if (game.equals(m)) {
-				minigame = m;
-			}
-		}
+		MiniGame minigame = e.getMiniGame().minigame();
 
 		if (!(minigame instanceof TeamBattleMiniGame)) {
 			return;

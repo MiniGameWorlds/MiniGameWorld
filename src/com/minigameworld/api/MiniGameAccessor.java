@@ -218,6 +218,20 @@ public class MiniGameAccessor {
 		return this.minigame;
 	}
 
+	/**
+	 * Check two games drived from the same template game or not
+	 * 
+	 * @param game Checking game
+	 * @return True if two games are derived from the same template game
+	 */
+	public boolean isSameTemplate(MiniGameAccessor game) {
+		return minigame.isSameTemplate(game.minigame);
+	}
+
+	/**
+	 * Compare with {@link #isSameTemplate(MiniGame)} and
+	 * {@link MiniGameSetting#getId()}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -227,7 +241,7 @@ public class MiniGameAccessor {
 		} else if (obj instanceof MiniGame) {
 			return this.minigame.equals(obj);
 		} else if (getClass() == obj.getClass()) {
-			return this.minigame.equals(((MiniGameAccessor) obj).minigame);
+			return this.minigame.equals(obj);
 		}
 		return false;
 	}

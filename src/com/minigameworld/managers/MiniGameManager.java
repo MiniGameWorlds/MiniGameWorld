@@ -536,7 +536,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// get minigame
 			MiniGame minigame = getInGame(p);
-
 			minigame.handleException(exception);
 		}
 

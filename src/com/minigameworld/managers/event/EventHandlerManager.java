@@ -129,8 +129,7 @@ public class EventHandlerManager {
 		List<GameListener> listeners = this.gameListeners.get(event);
 		if (instance instanceof MiniGame) {
 			MiniGame game = ((MiniGame) instance);
-			String id = game.getSetting().getId();
-			listeners.stream().filter(l -> game.getSetting().getId().equals(id)).forEach(listeners::remove);
+			listeners.stream().filter(l -> game.equals(l.instance().minigame())).forEach(listeners::remove);
 		} else {
 			listeners.stream().filter(l -> l.instance().equals(instance)).forEach(listeners::remove);
 		}
