@@ -78,11 +78,6 @@ public abstract class MiniGame implements GameEventListener {
 	private MiniGameTaskManager taskManager;
 
 	/**
-	 * Whether game started or not
-	 */
-	private boolean started;
-
-	/**
 	 * Minigame player data (score, live)
 	 */
 	private List<MiniGamePlayerData> players;
@@ -284,7 +279,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * Init(reset) base settings
 	 */
 	private void initBaseSettings() {
-		this.started = false;
+		getSetting().setStarted(false);
 
 		this.players.clear();
 
@@ -596,7 +591,7 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		// start
-		this.started = true;
+		getSetting().setStarted(true);
 
 		// play sound
 		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
@@ -1275,7 +1270,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if minigame has started
 	 */
 	public boolean isStarted() {
-		return this.started;
+		return getSetting().isStarted();
 	}
 
 	/**

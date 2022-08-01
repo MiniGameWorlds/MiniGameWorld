@@ -32,6 +32,13 @@ public class MiniGameSetting {
 	private String id;
 
 	/**
+	 * - File control: X <br>
+	 * - Init value: false <br>
+	 * - Description: Whether game started or not
+	 */
+	private boolean started;
+
+	/**
 	 * - File control: O <br>
 	 * - Init value: setup value <br>
 	 * - Description: minigame title, must be no blank in title
@@ -198,6 +205,7 @@ public class MiniGameSetting {
 	public MiniGameSetting(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
 		this.id = CryptoTool.hashToHex(String.valueOf(System.nanoTime()).getBytes()).substring(0, 10);
+		this.started = false;
 		this.title = title;
 		this.location = location;
 		this.instances = 1;
@@ -223,6 +231,11 @@ public class MiniGameSetting {
 	/*
 	 * Setters
 	 */
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
 	public void setSettingFixed(boolean settingFixed) {
 		this.settingFixed = settingFixed;
 	}
@@ -301,6 +314,10 @@ public class MiniGameSetting {
 
 	public String getId() {
 		return id;
+	}
+
+	public boolean isStarted() {
+		return started;
 	}
 
 	public String getTitle() {
