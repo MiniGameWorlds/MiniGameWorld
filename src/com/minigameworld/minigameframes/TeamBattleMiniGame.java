@@ -22,7 +22,7 @@ import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.minigameworld.minigameframes.TeamBattleMiniGame.Team;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
+import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
 import com.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
@@ -561,7 +561,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Counting unit changed: "player" to "team"<br>
 	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isLessThanPlayersLive},
 	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
-	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
+	 * {@link MiniGamePlayer#setLive(boolean)}<br>
 	 */
 	@Override
 	protected boolean isLessThanPlayersLive() {
@@ -582,7 +582,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Counting unit changed: "player" to "team"<br>
 	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isMoreThanPlayersLive},
 	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
-	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
+	 * {@link MiniGamePlayer#setLive(boolean)}<br>
 	 */
 	@Override
 	protected boolean isMoreThanPlayersLive() {
@@ -603,7 +603,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * Counting unit changed: "player" to "team"<br>
 	 * <b>[IMPORTANT]</b> Must override {@link MiniGame#isLessThanPlayersLeft},
 	 * because will be checked in {@link MiniGame#checkGameFinishCondition} and
-	 * {@link MiniGamePlayerData#setLive(boolean)}<br>
+	 * {@link MiniGamePlayer#setLive(boolean)}<br>
 	 */
 	@Override
 	protected boolean isLessThanPlayersLeft() {
@@ -1224,7 +1224,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 			for (Player p : team.getMembers()) {
 				String playerStr = "- ";
 
-				MiniGamePlayerData pData = minigame.getPlayerData(p);
+				MiniGamePlayer pData = minigame.getPlayerData(p);
 				if (pData.isLive()) {
 					playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
 				} else {

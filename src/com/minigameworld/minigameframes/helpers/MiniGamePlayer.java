@@ -15,7 +15,7 @@ import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
  * [IMPORTANT] Player state saved when a instance is created (in constructor)
  *
  */
-public class MiniGamePlayerData implements MiniGameRank, Cloneable {
+public class MiniGamePlayer implements MiniGameRank, Cloneable {
 
 	private MiniGame minigame;
 	private Player player;
@@ -23,7 +23,7 @@ public class MiniGamePlayerData implements MiniGameRank, Cloneable {
 	private boolean live;
 	private MiniGamePlayerState state;
 
-	public MiniGamePlayerData(MiniGame minigame, Player p) {
+	public MiniGamePlayer(MiniGame minigame, Player p) {
 		this.minigame = minigame;
 		this.player = p;
 		this.score = 0;

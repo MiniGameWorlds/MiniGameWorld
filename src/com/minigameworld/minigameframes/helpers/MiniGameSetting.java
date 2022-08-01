@@ -173,7 +173,7 @@ public class MiniGameSetting {
 	 * - File control: X<br>
 	 * - Init value: LESS_THAN_PLAYERS_LIVE<br>
 	 * - Description: Checked in {@link MiniGame#handleException} and
-	 * {@link MiniGamePlayerData#setLive(boolean)}
+	 * {@link MiniGamePlayer#setLive(boolean)}
 	 */
 	private GameFinishCondition gameFinishCondition;
 

@@ -9,7 +9,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
 import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
+import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
 
 public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 
@@ -27,12 +27,12 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Players");
 		playerListTitle.setScore(sidebarScoreLine--);
 
-		List<MiniGamePlayerData> playerDataList = minigame.getPlayerDataList();
+		List<MiniGamePlayer> playerDataList = minigame.getPlayerDataList();
 		// sort by score
 		Collections.sort(playerDataList);
 
 		// player list
-		for (MiniGamePlayerData pData : playerDataList) {
+		for (MiniGamePlayer pData : playerDataList) {
 			String playerLine = "- ";
 			String pName = pData.getPlayer().getName();
 

@@ -35,7 +35,7 @@ import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
 import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.minigameworld.minigameframes.helpers.MiniGameInventoryManager;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
+import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
 import com.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.minigameworld.minigameframes.helpers.MiniGameSetting.GameFinishCondition;
@@ -80,7 +80,7 @@ public abstract class MiniGame implements GameEventListener {
 	/**
 	 * Minigame player data (score, live)
 	 */
-	private List<MiniGamePlayerData> players;
+	private List<MiniGamePlayer> players;
 
 	/**
 	 * Viewers manager
@@ -232,7 +232,7 @@ public abstract class MiniGame implements GameEventListener {
 	 */
 	private void setupMiniGame() {
 		// setup player list
-		this.players = new ArrayList<MiniGamePlayerData>();
+		this.players = new ArrayList<MiniGamePlayer>();
 
 		// messenger
 		this.messenger = new Messenger(LangUtils.path(MiniGame.class));
@@ -639,7 +639,7 @@ public abstract class MiniGame implements GameEventListener {
 		printEndInfo();
 
 		// save players for minigame finish event
-		List<MiniGamePlayerData> leavingPlayers = new ArrayList<>(this.players);
+		List<MiniGamePlayer> leavingPlayers = new ArrayList<>(this.players);
 
 		// setup player
 		getPlayers().forEach(p -> onPlayerLeave(p, null));
@@ -695,11 +695,11 @@ public abstract class MiniGame implements GameEventListener {
 		getPlayers().forEach(p -> p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
 
 		@SuppressWarnings("unchecked")
-		List<MiniGamePlayerData> rankList = (List<MiniGamePlayerData>) this.getRank();
+		List<MiniGamePlayer> rankList = (List<MiniGamePlayer>) this.getRank();
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
 
-		for (MiniGamePlayerData ranking : rankList) {
+		for (MiniGamePlayer ranking : rankList) {
 			Player p = ranking.getPlayer();
 			int score = ranking.getScore();
 
@@ -882,7 +882,7 @@ public abstract class MiniGame implements GameEventListener {
 	 */
 	private void addPlayer(Player p) {
 		// register player (score: 0, live: true)
-		this.players.add(new MiniGamePlayerData(this, p));
+		this.players.add(new MiniGamePlayer(this, p));
 	}
 
 	/**
@@ -891,8 +891,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @param p leaving player
 	 */
-	private MiniGamePlayerData removePlayer(Player p) {
-		MiniGamePlayerData pData = this.getPlayerData(p);
+	private MiniGamePlayer removePlayer(Player p) {
+		MiniGamePlayer pData = this.getPlayerData(p);
 		// restore player state
 		pData.getState().restorePlayerState();
 
@@ -1007,8 +1007,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p Target player
 	 * @return PlayerData of p
 	 */
-	public MiniGamePlayerData getPlayerData(Player p) {
-		for (MiniGamePlayerData pData : this.players) {
+	public MiniGamePlayer getPlayerData(Player p) {
+		for (MiniGamePlayer pData : this.players) {
 			if (pData.isSamePlayer(p)) {
 				return pData;
 			}
@@ -1021,7 +1021,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayerData> getPlayerDataList() {
+	public List<MiniGamePlayer> getPlayerDataList() {
 		return this.players;
 	}
 
@@ -1046,7 +1046,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayerData pData = this.getPlayerData(p);
+		MiniGamePlayer pData = this.getPlayerData(p);
 		pData.plusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1075,7 +1075,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayerData pData = this.getPlayerData(p);
+		MiniGamePlayer pData = this.getPlayerData(p);
 		pData.minusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1415,8 +1415,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return Null if there are no players
 	 */
 	protected Player topPlayer() {
-		List<MiniGamePlayerData> sortedPlayers = getPlayerDataList().stream()
-				.sorted(Comparator.comparing(MiniGamePlayerData::getScore).reversed()).toList();
+		List<MiniGamePlayer> sortedPlayers = getPlayerDataList().stream()
+				.sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed()).toList();
 		if (sortedPlayers.isEmpty()) {
 			return null;
 		}

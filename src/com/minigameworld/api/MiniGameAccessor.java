@@ -11,7 +11,7 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameCustomOption;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayerData;
+import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
 import com.minigameworld.minigameframes.helpers.MiniGameRank;
 import com.minigameworld.minigameframes.helpers.MiniGameSetting;
 
@@ -96,11 +96,11 @@ public class MiniGameAccessor {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayerData> getPlayerDataList() {
+	public List<MiniGamePlayer> getPlayerDataList() {
 		// copied
-		List<MiniGamePlayerData> copiedMinigamePlayerData = new ArrayList<>();
-		for (MiniGamePlayerData minigamePData : this.minigame.getPlayerDataList()) {
-			copiedMinigamePlayerData.add((MiniGamePlayerData) minigamePData.clone());
+		List<MiniGamePlayer> copiedMinigamePlayerData = new ArrayList<>();
+		for (MiniGamePlayer minigamePData : this.minigame.getPlayerDataList()) {
+			copiedMinigamePlayerData.add((MiniGamePlayer) minigamePData.clone());
 		}
 
 		return copiedMinigamePlayerData;
