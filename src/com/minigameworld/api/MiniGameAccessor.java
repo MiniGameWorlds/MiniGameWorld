@@ -99,7 +99,7 @@ public class MiniGameAccessor {
 	public List<MiniGamePlayer> getPlayerDataList() {
 		// copied
 		List<MiniGamePlayer> copiedMinigamePlayerData = new ArrayList<>();
-		for (MiniGamePlayer minigamePData : this.minigame.getPlayerDataList()) {
+		for (MiniGamePlayer minigamePData : this.minigame.getGamePlayers()) {
 			copiedMinigamePlayerData.add((MiniGamePlayer) minigamePData.clone());
 		}
 

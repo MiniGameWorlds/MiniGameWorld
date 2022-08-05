@@ -27,7 +27,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Players");
 		playerListTitle.setScore(sidebarScoreLine--);
 
-		List<MiniGamePlayer> playerDataList = minigame.getPlayerDataList();
+		List<MiniGamePlayer> playerDataList = minigame.getGamePlayers();
 		// sort by score
 		Collections.sort(playerDataList);
 

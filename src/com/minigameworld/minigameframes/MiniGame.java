@@ -856,7 +856,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if player is playing minigame
 	 */
 	public boolean containsPlayer(Player p) {
-		return this.getPlayerData(p) != null;
+		return this.getGamePlayer(p) != null;
 	}
 
 	/**
@@ -897,7 +897,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p leaving player
 	 */
 	private MiniGamePlayer removePlayer(Player p) {
-		MiniGamePlayer pData = this.getPlayerData(p);
+		MiniGamePlayer pData = this.getGamePlayer(p);
 		// restore player state
 		pData.getState().restorePlayerState();
 
@@ -1012,7 +1012,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p Target player
 	 * @return PlayerData of p
 	 */
-	public MiniGamePlayer getPlayerData(Player p) {
+	public MiniGamePlayer getGamePlayer(Player p) {
 		for (MiniGamePlayer pData : this.players) {
 			if (pData.isSamePlayer(p)) {
 				return pData;
@@ -1026,7 +1026,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayer> getPlayerDataList() {
+	public List<MiniGamePlayer> getGamePlayers() {
 		return this.players;
 	}
 
@@ -1037,7 +1037,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return Player's score
 	 */
 	public int getScore(Player p) {
-		return this.getPlayerData(p).getScore();
+		return this.getGamePlayer(p).getScore();
 	}
 
 	/**
@@ -1051,7 +1051,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayer pData = this.getPlayerData(p);
+		MiniGamePlayer pData = this.getGamePlayer(p);
 		pData.plusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1080,7 +1080,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayer pData = this.getPlayerData(p);
+		MiniGamePlayer pData = this.getGamePlayer(p);
 		pData.minusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1109,7 +1109,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		this.getPlayerData(p).setLive(live);
+		this.getGamePlayer(p).setLive(live);
 	}
 
 	/**
@@ -1123,7 +1123,7 @@ public abstract class MiniGame implements GameEventListener {
 			return false;
 		}
 
-		return this.getPlayerData(p).isLive();
+		return this.getGamePlayer(p).isLive();
 	}
 
 	/**
@@ -1134,7 +1134,7 @@ public abstract class MiniGame implements GameEventListener {
 	protected List<Player> getLivePlayers() {
 		List<Player> livePlayers = new ArrayList<Player>();
 		for (Player p : this.getPlayers()) {
-			if (this.getPlayerData(p).isLive()) {
+			if (this.getGamePlayer(p).isLive()) {
 				livePlayers.add(p);
 			}
 		}
@@ -1420,7 +1420,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return Null if there are no players
 	 */
 	protected Player topPlayer() {
-		List<MiniGamePlayer> sortedPlayers = getPlayerDataList().stream()
+		List<MiniGamePlayer> sortedPlayers = getGamePlayers().stream()
 				.sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed()).toList();
 		if (sortedPlayers.isEmpty()) {
 			return null;

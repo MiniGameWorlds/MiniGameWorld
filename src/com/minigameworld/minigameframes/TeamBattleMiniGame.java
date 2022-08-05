@@ -1224,7 +1224,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 			for (Player p : team.getMembers()) {
 				String playerStr = "- ";
 
-				MiniGamePlayer pData = minigame.getPlayerData(p);
+				MiniGamePlayer pData = minigame.getGamePlayer(p);
 				if (pData.isLive()) {
 					playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
 				} else {
