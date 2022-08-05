@@ -18,13 +18,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.customevents.minigame.MiniGameEventPassEvent;
-import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGameFinishEvent;
-import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGameStartEvent;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerLeaveEvent;
+import com.minigameworld.events.minigame.MiniGameEventPassEvent;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameFinishEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameStartEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerLeaveEvent;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEventListener;
@@ -656,7 +656,7 @@ public abstract class MiniGame implements GameEventListener {
 		this.players.addAll(leavingPlayers);
 
 		// call finish event
-		Utils.callEvent(new MiniGameFinishEvent(this));
+		Utils.callEvent(new MiniGameFinishEvent(this, leavingPlayers));
 
 		this.players.clear();
 

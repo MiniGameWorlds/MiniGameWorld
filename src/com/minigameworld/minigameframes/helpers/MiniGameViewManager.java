@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerUnviewEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerViewEvent;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;

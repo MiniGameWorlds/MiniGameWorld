@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.util.Utils;
 
 /**

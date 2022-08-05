@@ -16,8 +16,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;

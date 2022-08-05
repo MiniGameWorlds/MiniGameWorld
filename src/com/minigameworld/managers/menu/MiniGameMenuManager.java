@@ -12,8 +12,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.customevents.menu.MenuCloseEvent;
-import com.minigameworld.customevents.menu.MenuOpenEvent;
+import com.minigameworld.events.menu.MenuCloseEvent;
+import com.minigameworld.events.menu.MenuOpenEvent;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;

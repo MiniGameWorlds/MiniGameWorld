@@ -1,10 +1,10 @@
-package com.minigameworld.customevents.minigame.instance;
+package com.minigameworld.events.minigame.instance;
 
 import java.util.List;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.customevents.minigame.MiniGameEvent;
+import com.minigameworld.events.minigame.MiniGameEvent;
 import com.minigameworld.minigameframes.MiniGame;
 
 public abstract class MiniGameInstanceEvent extends MiniGameEvent {

@@ -1,4 +1,4 @@
-package com.minigameworld.customevents.menu;
+package com.minigameworld.events.menu;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

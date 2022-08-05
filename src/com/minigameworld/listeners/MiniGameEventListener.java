@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGameStartEvent;
-import com.minigameworld.customevents.minigame.player.MiniGamePlayerJoinEvent;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameStartEvent;
+import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;

@@ -20,13 +20,12 @@ import com.minigameworld.api.MwUtil;
 import com.minigameworld.api.observer.MiniGameObserver;
 import com.minigameworld.api.observer.MiniGameTimingNotifier;
 import com.minigameworld.commands.MiniGameGamesConfigCommand;
-import com.minigameworld.customevents.minigame.MiniGameExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
-import com.minigameworld.customevents.minigame.instance.MiniGameInstanceCreateEvent;
-import com.minigameworld.customevents.minigame.instance.MiniGameInstanceRemoveEvent;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
+import com.minigameworld.events.minigame.instance.MiniGameInstanceCreateEvent;
+import com.minigameworld.events.minigame.instance.MiniGameInstanceRemoveEvent;
 import com.minigameworld.managers.event.EventHandlerManager;
-import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
@@ -833,13 +832,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			updateInstanceGameData(newInstance);
 
 			// register game event handler
-			Utils.debug("@@@@@@@@1");
 			this.eventHandlerManager.registerGameListener(newInstance);
-			Utils.debug("@@@@@@@@2");
 			this.eventHandlerManager.registerGameListener(newInstance.getViewManager());
-			Utils.debug("@@@@@@@@3");
 			this.eventHandlerManager.registerGameListener(newInstance.getCustomOption());
-			Utils.debug("@@@@@@@@4");
 			this.eventHandlerManager.registerGameListener(newInstance.getInventoryManager());
 		} catch (NoSuchMethodException e) {
 			Utils.warning(templateGame.getTitleWithClassName()

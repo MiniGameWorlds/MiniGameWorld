@@ -5,7 +5,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.minigameworld.customevents.minigame.MiniGameScoreboardUpdateEvent;
+import com.minigameworld.events.minigame.MiniGameScoreboardUpdateEvent;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;

@@ -18,8 +18,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
-import com.minigameworld.customevents.minigame.MiniGameServerExceptionEvent;
+import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;

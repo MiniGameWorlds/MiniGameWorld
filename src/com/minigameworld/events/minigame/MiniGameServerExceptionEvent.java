@@ -1,4 +1,4 @@
-package com.minigameworld.customevents.minigame;
+package com.minigameworld.events.minigame;
 
 /**
  * Called when a server exception has occured<br>

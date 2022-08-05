@@ -1,4 +1,4 @@
-package com.minigameworld.customevents.minigame.player;
+package com.minigameworld.events.minigame.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -6,13 +6,13 @@ import org.bukkit.event.Cancellable;
 import com.minigameworld.minigameframes.MiniGame;
 
 /**
- * Called when a player try to unview a minigame
+ * Called when a player try to view a minigame
  *
  */
-public class MiniGamePlayerUnviewEvent extends MiniGamePlayerEvent implements Cancellable{
+public class MiniGamePlayerViewEvent extends MiniGamePlayerEvent implements Cancellable{
 	private boolean cancelled;
 
-	public MiniGamePlayerUnviewEvent(MiniGame minigame, Player player) {
+	public MiniGamePlayerViewEvent(MiniGame minigame, Player player) {
 		super(minigame, player);
 		this.cancelled = false;
 	}

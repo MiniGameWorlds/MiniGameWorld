@@ -1,4 +1,4 @@
-package com.minigameworld.customevents.minigame;
+package com.minigameworld.events.minigame;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.minigameframes.MiniGame;

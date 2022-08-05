@@ -1,4 +1,4 @@
-package com.minigameworld.customevents.minigame.player;
+package com.minigameworld.events.minigame.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
