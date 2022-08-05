@@ -17,17 +17,17 @@ public class TestGame extends SoloMiniGame {
 	}
 
 	@GameEvent(state = State.WAIT)
-	private void onBreakBlock(BlockBreakEvent e) {
+	protected void onBreakBlock(BlockBreakEvent e) {
 		sendMessage(getSoloPlayer(), "Block break");
 	}
 
 	@GameEvent(state = State.PLAY)
-	private void onPlaceBlock(BlockPlaceEvent e) {
+	protected void onPlaceBlock(BlockPlaceEvent e) {
 		sendMessage(getSoloPlayer(), "Block place");
 	}
 
 	@GameEvent(state = State.ALL)
-	private void onPlayerInteractEvent(PlayerInteractEvent e) {
+	protected void onPlayerInteractEvent(PlayerInteractEvent e) {
 		sendMessage(getSoloPlayer(), "PlayerInteractEvent");
 	}
 

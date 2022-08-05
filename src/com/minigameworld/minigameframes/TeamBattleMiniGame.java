@@ -787,7 +787,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 //	}
 
 	@GameEvent
-	private void onTeamPvp(EntityDamageByEntityEvent e) {
+	protected void onTeamPvp(EntityDamageByEntityEvent e) {
 		// if team pvp is true, team members can damage each other
 		if (isTeamPvp()) {
 			return;
@@ -819,7 +819,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@GameEvent
-	private void onChat(AsyncPlayerChatEvent e) {
+	protected void onChat(AsyncPlayerChatEvent e) {
 		// group chat
 		if (this.isGroupChat()) {
 			// cancel event

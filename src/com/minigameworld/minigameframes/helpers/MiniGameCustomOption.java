@@ -6,7 +6,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -169,76 +168,73 @@ public class MiniGameCustomOption implements GameEventListener {
 	}
 
 	@GameEvent(state = State.ALL)
-	private void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
+	protected void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
 		Utils.warning("chat message!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) get(Option.CHAT));
 	}
 
 	@GameEvent(state = State.ALL)
-	private void onBlockBreakEvent(BlockBreakEvent e) {
+	protected void onBlockBreakEvent(BlockBreakEvent e) {
 		Utils.warning("BlockBreakEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 	}
 
 	@GameEvent(state = State.ALL)
-	private void onBlockPlaceEvent(BlockPlaceEvent e) {
+	protected void onBlockPlaceEvent(BlockPlaceEvent e) {
 		Utils.warning("BlockPlaceEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
 	}
 
-	/**
-	 * Process event related with custom option before pass to a minigame<br>
-	 * 
-	 * @param event Event to set cancel or not with options
-	 */
-	public void onEvent1(Event event) {
-		if (event instanceof AsyncPlayerChatEvent) {
-			((AsyncPlayerChatEvent) event).setCancelled(!(boolean) get(Option.CHAT));
-		} else if (event instanceof BlockBreakEvent) {
-			((BlockBreakEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
-		} else if (event instanceof BlockPlaceEvent) {
-			((BlockPlaceEvent) event).setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
-		} else if (event instanceof PlayerDeathEvent) {
-			PlayerDeathEvent e = (PlayerDeathEvent) event;
-			if ((boolean) this.get(Option.INVENTORY_SAVE)) {
-				// keep inv
-				e.setKeepInventory(true);
+	@GameEvent(state = State.ALL)
+	protected void onPlayerDeathEvent(PlayerDeathEvent e) {
+		if ((boolean) this.get(Option.INVENTORY_SAVE)) {
+			// keep inv
+			e.setKeepInventory(true);
 
-				// remove drops
-				e.getDrops().clear();
-			} else {
-				e.setKeepInventory(false);
-			}
-		} else if (event instanceof PlayerRespawnEvent) {
-			if ((boolean) this.get(Option.MINIGAME_RESPAWN)) {
-				PlayerRespawnEvent e = (PlayerRespawnEvent) event;
-				e.setRespawnLocation(this.minigame.getLocation());
-			}
-		} else if (event instanceof FoodLevelChangeEvent) {
-			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
-			e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
-		} else if (event instanceof EntityDamageEvent) {
-			/*
-			 * PLAYER_HURT
-			 */
-			EntityDamageEvent damageEvent = (EntityDamageEvent) event;
-			if (damageEvent.getEntity() instanceof Player) {
-				damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
-			}
-
-			if (event instanceof EntityDamageByEntityEvent) {
-				// cancel damage by entity (
-				// when victim == minigame player && damager == minigame player
-				EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-
-				// PVP
-				onPvp(e);
-
-				// PVE
-				onPve(e);
-			}
-
+			// remove drops
+			e.getDrops().clear();
+		} else {
+			e.setKeepInventory(false);
 		}
+	}
+
+	@GameEvent(state = State.ALL)
+	protected void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+		if ((boolean) this.get(Option.MINIGAME_RESPAWN)) {
+			e.setRespawnLocation(this.minigame.getLocation());
+		}
+	}
+
+	@GameEvent(state = State.ALL)
+	protected void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+		e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
+	}
+
+	@GameEvent(state = State.ALL)
+	protected void onEntityDamageEvent(EntityDamageEvent event) {
+		/*
+		* PLAYER_HURT
+		*/
+		Utils.debug("EntityDamageEvent");
+
+		EntityDamageEvent damageEvent = (EntityDamageEvent) event;
+		if (damageEvent.getEntity() instanceof Player) {
+			damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
+		}
+
+	}
+
+	@GameEvent(state = State.ALL)
+	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+		Utils.debug("EntityDamageByEntityEvent");
+		// cancel damage by entity (
+		// when victim == minigame player && damager == minigame player
+
+		// PVP
+		onPvp(e);
+
+		// PVE
+		onPve(e);
 	}
 
 	private void onPvp(EntityDamageByEntityEvent e) {

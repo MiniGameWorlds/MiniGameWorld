@@ -17,11 +17,12 @@ import com.minigameworld.customevents.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerUnviewEvent;
 import com.minigameworld.customevents.minigame.player.MiniGamePlayerViewEvent;
 import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 
-public class MiniGameViewManager implements GameEventListener{
+public class MiniGameViewManager implements GameEventListener {
 	private MiniGame minigame;
 	private Queue<MiniGamePlayerState> viewers;
 
@@ -51,14 +52,14 @@ public class MiniGameViewManager implements GameEventListener{
 		return !this.viewers.stream().filter(v -> v.isSamePlayer(p)).toList().isEmpty();
 	}
 
-
 	/**
-	 * Only viewers in the same minigame can read a message
+	 * Only each viewers in the same game can read the message when game is in
+	 * playing
 	 * 
 	 * @param e Chat event
 	 */
-	@GameEvent
-	private void onChat(AsyncPlayerChatEvent e) {
+	@GameEvent(state = State.PLAY)
+	protected void onChat(AsyncPlayerChatEvent e) {
 		Set<Player> recipients = e.getRecipients();
 
 		List<Player> nonViewers = recipients.stream().filter(r -> !isViewing(r)).toList();
@@ -70,8 +71,8 @@ public class MiniGameViewManager implements GameEventListener{
 	 * 
 	 * @param e event
 	 */
-	@GameEvent
-	private void onRespawn(PlayerRespawnEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onRespawn(PlayerRespawnEvent e) {
 		if (!isViewing(e.getPlayer())) {
 			return;
 		}

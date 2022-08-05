@@ -1,7 +1,6 @@
 package com.minigameworld.minigameframes.helpers;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -11,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.FunctionItem;
@@ -26,20 +26,6 @@ public class MiniGameInventoryManager implements GameEventListener {
 		giveMinigameFunctionItems(p);
 	}
 
-	public void onEvent(Event event) {
-		if (event instanceof PlayerDropItemEvent) {
-			onPlayerDropItem((PlayerDropItemEvent) event);
-		} else if (event instanceof PlayerDeathEvent) {
-			onPlayerDeath((PlayerDeathEvent) event);
-		} else if (event instanceof PlayerRespawnEvent) {
-			onPlayerResapwn((PlayerRespawnEvent) event);
-		} else if (event instanceof InventoryClickEvent) {
-			onPlayerClickInv((InventoryClickEvent) event);
-		} else if (event instanceof PlayerSwapHandItemsEvent) {
-			onPlayerSwapHandItem((PlayerSwapHandItemsEvent) event);
-		}
-	}
-
 	private void giveMinigameFunctionItems(Player p) {
 		FunctionItem.inMinigameItems().forEach(item -> giveFunctionItem(p, item));
 	}
@@ -50,20 +36,22 @@ public class MiniGameInventoryManager implements GameEventListener {
 		p.getInventory().setItem(item.slot(), item.item());
 	}
 
-	@GameEvent
-	private void onPlayerDropItem(PlayerDropItemEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onPlayerDropItem(PlayerDropItemEvent e) {
 		// check item
 		if (FunctionItem.isFunctionItem(e.getItemDrop().getItemStack())) {
 			e.setCancelled(true);
 		}
 	}
 
-	private void onPlayerDeath(PlayerDeathEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onPlayerDeath(PlayerDeathEvent e) {
 		// remove dropped function items
 		FunctionItem.inMinigameItems().forEach(item -> e.getDrops().remove(item.item()));
 	}
 
-	private void onPlayerResapwn(PlayerRespawnEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onPlayerResapwn(PlayerRespawnEvent e) {
 		Player p = e.getPlayer();
 		Inventory inv = p.getInventory();
 
@@ -77,7 +65,8 @@ public class MiniGameInventoryManager implements GameEventListener {
 
 	}
 
-	private void onPlayerClickInv(InventoryClickEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onPlayerClickInv(InventoryClickEvent e) {
 		int slot = e.getSlot();
 		ItemStack item = e.getCurrentItem();
 
@@ -90,7 +79,8 @@ public class MiniGameInventoryManager implements GameEventListener {
 		});
 	}
 
-	private void onPlayerSwapHandItem(PlayerSwapHandItemsEvent e) {
+	@GameEvent(state = State.ALL)
+	protected void onPlayerSwapHandItem(PlayerSwapHandItemsEvent e) {
 		ItemStack mainHandItem = e.getMainHandItem();
 		ItemStack offHandItem = e.getOffHandItem();
 		if (FunctionItem.isFunctionItem(mainHandItem) || FunctionItem.isFunctionItem(offHandItem)) {

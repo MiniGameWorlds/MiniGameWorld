@@ -328,12 +328,14 @@ public abstract class MiniGame implements GameEventListener {
 	 * Waiting handlers
 	 */
 	@GameEvent(state = State.WAIT)
-	private void onEntityDamageEvent(EntityDamageEvent e) {
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
+		Utils.debug("MiniGame.onEntityDamageEvent()");
 		e.setCancelled(true);
 	}
 
 	@GameEvent(state = State.WAIT)
-	private void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+	protected void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+		Utils.debug("MiniGame.onFoodLevelChangeEvent()");
 		e.setCancelled(true);
 	}
 
@@ -355,6 +357,9 @@ public abstract class MiniGame implements GameEventListener {
 //		this.invManager.onEvent(event);
 //	}
 
+	/*
+	 * All time handlers
+	 */
 	/**
 	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
 	 * true<br>
@@ -362,7 +367,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param e Chat event
 	 */
 	@GameEvent(state = State.ALL)
-	private void onChat(AsyncPlayerChatEvent e) {
+	protected void onChat(AsyncPlayerChatEvent e) {
 		if (Setting.ISOLATED_CHAT) {
 			Set<Player> recipients = e.getRecipients();
 			recipients.removeAll(recipients.stream().filter(r -> !containsPlayer(r)).toList());
