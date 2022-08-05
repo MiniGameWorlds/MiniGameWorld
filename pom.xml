@@ -28,12 +28,6 @@
 			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- classgraph -->
-		<dependency>
-			<groupId>io.github.classgraph</groupId>
-			<artifactId>classgraph</artifactId>
-			<version>LATEST</version>
-		</dependency>
 		<!-- github java api -->
 		<!-- provided by wbmMC -->
 		<dependency>

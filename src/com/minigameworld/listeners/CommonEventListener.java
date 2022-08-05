@@ -26,9 +26,6 @@ import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
 public class CommonEventListener implements Listener {
-	/*
-	 * Set event handler to classes that MiniGame can use with classgraph library
-	 */
 	private MiniGameManager minigameManager;
 
 	public CommonEventListener(MiniGameManager minigameManager) {
