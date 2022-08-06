@@ -1,12 +1,11 @@
 package com.minigameworld.managers.event;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,16 +15,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.minigameworld.util.Utils;
 
 /**
- * Must use this method to get {@code List<GameListener>}
+ * <b>[Rules]</b><br>
+ * - If event is detectable with players by {@link MiniGameEventDetector}, the
+ * event will be only passed to the player's playing game listeners.<br>
+ * - If event is not detectable with players by {@link MiniGameEventDetector},
+ * the event will be passed to all listeners related with event.<br>
+ * In this {@link EventHandlerManager} class, use {@link #getListeners(Class)}
+ * to get listeners with event<br>
+ * <br>
  *
+ * <b>[Listener registration tutorial]</b><br>
+ * If listener related with minigame needs to handle events<br>
+ * 1. Implements {@link GameEventListener}<br>
+ * 2. Add method as a protected or public with {@link GameEvent} annotation<br>
+ * 3. Register in {@link MiniGameManager#createGameInstance()} and unregister in
+ * {@link MiniGameManager#removeGameInstance(MiniGame)}<br>
  */
 public class EventHandlerManager {
-	private Map<Class<? extends Event>, List<GameListener>> gameListeners;
+	private Map<Class<? extends Event>, Set<GameListener>> gameListeners;
 	private MiniGameEventDetector eventDetector;
 
 	public EventHandlerManager(MiniGameEventDetector eventDetector) {
@@ -36,21 +48,11 @@ public class EventHandlerManager {
 	public void registerGameListener(GameEventListener instance) {
 		for (Class<? extends Event> event : getHandlerEvents(instance)) {
 			if (!this.gameListeners.containsKey(event)) {
-				gameListeners.put(event, new CopyOnWriteArrayList<>());
+				gameListeners.put(event, new CopyOnWriteArraySet<>());
 				registerEventListener(event);
 			}
 			addGameListener(event, instance);
-
-			Utils.warning("=======registerGameListener=======");
-			debug(getListeners(event));
 		}
-	}
-
-	private void debug(List<GameListener> gameListeners) {
-		gameListeners.forEach(lis -> {
-			Utils.warning("- lis: " + lis.getClass().getSimpleName());
-			lis.handlers().forEach(h -> Utils.warning("- - handlers: " + h.getName()));
-		});
 	}
 
 	public void unregisterGameListener(GameEventListener instance) {
@@ -80,9 +82,6 @@ public class EventHandlerManager {
 			players.forEach(p -> targetListeners.addAll(getPlayingGameListeners(event, p)));
 		}
 
-		Utils.warning("=======onEvent=======");
-		debug(new ArrayList<>(targetListeners));
-
 		// invoke handler method
 		for (GameListener lis : targetListeners) {
 			GameEventListener instance = lis.listener();
@@ -91,7 +90,6 @@ public class EventHandlerManager {
 			MiniGame game = instance.minigame();
 			GameEvent.State state = game.passEvent(event) ? GameEvent.State.PLAY : GameEvent.State.WAIT;
 
-			Utils.debug("onEvent(), state: " + state);
 			lis.invoke(event, state);
 		}
 
@@ -100,7 +98,7 @@ public class EventHandlerManager {
 	}
 
 	private void invokeForcedHandlers(Set<GameListener> invokedListeners, Event event) {
-		List<GameListener> forcedListeners = new ArrayList<>();
+		Set<GameListener> forcedListeners = new HashSet<>();
 		getListeners(event.getClass()).stream().filter(l -> !l.forcedHandlers().isEmpty())
 				.forEach(l -> forcedListeners.add(l));
 
@@ -111,24 +109,18 @@ public class EventHandlerManager {
 		forcedListeners.forEach(lis -> lis.invoke(event, null));
 	}
 
-	private List<GameListener> getPlayingGameListeners(Event event, Player p) {
-		try {
-			List<GameListener> listeners = getListeners(event.getClass()).stream()
-					.filter(l -> l.listener().minigame().containsPlayer(p)).toList();
-			return listeners;
-		} catch (Exception e) {
-			Utils.debug("event: " + event.getEventName());
-			e.printStackTrace();
-			return null;
-		}
+	private Set<GameListener> getPlayingGameListeners(Event event, Player p) {
+		Set<GameListener> listeners = getListeners(event.getClass()).stream()
+				.filter(l -> l.listener().minigame().containsPlayer(p)).collect(Collectors.toSet());
+		return listeners;
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Class<? extends Event>> getHandlerEvents(GameEventListener instance) {
+	private Set<Class<? extends Event>> getHandlerEvents(GameEventListener instance) {
 		Set<Class<? extends Event>> events = new HashSet<>();
 		GameListener.gameEventHandlers(instance.getClass())
 				.forEach(m -> events.add((Class<? extends Event>) m.getParameterTypes()[0]));
-		return new ArrayList<>(events);
+		return events;
 	}
 
 	private void addGameListener(Class<? extends Event> event, GameEventListener instance) {
@@ -137,7 +129,7 @@ public class EventHandlerManager {
 	}
 
 	private void removeGameListener(Class<? extends Event> event, GameEventListener instance) {
-		List<GameListener> listeners = getListeners(event);
+		Set<GameListener> listeners = getListeners(event);
 		if (instance instanceof MiniGame) {
 			MiniGame game = ((MiniGame) instance);
 			listeners.stream().filter(l -> game.equals(l.listener().minigame())).forEach(listeners::remove);
@@ -154,19 +146,14 @@ public class EventHandlerManager {
 	 * @param event
 	 * @return
 	 */
-	private List<GameListener> getListeners(Class<? extends Event> event) {
-		List<GameListener> lis = this.gameListeners.get(event);
-
+	private Set<GameListener> getListeners(Class<? extends Event> event) {
+		Set<GameListener> lis = this.gameListeners.get(event);
 		if (lis == null) {
 			for (Class<? extends Event> key : this.gameListeners.keySet()) {
 				if (key.isAssignableFrom(event)) {
 					lis = this.gameListeners.get(key);
 				}
 			}
-		}
-
-		if (lis == null) {
-			Utils.debug("getListeners null: " + event.getName());
 		}
 		return lis;
 	}

@@ -9,6 +9,7 @@ import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.api.MwUtil;
 import com.minigameworld.commands.MiniGameCommand;
 import com.minigameworld.dev.TestGame;
+import com.minigameworld.dev.TestGame2;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.listeners.FunctionItemListener;
 import com.minigameworld.listeners.MiniGameEventListener;
@@ -169,6 +170,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
 		mw.registerGame(new TestGame());
+		mw.registerGame(new TestGame2());
 	}
 
 	@Override

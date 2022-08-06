@@ -328,14 +328,12 @@ public abstract class MiniGame implements GameEventListener {
 	 * Waiting handlers
 	 */
 	@GameEvent(state = State.WAIT)
-	protected void onEntityDamageEvent(EntityDamageEvent e) {
-		Utils.debug("MiniGame.onEntityDamageEvent()");
+	protected void onEntityDamaged(EntityDamageEvent e) {
 		e.setCancelled(true);
 	}
 
 	@GameEvent(state = State.WAIT)
-	protected void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
-		Utils.debug("MiniGame.onFoodLevelChangeEvent()");
+	protected void onFoodLevelChange(FoodLevelChangeEvent e) {
 		e.setCancelled(true);
 	}
 
