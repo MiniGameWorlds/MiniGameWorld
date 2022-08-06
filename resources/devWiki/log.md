@@ -1,15 +1,7 @@
 # TODO
-- Resolve low world-instance-system performance via help Multiverse core discord community
-- Add party invitation removing delay as settings.yml option
-- Pass `MiniGameFinishEvent` with player list event(as class member value) in `MiniGame` (rewrite  `MiniGameWorld-Reward`, `MiniGameWorld-Rank`)
-```java
-class MiniGameFinishEvent {
-	private List<MiniGamePlayerData> players;
-}
-```
 - bossbar
 - scoreboard new object in every update
-- Disable `_finish-timer` if `play-time` is 0
+- Disable `_finish-timer` if `play-time` is -1
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
@@ -990,6 +982,7 @@ if(!this.isMinPlayersLive()) {
 # 2022-06-21
 - Fix bukkit version extraction code
 - Fix game icon command
+- Release `0.8.2`
 
 # 2022-06-26
 - Add Multiverse-Core as maven dependency
@@ -1054,6 +1047,13 @@ if(!this.isMinPlayersLive()) {
 - Party: sendMessageToAllMembers() -> sendMessages(String)
 - Party: sendMessageToAllMembers() -> sendMessages(Component)
 - Party: canJoinMiniGame() -> canJoinGame()
+
+- package: com.worldbiomusic.minigameworld -> com.minigameworld
+
+- MiniGameWorldUtils class -> MwUtil class
+
+- MiniGame: getPlayerData() -> getGamePlayer()
+- MiniGame: getPlayerDataList() -> getGamePlayers()
 ```
 
 # 2022-07-08
@@ -1075,18 +1075,31 @@ if(!this.isMinPlayersLive()) {
 - Rename "backup-data-save-delay" option to "backup-delay"
 
 # 2022-07-21
-- Improve world-instance-system (world remove time reduced)
+- Improve world-instance-system (reduce world removing time)
 
+# 2022-07-24
+- Add check code whether registered game has no argument constructor for game-instance-system or not
+- Small fix
 
+# 2022-07-25
+- Remove "worldbiomusic" in the package name
+- Rename "MiniGameWorldUtils" to "MwUtil"
+- Create "MiniGameInstanceEvent", "MiniGameInstanceCreateEvent", "MiniGameInstanceRemoveEvent"
 
+# 2022-08-01
+- Design new event handling structure
+- Fix MiniGame.equals() to compare with game "class" and "id"
+- Add MiniGame.isSameTempalte()
+- Move "started" of MiniGame to MiniGameSetting
+- Rename MiniGamePlayerData to MiniGamePlayer
 
+# 2022-08-05
+- Work with new event handling structure
+- Remove `classgraph` dependency
+- Pass `MiniGameFinishEvent` with player list(as class member value) in `MiniGame`
 
-
-
-
-
-
-
+# 2022-08-06
+- Work with new event handling structure
 
 
 

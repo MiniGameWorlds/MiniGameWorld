@@ -10,7 +10,6 @@
 # Library dependencies
 - [Spigot]: Minecraft server software
 - [wbmMC]: Minecraft util library
-- [classgraph]: Using for register all `Event` handlers
 
 # How to build
 ## With Maven
@@ -18,7 +17,7 @@
 - Run `mvn package` (uses `shade` plugin) using console in the project directory 
 
 # pom.xml
-- Depends `spigot-api`, `classgraph` and `github-api`
+- Depends `spigot-api` and `github-api`
 - Use `maven-shade-plugin`
 
 ### wbmMC
@@ -31,7 +30,7 @@
 - Use `MANIFEST.MF` for add library class path
 ```mf
 Manifest-Version: 1.0
-Class-Path: . libs/classgraph.jar
+Class-Path: . libs/<dependency>.jar
 
 ```
 - Build jar with `MANIFEST.MF` setting
@@ -43,16 +42,12 @@ Class-Path: . libs/classgraph.jar
 - Add build path in eclipse 
 - Put in `plugins` directory
 
-### classgraph
-- Add build path in eclipse
-- Put in `plugins/libs/classgraph.jar`
-
 ---
 
 ## With Fat-Jar
 - Put libraries to one jar
 - Download `fat-jar` plugin
-- Export to `fat-jar` plugin with `classgraph`
+- Export to `fat-jar` plugin 
 
 ### Spigot
 - Add build path
@@ -60,9 +55,6 @@ Class-Path: . libs/classgraph.jar
 ### WbmMC
 - Add build path in eclipse 
 - Put in `plugins` directory
-
-### classgraph
-- Add build path in eclipse
 
 ---
 
@@ -80,7 +72,7 @@ Class-Path: . libs/classgraph.jar
 
 ## With Fat-Jar
 1. Develop
-2. Export to `fat-jar` plugin with only `classgraph`
+2. Export to `fat-jar` plugin with 
 3. Start server
 
 
@@ -95,4 +87,3 @@ Class-Path: . libs/classgraph.jar
 
 [Spigot]: https://getbukkit.org/download/spigot
 [wbmMC]: https://github.com/worldbiomusic/wbmMC
-[classgraph]: https://github.com/classgraph/classgraph

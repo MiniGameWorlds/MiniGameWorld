@@ -42,7 +42,6 @@
 
 # ETC
 - [Patch Note](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/log.md)
-- This project uses [classgraph](https://github.com/classgraph/classgraph) library licensed from MIT to register all events in  Minecraft bukkit
 - [Scoreboard Conflict]
 
 
