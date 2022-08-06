@@ -1,7 +1,6 @@
 # TODO
 - bossbar
 - scoreboard new object in every update
-- Disable `_finish-timer` if `play-time` is -1
 - Add `remove-not-exist-game-config`
 - Add player's state things not included with `Entity` , `HumanEntity` api docs
 - Add `craft`(default: false), `item-pickup`, `item-drop` option to Custom option 
@@ -1100,7 +1099,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-08-06
 - Work with new event handling structure
-
+- Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1`
 
 
 

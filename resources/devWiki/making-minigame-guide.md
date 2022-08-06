@@ -38,7 +38,7 @@
 
 
 
-## 3. Methods
+## 3. Basic Methods
 ### `initGame()`
 - Called when the server starts and minigame starts 
 ### `onEvent()`
@@ -65,36 +65,9 @@ mw.registerMiniGame(new FitTool());
 
 # Options
 ## - **Setting**
-- Fundamental settings of minigame (See api doc for Init value)
-
-- `title`: Minigame title (can be different with Class Name)
-- `location`: Minigame join location
-- `minPlayers`: Minimun player count for start game
-- `maxPlayers`: Maximun player count for playing game
-- `waitingTime`: Waiting time (sec)
-- `playingTime`: Minigame play time (sec)
-- `active`: Whether this minigame is active in the server(true/false)
-- `settingFixed`: fix setting to prevent to edit by user: `minPlayers`, `maxPlayers`, `playingTime`, `customData` (can't edit in config)
-- `tutorial`: Tutorials
-- `customData`: Custom data created by developer or default custom options
-- `icon`: Material which show in menu (Material)
-detail (e.g. check player from event is playing current minigame))
-- `gameFinishCondition`: Game finish condition (Init: LESS_THAN_PLAYERS_LIVE (2))
-> e.g. game will finish in these condition
-> - `- GameFinishCondition = LESS_THAN_PLAYERS_LIVE`  
-`- gameFinishConditionPlayerCount = 2`  
-`- live players count = 1`  
-> - `- GameFinishCondition = MORE_THAN_PLAYERS_LIVE`  
-`- gameFinishConditionPlayerCount = 5`  
-`- live players count = 6`  
-> - `- GameFinishCondition = LESS_THAN_PLAYERS_LEFT`  
-`- gameFinishConditionPlayerCount = 4`  
-`- left players count = 3`  
-- `gameFinishConditionPlayerCount`: Used with `gameFinishCondition` (Init: 2)
-- `view`: If true, players can view the minigame
-- `customDetectableEvents`: Custom detectable event list ([Detectable Event List])
-- `useEventDetector`: If false, no events will be passed to the minigame ([Detectable Event List])
-- `scoreboard`: If true, scoreboard will be shown to players (`scoreboard` option in settings.yml needed)
+Fundamental settings of minigame (Search `MiniGameSetting` in [API] doc for init value)
+[Setting options](../userWiki/config.md)
+- If `waiting-time`/`play-time` is `-1`, game should have start/finish condition to process
 
 ### How to use
 ```java
@@ -134,7 +107,7 @@ public PassMob() {
 - Don't need cancellation
 - `Register`: `getTaskManager().registerTask("name", new Runnable() { // code });` in anywhere
 - `Run`: `getTaskManager().runTask("name");` in anywhere **after registration**
-- Do not register/run system task(`_waiting-timer`, `_finish-timer`, `_update-scoreboard`)
+- Do not register/run system task(`_waiting-timer`, `_play-timer`, `_update-scoreboard`)
 - **Do not register a task with `BukkitRunnable`**, but with Runnable
 - **If you use your own tasks, make sure that finish the tasks when the game finished using `MiniGame.onFinish()`**
 ### How to register

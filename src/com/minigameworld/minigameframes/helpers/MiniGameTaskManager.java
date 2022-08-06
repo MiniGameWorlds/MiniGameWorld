@@ -9,6 +9,9 @@ import com.wbm.plugin.util.instance.Counter;
 import com.wbm.plugin.util.instance.TaskManager;
 
 public class MiniGameTaskManager {
+	public static final String WAITING_TIMER_NAME = "_waiting-timer";
+	public static final String PLAY_TIMER_NAME = "_play-timer";
+
 	// task manager
 	private TaskManager taskManager;
 	// timer counter
@@ -31,26 +34,36 @@ public class MiniGameTaskManager {
 	}
 
 	public void runWaitingTask() {
+		// check timer is set to -1 (infinite)
+		if (this.minigame.getWaitingTime() == -1) {
+			return;
+		}
+
 		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
-		this.taskManager.runTaskTimer("_waiting-timer", 0, 20);
+		this.taskManager.runTaskTimer(WAITING_TIMER_NAME, 0, 20);
 	}
 
 	public void cancelWaitingTask() {
-		this.taskManager.cancelTask("_waiting-timer");
+		this.taskManager.cancelTask(WAITING_TIMER_NAME);
 	}
 
 	public void runFinishTask() {
+		// check timer is set to -1 (infinite)
+		if (this.minigame.getPlayTime() == -1) {
+			return;
+		}
+
 		this.finishCounter = new Counter(this.minigame.getPlayTime() + 1);
-		this.taskManager.runTaskTimer("_finish-timer", 0, 20);
+		this.taskManager.runTaskTimer(PLAY_TIMER_NAME, 0, 20);
 	}
 
 	public void cancelFinishTask() {
-		this.taskManager.cancelTask("_finish-timer");
+		this.taskManager.cancelTask(PLAY_TIMER_NAME);
 	}
 
 	public void registerBasicTasks() {
 		// register waitingTimer task to taskManager
-		this.taskManager.registerTask("_waiting-timer", new Runnable() {
+		this.taskManager.registerTask(WAITING_TIMER_NAME, new Runnable() {
 
 			@Override
 			public void run() {
@@ -82,8 +95,8 @@ public class MiniGameTaskManager {
 			}
 		});
 
-		// register finishTimer task to taskManager
-		this.taskManager.registerTask("_finish-timer", new Runnable() {
+		// register play timer task to taskManager
+		this.taskManager.registerTask(PLAY_TIMER_NAME, new Runnable() {
 
 			@Override
 			public void run() {

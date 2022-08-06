@@ -550,7 +550,7 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	/**
-	 * Cancel all tasks and timer count (waitingTime task, finishTime task)
+	 * Cancel all tasks and timer count (waitingTime task, playTimer task)
 	 */
 	private void initTasks() {
 		this.taskManager.init();

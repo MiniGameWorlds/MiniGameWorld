@@ -17,6 +17,7 @@ This wiki describes how to use MiniGameWorld pluin in your server. And this Plug
 - [Commands]
 - [Config]
 - [Backup]
+- [Chat]
 - [World instance]
 - [Game instance]
 - [Update checker]
@@ -91,6 +92,7 @@ Setup minigame location using command `/minigame games <game> locations <<player
 [Permissions]: permissions.md
 [Party]: party.md
 [Backup]: backup.md
+[Chat]: chat.md
 [Game instance]: game-instance.md
 [World instance]: world-instance.md
 [Update checker]: update-checker.md
