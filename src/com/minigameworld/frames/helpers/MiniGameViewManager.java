@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,10 +16,10 @@ import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerUnviewEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerViewEvent;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
-import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Utils;
 
 public class MiniGameViewManager implements GameEventListener {

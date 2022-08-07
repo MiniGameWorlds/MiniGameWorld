@@ -6,9 +6,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.minigameworld.frames.SoloMiniGame;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
-import com.minigameworld.minigameframes.SoloMiniGame;
 
 public class TestGame extends SoloMiniGame {
 

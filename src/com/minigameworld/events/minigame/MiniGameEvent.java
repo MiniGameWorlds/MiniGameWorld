@@ -4,7 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Event related with minigame

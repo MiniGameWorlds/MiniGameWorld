@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.minigameworld.frames;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,14 +18,14 @@ import org.bukkit.scoreboard.Score;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
+import com.minigameworld.frames.TeamBattleMiniGame.Team;
+import com.minigameworld.frames.helpers.MiniGamePlayer;
+import com.minigameworld.frames.helpers.MiniGameRank;
+import com.minigameworld.frames.helpers.MiniGameSetting;
+import com.minigameworld.frames.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.TeamBattleMiniGame.Team;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
-import com.minigameworld.minigameframes.helpers.MiniGameRank;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting;
-import com.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 import com.wbm.plugin.util.ChatColorTool;
 import com.wbm.plugin.util.PlayerTool;
 

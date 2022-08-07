@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers.scoreboard;
+package com.minigameworld.frames.helpers.scoreboard;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGamePlayer;
 
 public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 

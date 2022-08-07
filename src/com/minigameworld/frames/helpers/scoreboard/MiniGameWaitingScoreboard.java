@@ -1,11 +1,11 @@
-package com.minigameworld.minigameframes.helpers.scoreboard;
+package com.minigameworld.frames.helpers.scoreboard;
 
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 public class MiniGameWaitingScoreboard extends MiniGameScoreboardSidebarUpdater {
 

@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -9,7 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
 import com.minigameworld.api.MwUtil;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;

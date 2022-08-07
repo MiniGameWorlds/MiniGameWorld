@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.minigameworld.frames;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

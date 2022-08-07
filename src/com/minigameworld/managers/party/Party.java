@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.api.MwUtil;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
 
 import net.md_5.bungee.api.chat.BaseComponent;

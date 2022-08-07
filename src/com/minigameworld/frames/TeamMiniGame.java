@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes;
+package com.minigameworld.frames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 
-import com.minigameworld.minigameframes.helpers.MiniGameRank;
-import com.minigameworld.minigameframes.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
+import com.minigameworld.frames.helpers.MiniGameRank;
+import com.minigameworld.frames.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
 import com.wbm.plugin.util.PlayerTool;
 
 /**

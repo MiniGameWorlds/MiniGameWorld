@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.minigameworld.events.menu.MenuClickEvent;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.LangUtils;
 import com.minigameworld.util.Messenger;
 import com.minigameworld.util.Setting;

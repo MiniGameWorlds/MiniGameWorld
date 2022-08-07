@@ -1,7 +1,7 @@
 package com.minigameworld.events.minigame;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Called when a exception related minigame has occurred<br>

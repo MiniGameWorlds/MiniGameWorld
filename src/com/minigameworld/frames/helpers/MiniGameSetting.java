@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import com.minigameworld.commands.MiniGameGamesConfigCommand;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
 import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.CryptoTool;

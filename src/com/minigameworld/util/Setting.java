@@ -7,7 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting;
+import com.minigameworld.frames.helpers.MiniGameSetting;
 
 public class Setting {
 	// final

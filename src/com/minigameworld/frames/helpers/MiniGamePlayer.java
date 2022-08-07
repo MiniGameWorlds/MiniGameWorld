@@ -1,12 +1,12 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.util.List;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 
 /**
  * Player data with score, live<br>

@@ -2,8 +2,8 @@ package com.minigameworld.events.minigame;
 
 import java.util.List;
 
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGamePlayer;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGamePlayer;
 
 /**
  * Called when a minigame finished<br>

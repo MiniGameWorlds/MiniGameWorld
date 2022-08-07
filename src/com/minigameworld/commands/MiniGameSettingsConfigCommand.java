@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.bukkit.command.CommandSender;
 
+import com.minigameworld.frames.helpers.MiniGameSetting;
 import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 

@@ -9,10 +9,10 @@ import org.bukkit.inventory.Inventory;
 
 import com.minigameworld.api.observer.MiniGameObserver;
 import com.minigameworld.api.observer.MiniGameTimingNotifier;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.minigameworld.util.VersionChecker;
@@ -87,7 +87,7 @@ public class MiniGameWorld {
 			return true;
 		}
 		// MINER, MAJOR or null
-		Utils.debug("Version not matched (Try version: " + version + ")");
+		Utils.warning("Version not matched (Try version: " + version + ")");
 		return false;
 	}
 

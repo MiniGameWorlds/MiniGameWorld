@@ -3,7 +3,7 @@ package com.minigameworld.events.minigame;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Called when a event passed to a started minigame<br>

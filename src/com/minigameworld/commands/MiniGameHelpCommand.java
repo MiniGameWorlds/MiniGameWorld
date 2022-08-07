@@ -89,7 +89,7 @@ public class MiniGameHelpCommand {
 		sender.sendMessage("/minigame party allow <player>: allow <player>'s ask");
 		sender.sendMessage("/minigame party leave: leave party");
 		sender.sendMessage("/minigame party kickvote <player>: vote <player> that you want to kick from your party");
-		sender.sendMessage("/minigame party msg <player>: send message to player");
+		sender.sendMessage("/minigame party msg: send message to party members");
 		sender.sendMessage("/minigame party list: show party member list");
 	}
 

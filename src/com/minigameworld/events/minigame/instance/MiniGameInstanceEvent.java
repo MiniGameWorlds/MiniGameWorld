@@ -5,7 +5,7 @@ import java.util.List;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameEvent;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 public abstract class MiniGameInstanceEvent extends MiniGameEvent {
 

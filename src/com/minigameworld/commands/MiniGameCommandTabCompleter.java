@@ -9,9 +9,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
 
 public class MiniGameCommandTabCompleter implements TabCompleter {
 

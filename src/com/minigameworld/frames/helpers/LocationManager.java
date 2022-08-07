@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.bukkit.World;
 import org.codehaus.plexus.util.FileUtils;
 
 import com.minigameworld.MiniGameWorldMain;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Utils;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.utils.WorldManager;

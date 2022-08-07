@@ -1,6 +1,6 @@
 package com.minigameworld.events.minigame.instance;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 public class MiniGameInstanceRemoveEvent extends MiniGameInstanceEvent {
 

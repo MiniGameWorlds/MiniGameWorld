@@ -20,8 +20,8 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 

@@ -44,11 +44,6 @@ public class FunctionItemListener implements Listener {
 			isNotPlayerInv = true;
 		}
 
-//		Utils.debug("current: " + currentItem);
-//		Utils.debug("cursor: " + cursorItem);
-//		Utils.debug("upperInv: " + upperInv);
-//		Utils.debug("clickedInv: " + clickedInv + "\n");
-
 		// cancel event if try to craft or something with menu opener
 		if ((isMenuOpener && isNotPlayerInv) || (isMenuOpener && e.isShiftClick())) {
 //			e.setResult(Result.DENY);

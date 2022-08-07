@@ -3,7 +3,7 @@ package com.minigameworld.events.minigame.player;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Called when a player try to view a minigame

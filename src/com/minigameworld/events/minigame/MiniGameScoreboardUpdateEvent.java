@@ -3,7 +3,7 @@ package com.minigameworld.events.minigame;
 import org.bukkit.event.Cancellable;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Called when a scoreboard of minigame is updated

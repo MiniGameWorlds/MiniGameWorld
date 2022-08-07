@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers.scoreboard;
+package com.minigameworld.frames.helpers.scoreboard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import com.minigameworld.events.minigame.MiniGameScoreboardUpdateEvent;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 

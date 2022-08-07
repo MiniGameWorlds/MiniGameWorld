@@ -15,9 +15,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
 
 /**
  * <b>[Rules]</b><br>

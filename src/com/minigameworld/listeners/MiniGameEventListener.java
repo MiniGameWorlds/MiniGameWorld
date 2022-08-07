@@ -9,12 +9,12 @@ import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameStartEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.TeamBattleMiniGame;
+import com.minigameworld.frames.TeamBattleMiniGame.TeamRegisterMode;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.TeamBattleMiniGame;
-import com.minigameworld.minigameframes.TeamBattleMiniGame.TeamRegisterMode;
 
 public class MiniGameEventListener implements Listener {
 	private MiniGameManager minigameManager;

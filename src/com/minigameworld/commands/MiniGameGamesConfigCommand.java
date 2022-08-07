@@ -10,10 +10,10 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameDataManager;
 import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameDataManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.PlayerTool;

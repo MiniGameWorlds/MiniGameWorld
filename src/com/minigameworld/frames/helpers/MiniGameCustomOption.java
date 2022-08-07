@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,10 +16,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
-import com.minigameworld.minigameframes.MiniGame;
 import com.wbm.plugin.util.Utils;
 
 /**
@@ -215,8 +215,6 @@ public class MiniGameCustomOption implements GameEventListener {
 		/*
 		* PLAYER_HURT
 		*/
-		Utils.debug("EntityDamageEvent");
-
 		EntityDamageEvent damageEvent = (EntityDamageEvent) event;
 		if (damageEvent.getEntity() instanceof Player) {
 			damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
@@ -226,10 +224,6 @@ public class MiniGameCustomOption implements GameEventListener {
 
 	@GameEvent(state = State.ALL)
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-		Utils.debug("EntityDamageByEntityEvent");
-		// cancel damage by entity (
-		// when victim == minigame player && damager == minigame player
-
 		// PVP
 		onPvp(e);
 

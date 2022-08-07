@@ -3,7 +3,7 @@ package com.minigameworld.events.minigame.instance;
 import org.bukkit.event.Cancellable;
 
 import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Called when instance game tries to be created

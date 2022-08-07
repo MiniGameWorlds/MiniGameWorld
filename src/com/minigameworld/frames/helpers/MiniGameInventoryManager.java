@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -9,10 +9,10 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
-import com.minigameworld.minigameframes.MiniGame;
 import com.minigameworld.util.FunctionItem;
 
 public class MiniGameInventoryManager implements GameEventListener {

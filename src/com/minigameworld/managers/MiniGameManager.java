@@ -25,13 +25,13 @@ import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
 import com.minigameworld.events.minigame.instance.MiniGameInstanceCreateEvent;
 import com.minigameworld.events.minigame.instance.MiniGameInstanceRemoveEvent;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameEventDetector;
+import com.minigameworld.frames.helpers.MiniGameSetting;
 import com.minigameworld.managers.event.EventHandlerManager;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameEventDetector;
-import com.minigameworld.minigameframes.helpers.MiniGameSetting;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.CollectionTool;
@@ -195,9 +195,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		List<MiniGame> waitingGames = this.instanceGames.stream().filter(g -> g.getTitle().equals(title))
 				.filter(Predicate.not(MiniGame::isStarted)).filter(party::canJoinGame).toList();
 
-		Utils.debug("[Waiting games]");
-		waitingGames.forEach(g -> Utils.debug("Title: " + g.getTitle() + ", Id: " + g.getSetting().getId()));
-
 		// create new game instance
 		if (waitingGames.isEmpty()) {
 			// check instance count
@@ -227,7 +224,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			}
 
 			this.instanceGames.add(instanceGame);
-			Utils.debug("1");
 		}
 
 		// join one of waiting(not started) games by join priority
@@ -241,7 +237,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			} else {// random
 				instanceGame = CollectionTool.random(waitingGames).get();
 			}
-			Utils.debug("2");
 		}
 
 		Utils.debug("[Game try to join]");
@@ -264,12 +259,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		if (!canJoinGame(p, title)) {
 			return false;
 		}
-
-		Utils.debug("[Instances]");
-		this.instanceGames.forEach(g -> {
-			Utils.debug("Title: " + g.getTitle() + ", Id: " + g.getSetting().getId());
-		});
-		Utils.debug("\n");
 
 		MiniGame templateGame = getTemplateGame(title);
 
@@ -552,8 +541,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	}
 
 	public boolean onPluginDisabled(PluginDisableEvent e) {
-		Utils.debug("passEvent() disabled");
-
 		this.instanceGames.forEach(g -> {
 			if (g.isStarted()) {
 				g.finishGame();

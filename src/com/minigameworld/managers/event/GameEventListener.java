@@ -1,6 +1,6 @@
 package com.minigameworld.managers.event;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 public interface GameEventListener {
 	public MiniGame minigame();

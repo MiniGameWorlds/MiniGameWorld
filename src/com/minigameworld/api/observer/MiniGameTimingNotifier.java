@@ -1,6 +1,6 @@
 package com.minigameworld.api.observer;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Timing notifier for minigame<br>

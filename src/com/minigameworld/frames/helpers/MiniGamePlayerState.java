@@ -1,4 +1,4 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,8 +16,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-import com.minigameworld.minigameframes.MiniGame;
-import com.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.MiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.PlayerTool;
 
 /**

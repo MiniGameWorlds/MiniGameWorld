@@ -1,9 +1,9 @@
-package com.minigameworld.minigameframes.helpers;
+package com.minigameworld.frames.helpers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 import com.wbm.plugin.util.PlayerTool;
 import com.wbm.plugin.util.instance.Counter;
 import com.wbm.plugin.util.instance.TaskManager;

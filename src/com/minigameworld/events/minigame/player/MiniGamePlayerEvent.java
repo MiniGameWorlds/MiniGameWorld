@@ -3,7 +3,7 @@ package com.minigameworld.events.minigame.player;
 import org.bukkit.entity.Player;
 
 import com.minigameworld.events.minigame.MiniGameEvent;
-import com.minigameworld.minigameframes.MiniGame;
+import com.minigameworld.frames.MiniGame;
 
 /**
  * Playing minigame player event

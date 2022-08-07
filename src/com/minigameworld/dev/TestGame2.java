@@ -6,8 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import com.minigameworld.frames.SoloBattleMiniGame;
 import com.minigameworld.managers.event.GameEvent;
-import com.minigameworld.minigameframes.SoloBattleMiniGame;
 
 public class TestGame2 extends SoloBattleMiniGame {
 
