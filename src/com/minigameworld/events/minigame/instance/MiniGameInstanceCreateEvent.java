@@ -1,13 +1,14 @@
 package com.minigameworld.events.minigame.instance;
 
+import java.util.List;
+
 import org.bukkit.event.Cancellable;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.frames.MiniGame;
 
 /**
- * Called when instance game tries to be created
- *
+ * Called before the instance is created
  */
 public class MiniGameInstanceCreateEvent extends MiniGameInstanceEvent implements Cancellable {
 	private boolean cancelled;
@@ -32,5 +33,15 @@ public class MiniGameInstanceCreateEvent extends MiniGameInstanceEvent implement
 	@Override
 	public MiniGameAccessor getMiniGame() {
 		return super.getMiniGame();
+	}
+
+	/**
+	 * Get the same instance games before this event processes
+	 * 
+	 * @return The ssme minigame instances
+	 */
+	@Override
+	public List<MiniGameAccessor> instances() {
+		return super.instances();
 	}
 }

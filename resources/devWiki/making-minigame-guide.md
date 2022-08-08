@@ -55,10 +55,10 @@
 
 
 ## 5.Register MiniGame
-- Register MiniGame with registerMiniGame() of MiniGameWorld.create()
+- Register MiniGame with registerGame() of MiniGameWorld.create()
 ```java
 MiniGameWorld mw = MiniGameWorld.create("x.x.x");
-mw.registerMiniGame(new FitTool());
+mw.registerGame(new FitTool());
 ```
 
 ---
@@ -318,7 +318,7 @@ getScoreboardManager().setPlayScoreboardUpdater(new YourScoreboardUpdater(this))
 
 ## - **PlayerData**
 - manage `score`, `live`
-- `getPlayerData()`: get player data of minigame (`score`, `live`)
+- `getGamePlayer()`: get player data of minigame (`score`, `live`)
 - `plusScore()`: plus player score
 - `minusScore()`: minus player score
 - `setLive()`: set player live

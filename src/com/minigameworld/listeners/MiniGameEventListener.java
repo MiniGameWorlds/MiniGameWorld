@@ -4,8 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.minigameworld.api.MiniGameAccessor;
-import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameStartEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;

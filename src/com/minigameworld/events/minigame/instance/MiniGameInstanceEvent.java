@@ -13,14 +13,8 @@ public abstract class MiniGameInstanceEvent extends MiniGameEvent {
 		super(minigame);
 	}
 
-	/**
-	 * Get instance count of the minigame before this event processes
-	 * 
-	 * @return Same minigame instance count
-	 */
 	public List<MiniGameAccessor> instances() {
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
 		return mw.getInstanceGames().stream().filter(g->g.isSameTemplate(getMiniGame())).toList();
 	}
-
 }

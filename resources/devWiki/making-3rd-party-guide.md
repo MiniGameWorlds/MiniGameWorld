@@ -309,7 +309,7 @@ public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
 - `MiniGamePlayerException`: leave the player from the minigame
 ```java
 // minigame player exception: playing player will leave from the minigame
-if (MwUtil.checkPlayerIsPlayingMiniGame(p)) {
+if (MwUtil.isPlayingGame(p)) {
 	Bukkit.getServer().getPluginManager()
 			.callEvent(new MiniGamePlayerExceptionEvent("reason", p));
 }
@@ -317,7 +317,7 @@ if (MwUtil.checkPlayerIsPlayingMiniGame(p)) {
 - `MiniGameException`: finish the minigame
 ```java
 // minigame exception: speific minigame will finish
-MiniGame minigame = this.minigameManager.getMiniGameList().get(0);
+MiniGame minigame = this.minigameManager.getInstanceGames().get(0);
 Bukkit.getServer().getPluginManager()
 		.callEvent(new MiniGameExceptionEvent(minigame, "reason"));
 ```
@@ -400,7 +400,7 @@ public class MyPluginMain extends JavaPlugin {
 		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 		
 		// register custom detector
-		mw.registerMiniGameEventExternalDetector(new MyCustomEventDetector());
+		mw.registerExternalEventDetector(new MyCustomEventDetector());
 	}
 }
 ```

@@ -9,8 +9,8 @@ public class YourMiniGamePluginMain extends JavaPlugin {
 		// load API
 		MiniGameWorld mw = MiniGameWorld.create("x.x.x"); // API version (Latest: MiniGameWorld.API_VERSION)
 
-    // register minigame
-		mw.registerMiniGame(new YourMiniGame());
+    	// register minigame
+		mw.registerGame(new YourMiniGame());
 	}
 
 	@Override

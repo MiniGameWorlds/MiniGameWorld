@@ -59,10 +59,10 @@ class YourScoreboardUpdateManager {
 		// DO NOT update player scoreboard while playing
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			// check player is playing minigame
-			boolean isIn = MwUtil.checkPlayerIsInMiniGame(p);
+			boolean isIn = MwUtil.checkPlayerIsInGame(p);
 			if (isIn) {
 				// check scoreboard option of minigame is true
-				boolean useScoreboardOption = (boolean) MwUtil.getPlayingMiniGame(p).getSettings().get("scoreboard");
+				boolean useScoreboardOption = (boolean) MwUtil.getPlayingGame(p).getSettings().get("scoreboard");
 				if (useScoreboardOption) {
 					continue;
 				}

@@ -180,22 +180,17 @@ public class MiniGameCommand implements CommandExecutor {
 		List<MiniGame> games = this.minigameManager.getTemplateGames();
 
 		// info
-		String info = "\n" + ChatColor.BOLD + "[MiniGame List]";
-		info += "\n" + "※ " + ChatColor.RED + "RED" + ChatColor.WHITE + ": already started";
-		info += "\n" + "※ " + ChatColor.GREEN + "GREEN" + ChatColor.WHITE + ": can join";
-		info += "\n" + "※ " + ChatColor.STRIKETHROUGH + "STRIKETHROUGH" + ChatColor.WHITE + ": inactive";
+		String info = "\n" + ChatColor.BOLD + "[Game List]";
+		info += "\n" + "※ " + ChatColor.STRIKETHROUGH + "STRIKETHROUGH" + ChatColor.WHITE + ": not active";
 		sender.sendMessage(info);
 
 		// print mingames
 		for (MiniGame game : games) {
 			String gameTitle = game.getTitle();
 			if (!game.isActive()) {
-				sender.sendMessage("- " + ChatColor.STRIKETHROUGH + gameTitle);
-			} else if (game.isStarted()) {
-				sender.sendMessage("- " + ChatColor.RED + gameTitle);
-			} else if (!game.isStarted()) {
-				sender.sendMessage("- " + ChatColor.GREEN + gameTitle);
-			}
+				gameTitle += ChatColor.STRIKETHROUGH;
+			} 
+			sender.sendMessage("- " + gameTitle);
 		}
 
 		return true;
@@ -280,21 +275,21 @@ public class MiniGameCommand implements CommandExecutor {
 			sender.sendMessage("Backup folder " + ChatColor.GREEN + dataDirName + ChatColor.RESET + " loaded");
 		}
 
-		// reload "setting.yml", all template game data
+		// 1. load template-worlds
+		Utils.loadTemplateWorlds();
+
+		// 2. reload "setting.yml", all template game data
 		this.dataManager.reloadAllData();
 
-		// update not started instance games data with updated template game data
+		// 3. update not started instance games data with updated template game data
 		this.minigameManager.getInstanceGames().stream().filter(g -> !g.isStarted())
 				.forEach(minigameManager::updateInstanceGameData);
 
-		// load template-worlds
-		Utils.loadTemplateWorlds();
-
-		// complete msg
-		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete] ");
+		// notify
+		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete ] ");
 		sender.sendMessage("- " + this.minigameManager.getFileName());
 		if (Setting.EDIT_MESSAGES) {
-			sender.sendMessage("- Language messages");
+			sender.sendMessage("- All language messages");
 		}
 		this.minigameManager.getTemplateGames().forEach(m -> {
 			sender.sendMessage("- " + m.getTitleWithClassName());

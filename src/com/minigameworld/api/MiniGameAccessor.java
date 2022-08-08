@@ -96,7 +96,7 @@ public class MiniGameAccessor {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayer> getPlayerDataList() {
+	public List<MiniGamePlayer> getGamePlayers() {
 		// copied
 		List<MiniGamePlayer> copiedMinigamePlayerData = new ArrayList<>();
 		for (MiniGamePlayer minigamePData : this.minigame.getGamePlayers()) {

@@ -96,7 +96,7 @@ public class CommonListener implements Listener {
 		// register minigame
 		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 		minigame = new FitTool();
-		mw.registerMiniGame(minigame);
+		mw.registerGame(minigame);
 	}
 
 	@EventHandler

@@ -18,6 +18,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.events.minigame.MiniGameEventPassEvent;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameFinishEvent;
@@ -27,20 +28,20 @@ import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerLeaveEvent;
 import com.minigameworld.frames.helpers.LocationManager;
 import com.minigameworld.frames.helpers.MiniGameCustomOption;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.minigameworld.frames.helpers.MiniGameDataManager;
 import com.minigameworld.frames.helpers.MiniGameInventoryManager;
 import com.minigameworld.frames.helpers.MiniGamePlayer;
 import com.minigameworld.frames.helpers.MiniGameRank;
 import com.minigameworld.frames.helpers.MiniGameSetting;
+import com.minigameworld.frames.helpers.MiniGameSetting.GameFinishCondition;
 import com.minigameworld.frames.helpers.MiniGameTaskManager;
 import com.minigameworld.frames.helpers.MiniGameViewManager;
-import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
-import com.minigameworld.frames.helpers.MiniGameSetting.GameFinishCondition;
 import com.minigameworld.frames.helpers.scoreboard.MiniGameScoreboardManager;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.event.GameEvent;
-import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.managers.event.GameEvent.State;
+import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.util.LangUtils;
 import com.minigameworld.util.Messenger;
@@ -307,25 +308,10 @@ public abstract class MiniGame implements GameEventListener {
 		return false;
 	}
 
-//	/**
-//	 * Processes events while players are waiting for start
-//	 * 
-//	 * @param event Passed Event
-//	 */
-//	private void onWaitingEvent(Event event) {
-//		if (event instanceof EntityDamageEvent) {
-//			// prevent player hurts
-//			EntityDamageEvent e = (EntityDamageEvent) event;
-//			e.setCancelled(true);
-//		} else if (event instanceof FoodLevelChangeEvent) {
-//			// prevent player hunger changes
-//			FoodLevelChangeEvent e = (FoodLevelChangeEvent) event;
-//			e.setCancelled(true);
-//		}
-//	}
-
 	/*
 	 * Waiting handlers
+	 * - onEntityDamaged()
+	 * - onFoodLevelChange()
 	 */
 	@GameEvent(state = State.WAIT)
 	protected void onEntityDamaged(EntityDamageEvent e) {
@@ -337,26 +323,11 @@ public abstract class MiniGame implements GameEventListener {
 		e.setCancelled(true);
 	}
 
-//	/**
-//	 * Process all events before passed to the minigame
-//	 * 
-//	 * @param event Passed Event
-//	 */
-//	private void onCommonEvent(Event event) {
-//		// pass event to custom option
-//		this.customOption.onEvent(event);
-//
-//		// chat event
-//		if (event instanceof AsyncPlayerChatEvent) {
-//			onChat((AsyncPlayerChatEvent) event);
-//		}
-//
-//		// check inventory event
-//		this.invManager.onEvent(event);
-//	}
-
 	/*
 	 * All time handlers
+	 * - onChat()
+	 * - MiniGameCustomOption
+	 * - InventoryManager
 	 */
 	/**
 	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
@@ -367,8 +338,9 @@ public abstract class MiniGame implements GameEventListener {
 	@GameEvent(state = State.ALL)
 	protected void onChat(AsyncPlayerChatEvent e) {
 		if (Setting.ISOLATED_CHAT) {
+			// send chat message to the same game players and also viewers only
 			Set<Player> recipients = e.getRecipients();
-			recipients.removeAll(recipients.stream().filter(r -> !containsPlayer(r)).toList());
+			recipients.removeAll(recipients.stream().filter(r -> !MwUtil.isInGame(r)).toList());
 		}
 	}
 
@@ -848,7 +820,9 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	/**
-	 * Check player is playing minigame
+	 * Check player is playing this minigame (not check player is viewing)<br>
+	 * To check player is viewing this minigame, get {@link #getViewManager()} and
+	 * use {@link MiniGameViewManager#isViewing(Player)}
 	 * 
 	 * @param p Target player
 	 * @return True if player is playing minigame

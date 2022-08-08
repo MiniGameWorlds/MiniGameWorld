@@ -53,5 +53,5 @@ If the `instance-world` option is **false** and all worlds are being used. Becau
 
 
 # Warning
-Too frequent world creation and deletion could slow your server performance.
+Too frequent world creation and deletion can slow your server performance.
 

@@ -6,7 +6,7 @@ This system allows minigames to have multi instances. And you can also set the m
 ## How to set maximum instance count
 To set maximum instance count, go into your `MiniGameWorld/minigames` and open up the game config you want then you can find `instances` key. (default is `1`)
 - `-1`: infinite
-- `0`: no instance created
+- `0`: no instance will be created
 - `1 ~ ∞`: maximum instance count
 
 

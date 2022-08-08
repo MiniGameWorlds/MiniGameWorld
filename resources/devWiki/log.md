@@ -1,4 +1,7 @@
 # TODO
+- Add `/mw view <title> <id>` command
+- Add CONTRIBUTE.md
+- Replace images files in wiki to github image link
 - bossbar
 - scoreboard new object in every update
 - Add `remove-not-exist-game-config`
@@ -1013,18 +1016,6 @@ if(!this.isMinPlayersLive()) {
 - MiniGameManager: getInMiniGame() -> getInGame()
 - MiniGameManager: isInMiniGame() -> isInGame()
 - MiniGameManager: removeNotExistMiniGameData() -> removeNotExistGameData()
-
-- MiniGameWorld: getMiniGameList() -> getTemplateGames()
-- MiniGameWorld: registerMiniGame() -> registerGame()
-- MiniGameWorld: unregisterMiniGame() -> unregisterGame()
-- MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
-- MiniGameWorld: registerMiniGameEventExternalDetector() -> registerExternalEventDetector()
-- MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
-- MiniGameWorld: registerMiniGameObserver() -> registerObserver()
-- MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
-- MiniGameWorld: () -> ()
-- MiniGameWorld: () -> ()
-
 - MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
 - MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
 - MiniGameManager: getMiniGamesDirectory() -> getMiniGamesDir()
@@ -1034,12 +1025,21 @@ if(!this.isMinPlayersLive()) {
 - MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
 - MiniGameManager: getViewingMiniGame() -> getViewingGame()
 - MiniGameManager: getInMiniGame() -> getInGame()
-- MiniGameManager: getPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(default= false))
 - MiniGameManager: getNotPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(true))
-- MiniGameManager: getViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(default= false))
 - MiniGameManager: getNotViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(true))
-- MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default: false))
+- MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default= false))
 - MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
+
+- MiniGameWorld: getMiniGameList() -> getTemplateGames()
+- MiniGameWorld: registerMiniGame() -> registerGame()
+- MiniGameWorld: unregisterMiniGame() -> unregisterGame()
+- MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
+- MiniGameWorld: registerMiniGameEventExternalDetector() -> registerExternalEventDetector()
+- MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
+- MiniGameWorld: registerMiniGameObserver() -> registerObserver()
+- MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
 
 - PartyManager: sendMessageToPlayerPartyMembers() -> ()
 
@@ -1099,10 +1099,13 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-08-06
 - Work with new event handling structure
-- Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1`
+- Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1` (need game finish condition)
 
+# 2022-08-07
+- Rename com.minigameworld.minigameframes -> com.minigameworld.frames
 
-
+# 2022-08-09
+- Fix chat system
 
 
 

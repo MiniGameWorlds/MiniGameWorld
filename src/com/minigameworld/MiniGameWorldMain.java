@@ -12,6 +12,7 @@ import com.minigameworld.dev.TestGame;
 import com.minigameworld.dev.TestGame2;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.listeners.FunctionItemListener;
+import com.minigameworld.listeners.GameViewEventListener;
 import com.minigameworld.listeners.MiniGameEventListener;
 import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
@@ -149,6 +150,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.registerEventListener(this.commonListener);
 		Utils.registerEventListener(this.miniGameEventListener);
 		Utils.registerEventListener(this.functionItemListener);
+		Utils.registerEventListener(new GameViewEventListener());
 	}
 
 	private void setCommandExecutors() {
@@ -167,7 +169,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 		if (!Setting.DEBUG_MODE) {
 			return;
 		}
-		
+
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
 		mw.registerGame(new TestGame());
 		mw.registerGame(new TestGame2());

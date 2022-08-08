@@ -38,7 +38,7 @@ public class JumpMap {
 
 - After then, the class has to extend `SoloMiniGame` class (~~Solo~~)
 ```java
-import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
+import com.minigameworld.frames.SoloMiniGame;
 
 public class JumpMap extends SoloMiniGame{
 
@@ -52,7 +52,7 @@ import java.util.List;
 
 import org.bukkit.event.Event;
 
-import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
+import com.minigameworld.frames.SoloMiniGame;
 
 public class JumpMap extends SoloMiniGame{
 
@@ -268,8 +268,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import com.worldbiomusic.minigameworld.minigameframes.SoloMiniGame;
-import com.worldbiomusic.minigameworld.minigameframes.helpers.MiniGameCustomOption.Option;
+import com.minigameworld.frames.SoloMiniGame;
+import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 
 public class JumpMap extends SoloMiniGame {
 

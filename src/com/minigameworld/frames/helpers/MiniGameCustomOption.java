@@ -20,7 +20,6 @@ import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
-import com.wbm.plugin.util.Utils;
 
 /**
  * Below custom options are created in `custom-data` section by default<br>
@@ -169,19 +168,16 @@ public class MiniGameCustomOption implements GameEventListener {
 
 	@GameEvent(state = State.ALL)
 	protected void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
-		Utils.warning("chat message!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) get(Option.CHAT));
 	}
 
 	@GameEvent(state = State.ALL)
 	protected void onBlockBreakEvent(BlockBreakEvent e) {
-		Utils.warning("BlockBreakEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) this.get(Option.BLOCK_BREAK));
 	}
 
 	@GameEvent(state = State.ALL)
 	protected void onBlockPlaceEvent(BlockPlaceEvent e) {
-		Utils.warning("BlockPlaceEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		e.setCancelled(!(boolean) this.get(Option.BLOCK_PLACE));
 	}
 

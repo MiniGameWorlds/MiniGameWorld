@@ -12,12 +12,12 @@ public interface MiniGameTimingNotifier {
 	 */
 	public enum Timing {
 		/**
-		 * When a minigame is registered to MiniGameWolrd plugin
+		 * When a template game is registered to MiniGameWolrd plugin
 		 */
 		REGISTRATION,
 
 		/**
-		 * When a minigame is unregistered from MiniGameWorld plugin
+		 * When a template game is unregistered from MiniGameWorld plugin
 		 */
 		UNREGISTRATION;
 	}

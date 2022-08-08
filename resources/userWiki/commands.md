@@ -22,7 +22,7 @@
 - `/minigame party allow <player>`: allow `<player>`'s ask
 - `/minigame party leave`: leave party
 - `/minigame party kickvote <player>`: vote `<player>` that you want to kick from your party
-- `/minigame party msg <player>`: send message to player
+- `/minigame party msg`: send message to party members
 - `/minigame party list`: show party member list
 
 

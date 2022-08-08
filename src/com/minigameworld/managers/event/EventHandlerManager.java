@@ -21,6 +21,8 @@ import com.minigameworld.managers.MiniGameManager;
 
 /**
  * <b>[Rules]</b><br>
+ * - Must register instance which processes playing game player's only (not about
+ * viewers and outers)<br>
  * - If event is detectable with players by {@link MiniGameEventDetector}, the
  * event will be only passed to the player's playing game listeners.<br>
  * - If event is not detectable with players by {@link MiniGameEventDetector},
