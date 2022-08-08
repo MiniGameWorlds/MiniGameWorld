@@ -18,9 +18,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import com.minigameworld.api.MwUtil;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
-import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
@@ -48,7 +48,7 @@ public class CommonEventListener implements Listener {
 		// call minigame exception event
 		Utils.callEvent(new MiniGamePlayerExceptionEvent("player-quit-server", p));
 	}
-	
+
 	@EventHandler
 	public void onPluginDisableEvent(PluginDisableEvent e) {
 		this.minigameManager.onPluginDisabled(e);
@@ -122,18 +122,18 @@ public class CommonEventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		// Don't send message to players playing minigame from outside
+		// Don't send chat to the playing minigame players from outside(not in players)
 		Player p = e.getPlayer();
 
-		if (this.minigameManager.isPlayingGame(p)) {
+		// except for playing players and viewers
+		if (MwUtil.isInGame(p)) {
 			return;
 		}
 
 		if (Setting.ISOLATED_CHAT) {
-			Set<Player> playingMinigamePlayers = e.getRecipients();
-			for (MiniGame m : this.minigameManager.getTemplateGames()) {
-				playingMinigamePlayers.removeAll(m.getPlayers());
-			}
+			// remove playing players and viewers in game
+			Set<Player> recipients = e.getRecipients();
+			recipients.removeAll(recipients.stream().filter(minigameManager::isInGame).toList());
 		}
 	}
 

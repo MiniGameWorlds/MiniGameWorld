@@ -222,8 +222,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			if (instanceGame == null) {
 				return false;
 			}
-
-			this.instanceGames.add(instanceGame);
 		}
 
 		// join one of waiting(not started) games by join priority
@@ -523,16 +521,15 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 				return false;
 			}
 
-			// get minigame
-			MiniGame minigame = getInGame(p);
-			minigame.handleException(exception);
+			// pass
+			getInGame(p).handleException(exception);
 		}
 
 		// check event is server exception
 		else if (exception instanceof MiniGameServerExceptionEvent) {
-			// send to all minigames and make finish game
+			// send to all games and make them finish the game
 			this.instanceGames.forEach(m -> m.handleException(exception));
-		} else { // MiniGameExceptionEvent
+		} else { // MiniGameExceptionEvent (send to only instance equals)
 			this.instanceGames.stream().filter(m -> m.equals(exception.getMiniGame()))
 					.forEach(m -> m.handleException(exception));
 		}
@@ -754,21 +751,22 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @return False if the minigame doesn't exist
 	 */
 	public boolean unregisterTemplateGame(MiniGame templateGame) {
-		if (this.templateGames.contains(templateGame)) {
-			// save and unregister minigame from yaml manager
-			this.yamlManager.save(templateGame.getDataManager());
-			this.yamlManager.unregisterMember(templateGame.getDataManager());
-
-			// unregister
-			this.templateGames.remove(templateGame);
-			Utils.info("" + ChatColor.RED + ChatColor.BOLD + templateGame.getTitleWithClassName() + ChatColor.RESET
-					+ " minigame is unregistered");
-
-			// notify minigame unregistration to observers
-			notifyObservers(templateGame, Timing.UNREGISTRATION);
-			return true;
+		if (!this.templateGames.contains(templateGame)) {
+			return false;
 		}
-		return false;
+
+		// save and unregister minigame from yaml manager
+		this.yamlManager.save(templateGame.getDataManager());
+		this.yamlManager.unregisterMember(templateGame.getDataManager());
+
+		// unregister
+		this.templateGames.remove(templateGame);
+		Utils.info("" + ChatColor.RED + ChatColor.BOLD + templateGame.getTitleWithClassName() + ChatColor.RESET
+				+ " minigame is unregistered");
+
+		// notify minigame unregistration to observers
+		notifyObservers(templateGame, Timing.UNREGISTRATION);
+		return true;
 	}
 
 	public void removeNotExistGameData() {
@@ -804,7 +802,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @return Null if exception occurs
 	 */
 	private MiniGame createGameInstance(MiniGame templateGame) {
-		// call instance create event
+		// call instance create event before creating
 		if (Utils.callEvent(new MiniGameInstanceCreateEvent(templateGame))) {
 			return null;
 		}
@@ -820,9 +818,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// register game event handler
 			this.eventHandlerManager.registerGameListener(newInstance);
-			this.eventHandlerManager.registerGameListener(newInstance.getViewManager());
 			this.eventHandlerManager.registerGameListener(newInstance.getCustomOption());
 			this.eventHandlerManager.registerGameListener(newInstance.getInventoryManager());
+
+			// add instance to the list
+			this.instanceGames.add(newInstance);
 		} catch (NoSuchMethodException e) {
 			Utils.warning(templateGame.getTitleWithClassName()
 					+ " doesn't have no arguments constructor! (Set \"debug-mode\" in settings.yml to true for details)");
@@ -840,6 +840,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		} else {
 			Utils.debug(templateGame.getTitleWithClassName() + " instance created");
 		}
+
 		return newInstance;
 	}
 
@@ -860,14 +861,13 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// unregister game event handlers
 		this.eventHandlerManager.unregisterGameListener(instance);
-		this.eventHandlerManager.unregisterGameListener(instance.getViewManager());
 		this.eventHandlerManager.unregisterGameListener(instance.getCustomOption());
 		this.eventHandlerManager.unregisterGameListener(instance.getInventoryManager());
 
 		// remove
 		this.instanceGames.remove(instance);
 
-		// call instance remove event
+		// call after instance removed
 		Utils.callEvent(new MiniGameInstanceRemoveEvent(instance));
 	}
 

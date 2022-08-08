@@ -1,7 +1,6 @@
 package com.minigameworld.frames.helpers;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -17,8 +16,6 @@ import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerUnviewEvent;
 import com.minigameworld.events.minigame.player.MiniGamePlayerViewEvent;
 import com.minigameworld.frames.MiniGame;
-import com.minigameworld.managers.event.GameEvent;
-import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.util.Utils;
 
@@ -58,12 +55,13 @@ public class MiniGameViewManager implements GameEventListener {
 	 * 
 	 * @param e Chat event
 	 */
-	@GameEvent(state = State.PLAY)
-	protected void onChat(AsyncPlayerChatEvent e) {
+	public void onChat(AsyncPlayerChatEvent e) {
+		if (!isViewing(e.getPlayer())) {
+			return;
+		}
+		// remove not viewing the same game recipients
 		Set<Player> recipients = e.getRecipients();
-
-		List<Player> nonViewers = recipients.stream().filter(r -> !isViewing(r)).toList();
-		recipients.removeAll(nonViewers);
+		recipients.removeAll(recipients.stream().filter(r -> !isViewing(r)).toList());
 	}
 
 	/**
@@ -71,8 +69,7 @@ public class MiniGameViewManager implements GameEventListener {
 	 * 
 	 * @param e event
 	 */
-	@GameEvent(state = State.ALL)
-	protected void onRespawn(PlayerRespawnEvent e) {
+	public void onRespawn(PlayerRespawnEvent e) {
 		if (!isViewing(e.getPlayer())) {
 			return;
 		}
