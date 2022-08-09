@@ -189,7 +189,7 @@ public class MiniGameCommand implements CommandExecutor {
 			String gameTitle = game.getTitle();
 			if (!game.isActive()) {
 				gameTitle += ChatColor.STRIKETHROUGH;
-			} 
+			}
 			sender.sendMessage("- " + gameTitle);
 		}
 
@@ -280,10 +280,6 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// 2. reload "setting.yml", all template game data
 		this.dataManager.reloadAllData();
-
-		// 3. update not started instance games data with updated template game data
-		this.minigameManager.getInstanceGames().stream().filter(g -> !g.isStarted())
-				.forEach(minigameManager::updateInstanceGameData);
 
 		// notify
 		sender.sendMessage("" + ChatColor.GREEN + ChatColor.BOLD + "[ Reload Complete ] ");

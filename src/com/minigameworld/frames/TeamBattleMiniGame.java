@@ -18,16 +18,12 @@ import org.bukkit.scoreboard.Score;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
-import com.minigameworld.events.minigame.MiniGameStartEvent;
-import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
 import com.minigameworld.frames.TeamBattleMiniGame.Team;
 import com.minigameworld.frames.helpers.MiniGamePlayer;
 import com.minigameworld.frames.helpers.MiniGameRank;
 import com.minigameworld.frames.helpers.MiniGameSetting;
 import com.minigameworld.frames.helpers.scoreboard.MiniGameScoreboardSidebarUpdater;
-import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.managers.event.GameEvent;
-import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
 import com.wbm.plugin.util.ChatColorTool;
@@ -398,61 +394,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		return TeamRegisterMode.valueOf((String) this.getCustomData().get("team-register-mode"));
 	}
 
-	/**
-	 * If minigame is TeamBattleMiniGame and team register mode is "PARTY", limit
-	 * party entrance
-	 */
-	@GameEvent(state = State.WAIT)
-	protected void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
-		// check minigame is this TeamBattleMiniGame
-		MiniGame minigame = e.getMiniGame().minigame();
-		if (!minigame.equals(this)) {
-			return;
-		}
-
-		// check team register mode is "PARTY"
-		if (getTeamRegisterMode() != TeamRegisterMode.PARTY) {
-			return;
-		}
-
-		Player p = e.getPlayer();
-
-		// check entered party count
-		int playersPartyCount = PartyManager.getPartyCountOfPlayers(getPlayers());
-		if (playersPartyCount >= getTeamCountLimit()) {
-			sendMessage(p, getTitle() + " already has full parties");
-			e.setCancelled(true);
-			return;
-		}
-
-		// check party member count
-		Party party = MiniGameManager.getInstance().getPartyManager().getPlayerParty(p);
-		if (party.getSize() > getTeamSize()) {
-			sendMessage(p, "This party game allows only " + getTeamSize() + " or below party members");
-			e.setCancelled(true);
-			return;
-		}
-	}
-
-	@GameEvent(state = State.WAIT)
-	protected void onMiniGameStart(MiniGameStartEvent e) {
-		// check minigame is this TeamBattleMiniGame
-		MiniGame minigame = e.getMiniGame().minigame();
-		if (!minigame.equals(this)) {
-			return;
-		}
-
-		// check team register mode is "PARTY"
-		if (getTeamRegisterMode() != TeamRegisterMode.PARTY) {
-			return;
-		}
-
-		int partyCount = PartyManager.getPartyCountOfPlayers(getPlayers());
-		if (partyCount <= 1) {
-			sendMessages("Game can't start with only one party (team)");
-			e.setCancelled(true);
-		}
-	}
+	
 
 	/**
 	 * Sets group chat

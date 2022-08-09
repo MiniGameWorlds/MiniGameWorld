@@ -461,6 +461,9 @@ public class MiniGameSetting {
 		// locations
 		setLocations((List<Location>) setting.get(Setting.GAMES_LOCATIONS));
 
+		// location (because locations are changed)
+		setLocation(CollectionTool.random(this.locations).get());
+
 		// waitingTime
 		setWaitingTime((int) setting.get(Setting.GAMES_WAITING_TIME));
 

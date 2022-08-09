@@ -8,8 +8,11 @@ import java.util.Map.Entry;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.io.Files;
+import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MwUtil;
+import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.frames.MiniGame;
+import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.wbm.plugin.util.data.yaml.YamlHelper;
@@ -122,6 +125,16 @@ public class MiniGameDataManager implements YamlMember {
 
 		// [IMPORTANT] This called after yaml reload (apply file data to minigame)
 		applyMiniGameDataToInstance();
+
+		Utils.debug("reload: " + this.minigame.getClassName());
+		// 1. throw game exception to let players leave from the game
+		// 2. update not started instance games data with updated template game data
+		MiniGameManager.getInstance().getInstanceGames().stream()
+				.filter(g -> g.isSameTemplate(this.minigame) && !g.isStarted()).forEach(g -> {
+					Utils.callEvent(new MiniGameExceptionEvent(new MiniGameAccessor(g), "game-data-update"));
+					MiniGameManager.getInstance().updateInstanceGameData(g);
+					Utils.debug(g.id());
+				});
 	}
 
 	@Override
