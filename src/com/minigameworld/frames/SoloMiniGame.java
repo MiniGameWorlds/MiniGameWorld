@@ -24,7 +24,6 @@ public abstract class SoloMiniGame extends MiniGame {
 		super(title, 1, 1, playTime, waitingTime);
 
 		getSetting().setGameFinishConditionPlayerCount(1);
-
 	}
 
 	/**

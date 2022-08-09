@@ -2,7 +2,7 @@ package com.minigameworld.frames;
 
 /**
  * <b>[Info]</b><br>
- * - Minigame frame several players can battle individually<br>
+ * - Minigame frame several players can battle individually like FFA<br>
  * - min player count: 2 or more <br>
  * <br>
  * 

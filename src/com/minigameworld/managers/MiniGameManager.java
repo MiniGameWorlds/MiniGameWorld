@@ -28,7 +28,7 @@ import com.minigameworld.events.minigame.instance.MiniGameInstanceRemoveEvent;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.frames.helpers.MiniGameSetting;
-import com.minigameworld.managers.event.EventHandlerManager;
+import com.minigameworld.managers.event.GameListenerManager;
 import com.minigameworld.managers.menu.MiniGameMenuManager;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.managers.party.PartyManager;
@@ -61,7 +61,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	// party
 	private PartyManager partyManager;
 
-	private EventHandlerManager eventHandlerManager;
+	private GameListenerManager gameListenerManager;
 
 	// yaml data manager
 	private YamlManager yamlManager;
@@ -80,7 +80,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		this.menuManager = new MiniGameMenuManager(this);
 		this.partyManager = new PartyManager();
-		this.eventHandlerManager = new EventHandlerManager(eventDetector);
+		this.gameListenerManager = new GameListenerManager(eventDetector);
 		this.observers = new ArrayList<>();
 	}
 
@@ -801,7 +801,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @param templateGame template minigame
 	 * @return Null if exception occurs
 	 */
-	private MiniGame createGameInstance(MiniGame templateGame) {
+	public MiniGame createGameInstance(MiniGame templateGame) {
 		// call instance create event before creating
 		if (Utils.callEvent(new MiniGameInstanceCreateEvent(templateGame))) {
 			return null;
@@ -817,9 +817,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			updateInstanceGameData(newInstance);
 
 			// register game event handler
-			this.eventHandlerManager.registerGameListener(newInstance);
-			this.eventHandlerManager.registerGameListener(newInstance.getCustomOption());
-			this.eventHandlerManager.registerGameListener(newInstance.getInventoryManager());
+			this.gameListenerManager.registerGameListener(newInstance);
+			this.gameListenerManager.registerGameListener(newInstance.getCustomOption());
+			this.gameListenerManager.registerGameListener(newInstance.getInventoryManager());
 
 			// add instance to the list
 			this.instanceGames.add(newInstance);
@@ -860,9 +860,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		instance.getLocationManager().reset();
 
 		// unregister game event handlers
-		this.eventHandlerManager.unregisterGameListener(instance);
-		this.eventHandlerManager.unregisterGameListener(instance.getCustomOption());
-		this.eventHandlerManager.unregisterGameListener(instance.getInventoryManager());
+		this.gameListenerManager.unregisterGameListener(instance);
+		this.gameListenerManager.unregisterGameListener(instance.getCustomOption());
+		this.gameListenerManager.unregisterGameListener(instance.getInventoryManager());
 
 		// remove
 		this.instanceGames.remove(instance);
@@ -899,8 +899,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		return this.eventDetector;
 	}
 
-	public EventHandlerManager getEventHandlerManager() {
-		return this.eventHandlerManager;
+	public GameListenerManager getGameListenerManager() {
+		return this.gameListenerManager;
 	}
 
 	public YamlManager getYamlManager() {

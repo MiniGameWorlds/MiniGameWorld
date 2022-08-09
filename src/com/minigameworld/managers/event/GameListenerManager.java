@@ -15,19 +15,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.events.minigame.MiniGameScoreboardUpdateEvent;
+import com.minigameworld.frames.FakeMiniGame;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
+import com.wbm.plugin.util.Utils;
 
 /**
  * <b>[Rules]</b><br>
- * - Must register instance which processes playing game player's only (not about
- * viewers and outers)<br>
+ * - Must register instance which processes playing game player's only (not
+ * about viewers and outers)<br>
  * - If event is detectable with players by {@link MiniGameEventDetector}, the
  * event will be only passed to the player's playing game listeners.<br>
  * - If event is not detectable with players by {@link MiniGameEventDetector},
  * the event will be passed to all listeners related with event.<br>
- * In this {@link EventHandlerManager} class, use {@link #getListeners(Class)}
+ * In this {@link GameListenerManager} class, use {@link #getListeners(Class)}
  * to get listeners with event<br>
  * <br>
  *
@@ -38,17 +41,20 @@ import com.minigameworld.managers.MiniGameManager;
  * 3. Register in {@link MiniGameManager#createGameInstance()} and unregister in
  * {@link MiniGameManager#removeGameInstance(MiniGame)}<br>
  */
-public class EventHandlerManager {
+public class GameListenerManager {
 	private Map<Class<? extends Event>, Set<GameListener>> gameListeners;
 	private MiniGameEventDetector eventDetector;
 
-	public EventHandlerManager(MiniGameEventDetector eventDetector) {
+	public GameListenerManager(MiniGameEventDetector eventDetector) {
 		this.gameListeners = new HashMap<>();
 		this.eventDetector = eventDetector;
 	}
 
 	public void registerGameListener(GameEventListener instance) {
 		for (Class<? extends Event> event : getHandlerEvents(instance)) {
+			if (event.getClass().equals(MiniGameScoreboardUpdateEvent.class)) {
+				Utils.debug("@@@@@@@@@@@@@@@@@@@@MiniGameScoreboardUpdateEvent: " + instance.minigame().getClassName());
+			}
 			if (!this.gameListeners.containsKey(event)) {
 				gameListeners.put(event, new CopyOnWriteArraySet<>());
 				registerEventListener(event);
@@ -62,6 +68,9 @@ public class EventHandlerManager {
 	}
 
 	private void registerEventListener(Class<? extends Event> event) {
+		if (event.getClass().equals(MiniGameScoreboardUpdateEvent.class)) {
+			Utils.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MiniGameScoreboardUpdateEvent");
+		}
 		Listener listener = new Listener() {
 		};
 		EventExecutor executor = (ignored, e) -> onEvent(e);
@@ -71,6 +80,9 @@ public class EventHandlerManager {
 	}
 
 	private void onEvent(Event event) {
+		if (event.getClass().equals(MiniGameScoreboardUpdateEvent.class)) {
+			Utils.debug("##########################MiniGameScoreboardUpdateEvent");
+		}
 		// check event detector
 		Set<Player> players = this.eventDetector.detectPlayers(event);
 		Set<GameListener> targetListeners = new HashSet<>();
@@ -101,6 +113,9 @@ public class EventHandlerManager {
 
 	private void invokeForcedHandlers(Set<GameListener> invokedListeners, Event event) {
 		Set<GameListener> forcedListeners = new HashSet<>();
+		if (getListeners(event.getClass()) == null) {
+			Utils.debug("Null:" + event.getEventName());
+		}
 		getListeners(event.getClass()).stream().filter(l -> !l.forcedHandlers().isEmpty())
 				.forEach(l -> forcedListeners.add(l));
 
@@ -128,6 +143,11 @@ public class EventHandlerManager {
 	private void addGameListener(Class<? extends Event> event, GameEventListener instance) {
 		GameListener listener = new GameListener(event, instance);
 		getListeners(event).add(listener);
+
+		if (instance.minigame() instanceof FakeMiniGame) {
+			Utils.debug("FakeMiniGame handlers");
+			getListeners(event).forEach(l -> Utils.debug(l.handlers().toString()));
+		}
 	}
 
 	private void removeGameListener(Class<? extends Event> event, GameEventListener instance) {

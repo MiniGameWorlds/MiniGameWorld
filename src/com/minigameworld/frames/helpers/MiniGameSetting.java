@@ -8,20 +8,43 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import com.minigameworld.commands.MiniGameGamesConfigCommand;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
 import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.CryptoTool;
 
-/**
- * If create option<br>
- * - Add getter and setter<br>
- * <br>
- * Also if file control is true<br>
+/*
+ * If create option
+ * - Add getter and setter
+ * 
+ * Also if file control is true
  * - Add option in {@link #getFileSetting()} and
- * {@link #setFileSetting(Map)}<br>
- * - Add access method to {@link MiniGameGamesConfigCommand}<br>
+ * {@link #setFileSetting(Map)}
+ * - Add access method to {@link MiniGameGamesConfigCommand}
+ */
+
+/**
+ * [Setting default values] <br>
+ * id = hash value of current nano time<br>
+ * started = false<br>
+ * title = title<br>
+ * location = location<br>
+ * instances = 1<br>
+ * instanceWorld = false<br>
+ * locations = location<br>
+ * minPlayers = minPlayers<br>
+ * maxPlayers = maxPlayers<br>
+ * waitingTime = waitingTime<br>
+ * playTime = playTime<br>
+ * active = true<br>
+ * settingFixed = false<br>
+ * tutorial = tutorial<br>
+ * customData = new Map<br>
+ * icon = Material.STONE<br>
+ * gameFinishCondition = {@link GameFinishCondition#LESS_THAN_PLAYERS_LIVE}<br>
+ * gameFinishConditionPlayerCount = 2<br>
+ * view = true<br>
+ * scoreboard = true<br>
  */
 public class MiniGameSetting {
 	/**
