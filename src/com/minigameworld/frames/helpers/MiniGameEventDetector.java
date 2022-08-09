@@ -41,6 +41,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.minigameworld.api.MiniGameExternalEventDetector;
+import com.minigameworld.events.minigame.player.MiniGamePlayerEvent;
 import com.minigameworld.managers.MiniGameManager;
 
 /**
@@ -97,6 +98,7 @@ public class MiniGameEventDetector {
 		this.detectableEventList.add(InventoryMoveItemEvent.class);
 		this.detectableEventList.add(PlayerLeashEntityEvent.class);
 		this.detectableEventList.add(TabCompleteEvent.class);
+		this.detectableEventList.add(MiniGamePlayerEvent.class);
 	}
 
 	/**
@@ -181,6 +183,8 @@ public class MiniGameEventDetector {
 			if (((TabCompleteEvent) e).getSender() instanceof Player) {
 				eventPlayers.add((Player) ((TabCompleteEvent) e).getSender());
 			}
+		} else if (e instanceof MiniGamePlayerEvent) {
+			eventPlayers.add(((MiniGamePlayerEvent) e).getPlayer());
 		}
 	}
 

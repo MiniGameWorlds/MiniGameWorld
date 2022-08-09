@@ -3,12 +3,11 @@ package com.minigameworld.frames;
 import java.util.List;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.events.minigame.player.MiniGamePlayerJoinEvent;
-import com.minigameworld.util.Utils;
+import com.minigameworld.managers.event.GameEvent;
+import com.minigameworld.managers.event.GameEvent.State;
 
 /**
  * <b>[Info]</b><br>
@@ -25,20 +24,21 @@ public abstract class FakeMiniGame extends MiniGame implements Listener {
 
 	public FakeMiniGame(String title) {
 		super(title, 1, 1, 1, 1);
-
-		// register this as a event listener
-		Utils.registerEventListener(this);
 	}
 
-	@EventHandler
-	public void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
-		// check joined minigame is fake minigame
-		MiniGameAccessor minigame = e.getMiniGame();
+	@GameEvent(state = State.WAIT)
+	protected void onMiniGamePlayerJoin(MiniGamePlayerJoinEvent e) {
+		// check joined minigame is this fake minigame
+		MiniGame minigame = e.getMiniGame().minigame();
+		if (!minigame.equals(this)) {
+			return;
+		}
+		
 		/* [IMPORTANT] must compare with "getClass()" because the sub classes which will
 		 implement this class are all different to each other.
 		 (Do not compare with "FakeMiniGame.class")
 		 */
-		if (!getClass().isAssignableFrom(minigame.getClassType())) {
+		if (!getClass().isAssignableFrom(minigame.getClass())) {
 			return;
 		}
 
