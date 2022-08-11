@@ -27,7 +27,9 @@
 ---
 
 
-# Order
+# Basic
+- [Game types](game-types.md)
+- [Game methods](game-methods.md)
 ## 1. Setup dev environment
 - [setup.md](setup.md)
 
@@ -61,22 +63,20 @@ MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 mw.registerGame(new FitTool());
 ```
 
----
+# Features
+- [Settings](settings.md)
+- [Custom options](custom-options.md)
+- [Task management](task-management.md)
+- [Exception handling](exception-handling.md)
+- [Custom data](custom-data.md)
+- [Event handler](event-handler.md)
+- [Game Player](game-player.md)
+- [Message and Title](message-and-title.md)
+- [Settings and Utils](settings-and-utils.md)
+- [Bungeecord](bungeecord.md)
 
 # Options
-## - **Setting**
-Fundamental settings of minigame (Search `MiniGameSetting` in [API] doc for init value)
-[Setting options](../userWiki/config.md)
-- If `waiting-time`/`play-time` is `-1`, game should have start/finish condition to process
 
-### How to use
-```java
-public PassMob() {
-  super("PassMob", 2, 60 * 3, 10);
-  // settings
-  this.getSetting().setIcon(Material.OAK_FENCE);
-}
-```
 
 ## - **CustomOption**
 - Below custom options are created in `custom-data` section by default (See api doc for Init value)

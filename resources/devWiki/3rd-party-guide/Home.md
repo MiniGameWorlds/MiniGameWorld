@@ -9,15 +9,12 @@
 
 
 # Tutorial
-<a href="https://youtu.be/">
-<img src="youtube-thirdparty-dev-tutorial-thumbnail.png" width="50%" ></img>
-</a>
-- In making...
+in making
 
 ---
 
 # Minigame Access
-- Can change `Join / Leave / View` way 
+`Join / Leave / View` ways can be changed.
 ## Example
 - join with chat
 ```java
@@ -83,8 +80,7 @@ public void onPlayerChat(AsyncPlayerChatEvent e) {
 ---
 
 # Menu
-- Can add custom slot to `menu`
-- Beware of already exist slot in `menu` inventory
+Can add custom icon to [menu](../../userWiki/menu.md). But beware of already exist icons in `menu` inventory.
 ## Example
 - Add custom slot to menu
 ```java
@@ -119,7 +115,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 ---
 
 # Party
-- Can use different way to access party
+Can use different ways to control the parties
 ```java
 /*
  * Ask a player to join party by right-click	
@@ -146,15 +142,14 @@ public void onPlayerAskPartyJoin(PlayerInteractAtEntityEvent e) {
 ---
 
 # Observer System
-- Observer can reserve tasks with timing of MiniGame
-- Implements `update()` of `MiniGameObserver` interface to use
+Observer can reserve tasks with timing of MiniGame. Implements `update()` of `MiniGameObserver` interface to use
 
 ## Timing
-- `REGISTRATION`: When minigame is registered to MiniGameWorld plugin
-- `UNREGISTRATION`: When minigame is unregistered from MiniGameWorld plugin
+- `REGISTRATION`: Called when a minigame is registered to MiniGameWorld
+- `UNREGISTRATION`: Called when a minigame is unregistered from MiniGameWorld
 
 ## Examples
-- Used in [MiniGameWorld-Rank]
+Used in [MiniGameWorld-Rank]
 ```java
 @Override
 public void update(MiniGameAccessor minigame, Timing timing) {
@@ -170,7 +165,7 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 	} else if (timing == Timing.UNREGISTRATION) {
 		MiniGameRank rank = null;
 		for (MiniGameRank r : this.rankList) {
-			if (r.getMinigame().equals(minigame)) {
+			if (r.getMinigame().isSameTemplate(minigame)) {
 				rank = r;
 			}
 		}
@@ -188,11 +183,10 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 ---
 
 # Custom Events
-- There are some minigame timing events
-- Use `Listener` for handling events
+There are some minigame timing events. Register `Listener` to handle events. (To see all events, see [java doc](https://minigameworlds.github.io/MiniGameWorld/))
 
 ## MiniGameEvent
-- All minigame events extend `MiniGameEvent`
+All minigame events extend `MiniGameEvent`
 - `MiniGameStartEvent`: Called when a minigame starts 
 - `MiniGameEventPassEvent`: Called when a event passed to a started minigame
 - `MiniGameFinishEvent`: Called when a minigame finished
@@ -205,7 +199,7 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 - `MiniGamePlayerViewEvent`: Called when a player try to view a minigame
 - `MiniGamePlayerUnviewEvent`: Called when a player try to unview a minigame
 ## MenuEvent
-- All menu events extend `MenuEvent`
+All menu events extend `MenuEvent`
 - `MenuOpenEvent`: Called when a player opens menu
 - `MenuCloseEvent`: Called when a player closes menu
 - `MenuClickEvent`: Called when menu is clicked
@@ -213,9 +207,7 @@ public void update(MiniGameAccessor minigame, Timing timing) {
 
 ## Examples
 ### Reward System
-- Used in [MiniGameWorld-Reward]
-- Give reward when minigame finished
-- Can distinguish with `class name` or `title` of minigame
+Can give reward when a minigame has finished. (Used in [MiniGameWorld-Reward])
 ```java
 class RewardManager implements Listener {
 
@@ -236,11 +228,9 @@ class RewardManager implements Listener {
 }
 ```
 ### Save Rank Data
-- Used in [MiniGameWorld-Rank]
-- Save rank data to config
+Can save rank data with finished players data(score, live, team members, etc.) (Used in [MiniGameWorld-Rank])
 ```java
 class RankManager implements Listener {
-
 	JavaPlugin plugin;
 	public RankManager(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -277,7 +267,7 @@ class RankManager implements Listener {
 }
 ```
 ### Join fee
-- Use cancellable `MiniGamePlayerJoinEvent`
+Also you can cancel the event if you want to add specific condition.
 ```java
 @EventHandler
 public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
@@ -305,8 +295,9 @@ public void onPlayerJoinMiniGame(MiniGamePlayerJoinEvent e) {
 ```
 
 ### Exception
-- There are 3 exception types
-- `MiniGamePlayerException`: leave the player from the minigame
+There are 3 exception types
+
+- `MiniGamePlayerException`: leave the player from the minigame by throwing a exception
 ```java
 // minigame player exception: playing player will leave from the minigame
 if (MwUtil.isPlayingGame(p)) {
@@ -314,6 +305,7 @@ if (MwUtil.isPlayingGame(p)) {
 			.callEvent(new MiniGamePlayerExceptionEvent("reason", p));
 }
 ```
+
 - `MiniGameException`: finish the minigame
 ```java
 // minigame exception: speific minigame will finish
@@ -321,6 +313,7 @@ MiniGame minigame = this.minigameManager.getInstanceGames().get(0);
 Bukkit.getServer().getPluginManager()
 		.callEvent(new MiniGameExceptionEvent(minigame, "reason"));
 ```
+
 - `MiniGameServerException`: finish all minigames
 ```java
 // server exception: all minigames will finish
@@ -328,7 +321,7 @@ Bukkit.getServer().getPluginManager().callEvent(new MiniGameServerExceptionEvent
 ```
 
 ### Menu customizing
-- Example plugin: [MiniGameWorld-Controller]
+Example plugin: [MiniGameWorld-Controller]
 ```java
 @EventHandler
 public void onMenuOpenEvent(MenuOpenEvent e) {
@@ -366,8 +359,7 @@ public void onMenuClickEvent(MenuClickEvent e) {
 
 
 # Custom event detector
-- `Event` passed to minigame is filtered by player's minigame in the default MiniGameEventDetector.
-- However, custom detector allows you to pass event you want to all minigames
+`Event` passed to minigame is filtered by player's minigame in the default MiniGameEventDetector. However, custom detector allows you to pass event you want to all minigames
 
 ## Example
 1. Create custom detector

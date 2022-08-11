@@ -53,7 +53,7 @@
 - VehicleExitEvent
 
 ---
-
+<!-- 
 # Custom Detectable detector
 - There are two ways to process undetectable events
 - If you handle a undetectable event, you need to make sure the event is related with your minigame, because undetectable event will be passed the event to the minigame even if the event is not related with your minigame
@@ -178,10 +178,10 @@ public class YourMiniGame extends SoloMiniGame implements Listener {
 	}
 }
 ```
-<!-- If process in event handler method or pass to the onEvent(), some problems are occurrs
+ If process in event handler method or pass to the onEvent(), some problems are occurrs
 1. Can not preprocess in onEvent() of frame class (super class)
 2. Can not check minigame has started
- -->
+
 
 ---
 
@@ -240,4 +240,4 @@ protected void onEvent(Event event) {
 
 
 
-
+ -->

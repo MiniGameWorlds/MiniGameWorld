@@ -73,7 +73,7 @@ Center:
 
 
 ## 6. Custom events
-There are custom events for 3rd party plugins ([details](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/making-3rd-party-guide.md)) (e.g. `MiniGameStartEvent`, `MiniGamePlayerJoinEvent`, `MenuClickEvent`)
+There are custom events for 3rd party plugins ([details](3rd-party-guide/Home.md)) (e.g. `MiniGameStartEvent`, `MiniGamePlayerJoinEvent`, `MenuClickEvent`)
 
 
 

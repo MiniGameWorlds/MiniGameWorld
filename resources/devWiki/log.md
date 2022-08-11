@@ -1107,10 +1107,14 @@ if(!this.isMinPlayersLive()) {
 # 2022-08-09
 - Fix chat system
 
+# 2022-08-10
+- Code Refactoring
+- Fix `/mw games <game> location <options>` adjusting
+- From now on, when exist instance game data is updated waiting players are kicked by the game. (need to rejoin)
 
-
-
-
+# 2022-08-12
+- Fix bugs
+- Update create-game-guide wiki
 
 
 

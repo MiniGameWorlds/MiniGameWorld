@@ -16,9 +16,9 @@
 
 
 # Tutorial
-- ## [how to create minigame](making-minigame-guide.md)
+- ## [how to create minigame](game-guide/Home.md)
 
-- ## [how to create 3rd party](making-3rd-party-guide.md)
+- ## [how to create 3rd party](3rd-party-guide/Home.md)
 
 
 
