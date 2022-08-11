@@ -23,6 +23,20 @@ public class Setting {
 	public static final String URL_WIKI_README = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/README.md";
 	public static final String URL_WIKI_COMMAND = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/commands.md";
 
+	// exceptions
+	// (in waiting and playing game state)
+	public static final String PLAYER_EXCEPTION_QUIT_SERVER = "player-quit-server";
+	// (in only waiting state)
+	public static final String PLAYER_EXCEPTION_INGAME_LEAVE = "ingame-leave";
+	// (in only waiting game state) (created by reload command generally)
+	public static final String GAME_EXCEPTION_DATA_UPDATE = "game-data-update";
+	// (in waiting and playing game state)
+	public static final String SERVER_EXCEPTION_STOP_BY_PLAYER = "server-stop-by-player";
+	// (in waiting and playing game state)
+	public static final String SERVER_EXCEPTION_STOP_BY_NON_PLAYER = "server-stop-by-non-player";
+	// (in waiting and playing game state)
+	public static final String SERVER_EXCEPTION_PLUGIN_DISABLED = "plugin-disabled";
+
 	// settings.yml values
 	public static String MESSAGE_PREFIX = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 	public static boolean DEBUG_MODE = false;

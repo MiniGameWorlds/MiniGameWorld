@@ -21,6 +21,9 @@ public class GameListener {
 		this.listener = lis;
 		this.handlers = new HashSet<>();
 		addHandlers(this.listener.getClass());
+//		if (this.listener instanceof GameA) {
+//			this.handlers.forEach(m -> Utils.debug("Added method: " + m.toString()));
+//		}
 	}
 
 	/*
@@ -60,7 +63,12 @@ public class GameListener {
 
 				// check state
 				GameEvent.State handlerState = h.getAnnotation(GameEvent.class).state();
-				if (handlerState != State.ALL && handlerState != state) {
+				if (handlerState == State.ALL) {
+					h.invoke(listener, e);
+					continue;
+				}
+
+				if (handlerState != state) {
 					continue;
 				}
 
@@ -102,6 +110,11 @@ public class GameListener {
 
 	public Set<Method> forcedHandlers() {
 		return handlers.stream().filter(h -> h.getAnnotation(GameEvent.class).forced()).collect(Collectors.toSet());
+	}
+
+	@Override
+	public String toString() {
+		return "\nEvent: " + this.event.getName() + ", handlers: " + this.handlers.toString();
 	}
 
 }

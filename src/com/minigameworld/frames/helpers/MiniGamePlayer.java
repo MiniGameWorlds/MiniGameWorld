@@ -110,7 +110,9 @@ public class MiniGamePlayer implements MiniGameRank, Cloneable {
 		this.player.setGameMode(live ? liveGameMode : deadGameMode);
 
 		// [IMPORTANT] Must be called after change player's gamemode
-		this.minigame.checkGameFinishCondition();
+		if (this.minigame.isStarted()) {
+			this.minigame.checkGameFinishCondition();
+		}
 	}
 
 	/**

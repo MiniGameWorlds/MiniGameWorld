@@ -126,14 +126,13 @@ public class MiniGameDataManager implements YamlMember {
 		// [IMPORTANT] This called after yaml reload (apply file data to minigame)
 		applyMiniGameDataToInstance();
 
-		Utils.debug("reload: " + this.minigame.getClassName());
 		// 1. throw game exception to let players leave from the game
 		// 2. update not started instance games data with updated template game data
 		MiniGameManager.getInstance().getInstanceGames().stream()
 				.filter(g -> g.isSameTemplate(this.minigame) && !g.isStarted()).forEach(g -> {
-					Utils.callEvent(new MiniGameExceptionEvent(new MiniGameAccessor(g), "game-data-update"));
+					Utils.callEvent(
+							new MiniGameExceptionEvent(new MiniGameAccessor(g), Setting.GAME_EXCEPTION_DATA_UPDATE));
 					MiniGameManager.getInstance().updateInstanceGameData(g);
-					Utils.debug(g.id());
 				});
 	}
 

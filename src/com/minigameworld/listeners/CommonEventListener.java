@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.api.MwUtil;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameServerExceptionEvent;
@@ -26,6 +27,7 @@ import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
 public class CommonEventListener implements Listener {
+
 	private MiniGameManager minigameManager;
 
 	public CommonEventListener(MiniGameManager minigameManager) {
@@ -46,12 +48,18 @@ public class CommonEventListener implements Listener {
 		this.minigameManager.todoOnPlayerQuit(p);
 
 		// call minigame exception event
-		Utils.callEvent(new MiniGamePlayerExceptionEvent("player-quit-server", p));
+		Utils.callEvent(new MiniGamePlayerExceptionEvent(Setting.PLAYER_EXCEPTION_QUIT_SERVER, p));
 	}
 
 	@EventHandler
 	public void onPluginDisableEvent(PluginDisableEvent e) {
-		this.minigameManager.onPluginDisabled(e);
+		// check disabled plugin is MiniGameWorld plugin
+		if (e.getPlugin() != MiniGameWorldMain.getInstance()) {
+			return;
+		}
+
+		// call minigame exception event
+		Utils.callEvent(new MiniGameServerExceptionEvent(Setting.SERVER_EXCEPTION_PLUGIN_DISABLED));
 	}
 
 	/*
@@ -142,7 +150,7 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getMessage();
 
 		if (isStopCommand(cmd, true)) {
-			Utils.callEvent(new MiniGameServerExceptionEvent("server-stop-by-player"));
+			Utils.callEvent(new MiniGameServerExceptionEvent(Setting.SERVER_EXCEPTION_STOP_BY_PLAYER));
 		}
 	}
 
@@ -151,7 +159,7 @@ public class CommonEventListener implements Listener {
 		String cmd = e.getCommand();
 
 		if (isStopCommand(cmd, false)) {
-			Utils.callEvent(new MiniGameServerExceptionEvent("server-stop-by-non-player"));
+			Utils.callEvent(new MiniGameServerExceptionEvent(Setting.SERVER_EXCEPTION_STOP_BY_NON_PLAYER));
 		}
 	}
 

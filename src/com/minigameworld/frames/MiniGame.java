@@ -296,7 +296,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param event Passed event from "MiniGameManager" after check related with
 	 *              this minigame
 	 */
-	public final boolean passEvent(Event event) {
+	public boolean passEvent(Event event) {
 		// process event when minigame started
 		if (isStarted()) {
 			// call only synchronous MiniGameEventPassEvent (check event is cancelled)
@@ -314,12 +314,12 @@ public abstract class MiniGame implements GameEventListener {
 	 * - onFoodLevelChange()
 	 */
 	@GameEvent(state = State.WAIT)
-	protected void onEntityDamaged(EntityDamageEvent e) {
+	protected void onPlayerDamaged(EntityDamageEvent e) {
 		e.setCancelled(true);
 	}
 
 	@GameEvent(state = State.WAIT)
-	protected void onFoodLevelChange(FoodLevelChangeEvent e) {
+	protected void onPlayerHungerChange(FoodLevelChangeEvent e) {
 		e.setCancelled(true);
 	}
 
@@ -453,7 +453,7 @@ public abstract class MiniGame implements GameEventListener {
 		// sound
 		playSound(p, Sound.ENTITY_ENDERMAN_TELEPORT);
 
-		// check game is emtpy
+		// check game is empty
 		if (isEmpty()) {
 			initBaseSettings();
 		}
@@ -737,13 +737,13 @@ public abstract class MiniGame implements GameEventListener {
 			// pass exception
 			if (isStarted()) {
 				this.onException(exception);
-			}
 
-			// check GameFinishExceptionMode
-			this.checkGameFinishCondition();
+				// check GameFinishExceptionMode
+				this.checkGameFinishCondition();
+			}
 		}
 
-		// check event is minigame or server exception
+		// if the event is minigame exception or server exception
 		else {
 			// debug
 			Utils.debug(getTitleWithClassName() + " handles exception");
@@ -758,15 +758,18 @@ public abstract class MiniGame implements GameEventListener {
 			// if started, finish game
 			if (isStarted()) {
 				// pass exception
-				this.onException(exception);
+				onException(exception);
+
 				// finish game
 				finishGame();
 			}
-			// if not started, leave waiting players
-			else {
-				// setup leaving settings
-				getPlayers().forEach(p -> onPlayerLeave(p, exception.getReason()));
-			}
+
+			// [IMPORTANT] don't use finishGame() here
+			// leave players
+			getPlayers().forEach(p -> onPlayerLeave(p, exception.getReason()));
+			
+			// remove self instance
+			MiniGameManager.getInstance().removeGameInstance(this);
 		}
 	}
 
@@ -797,7 +800,7 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		if (needToFinish) {
-			this.finishGame();
+			finishGame();
 		}
 	}
 

@@ -12,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.PluginDisableEvent;
 
 import com.google.common.io.Files;
 import com.minigameworld.api.MiniGameAccessor;
@@ -339,7 +338,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		if (playingGame.isStarted()) {
 			// check "ingame-leave" option
 			if (Setting.INGAME_LEAVE) {
-				Utils.callEvent(new MiniGamePlayerExceptionEvent("ingame-leave", p));
+				Utils.callEvent(new MiniGamePlayerExceptionEvent(Setting.PLAYER_EXCEPTION_INGAME_LEAVE, p));
 			} else {
 				Utils.sendMsg(p, "You can't leave game (Reason: already has started)");
 			}
@@ -534,17 +533,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 					.forEach(m -> m.handleException(exception));
 		}
 
-		return true;
-	}
-
-	public boolean onPluginDisabled(PluginDisableEvent e) {
-		this.instanceGames.forEach(g -> {
-			if (g.isStarted()) {
-				g.finishGame();
-			} else {
-				removeGameInstance(g);
-			}
-		});
 		return true;
 	}
 
@@ -817,9 +805,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			updateInstanceGameData(newInstance);
 
 			// register game event handler
+			Utils.debug("instance creted");
 			this.gameListenerManager.registerGameListener(newInstance);
 			this.gameListenerManager.registerGameListener(newInstance.getCustomOption());
 			this.gameListenerManager.registerGameListener(newInstance.getInventoryManager());
+			Utils.debug("instance created end");
 
 			// add instance to the list
 			this.instanceGames.add(newInstance);

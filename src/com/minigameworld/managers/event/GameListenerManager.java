@@ -12,17 +12,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
+import com.wbm.plugin.util.Utils;
 
 /**
  * <b>[Rules]</b><br>
- * - Must register instance which processes playing game player's only (not about
- * viewers and outers)<br>
+ * - Must register instance which processes playing game player's only (not
+ * about viewers and outers)<br>
  * - If event is detectable with players by {@link MiniGameEventDetector}, the
  * event will be only passed to the player's playing game listeners.<br>
  * - If event is not detectable with players by {@link MiniGameEventDetector},
@@ -48,6 +51,10 @@ public class GameListenerManager {
 	}
 
 	public void registerGameListener(GameEventListener instance) {
+//		Utils.debug("========================EVENT====================");
+//		if (instance instanceof GameA) {
+//			getHandlerEvents(instance).forEach(e -> Utils.debug("Event: " + e.getName()));
+//		}
 		for (Class<? extends Event> event : getHandlerEvents(instance)) {
 			if (!this.gameListeners.containsKey(event)) {
 				gameListeners.put(event, new CopyOnWriteArraySet<>());
@@ -55,6 +62,12 @@ public class GameListenerManager {
 			}
 			addGameListener(event, instance);
 		}
+//		if (instance instanceof GameA) {
+//			this.gameListeners.forEach((e, l) -> {
+//				Utils.debug("Added Event: " + e.getName());
+//				l.forEach(lis -> Utils.debug(lis.handlers().toString()));
+//			});
+//		}
 	}
 
 	public void unregisterGameListener(GameEventListener instance) {
@@ -71,18 +84,21 @@ public class GameListenerManager {
 	}
 
 	private void onEvent(Event event) {
+		if(event instanceof BlockBreakEvent) {
+			Utils.debug("onEvnet() BlockBreakEvent\n");
+		}
 		// check event detector
 		Set<Player> players = this.eventDetector.detectPlayers(event);
+//		Utils.debug("Event name: " + event.getEventName() + ", players: " + players);
+
 		Set<GameListener> targetListeners = new HashSet<>();
 
-		// if event is not related with any player, pass to all listeners
-		if (players.isEmpty() && gameListeners.containsKey(event.getClass())) {
-			targetListeners.addAll(getListeners(event.getClass()));
-		}
+		// Add forced listeners
+		getListeners(event.getClass()).stream().filter(l -> !l.forcedHandlers().isEmpty())
+				.forEach(l -> targetListeners.add(l));
+
 		// if event is related with some player, pass to playing listener only
-		else {
-			players.forEach(p -> targetListeners.addAll(getPlayingGameListeners(event, p)));
-		}
+		players.forEach(p -> targetListeners.addAll(getPlayingGameListeners(event, p)));
 
 		// invoke handler method
 		for (GameListener lis : targetListeners) {
@@ -94,26 +110,20 @@ public class GameListenerManager {
 
 			lis.invoke(event, state);
 		}
-
-		// invoke forced handlers
-		invokeForcedHandlers(targetListeners, event);
-	}
-
-	private void invokeForcedHandlers(Set<GameListener> invokedListeners, Event event) {
-		Set<GameListener> forcedListeners = new HashSet<>();
-		getListeners(event.getClass()).stream().filter(l -> !l.forcedHandlers().isEmpty())
-				.forEach(l -> forcedListeners.add(l));
-
-		// remove duplication
-		forcedListeners.removeAll(invokedListeners);
-
-		// invoke forced handlers for each listeners
-		forcedListeners.forEach(lis -> lis.invoke(event, null));
 	}
 
 	private Set<GameListener> getPlayingGameListeners(Event event, Player p) {
+
 		Set<GameListener> listeners = getListeners(event.getClass()).stream()
 				.filter(l -> l.listener().minigame().containsPlayer(p)).collect(Collectors.toSet());
+
+//		Utils.debug("=====getPlayingGameListeners()======");
+//		if (event.getClass().equals(EntityDamageByEntityEvent.class)) {
+//			listeners.forEach(l -> Utils.debug(l.toString()));
+//		}
+//		Utils.debug("=====getListeners()======");
+//		getListeners(event.getClass()).forEach(l -> Utils.debug(l.toString()));
+//		Utils.debug("=================");
 		return listeners;
 	}
 
@@ -150,11 +160,9 @@ public class GameListenerManager {
 	 */
 	private Set<GameListener> getListeners(Class<? extends Event> event) {
 		Set<GameListener> lis = this.gameListeners.get(event);
-		if (lis == null) {
-			for (Class<? extends Event> key : this.gameListeners.keySet()) {
-				if (key.isAssignableFrom(event)) {
-					lis = this.gameListeners.get(key);
-				}
+		for (Class<? extends Event> key : this.gameListeners.keySet()) {
+			if (key.isAssignableFrom(event)) {
+				lis.addAll(this.gameListeners.get(key));
 			}
 		}
 		return lis;
