@@ -27,7 +27,6 @@ import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 
 public class CommonEventListener implements Listener {
-
 	private MiniGameManager minigameManager;
 
 	public CommonEventListener(MiniGameManager minigameManager) {

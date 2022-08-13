@@ -16,14 +16,17 @@ public class GameListener {
 	private GameEventListener listener;
 	private Set<Method> handlers;
 
+	/*
+	 * Prevent when a event calls the same GameListeners twice at once  
+	 */
+	private Event latestUsedEvent;
+
 	public GameListener(Class<? extends Event> event, GameEventListener lis) {
 		this.event = event;
 		this.listener = lis;
 		this.handlers = new HashSet<>();
+		this.latestUsedEvent = null;
 		addHandlers(this.listener.getClass());
-//		if (this.listener instanceof GameA) {
-//			this.handlers.forEach(m -> Utils.debug("Added method: " + m.toString()));
-//		}
 	}
 
 	/*
@@ -51,7 +54,22 @@ public class GameListener {
 		});
 	}
 
+	private boolean isLatestUsedEvent(Event event) {
+		if (this.latestUsedEvent == null) {
+			this.latestUsedEvent = event;
+			return false;
+		}
+
+		boolean isUsed = this.latestUsedEvent.equals(event);
+		this.latestUsedEvent = event;
+		return isUsed;
+	}
+
 	public void invoke(Event e, GameEvent.State state) {
+		if (isLatestUsedEvent(e)) {
+			return;
+		}
+
 		for (Method h : this.handlers) {
 			try {
 				// check forced

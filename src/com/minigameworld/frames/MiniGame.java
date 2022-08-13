@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,7 +18,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.api.MwUtil;
-import com.minigameworld.events.minigame.MiniGameEventPassEvent;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameFinishEvent;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
@@ -288,24 +286,6 @@ public abstract class MiniGame implements GameEventListener {
 
 		// init scoreboard
 		this.scoreboardManager.setDefaultScoreboard();
-	}
-
-	/**
-	 * Pass event to minigame after processing custom option, exception, chat event
-	 * 
-	 * @param event Passed event from "MiniGameManager" after check related with
-	 *              this minigame
-	 */
-	public boolean passEvent(Event event) {
-		// process event when minigame started
-		if (isStarted()) {
-			// call only synchronous MiniGameEventPassEvent (check event is cancelled)
-			if (!event.isAsynchronous() && Utils.callEvent(new MiniGameEventPassEvent(this, event))) {
-				return false;
-			}
-			return true;
-		}
-		return false;
 	}
 
 	/*
@@ -767,7 +747,7 @@ public abstract class MiniGame implements GameEventListener {
 			// [IMPORTANT] don't use finishGame() here
 			// leave players
 			getPlayers().forEach(p -> onPlayerLeave(p, exception.getReason()));
-			
+
 			// remove self instance
 			MiniGameManager.getInstance().removeGameInstance(this);
 		}
