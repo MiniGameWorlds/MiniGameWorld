@@ -4,8 +4,7 @@
 ```yaml
 1. Basic
 2. Detailed
-3. External (exist in MiniGameWorld API)
-4. Custom Detectable
+3. External (using MiniGameWorld API)
 ```
 
 # Basic detector
@@ -24,7 +23,7 @@
 
 # Detailed detector
 - Detect event which `Basic detector` can't detect
-- Detect event when a player is not a origin of the event, but a related entity
+- Detect event when a player is not origin of the event, but related with
 
 ## List
 
@@ -38,13 +37,6 @@
 - BlockShearEntityEvent
 - CauldronLevelChangeEvent
 - SignChangeEvent
-
-### - EntityEvent
-- EntityDeathEvent (When killer is a player)
-- EntityDamageByEntityEvent (When damager or `projectile shooter` is a player))
-- EntityTargetEvent (When taget entity is a player)
-- ProjectileHitEvent (When hit entity is a player)
-- ProjectileLaunchEvent (When projectile shooter is a player)
 
 ### - VehicleEvent
 - VehicleDamageEvent

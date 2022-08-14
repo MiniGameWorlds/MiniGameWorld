@@ -8,7 +8,6 @@ import java.util.Set;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -20,25 +19,17 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockShearEntityEvent;
 import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.hanging.HangingEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.server.TabCompleteEvent;
-import org.bukkit.event.vehicle.VehicleDamageEvent;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.projectiles.ProjectileSource;
 
 import com.minigameworld.api.MiniGameExternalEventDetector;
 import com.minigameworld.managers.MiniGameManager;
@@ -63,7 +54,6 @@ import com.minigameworld.managers.MiniGameManager;
  * 
  * [Detailed Event list]<br>
  * - Some of BlockEvent<br>
- * - Some of EntityEvent<br>
  * - Some of VehicleEvent<br>
  */
 public class MiniGameEventDetector {
@@ -181,7 +171,7 @@ public class MiniGameEventDetector {
 			if (((TabCompleteEvent) e).getSender() instanceof Player) {
 				eventPlayers.add((Player) ((TabCompleteEvent) e).getSender());
 			}
-		} 
+		}
 	}
 
 	/**
@@ -195,8 +185,6 @@ public class MiniGameEventDetector {
 		// several case
 		if (event instanceof BlockEvent) {
 			this.getPlayersFromBlockEvent((BlockEvent) event, eventPlayers);
-		} else if (event instanceof EntityEvent) {
-			this.getPlayersFromEntityEvent((EntityEvent) event, eventPlayers);
 		} else if (event instanceof VehicleEvent) {
 			this.getPlayersFromVehicleEvent((VehicleEvent) event, eventPlayers);
 		}
@@ -237,70 +225,13 @@ public class MiniGameEventDetector {
 	}
 
 	/**
-	 * Gets players from Entity event
-	 * 
-	 * @param event        Event to get player
-	 * @param eventPlayers Players from event
-	 */
-	private void getPlayersFromEntityEvent(EntityEvent event, Set<Player> eventPlayers) {
-		if (event instanceof EntityDeathEvent) {
-			Player killer = ((EntityDeathEvent) event).getEntity().getKiller();
-			if (killer != null) {
-				eventPlayers.add(killer);
-			}
-		} else if (event instanceof EntityDamageByEntityEvent) {
-			EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
-			if (e.getDamager() instanceof Player) {
-				eventPlayers.add((Player) e.getDamager());
-			}
-			// check projectile
-			else if (e.getDamager() instanceof Projectile) {
-				Projectile proj = (Projectile) e.getDamager();
-				if (proj.getShooter() instanceof Player) {
-					eventPlayers.add((Player) proj.getShooter());
-				}
-			}
-		} else if (event instanceof EntityTargetEvent) {
-			EntityTargetEvent e = (EntityTargetEvent) event;
-			if (e.getTarget() instanceof Player) {
-				eventPlayers.add((Player) e.getTarget());
-			}
-		} else if (event instanceof ProjectileHitEvent) {
-			ProjectileHitEvent e = (ProjectileHitEvent) event;
-			Entity hitEntity = e.getHitEntity();
-			if (hitEntity != null && hitEntity instanceof Player) {
-				eventPlayers.add((Player) hitEntity);
-			}
-
-		} else if (event instanceof ProjectileLaunchEvent) {
-			ProjectileLaunchEvent e = (ProjectileLaunchEvent) event;
-			Projectile proj = e.getEntity();
-			ProjectileSource shooter = proj.getShooter();
-			if (shooter != null && shooter instanceof Player) {
-				eventPlayers.add((Player) shooter);
-			}
-		}
-
-	}
-
-	/**
 	 * Gets players from Vehicle event
 	 * 
 	 * @param event        Event to get player
 	 * @param eventPlayers Players from event
 	 */
 	private void getPlayersFromVehicleEvent(VehicleEvent event, Set<Player> eventPlayers) {
-		if (event instanceof VehicleDamageEvent) {
-			VehicleDamageEvent e = (VehicleDamageEvent) event;
-			if (e.getAttacker() instanceof Player) {
-				eventPlayers.add(((Player) e.getAttacker()));
-			}
-		} else if (event instanceof VehicleDestroyEvent) {
-			VehicleDestroyEvent e = (VehicleDestroyEvent) event;
-			if (e.getAttacker() instanceof Player) {
-				eventPlayers.add(((Player) e.getAttacker()));
-			}
-		} else if (event instanceof VehicleEnterEvent) {
+		if (event instanceof VehicleEnterEvent) {
 			VehicleEnterEvent e = (VehicleEnterEvent) event;
 			if (e.getEntered() instanceof Player) {
 				eventPlayers.add(((Player) e.getEntered()));
