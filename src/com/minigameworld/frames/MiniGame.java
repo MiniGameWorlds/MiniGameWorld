@@ -268,7 +268,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * - Initialize settings on every start
 	 */
 	public void initSettings() {
-		this.initBaseSettings();
+		initBaseSettings();
 
 		// init implemented minigame setting values
 		initGame();
@@ -419,7 +419,7 @@ public abstract class MiniGame implements GameEventListener {
 			if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 				sendMessages(msg);
 			} else {
-				Utils.sendMsgToEveryone(msg);
+				Utils.sendMsgs(msg);
 			}
 		}
 
@@ -464,7 +464,7 @@ public abstract class MiniGame implements GameEventListener {
 		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
 			sendMessages(msg);
 		} else {
-			Utils.sendMsgToEveryone(msg);
+			Utils.sendMsgs(msg);
 		}
 
 		// notify message to party members

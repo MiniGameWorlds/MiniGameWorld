@@ -21,6 +21,14 @@ import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
 import com.wbm.plugin.util.PlayerTool;
 
 /**
+ * [Managed list]<br>
+ * joined location, health scale, health, food level, exhaustion, saturation,
+ * level, exp, inventory, potion effects, glowing, hide, game mode, fire ticks,
+ * invulnerable, silent, gravity, allow flight, flying, velocity, walk speed,
+ * fly speed, scoreboard, held item slot, bed spawn location, ender chest,
+ * cooldown items, portal cooldown<br>
+ * 
+ * 
  * Manage player's everything<br>
  * - When join the game: save state and make pure state<br>
  * - When quit the game: restore saved state<br>

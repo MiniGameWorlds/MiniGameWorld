@@ -1116,9 +1116,10 @@ if(!this.isMinPlayersLive()) {
 - Fix bugs
 - Update create-game-guide wiki
 
+# 2022-08-14
+- Remove MiniGameEventPassEvent
+- Fix event handling bug
+- Remove detailed EntityEvent from MiniGameEventDetector
 
-
-
-
-
+# 2022-08-16
 

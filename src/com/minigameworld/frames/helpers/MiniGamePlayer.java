@@ -12,7 +12,7 @@ import com.minigameworld.frames.helpers.MiniGameCustomOption.Option;
  * Player data with score, live<br>
  * [IMPORTANT] live is only valid in the minigame play (not related with
  * player's health)<br>
- * [IMPORTANT] Player state saved when a instance is created (in constructor)
+ * [IMPORTANT] Player state will be saved when a instance is created (in constructor)
  *
  */
 public class MiniGamePlayer implements MiniGameRank, Cloneable {

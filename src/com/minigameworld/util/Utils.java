@@ -25,10 +25,10 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class Utils {
-	static MiniGameWorldMain main = MiniGameWorldMain.getInstance();
-	static ConsoleCommandSender sender = main.getServer().getConsoleSender();
+	private static MiniGameWorldMain main = MiniGameWorldMain.getInstance();
+	private static ConsoleCommandSender sender = main.getServer().getConsoleSender();
 
-	public static String getMessagePrefix() {
+	public static String messagePrefix() {
 		return "[" + Setting.MESSAGE_PREFIX + "] ";
 	}
 
@@ -38,16 +38,16 @@ public class Utils {
 
 	public static void sendMsg(CommandSender sender, String msg, boolean prefix) {
 		if (prefix) {
-			msg = getMessagePrefix() + msg;
+			msg = messagePrefix() + msg;
 		}
 		sender.sendMessage(msg);
 	}
 
-	public static void sendMsgToEveryone(String msg) {
-		sendMsgToEveryone(msg, true);
+	public static void sendMsgs(String msg) {
+		sendMsgs(msg, true);
 	}
 
-	public static void sendMsgToEveryone(String msg, boolean prefix) {
+	public static void sendMsgs(String msg, boolean prefix) {
 		Bukkit.getOnlinePlayers().forEach(p -> sendMsg(p, msg, prefix));
 	}
 
@@ -58,27 +58,27 @@ public class Utils {
 	public static void sendMsg(Player p, BaseComponent compo, boolean prefix) {
 		TextComponent msg = new TextComponent();
 		if (prefix) {
-			msg.addExtra(getMessagePrefix());
+			msg.addExtra(messagePrefix());
 		}
 
 		msg.addExtra(compo);
 		p.spigot().sendMessage(msg);
 	}
 
-	public static void sendMsgToEveryone(BaseComponent compo) {
-		sendMsgToEveryone(compo, true);
+	public static void sendMsgs(BaseComponent compo) {
+		sendMsgs(compo, true);
 	}
 
-	public static void sendMsgToEveryone(BaseComponent compo, boolean prefix) {
+	public static void sendMsgs(BaseComponent compo, boolean prefix) {
 		Bukkit.getOnlinePlayers().forEach(p -> sendMsg(p, compo, prefix));
 	}
 
 	public static void info(String msg) {
-		sender.sendMessage(getMessagePrefix() + msg);
+		sender.sendMessage(messagePrefix() + msg);
 	}
 
 	public static void warning(String msg) {
-		sender.sendMessage(ChatColor.YELLOW + getMessagePrefix() + msg);
+		sender.sendMessage(ChatColor.YELLOW + messagePrefix() + msg);
 	}
 
 	public static void debug(String msg) {

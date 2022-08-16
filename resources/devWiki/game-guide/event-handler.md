@@ -1,21 +1,24 @@
 # Event handler
 To handle minigame events normally, you have to check somethings like the event is related with this minigame or minigame is started or not. So with this API, new event handler is supported for more easy use. 
 
-# 1. GameEvent
-Using `@GameEvent` annotation, you don't have to check the event is related the minigame or not if the event player is detectable by the below list. 
+# 1. @GameEvent
+Using `@GameEvent` annotation, the event will be called if below conditions are matched.
+1. Method modifier is `public` or `protected`
+2. If game has started
+3. Detected player of event is playing this game
 
-Event is only passed if...
-- player is the player of `PlayerEvent`
-- player is the entity of `EntityEvent`
-- player is the entity of `HangingEvent`
-- player is the inventory viewer of `InventoryEvent`
-- player is the inventory viewer of `InventoryMoveItemEvent`
-- player is the player of `PlayerLeashEntityEvent`
-- player is the sender of `TabCompleteEvent`
-- player is related with some events of `BlockEvent`, `EntityEvent` and `VehicleEvent` ([Detailed](detectable-event-list.md))
+(player is only detectable by...)
+- **getPlayer()** of `PlayerEvent`
+- **getEntity()** of `EntityEvent`
+- **getEntity()** of `HangingEvent`
+- **getView().getPlayer()** of `InventoryEvent`
+- **getInitiator().getViewers()** of `InventoryMoveItemEvent`
+- **getEntity()** of `PlayerLeashEntityEvent`
+- **getSender()** of `TabCompleteEvent`
+- **related with some events** of `BlockEvent` and `VehicleEvent` (see [Details](detectable-event-list.md))
 
 
-So, if you want to handle `PlayerBedEnterEvent` add method with `@GameEvent` annotation and **shoud use `protected` or `public` modifier.**
+So, if you want to handle `PlayerBedEnterEvent` add handler method with `@GameEvent` annotation.
 ```java
 @GameEvent
 public void onEnterBed(PlayerBedEnterEvent e) {
@@ -23,14 +26,14 @@ public void onEnterBed(PlayerBedEnterEvent e) {
 }
 ```
 
-Generally, event will be passed game is only playing, not waiting. But using waiting state of `@GameEvent` annotation, event is passed when the game is waiting.
+Generally, event will be passed game is only playing, not waiting. But using state option of `@GameEvent` annotation, event can be passed when the game is waiting.
 ```java
 @GameEvent(state = State.WAIT)
 public void onEnterBed(PlayerBedEnterEvent e) {
     e.getPlayer().sendMessage("you entered a bed");
 }
 ```
-Or `State.ALL`(WAIT + PLAY) also exists.
+Also `State.ALL` (WAIT + PLAY) is possible.
 ```java
 @GameEvent(state = State.ALL)
 public void onEnterBed(PlayerBedEnterEvent e) {
@@ -39,10 +42,60 @@ public void onEnterBed(PlayerBedEnterEvent e) {
 ```
 
 
+But if you want to handle a event that is not possible to detect player, you can use **forced** option of `@GameEvent` annotation. Then event will always be called, so you have to always check the event is related with this game.
+```java
+public class GameA extends SoloBattleMiniGame {
+	Entity mob;
+
+	public GameA() {
+		super("GameA", 2, 5, 30, 5);
+	}
+
+	@GameEvent(forced = true) // always be called 
+	public void onMobHurt(EntityDamageEvent e) {
+		// check damaged entity equals with this game mob
+		if (e.getEntity().equals(this.mob)) {
+			sendMessages("mob is damaged!");
+		}
+	}
+}
+```
 
 
+※ If a event is called frequently like `PlayerMoveEvent`, implement it with `@EventHandler` and register it to the bukkit plugin manager for better performance.
 
-# Warning
-If the event needs to be called frequently, implement it with `@EventHandler`.
+---
+
+# 2. @EventHandler
+You can use normal event handler of bukkit. But there are some check list for your game.
+1. Add `@EventHandler` annotation to the method and reigster listener to bukkit plugin manager.
+2. `isStarted()` for checking the game has staretd or not.
+3. Check event is related with your game.
+
+```java
+public class GameA extends SoloBattleMiniGame implements Listener {
+	public GameA() {
+		super("GameA", 2, 5, 30, 5);
+
+        // register listener
+		Bukkit.getPluginManager().registerEvents(this, MiniGameWorldMain.getInstance());
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+        // check game has started (#2)
+		if (isStarted()) {
+			Player p = e.getPlayer();
+            // check the event player is playing this game (#3)
+			if (containsPlayer(p)) {
+				sendMessage(p, "You broke a block!");
+			}
+		}
+	}
+}
+```
+
+But be careful to register too many handlers using this way because minigame instance will be created and removed automatically,  listeners will stacks up in the plugin manager. (It could cause memory leak)
+
 
 

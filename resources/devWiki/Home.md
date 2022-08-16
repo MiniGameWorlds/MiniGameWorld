@@ -1,52 +1,79 @@
 # Description
-- This doucment describes how to make a `Minigame`, `Third-Party` plugin
+This doucment describes how to make a `Minigame`, `Third-Party` plugin.
 - MiniGameWorld plugin's structure: [MiniGameWorld]
 
 
 
 # Features
-- Simple API
-- Can add any type of custom data with `Map<String, Object>` which user can edit
-- Each minigames is isolated from each other (doesn't affect each other)
-- Minigame util tools (soreboard, live, task ...etc)
-- Also can make 3rd-party with API
+- Simple and foolish API
+- Custom data with `Map<String, Object>` which user can edit
+- Each minigames is isolated from the each other (doesn't affect to each other)
+- Minigame util tools (score, soreboard, live, task ...etc)
+- API for 3rd-party
 - Custom Events
 - Update checker
-- Language support system
+- Language support
 
 
 # Tutorial
 - ## [how to create minigame](game-guide/Home.md)
-
 - ## [how to create 3rd party](3rd-party-guide/Home.md)
 
 
 
 # API design
-![](api-design.png)
-- `Custom minigame` and `third-party` uses `MiniGameWorld` API
-## Document
-- [MiniGameWorld API](https://minigameworlds.github.io/MiniGameWorld/) ([list](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/docs/README.md))
+```mermaid
+classDiagram
+    MiniGame <|-- GameA
+    MiniGameWorld -- GameA
+    MiniGameWorld -- 3rdParty
+    MiniGameAccessor *-- 3rdParty
+    MwUtil *-- 3rdParty
+
+    class MiniGameWorld{
+        create(version)
+        joinGame(Player, title)
+        leaveGame(Player)
+        viewGame(Player, title)
+        unviewGame(Player)
+        registerGame(MiniGame)
+        getTemplateGames()
+        getPartyManager()
+        getSettings()
+    }
+    class MwUtil{
+        isPlayingGame(Player)
+        isViewingGame(Player)
+        checkPermission(Sender, perm)
+    }
+    class MiniGameAccessor{
+        isStarted()
+        getPlayers()
+        getSettings()
+        getCustomOption()
+    }
+    class MiniGame{
+        startGame()
+        finishGame()
+    }
+    class GameA{
+        gameVar
+        gameMethod()
+    }
+    class 3rdParty{
+        saveRank()
+        giveReward()
+    }
+```
+
+- [MiniGameWorld API](https://minigameworlds.github.io/MiniGameWorld/)
 
 
 
-# How to setup Dev Environment
-- [Spigot] or [Paper]: Minecraft bukkit
-- [MiniGameWorld]: MiniGame Framework
-- [wbmMC]: Minecraft util library (optional)
-- Add build path jars
-- Add `[MiniGameWorld]` to `depend` section in `plugin.yml`
-
-
-
-# ETC
+# More
 - [Patch Note](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/log.md)
 - [Scoreboard Conflict]
-
-
-
-# [MiniGameWorld plugin](dev-plugin-home.md)
-- Description for development about `MiniGameWorld` plugin
+- [MiniGameWorld plugin](dev-plugin-home.md)
 
 
 [Spigot]: https://getbukkit.org/download/spigot

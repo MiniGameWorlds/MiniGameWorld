@@ -87,7 +87,7 @@ public class LangUtils {
 
 		// check prefix
 		if (prefix) {
-			message = Utils.getMessagePrefix() + message;
+			message = Utils.messagePrefix() + message;
 		}
 
 		// replace placeholders

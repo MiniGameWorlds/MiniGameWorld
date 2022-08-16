@@ -1,13 +1,12 @@
 # Description
 This wiki describes how to use MiniGameWorld pluin in your server. And this Plugin works on `spigot`, `paper`, `purpur` bukkit with `1.14+` versions. MiniGame has `Solo`, `SoloBattle`, `Team`, `TeamBattle`, `Fake` and `custom` types for playing
 
+Minigames will work independently regardless of the server gamemodes(Economy, Survival, RPG, etc) with wide applicability and scalability. And one minigame can be played in many different ways with custom config settings and custom maps. Also player's all state(`Inventory`, `Health`, `Exp`, `Game Mode`, `etc`) are saved at the game start and restored when the game finished.
+
 ---
 
 # Features
-- **Works independently with other plugins** (Available for all types of servers: Economy, Survival, RPG, etc)
-- Each minigames are isolated from each other (doesn't affect each other)
-- Same minigame can be played in many different ways with custom config settings and custom maps 
-- A player's all state(`Inventory`, `Health`, `Food level`, `Exp`, `Potion Effects`, `Glowing`, `Hiding`, `Game Mode` , `etc`) are saved at the game start and restored when the game finished
+
 - [Join / View / Leave]
 - [Menu]
 - [Party]
@@ -23,19 +22,21 @@ This wiki describes how to use MiniGameWorld pluin in your server. And this Plug
 - [Update checker]
 - [Language Support]
 - [Function Item]
-- 3rd-parties (e.g. [MiniGameWorld-Reward], [MiniGameWorld-Rank], [MiniGameWorld-Controller])
+- 3rd-parties ([MiniGameWorld-Reward], [MiniGameWorld-Rank], [MiniGameWorld-Controller])
 - [Fake Minigame]
 
 
 
 # How to apply
-1. Download [MiniGameWorld] and [wbmMC]
-2. Download [MiniGames] that you want to add to your server
-3. Put `MiniGameWorld`, `wbmMC` and `minigame plugins` in server `plugins` folder
-4. Make a place for minigame yourself
-5. Setup minigame location in `plugins/MiniGameWorld/minigames/<game>.yml` file with `x, y, z` and run command `/minigame reload` (OP required)  
+1. Download [MiniGameWorld], [wbmMC] and [Multiverse-Core].
+2. Download [Demo MiniGames] that you want. Game configs will be saved in `plugins/MiniGameWorld/minigames` folder.
+3. Put `MiniGameWorld`, `wbmMC`, `Multiverse-Core` and `minigame` plugins in your `plugins` folder.
+4. Make a place for minigame yourself or you can download template game maps in [here](https://github.com/MiniGameWorlds/MiniGameWorld-Test-Server).
+5. Setup game location in `plugins/MiniGameWorld/minigames/<game>.yml` with `x, y, z` and run command `/mw reload` to adjust (OP required).  
 **`---or---`**  
-Setup minigame location using command `/minigame games <game> locations <<player> | <x> <y> <z>>` (OP required)
+use command: `/mw games <game> locations <<player> | <x> <y> <z>>` (OP required).
+> E.g. `/mw games GameA locations Steve`: set location to Steve's location  
+> E.g. `/mw games GameA locations 0 4 0`: set location to 0(x) 4(y) 0(z)
 
 
 
@@ -45,15 +46,11 @@ Setup minigame location using command `/minigame games <game> locations <<player
 - [MiniGameWorld]: Minigame Framework
 - [Multiverse-Core]: Multi world plugin
 ### Optional
-- [MiniGames]: MiniGames made by some makers
+- [Demo MiniGames]: Demo games
 - [MiniGameWorld-Reward]: Reward items and xp with rank
 - [MiniGameWorld-Rank]: Save the ranks
-- [MiniGameWorld-Controller]: Control minigame players
+- [MiniGameWorld-Controller]: Control minigames with players
 - [AdvancedMultiLanguage]: Support mulit languages
-
-
-
-# Tutorial
 
 
 ---
@@ -67,14 +64,14 @@ Setup minigame location using command `/minigame games <game> locations <<player
 - If plugin is not loaded, try to change the `check-update` option in `settings.yml` config to **false** (update checker will not work if plugin is loaded too often (for github api rate limit))
 
 ## Language Messages
-- If `edit-messages` option in `settings.yml` config is **false**, message changes will not be saved
+- If `edit-messages` option in `settings.yml` config is **true**, message configs in `MiniGameWorld/messages` change will be applied (default: `false`)
 
 ## If game cannot be created
 - **All worlds are being used**: If the `instance-world` option is **false**, location being used can not be used at the same time. Even if another games is using the location.
 
-- **Reached max instance count**: All games have the maximum instance count so the game may have reached its maximum instance count.
+- **Reached max instance count**: All games have the maximum instance count(`instances` option) so the game may have reached its maximum instance count.
 
-- **Party is too big**: Player's party is larger than the maximum player of minigame.
+- **Party is too big**: Can not join if player's party is larger than the maximum player of minigame.
 
 
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
@@ -83,7 +80,7 @@ Setup minigame location using command `/minigame games <game> locations <<player
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward/releases
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank/releases
 [MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller/releases
-[MiniGames]: https://github.com/MiniGameWorlds/AllMiniGames
+[Demo MiniGames]: https://github.com/MiniGameWorlds/AllMiniGames
 [Commands]: commands.md
 [Third-Parties]: https://github.com/MiniGameWorlds
 [Join / View / Leave]: how-to-join-leave.md

@@ -37,7 +37,7 @@ public class Setting {
 	// (in waiting and playing game state)
 	public static final String SERVER_EXCEPTION_PLUGIN_DISABLED = "plugin-disabled";
 
-	// settings.yml values
+	// settings.yml values (not final)
 	public static String MESSAGE_PREFIX = ChatColor.BOLD + "MiniGameWorld" + ChatColor.RESET;
 	public static boolean DEBUG_MODE = false;
 	public static int BACKUP_DELAY = 60; // min

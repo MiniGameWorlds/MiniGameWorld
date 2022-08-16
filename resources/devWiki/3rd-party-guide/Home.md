@@ -1,5 +1,5 @@
 # Description
-- Third party plugin can access/change below things
+Third party plugin can access/change below things
 - [Join / Leave / View](#Minigame-Access)
 - [Minigame Exception](#Exception)
 - [Menu](#Menu)
@@ -7,9 +7,11 @@
 - [Observer](#Observer-System)
 - [Custom Events](#Custom-Events)
 
+---
 
-# Tutorial
-in making
+# Setup
+1. [API Introduction]
+2. [Setup guide]
 
 ---
 
@@ -188,7 +190,6 @@ There are some minigame timing events. Register `Listener` to handle events. (To
 ## MiniGameEvent
 All minigame events extend `MiniGameEvent`
 - `MiniGameStartEvent`: Called when a minigame starts 
-- `MiniGameEventPassEvent`: Called when a event passed to a started minigame
 - `MiniGameFinishEvent`: Called when a minigame finished
 - `MiniGameExceptionEvent`: Called when a exception related with minigame has occurred
 - `MiniGameServerExceptionEvent`: Called when a exception related with server has occurred

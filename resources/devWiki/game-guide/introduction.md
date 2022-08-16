@@ -9,7 +9,7 @@ The biggest feature is that preserve the state of the server and player, and wor
 ## 1. Minigame frame classes
 Minigame frame class manages settings, start, finish, player's scores, lives, events etc.
 
-There are 4 frame classes: `Solo`(1 player), `Solo battle`, `Team`(1 team), `Team battle`
+There are 4 frame classes: `Solo`(1 player), `Solo battle`(FFA), `Team`(1 team), `Team battle`(TDM)
 
 
 ## 2. Scoreboard
@@ -36,8 +36,10 @@ Center:
   icon: END_ROD
   view: true
   scoreboard: true
-  location:
-    ==: org.bukkit.Location
+  instances: 1
+  instance-world: false
+  locations:
+  - ==: org.bukkit.Location
     world: world
     x: 0.0
     y: 4.0
@@ -46,7 +48,7 @@ Center:
     yaw: 0.0
   tutorial:
   - §cNever Sneak!
-  - §cNever FALL!
+  - §cNever Fall!
   custom-data:
     chat: true
     score-notifying: false
@@ -77,9 +79,20 @@ There are custom events for 3rd party plugins ([details](3rd-party-guide/Home.md
 
 
 
-## 7. More
+## 7. Game instances
+Support multi game instance system that means one game can has multiple instances for many players. (maximum instance count can be controlled in game config)
+
+
+
+## 8. World instances
+Support world instance system that. If there is one template world, that will be copied for multiple instances. (world instance can be controlled in game config)
+
+
+
+## 9. More
 Util tools: party, backup, language, player state and APIs...
-You can find more features([User Wiki], [Dev Wiki] and [API docs]) and [demo minigame source code](https://github.com/MiniGameWorlds/AllMiniGames) in these links.
+
+You can find more ([User Wiki], [Dev Wiki] and [API docs]) and [demo minigame source code](https://github.com/MiniGameWorlds/AllMiniGames) in these links.
 
 
 
