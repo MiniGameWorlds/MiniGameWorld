@@ -13,14 +13,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.EventExecutor;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
-import com.wbm.plugin.util.Utils;
 
 /**
  * <b>[Rules]</b><br>
@@ -73,9 +71,6 @@ public class GameListenerManager implements Listener {
 
 	@EventHandler
 	private void onEvent(Event event) {
-		if (event instanceof EntityDamageEvent) {
-			Utils.debug("onEvnet() EntityDamageEvent\n");
-		}
 		// check event detector
 		Set<Player> players = this.eventDetector.detectPlayers(event);
 

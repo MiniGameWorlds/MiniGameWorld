@@ -1,5 +1,6 @@
 package com.minigameworld.frames.helpers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +26,9 @@ import com.wbm.plugin.util.CryptoTool;
 
 /**
  * [Setting default values] <br>
+ * creationTime = on game creation time <br>
+ * startTime = LocalDateTime.MIN <br>
+ * finishTime = LocalDateTime.MIN <br>
  * id = hash value of current nano time<br>
  * started = false<br>
  * title = title<br>
@@ -60,6 +64,27 @@ public class MiniGameSetting {
 	 * - Description: Whether game started or not
 	 */
 	private boolean started;
+
+	/**
+	 * - File control: X <br>
+	 * - Init value: game creation time<br>
+	 * - Description: game creation time
+	 */
+	private LocalDateTime creationTime;
+
+	/**
+	 * - File control: X <br>
+	 * - Init value: game start time<br>
+	 * - Description: game start time
+	 */
+	private LocalDateTime startTime;
+
+	/**
+	 * - File control: X <br>
+	 * - Init value: game finish time<br>
+	 * - Description: game finish time
+	 */
+	private LocalDateTime finishTime;
 
 	/**
 	 * - File control: O <br>
@@ -227,7 +252,10 @@ public class MiniGameSetting {
 
 	public MiniGameSetting(String title, Location location, int minPlayers, int maxPlayers, int playTime,
 			int waitingTime) {
-		this.id = CryptoTool.hashToHex(String.valueOf(System.nanoTime()).getBytes()).substring(0, 10);
+		this.creationTime = LocalDateTime.now();
+		this.startTime = LocalDateTime.MIN;
+		this.finishTime = LocalDateTime.MIN;
+		this.id = CryptoTool.hashToHex(this.creationTime.toString().getBytes()).substring(0, 7);
 		this.started = false;
 		this.title = title;
 		this.location = location;
@@ -254,6 +282,14 @@ public class MiniGameSetting {
 	/*
 	 * Setters
 	 */
+
+	public void setStartTime(LocalDateTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public void setFinishTime(LocalDateTime finishTime) {
+		this.finishTime = finishTime;
+	}
 
 	public void setStarted(boolean started) {
 		this.started = started;
@@ -334,6 +370,18 @@ public class MiniGameSetting {
 	/* 
 	 * Getters
 	 */
+
+	public LocalDateTime getCreationTime() {
+		return creationTime;
+	}
+
+	public LocalDateTime getStartTime() {
+		return startTime;
+	}
+
+	public LocalDateTime getFinishTime() {
+		return finishTime;
+	}
 
 	public String getId() {
 		return id;

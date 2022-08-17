@@ -1,5 +1,6 @@
 package com.minigameworld.frames;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -294,12 +295,12 @@ public abstract class MiniGame implements GameEventListener {
 	 * - onFoodLevelChange()
 	 */
 	@GameEvent(state = State.WAIT)
-	protected void onPlayerDamaged(EntityDamageEvent e) {
+	protected void _onPlayerDamaged(EntityDamageEvent e) {
 		e.setCancelled(true);
 	}
 
 	@GameEvent(state = State.WAIT)
-	protected void onPlayerHungerChange(FoodLevelChangeEvent e) {
+	protected void _onPlayerHungerChange(FoodLevelChangeEvent e) {
 		e.setCancelled(true);
 	}
 
@@ -316,7 +317,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param e Chat event
 	 */
 	@GameEvent(state = State.ALL)
-	protected void onChat(AsyncPlayerChatEvent e) {
+	protected void _onChat(AsyncPlayerChatEvent e) {
+		Utils.debug("CHAT111@@@");
 		if (Setting.ISOLATED_CHAT) {
 			// send chat message to the same game players and also viewers only
 			Set<Player> recipients = e.getRecipients();
@@ -547,6 +549,7 @@ public abstract class MiniGame implements GameEventListener {
 
 		// start
 		getSetting().setStarted(true);
+		getSetting().setStartTime(LocalDateTime.now());
 
 		// play sound
 		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
@@ -581,6 +584,8 @@ public abstract class MiniGame implements GameEventListener {
 		if (!isStarted()) {
 			return;
 		}
+
+		getSetting().setFinishTime(LocalDateTime.now());
 
 		// [IMPORTANT] stop all active tasks immediately after finish
 		initTasks();

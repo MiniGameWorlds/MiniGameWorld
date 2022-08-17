@@ -28,7 +28,12 @@ public class MiniGameGamesConfigCommand {
 	}
 
 	private MiniGame getMiniGame(String className) {
-		return this.minigameManager.getTemplateGame(className);
+		for (MiniGame game : this.minigameManager.getTemplateGames()) {
+			if (game.getClassName().equals(className)) {
+				return game;
+			}
+		}
+		return null;
 	}
 
 	public boolean games(CommandSender sender, String[] args) throws Exception {
@@ -40,6 +45,11 @@ public class MiniGameGamesConfigCommand {
 		// /mg games <ClassName> <key> <value>
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
+		if (minigame == null) {
+			Utils.sendMsg(sender, "There is no minigame which has " + className + " class name");
+			return true;
+		}
+
 		MiniGameDataManager minigameData = minigame.getDataManager();
 		Map<String, Object> data = minigameData.getData();
 

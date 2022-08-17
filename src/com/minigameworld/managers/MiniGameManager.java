@@ -805,11 +805,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			updateInstanceGameData(newInstance);
 
 			// register game event handler
-			Utils.debug("instance creted");
 			this.gameListenerManager.registerGameListener(newInstance);
 			this.gameListenerManager.registerGameListener(newInstance.getCustomOption());
 			this.gameListenerManager.registerGameListener(newInstance.getInventoryManager());
-			Utils.debug("instance created end");
 
 			// add instance to the list
 			this.instanceGames.add(newInstance);

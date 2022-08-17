@@ -166,7 +166,7 @@ public class MiniGameCustomOption implements GameEventListener {
 		}
 	}
 
-	@GameEvent(state = State.ALL)
+	@GameEvent(state = State.PLAY)
 	protected void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
 		e.setCancelled(!(boolean) get(Option.CHAT));
 	}
@@ -201,24 +201,20 @@ public class MiniGameCustomOption implements GameEventListener {
 		}
 	}
 
-	@GameEvent(state = State.ALL)
+	@GameEvent(state = State.PLAY)
 	protected void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
 		e.setCancelled(!(boolean) get(Option.FOOD_LEVEL_CHANGE));
 	}
 
-	@GameEvent(state = State.ALL)
-	protected void onEntityDamageEvent(EntityDamageEvent event) {
+	@GameEvent(state = State.PLAY)
+	protected void onEntityDamageEvent(EntityDamageEvent e) {
 		/*
 		* PLAYER_HURT
 		*/
-		EntityDamageEvent damageEvent = (EntityDamageEvent) event;
-		if (damageEvent.getEntity() instanceof Player) {
-			damageEvent.setCancelled(!(boolean) get(Option.PLAYER_HURT));
-		}
-
+		e.setCancelled(!(boolean) get(Option.PLAYER_HURT));
 	}
 
-	@GameEvent(state = State.ALL)
+	@GameEvent(state = State.ALL, forced = true)
 	protected void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
 		// PVP
 		onPvp(e);

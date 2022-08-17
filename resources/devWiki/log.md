@@ -1121,5 +1121,27 @@ if(!this.isMinPlayersLive()) {
 - Fix event handling bug
 - Remove detailed EntityEvent from MiniGameEventDetector
 
-# 2022-08-16
+# 2022-08-17
+- Update wiki and code refactoring
+
+# 2022-08-18
+- Add creationTime, startTime and finishTime to MiniGameSetting
+- Change instance world naming
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

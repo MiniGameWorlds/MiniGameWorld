@@ -13,6 +13,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.frames.MiniGame;
+import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.utils.WorldManager;
@@ -85,10 +86,12 @@ public class LocationManager {
 			float yaw = randomLocation.getYaw();
 			float pitch = randomLocation.getPitch();
 
-			// create a new copied world: `<world>_<minigame ID>` and load world
-			String newWorldName = world.getName() + "_" + gameSetting.getId();
+			// create a new copied world and load world
+			String newWorldName = Setting.instanceDirFormat(world.getName(), this.minigame);
 
 			this.multiverseCore.cloneWorld(world.getName(), newWorldName, "");
+
+			Utils.debug("world: " + Bukkit.getWorld(newWorldName));
 
 			newLocation = new Location(Bukkit.getWorld(newWorldName), x, y, z, yaw, pitch);
 		} else {

@@ -1,5 +1,7 @@
 package com.minigameworld.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 
 import com.minigameworld.MiniGameWorldMain;
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameSetting;
 
 public class Setting {
@@ -22,6 +25,29 @@ public class Setting {
 
 	public static final String URL_WIKI_README = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/README.md";
 	public static final String URL_WIKI_COMMAND = "https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/commands.md";
+
+	public static final String DIR_DATE_TIME_FORMAT = "yyyy-MM-dd'T'H-mm-ss";
+	public static final String DIR_ELEMENT_SEPARATOR = "_";
+	public static final DateTimeFormatter DIR_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DIR_DATE_TIME_FORMAT);
+
+	/**
+	 * Ref:
+	 * https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+	 * 
+	 * <code><world name>_<game title>_<yyyy-MM-dd'T'H-mm-ss>_<game id></code>
+	 * 
+	 * @param templateWorldName Template world name
+	 * @param game              game instance
+	 * @return Instance directory name
+	 */
+	public static String instanceDirFormat(String templateWorldName, MiniGame game) {
+		String gameTitle = game.getTitle();
+		LocalDateTime time = game.getSetting().getCreationTime();
+		Utils.debug(templateWorldName + DIR_ELEMENT_SEPARATOR + gameTitle + DIR_ELEMENT_SEPARATOR
+				+ time.format(DIR_DATE_TIME_FORMATTER) + DIR_ELEMENT_SEPARATOR + game.id());
+		return templateWorldName + DIR_ELEMENT_SEPARATOR + gameTitle + DIR_ELEMENT_SEPARATOR
+				+ time.format(DIR_DATE_TIME_FORMATTER) + DIR_ELEMENT_SEPARATOR + game.id();
+	}
 
 	// exceptions
 	// (in waiting and playing game state)
