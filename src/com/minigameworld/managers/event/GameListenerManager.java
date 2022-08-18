@@ -19,6 +19,7 @@ import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
+import com.wbm.plugin.util.Utils;
 
 /**
  * <b>[Rules]</b><br>
@@ -50,6 +51,12 @@ public class GameListenerManager implements Listener {
 		this.executor = (listener, e) -> onEvent(e);
 	}
 
+	public void printAllListener() {
+		this.gameListeners.forEach((e, l) -> {
+			Utils.debug(e.getName() + ": " + l);
+		});
+	}
+
 	public void registerGameListener(GameEventListener instance) {
 		for (Class<? extends Event> event : getHandlerEvents(instance)) {
 			if (!this.gameListeners.containsKey(event)) {
@@ -73,26 +80,15 @@ public class GameListenerManager implements Listener {
 	private void onEvent(Event event) {
 		// check event detector
 		Set<Player> players = this.eventDetector.detectPlayers(event);
-
 		Set<GameListener> targetListeners = new HashSet<>();
 
-		// Add forced listeners
-		getListeners(event.getClass()).stream().filter(l -> !l.forcedHandlers().isEmpty())
-				.forEach(l -> targetListeners.add(l));
+		// 1. invoke forced handlers of all listener
+		getListeners(event.getClass()).stream().forEach(l -> l.invoke(event, true));
 
 		// if event is related with some player, pass to playing listener only
 		players.forEach(p -> targetListeners.addAll(getPlayingGameListeners(event, p)));
-
-		// invoke handler method
-		for (GameListener lis : targetListeners) {
-			GameEventListener instance = lis.listener();
-
-			// check instance is minigame then invoke if MiniGame.passEvent() return true
-			MiniGame game = instance.minigame();
-			GameEvent.State state = game.isStarted() ? GameEvent.State.PLAY : GameEvent.State.WAIT;
-
-			lis.invoke(event, state);
-		}
+		// 2. invoke not forced handlers of player-related listeners
+		targetListeners.forEach(l -> l.invoke(event, false));
 	}
 
 	private Set<GameListener> getPlayingGameListeners(Event event, Player p) {
@@ -115,13 +111,8 @@ public class GameListenerManager implements Listener {
 	}
 
 	private void removeGameListener(Class<? extends Event> event, GameEventListener instance) {
-		Set<GameListener> listeners = getListeners(event);
-		if (instance instanceof MiniGame) {
-			MiniGame game = ((MiniGame) instance);
-			listeners.stream().filter(l -> game.equals(l.listener().minigame())).forEach(listeners::remove);
-		} else {
-			listeners.stream().filter(l -> l.listener().equals(instance)).forEach(listeners::remove);
-		}
+		Set<GameListener> listeners = this.gameListeners.get(event);
+		listeners.stream().filter(l -> l.listener().equals(instance)).forEach(listeners::remove);
 	}
 
 	/**

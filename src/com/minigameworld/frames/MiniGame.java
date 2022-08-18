@@ -6,19 +6,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
-import com.minigameworld.api.MwUtil;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
 import com.minigameworld.events.minigame.MiniGameFinishEvent;
 import com.minigameworld.events.minigame.MiniGamePlayerExceptionEvent;
@@ -38,8 +33,6 @@ import com.minigameworld.frames.helpers.MiniGameTaskManager;
 import com.minigameworld.frames.helpers.MiniGameViewManager;
 import com.minigameworld.frames.helpers.scoreboard.MiniGameScoreboardManager;
 import com.minigameworld.managers.MiniGameManager;
-import com.minigameworld.managers.event.GameEvent;
-import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.managers.event.GameEventListener;
 import com.minigameworld.managers.party.Party;
 import com.minigameworld.util.LangUtils;
@@ -290,41 +283,10 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	/*
-	 * Waiting handlers
-	 * - onEntityDamaged()
-	 * - onFoodLevelChange()
-	 */
-	@GameEvent(state = State.WAIT)
-	protected void _onPlayerDamaged(EntityDamageEvent e) {
-		e.setCancelled(true);
-	}
-
-	@GameEvent(state = State.WAIT)
-	protected void _onPlayerHungerChange(FoodLevelChangeEvent e) {
-		e.setCancelled(true);
-	}
-
-	/*
 	 * All time handlers
-	 * - onChat()
 	 * - MiniGameCustomOption
 	 * - InventoryManager
 	 */
-	/**
-	 * Send message to playing players only, if {@link Setting.ISOLATED_CHAT} is
-	 * true<br>
-	 * 
-	 * @param e Chat event
-	 */
-	@GameEvent(state = State.ALL)
-	protected void _onChat(AsyncPlayerChatEvent e) {
-		Utils.debug("CHAT111@@@");
-		if (Setting.ISOLATED_CHAT) {
-			// send chat message to the same game players and also viewers only
-			Set<Player> recipients = e.getRecipients();
-			recipients.removeAll(recipients.stream().filter(r -> !MwUtil.isInGame(r)).toList());
-		}
-	}
 
 	/**
 	 * Join player to minigame<br>

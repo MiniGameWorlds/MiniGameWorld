@@ -9,7 +9,10 @@ import java.util.stream.Collectors;
 
 import org.bukkit.event.Event;
 
+import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent.State;
+import com.minigameworld.util.Setting;
+import com.wbm.plugin.util.Utils;
 
 public class GameListener {
 	private Class<? extends Event> event;
@@ -19,13 +22,14 @@ public class GameListener {
 	/*
 	 * Prevent when a event calls the same GameListeners twice at once  
 	 */
-	private Event latestUsedEvent;
+	private Event latestUsedEventOfNonForced; // for non-forced handlers
+	private Event latestUsedEventOfForced; // for forced handlers
 
 	public GameListener(Class<? extends Event> event, GameEventListener lis) {
 		this.event = event;
 		this.listener = lis;
 		this.handlers = new HashSet<>();
-		this.latestUsedEvent = null;
+		this.latestUsedEventOfNonForced = null;
 		addHandlers(this.listener.getClass());
 	}
 
@@ -54,32 +58,44 @@ public class GameListener {
 		});
 	}
 
-	private boolean isLatestUsedEvent(Event event) {
-		if (this.latestUsedEvent == null) {
-			this.latestUsedEvent = event;
+	private boolean isLatestUsedEvent(Event event, boolean onlyForcedHandlers) {
+		Event targetLastestUsedEvent = onlyForcedHandlers ? this.latestUsedEventOfForced
+				: this.latestUsedEventOfNonForced;
+
+		if (onlyForcedHandlers) {
+			this.latestUsedEventOfForced = event;
+		} else {
+			this.latestUsedEventOfNonForced = event;
+		}
+
+		if (targetLastestUsedEvent == null) {
 			return false;
 		}
 
-		boolean isUsed = this.latestUsedEvent.equals(event);
-		this.latestUsedEvent = event;
+		boolean isUsed = targetLastestUsedEvent.equals(event);
 		return isUsed;
 	}
 
-	public void invoke(Event e, GameEvent.State state) {
-		if (isLatestUsedEvent(e)) {
+	public void invoke(Event e, boolean onlyForcedHandlers) {
+		if (isLatestUsedEvent(e, onlyForcedHandlers)) {
 			return;
 		}
 
-		for (Method h : this.handlers) {
-			try {
-				// check forced
-				boolean forced = h.getAnnotation(GameEvent.class).forced();
-				if (forced) {
-					h.invoke(listener, e);
-					continue;
-				}
+		Set<Method> targetHandlers = new HashSet<>();
+		if (onlyForcedHandlers) {
+			targetHandlers.addAll(this.handlers.stream().filter(h -> h.getAnnotation(GameEvent.class).forced())
+					.collect(Collectors.toSet()));
+		} else {
+			targetHandlers.addAll(this.handlers.stream().filter(h -> !h.getAnnotation(GameEvent.class).forced())
+					.collect(Collectors.toSet()));
+		}
 
+		for (Method h : targetHandlers) {
+			try {
 				// check state
+				MiniGame game = this.listener.minigame();
+				GameEvent.State state = game.isStarted() ? GameEvent.State.PLAY : GameEvent.State.WAIT;
+
 				GameEvent.State handlerState = h.getAnnotation(GameEvent.class).state();
 				if (handlerState == State.ALL) {
 					h.invoke(listener, e);
@@ -92,7 +108,10 @@ public class GameListener {
 
 				h.invoke(listener, e);
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				Utils.debug(exception.getCause().toString());
+				if (Setting.DEBUG_MODE) {
+					exception.printStackTrace();
+				}
 			}
 		}
 	}
