@@ -16,6 +16,7 @@ import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
+import com.onarandombox.MultiverseCore.utils.WorldNameChecker;
 import com.wbm.plugin.util.PlayerTool;
 
 public class MiniGameGamesConfigCommand {
@@ -138,15 +139,13 @@ public class MiniGameGamesConfigCommand {
 
 	private boolean title(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		// /mg games <classname> title <value>
-		String title = "";
-		for (int i = 3; i < args.length; i++) {
-			title += args[i];
-			if (i < args.length - 1) {
-				title += " ";
-			}
+		String title = args[3];
+		if (!WorldNameChecker.isValidWorldName(title)) {
+			sender.sendMessage(title + " is not valid for game title. (Do not use space or special characters)");
+			return true;
 		}
 
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_TITLE, title);
+		setKeyValue(sender, args[1], data, Setting.GAMES_TITLE, title);
 		return true;
 	}
 

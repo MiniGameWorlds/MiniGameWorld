@@ -11,6 +11,8 @@ import org.bukkit.Material;
 
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.util.Setting;
+import com.minigameworld.util.Utils;
+import com.onarandombox.MultiverseCore.utils.WorldNameChecker;
 import com.wbm.plugin.util.CollectionTool;
 import com.wbm.plugin.util.CryptoTool;
 
@@ -299,8 +301,13 @@ public class MiniGameSetting {
 		this.settingFixed = settingFixed;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public boolean setTitle(String title) {
+		if (WorldNameChecker.isValidWorldName(title)) {
+			this.title = title;
+			return true;
+		}
+		Utils.warning(title + " is not valid for game title. (Do not use space or special characters)");
+		return false;
 	}
 
 	public void setLocation(Location location) {
