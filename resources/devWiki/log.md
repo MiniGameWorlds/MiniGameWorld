@@ -1,6 +1,8 @@
 # TODO
+- Add finish-delay (change playing players to spectator)
+- Add `/mw d` (debug cmd)
 - Add `/mw view <title> <id>` command
-- Add CONTRIBUTE.md
+- Add CONTRIBUTING.md
 - Replace images files in wiki to github image link
 - bossbar
 - scoreboard new object in every update
@@ -245,23 +247,27 @@
 - **All minigames and 3rd party plugins needs update**
 - `min/max-player-count` changed to `min/max-players`
 - `/mw minigames` command changed to `/mw games`
-#### API changes for developers
-> - Remove `MiniGame.runTaskAfterFinish()`
-> - Add `MiniGame.topPlayer()`
-> - Add `Utils.callEvent()`
-> - `MiniGame.processEvent()` -> `MiniGame.onEvent()`
-> - `MiniGame.runTask(AfterStart/BeforeFinish)()` -> `MiniGame.(onStart/onFinish)()`
-> - `MiniGameRankResult` -> `MiniGameRank`
-> - `MiniGame.send(Message/Title)ToAllPlayers()` -> `MiniGame.send(Messages/Titles)()`
-> - `MiniGame.registerTutorial()` -> `MiniGame.tutorial()`
-> - `MiniGame.handleGameException()` -> `MiniGame.onException()`
-> - `MiniGame.registerCustomData()` -> `initCustomData()`
-> - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
-> - `minigameworld.allcommands` -> `minigameworld.command` (permission name)
 
 ### Build Changes
 - Add `Vault` as a soft dependency
 - Sort scoreboard ranks by score
+
+<details>
+  <summary>API changes for developers</summary>
+  
+  > - Remove `MiniGame.runTaskAfterFinish()`
+  > - Add `MiniGame.topPlayer()`
+  > - Add `Utils.callEvent()`
+  > - `MiniGame.processEvent()` -> `MiniGame.onEvent()`
+  > - `MiniGame.runTask(AfterStart/BeforeFinish)()` -> `MiniGame.(onStart/onFinish)()`
+  > - `MiniGameRankResult` -> `MiniGameRank`
+  > - `MiniGame.send(Message/Title)ToAllPlayers()` -> `MiniGame.send(Messages/Titles)()`
+  > - `MiniGame.registerTutorial()` -> `MiniGame.tutorial()`
+  > - `MiniGame.handleGameException()` -> `MiniGame.onException()`
+  > - `MiniGame.registerCustomData()` -> `initCustomData()`
+  > - `MiniGame.initGameSettings()` -> `MiniGame.initGame()`
+  > - `minigameworld.allcommands` -> `minigameworld.command` (permission name)
+</details>
 
 ## 0.8.1
 ### Build Changes
@@ -277,6 +283,71 @@
 - Change `MiniGame.initGame()` to be optional, not required
 - Fix game icon command
 - Update for `1.19`
+
+## 0.9.0
+### API Changes
+
+### Build Changes
+
+<details>
+  <summary>API changes for developers</summary>
+  
+  ```yaml
+  - MiniGameManager: getMiniGameList() -> getTemplateGames()
+  - MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
+  - MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
+  - MiniGameManager: hasSameMiniGame() -> existTemplateGame()
+  - MiniGameManager: registerMiniGame() -> registerTemplateGame()
+  - MiniGameManager: unregisterMiniGame() -> unregisterTemplateGame()
+  - MiniGameManager: getMiniGameMenuManager() -> getMenuManager()
+  - MiniGameManager: getMiniGameEventDetector() -> getEventDetector()
+  - MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
+  - MiniGameManager: isPlayingMiniGame() -> isPlayingGame()
+  - MiniGameManager: getViewingMiniGame() -> getViewingGame()
+  - MiniGameManager: isViewingMiniGame() -> isViewingGame()
+  - MiniGameManager: getInMiniGame() -> getInGame()
+  - MiniGameManager: isInMiniGame() -> isInGame()
+  - MiniGameManager: removeNotExistMiniGameData() -> removeNotExistGameData()
+  - MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
+  - MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
+  - MiniGameManager: getMiniGamesDirectory() -> getMiniGamesDir()
+  - MiniGameManager: checkPlayerIsPlayingMiniGame() -> isPlayingGame()
+  - MiniGameManager: checkPlayerIsViewingMiniGame() -> isViewingGame()
+  - MiniGameManager: checkPlayerIsInMiniGame() -> isInGame()
+  - MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
+  - MiniGameManager: getViewingMiniGame() -> getViewingGame()
+  - MiniGameManager: getInMiniGame() -> getInGame()
+  - MiniGameManager: getPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(default= false))
+  - MiniGameManager: getNotPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(true))
+  - MiniGameManager: getViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(default= false))
+  - MiniGameManager: getNotViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(true))
+  - MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default= false))
+  - MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
+  
+  - MiniGameWorld: getMiniGameList() -> getTemplateGames()
+  - MiniGameWorld: registerMiniGame() -> registerGame()
+  - MiniGameWorld: unregisterMiniGame() -> unregisterGame()
+  - MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
+  - MiniGameWorld: registerMiniGameEventExternalDetector() -> registerExternalEventDetector()
+  - MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
+  - MiniGameWorld: registerMiniGameObserver() -> registerObserver()
+  - MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
+  
+  - PartyManager: sendMessageToPlayerPartyMembers() -> ()
+  
+  - Party: sendMessageToAllMembers() -> sendMessages(String)
+  - Party: sendMessageToAllMembers() -> sendMessages(Component)
+  - Party: canJoinMiniGame() -> canJoinGame()
+  
+  - package: com.worldbiomusic.minigameworld -> com.minigameworld
+  
+  - MiniGameWorldUtils class -> MwUtil class
+  
+  - MiniGame: getPlayerData() -> getGamePlayer()
+  - MiniGame: getPlayerDataList() -> getGamePlayers()
+  ```
+</details>
+
 
 ---
 
@@ -1128,7 +1199,9 @@ if(!this.isMinPlayersLive()) {
 - Add creationTime, startTime and finishTime to MiniGameSetting
 - Change instance world naming
 
-
+# 2022-08-19
+- Fix GameListener
+- Add title checker
 
 
 

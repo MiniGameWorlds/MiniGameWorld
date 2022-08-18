@@ -808,7 +808,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			this.gameListenerManager.registerGameListener(newInstance);
 			this.gameListenerManager.registerGameListener(newInstance.getCustomOption());
 			this.gameListenerManager.registerGameListener(newInstance.getInventoryManager());
-
+			
 			// add instance to the list
 			this.instanceGames.add(newInstance);
 		} catch (NoSuchMethodException e) {

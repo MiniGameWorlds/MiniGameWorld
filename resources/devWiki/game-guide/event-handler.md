@@ -55,7 +55,7 @@ public class GameA extends SoloBattleMiniGame {
 	public void onMobHurt(EntityDamageEvent e) {
 		// check damaged entity equals with this game mob
 		if (e.getEntity().equals(this.mob)) {
-			sendMessages("mob is damaged!");
+			sendMessages("mob got damaged!");
 		}
 	}
 }
@@ -63,6 +63,8 @@ public class GameA extends SoloBattleMiniGame {
 
 
 ※ If a event is called frequently like `PlayerMoveEvent`, implement it with `@EventHandler` and register it to the bukkit plugin manager for better performance.
+
+※ If there are methods that have the same `decalred class name`, `method name`, `return type` and `parameter types`, the only one method will be handled.
 
 ---
 

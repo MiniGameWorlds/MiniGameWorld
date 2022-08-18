@@ -139,8 +139,10 @@ public class MiniGameWorldMain extends JavaPlugin {
 		// loaded)
 		Utils.loadTemplateWorlds();
 
-		Utils.warning("@@@@@@@ Loaded worlds @@@@@@@@@");
-		Bukkit.getWorlds().forEach(w -> Utils.warning("world name: " + w.getName()));
+		if (Setting.DEBUG_MODE) {
+			Utils.warning("[ Loaded template worlds ]");
+			Bukkit.getWorlds().forEach(w -> Utils.warning("- " + w.getName()));
+		}
 	}
 
 	private void registerEventListeners() {
@@ -194,11 +196,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(" - Backup data created");
 
 		Utils.info(ChatColor.RED + "=============================================");
-//
-//		Utils.info(ChatColor.RED + "Deleting used instance worlds...");
-//		LocationManager.getUsedLocations().forEach(w -> {
-//			Utils.info(ChatColor.RED + "- " + w);
-//		});
 	}
 
 	/**

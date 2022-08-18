@@ -14,7 +14,6 @@ import com.minigameworld.managers.DataManager;
 import com.minigameworld.managers.MiniGameManager;
 
 public class MiniGameCommandTabCompleter implements TabCompleter {
-
 	private List<String> candidates;
 	private MiniGameManager minigameManager;
 	private DataManager dataManager;
@@ -29,12 +28,16 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		this.candidates.clear();
 		int length = args.length;
+//		sender.sendMessage("\nlength: " + length + ", cmd: " + Arrays.asList(args));
 
 		if (length == 3) {
+			// mw games <game> <candidates>
 			if (args[0].equals("games")) {
 				addMiniGameConfigKeyCandidates();
 			}
-		} else if (length == 2) {
+		} else 
+			if (length == 2) {
+			// mw join <candidates>
 			if (args[0].equals("join") || args[0].equals("view")) {
 				addMiniGameTitleCandidates();
 			} else if (args[0].equals("party")) {
@@ -42,6 +45,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 			} else if (args[0].equals("settings")) {
 				addSettingsCandidates();
 			} else if (args[0].equals("games")) {
+				// mw games <candidates>
 				addMiniGameClassCandidates();
 			} else if (args[0].equals("reload")) {
 				addBackupDataCandidates();
