@@ -41,8 +41,8 @@ public class Setting {
 	 * @return Instance directory name
 	 */
 	public static String instanceDirFormat(String templateWorldName, MiniGame game) {
-		String gameTitle = game.getTitle();
-		LocalDateTime time = game.getSetting().getCreationTime();
+		String gameTitle = game.title();
+		LocalDateTime time = game.setting().getCreationTime();
 		Utils.debug(templateWorldName + DIR_ELEMENT_SEPARATOR + gameTitle + DIR_ELEMENT_SEPARATOR
 				+ time.format(DIR_DATE_TIME_FORMATTER) + DIR_ELEMENT_SEPARATOR + game.id());
 		return templateWorldName + DIR_ELEMENT_SEPARATOR + gameTitle + DIR_ELEMENT_SEPARATOR

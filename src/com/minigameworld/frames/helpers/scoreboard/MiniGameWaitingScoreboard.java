@@ -22,16 +22,16 @@ public class MiniGameWaitingScoreboard extends MiniGameScoreboardSidebarUpdater 
 		// player count
 		String playerCountStr = ChatColor.BOLD + "Players: " + ChatColor.RESET;
 
-		int currentPlayerCount = minigame.getPlayerCount();
-		if (currentPlayerCount < minigame.getMinPlayers()) {
+		int currentPlayerCount = minigame.playerCount();
+		if (currentPlayerCount < minigame.minPlayers()) {
 			playerCountStr = playerCountStr + ChatColor.RED + currentPlayerCount + ChatColor.RESET;
 		} else {
 			playerCountStr = playerCountStr + ChatColor.GREEN + currentPlayerCount + ChatColor.RESET;
 		}
 
-		playerCountStr += " / " + minigame.getMaxPlayers();
+		playerCountStr += " / " + minigame.maxPlayers();
 
-		String minPlayerCountStr = " (Min: " + ChatColor.GOLD + minigame.getMinPlayers() + ChatColor.RESET + ")";
+		String minPlayerCountStr = " (Min: " + ChatColor.GOLD + minigame.minPlayers() + ChatColor.RESET + ")";
 		playerCountStr += minPlayerCountStr;
 
 		Score playerCount = sidebarObjective.getScore(playerCountStr);
@@ -41,7 +41,7 @@ public class MiniGameWaitingScoreboard extends MiniGameScoreboardSidebarUpdater 
 		addEmptyLineToSiderbar();
 
 		// left waiting time
-		String leftWaitingTimeStr = "Starting in... " + ChatColor.RED + minigame.getLeftWaitingTime();
+		String leftWaitingTimeStr = "Starting in... " + ChatColor.RED + minigame.leftWaitingTime();
 
 		Score leftWaitingTime = sidebarObjective.getScore(leftWaitingTimeStr);
 		leftWaitingTime.setScore(sidebarScoreLine--);

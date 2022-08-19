@@ -62,7 +62,7 @@ public class MiniGameScoreboardManager {
 	}
 
 	private void registerScoreboardUpdateTask() {
-		this.minigame.getTaskManager().registerTask("_update-scoreboard", () -> {
+		this.minigame.taskManager().registerTask("_update-scoreboard", () -> {
 			updateScoreboard();
 		});
 	}
@@ -74,12 +74,12 @@ public class MiniGameScoreboardManager {
 		}
 
 		// check minigame scoreboard setting option
-		if (!this.minigame.getSetting().isScoreboardEnabled()) {
+		if (!this.minigame.setting().isScoreboardEnabled()) {
 			return;
 		}
 
 		// start scoreboard update timer task
-		this.minigame.getTaskManager().runTaskTimer("_update-scoreboard", 0, Setting.SCOREBOARD_UPDATE_DELAY);
+		this.minigame.taskManager().runTaskTimer("_update-scoreboard", 0, Setting.SCOREBOARD_UPDATE_DELAY);
 	}
 
 	private void updateScoreboard() {
@@ -104,8 +104,8 @@ public class MiniGameScoreboardManager {
 		// MiniGame.removePlayer() access critical section with another thread(main)
 		synchronized (this) {
 			// set scoreboard to playing players & viewers
-			this.minigame.getPlayers().forEach(p -> p.setScoreboard(scoreboard));
-			this.minigame.getViewManager().getViewers().forEach(v -> v.setScoreboard(scoreboard));
+			this.minigame.players().forEach(p -> p.setScoreboard(scoreboard));
+			this.minigame.viewManager().getViewers().forEach(v -> v.setScoreboard(scoreboard));
 		}
 	}
 

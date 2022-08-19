@@ -74,7 +74,7 @@ public class MiniGameViewManager implements GameEventListener {
 			return;
 		}
 
-		e.setRespawnLocation(this.minigame.getLocation());
+		e.setRespawnLocation(this.minigame.location());
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class MiniGameViewManager implements GameEventListener {
 		p.setGameMode(GameMode.SPECTATOR);
 
 		// teleport player
-		p.teleport(this.minigame.getLocation());
+		p.teleport(this.minigame.location());
 
 		// send info
 		this.minigame.sendTitle(p, ChatColor.BOLD + "View", "");

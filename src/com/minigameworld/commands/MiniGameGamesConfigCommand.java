@@ -30,7 +30,7 @@ public class MiniGameGamesConfigCommand {
 
 	private MiniGame getMiniGame(String className) {
 		for (MiniGame game : this.minigameManager.getTemplateGames()) {
-			if (game.getClassName().equals(className)) {
+			if (game.className().equals(className)) {
 				return game;
 			}
 		}
@@ -51,7 +51,7 @@ public class MiniGameGamesConfigCommand {
 			return true;
 		}
 
-		MiniGameDataManager minigameData = minigame.getDataManager();
+		MiniGameDataManager minigameData = minigame.dataManager();
 		Map<String, Object> data = minigameData.getData();
 
 		// print just value of key
@@ -287,7 +287,7 @@ public class MiniGameGamesConfigCommand {
 
 		String className = args[1];
 		MiniGame minigame = this.getMiniGame(className);
-		List<String> tutorial = minigame.getSetting().getTutorial();
+		List<String> tutorial = minigame.setting().getTutorial();
 		int line = Integer.parseInt(args[3]); // 1 ~
 
 		// remove tutorial line

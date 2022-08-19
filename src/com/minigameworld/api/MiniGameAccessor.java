@@ -77,8 +77,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Playing players list
 	 */
-	public List<Player> getPlayers() {
-		return this.minigame.getPlayers();
+	public List<Player> players() {
+		return this.minigame.players();
 	}
 
 	/**
@@ -87,8 +87,8 @@ public class MiniGameAccessor {
 	 * @param p Target player
 	 * @return Player's score
 	 */
-	public int getPlayerScore(Player p) {
-		return this.minigame.getScore(p);
+	public int score(Player p) {
+		return this.minigame.score(p);
 	}
 
 	/**
@@ -96,10 +96,10 @@ public class MiniGameAccessor {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayer> getGamePlayers() {
+	public List<MiniGamePlayer> gamePlayers() {
 		// copied
 		List<MiniGamePlayer> copiedMinigamePlayerData = new ArrayList<>();
-		for (MiniGamePlayer minigamePData : this.minigame.getGamePlayers()) {
+		for (MiniGamePlayer minigamePData : this.minigame.gamePlayers()) {
 			copiedMinigamePlayerData.add((MiniGamePlayer) minigamePData.clone());
 		}
 
@@ -111,8 +111,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return MiniGameSetting setting data
 	 */
-	public MiniGameSetting getSettings() {
-		return this.minigame.getSetting();
+	public MiniGameSetting settings() {
+		return this.minigame.setting();
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Map setting data
 	 */
-	public Map<String, Object> getSettingsData() {
-		return new HashMap<>(this.minigame.getDataManager().getData());
+	public Map<String, Object> settingsData() {
+		return new HashMap<>(this.minigame.dataManager().getData());
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class MiniGameAccessor {
 	 * @param option Option to get data
 	 * @return Option data
 	 */
-	public Object getCustomOption(MiniGameCustomOption.Option option) {
-		return this.minigame.getCustomOption().get(option);
+	public Object customOption(MiniGameCustomOption.Option option) {
+		return this.minigame.customOption().get(option);
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return
 	 */
-	public String getClassName() {
-		return this.minigame.getClassName();
+	public String className() {
+		return this.minigame.className();
 	}
 
 	/**
@@ -148,8 +148,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Left waiting time
 	 */
-	public int getLeftWaitTime() {
-		return this.minigame.getLeftWaitingTime();
+	public int leftWaitTime() {
+		return this.minigame.leftWaitingTime();
 	}
 
 	/**
@@ -157,8 +157,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Left play time
 	 */
-	public int getLeftPlayTime() {
-		return this.minigame.getLeftPlayTime();
+	public int leftPlayTime() {
+		return this.minigame.leftPlayTime();
 	}
 
 	/**
@@ -167,8 +167,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Rank list
 	 */
-	public List<? extends MiniGameRank> getRank() {
-		return this.minigame.getRank();
+	public List<? extends MiniGameRank> rank() {
+		return this.minigame.rank();
 
 	}
 
@@ -177,7 +177,7 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Class
 	 */
-	public Class<?> getClassType() {
+	public Class<?> classType() {
 		return this.minigame.getClass();
 	}
 
@@ -185,10 +185,10 @@ public class MiniGameAccessor {
 	 * Get minigame frame type
 	 * 
 	 * @return Minigame frame type
-	 * @see MiniGame#getFrameType()
+	 * @see MiniGame#frameType()
 	 */
-	public String getFrameType() {
-		return this.minigame.getFrameType();
+	public String frameType() {
+		return this.minigame.frameType();
 	}
 
 	/**
@@ -196,8 +196,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Viewers
 	 */
-	public Set<Player> getViewers() {
-		return this.minigame.getViewManager().getViewers();
+	public Set<Player> viewers() {
+		return this.minigame.viewManager().getViewers();
 	}
 
 	/**
@@ -205,8 +205,8 @@ public class MiniGameAccessor {
 	 * 
 	 * @return Scoreboard
 	 */
-	public Scoreboard getScoreboard() {
-		return this.minigame.getScoreboardManager().getScoreboard();
+	public Scoreboard scoreboard() {
+		return this.minigame.scoreboardManager().getScoreboard();
 	}
 
 	/**

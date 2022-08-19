@@ -23,7 +23,7 @@ public class MiniGameScoreboardUpdateEvent extends MiniGameEvent implements Canc
 	 * @return Scoreboard
 	 */
 	public Scoreboard getScoreboard() {
-		return this.getMiniGame().getScoreboard();
+		return this.getMiniGame().scoreboard();
 	}
 
 	@Override

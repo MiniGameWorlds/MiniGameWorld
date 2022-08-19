@@ -262,7 +262,7 @@ public class MiniGamePlayerState {
 	public void makePureState() {
 		// joined location (tp to minigame location)
 		// [IMPORTANT] must call after player state saved
-		this.player.teleport(this.minigame.getSetting().getLocation());
+		this.player.teleport(this.minigame.setting().getLocation());
 
 		// set normal health scale (20)
 		this.player.setHealthScale(20);
@@ -285,7 +285,7 @@ public class MiniGamePlayerState {
 
 		// clear inv & setup inventory
 		this.player.getInventory().clear();
-		this.minigame.getInventoryManager().setupOnJoin(this.player);
+		this.minigame.inventoryManager().setupOnJoin(this.player);
 
 		// remove all potion effects
 		PlayerTool.removeAllPotionEffects(this.player);
@@ -297,7 +297,7 @@ public class MiniGamePlayerState {
 		PlayerTool.unhidePlayerFromEveryone(this.player);
 
 		// gamemode
-		GameMode liveGameMode = (GameMode) minigame.getCustomOption().get(Option.LIVE_GAMEMODE);
+		GameMode liveGameMode = (GameMode) minigame.customOption().get(Option.LIVE_GAMEMODE);
 		this.player.setGameMode(liveGameMode);
 
 		// fire ticks
@@ -336,7 +336,7 @@ public class MiniGamePlayerState {
 		this.player.getInventory().setHeldItemSlot(0);
 
 		// set bedSpawnLocation to minigame location
-		this.player.setBedSpawnLocation(this.minigame.getLocation());
+		this.player.setBedSpawnLocation(this.minigame.location());
 
 		// clear ender chest
 		this.player.getEnderChest().clear();

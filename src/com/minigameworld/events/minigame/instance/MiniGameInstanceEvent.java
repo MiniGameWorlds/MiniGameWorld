@@ -15,6 +15,6 @@ public abstract class MiniGameInstanceEvent extends MiniGameEvent {
 
 	public List<MiniGameAccessor> instances() {
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		return mw.getInstanceGames().stream().filter(g->g.isSameTemplate(getMiniGame())).toList();
+		return mw.instanceGames().stream().filter(g->g.isSameTemplate(getMiniGame())).toList();
 	}
 }

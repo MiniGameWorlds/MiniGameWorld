@@ -140,11 +140,11 @@ public class MiniGameCustomOption implements GameEventListener {
 	}
 
 	private void setOptionData(String option, Object data) {
-		this.minigame.getCustomData().put(option, data);
+		this.minigame.customData().put(option, data);
 	}
 
 	private Object getOptionData(String option) {
-		return this.minigame.getCustomData().get(option);
+		return this.minigame.customData().get(option);
 	}
 
 	public void set(Option option, Object value) {
@@ -211,7 +211,7 @@ public class MiniGameCustomOption implements GameEventListener {
 	@GameEvent(state = State.ALL)
 	protected void onPlayerRespawn(PlayerRespawnEvent e) {
 		if ((boolean) this.get(Option.MINIGAME_RESPAWN)) {
-			e.setRespawnLocation(this.minigame.getLocation());
+			e.setRespawnLocation(this.minigame.location());
 		}
 	}
 

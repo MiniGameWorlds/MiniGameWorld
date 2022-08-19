@@ -36,7 +36,7 @@ public class LocationManager {
 
 	public LocationManager(MiniGame minigame) {
 		this.minigame = minigame;
-		this.gameSetting = minigame.getSetting();
+		this.gameSetting = minigame.setting();
 		this.inited = false;
 
 		this.multiverseCore = MiniGameWorldMain.multiverseCore();
@@ -122,7 +122,7 @@ public class LocationManager {
 //			usedLocations.add(gameSetting.getLocation().getWorld().getName());
 
 			// let viewers get out of world
-			MiniGameViewManager viewM = minigame.getViewManager();
+			MiniGameViewManager viewM = minigame.viewManager();
 			viewM.getViewers().forEach(viewM::unviewGame);
 
 			// remove instance world

@@ -279,7 +279,7 @@ public class Party {
 		List<Player> notInMiniGameMembers = MwUtil.getInGamePlayers(getMembers(), true);
 
 		// check party size
-		int leftSeats = game.getMaxPlayers() - game.getPlayerCount();
+		int leftSeats = game.maxPlayers() - game.playerCount();
 		return notInMiniGameMembers.size() <= leftSeats;
 	}
 

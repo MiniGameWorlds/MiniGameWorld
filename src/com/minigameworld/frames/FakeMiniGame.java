@@ -51,7 +51,7 @@ public abstract class FakeMiniGame extends MiniGame implements Listener {
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "Fake";
 	}
 }

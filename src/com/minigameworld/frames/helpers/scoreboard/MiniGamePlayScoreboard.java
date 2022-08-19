@@ -27,7 +27,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		Score playerListTitle = sidebarObjective.getScore(ChatColor.BOLD + "Players");
 		playerListTitle.setScore(sidebarScoreLine--);
 
-		List<MiniGamePlayer> playerDataList = minigame.getGamePlayers();
+		List<MiniGamePlayer> playerDataList = minigame.gamePlayers();
 		// sort by score
 		Collections.sort(playerDataList);
 
@@ -53,7 +53,7 @@ public class MiniGamePlayScoreboard extends MiniGameScoreboardSidebarUpdater {
 		addEmptyLineToSiderbar();
 
 		// left time
-		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftPlayTime();
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.leftPlayTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);
 	}

@@ -191,20 +191,20 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		MiniGame instanceGame = null;
 
 		Party party = this.partyManager.getPlayerParty(p);
-		List<MiniGame> waitingGames = this.instanceGames.stream().filter(g -> g.getTitle().equals(title))
+		List<MiniGame> waitingGames = this.instanceGames.stream().filter(g -> g.title().equals(title))
 				.filter(Predicate.not(MiniGame::isStarted)).filter(party::canJoinGame).toList();
 
 		// create new game instance
 		if (waitingGames.isEmpty()) {
 			// check instance count
-			int maxInstances = templateGame.getSetting().getInstances();
+			int maxInstances = templateGame.setting().getInstances();
 			if (maxInstances != -1 && countInstances(templateGame) >= maxInstances) {
 				Utils.sendMsg(p, "Can not create more game instance");
 				return false;
 			}
 
 			// check location
-			if (!templateGame.getLocationManager().remainsExtra()) {
+			if (!templateGame.locationManager().remainsExtra()) {
 				Utils.sendMsg(p, "All game worlds are in using");
 				return false;
 			}
@@ -212,7 +212,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			// check party can join new instance game
 			if (!party.canJoinGame(templateGame)) {
 				Utils.sendMsg(p, "Your party(" + MwUtil.getInGamePlayers(party.getMembers(), true).size()
-						+ ") is too big to join the minigame(" + templateGame.getMaxPlayers() + ")");
+						+ ") is too big to join the minigame(" + templateGame.maxPlayers() + ")");
 				return false;
 			}
 
@@ -226,10 +226,10 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// join one of waiting(not started) games by join priority
 		else {
 			if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MAX_PLAYERS) {
-				instanceGame = waitingGames.stream().sorted((g1, g2) -> g2.getPlayerCount() - g1.getPlayerCount())
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g2.playerCount() - g1.playerCount())
 						.toList().get(0);
 			} else if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MIN_PLAYERS) {
-				instanceGame = waitingGames.stream().sorted((g1, g2) -> g1.getPlayerCount() - g2.getPlayerCount())
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g1.playerCount() - g2.playerCount())
 						.toList().get(0);
 			} else {// random
 				instanceGame = CollectionTool.random(waitingGames).get();
@@ -237,8 +237,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		Utils.debug("[Game try to join]");
-		Utils.debug("Title: " + instanceGame.getTitle() + ", Id: " + instanceGame.getSetting().getId());
-		return joinGame(p, title, instanceGame.getSetting().getId());
+		Utils.debug("Title: " + instanceGame.title() + ", Id: " + instanceGame.setting().getId());
+		return joinGame(p, title, instanceGame.setting().getId());
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		List<Player> notInGameMembers = MwUtil.getInGamePlayers(party.getMembers(), true);
 		if (!party.canJoinGame(instanceGame)) {
 			Utils.sendMsg(p, "Your party(" + notInGameMembers.size() + ") is too big to join the minigame("
-					+ templateGame.getMaxPlayers() + ")");
+					+ templateGame.maxPlayers() + ")");
 			return false;
 		}
 
@@ -346,7 +346,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		// check left waiting time
-		if (playingGame.getLeftWaitingTime() <= Setting.MIN_LEAVE_TIME) {
+		if (playingGame.leftWaitingTime() <= Setting.MIN_LEAVE_TIME) {
 			Utils.sendMsg(p, "You can't leave game (Reason: will start soon)");
 			return false;
 		}
@@ -369,7 +369,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check active and view setting
 		List<MiniGame> candidates = this.instanceGames.stream()
-				.filter(g -> g.getTitle().equals(title) && g.isActive() && g.getSetting().canView()).toList();
+				.filter(g -> g.title().equals(title) && g.isActive() && g.setting().canView()).toList();
 
 		if (candidates.isEmpty()) {
 			Utils.sendMsg(p, "There is no available game instance to view");
@@ -383,7 +383,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		} else {
 			randomGame = CollectionTool.random(startedGames).get();
 		}
-		return viewGame(p, title, randomGame.getSetting().getId());
+		return viewGame(p, title, randomGame.setting().getId());
 	}
 
 	/**
@@ -405,18 +405,18 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// check acitve
 		if (!game.isActive()) {
-			Utils.sendMsg(p, game.getColoredTitle() + " game is not active");
+			Utils.sendMsg(p, game.coloredTitle() + " game is not active");
 			return false;
 		}
 
 		// check view setting
-		if (!game.getSetting().canView()) {
-			Utils.sendMsg(p, game.getColoredTitle() + " game is not permitted to view");
+		if (!game.setting().canView()) {
+			Utils.sendMsg(p, game.coloredTitle() + " game is not permitted to view");
 			return false;
 		}
 
 		// send player as a viewer
-		return game.getViewManager().viewGame(p);
+		return game.viewManager().viewGame(p);
 	}
 
 	private boolean canViewGame(Player p, String title) {
@@ -462,7 +462,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 		// unview (leave) from the minigame
 		MiniGame minigame = getViewingGame(p);
-		return minigame.getViewManager().unviewGame(p);
+		return minigame.viewManager().unviewGame(p);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public MiniGame getViewingGame(Player p) {
 		for (MiniGame minigame : this.instanceGames) {
-			if (minigame.getViewManager().isViewing(p)) {
+			if (minigame.viewManager().isViewing(p)) {
 				return minigame;
 			}
 		}
@@ -603,7 +603,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		title = ChatColor.stripColor(title);
 
 		for (MiniGame game : this.templateGames) {
-			if (game.getTitle().equals(title)) {
+			if (game.title().equals(title)) {
 				return game;
 			}
 		}
@@ -624,7 +624,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public MiniGame getTemplateGame(Class<?> c) {
 		for (MiniGame game : this.templateGames) {
-			if (game.getClassName().equals(c.getSimpleName())) {
+			if (game.className().equals(c.getSimpleName())) {
 				return game;
 			}
 		}
@@ -643,7 +643,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		title = ChatColor.stripColor(title);
 
 		for (MiniGame game : this.instanceGames) {
-			if (game.getTitle().equals(title) && game.getSetting().getId().equals(id)) {
+			if (game.title().equals(title) && game.setting().getId().equals(id)) {
 				return game;
 			}
 		}
@@ -659,7 +659,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public MiniGame getInstanceGame(Class<?> c, String id) {
 		for (MiniGame game : this.instanceGames) {
-			if (game.getClassName().equals(c.getSimpleName()) && game.getSetting().getId().equals(id)) {
+			if (game.className().equals(c.getSimpleName()) && game.setting().getId().equals(id)) {
 				return game;
 			}
 		}
@@ -677,30 +677,30 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		try {
 			templateGame.getClass().getDeclaredConstructor();
 		} catch (NoSuchMethodException e) {
-			Utils.warning(templateGame.getTitleWithClassName() + ChatColor.RED
+			Utils.warning(templateGame.titleWithClassName() + ChatColor.RED
 					+ " can not be registered (Class doesn't have no argument constructor for game instance system)");
 			return false;
 		}
 
 		// can not register minigame which has same class name with others
 		if (this.existTemplateGame(templateGame)) {
-			Utils.warning(templateGame.getTitleWithClassName() + ChatColor.RED
+			Utils.warning(templateGame.titleWithClassName() + ChatColor.RED
 					+ " can not be registered (Same template minigame is already registered)");
 			return false;
 		}
 
 		// register member to YamlManager
-		this.yamlManager.registerMember(templateGame.getDataManager());
+		this.yamlManager.registerMember(templateGame.dataManager());
 
 		// check data already exists or not
-		if (templateGame.getDataManager().isMinigameDataExists()) {
-			templateGame.getDataManager().applyMiniGameDataToInstance();
+		if (templateGame.dataManager().isMinigameDataExists()) {
+			templateGame.dataManager().applyMiniGameDataToInstance();
 		} else {
-			templateGame.getDataManager().createMiniGameData();
+			templateGame.dataManager().createMiniGameData();
 		}
 
 		// save config directly for first load (data saved in config)
-		this.yamlManager.save(templateGame.getDataManager());
+		this.yamlManager.save(templateGame.dataManager());
 
 		// add to minigame list
 		this.templateGames.add(templateGame);
@@ -708,7 +708,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// notify minigame registration to observers
 		notifyObservers(templateGame, Timing.REGISTRATION);
 
-		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + templateGame.getTitleWithClassName() + ChatColor.RESET
+		Utils.info("" + ChatColor.GREEN + ChatColor.BOLD + templateGame.titleWithClassName() + ChatColor.RESET
 				+ " minigame is registered");
 		return true;
 	}
@@ -721,9 +721,9 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	private boolean existTemplateGame(MiniGame templateGame) {
 		// can not register minigame which has same class name with others
-		String newGameClassName = templateGame.getClassName();
+		String newGameClassName = templateGame.className();
 		for (MiniGame game : this.templateGames) {
-			String existGameClassName = game.getClassName();
+			String existGameClassName = game.className();
 			// distinguish with MiniGame class name
 			if (existGameClassName.equalsIgnoreCase(newGameClassName)) {
 				return true;
@@ -744,12 +744,12 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		}
 
 		// save and unregister minigame from yaml manager
-		this.yamlManager.save(templateGame.getDataManager());
-		this.yamlManager.unregisterMember(templateGame.getDataManager());
+		this.yamlManager.save(templateGame.dataManager());
+		this.yamlManager.unregisterMember(templateGame.dataManager());
 
 		// unregister
 		this.templateGames.remove(templateGame);
-		Utils.info("" + ChatColor.RED + ChatColor.BOLD + templateGame.getTitleWithClassName() + ChatColor.RESET
+		Utils.info("" + ChatColor.RED + ChatColor.BOLD + templateGame.titleWithClassName() + ChatColor.RESET
 				+ " minigame is unregistered");
 
 		// notify minigame unregistration to observers
@@ -762,7 +762,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		List<String> removedGames = new ArrayList<String>();
 
 		List<String> minigameStringList = new ArrayList<String>();
-		this.templateGames.forEach(m -> minigameStringList.add(m.getClassName()));
+		this.templateGames.forEach(m -> minigameStringList.add(m.className()));
 
 		File minigamesFolder = MwUtil.getMiniGamesDir();
 		for (File minigameFile : minigamesFolder.listFiles()) {
@@ -806,13 +806,13 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 
 			// register game event handler
 			this.gameListenerManager.registerGameListener(newInstance);
-			this.gameListenerManager.registerGameListener(newInstance.getCustomOption());
-			this.gameListenerManager.registerGameListener(newInstance.getInventoryManager());
+			this.gameListenerManager.registerGameListener(newInstance.customOption());
+			this.gameListenerManager.registerGameListener(newInstance.inventoryManager());
 			
 			// add instance to the list
 			this.instanceGames.add(newInstance);
 		} catch (NoSuchMethodException e) {
-			Utils.warning(templateGame.getTitleWithClassName()
+			Utils.warning(templateGame.titleWithClassName()
 					+ " doesn't have no arguments constructor! (Set \"debug-mode\" in settings.yml to true for details)");
 			exception = e;
 		} catch (SecurityException e) {
@@ -826,7 +826,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		if (exception != null && Setting.DEBUG_MODE) {
 			exception.printStackTrace();
 		} else {
-			Utils.debug(templateGame.getTitleWithClassName() + " instance created");
+			Utils.debug(templateGame.titleWithClassName() + " instance created");
 		}
 
 		return newInstance;
@@ -839,18 +839,18 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 */
 	public void updateInstanceGameData(MiniGame instance) {
 		MiniGame templateGame = getTemplateGame(instance.getClass());
-		instance.getDataManager().setData(templateGame.getDataManager().getData());
-		instance.getDataManager().applyMiniGameDataToInstance();
+		instance.dataManager().setData(templateGame.dataManager().getData());
+		instance.dataManager().applyMiniGameDataToInstance();
 	}
 
 	public void removeGameInstance(MiniGame instance) {
 		// [IMPORTANT] must called after all players left the location
-		instance.getLocationManager().reset();
+		instance.locationManager().reset();
 
 		// unregister game event handlers
 		this.gameListenerManager.unregisterGameListener(instance);
-		this.gameListenerManager.unregisterGameListener(instance.getCustomOption());
-		this.gameListenerManager.unregisterGameListener(instance.getInventoryManager());
+		this.gameListenerManager.unregisterGameListener(instance.customOption());
+		this.gameListenerManager.unregisterGameListener(instance.inventoryManager());
 
 		// remove
 		this.instanceGames.remove(instance);

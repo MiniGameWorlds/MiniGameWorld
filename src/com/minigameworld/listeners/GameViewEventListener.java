@@ -37,7 +37,7 @@ public class GameViewEventListener implements Listener {
 
 	private MiniGameViewManager getViewingManager(Player p) {
 		for (MiniGame g : MiniGameManager.getInstance().getInstanceGames()) {
-			MiniGameViewManager viewManager = g.getViewManager();
+			MiniGameViewManager viewManager = g.viewManager();
 			if (viewManager.isViewing(p)) {
 				return viewManager;
 			}

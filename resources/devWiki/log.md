@@ -285,13 +285,37 @@
 - Update for `1.19`
 
 ## 0.9.0
+### Summary
+- [Game instance system](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/game-instance.md) added
+- [World instance system](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/world-instance.md) added
+- From now on, [Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/) is required
+- All games and third-party plugins need update
+
 ### API Changes
+- Make API name simple
+- Add `game instance system` (There are registered `template games` and playing `instance games`)
+- Add `world instance system` (auto world creation and deletion)
+
+
 
 ### Build Changes
+- Wiki updated
+- Add dependency checker
+- Add `join-priority` option to settings.yml
+- `location` changed to `locations` in the game config
+- Add "party-invite-timeout" and "party-ask-timeout" options to settings.yml
+- Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1` (need game finish condition)
+- Fix chat system
 
 <details>
   <summary>API changes for developers</summary>
   
+  - Many refactored method names
+  - Remove "worldbiomusic" in the package name
+  - Rename "MiniGameWorldUtils" to "MwUtil"
+  - Event handling way has totally changed to new annotation using design (`onEvent(Event) will NOT work`)
+  - Add minigame id
+  - Add `creationTime`, `startTime` and `finishTime` to MiniGameSetting
   ```yaml
   - MiniGameManager: getMiniGameList() -> getTemplateGames()
   - MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
@@ -324,7 +348,7 @@
   - MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default= false))
   - MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
   
-  - MiniGameWorld: getMiniGameList() -> getTemplateGames()
+  - MiniGameWorld: getMiniGameList() -> templateGames()
   - MiniGameWorld: registerMiniGame() -> registerGame()
   - MiniGameWorld: unregisterMiniGame() -> unregisterGame()
   - MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
@@ -332,19 +356,74 @@
   - MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
   - MiniGameWorld: registerMiniGameObserver() -> registerObserver()
   - MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
+  - MiniGameWorld: getEventDetector() -> eventDetector()
+  - MiniGameWorld: getPartyManager() -> partyManager()
+  - MiniGameWorld: getManager() -> manager()
+  - MiniGameWorld: getSettings() -> settings()
+
   
   - PartyManager: sendMessageToPlayerPartyMembers() -> ()
   
   - Party: sendMessageToAllMembers() -> sendMessages(String)
   - Party: sendMessageToAllMembers() -> sendMessages(Component)
   - Party: canJoinMiniGame() -> canJoinGame()
+
+  - MiniGame: getPlayerData() -> getGamePlayer()
+  - MiniGame: getPlayerDataList() -> getGamePlayers()
+  - MiniGame: getSetting() -> setting()
+  - MiniGame: getMinPlayers() -> minPlayers()
+  - MiniGame: getPlayerCount() -> playerCount()
+  - MiniGame: getColoredTitle() -> coloredTitle()
+  - MiniGame: getMaxPlayers() -> maxPlayers()
+  - MiniGame: getPlayTime() -> playTime()
+  - MiniGame: getTutorial() -> tutorial()
+  - MiniGame: getPlayers() -> players()
+  - MiniGame: getRank() -> rank()
+  - MiniGame: getTitleWithClassName() -> titleWithClassName()
+  - MiniGame: getViewManager() -> viewManager()
+  - MiniGame: getGamePlayer() -> gamePlayer()
+  - MiniGame: getGamePlayers() -> gamePlayers()
+  - MiniGame: getScore() -> score()
+  - MiniGame: getLivePlayers() -> livePlayers()
+  - MiniGame: getLivePlayersCount() -> livePlayersCount()
+  - MiniGame: getGameFinishConditionPlayerCount() -> ()
+  - MiniGame: getTitle() -> title()
+  - MiniGame: getCustomOption() -> customOption()
+  - MiniGame: getLocation() -> location()
+  - MiniGame: getWaitingTime() -> waitingTime()
+  - MiniGame: getTutorial() -> tutorials()
+  - MiniGame: getCustomData() -> customData()
+  - MiniGame: getClassName() -> className()
+  - MiniGame: getLeftWaitingTime() -> leftWaitingTime()
+  - MiniGame: getLeftPlayTime() -> leftPlayTime()
+  - MiniGame: getTaskManager() -> taskManager()
+  - MiniGame: getDataManager() -> dataManager()
+  - MiniGame: getLocationManager() -> locationManager()
+  - MiniGame: getScoreboardManager() -> scoreboardManager()
+  - MiniGame: getInventoryManager() -> inventoryManager()
+  - MiniGame: getFrameType() -> frameType()
+
+  - MiniGameAccessor: getPlayers() -> players()
+  - MiniGameAccessor: getPlayerScore() -> score()
+  - MiniGameAccessor: getGamePlayers() -> gamePlayers()
+  - MiniGameAccessor: getSettings() -> settings()
+  - MiniGameAccessor: getSettingsData() -> settingsData()
+  - MiniGameAccessor: getCustomOption() -> customOption()
+  - MiniGameAccessor: getClassName() -> className()
+  - MiniGameAccessor: getLeftWaitTime() -> leftWaitTime()
+  - MiniGameAccessor: getLeftPlayTime() -> leftPlayTime()
+  - MiniGameAccessor: getRank() -> rank()
+  - MiniGameAccessor: getClassType() -> classType()
+  - MiniGameAccessor: getFrameType() -> frameType()
+  - MiniGameAccessor: getViewers() -> viewers()
+  - MiniGameAccessor: getScoreboard() -> scoreboard()
+
+
   
   - package: com.worldbiomusic.minigameworld -> com.minigameworld
   
-  - MiniGameWorldUtils class -> MwUtil class
-  
-  - MiniGame: getPlayerData() -> getGamePlayer()
-  - MiniGame: getPlayerDataList() -> getGamePlayers()
+  - class: MiniGameWorldUtils -> MwUtil 
+  - class: MiniGamePlayerData -> MiniGamePlayer
   ```
 </details>
 
@@ -1058,8 +1137,7 @@ if(!this.isMinPlayersLive()) {
 - Release `0.8.2`
 
 # 2022-06-26
-- Add Multiverse-Core as maven dependency
-- Multiverse-Core is now required for this plugin
+- Add Multiverse-Core as maven dependency (Multiverse-Core is now required for this plugin)
 - Add DependencyChecker (wbmMC, Multiverse-Core)
 - Add `template-worlds` option to settings.yml
 - Change `location` to `locations` in MiniGameSetting
@@ -1070,61 +1148,7 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-07-05
 - Add `instances` option to MiniGameSetting
-- Refactoring list
-```yaml
-- MiniGameManager: getMiniGameList() -> getTemplateGames()
-- MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
-- MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
-- MiniGameManager: hasSameMiniGame() -> existTemplateGame()
-- MiniGameManager: registerMiniGame() -> registerTemplateGame()
-- MiniGameManager: unregisterMiniGame() -> unregisterTemplateGame()
-- MiniGameManager: getMiniGameMenuManager() -> getMenuManager()
-- MiniGameManager: getMiniGameEventDetector() -> getEventDetector()
-- MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
-- MiniGameManager: isPlayingMiniGame() -> isPlayingGame()
-- MiniGameManager: getViewingMiniGame() -> getViewingGame()
-- MiniGameManager: isViewingMiniGame() -> isViewingGame()
-- MiniGameManager: getInMiniGame() -> getInGame()
-- MiniGameManager: isInMiniGame() -> isInGame()
-- MiniGameManager: removeNotExistMiniGameData() -> removeNotExistGameData()
-- MiniGameManager: getMiniGameWithTitle() -> getTemplateGame(String)
-- MiniGameManager: getMiniGameWithClassName() -> getTemplateGame(Class)
-- MiniGameManager: getMiniGamesDirectory() -> getMiniGamesDir()
-- MiniGameManager: checkPlayerIsPlayingMiniGame() -> isPlayingGame()
-- MiniGameManager: checkPlayerIsViewingMiniGame() -> isViewingGame()
-- MiniGameManager: checkPlayerIsInMiniGame() -> isInGame()
-- MiniGameManager: getPlayingMiniGame() -> getPlayingGame()
-- MiniGameManager: getViewingMiniGame() -> getViewingGame()
-- MiniGameManager: getInMiniGame() -> getInGame()
-- MiniGameManager: getPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(default= false))
-- MiniGameManager: getNotPlayingMiniGamePlayers() -> getPlayingGamePlayers(List players, boolean reverse(true))
-- MiniGameManager: getViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(default= false))
-- MiniGameManager: getNotViewingMiniGamePlayers() -> getViewingGamePlayers(List players, boolean reverse(true))
-- MiniGameManager: getInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(default= false))
-- MiniGameManager: getNotInMiniGamePlayers() -> getInGamePlayers(List players, boolean reverse(true))
-
-- MiniGameWorld: getMiniGameList() -> getTemplateGames()
-- MiniGameWorld: registerMiniGame() -> registerGame()
-- MiniGameWorld: unregisterMiniGame() -> unregisterGame()
-- MiniGameWorld: getMiniGameEventDetector() -> getEventDetector()
-- MiniGameWorld: registerMiniGameEventExternalDetector() -> registerExternalEventDetector()
-- MiniGameWorld: unregisterMiniGameEventExternalDetector() -> unregisterExternalEventDetector()
-- MiniGameWorld: registerMiniGameObserver() -> registerObserver()
-- MiniGameWorld: unregisterMiniGameObserver() -> unregisterObserver()
-
-- PartyManager: sendMessageToPlayerPartyMembers() -> ()
-
-- Party: sendMessageToAllMembers() -> sendMessages(String)
-- Party: sendMessageToAllMembers() -> sendMessages(Component)
-- Party: canJoinMiniGame() -> canJoinGame()
-
-- package: com.worldbiomusic.minigameworld -> com.minigameworld
-
-- MiniGameWorldUtils class -> MwUtil class
-
-- MiniGame: getPlayerData() -> getGamePlayer()
-- MiniGame: getPlayerDataList() -> getGamePlayers()
-```
+- Refactoring
 
 # 2022-07-08
 - Create game-instance-system frame
@@ -1196,14 +1220,14 @@ if(!this.isMinPlayersLive()) {
 - Update wiki and code refactoring
 
 # 2022-08-18
-- Add creationTime, startTime and finishTime to MiniGameSetting
+- Add `creationTime`, `startTime` and `finishTime` to MiniGameSetting
 - Change instance world naming
 
 # 2022-08-19
 - Fix GameListener
 - Add title checker
-
-
+- Add `particle()` to MiniGame
+- Rename `MiniGame`, `MiniGameWorld` and `MiniGameAccessor` methods to short
 
 
 

@@ -32,7 +32,7 @@ public class MiniGameDataManager implements YamlMember {
 	public void createMiniGameData() {
 		// [IMPORTANT] if do "this.data = minigame.getSetting().getFileSetting()",
 		// YamlManager's config will lost this.data
-		for (Entry<String, Object> entry : minigame.getSetting().getFileSetting().entrySet()) {
+		for (Entry<String, Object> entry : minigame.setting().getFileSetting().entrySet()) {
 			this.data.put(entry.getKey(), entry.getValue());
 		}
 
@@ -55,7 +55,7 @@ public class MiniGameDataManager implements YamlMember {
 		File gamesFolder = MwUtil.getMiniGamesDir();
 		for (File f : gamesFolder.listFiles()) {
 			String fileName = Files.getNameWithoutExtension(f.getName());
-			if (fileName.equals(this.getClassName())) {
+			if (fileName.equals(getClassName())) {
 				return f;
 			}
 		}
@@ -65,27 +65,27 @@ public class MiniGameDataManager implements YamlMember {
 	// then overwrite saved minigame data to MiniGame instance
 	public void applyMiniGameDataToInstance() {
 		// Make copy of pure setting data
-		Map<String, Object> pureSettingData = new LinkedHashMap<String, Object>(minigame.getSetting().getFileSetting());
+		Map<String, Object> pureSettingData = new LinkedHashMap<String, Object>(minigame.setting().getFileSetting());
 
 		// sync map keys
 		Utils.syncMapKeys(this.data, pureSettingData);
 
 		// apply settings
-		this.minigame.getSetting().setFileSetting(this.data);
+		this.minigame.setting().setFileSetting(this.data);
 
 		// restore edited values to fixed values
-		if (this.minigame.getSetting().isSettingFixed()) {
+		if (this.minigame.setting().isSettingFixed()) {
 			// minPlayers
-			this.data.put(Setting.GAMES_MIN_PLAYERS, this.minigame.getMinPlayers());
+			this.data.put(Setting.GAMES_MIN_PLAYERS, this.minigame.minPlayers());
 
 			// maxPlayers
-			this.data.put(Setting.GAMES_MAX_PLAYERS, this.minigame.getMaxPlayers());
+			this.data.put(Setting.GAMES_MAX_PLAYERS, this.minigame.maxPlayers());
 
 			// playTime
-			this.data.put(Setting.GAMES_PLAY_TIME, this.minigame.getPlayTime());
+			this.data.put(Setting.GAMES_PLAY_TIME, this.minigame.playTime());
 
 			// customData
-			this.data.put(Setting.GAMES_CUSTOM_DATA, this.minigame.getCustomData());
+			this.data.put(Setting.GAMES_CUSTOM_DATA, this.minigame.customData());
 		}
 
 		// process exception
@@ -103,7 +103,7 @@ public class MiniGameDataManager implements YamlMember {
 	}
 
 	public String getClassName() {
-		return this.minigame.getClassName();
+		return this.minigame.className();
 	}
 
 	public void setData(Map<String, Object> data) {
@@ -118,10 +118,10 @@ public class MiniGameDataManager implements YamlMember {
 	public void setData(YamlManager yamlManager, FileConfiguration config) {
 		this.yamlManager = yamlManager;
 
-		if (config.isSet(this.getClassName())) {
-			this.data = YamlHelper.ObjectToMap(config.getConfigurationSection(this.getClassName()));
+		if (config.isSet(getClassName())) {
+			this.data = YamlHelper.ObjectToMap(config.getConfigurationSection(getClassName()));
 		}
-		config.set(this.getClassName(), this.data);
+		config.set(getClassName(), this.data);
 
 		// [IMPORTANT] This called after yaml reload (apply file data to minigame)
 		applyMiniGameDataToInstance();
@@ -139,6 +139,6 @@ public class MiniGameDataManager implements YamlMember {
 	@Override
 	public String getFileName() {
 		// in "games" directory
-		return Setting.MINIGAMES_DIR + File.separator + this.getClassName() + ".yml";
+		return Setting.MINIGAMES_DIR + File.separator + getClassName() + ".yml";
 	}
 }

@@ -30,10 +30,10 @@ public abstract class TeamMiniGame extends MiniGame {
 		super(title, minPlayers, maxPlayers, playTime, waitingTime);
 
 		// Even one player can play game
-		getSetting().setGameFinishConditionPlayerCount(1);
+		setting().setGameFinishConditionPlayerCount(1);
 
 		// set custom team scoreboard updater
-		getScoreboardManager().setPlayScoreboardUpdater(new TeamMiniGameScoreboardUpdater(this));
+		scoreboardManager().setPlayScoreboardUpdater(new TeamMiniGameScoreboardUpdater(this));
 	}
 
 	/**
@@ -42,7 +42,7 @@ public abstract class TeamMiniGame extends MiniGame {
 	 * @return Team score
 	 */
 	protected int getTeamScore() {
-		return this.getScore(this.randomPlayer());
+		return this.score(this.randomPlayer());
 	}
 
 	/**
@@ -65,8 +65,8 @@ public abstract class TeamMiniGame extends MiniGame {
 
 	@Override
 	protected void printScores() {
-		String allPlayersName = PlayerTool.getPlayersNameString(this.getPlayers(), ",");
-		getPlayers().forEach(p -> {
+		String allPlayersName = PlayerTool.getPlayersNameString(this.players(), ",");
+		players().forEach(p -> {
 			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
 			sendMessage(p, this.messenger.getMsg(p, "team") + "(" + allPlayersName + ")" + ": " + ChatColor.GOLD
 					+ getTeamScore(), false);
@@ -74,16 +74,16 @@ public abstract class TeamMiniGame extends MiniGame {
 	}
 
 	@Override
-	public List<? extends MiniGameRank> getRank() {
+	public List<? extends MiniGameRank> rank() {
 		List<MiniGameRank> list = new ArrayList<>();
-		if (getPlayerCount() > 0) {
-			list.add(new OneTeam(getPlayers(), getTeamScore()));
+		if (playerCount() > 0) {
+			list.add(new OneTeam(players(), getTeamScore()));
 		}
 		return list;
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "Team";
 	}
 
@@ -130,7 +130,7 @@ class TeamMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdater {
 		addEmptyLineToSiderbar();
 
 		// left time
-		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftPlayTime();
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.leftPlayTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);
 	}

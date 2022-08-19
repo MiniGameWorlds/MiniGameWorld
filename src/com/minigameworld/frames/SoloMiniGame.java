@@ -23,7 +23,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	public SoloMiniGame(String title, int playTime, int waitingTime) {
 		super(title, 1, 1, playTime, waitingTime);
 
-		getSetting().setGameFinishConditionPlayerCount(1);
+		setting().setGameFinishConditionPlayerCount(1);
 	}
 
 	/**
@@ -32,7 +32,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	 * @return Solo player
 	 */
 	protected Player getSoloPlayer() {
-		return this.getPlayers().get(0);
+		return this.players().get(0);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	 * @return Solo player's score
 	 */
 	protected int getScore() {
-		return this.getScore(getSoloPlayer());
+		return this.score(getSoloPlayer());
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public abstract class SoloMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "Solo";
 	}
 

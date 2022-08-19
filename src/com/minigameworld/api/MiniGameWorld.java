@@ -189,7 +189,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return Instance
 	 */
-	public MiniGameEventDetector getEventDetector() {
+	public MiniGameEventDetector eventDetector() {
 		return this.minigameManager.getEventDetector();
 	}
 
@@ -198,7 +198,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return MiniGameAccessor list
 	 */
-	public List<MiniGameAccessor> getTemplateGames() {
+	public List<MiniGameAccessor> templateGames() {
 		List<MiniGame> minigames = this.minigameManager.getTemplateGames();
 		List<MiniGameAccessor> minigameAccessors = new ArrayList<MiniGameAccessor>();
 		minigames.forEach(game -> minigameAccessors.add(new MiniGameAccessor(game)));
@@ -210,7 +210,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return MiniGameAccessor list
 	 */
-	public List<MiniGameAccessor> getInstanceGames() {
+	public List<MiniGameAccessor> instanceGames() {
 		List<MiniGame> minigames = this.minigameManager.getInstanceGames();
 		List<MiniGameAccessor> minigameAccessors = new ArrayList<MiniGameAccessor>();
 		minigames.forEach(game -> minigameAccessors.add(new MiniGameAccessor(game)));
@@ -287,7 +287,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return PartyManager
 	 */
-	public PartyManager getPartyManager() {
+	public PartyManager partyManager() {
 		return this.minigameManager.getPartyManager();
 	}
 
@@ -296,7 +296,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return {@link MiniGameManager}
 	 */
-	public MiniGameManager getManager() {
+	public MiniGameManager manager() {
 		return this.minigameManager;
 	}
 
@@ -305,7 +305,7 @@ public class MiniGameWorld {
 	 * 
 	 * @return Setting data
 	 */
-	public Map<String, Object> getSettings() {
+	public Map<String, Object> settings() {
 		return this.minigameManager.getSettings();
 	}
 

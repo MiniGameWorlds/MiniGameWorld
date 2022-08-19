@@ -115,7 +115,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		setTeamRegisterMode(TeamRegisterMode.FAIR_FILL);
 
 		// set custom team battle scoreboard updater
-		getScoreboardManager().setPlayScoreboardUpdater(new TeamBattleMiniGameScoreboardUpdater(this));
+		scoreboardManager().setPlayScoreboardUpdater(new TeamBattleMiniGameScoreboardUpdater(this));
 	}
 
 	/**
@@ -382,7 +382,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param teamRegisterMode TeamRegisterMode
 	 */
 	protected void setTeamRegisterMode(TeamRegisterMode teamRegisterMode) {
-		this.getCustomData().put("team-register-mode", teamRegisterMode.name());
+		this.customData().put("team-register-mode", teamRegisterMode.name());
 	}
 
 	/**
@@ -391,7 +391,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return TeamRegisterMode
 	 */
 	public TeamRegisterMode getTeamRegisterMode() {
-		return TeamRegisterMode.valueOf((String) this.getCustomData().get("team-register-mode"));
+		return TeamRegisterMode.valueOf((String) this.customData().get("team-register-mode"));
 	}
 
 	
@@ -402,7 +402,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param groupChat groupChat
 	 */
 	protected void setGroupChat(boolean groupChat) {
-		this.getCustomData().put("group-chat", groupChat);
+		this.customData().put("group-chat", groupChat);
 	}
 
 	/**
@@ -411,7 +411,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return True if enabled
 	 */
 	protected boolean isGroupChat() {
-		return (boolean) this.getCustomData().get("group-chat");
+		return (boolean) this.customData().get("group-chat");
 	}
 
 	/**
@@ -422,7 +422,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param teamPvp groupChat
 	 */
 	protected void setTeamPVP(boolean teamPvp) {
-		this.getCustomData().put("team-pvp", teamPvp);
+		this.customData().put("team-pvp", teamPvp);
 	}
 
 	/**
@@ -431,7 +431,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return True if enabled
 	 */
 	protected boolean isTeamPvp() {
-		return (boolean) this.getCustomData().get("team-pvp");
+		return (boolean) this.customData().get("team-pvp");
 	}
 
 	/**
@@ -441,7 +441,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @param teamSize Team size
 	 */
 	protected void setTeamSize(int teamSize) {
-		getCustomData().put("team-size", teamSize);
+		customData().put("team-size", teamSize);
 	}
 
 	/**
@@ -450,11 +450,11 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Team size
 	 */
 	public int getTeamSize() {
-		return (int) getCustomData().get("team-size");
+		return (int) customData().get("team-size");
 	}
 
 	public int getTeamCountLimit() {
-		return getMaxPlayers() / getTeamSize();
+		return maxPlayers() / getTeamSize();
 	}
 
 	/**
@@ -591,7 +591,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	@Override
 	protected boolean isLessThanPlayersLive() {
-		return getLiveTeamCount() < getSetting().getGameFinishConditionPlayerCount();
+		return getLiveTeamCount() < setting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
@@ -612,7 +612,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	@Override
 	protected boolean isMoreThanPlayersLive() {
-		return getLiveTeamCount() > getSetting().getGameFinishConditionPlayerCount();
+		return getLiveTeamCount() > setting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
@@ -633,7 +633,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	@Override
 	protected boolean isLessThanPlayersLeft() {
-		return notEmptyTeamList().size() < getSetting().getGameFinishConditionPlayerCount();
+		return notEmptyTeamList().size() < setting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
@@ -662,7 +662,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 				ChatColor.DARK_BLUE, ChatColor.DARK_GRAY, ChatColor.DARK_GREEN, ChatColor.DARK_PURPLE,
 				ChatColor.DARK_RED, }));
 
-		int teamCount = getMaxPlayers() / getTeamSize();
+		int teamCount = maxPlayers() / getTeamSize();
 		for (int i = 0; i < teamCount; i++) {
 			Team team;
 			if (i < colors.size()) {
@@ -710,7 +710,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	private void registerPlayers_FAIR() {
 		// shuffle player list
 		List<Player> players = new ArrayList<>();
-		getPlayers().forEach(players::add);
+		players().forEach(players::add);
 		Collections.shuffle(players);
 
 		players.forEach(p -> this.registerPlayerToMinPlayerCountTeam(p));
@@ -722,7 +722,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	private void registerPlayers_FILL() {
 		// shuffle player list
 		List<Player> players = new ArrayList<>();
-		getPlayers().forEach(players::add);
+		players().forEach(players::add);
 		Collections.shuffle(players);
 
 		players.forEach(p -> this.registerPlayerToMaxPlayerCountTeam(p));
@@ -734,17 +734,17 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	private void registerPlayers_FAIR_FILL() {
 		// [IMPORTANT] All teams must have the same max player count
 		int teamMemberCount = this.allTeams.get(0).maxCount();
-		int maxTeamCount = (int) Math.ceil((double) this.getPlayerCount() / teamMemberCount);
+		int maxTeamCount = (int) Math.ceil((double) this.playerCount() / teamMemberCount);
 		if (maxTeamCount == 1) {
 			maxTeamCount += 1;
 		}
-		int memberCountPerTeam = this.getPlayerCount() / maxTeamCount;
+		int memberCountPerTeam = this.playerCount() / maxTeamCount;
 
 		int createdTeamCount = 0;
 		int playerIndex = 0;
 		// shuffle player list
 		List<Player> players = new ArrayList<>();
-		getPlayers().forEach(players::add);
+		players().forEach(players::add);
 		Collections.shuffle(players);
 
 		while (true) {
@@ -762,7 +762,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		}
 
 		// register remain players to `min player count teams`
-		while (playerIndex < this.getPlayerCount()) {
+		while (playerIndex < this.playerCount()) {
 			Player p = players.get(playerIndex);
 			this.registerPlayerToMinPlayerCountTeam(p);
 			playerIndex += 1;
@@ -773,7 +773,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * TeamBattleMiniGame.TeamRegisterMode = RANDOM
 	 */
 	private void registerPlayers_RANDOM() {
-		this.getPlayers().forEach(p -> this.registerPlayerToRandomTeam(p));
+		this.players().forEach(p -> this.registerPlayerToRandomTeam(p));
 	}
 
 	/**
@@ -781,9 +781,9 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 */
 	private void registerPlayers_PARTY() {
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		PartyManager partyManager = mw.getPartyManager();
+		PartyManager partyManager = mw.partyManager();
 		for (Team team : this.allTeams) {
-			for (Player p : getPlayers()) {
+			for (Player p : players()) {
 				if (hasTeam(p)) {
 					continue;
 				}
@@ -853,13 +853,13 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	@Override
 	protected void printScores() {
 		// print team score in descending order
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]");
 		});
 
 		// rank team by score
 		@SuppressWarnings("unchecked")
-		List<Team> teams = (List<Team>) this.getRank();
+		List<Team> teams = (List<Team>) this.rank();
 
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
@@ -875,7 +875,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 			}
 			rankString += rank + "" + ChatColor.RESET + "] ";
 
-			for (Player all : getPlayers()) {
+			for (Player all : players()) {
 				sendMessage(all, rankString + this.messenger.getMsg(all, "team") + "(" + memberString + ")" + ": "
 						+ ChatColor.GOLD + score, false);
 			}
@@ -891,7 +891,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	 * @return Ordered team list by score
 	 */
 	@Override
-	public List<? extends MiniGameRank> getRank() {
+	public List<? extends MiniGameRank> rank() {
 		List<Team> notEmptyTeams = new ArrayList<>();
 		for (Team t : this.allTeams) {
 			if (!t.isEmpty()) {
@@ -918,7 +918,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "TeamBattle";
 	}
 
@@ -1003,7 +1003,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		 */
 		@Override
 		public int getScore() {
-			return TeamBattleMiniGame.this.getScore(this.getRandomMember());
+			return TeamBattleMiniGame.this.score(this.getRandomMember());
 		}
 
 		/**
@@ -1123,7 +1123,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 		public List<Player> getLiveMembers() {
 			List<Player> liveMembers = new ArrayList<>();
 			for (Player member : this.members) {
-				if (getLivePlayers().contains(member)) {
+				if (livePlayers().contains(member)) {
 					liveMembers.add(member);
 				}
 			}
@@ -1233,7 +1233,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 			for (Player p : team.getMembers()) {
 				String playerStr = "- ";
 
-				MiniGamePlayer pData = minigame.getGamePlayer(p);
+				MiniGamePlayer pData = minigame.gamePlayer(p);
 				if (pData.isLive()) {
 					playerStr = playerStr + ChatColor.WHITE + p.getName() + ChatColor.RESET;
 				} else {
@@ -1252,7 +1252,7 @@ class TeamBattleMiniGameScoreboardUpdater extends MiniGameScoreboardSidebarUpdat
 		// left time
 		// TODO: change "Time left" to "<time-left>" and replace placeholder in
 		// scoreboard manager
-		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.getLeftPlayTime();
+		String leftTimeStr = "Time left: " + ChatColor.RED + ChatColor.BOLD + minigame.leftPlayTime();
 		Score leftTime = sidebarObjective.getScore(leftTimeStr);
 		leftTime.setScore(this.sidebarScoreLine--);
 	}

@@ -48,9 +48,9 @@ public class MiniGameEventListener implements Listener {
 		Player p = e.getPlayer();
 
 		// check entered party count
-		int playersPartyCount = PartyManager.getPartyCountOfPlayers(game.getPlayers());
+		int playersPartyCount = PartyManager.getPartyCountOfPlayers(game.players());
 		if (playersPartyCount >= game.getTeamCountLimit()) {
-			game.sendMessage(p, game.getTitle() + " already has full parties");
+			game.sendMessage(p, game.title() + " already has full parties");
 			e.setCancelled(true);
 			return;
 		}
@@ -78,7 +78,7 @@ public class MiniGameEventListener implements Listener {
 			return;
 		}
 
-		int partyCount = PartyManager.getPartyCountOfPlayers(game.getPlayers());
+		int partyCount = PartyManager.getPartyCountOfPlayers(game.players());
 		if (partyCount <= 1) {
 			game.sendMessages("Game can't start with only one party (team)");
 			e.setCancelled(true);

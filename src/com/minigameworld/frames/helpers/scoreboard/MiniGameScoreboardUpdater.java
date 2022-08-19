@@ -17,7 +17,7 @@ public abstract class MiniGameScoreboardUpdater {
 
 	public MiniGameScoreboardUpdater(MiniGame minigame) {
 		this.minigame = minigame;
-		this.scoreboard = minigame.getScoreboardManager().getScoreboard();
+		this.scoreboard = minigame.scoreboardManager().getScoreboard();
 		this.sidebarScoreLine = 0;
 		this.emptyLineString = "";
 	}

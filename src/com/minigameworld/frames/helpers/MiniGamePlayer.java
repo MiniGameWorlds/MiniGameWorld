@@ -104,8 +104,8 @@ public class MiniGamePlayer implements MiniGameRank, Cloneable {
 		this.live = live;
 
 		// set gamemode with custom option
-		GameMode liveGameMode = (GameMode) this.minigame.getCustomOption().get(Option.LIVE_GAMEMODE);
-		GameMode deadGameMode = (GameMode) this.minigame.getCustomOption().get(Option.DEAD_GAMEMODE);
+		GameMode liveGameMode = (GameMode) this.minigame.customOption().get(Option.LIVE_GAMEMODE);
+		GameMode deadGameMode = (GameMode) this.minigame.customOption().get(Option.DEAD_GAMEMODE);
 
 		this.player.setGameMode(live ? liveGameMode : deadGameMode);
 

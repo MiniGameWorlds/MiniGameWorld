@@ -29,17 +29,17 @@ public class MiniGameTaskManager {
 		this.taskManager.cancelAllTasks();
 
 		// timer counter
-		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
-		this.finishCounter = new Counter(this.minigame.getPlayTime() + 1);
+		this.waitingCounter = new Counter(this.minigame.waitingTime() + 1);
+		this.finishCounter = new Counter(this.minigame.playTime() + 1);
 	}
 
 	public void runWaitingTask() {
 		// check timer is set to -1 (infinite)
-		if (this.minigame.getWaitingTime() == -1) {
+		if (this.minigame.waitingTime() == -1) {
 			return;
 		}
 
-		this.waitingCounter = new Counter(this.minigame.getWaitingTime() + 1);
+		this.waitingCounter = new Counter(this.minigame.waitingTime() + 1);
 		this.taskManager.runTaskTimer(WAITING_TIMER_NAME, 0, 20);
 	}
 
@@ -49,11 +49,11 @@ public class MiniGameTaskManager {
 
 	public void runFinishTask() {
 		// check timer is set to -1 (infinite)
-		if (this.minigame.getPlayTime() == -1) {
+		if (this.minigame.playTime() == -1) {
 			return;
 		}
 
-		this.finishCounter = new Counter(this.minigame.getPlayTime() + 1);
+		this.finishCounter = new Counter(this.minigame.playTime() + 1);
 		this.taskManager.runTaskTimer(PLAY_TIMER_NAME, 0, 20);
 	}
 
@@ -90,7 +90,7 @@ public class MiniGameTaskManager {
 
 				// play sound
 				if (waitTime <= 3) {
-					minigame.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
+					minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
 				}
 			}
 		});
@@ -119,7 +119,7 @@ public class MiniGameTaskManager {
 					minigame.sendTitles(time, "", 4, 12, 4);
 
 					// play sound
-					minigame.getPlayers().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
+					minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
 				}
 			}
 		});

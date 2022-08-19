@@ -238,10 +238,10 @@ public abstract class MiniGame implements GameEventListener {
 		this.locationManager = new LocationManager(this);
 
 		// register tutorial
-		this.getSetting().setTutorial(this.tutorial());
+		setting().setTutorial(this.tutorial());
 
 		// register custom data
-		this.initCustomData();
+		initCustomData();
 
 		// custom option
 		this.customOption = new MiniGameCustomOption(this);
@@ -273,7 +273,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * Init(reset) base settings
 	 */
 	private void initBaseSettings() {
-		getSetting().setStarted(false);
+		setting().setStarted(false);
 
 		this.players.clear();
 
@@ -359,9 +359,9 @@ public abstract class MiniGame implements GameEventListener {
 		onPlayerLeave(p, messenger.getMsg(p, "before-start"));
 
 		// notify message to party members
-		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
+		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).partyManager().getPlayerParty(p);
 		if (party.getSize() > 1) {
-			party.sendMessages(p.getName() + " left " + getColoredTitle() + " minigame with party");
+			party.sendMessages(p.getName() + " left " + coloredTitle() + " minigame with party");
 		}
 
 		return true;
@@ -376,8 +376,8 @@ public abstract class MiniGame implements GameEventListener {
 	private void onPlayerLeave(Player p, String reason) {
 		if (reason != null) {
 			String msg = this.messenger.getMsg(p, "leave-message",
-					new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
-							{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayers() },
+					new String[][] { { "player", p.getName() }, { "minigame", coloredTitle() },
+							{ "player-count", "" + playerCount() }, { "max-player-count", "" + maxPlayers() },
 							{ "reason", reason } });
 
 			// notify other players to join the game
@@ -414,7 +414,7 @@ public abstract class MiniGame implements GameEventListener {
 		printInfo(p);
 
 		// notify all players to join the game
-		int needPlayersCount = getMinPlayers() - getPlayerCount();
+		int needPlayersCount = minPlayers() - playerCount();
 		String needPlayers = "";
 		if (needPlayersCount > 0) {
 			needPlayers = this.messenger.getMsg(p, "need-players", new String[][] {
@@ -422,8 +422,8 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		String msg = this.messenger.getMsg(p, "join-message",
-				new String[][] { { "player", p.getName() }, { "minigame", getColoredTitle() },
-						{ "player-count", "" + getPlayerCount() }, { "max-player-count", "" + getMaxPlayers() } });
+				new String[][] { { "player", p.getName() }, { "minigame", coloredTitle() },
+						{ "player-count", "" + playerCount() }, { "max-player-count", "" + maxPlayers() } });
 		msg += "\n" + needPlayers;
 
 		if (Setting.ISOLATED_JOIN_QUIT_MESSAGE) {
@@ -433,9 +433,9 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		// notify message to party members
-		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).getPartyManager().getPlayerParty(p);
+		Party party = MiniGameWorld.create(MiniGameWorld.API_VERSION).partyManager().getPlayerParty(p);
 		if (party.getSize() > 1) {
-			party.sendMessages(p.getName() + " joined " + getColoredTitle() + " minigame with party");
+			party.sendMessages(p.getName() + " joined " + coloredTitle() + " minigame with party");
 		}
 	}
 
@@ -447,18 +447,18 @@ public abstract class MiniGame implements GameEventListener {
 	private void printInfo(Player p) {
 		p.sendMessage("");
 		p.sendMessage(ChatColor.GREEN + "=================================");
-		p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
+		p.sendMessage("" + ChatColor.BOLD + this.coloredTitle());
 
 		// print rule
 		String ruleMsg = this.messenger.getMsg(p, "rule");
 		p.sendMessage("\n" + ChatColor.BOLD + "[" + ruleMsg + "]");
 
 		p.sendMessage("- " + this.messenger.getMsg(p, "play-time-in-rule",
-				new String[][] { { "play-time", "" + getPlayTime() } }));
+				new String[][] { { "play-time", "" + playTime() } }));
 
 		// tutorial
-		if (getTutorial() != null) {
-			for (String msg : this.getTutorial()) {
+		if (tutorials() != null) {
+			for (String msg : tutorials()) {
 				p.sendMessage("- " + msg);
 			}
 		}
@@ -490,11 +490,11 @@ public abstract class MiniGame implements GameEventListener {
 	 */
 	public boolean startGame() {
 		// check min player count
-		if (getPlayerCount() < getMinPlayers()) {
-			int needPlayerCount = getMinPlayers() - getPlayerCount();
+		if (playerCount() < minPlayers()) {
+			int needPlayerCount = minPlayers() - playerCount();
 			// send message
 			sendMessages(ChatColor.RED + "Game can not start");
-			this.messenger.sendMsg(getPlayers(), "need-players",
+			this.messenger.sendMsg(players(), "need-players",
 					new String[][] { { "need-player-count", "" + ChatColor.RED + needPlayerCount + ChatColor.RESET } });
 
 			// restart waiting task
@@ -511,14 +511,14 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		// start
-		getSetting().setStarted(true);
-		getSetting().setStartTime(LocalDateTime.now());
+		setting().setStarted(true);
+		setting().setStartTime(LocalDateTime.now());
 
 		// play sound
 		playSounds(Setting.START_SOUND);
 
 		// starting title
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			sendTitle(p, this.messenger.getMsg(p, "start"), "", 4, 20 * 2, 4);
 		});
 
@@ -548,7 +548,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		getSetting().setFinishTime(LocalDateTime.now());
+		setting().setFinishTime(LocalDateTime.now());
 
 		// [IMPORTANT] stop all active tasks immediately after finish
 		initTasks();
@@ -565,7 +565,7 @@ public abstract class MiniGame implements GameEventListener {
 		List<MiniGamePlayer> leavingPlayers = new ArrayList<>(this.players);
 
 		// setup player
-		getPlayers().forEach(p -> onPlayerLeave(p, null));
+		players().forEach(p -> onPlayerLeave(p, null));
 
 		// notify finish event to observers (after setup player leaving settings (e.g.
 		// give reward(item) after state restored))
@@ -591,23 +591,23 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		// title
-		for (Player p : this.getPlayers()) {
+		for (Player p : this.players()) {
 			// break line
 			p.sendMessage("");
 			p.sendMessage(ChatColor.RED + "=================================");
-			p.sendMessage("" + ChatColor.BOLD + this.getColoredTitle());
+			p.sendMessage("" + ChatColor.BOLD + this.coloredTitle());
 			p.sendMessage("");
 		}
 
 		// send finish title
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			sendTitle(p, this.messenger.getMsg(p, "finish"), "", 4, 20 * 2, 4);
 		});
 
 		// print score
 		printScores();
 
-		this.getPlayers().forEach(p -> p.sendMessage(ChatColor.RED + "================================="));
+		this.players().forEach(p -> p.sendMessage(ChatColor.RED + "================================="));
 	}
 
 	/**
@@ -615,10 +615,10 @@ public abstract class MiniGame implements GameEventListener {
 	 * Can print format differently depending on game type
 	 */
 	protected void printScores() {
-		getPlayers().forEach(p -> p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
+		players().forEach(p -> p.sendMessage(ChatColor.BOLD + "[" + this.messenger.getMsg(p, "score") + "]"));
 
 		@SuppressWarnings("unchecked")
-		List<MiniGamePlayer> rankList = (List<MiniGamePlayer>) this.getRank();
+		List<MiniGamePlayer> rankList = (List<MiniGamePlayer>) rank();
 		int rank = 1;
 		ChatColor[] rankColors = { ChatColor.RED, ChatColor.GREEN, ChatColor.BLUE };
 
@@ -644,7 +644,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Ordered data
 	 */
-	public List<? extends MiniGameRank> getRank() {
+	public List<? extends MiniGameRank> rank() {
 		Collections.sort(this.players);
 		return this.players;
 	}
@@ -668,14 +668,14 @@ public abstract class MiniGame implements GameEventListener {
 			Player p = e.getPlayer();
 
 			// debug
-			Utils.debug(getTitleWithClassName() + " handles player exception (" + p.getName() + ")");
+			Utils.debug(titleWithClassName() + " handles player exception (" + p.getName() + ")");
 			Utils.debug("Reason: " + exception.getReason() + "\n");
 
 			sendMessage(p, this.messenger.getMsg(p, "exception") + ": " + exception.getReason());
 
 			// check player is a viewer
-			if (getViewManager().isViewing(p)) {
-				getViewManager().handleException(exception);
+			if (viewManager().isViewing(p)) {
+				viewManager().handleException(exception);
 				return;
 			}
 
@@ -694,14 +694,14 @@ public abstract class MiniGame implements GameEventListener {
 		// if the event is minigame exception or server exception
 		else {
 			// debug
-			Utils.debug(getTitleWithClassName() + " handles exception");
+			Utils.debug(titleWithClassName() + " handles exception");
 			Utils.debug("Reason: " + exception.getReason() + "\n");
 
-			getPlayers()
+			players()
 					.forEach(p -> sendMessage(p, this.messenger.getMsg(p, "exception") + ": " + exception.getReason()));
 
 			// check player is a viewer
-			getViewManager().handleException(exception);
+			viewManager().handleException(exception);
 
 			// if started, finish game
 			if (isStarted()) {
@@ -714,7 +714,7 @@ public abstract class MiniGame implements GameEventListener {
 
 			// [IMPORTANT] don't use finishGame() here
 			// leave players
-			getPlayers().forEach(p -> onPlayerLeave(p, exception.getReason()));
+			players().forEach(p -> onPlayerLeave(p, exception.getReason()));
 
 			// remove self instance
 			MiniGameManager.getInstance().removeGameInstance(this);
@@ -725,7 +725,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * Check game finish condition
 	 */
 	public void checkGameFinishCondition() {
-		GameFinishCondition condition = this.getSetting().getGameFinishCondition();
+		GameFinishCondition condition = setting().getGameFinishCondition();
 		boolean needToFinish = false;
 
 		switch (condition) {
@@ -758,7 +758,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if no players in minigame
 	 */
 	public boolean isEmpty() {
-		return this.getPlayers().isEmpty();
+		return this.players().isEmpty();
 	}
 
 	/**
@@ -767,19 +767,19 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if players = max player count
 	 */
 	public boolean isFull() {
-		return this.getPlayerCount() == this.getMaxPlayers();
+		return this.playerCount() == this.maxPlayers();
 	}
 
 	/**
 	 * Check player is playing this minigame (not check player is viewing)<br>
-	 * To check player is viewing this minigame, get {@link #getViewManager()} and
+	 * To check player is viewing this minigame, get {@link #viewManager()} and
 	 * use {@link MiniGameViewManager#isViewing(Player)}
 	 * 
 	 * @param p Target player
 	 * @return True if player is playing minigame
 	 */
 	public boolean containsPlayer(Player p) {
-		return this.getGamePlayer(p) != null;
+		return gamePlayer(p) != null;
 	}
 
 	/**
@@ -787,7 +787,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Copied Player list
 	 */
-	public List<Player> getPlayers() {
+	public List<Player> players() {
 		List<Player> players = new ArrayList<>();
 		this.players.forEach(pData -> players.add(pData.getPlayer()));
 		return players;
@@ -798,8 +798,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return playing players count
 	 */
-	public int getPlayerCount() {
-		return this.getPlayers().size();
+	public int playerCount() {
+		return this.players().size();
 	}
 
 	/**
@@ -820,7 +820,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p leaving player
 	 */
 	private MiniGamePlayer removePlayer(Player p) {
-		MiniGamePlayer pData = this.getGamePlayer(p);
+		MiniGamePlayer pData = this.gamePlayer(p);
 		// restore player state
 		pData.getState().restorePlayerState();
 
@@ -842,7 +842,7 @@ public abstract class MiniGame implements GameEventListener {
 
 	public void sendMessage(Player p, String msg, boolean prefix) {
 		if (prefix) {
-			msg = "[" + this.getColoredTitle() + "] " + msg;
+			msg = "[" + this.coloredTitle() + "] " + msg;
 		}
 
 		p.sendMessage(msg);
@@ -858,7 +858,7 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	public void sendMessages(String msg, boolean prefix) {
-		getPlayers().forEach(p -> sendMessage(p, msg, prefix));
+		players().forEach(p -> sendMessage(p, msg, prefix));
 	}
 
 	/**
@@ -896,7 +896,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param fadeOut  Fade out time (tick)
 	 */
 	public void sendTitles(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		this.getPlayers().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
+		this.players().forEach(p -> this.sendTitle(p, title, subTitle, fadeIn, stay, fadeOut));
 	}
 
 	/**
@@ -926,7 +926,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param sound to play
 	 */
 	public void playSounds(Sound sound) {
-		getPlayers().forEach(p -> playSound(p, sound));
+		players().forEach(p -> playSound(p, sound));
 	}
 
 	/**
@@ -949,7 +949,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param speed    particle spreading speed
 	 */
 	public void particles(Particle particle, int count, int speed) {
-		getPlayers().forEach(p -> particle(p, particle, count, speed));
+		players().forEach(p -> particle(p, particle, count, speed));
 	}
 
 	/**
@@ -970,7 +970,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p Target player
 	 * @return PlayerData of p
 	 */
-	public MiniGamePlayer getGamePlayer(Player p) {
+	public MiniGamePlayer gamePlayer(Player p) {
 		for (MiniGamePlayer pData : this.players) {
 			if (pData.isSamePlayer(p)) {
 				return pData;
@@ -984,7 +984,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return PlayerData list
 	 */
-	public List<MiniGamePlayer> getGamePlayers() {
+	public List<MiniGamePlayer> gamePlayers() {
 		return this.players;
 	}
 
@@ -994,8 +994,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p Target player
 	 * @return Player's score
 	 */
-	public int getScore(Player p) {
-		return this.getGamePlayer(p).getScore();
+	public int score(Player p) {
+		return this.gamePlayer(p).getScore();
 	}
 
 	/**
@@ -1009,7 +1009,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayer pData = this.getGamePlayer(p);
+		MiniGamePlayer pData = this.gamePlayer(p);
 		pData.plusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1024,7 +1024,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param amount Score amount
 	 */
 	protected void plusEveryoneScore(int amount) {
-		this.getPlayers().forEach(p -> this.plusScore(p, amount));
+		this.players().forEach(p -> this.plusScore(p, amount));
 	}
 
 	/**
@@ -1038,7 +1038,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		MiniGamePlayer pData = this.getGamePlayer(p);
+		MiniGamePlayer pData = this.gamePlayer(p);
 		pData.minusScore(amount);
 		// check scoreNotifying
 		if ((boolean) this.customOption.get(Option.SCORE_NOTIFYING)) {
@@ -1053,7 +1053,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param amount Score amount
 	 */
 	protected void minusEveryoneScore(int amount) {
-		this.getPlayers().forEach(p -> this.minusScore(p, amount));
+		this.players().forEach(p -> this.minusScore(p, amount));
 	}
 
 	/**
@@ -1067,7 +1067,7 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		this.getGamePlayer(p).setLive(live);
+		this.gamePlayer(p).setLive(live);
 	}
 
 	/**
@@ -1081,7 +1081,7 @@ public abstract class MiniGame implements GameEventListener {
 			return false;
 		}
 
-		return this.getGamePlayer(p).isLive();
+		return this.gamePlayer(p).isLive();
 	}
 
 	/**
@@ -1089,10 +1089,10 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Live players list
 	 */
-	protected List<Player> getLivePlayers() {
+	protected List<Player> livePlayers() {
 		List<Player> livePlayers = new ArrayList<Player>();
-		for (Player p : this.getPlayers()) {
-			if (this.getGamePlayer(p).isLive()) {
+		for (Player p : this.players()) {
+			if (this.gamePlayer(p).isLive()) {
 				livePlayers.add(p);
 			}
 		}
@@ -1104,41 +1104,41 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Live players count
 	 */
-	protected int getLivePlayersCount() {
-		return this.getLivePlayers().size();
+	protected int livePlayersCount() {
+		return this.livePlayers().size();
 	}
 
 	/**
-	 * Check {@link #getLivePlayersCount()} is less than
+	 * Check {@link #livePlayersCount()} is less than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getLivePlayersCount()} is less than
+	 * @return True if {@link #livePlayersCount()} is less than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isLessThanPlayersLive() {
-		return getLivePlayersCount() < getSetting().getGameFinishConditionPlayerCount();
+		return livePlayersCount() < setting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
-	 * Check {@link #getLivePlayersCount()} is more than
+	 * Check {@link #livePlayersCount()} is more than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getLivePlayersCount()} is more than
+	 * @return True if {@link #livePlayersCount()} is more than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isMoreThanPlayersLive() {
-		return getLivePlayersCount() > getSetting().getGameFinishConditionPlayerCount();
+		return livePlayersCount() > setting().getGameFinishConditionPlayerCount();
 	}
 
 	/**
-	 * Check {@link #getPlayerCount()} is less than
+	 * Check {@link #playerCount()} is less than
 	 * {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 * 
-	 * @return True if {@link #getPlayerCount()} is less than
+	 * @return True if {@link #playerCount()} is less than
 	 *         {@link MiniGameSetting#getGameFinishConditionPlayerCount()}
 	 */
 	protected boolean isLessThanPlayersLeft() {
-		return this.getPlayerCount() < getSetting().getGameFinishConditionPlayerCount();
+		return this.playerCount() < setting().getGameFinishConditionPlayerCount();
 	}
 
 	/*
@@ -1150,8 +1150,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame title
 	 */
-	public String getTitle() {
-		return this.getSetting().getTitle();
+	public String title() {
+		return setting().getTitle();
 	}
 
 	/**
@@ -1159,9 +1159,9 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Colored minigame title
 	 */
-	public String getColoredTitle() {
-		ChatColor minigameColor = (ChatColor) this.getCustomOption().get(Option.COLOR);
-		return minigameColor + this.getTitle() + ChatColor.RESET;
+	public String coloredTitle() {
+		ChatColor minigameColor = (ChatColor) customOption().get(Option.COLOR);
+		return minigameColor + this.title() + ChatColor.RESET;
 	}
 
 	/**
@@ -1169,8 +1169,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame playing location
 	 */
-	public Location getLocation() {
-		return this.getSetting().getLocation().clone();
+	public Location location() {
+		return setting().getLocation().clone();
 	}
 
 	/**
@@ -1178,8 +1178,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame waiting time
 	 */
-	public int getWaitingTime() {
-		return this.getSetting().getWaitingTime();
+	public int waitingTime() {
+		return setting().getWaitingTime();
 	}
 
 	/**
@@ -1187,8 +1187,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame play time
 	 */
-	public int getPlayTime() {
-		return this.getSetting().getPlayTime();
+	public int playTime() {
+		return setting().getPlayTime();
 	}
 
 	/**
@@ -1196,8 +1196,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame max player count
 	 */
-	public int getMinPlayers() {
-		return this.getSetting().getMinPlayers();
+	public int minPlayers() {
+		return setting().getMinPlayers();
 	}
 
 	/**
@@ -1205,8 +1205,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame min player count
 	 */
-	public int getMaxPlayers() {
-		return this.getSetting().getMaxPlayers();
+	public int maxPlayers() {
+		return setting().getMaxPlayers();
 	}
 
 	/**
@@ -1215,7 +1215,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if minigame is active
 	 */
 	public boolean isActive() {
-		return this.getSetting().isActive();
+		return setting().isActive();
 	}
 
 	/**
@@ -1224,7 +1224,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return minigame id
 	 */
 	public String id() {
-		return this.getSetting().getId();
+		return setting().getId();
 	}
 
 	/**
@@ -1233,7 +1233,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return True if minigame has started
 	 */
 	public boolean isStarted() {
-		return getSetting().isStarted();
+		return setting().isStarted();
 	}
 
 	/**
@@ -1241,8 +1241,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame tutorial list
 	 */
-	public List<String> getTutorial() {
-		return this.getSetting().getTutorial();
+	public final List<String> tutorials() {
+		return setting().getTutorial();
 	}
 
 	/**
@@ -1250,8 +1250,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Minigame custom data map
 	 */
-	public Map<String, Object> getCustomData() {
-		return this.getSetting().getCustomData();
+	public Map<String, Object> customData() {
+		return setting().getCustomData();
 	}
 
 	/**
@@ -1259,8 +1259,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return title with class name
 	 */
-	public String getTitleWithClassName() {
-		return this.getTitle() + " [Class: " + this.getClassName() + "]";
+	public String titleWithClassName() {
+		return title() + " [Class: " + className() + "]";
 	}
 
 	/**
@@ -1268,8 +1268,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Simple class name
 	 */
-	public String getClassName() {
-		return this.getClass().getSimpleName();
+	public String className() {
+		return getClass().getSimpleName();
 	}
 
 	/**
@@ -1277,7 +1277,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return setting
 	 */
-	public MiniGameSetting getSetting() {
+	public MiniGameSetting setting() {
 		return this.setting;
 	}
 
@@ -1286,7 +1286,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Left waiting time
 	 */
-	public int getLeftWaitingTime() {
+	public int leftWaitingTime() {
 		return this.taskManager.getLeftWaitingTime();
 	}
 
@@ -1295,7 +1295,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Left play time
 	 */
-	public int getLeftPlayTime() {
+	public int leftPlayTime() {
 		return this.taskManager.getLeftPlayTime();
 	}
 
@@ -1304,7 +1304,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Task manager
 	 */
-	public TaskManager getTaskManager() {
+	public TaskManager taskManager() {
 		return this.taskManager.getTaskManager();
 	}
 
@@ -1313,7 +1313,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Data manager
 	 */
-	public MiniGameDataManager getDataManager() {
+	public MiniGameDataManager dataManager() {
 		return this.dataManager;
 	}
 
@@ -1322,7 +1322,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Location manager
 	 */
-	public LocationManager getLocationManager() {
+	public LocationManager locationManager() {
 		return this.locationManager;
 	}
 
@@ -1331,7 +1331,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Custom option
 	 */
-	public MiniGameCustomOption getCustomOption() {
+	public MiniGameCustomOption customOption() {
 		return this.customOption;
 	}
 
@@ -1340,7 +1340,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return View manager
 	 */
-	public MiniGameViewManager getViewManager() {
+	public MiniGameViewManager viewManager() {
 		return this.viewManager;
 	}
 
@@ -1349,7 +1349,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Scoreboard manager
 	 */
-	public MiniGameScoreboardManager getScoreboardManager() {
+	public MiniGameScoreboardManager scoreboardManager() {
 		return this.scoreboardManager;
 	}
 
@@ -1358,7 +1358,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * 
 	 * @return Inventory manager
 	 */
-	public MiniGameInventoryManager getInventoryManager() {
+	public MiniGameInventoryManager inventoryManager() {
 		return this.invManager;
 	}
 
@@ -1368,8 +1368,8 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return Random player
 	 */
 	protected Player randomPlayer() {
-		int random = (int) (Math.random() * this.getPlayerCount());
-		return this.getPlayers().get(random);
+		int random = (int) (Math.random() * this.playerCount());
+		return this.players().get(random);
 	}
 
 	/**
@@ -1378,7 +1378,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @return Null if there are no players
 	 */
 	protected Player topPlayer() {
-		List<MiniGamePlayer> sortedPlayers = getGamePlayers().stream()
+		List<MiniGamePlayer> sortedPlayers = gamePlayers().stream()
 				.sorted(Comparator.comparing(MiniGamePlayer::getScore).reversed()).toList();
 		if (sortedPlayers.isEmpty()) {
 			return null;
@@ -1398,7 +1398,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @see TeamMiniGame
 	 * @see TeamBattleMiniGame
 	 */
-	public String getFrameType() {
+	public String frameType() {
 		return "MiniGame";
 	}
 

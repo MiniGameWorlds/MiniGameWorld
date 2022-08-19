@@ -17,7 +17,7 @@ public abstract class SoloBattleMiniGame extends MiniGame {
 	}
 
 	@Override
-	public String getFrameType() {
+	public String frameType() {
 		return "SoloBattle";
 	}
 }

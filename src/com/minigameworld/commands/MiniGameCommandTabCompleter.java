@@ -77,7 +77,7 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void addMiniGameTitleCandidates() {
-		this.minigameManager.getTemplateGames().forEach(game -> this.candidates.add(game.getTitle()));
+		this.minigameManager.getTemplateGames().forEach(game -> this.candidates.add(game.title()));
 	}
 
 	private void addPartyCandidates() {
@@ -96,13 +96,13 @@ public class MiniGameCommandTabCompleter implements TabCompleter {
 	}
 
 	private void addMiniGameClassCandidates() {
-		this.minigameManager.getTemplateGames().forEach(m -> candidates.add(m.getClassName()));
+		this.minigameManager.getTemplateGames().forEach(m -> candidates.add(m.className()));
 	}
 
 	private void addMiniGameConfigKeyCandidates() {
 		List<MiniGame> minigames = this.minigameManager.getTemplateGames();
 		if (!minigames.isEmpty()) {
-			minigames.get(0).getDataManager().getData().keySet().forEach(key -> candidates.add(key));
+			minigames.get(0).dataManager().getData().keySet().forEach(key -> candidates.add(key));
 		}
 	}
 

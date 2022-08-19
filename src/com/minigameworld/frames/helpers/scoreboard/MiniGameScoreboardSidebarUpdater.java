@@ -17,7 +17,7 @@ public class MiniGameScoreboardSidebarUpdater extends MiniGameScoreboardUpdater 
 		Objective sidebarObjective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 
 		// title
-		sidebarObjective.setDisplayName(minigame.getColoredTitle());
+		sidebarObjective.setDisplayName(minigame.coloredTitle());
 
 		// init line
 		this.sidebarScoreLine = 0;

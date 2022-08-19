@@ -186,7 +186,7 @@ public class MiniGameCommand implements CommandExecutor {
 
 		// print mingames
 		for (MiniGame game : games) {
-			String gameTitle = game.getTitle();
+			String gameTitle = game.title();
 			if (!game.isActive()) {
 				gameTitle += ChatColor.STRIKETHROUGH;
 			}
@@ -288,7 +288,7 @@ public class MiniGameCommand implements CommandExecutor {
 			sender.sendMessage("- All language messages");
 		}
 		this.minigameManager.getTemplateGames().forEach(m -> {
-			sender.sendMessage("- " + m.getTitleWithClassName());
+			sender.sendMessage("- " + m.titleWithClassName());
 		});
 		return true;
 	}

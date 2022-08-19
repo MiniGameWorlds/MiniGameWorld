@@ -118,7 +118,7 @@ public class MiniGameMenu {
 
 		MiniGame playingMinigame = this.minigameManager.getPlayingGame(this.player);
 		String noneStr = messenger.getMsg(player, "none");
-		String title = (playingMinigame == null) ? noneStr : playingMinigame.getTitle();
+		String title = (playingMinigame == null) ? noneStr : playingMinigame.title();
 
 		ItemMeta meta = playerHead.getItemMeta();
 		List<String> lore = new ArrayList<>();
@@ -174,10 +174,10 @@ public class MiniGameMenu {
 	}
 
 	private ItemStack getMiniGameIcon(MiniGame minigame) {
-		ItemStack item = new ItemStack(minigame.getSetting().getIcon());
+		ItemStack item = new ItemStack(minigame.setting().getIcon());
 
 		// display name
-		String displayName = minigame.getTitle();
+		String displayName = minigame.title();
 		if (minigame.isStarted()) {
 			displayName = ChatColor.RED + displayName + ChatColor.RESET;
 		} else {
@@ -192,9 +192,9 @@ public class MiniGameMenu {
 		String instanceCount = "" + ChatColor.GREEN + instances.stream().filter(g -> !g.isStarted()).toList().size()
 				+ ChatColor.WHITE + "/" + instances.size();
 		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "instance") + ": " + instanceCount);
-		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "play-time") + ": " + minigame.getPlayTime() + " "
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "play-time") + ": " + minigame.playTime() + " "
 				+ messenger.getMsg(player, "sec"));
-		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.getFrameType());
+		lore.add(ChatColor.WHITE + "- " + messenger.getMsg(player, "type") + ": " + minigame.frameType());
 
 		// apply
 		item = ItemStackTool.item(item.getType(), displayName, lore);

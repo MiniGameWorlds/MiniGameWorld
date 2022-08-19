@@ -428,7 +428,7 @@ public class PartyManager {
 	 */
 	public static int getPartyCountOfPlayers(List<Player> players) {
 		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		PartyManager partyManager = mw.getPartyManager();
+		PartyManager partyManager = mw.partyManager();
 
 		List<Party> parties = new ArrayList<>();
 
