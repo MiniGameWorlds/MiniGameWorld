@@ -42,6 +42,7 @@ import com.wbm.plugin.util.CryptoTool;
  * maxPlayers = maxPlayers<br>
  * waitingTime = waitingTime<br>
  * playTime = playTime<br>
+ * finishDelay = 10<br>
  * active = true<br>
  * settingFixed = false<br>
  * tutorial = tutorial<br>
@@ -150,6 +151,13 @@ public class MiniGameSetting {
 	 * - Description: minigame play time (sec)
 	 */
 	private int playTime;
+
+	/**
+	 * - File control: O <br>
+	 * - Init value: 10 <br>
+	 * - Description: minigame finish delay (sec)
+	 */
+	private int finishDelay;
 
 	/**
 	 * - File control: O <br>
@@ -269,6 +277,7 @@ public class MiniGameSetting {
 		this.maxPlayers = maxPlayers;
 		this.waitingTime = waitingTime;
 		this.playTime = playTime;
+		this.finishDelay = 10;
 
 		this.active = true;
 		this.settingFixed = false;
@@ -340,6 +349,10 @@ public class MiniGameSetting {
 
 	public void setPlayTime(int playTime) {
 		this.playTime = playTime;
+	}
+
+	public void setFinishDelay(int finishDelay) {
+		this.finishDelay = finishDelay;
 	}
 
 	public void setActive(boolean active) {
@@ -442,6 +455,10 @@ public class MiniGameSetting {
 		return playTime;
 	}
 
+	public int getFinishDelay() {
+		return finishDelay;
+	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -489,6 +506,7 @@ public class MiniGameSetting {
 		setting.put(Setting.GAMES_MAX_PLAYERS, this.maxPlayers);
 		setting.put(Setting.GAMES_WAITING_TIME, this.waitingTime);
 		setting.put(Setting.GAMES_PLAY_TIME, this.playTime);
+		setting.put(Setting.GAMES_FINISH_DELAY, this.finishDelay);
 		setting.put(Setting.GAMES_ACTIVE, this.active);
 		setting.put(Setting.GAMES_ICON, this.icon.name());
 		setting.put(Setting.GAMES_VIEW, this.view);
@@ -536,6 +554,9 @@ public class MiniGameSetting {
 			// customData
 			setCustomData((Map<String, Object>) setting.get(Setting.GAMES_CUSTOM_DATA));
 		}
+		
+		// finish delay
+		setFinishDelay((int)setting.get(Setting.GAMES_FINISH_DELAY));
 
 		// active
 		setActive((boolean) setting.get(Setting.GAMES_ACTIVE));

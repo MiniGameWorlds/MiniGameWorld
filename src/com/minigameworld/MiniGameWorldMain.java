@@ -2,7 +2,6 @@ package com.minigameworld;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.minigameworld.api.MiniGameWorld;
@@ -161,9 +160,7 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void onServerRestart() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			this.minigameManager.todoOnPlayerJoin(p);
-		}
+		Bukkit.getOnlinePlayers().forEach(minigameManager::todoOnPlayerJoin);
 	}
 
 	private void dev() {

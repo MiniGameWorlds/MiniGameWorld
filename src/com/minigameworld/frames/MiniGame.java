@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.api.MiniGameAccessor;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.events.minigame.MiniGameExceptionEvent;
@@ -119,7 +122,14 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	/**
-	 * Executed before game finishes (players remains)
+	 * Executed when finish delay starts
+	 */
+	protected void onFinishDelay() {
+	}
+
+	/**
+	 * Executed after finish delay end and before the game finished (players
+	 * remains)
 	 */
 	protected void onFinish() {
 	}
@@ -453,8 +463,8 @@ public abstract class MiniGame implements GameEventListener {
 		String ruleMsg = this.messenger.getMsg(p, "rule");
 		p.sendMessage("\n" + ChatColor.BOLD + "[" + ruleMsg + "]");
 
-		p.sendMessage("- " + this.messenger.getMsg(p, "play-time-in-rule",
-				new String[][] { { "play-time", "" + playTime() } }));
+		p.sendMessage("- "
+				+ this.messenger.getMsg(p, "play-time-in-rule", new String[][] { { "play-time", "" + playTime() } }));
 
 		// tutorial
 		if (tutorials() != null) {
@@ -548,66 +558,80 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		setting().setFinishTime(LocalDateTime.now());
+		setting().setStarted(false);
 
 		// [IMPORTANT] stop all active tasks immediately after finish
 		initTasks();
 
-		// onFinish
-		onFinish();
-
 		// play sound
 		playSounds(Setting.FINISH_SOUND);
 
+		players().forEach(p -> p.setGameMode(GameMode.SPECTATOR));
+
 		printEndInfo();
 
-		// save players for minigame finish event
-		List<MiniGamePlayer> leavingPlayers = new ArrayList<>(this.players);
+		setting().setFinishTime(LocalDateTime.now());
 
-		// setup player
-		players().forEach(p -> onPlayerLeave(p, null));
+		onFinishDelay();
 
-		// notify finish event to observers (after setup player leaving settings (e.g.
-		// give reward(item) after state restored))
+		// start finish delay
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				// onFinish
+				onFinish();
 
-		// [IMPORTANT] restore removed leaving players's PlayerData for a while
-		this.players.addAll(leavingPlayers);
+				// save players for minigame finish event
+				List<MiniGamePlayer> leavingPlayers = new ArrayList<>(players);
 
-		// call finish event
-		Utils.callEvent(new MiniGameFinishEvent(this, leavingPlayers));
+				// setup player
+				players().forEach(p -> onPlayerLeave(p, null));
 
-		this.players.clear();
+				// notify finish event to observers (after setup player leaving settings (e.g.
+				// give reward(item) after state restored))
 
-		// remove self instance
-		MiniGameManager.getInstance().removeGameInstance(this);
+				// [IMPORTANT] restore removed leaving players's PlayerData for a while
+				players.addAll(leavingPlayers);
+
+				// call finish event
+				Utils.callEvent(new MiniGameFinishEvent(MiniGame.this, leavingPlayers));
+
+				players.clear();
+
+				// remove self instance
+				MiniGameManager.getInstance().removeGameInstance(MiniGame.this);
+			}
+		}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * setting().getFinishDelay());
 	}
 
 	/**
 	 * Print scores
 	 */
 	private void printEndInfo() {
-		if (this.isEmpty()) {
+		if (isEmpty()) {
 			return;
-		}
-
-		// title
-		for (Player p : this.players()) {
-			// break line
-			p.sendMessage("");
-			p.sendMessage(ChatColor.RED + "=================================");
-			p.sendMessage("" + ChatColor.BOLD + this.coloredTitle());
-			p.sendMessage("");
 		}
 
 		// send finish title
 		players().forEach(p -> {
+			p.sendMessage("");
+			p.sendMessage(ChatColor.RED + "=================================");
+			p.sendMessage("" + ChatColor.BOLD + this.coloredTitle());
+			p.sendMessage("");
+
 			sendTitle(p, this.messenger.getMsg(p, "finish"), "", 4, 20 * 2, 4);
 		});
 
 		// print score
 		printScores();
 
-		this.players().forEach(p -> p.sendMessage(ChatColor.RED + "================================="));
+		players().forEach(p -> {
+			p.sendMessage(ChatColor.RED + "=================================");
+		});
+
+		// finish delay
+		sendMessages("You can leave " + coloredTitle() + " after " + ChatColor.GREEN + setting.getFinishDelay()
+				+ ChatColor.RESET + " seconds");
 	}
 
 	/**
@@ -772,8 +796,8 @@ public abstract class MiniGame implements GameEventListener {
 
 	/**
 	 * Check player is playing this minigame (not check player is viewing)<br>
-	 * To check player is viewing this minigame, get {@link #viewManager()} and
-	 * use {@link MiniGameViewManager#isViewing(Player)}
+	 * To check player is viewing this minigame, get {@link #viewManager()} and use
+	 * {@link MiniGameViewManager#isViewing(Player)}
 	 * 
 	 * @param p Target player
 	 * @return True if player is playing minigame
@@ -883,7 +907,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param subTitle Subtitle string
 	 */
 	public void sendTitle(Player p, String title, String subTitle) {
-		sendTitle(p, title, subTitle, 4, 12, 4);
+		sendTitle(p, title, subTitle, 3, 14, 3);
 	}
 
 	/**
@@ -907,7 +931,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param subTitle Subtitle string
 	 */
 	public void sendTitles(String title, String subTitle) {
-		sendTitles(title, subTitle, 4, 12, 4);
+		sendTitles(title, subTitle, 3, 14, 3);
 	}
 
 	/**

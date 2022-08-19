@@ -12,7 +12,7 @@ import org.bukkit.event.Event;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.managers.event.GameEvent.State;
 import com.minigameworld.util.Setting;
-import com.wbm.plugin.util.Utils;
+import com.minigameworld.util.Utils;
 
 public class GameListener {
 	private Class<? extends Event> event;

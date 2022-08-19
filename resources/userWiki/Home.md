@@ -84,7 +84,6 @@ use command: `/mw games <game> locations <<player> | <x> <y> <z>>` (OP required)
 [Commands]: commands.md
 [Third-Parties]: https://github.com/MiniGameWorlds
 [Join / View / Leave]: how-to-join-leave.md
-[Youtube: User Tutorial]: https://youtu.be/sE0vaj0xM8Q
 [Config]: config.md
 [Permissions]: permissions.md
 [Party]: party.md

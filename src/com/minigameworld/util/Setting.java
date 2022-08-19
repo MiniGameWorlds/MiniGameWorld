@@ -116,6 +116,7 @@ public class Setting {
 	public static final String GAMES_MAX_PLAYERS = "max-players";
 	public static final String GAMES_WAITING_TIME = "waiting-time";
 	public static final String GAMES_PLAY_TIME = "play-time";
+	public static final String GAMES_FINISH_DELAY = "finish-delay";
 	public static final String GAMES_ACTIVE = "active";
 	public static final String GAMES_TUTORIAL = "tutorial";
 	public static final String GAMES_CUSTOM_DATA = "custom-data";

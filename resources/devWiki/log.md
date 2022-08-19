@@ -1,5 +1,4 @@
 # TODO
-- Add finish-delay (change playing players to spectator)
 - Add `/mw d` (debug cmd)
 - Add `/mw view <title> <id>` command
 - Add CONTRIBUTING.md
@@ -1229,6 +1228,8 @@ if(!this.isMinPlayersLive()) {
 - Add `particle()` to MiniGame
 - Rename `MiniGame`, `MiniGameWorld` and `MiniGameAccessor` methods to short
 
+# 2022-08-20
+- Add `finish-delay` to MiniGameSetting
 
 
 

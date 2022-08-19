@@ -71,7 +71,8 @@ stateDiagram
     initGame()(if_first_join) --> onJoin()
     Player_Join --> onJoin()
     onJoin() --> onStart()
-    onStart() --> onFinish()
+    onStart() --> onFinishDelay()
+    onFinishDelay() --> onFinish()
     onFinish() --> Game_Finish
 ```
 

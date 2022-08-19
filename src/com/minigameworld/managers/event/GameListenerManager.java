@@ -19,7 +19,7 @@ import com.minigameworld.MiniGameWorldMain;
 import com.minigameworld.frames.MiniGame;
 import com.minigameworld.frames.helpers.MiniGameEventDetector;
 import com.minigameworld.managers.MiniGameManager;
-import com.wbm.plugin.util.Utils;
+import com.minigameworld.util.Utils;
 
 /**
  * <b>[Rules]</b><br>

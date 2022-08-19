@@ -63,66 +63,60 @@ public class MiniGameTaskManager {
 
 	public void registerBasicTasks() {
 		// register waitingTimer task to taskManager
-		this.taskManager.registerTask(WAITING_TIMER_NAME, new Runnable() {
+		this.taskManager.registerTask(WAITING_TIMER_NAME, () -> {
+			waitingCounter.removeCount(1);
 
-			@Override
-			public void run() {
-				waitingCounter.removeCount(1);
+			int waitTime = waitingCounter.getCount();
 
-				int waitTime = waitingCounter.getCount();
+			// end count down
+			if (waitTime <= 0) {
+				minigame.startGame();
+				return;
+			}
 
-				// end count down
-				if (waitTime <= 0) {
-					minigame.startGame();
-					return;
-				}
+			// count down title
+			String time = "" + waitTime;
+			if (waitTime == 3) {
+				time = ChatColor.YELLOW + time;
+			} else if (waitTime == 2) {
+				time = ChatColor.GOLD + time;
+			} else if (waitTime == 1) {
+				time = ChatColor.RED + time;
+			}
+			minigame.sendTitles(time, "", 3, 14, 3);
 
-				// count down title
-				String time = "" + waitTime;
-				if (waitTime == 3) {
-					time = ChatColor.YELLOW + time;
-				} else if (waitTime == 2) {
-					time = ChatColor.GOLD + time;
-				} else if (waitTime == 1) {
-					time = ChatColor.RED + time;
-				}
-				minigame.sendTitles(time, "", 4, 12, 4);
-
-				// play sound
-				if (waitTime <= 3) {
-					minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
-				}
+			// play sound
+			if (waitTime <= 3) {
+				minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_BIT));
 			}
 		});
 
 		// register play timer task to taskManager
-		this.taskManager.registerTask(PLAY_TIMER_NAME, new Runnable() {
+		this.taskManager.registerTask(PLAY_TIMER_NAME, () -> {
+			finishCounter.removeCount(1);
 
-			@Override
-			public void run() {
-				finishCounter.removeCount(1);
-
-				int leftTime = finishCounter.getCount();
-				if (leftTime <= 0) {
-					minigame.finishGame();
-					return;
-				} else if (leftTime <= 10) {
-					// title 3, 2, 1
-					String time = "" + leftTime;
-					if (leftTime == 3) {
-						time = ChatColor.YELLOW + time;
-					} else if (leftTime == 2) {
-						time = ChatColor.GOLD + time;
-					} else if (leftTime == 1) {
-						time = ChatColor.RED + time;
-					}
-					minigame.sendTitles(time, "", 4, 12, 4);
-
-					// play sound
-					minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
+			int leftTime = finishCounter.getCount();
+			if (leftTime <= 0) {
+				minigame.finishGame();
+				return;
+			} else if (leftTime <= 10) {
+				// title 3, 2, 1
+				String time = "" + leftTime;
+				if (leftTime == 3) {
+					time = ChatColor.YELLOW + time;
+				} else if (leftTime == 2) {
+					time = ChatColor.GOLD + time;
+				} else if (leftTime == 1) {
+					time = ChatColor.RED + time;
 				}
+				minigame.sendTitles(time, "", 2,16,2);
+
+				// play sound
+				minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
 			}
 		});
+		
+		
 	}
 
 	public TaskManager getTaskManager() {

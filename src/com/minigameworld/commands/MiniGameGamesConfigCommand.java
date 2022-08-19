@@ -83,7 +83,10 @@ public class MiniGameGamesConfigCommand {
 				waiting_time(sender, args, data);
 				break;
 			case Setting.GAMES_PLAY_TIME:
-				time_liimt(sender, args, data);
+				play_time(sender, args, data);
+				break;
+			case Setting.GAMES_FINISH_DELAY:
+				finish_delay(sender, args, data);
 				break;
 			case Setting.GAMES_ACTIVE:
 				active(sender, args, data);
@@ -246,31 +249,37 @@ public class MiniGameGamesConfigCommand {
 	private boolean min_players(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		// /mg games <classname> min-players <count>
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_MIN_PLAYERS, count);
+		setKeyValue(sender, args[1], data, Setting.GAMES_MIN_PLAYERS, count);
 		return true;
 	}
 
 	private boolean max_players(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int count = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_MAX_PLAYERS, count);
+		setKeyValue(sender, args[1], data, Setting.GAMES_MAX_PLAYERS, count);
 		return true;
 	}
 
 	private boolean waiting_time(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int time = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_WAITING_TIME, time);
+		setKeyValue(sender, args[1], data, Setting.GAMES_WAITING_TIME, time);
 		return true;
 	}
 
-	private boolean time_liimt(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+	private boolean play_time(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		int time = Integer.parseInt(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_PLAY_TIME, time);
+		setKeyValue(sender, args[1], data, Setting.GAMES_PLAY_TIME, time);
+		return true;
+	}
+
+	private boolean finish_delay(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
+		int value = Integer.parseInt(args[3]);
+		setKeyValue(sender, args[1], data, Setting.GAMES_FINISH_DELAY, value);
 		return true;
 	}
 
 	private boolean active(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		boolean active = Boolean.parseBoolean(args[3]);
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_ACTIVE, active);
+		setKeyValue(sender, args[1], data, Setting.GAMES_ACTIVE, active);
 		return true;
 	}
 
@@ -309,7 +318,7 @@ public class MiniGameGamesConfigCommand {
 			tutorial.set(line - 1, tutorialString);
 		}
 
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_TUTORIAL, tutorial);
+		setKeyValue(sender, args[1], data, Setting.GAMES_TUTORIAL, tutorial);
 		return true;
 	}
 
@@ -321,7 +330,7 @@ public class MiniGameGamesConfigCommand {
 	private boolean icon(CommandSender sender, String[] args, Map<String, Object> data) throws Exception {
 		String str = args[3].toUpperCase();
 		String icon = Material.valueOf(str).name();
-		this.setKeyValue(sender, args[1], data, Setting.GAMES_ICON, icon);
+		setKeyValue(sender, args[1], data, Setting.GAMES_ICON, icon);
 		return true;
 	}
 
