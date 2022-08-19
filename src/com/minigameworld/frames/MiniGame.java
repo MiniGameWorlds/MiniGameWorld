@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -39,7 +40,7 @@ import com.minigameworld.util.LangUtils;
 import com.minigameworld.util.Messenger;
 import com.minigameworld.util.Setting;
 import com.minigameworld.util.Utils;
-import com.wbm.plugin.util.PlayerTool;
+import com.wbm.plugin.util.ParticleTool;
 import com.wbm.plugin.util.SoundTool;
 import com.wbm.plugin.util.instance.TaskManager;
 
@@ -514,7 +515,7 @@ public abstract class MiniGame implements GameEventListener {
 		getSetting().setStartTime(LocalDateTime.now());
 
 		// play sound
-		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.START_SOUND));
+		playSounds(Setting.START_SOUND);
 
 		// starting title
 		getPlayers().forEach(p -> {
@@ -556,7 +557,7 @@ public abstract class MiniGame implements GameEventListener {
 		onFinish();
 
 		// play sound
-		getPlayers().forEach(p -> PlayerTool.playSound(p, Setting.FINISH_SOUND));
+		playSounds(Setting.FINISH_SOUND);
 
 		printEndInfo();
 
@@ -926,6 +927,41 @@ public abstract class MiniGame implements GameEventListener {
 	 */
 	public void playSounds(Sound sound) {
 		getPlayers().forEach(p -> playSound(p, sound));
+	}
+
+	/**
+	 * Spawn particle around of the player
+	 * 
+	 * @param p        Player
+	 * @param particle Particle type
+	 * @param count    particle count
+	 * @param speed    particle spreading speed
+	 */
+	public void particle(Player p, Particle particle, int count, int speed) {
+		ParticleTool.spawn(p.getLocation(), particle, count, speed);
+	}
+
+	/**
+	 * Spawn particle around of all the players
+	 * 
+	 * @param particle Particle type
+	 * @param count    particle count
+	 * @param speed    particle spreading speed
+	 */
+	public void particles(Particle particle, int count, int speed) {
+		getPlayers().forEach(p -> particle(p, particle, count, speed));
+	}
+
+	/**
+	 * Spawn particles around of the location
+	 * 
+	 * @param loc      Particle spawn location
+	 * @param particle Particle type
+	 * @param count    particle count
+	 * @param speed    particle spreading speed
+	 */
+	public void particle(Location loc, Particle particle, int count, int speed) {
+		ParticleTool.spawn(loc, particle, count, speed);
 	}
 
 	/**
