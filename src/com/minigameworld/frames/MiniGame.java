@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -175,7 +176,7 @@ public abstract class MiniGame implements GameEventListener {
 	}
 
 	/**
-	 * Executed when Minigame exception created<br>
+	 * Called only in play state and when exception is passed<br>
 	 * {@link Exception}
 	 */
 	protected void onException(MiniGameExceptionEvent exception) {
@@ -283,8 +284,6 @@ public abstract class MiniGame implements GameEventListener {
 	 * Init(reset) base settings
 	 */
 	private void initBaseSettings() {
-		setting().setStarted(false);
-
 		this.players.clear();
 
 		this.initTasks();
@@ -384,6 +383,10 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param reason for leaveing
 	 */
 	private void onPlayerLeave(Player p, String reason) {
+		if (!containsPlayer(p)) {
+			return;
+		}
+
 		if (reason != null) {
 			String msg = this.messenger.getMsg(p, "leave-message",
 					new String[][] { { "player", p.getName() }, { "minigame", coloredTitle() },
@@ -544,6 +547,7 @@ public abstract class MiniGame implements GameEventListener {
 		return true;
 	}
 
+
 	/**
 	 * <b> [IMPORTANT] Use finishGame() for endpoint of a minigame, never run
 	 * anything after finishGame()</b><br>
@@ -558,10 +562,24 @@ public abstract class MiniGame implements GameEventListener {
 			return;
 		}
 
-		setting().setStarted(false);
+		finishDelay();
 
-		// [IMPORTANT] stop all active tasks immediately after finish
-		initTasks();
+		int finishDelay = isEmpty() ? 0 : setting().getFinishDelay();
+
+		if (finishDelay == 0) {
+			// [IMPORTANT] to call finish() immediately, do not use task with 0 tick but
+			// just call the method
+			finish();
+		} else {
+			// start finish delay
+			// must call finish() if finishDelay is 0
+			Bukkit.getScheduler().runTaskLater(MiniGameWorldMain.getInstance(), () -> finish(), 20 * finishDelay);
+		}
+	}
+
+	private void finishDelay() {
+		Utils.debug("1");
+		setting().setStarted(false);
 
 		// play sound
 		playSounds(Setting.FINISH_SOUND);
@@ -574,34 +592,36 @@ public abstract class MiniGame implements GameEventListener {
 
 		onFinishDelay();
 
-		// start finish delay
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				// onFinish
-				onFinish();
+		// [IMPORTANT] call after onFinishDelay()
+		initTasks();
+		Utils.debug("11");
+	}
 
-				// save players for minigame finish event
-				List<MiniGamePlayer> leavingPlayers = new ArrayList<>(players);
+	private void finish() {
+		Utils.debug("2");
+		// onFinish
+		onFinish();
 
-				// setup player
-				players().forEach(p -> onPlayerLeave(p, null));
+		// save players for minigame finish event
+		List<MiniGamePlayer> leavingPlayers = new ArrayList<>(players);
 
-				// notify finish event to observers (after setup player leaving settings (e.g.
-				// give reward(item) after state restored))
+		// setup player
+		players().forEach(p -> onPlayerLeave(p, null));
 
-				// [IMPORTANT] restore removed leaving players's PlayerData for a while
-				players.addAll(leavingPlayers);
+		// notify finish event to observers (after setup player leaving settings (e.g.
+		// give reward(item) after state restored))
 
-				// call finish event
-				Utils.callEvent(new MiniGameFinishEvent(MiniGame.this, leavingPlayers));
+		// [IMPORTANT] restore removed leaving players's PlayerData for a while
+		players.addAll(leavingPlayers);
 
-				players.clear();
+		// call finish event
+		Utils.callEvent(new MiniGameFinishEvent(MiniGame.this, leavingPlayers));
 
-				// remove self instance
-				MiniGameManager.getInstance().removeGameInstance(MiniGame.this);
-			}
-		}.runTaskLater(MiniGameWorldMain.getInstance(), 20 * setting().getFinishDelay());
+		players.clear();
+
+		// remove self instance
+		MiniGameManager.getInstance().removeGameInstance(MiniGame.this);
+		Utils.debug("22");
 	}
 
 	/**
@@ -703,16 +723,28 @@ public abstract class MiniGame implements GameEventListener {
 				return;
 			}
 
-			// setup leaving settings
-			this.onPlayerLeave(p, exception.getReason());
-
 			// pass exception
 			if (isStarted()) {
-				this.onException(exception);
+				onException(exception);
 
-				// check GameFinishExceptionMode
-				this.checkGameFinishCondition();
+				if (playerCount() <= 1) {
+					// If there is only 1 player or 0, there will be no player after exception
+					// processed
+					// So should finish the game
+					setting().setFinishDelay(0); // set finish delay to 0 to finish immediately
+					finishGame();
+				} else {
+					// check GameFinishExceptionMode
+					checkGameFinishCondition();
+				}
 			}
+
+			// setup leaving settings
+			/* [IMPORTANT] must after checkGameFinishCondition() (beacause onFinishDelay() and 
+			 * onFinish() has to process player before game leave
+			 */
+			onPlayerLeave(p, exception.getReason());
+
 		}
 
 		// if the event is minigame exception or server exception
@@ -733,10 +765,10 @@ public abstract class MiniGame implements GameEventListener {
 				onException(exception);
 
 				// finish game
+				setting().setFinishDelay(0); // set finish delay to 0 to finish immediately
 				finishGame();
 			}
 
-			// [IMPORTANT] don't use finishGame() here
 			// leave players
 			players().forEach(p -> onPlayerLeave(p, exception.getReason()));
 
@@ -767,7 +799,7 @@ public abstract class MiniGame implements GameEventListener {
 		}
 
 		// must finish the game
-		if (this.isEmpty()) {
+		if (isEmpty()) {
 			needToFinish = true;
 		}
 
@@ -844,7 +876,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param p leaving player
 	 */
 	private MiniGamePlayer removePlayer(Player p) {
-		MiniGamePlayer pData = this.gamePlayer(p);
+		MiniGamePlayer pData = gamePlayer(p);
 		// restore player state
 		pData.getState().restorePlayerState();
 
@@ -961,7 +993,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param count    particle count
 	 * @param speed    particle spreading speed
 	 */
-	public void particle(Player p, Particle particle, int count, int speed) {
+	public void particle(Player p, Particle particle, int count, double speed) {
 		ParticleTool.spawn(p.getLocation(), particle, count, speed);
 	}
 
@@ -972,7 +1004,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param count    particle count
 	 * @param speed    particle spreading speed
 	 */
-	public void particles(Particle particle, int count, int speed) {
+	public void particles(Particle particle, int count, double speed) {
 		players().forEach(p -> particle(p, particle, count, speed));
 	}
 
@@ -984,7 +1016,7 @@ public abstract class MiniGame implements GameEventListener {
 	 * @param count    particle count
 	 * @param speed    particle spreading speed
 	 */
-	public void particle(Location loc, Particle particle, int count, int speed) {
+	public void particle(Location loc, Particle particle, int count, double speed) {
 		ParticleTool.spawn(loc, particle, count, speed);
 	}
 
