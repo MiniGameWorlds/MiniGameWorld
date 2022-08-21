@@ -15,7 +15,7 @@ public class MiniGameTaskManager {
 	// task manager
 	private TaskManager taskManager;
 	// timer counter
-	private Counter waitingCounter, finishCounter;
+	private Counter waitingCounter, playCounter;
 
 	private MiniGame minigame;
 
@@ -30,7 +30,7 @@ public class MiniGameTaskManager {
 
 		// timer counter
 		this.waitingCounter = new Counter(this.minigame.waitingTime() + 1);
-		this.finishCounter = new Counter(this.minigame.playTime() + 1);
+		this.playCounter = new Counter(this.minigame.playTime() + 1);
 	}
 
 	public void runWaitingTask() {
@@ -53,7 +53,7 @@ public class MiniGameTaskManager {
 			return;
 		}
 
-		this.finishCounter = new Counter(this.minigame.playTime() + 1);
+		this.playCounter = new Counter(this.minigame.playTime() + 1);
 		this.taskManager.runTaskTimer(PLAY_TIMER_NAME, 0, 20);
 	}
 
@@ -93,9 +93,9 @@ public class MiniGameTaskManager {
 
 		// register play timer task to taskManager
 		this.taskManager.registerTask(PLAY_TIMER_NAME, () -> {
-			finishCounter.removeCount(1);
+			playCounter.removeCount(1);
 
-			int leftTime = finishCounter.getCount();
+			int leftTime = playCounter.getCount();
 			if (leftTime <= 0) {
 				minigame.finishGame();
 				return;
@@ -109,14 +109,13 @@ public class MiniGameTaskManager {
 				} else if (leftTime == 1) {
 					time = ChatColor.RED + time;
 				}
-				minigame.sendTitles(time, "", 2,16,2);
+				minigame.sendTitles(time, "", 2, 16, 2);
 
 				// play sound
 				minigame.players().forEach(p -> PlayerTool.playSound(p, Sound.BLOCK_NOTE_BLOCK_COW_BELL));
 			}
 		});
-		
-		
+
 	}
 
 	public TaskManager getTaskManager() {
@@ -128,6 +127,6 @@ public class MiniGameTaskManager {
 	}
 
 	public int getLeftPlayTime() {
-		return this.finishCounter.getCount();
+		return this.playCounter.getCount();
 	}
 }

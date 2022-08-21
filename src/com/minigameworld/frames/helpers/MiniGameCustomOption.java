@@ -77,14 +77,14 @@ public class MiniGameCustomOption implements GameEventListener {
 		/**
 		 * Init: Survival<br>
 		 * Description: GameMode when a player join minigame (used in
-		 * {@link MiniGamePlayerData#setLive(boolean)},
+		 * {@link MiniGamePlayer#setLive(boolean)},
 		 * {@link MiniGamePlayerState#makePureState()})
 		 */
 		LIVE_GAMEMODE("live-gamemode"),
 		/**
 		 * Init: Spectator<br>
 		 * Description: GameMode when a player die (used in
-		 * {@link MiniGamePlayerData#setLive(boolean)})
+		 * {@link MiniGamePlayer#setLive(boolean)})
 		 */
 		DEAD_GAMEMODE("dead-gamemode"),
 		/**
@@ -130,9 +130,9 @@ public class MiniGameCustomOption implements GameEventListener {
 		this.set(Option.PVE, true);
 		this.set(Option.INVENTORY_SAVE, true);
 		this.set(Option.MINIGAME_RESPAWN, true);
-		// used in MiniGamePlayerData, MiniGamePlayerState(makePureState())
+		// used in MiniGamePlayer, MiniGamePlayerState(makePureState())
 		this.set(Option.LIVE_GAMEMODE, GameMode.SURVIVAL);
-		// used in MiniGamePlayerData
+		// used in MiniGamePlayer
 		this.set(Option.DEAD_GAMEMODE, GameMode.SPECTATOR);
 		this.set(Option.COLOR, ChatColor.RESET);
 		this.set(Option.FOOD_LEVEL_CHANGE, true);

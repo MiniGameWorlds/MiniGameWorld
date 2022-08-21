@@ -226,11 +226,11 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 		// join one of waiting(not started) games by join priority
 		else {
 			if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MAX_PLAYERS) {
-				instanceGame = waitingGames.stream().sorted((g1, g2) -> g2.playerCount() - g1.playerCount())
-						.toList().get(0);
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g2.playerCount() - g1.playerCount()).toList()
+						.get(0);
 			} else if (Setting.JOIN_PRIORITY == MiniGameSetting.JOIN_PRIORITY.MIN_PLAYERS) {
-				instanceGame = waitingGames.stream().sorted((g1, g2) -> g1.playerCount() - g2.playerCount())
-						.toList().get(0);
+				instanceGame = waitingGames.stream().sorted((g1, g2) -> g1.playerCount() - g2.playerCount()).toList()
+						.get(0);
 			} else {// random
 				instanceGame = CollectionTool.random(waitingGames).get();
 			}
@@ -808,7 +808,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 			this.gameListenerManager.registerGameListener(newInstance);
 			this.gameListenerManager.registerGameListener(newInstance.customOption());
 			this.gameListenerManager.registerGameListener(newInstance.inventoryManager());
-			
+
 			// add instance to the list
 			this.instanceGames.add(newInstance);
 		} catch (NoSuchMethodException e) {

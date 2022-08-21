@@ -586,11 +586,11 @@ public abstract class MiniGame implements GameEventListener {
 
 		players().forEach(p -> p.setGameMode(GameMode.SPECTATOR));
 
-		printEndInfo();
-
 		setting().setFinishTime(LocalDateTime.now());
 
 		onFinishDelay();
+		
+		printEndInfo();
 
 		// [IMPORTANT] call after onFinishDelay()
 		initTasks();

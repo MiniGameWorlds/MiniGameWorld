@@ -7,8 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.minigameworld.api.MiniGameWorld;
 import com.minigameworld.api.MwUtil;
 import com.minigameworld.commands.MiniGameCommand;
-import com.minigameworld.dev.GameA;
-import com.minigameworld.dev.TestGame;
 import com.minigameworld.listeners.CommonEventListener;
 import com.minigameworld.listeners.FunctionItemListener;
 import com.minigameworld.listeners.GameViewEventListener;
@@ -164,14 +162,18 @@ public class MiniGameWorldMain extends JavaPlugin {
 	}
 
 	private void dev() {
+		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
+
+		// test minigame
+//		mw.registerGame(new SoloBridging());
+		
 		// only in debug
 		if (!Setting.DEBUG_MODE) {
 			return;
 		}
 
-		MiniGameWorld mw = MiniGameWorld.create(MiniGameWorld.API_VERSION);
-		mw.registerGame(new TestGame());
-		mw.registerGame(new GameA());
+//		mw.registerGame(new TestGame());
+//		mw.registerGame(new GameA());
 	}
 
 	@Override
