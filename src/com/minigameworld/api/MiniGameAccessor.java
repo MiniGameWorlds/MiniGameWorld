@@ -229,7 +229,7 @@ public class MiniGameAccessor {
 	}
 
 	/**
-	 * Compare with {@link #isSameTemplate(MiniGame)} and
+	 * Compare with {@link MiniGame#isSameTemplate(MiniGame)} and
 	 * {@link MiniGameSetting#getId()}
 	 */
 	@Override

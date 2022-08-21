@@ -37,7 +37,7 @@ import com.minigameworld.util.Utils;
  * If listener related with minigame needs to handle events<br>
  * 1. Implements {@link GameEventListener}<br>
  * 2. Add method as a protected or public with {@link GameEvent} annotation<br>
- * 3. Register in {@link MiniGameManager#createGameInstance()} and unregister in
+ * 3. Register in {@link MiniGameManager#createGameInstance(MiniGame)} and unregister in
  * {@link MiniGameManager#removeGameInstance(MiniGame)}<br>
  */
 public class GameListenerManager implements Listener {

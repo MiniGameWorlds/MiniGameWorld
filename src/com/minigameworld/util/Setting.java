@@ -34,7 +34,7 @@ public class Setting {
 	 * Ref:
 	 * https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
 	 * 
-	 * <code><world name>_<game title>_<yyyy-MM-dd'T'H-mm-ss>_<game id></code>
+	 * {@code <world name>_<game title>_<yyyy-MM-dd'T'H-mm-ss>_<game id>}
 	 * 
 	 * @param templateWorldName Template world name
 	 * @param game              game instance

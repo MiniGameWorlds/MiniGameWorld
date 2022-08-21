@@ -506,7 +506,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Plus team score with team name
 	 * 
-	 * @param teamNumber Team name
+	 * @param teamName Team name
 	 * @param amount     Amount to plus
 	 */
 	protected void plusTeamScore(String teamName, int amount) {
@@ -536,7 +536,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Minus team score with team name
 	 * 
-	 * @param teamNumber Team name
+	 * @param teamName Team name
 	 * @param amount     Amount to minus
 	 */
 	protected void minusTeamScore(String teamName, int amount) {
@@ -566,7 +566,7 @@ public abstract class TeamBattleMiniGame extends MiniGame {
 	/**
 	 * Gets team score with team name
 	 * 
-	 * @param teamNumber Team name
+	 * @param teamName Team name
 	 * @return Team score
 	 */
 	protected int getTeamScore(String teamName) {

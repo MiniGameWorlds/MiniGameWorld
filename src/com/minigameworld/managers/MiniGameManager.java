@@ -176,8 +176,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * Join a minigame with party members who are available to join with<br>
 	 * - Join into already waiting instance game or create new game instance if need
 	 * 
-	 * @param p     Player who tries to join
-	 * @param title Minigame title
+	 * @param p        Player who tries to join
+	 * @param rawTitle Minigame title
 	 * @return False if player failed to join
 	 */
 	public boolean joinGame(Player p, String rawTitle) {
@@ -360,8 +360,8 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	/**
 	 * View random minigame (enter without party members)
 	 * 
-	 * @param p     Player who tries to view minigame
-	 * @param title Minigame title
+	 * @param p        Player who tries to view minigame
+	 * @param rawTitle Minigame title
 	 * @return False if player failed to view
 	 */
 	public boolean viewGame(Player p, String rawTitle) {
@@ -596,7 +596,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	/**
 	 * Get template minigame with title
 	 * 
-	 * @param Minigame title
+	 * @param title Minigame title
 	 * @return template minigame
 	 */
 	public MiniGame getTemplateGame(String title) {
@@ -620,7 +620,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * 
 	 * @param c Minigame class
 	 * @return Null if there is no minigame matched
-	 * @throws ClassNotFoundException
 	 */
 	public MiniGame getTemplateGame(Class<?> c) {
 		for (MiniGame game : this.templateGames) {
@@ -637,7 +636,6 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	 * @param title Minigame title
 	 * @param id    Minigame instance id
 	 * @return Null if there is no minigame matched
-	 * @throws ClassNotFoundException
 	 */
 	public MiniGame getInstanceGame(String title, String id) {
 		title = ChatColor.stripColor(title);
@@ -653,7 +651,7 @@ public class MiniGameManager implements YamlMember, MiniGameTimingNotifier {
 	/**
 	 * Get instance game with class simple name and minigame id
 	 * 
-	 * @param className Minigame class name
+	 * @param c Minigame class name
 	 * @param id        Minigame instance id
 	 * @return Null if there is no minigame matched
 	 */

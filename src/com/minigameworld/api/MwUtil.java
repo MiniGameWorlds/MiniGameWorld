@@ -169,7 +169,7 @@ public class MwUtil {
 	/**
 	 * Gets MiniGameAccessor with class name
 	 * 
-	 * @param className Minigame class name
+	 * @param c Minigame class name
 	 * @return Null if class name minigame not exist
 	 */
 	public static MiniGameAccessor getTemplateGame(Class<?> c) {
@@ -183,7 +183,6 @@ public class MwUtil {
 	 * @param title Minigame title
 	 * @param id    Minigame instance id
 	 * @return Null if there is no minigame matched
-	 * @throws ClassNotFoundException
 	 */
 	public static MiniGameAccessor getInstanceGame(String title, String id) {
 		MiniGame minigame = minigameManager.getInstanceGame(title, id);
@@ -193,7 +192,7 @@ public class MwUtil {
 	/**
 	 * Get instance game with class simple name and minigame id
 	 * 
-	 * @param className Minigame class name
+	 * @param c Minigame class name
 	 * @param id        Minigame instance id
 	 * @return Null if there is no minigame matched
 	 */
