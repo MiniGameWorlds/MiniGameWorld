@@ -78,10 +78,10 @@ public class <minigame> extends <game-type> {
 		super("<minigame>", 2, 10, 60, 10);
 		
         // GUI menu icon
-		getSetting().setIcon(Material.GRASS);
+		setting().setIcon(Material.GRASS);
 		
 		// custom option
-		getCustomOption().set(Option., );
+		customOption().set(Option., );
 	}
 
 	...

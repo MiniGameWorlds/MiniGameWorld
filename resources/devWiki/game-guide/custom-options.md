@@ -7,27 +7,27 @@ All minigames generally have custom options to support various game plays by use
 
 
 # How to use
-Custom option must be initialized in the constructor by `getCustomOption().set()`.
+Custom option must be initialized in the constructor by `customOption().set()`.
 ```java
 // constructor
 public GameA() {
     super("GameA", 2, 60 * 3, 10);
 
     // set players can not chat
-    getCustomOption().set(Option.CHAT, false);
+    customOption().set(Option.CHAT, false);
 
     // set players can break the blocks
-    getCustomOption().set(Option.BLOCK_BREAK, true);
+    customOption().set(Option.BLOCK_BREAK, true);
 
     // set game color
-    getCustomOption().set(Option.COLOR, ChatColor.BLUE);
+    customOption().set(Option.COLOR, ChatColor.BLUE);
 
     // set pvp off
-    getCustomOption().set(Option.PVP, false);
+    customOption().set(Option.PVP, false);
 }
 ```
 
-If you want custom data to be fixed, you can setup `getSetting().setSettingFixed(true)` in th constructor.
+If you want custom data to be fixed, you can setup `setting().setSettingFixed(true)` in th constructor.
 
 
 

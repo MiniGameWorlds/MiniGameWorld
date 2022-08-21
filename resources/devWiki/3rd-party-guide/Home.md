@@ -134,7 +134,7 @@ public void onPlayerAskPartyJoin(PlayerInteractAtEntityEvent e) {
 
 	// get party manager
 	MiniGameWorld mw = MiniGameWorld.create("x.x.x");
-	PartyManager partyManager = mw.getPartyManager();
+	PartyManager partyManager = mw.partyManager();
 
 	// show ask clickable chat to asked player
 	partyManager.ask(asker, asked);
@@ -216,7 +216,7 @@ class RewardManager implements Listener {
 	public void onMiniGameFinish(MiniGameFinishEvent e) {
 		MiniGameAccessor minigame = e.getMiniGame();
 		// give rewards when finish
-		List<? extends MiniGameRank> rankList = minigame.getRank();
+		List<? extends MiniGameRank> rankList = minigame.rank();
 
 		for (int i = 0; i < 3; i++) {
 			MiniGameRank rankResult = rankList.get(i);
@@ -240,7 +240,7 @@ class RankManager implements Listener {
 	@EventHandler
 	public void onMiniGameFinish(MiniGameFinishEvent e) {
 		MiniGameAccessor minigame = e.getMiniGame();
-		List<? extends MiniGameRank> rankResult = minigame.getRank();
+		List<? extends MiniGameRank> rankResult = minigame.rank();
 
 		// check rank is empty
 		if (rankResult.isEmpty()) {
@@ -248,7 +248,7 @@ class RankManager implements Listener {
 		}
 
 		// get minigame data section
-		String minigameClassName = minigame.getClassName();
+		String minigameClassName = minigame.className();
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection(minigameClassName);
 
 		for (MiniGameRank result : rankResult) {

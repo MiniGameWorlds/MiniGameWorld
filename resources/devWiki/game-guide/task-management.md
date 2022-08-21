@@ -11,7 +11,7 @@ public GameA() {
     // ...
 
     // send message to everyone
-    getTaskManager().registerTask("task1", new Runnable() {
+    taskManager().registerTask("task1", new Runnable() {
         @Override
         public void run() {
             sendMessages("task1");
@@ -19,7 +19,7 @@ public GameA() {
     });
 
     // or can use simply using lambda
-    getTaskManager().registerTask("task1", () -> sendMessages("task1 with lambda"));
+    taskManager().registerTask("task1", () -> sendMessages("task1 with lambda"));
 }
 ```
 
@@ -30,13 +30,13 @@ Second, just call the registered task with name using the need task method  wher
 		super.onStart();
 
         // call task1 instantly
-        getTaskManager().runTask("task1");
+        taskManager().runTask("task1");
 
         // call task1 3 secs later
-        getTaskManager().runTaskLater("task1", 20 * 3);
+        taskManager().runTaskLater("task1", 20 * 3);
 
         // call task1 in every 1 sec
-		getTaskManager().runTaskTimer("task1", 0, 20);
+		taskManager().runTaskTimer("task1", 0, 20);
 	}
 ```
 
@@ -45,7 +45,8 @@ Second, just call the registered task with name using the need task method  wher
 # 2. Timing hook
 Here is a another way to reserve tasks with the hook methods of frame class.
 - `onStart()`: Called at game start
-- `onFinish()`: Called at game finished
+- `onFinishDelay()`: Called at game starts finishing delay (before `onFinish()`)
+- `onFinish()`: Called at game the game instance is removed (after `onFinishDelay()`)
 - `onJoin(Player)`: Called when a player joined game
 - `onLeave(Player)`: Called when a player leave game
 - `onView(Player)`: Called when a player starts to view game
@@ -62,7 +63,7 @@ protected void onStart() {
     sendMessages("Game Start!");
 
     // give stone sword to everyone
-    getPlayers().forEach(p -> p.getInventory().addItem(new ItemStack(Material.STONE_SWORD)));
+    players().forEach(p -> p.getInventory().addItem(new ItemStack(Material.STONE_SWORD)));
 }
 ```
 

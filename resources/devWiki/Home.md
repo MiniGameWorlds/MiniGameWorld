@@ -38,8 +38,8 @@ classDiagram
         unviewGame(Player)
         registerGame(MiniGame)
         getTemplateGames()
-        getPartyManager()
-        getSettings()
+        partyManager()
+        settings()
     }
     class MwUtil{
         isPlayingGame(Player)
@@ -48,9 +48,9 @@ classDiagram
     }
     class MiniGameAccessor{
         isStarted()
-        getPlayers()
-        getSettings()
-        getCustomOption()
+        players()
+        settings()
+        customOption()
     }
     class MiniGame{
         startGame()

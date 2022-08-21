@@ -60,6 +60,7 @@ PVP:
   max-players: 10
   waiting-time: 30
   play-time: 120
+  finish-delay: 10
   active: true
   icon: STONE_SWORD
   view: true
@@ -108,7 +109,8 @@ PVP:
 - `min-players`: Minimun player count for start game (`0` <= `min-players`)
 - `max-players`: Maximun player count for playing game (`0` <= `max-players`)
 - `waiting-time`: Waiting time (sec) (`-1` for infinity)
-- `play-time`: Minigame play time (sec) (`-1` for infinity)
+- `play-time`: Play time (sec) (`-1` for infinity)
+- `finish-delay`: Finish delay before game finished (`0` <= `finish-delay`)
 - `active`: Whether this minigame is active in the server (true/false)
 - `icon`: Material which show in menu (connect words with `_` of [Material](https://minecraftitemids.com/types/material))
 - `view`: Whether a player can view a minigame (true/false)

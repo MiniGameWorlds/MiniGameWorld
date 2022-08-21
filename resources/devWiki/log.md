@@ -1231,8 +1231,8 @@ if(!this.isMinPlayersLive()) {
 # 2022-08-20
 - Add `finish-delay` to MiniGameSetting
 
-
-
+# 2022-08-21
+- Fix template world loading bug
 
 
 

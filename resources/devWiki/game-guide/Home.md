@@ -5,11 +5,13 @@
 
 # Tutorial
 ## Solo
-- [JumpMap](solo-JumpMap.md)
+- [.](.) (In making...)
+<!-- - [JumpMap](solo-JumpMap.md) -->
 
 ## Solo Battle
-- [OnePunch](solobattle-OnePunch.md)
-- [HungryFishing](solobattle-HungryFishing.md)
+- [.](.) (In making...)
+<!-- - [OnePunch](solobattle-OnePunch.md) -->
+<!-- - [HungryFishing](solobattle-HungryFishing.md) -->
 
 ## Team
 - [.](.) (In making...)
@@ -67,11 +69,13 @@
 ## Flow
 ```mermaid
 stateDiagram
+    Player_Join --> onJoin()
     Player_Join --> initGame()(if_first_join)
     initGame()(if_first_join) --> onJoin()
-    Player_Join --> onJoin()
     onJoin() --> onStart()
     onStart() --> onFinishDelay()
+    onStart() --> onException()(if_occurs)
+    onException()(if_occurs) --> onFinishDelay()
     onFinishDelay() --> onFinish()
     onFinish() --> Game_Finish
 ```

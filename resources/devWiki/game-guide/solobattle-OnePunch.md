@@ -77,10 +77,10 @@ public class OnePunch extends SoloBattleMiniGame {
 		super("OnePunch", 2, 10, 60, 10);
 		
         // GUI menu icon
-		getSetting().setIcon(Material.GRASS);
+		setting().setIcon(Material.GRASS);
 		
 		// enable PVP
-		getCustomOption().set(Option.PVP, true);
+		customOption().set(Option.PVP, true);
 	}
 
 	...
@@ -186,9 +186,9 @@ public class OnePunch extends SoloBattleMiniGame {
 	public OnePunch() {
 		super("OnePunch", 2, 10, 60, 10);
 
-		getSetting().setIcon(Material.GRASS);
+		setting().setIcon(Material.GRASS);
 
-		getCustomOption().set(Option.PVP, true);
+		customOption().set(Option.PVP, true);
 	}
 
 	@Override

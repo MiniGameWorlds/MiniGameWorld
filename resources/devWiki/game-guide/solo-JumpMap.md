@@ -61,10 +61,6 @@ public class JumpMap extends SoloMiniGame{
 	}
 
 	@Override
-	protected void initGame() {
-	}
-
-	@Override
 	protected void onEvent(Event event) {
 	}
 
@@ -193,7 +189,7 @@ protected void onEvent(Event event) {
       plusScore(1);
 
       // teleport player to minigame spawn
-      player.teleport(getLocation());
+      player.teleport(location());
 
       // send message
       player.sendMessage("You clear the jumpmap!");
@@ -216,9 +212,9 @@ public JumpMap() {
 	super("JumpMap", 120, 10);
 
 	// options
-	getCustomOption().set(Option.PLAYER_HURT, false); // disable player hurt
-	getCustomOption().set(Option.PVE, false); // disable mob attack
-	getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false); // prevent player hunger change
+	customOption()PLAYER_HURT, false); // disable player hurt
+	customOption()t(Option.PVE, false); // disable mob attack
+	customOption()t(Option.FOOD_LEVEL_CHANGE, false); // prevent player hunger change
 }
 ```
 
@@ -227,12 +223,12 @@ public JumpMap() {
 public JumpMap() {
 	super("JumpMap", 120, 10);
 
-	getCustomOption().set(Option.PLAYER_HURT, false);
-	getCustomOption().set(Option.PVE, false);
-	getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false);
+	customOption()t(Option.PLAYER_HURT, false);
+	customOption()t(Option.PVE, false);
+	customOption()t(Option.FOOD_LEVEL_CHANGE, false);
 
 	// setting
-	getSetting().setIcon(Material.ACACIA_STAIRS); // menu icon
+	setting().setIcon(Material.ACACIA_STAIRS); // menu icon
 }
 ```
 
@@ -278,12 +274,12 @@ public class JumpMap extends SoloMiniGame {
 		super("JumpMap", 120, 10);
 
 		// options
-		getCustomOption().set(Option.PLAYER_HURT, false); // disable player hurt
-		getCustomOption().set(Option.PVE, false); // disable mob attack
-		getCustomOption().set(Option.FOOD_LEVEL_CHANGE, false); // prevent player hunger change
+		customOption()t(Option.PLAYER_HURT, false); // disable player hurt
+		customOption()t(Option.PVE, false); // disable mob attack
+		customOption()t(Option.FOOD_LEVEL_CHANGE, false); // prevent player hunger change
 
 		// setting
-		getSetting().setIcon(Material.ACACIA_STAIRS); // menu icon
+		setting().setIcon(Material.ACACIA_STAIRS); // menu icon
 	}
 
 	// called when a game inits
@@ -308,7 +304,7 @@ public class JumpMap extends SoloMiniGame {
 				plusScore(1);
 
 				// teleport player to minigame spawn
-				player.teleport(getLocation());
+				player.teleport(location());
 
 				// send message
 				player.sendMessage("You clear the jumpmap!");

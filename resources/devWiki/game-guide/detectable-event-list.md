@@ -53,14 +53,14 @@
 
 
 ## First method
-- Add `getSetting().addCustomDetectableEvent(EventYouWant.class);` in constructor
+- Add `setting().addCustomDetectableEvent(EventYouWant.class);` in constructor
 ```java
 public class YourMiniGame extends SoloMiniGame implements Listener {
 	public YourMiniGame() {
 		super("YourMiniGame", 60, 10);
 
 		// add custom detectable event
-		getSetting().addCustomDetectableEvent(WeatherChangeEvent.class);
+		setting().addCustomDetectableEvent(WeatherChangeEvent.class);
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class Parkour extends SoloBattleMiniGame implements Listener {
 		super("Parkour", 2, 10, 60 * 5, 15);
 
 		// set "useEventDetector" setting to false
-		getSetting().setUseEventDetector(false);
+		setting().setUseEventDetector(false);
 		
 		// register this listener to plugin manager
 		Bukkit.getServer().getPluginManager().registerEvents(this, AllMiniGamesMain.getInstance());

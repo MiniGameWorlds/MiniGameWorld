@@ -48,7 +48,7 @@ class YourScoreboardUpdateManager {
 		MiniGameWorld mw = MiniGameWorld.create("x.x.x");
 
 		// check MiniGameWorld scoreboard option is true
-		if (!(boolean) mw.getSettings().get("scoreboard")) {
+		if (!(boolean) mw.settings().get("scoreboard")) {
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				// Update player scoreboard
 				p.setScoreboard(original-scoreboard);
@@ -62,7 +62,7 @@ class YourScoreboardUpdateManager {
 			boolean isIn = MwUtil.checkPlayerIsInGame(p);
 			if (isIn) {
 				// check scoreboard option of minigame is true
-				boolean useScoreboardOption = (boolean) MwUtil.getPlayingGame(p).getSettings().get("scoreboard");
+				boolean useScoreboardOption = (boolean) MwUtil.getPlayingGame(p).settings().get("scoreboard");
 				if (useScoreboardOption) {
 					continue;
 				}

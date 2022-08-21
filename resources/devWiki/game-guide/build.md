@@ -19,9 +19,9 @@ public class YourMiniGamePluginMain extends JavaPlugin {
 	}
 }
 ```
-API works if the second version(`minor version`) is the same with (e.g. `0.7.5` works with any `0.7.x`)
+API works if the second version(`minor version`) is the same with (e.g. `0.7.5` is applicable with any `0.7.x`)
 
-`MiniGameWorld.API_VERSION` is always latest version of the API
+`MiniGameWorld.API_VERSION` is the always latest version of the API
 
 
 # 2. Build
@@ -43,7 +43,7 @@ After running the server, you will see the registered minigame in green letters 
 Minigame spawn location must be setup before playing so select one of the below methods (OP required)
 > - method1: `/mw games <minigame> locations <player>`: add `<player>`'s location as a minigame spawn location 
 > - method2: `/mw games <minigame> locations <x> <y> <z>`: add `<x>` `<y>` `<z>` as a minigame spawn location
-> - method3: `/mw reload` command after editing the minigame spawn `location` in the config file (`plugins/MiniGameWorld/minigames/<minigame>.yml`)
+> - method3: `/mw reload` command after editing the minigame spawn `locations` in the config file (`plugins/MiniGameWorld/minigames/<minigame>.yml`)
 
 
 
@@ -58,9 +58,11 @@ Play and check out the rules of your minigame
 
 
 # 4. Share your minigame
-Others can play our minigame wherever they have [MiniGameWorld] and [wbmMC] plugins, but it would be better if you give the information of your mingame
+Others can play our minigame wherever they have [MiniGameWorld] plugin, but it would be better if you give the information of your mingame.
 
-And it is also a good way to summarize the information of the minigame in this form below (of course, it's good to tell them the minigame spawn setup method)
+It is also a good way to summarize information of the minigame in this form below (of course, it's good to tell them the minigame location setup method)
+
+And if you made your minigame map, you can share it with [schematic file](https://madelinemiller.dev/blog/use-schematics-worldedit/)
 
 > [Example Minigame Information](https://github.com/MiniGameWorlds/AllMiniGames/blob/main/wiki/LavaUp.md)
 ```yaml

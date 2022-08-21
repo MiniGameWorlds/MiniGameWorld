@@ -62,7 +62,7 @@ E.g. playerCount: 13, teamMaxPlayerCount: 5, teamCount: 4
 Below options will be added to `custom-data` section of the minigame config by default. That means users also can edit these settings.
 - `group-chat`: If true, send message only to team members. (default: `true`)
 - `team-pvp`: If true, team members can not attack each other. (pvp option have to be set to true) (default: `false`)
-- `team-size`: Related with MiniGameSetting.getMaxPlayers(), if "max-players" is `12` and "team-size" is `4` then `3` teams will be created. (default: `2`)
+- `team-size`: Related with MiniGameSetting.maxPlayers(), if "max-players" is `12` and "team-size" is `4` then `3` teams will be created. (default: `2`)
 
 
 
@@ -77,4 +77,4 @@ Players can NOT join and play this game. Game can detect and handle player's joi
 ---
 
 # Custom
-If you want, you can create your custom minigame frame class extending `MiniGame` class. Override `getFrameType()`, `printScores()`, `getRank()` and `onException(exception)` if you need and several util methods.
+If you want, you can create your custom minigame frame class extending `MiniGame` class. Override `frameType()`, `printScores()`, `rank()` and `onException(exception)` if you need and several util methods.

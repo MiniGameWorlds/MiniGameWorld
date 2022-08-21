@@ -4,7 +4,7 @@ MiniGameWorld is minigame play place for users and minigame creating framework f
 
 
 # Features
-The biggest feature is that preserve the state of the server and player, and works independently of other plugins, so it is **applicable regardless of the genre of the server**.
+The main feature is that preserve the state of the server and player, and works independently of other plugins, so it is **applicable regardless of the genre of the server**.
 
 ## 1. Minigame frame classes
 Minigame frame class manages settings, start, finish, player's scores, lives, events etc.

@@ -4,15 +4,15 @@ Fundamental settings of minigame like title, minimum players, locations and etc.
 - Details: [Settings](../../userWiki/config.md)  
 
 # How to use
-Game settings must be setup in the constructor with `getSetting()`. But primary settings are passed by `super(...)`.
+Game settings must be setup in the constructor with `setting()`. But primary settings are passed by `super(...)`.
 ```java
 class GameA extends SoloBattleMiniGame {
     public PassMob() {
         super("PassMob", 2, 60 * 3, 10);
 
         // settings
-        getSetting().setIcon(Material.OAK_FENCE);
-        getSetting().set
+        setting().setIcon(Material.OAK_FENCE);
+        setting().set
     }
 }
 ```

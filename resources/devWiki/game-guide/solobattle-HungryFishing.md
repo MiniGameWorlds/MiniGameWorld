@@ -51,13 +51,13 @@ public HungryFishing() {
   super("HungryFishing", 2, 10, 60 * 5, 20);
 
   // settings
-  getSetting().setIcon(Material.FISHING_ROD);
+  setting().setIcon(Material.FISHING_ROD);
 
   // options
-  getCustomOption().set(Option.COLOR, ChatColor.AQUA);
-  getCustomOption().set(Option.PLAYER_HURT, false);
-  getCustomOption().set(Option.PVP, false);
-  getCustomOption().set(Option.PVE, false);
+  customOption().set(Option.COLOR, ChatColor.AQUA);
+  customOption().set(Option.PLAYER_HURT, false);
+  customOption().set(Option.PVP, false);
+  customOption().set(Option.PVE, false);
 }
 ```
 
@@ -99,7 +99,7 @@ In `initCustomData()`, we have to initialize(serialize) the custom data variable
 protected void initCustomData() {
 	super.initCustomData();
 
-	Map<String, Object> data = getCustomData();
+	Map<String, Object> data = customData();
 
 	// catch-items
 	Map<String, Integer> itemList = new HashMap<>();
@@ -123,7 +123,7 @@ In `loadCustomData()`, we have to load(deserialize) the custom data variables.
 public void loadCustomData() {
 	super.loadCustomData();
 
-	Map<String, Object> data = getCustomData();
+	Map<String, Object> data = customData();
 
 	// catch-items
 	this.catchItems = new HashMap<>();
@@ -274,7 +274,7 @@ void onFoodLevelChange(FoodLevelChangeEvent event) {
 	// check food level is max
 	if (foodLevel >= 20) {
 		// give score
-		plusScore(p, getLeftPlayTime());
+		plusScore(p, leftPlayTime());
 
 		// msg, sound
 		sendMessages(ChatColor.GREEN + p.getName() + " filled all hunger!");
@@ -292,7 +292,7 @@ void onFoodLevelChange(FoodLevelChangeEvent event) {
 
 // check all players hunger is max or not
 boolean checkFinish() {
-	for (Player p : getPlayers()) {
+	for (Player p : players()) {
 		if (p.getGameMode() != GameMode.SPECTATOR) {
 			return false;
 		}
@@ -312,7 +312,7 @@ When the game starts, players need fishing rod to fish and hunger must be set to
 protected void onStart() {
 	super.onStart();
 
-	getPlayers().forEach(p -> {
+	players().forEach(p -> {
 		// set start hungry level
 		p.setFoodLevel(this.hunger);
 
@@ -348,20 +348,20 @@ public class HungryFishing extends SoloBattleMiniGame {
 		super("HungryFishing", 2, 10, 60 * 5, 20);
 
 		// settings
-		getSetting().setIcon(Material.FISHING_ROD);
+		setting().setIcon(Material.FISHING_ROD);
 
 		// options
-		getCustomOption().set(Option.COLOR, ChatColor.AQUA);
-		getCustomOption().set(Option.PLAYER_HURT, false);
-		getCustomOption().set(Option.PVP, false);
-		getCustomOption().set(Option.PVE, false);
+		customOption().set(Option.COLOR, ChatColor.AQUA);
+		customOption().set(Option.PLAYER_HURT, false);
+		customOption().set(Option.PVP, false);
+		customOption().set(Option.PVE, false);
 	}
 
 	@Override
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// catch-items
 		Map<String, Integer> itemList = new HashMap<>();
@@ -382,7 +382,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> data = getCustomData();
+		Map<String, Object> data = customData();
 
 		// catch-items
 		this.catchItems = new HashMap<>();
@@ -481,7 +481,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 		// check food level is max
 		if (foodLevel >= 20) {
 			// give score
-			plusScore(p, getLeftPlayTime());
+			plusScore(p, leftPlayTime());
 
 			// msg, sound
 			sendMessages(ChatColor.GREEN + p.getName() + " filled all hunger!");
@@ -499,7 +499,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 
 	// check all players hunger is max or not
 	boolean checkFinish() {
-		for (Player p : getPlayers()) {
+		for (Player p : players()) {
 			if (p.getGameMode() != GameMode.SPECTATOR) {
 				return false;
 			}
@@ -511,7 +511,7 @@ public class HungryFishing extends SoloBattleMiniGame {
 	protected void onStart() {
 		super.onStart();
 
-		getPlayers().forEach(p -> {
+		players().forEach(p -> {
 			// set start hungry level
 			p.setFoodLevel(this.hunger);
 

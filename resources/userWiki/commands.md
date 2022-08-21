@@ -61,6 +61,7 @@
 - `/minigame games <classname> max-players [<value>]`: set max player count (number)
 - `/minigame games <classname> waiting-time [<value>]`: set waiting time (sec)
 - `/minigame games <classname> play-time [<value>]`: set play time (sec)
+- `/minigame games <classname> finish-delay [<value>]`: set finish delay (sec)
 - `/minigame games <classname> active [<value>]`: set activation of minigame (true / false)
 - `/minigame games <classname> icon [<value>]`: set icon ([Item]])
 ```yaml

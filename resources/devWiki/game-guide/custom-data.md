@@ -20,7 +20,7 @@ public class GameA extends SoloBattleMiniGame {
 	protected void initCustomData() {
 		super.initCustomData();
 
-		Map<String, Object> customData = getCustomData();
+		Map<String, Object> customData = customData();
 		customData.put("data", 1);
 		customData.put("location", new Location(Bukkit.getWorld("world"), 0, 4, 0));
 		customData.put("list", List.of("a", "b", "c"));
@@ -38,7 +38,7 @@ public class GameA extends SoloBattleMiniGame {
 	public void loadCustomData() {
 		super.loadCustomData();
 
-		Map<String, Object> customData = getCustomData();
+		Map<String, Object> customData = customData();
 		this.data = (int) customData.get("data");
 		this.loc = (Location) customData.get("location");
 		this.list = (List<String>) customData.get("list");
