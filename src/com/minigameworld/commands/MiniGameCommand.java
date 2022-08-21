@@ -275,10 +275,11 @@ public class MiniGameCommand implements CommandExecutor {
 			sender.sendMessage("Backup folder " + ChatColor.GREEN + dataDirName + ChatColor.RESET + " loaded");
 		}
 
-		// 1. load template-worlds
+		// 1. load template-worlds first
+		this.dataManager.reload(minigameManager);
 		Utils.loadTemplateWorlds();
 
-		// 2. reload "setting.yml", all template game data
+		// 2. reload all template game data
 		this.dataManager.reloadAllData();
 
 		// notify
