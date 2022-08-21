@@ -15,7 +15,7 @@ This is not stable and there must be many bugs and errors.
 
 
 # Features
-- Foolish but simple API
+- Foolish and simple API
 - Applicability and scalability regardless of the server genre
 - Multi game instances
 - Multi world instances (recommend [Paper](https://papermc.io/))

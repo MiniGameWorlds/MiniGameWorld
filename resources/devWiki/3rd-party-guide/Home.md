@@ -403,3 +403,9 @@ public class MyPluginMain extends JavaPlugin {
 [MiniGameWorld-Reward]: https://github.com/MiniGameWorlds/MiniGameWorld-Reward
 [MiniGameWorld-Rank]: https://github.com/MiniGameWorlds/MiniGameWorld-Rank
 [MiniGameWorld-Controller]: https://github.com/MiniGameWorlds/MiniGameWorld-Controller
+
+
+
+[API Introduction]: introduction.md
+[Setup guide]: setup.md
+[Build guide]: build.md

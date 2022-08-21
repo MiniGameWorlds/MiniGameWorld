@@ -24,9 +24,10 @@
 
 ---
 
-
 # Basic
-- [setup.md](setup.md)
+- [API Introduction]
+- [Setup guide]
+- [Build guide]
 - [Game types](game-types.md)
 - [Game methods](game-methods.md)
 
@@ -82,3 +83,6 @@ stateDiagram
 
 [API]: https://minigameworlds.github.io/MiniGameWorld/
 [Detectable Event List]: detectable-event-list.md
+[API Introduction]: introduction.md
+[Setup guide]: setup.md
+[Build guide]: build.md
