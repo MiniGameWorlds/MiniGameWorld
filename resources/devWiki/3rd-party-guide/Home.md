@@ -406,6 +406,6 @@ public class MyPluginMain extends JavaPlugin {
 
 
 
-[API Introduction]: introduction.md
-[Setup guide]: setup.md
-[Build guide]: build.md
+[API Introduction]: ../game-guide/introduction.md
+[Setup guide]: ../game-guide/setup.md
+[Build guide]: ../game-guide/build.md

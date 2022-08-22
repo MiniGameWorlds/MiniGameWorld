@@ -8,10 +8,6 @@ Minecraft minigame framework
 **※ This plugin is in Beta**  
 This is not stable and there must be many bugs and errors.
 
-**※ All wiki is for release 0.9.0**  
-0.9.0 is NOT released yet. Will be released as soon as bugs and errors are fixed.
-
-
 
 
 # Features

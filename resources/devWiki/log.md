@@ -1233,9 +1233,10 @@ if(!this.isMinPlayersLive()) {
 
 # 2022-08-21
 - Fix template world loading bug
+- Update wiki
 
-
-
+# 2022-08-22
+- Release `0.9.0`
 
 
 
