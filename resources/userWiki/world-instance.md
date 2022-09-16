@@ -1,7 +1,10 @@
 # World instance system
-MiniGameWorld has **instance world system** that copies and uses template world to play minigame. 
+**"Auto world creation and deletion"**
+
+MiniGameWorld has **instance world system** that copies template world and uses for creating minigames. 
 And after game finished, used world will be deleted automatically. Follow the tutorial below to use this.
 
+Also support non world instance mode.
 
 
 # Tutorial
@@ -18,11 +21,11 @@ bukkit folder
 ```
 
 ### 3. Settings Configuration
-Add your template worlds name to `template-worlds` in `settings.yml` config.
+Add your template world names to `template-worlds` in `settings.yml` config.
 > E.g. `template-worlds: [world1, world2]`
 
 ### 4. Game Configuration
-In your `MiniGameWorld/minigames` folder, open up the game config you want and set `instance-world` option to **true** (default is **false**). After then add your template wolrd location to `locations` list. (location will be selected by random)
+In your `MiniGameWorld/minigames` folder, open up the game config you want and set `instance-world` option to **true** (default is **false**). After then add your template world location to `locations` list. (location will be selected by random)
 > E.g. in game config...
 ```yaml
 ...
@@ -48,7 +51,7 @@ In your `MiniGameWorld/minigames` folder, open up the game config you want and s
 
 
 # Game will not be created
-If the `instance-world` option is **false** and all worlds are being used. Because location being used can not be used at the same time. Even if another games is using the location.
+If the `instance-world` option is false **or** all worlds are being used. Because location being used can not be used at the same time. Even if another games is using the location.
 
 
 

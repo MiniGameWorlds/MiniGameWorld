@@ -287,32 +287,34 @@
 ### Summary
 - [Game instance system](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/game-instance.md) added
 - [World instance system](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/world-instance.md) added
-- From now on, [Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/) is required
-- All games and third-party plugins need update
+- Add "finish delay" feature (there is a delay after the game finished)
+- **From now on, [Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/) is required**
+- **[wbmMC](https://github.com/etc-repo/wbmMC/releases), all games and third-party plugins need update**
+
 
 ### API Changes
-- Make API name simple
-- Add `game instance system` (There are registered `template games` and playing `instance games`)
-- Add `world instance system` (auto world creation and deletion)
-
+- Make API simple
+- Add **game instance system** (There are registered `template games` and playing `instance games`)
+- Add **world instance system** (auto world creation and deletion)
+- Every game has a unique `ID` to distinguish
 
 
 ### Build Changes
-- Wiki updated
+- Wiki update
 - Add dependency checker
 - Add `join-priority` option to settings.yml
-- `location` changed to `locations` in the game config
-- Add "party-invite-timeout" and "party-ask-timeout" options to settings.yml
-- Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1` (need game finish condition)
-- Fix chat system
+- `location` changed to `locations` in the game config (support multi locations)
+- Add `party-invite-timeout` and `party-ask-timeout` options to settings.yml
+- [Disable `waiting timer` and `play timer` if `waiting-time` and `play-time` is set to `-1`](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/config.md) (need game start, finish condition)
+- [Fix chat system](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/chat.md)
 
 <details>
   <summary>API changes for developers</summary>
   
-  - Many refactored method names
+  - Renamed lots of methods
   - Remove "worldbiomusic" in the package name
   - Rename "MiniGameWorldUtils" to "MwUtil"
-  - Event handling way has totally changed to new annotation using design (`onEvent(Event) will NOT work`)
+  - Event handling way has totally changed to [new design using annotation](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/game-guide/event-handler.md) (`onEvent(Event) will NOT work`)
   - Add minigame id
   - Add `creationTime`, `startTime` and `finishTime` to MiniGameSetting
   ```yaml

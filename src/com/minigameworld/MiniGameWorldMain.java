@@ -83,7 +83,6 @@ public class MiniGameWorldMain extends JavaPlugin {
 		Utils.info(ChatColor.RESET + "                MiniGameWorld                ");
 		Utils.info(ChatColor.GREEN + "=============================================");
 		Utils.info(ChatColor.RESET + "                   Contact                   ");
-		Utils.info(ChatColor.RESET + " - Discord: https://discord.com/invite/fJbxSy2EjA");
 		Utils.info(ChatColor.RESET + " - E-mail:  worldbiomusic@gmail.com");
 		Utils.info(ChatColor.GREEN + "=============================================");
 	}

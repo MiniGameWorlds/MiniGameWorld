@@ -98,5 +98,4 @@ Config
 
 
 # Finish
-- If you have some questions, follow this [link](https://discord.gg/fJbxSy2EjA)
 - If you have some interest in this API, check out this [user wiki](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/userWiki/Home.md) and [dev wiki](https://github.com/MiniGameWorlds/MiniGameWorld/blob/main/resources/devWiki/Home.md)

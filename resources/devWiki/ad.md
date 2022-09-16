@@ -50,12 +50,6 @@ Update minigame location using command `/minigame games <class-name> location <<
 
 
 
-# Discord
-- __**You can get help from some or your minigame developers**__
-- [Discord](https://discord.com/invite/fJbxSy2EjA)
-
-
-
 
 # User Tutorial
 - [Tutorioal](https://www.youtube.com/watch?v=sE0vaj0xM8Q)

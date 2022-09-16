@@ -1,7 +1,7 @@
 # Description
-This wiki describes how to use MiniGameWorld pluin in your server. And this Plugin works on `spigot`, `paper`, `purpur` bukkit with `1.14+` versions. MiniGame has `Solo`, `SoloBattle`, `Team`, `TeamBattle`, `Fake` and `custom` types for playing
+This wiki describes how to use the MiniGameWorld plugin on your server. And this Plugin works on `spigot`, `paper`, `purpur` bukkit with `1.14+` versions. MiniGame has `Solo`, `SoloBattle`, `Team`, `TeamBattle`, `Fake` and `custom` types for playing
 
-Minigames will work independently regardless of the server gamemodes(Economy, Survival, RPG, etc) with wide applicability and scalability. And one minigame can be played in many different ways with custom config settings and custom maps. Also player's all state(`Inventory`, `Health`, `Exp`, `Game Mode`, `etc`) are saved at the game start and restored when the game finished.
+Minigames will work independently regardless of the server gamemodes(Economy, Survival, RPG, etc) with wide applicability and scalability. And one minigame can be played in many different ways with custom config settings and custom maps. Also player's all states(`Inventory`, `Health`, `Exp`, `Game Mode`, `etc`) are saved at the game start and restored when the game is finished.
 
 ---
 
@@ -29,7 +29,7 @@ Minigames will work independently regardless of the server gamemodes(Economy, Su
 
 # How to apply
 1. Download [MiniGameWorld], [wbmMC] and [Multiverse-Core].
-2. Download [Demo MiniGames] that you want. Game configs will be saved in `plugins/MiniGameWorld/minigames` folder.
+2. Download [Demo MiniGames] that you want. Game configs will be saved in the `plugins/MiniGameWorld/minigames` folder.
 3. Put `MiniGameWorld`, `wbmMC`, `Multiverse-Core` and `minigame` plugins in your `plugins` folder.
 4. Make a place for minigame yourself or you can download template game maps in [here](https://github.com/MiniGameWorlds/MiniGameWorld-Test-Server).
 5. Setup game location in `plugins/MiniGameWorld/minigames/<game>.yml` with `x, y, z` and run command `/mw reload` to adjust (OP required).  
@@ -47,10 +47,10 @@ use command: `/mw games <game> locations <<player> | <x> <y> <z>>` (OP required)
 - [Multiverse-Core]: Multi world plugin
 ### Optional
 - [Demo MiniGames]: Demo games
-- [MiniGameWorld-Reward]: Reward items and xp with rank
+- [MiniGameWorld-Reward]: Reward items and xp with a rank
 - [MiniGameWorld-Rank]: Save the ranks
 - [MiniGameWorld-Controller]: Control minigames with players
-- [AdvancedMultiLanguage]: Support mulit languages
+- [AdvancedMultiLanguamSupport multi languages
 
 
 ---
@@ -61,17 +61,17 @@ use command: `/mw games <game> locations <<player> | <x> <y> <z>>` (OP required)
 - If you have some problems with **bungeecord** server, use [BungeeGuard] plugin
 
 ## Plugin
-- If plugin is not loaded, try to change the `check-update` option in `settings.yml` config to **false** (update checker will not work if plugin is loaded too often (for github api rate limit))
+- If plugin is not loaded, try to change the `check-update` option in `settings.yml` config to **false** (update checker will not work if the plugin is loaded too often (for GitHub API rate limit))
 
 ## Language Messages
 - If `edit-messages` option in `settings.yml` config is **true**, message configs in `MiniGameWorld/messages` change will be applied (default: `false`)
 
-## If game cannot be created
-- **All worlds are being used**: If the `instance-world` option is **false**, location being used can not be used at the same time. Even if another games is using the location.
+## If a game cannot be created
+- **All worlds are being used**: If the `instance-world` option is **false**, the location being used can not be used at the same time. Even if another game is using the location.
 
 - **Reached max instance count**: All games have the maximum instance count(`instances` option) so the game may have reached its maximum instance count.
 
-- **Party is too big**: Can not join if player's party is larger than the maximum player of minigame.
+- **Party is too big**: Can not join if the player's party is larger than the maximum player of minigame.
 
 
 [MiniGameWorld]: https://github.com/MiniGameWorlds/MiniGameWorld/releases
